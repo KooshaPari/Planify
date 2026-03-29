@@ -16,7 +16,7 @@ import { resolveGeneralTheme } from "@plane/utils";
 // polyfills
 import "@/lib/polyfills";
 // AuthKit provider
-import { AuthKitProvider } from "@/core/providers/authkit";
+import { AuthKitProvider } from "@/providers/authkit";
 
 // mobx store provider
 import { StoreProvider } from "@/lib/store-context";
