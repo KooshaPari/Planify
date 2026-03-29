@@ -1,3 +1,7 @@
+> **Phenotype Fork**: This is KooshaPari's fork of [makeplane/plane](https://github.com/makeplane/plane), extended with an AgilePlus agent module and Worktrees API for Phenotype ecosystem integration. See [KooshaPari/plane](https://github.com/KooshaPari/plane) for Phenotype-specific additions.
+
+---
+
 <br /><br />
 
 <p align="center">
