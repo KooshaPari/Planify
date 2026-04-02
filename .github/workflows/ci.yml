@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install
+        working-directory: ./web
+      - name: Lint
+        run: bun run lint
+        working-directory: ./web
+      - name: Type check
+        run: bun run typecheck
+        working-directory: ./web
+      - name: Test
+        run: bun run test -- --passWithNoTests
+        working-directory: ./web
+
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: uv sync --dev
+        working-directory: ./apiserver
+      - name: Lint
+        run: uv run ruff check .
+        working-directory: ./apiserver
+      - name: Format check
+        run: uv run ruff format --check .
+        working-directory: ./apiserver
+      - name: Type check
+        run: uv run mypy plane
+        working-directory: ./apiserver
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          load: true
+          tags: plane:test

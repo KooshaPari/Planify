@@ -1,24 +1,137 @@
-# Agent Development Guide
+# AGENTS.md - Planify
 
-## Commands
+## Project Overview
 
-- `pnpm dev` - Start all dev servers (web:3000, admin:3001)
-- `pnpm build` - Build all packages and apps
-- `pnpm check` - Run all checks (format, lint, types)
-- `pnpm check:lint` - OxLint across all packages
-- `pnpm check:types` - TypeScript type checking
-- `pnpm fix` - Auto-fix format and lint issues
-- `pnpm turbo run <command> --filter=<package>` - Target specific package/app
-- `pnpm --filter=@plane/ui storybook` - Start Storybook on port 6006
+- **Name**: Planify
+- **Description**: Fork of makeplane/plane with AgilePlus agent module and Worktrees API
+- **Language**: TypeScript (frontend), Python (backend)
+- **Location**: Phenotype repos shelf
 
-## Code Style
+## Phenotype Extensions
 
-- **Imports**: Use `workspace:*` for internal packages, `catalog:` for external deps
-- **TypeScript**: Strict mode enabled, all files must be typed
-- **Formatting**: oxfmt, run `pnpm fix:format`
-- **Linting**: OxLint with shared `.oxlintrc.json` config
-- **Naming**: camelCase for variables/functions, PascalCase for components/types
-- **Error Handling**: Use try-catch with proper error types, log errors appropriately
-- **State Management**: MobX stores in `packages/shared-state`, reactive patterns
-- **Testing**: All features require unit tests, use existing test framework per package
-- **Components**: Build in `@plane/ui` with Storybook for isolated development
+This fork includes:
+- AgilePlus agent module (planned)
+- Worktrees API for Phenotype ecosystem integration (planned)
+
+## Architecture
+
+```
+/
+├── apps/
+│   ├── admin/           # Admin panel (TypeScript)
+│   ├── api/             # Django API server (Python)
+│   ├── live/            # Live collaboration
+│   ├── proxy/           # Proxy service
+│   ├── space/           # Space management
+│   └── web/             # React frontend (TypeScript)
+├── packages/            # Shared packages
+│   ├── ui/              # UI components
+│   ├── types/           # TypeScript types
+│   ├── hooks/           # React hooks
+│   └── ...
+└── docker-compose.yml
+```
+
+## Development Commands
+
+```bash
+# Frontend
+npm install
+pnpm dev
+
+# Backend (inside apiserver/)
+pip install -r requirements.txt
+python manage.py runserver
+
+# Full stack
+docker compose -f docker-compose-local.yml up
+```
+
+## Agent Rules
+
+### Project-Specific Rules
+
+1. **Monorepo Structure**
+   - Backend in `apps/api/` (Django)
+   - Frontend in `apps/web/` (React)
+   - Shared packages in `packages/`
+
+2. **Fork Discipline**
+   - Track upstream changes from makeplane/plane
+   - Keep Phenotype extensions isolated
+   - Test with upstream before merging
+
+3. **Configuration**
+   - Environment variables in `.env.example`
+   - Docker Compose for local development
+   - PostgreSQL v14 required
+
+### Phenotype Org Standard Rules
+
+1. **UTF-8 encoding** in all text files
+2. **Worktree discipline**: canonical repo stays on `main`
+3. **CI completeness**: fix all CI failures before merging
+4. **Never commit** agent directories (`.claude/`, `.codex/`, `.cursor/`)
+
+## Quality Standards
+
+### Frontend
+```bash
+# Linting
+npm run lint
+
+# Formatting
+npm run format
+
+# Type checking
+npm run check
+```
+
+### Backend
+```bash
+# Django checks
+python manage.py check
+
+# Migrations
+python manage.py makemigrations
+python manage.py migrate
+
+# Tests
+python manage.py test
+```
+
+## Phenotype Extension Guidelines
+
+### AgilePlus Module
+When implementing the AgilePlus agent module:
+
+1. Create `packages/agileplus/` for shared code
+2. Add Django models in `apps/api/agileplus/`
+3. Create React components in `apps/web/components/agileplus/`
+4. Add REST endpoints in `apps/api/agileplus/urls.py`
+5. Write integration tests
+
+### Worktrees API
+When implementing the Worktrees API:
+
+1. Add endpoints in `apps/api/worktrees/`
+2. Create git operations service
+3. Add React UI in `apps/web/worktrees/`
+4. Document API in OpenAPI spec
+5. Test with real git repositories
+
+## Git Workflow
+
+1. Create feature branch: `git checkout -b feat/phenotype-extension`
+2. Make changes, add tests
+3. Run linting and type checking
+4. Create PR with description of Phenotype additions
+5. Ensure upstream compatibility
+
+## Key Files
+
+- `docker-compose-local.yml` - Local development setup
+- `apps/api/` - Django backend
+- `apps/web/` - React frontend
+- `packages/` - Shared packages
+- `.env.example` - Environment template
