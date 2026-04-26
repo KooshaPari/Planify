@@ -2,9 +2,10 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
-# Python imports
 import re
-from typing import Optional
+import ipaddress
+import socket
+from typing import Iterable, Optional
 from urllib.parse import urlparse, urlunparse
 
 # Compiled regex pattern for better performance and ReDoS protection
@@ -75,6 +76,73 @@ def is_valid_url(url: str) -> bool:
         return all([result.scheme, result.netloc])
     except TypeError:
         return False
+
+
+def normalize_hostname(hostname: str) -> str:
+    """Normalize a hostname for validation and allowlist checks."""
+    return hostname.rstrip(".").lower()
+
+
+def hostname_matches_allowed_hosts(hostname: str, allowed_hosts: Iterable[str]) -> bool:
+    """Return whether hostname exactly matches one of the allowed hosts."""
+    normalized_hostname = normalize_hostname(hostname)
+    return any(normalized_hostname == normalize_hostname(host) for host in allowed_hosts if host)
+
+
+def hostname_matches_allowed_domain_suffixes(hostname: str, allowed_suffixes: Iterable[str]) -> bool:
+    """Return whether hostname is a member of any allowed domain suffix."""
+    normalized_hostname = normalize_hostname(hostname)
+    for suffix in allowed_suffixes:
+        if not suffix:
+            continue
+        normalized_suffix = normalize_hostname(suffix)
+        if normalized_hostname == normalized_suffix or normalized_hostname.endswith(f".{normalized_suffix}"):
+            return True
+    return False
+
+
+def validate_external_url(
+    url: str,
+    *,
+    allowed_hosts: Iterable[str] = (),
+    allowed_domain_suffixes: Iterable[str] = (),
+) -> str:
+    """
+    Validate a URL before server-side fetches.
+
+    The URL must use HTTP(S), match the provided host allowlist, and resolve only
+    to globally routable IP addresses. This blocks SSRF attempts that target
+    loopback, private, link-local, multicast, or otherwise non-global networks.
+    """
+    parsed_url = urlparse(url)
+
+    if parsed_url.scheme not in ("http", "https"):
+        raise ValueError("Invalid URL scheme. Only HTTP and HTTPS are allowed")
+
+    if not parsed_url.hostname:
+        raise ValueError("Invalid URL: No hostname found")
+
+    hostname = normalize_hostname(parsed_url.hostname)
+    if not (
+        hostname_matches_allowed_hosts(hostname, allowed_hosts)
+        or hostname_matches_allowed_domain_suffixes(hostname, allowed_domain_suffixes)
+    ):
+        raise ValueError("URL host is not allowed")
+
+    try:
+        addr_info = socket.getaddrinfo(hostname, None)
+    except socket.gaierror as exc:
+        raise ValueError("Hostname could not be resolved") from exc
+
+    if not addr_info:
+        raise ValueError("No IP addresses found for the hostname")
+
+    for addr in addr_info:
+        ip = ipaddress.ip_address(addr[4][0])
+        if not ip.is_global:
+            raise ValueError("Access to non-public networks is not allowed")
+
+    return url
 
 
 def get_url_components(url: str) -> Optional[dict]:
