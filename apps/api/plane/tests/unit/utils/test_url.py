@@ -7,6 +7,7 @@ from plane.utils.url import (
     contains_url,
     is_valid_url,
     normalize_url_path,
+    validate_external_url,
 )
 
 
@@ -159,6 +160,63 @@ class TestContainsURL:
         many_newlines = "\n" * 500 + "https://example.com"
         assert len(many_newlines) < 1000
         assert contains_url(many_newlines) is True
+
+
+@pytest.mark.unit
+class TestValidateExternalURL:
+    """Test server-side fetch URL validation."""
+
+    def test_allows_configured_public_host(self, monkeypatch):
+        """Test configured hosts that resolve to public IP addresses."""
+        monkeypatch.setattr(
+            "plane.utils.url.socket.getaddrinfo",
+            lambda hostname, port: [(None, None, None, None, ("8.8.8.8", 0))],
+        )
+
+        assert (
+            validate_external_url("https://cdn.example.com/avatar.png", allowed_hosts=("cdn.example.com",))
+            == "https://cdn.example.com/avatar.png"
+        )
+
+    def test_allows_configured_domain_suffix(self, monkeypatch):
+        """Test subdomains of configured suffixes."""
+        monkeypatch.setattr(
+            "plane.utils.url.socket.getaddrinfo",
+            lambda hostname, port: [(None, None, None, None, ("8.8.4.4", 0))],
+        )
+
+        assert (
+            validate_external_url(
+                "https://lh3.googleusercontent.com/avatar.png",
+                allowed_domain_suffixes=("googleusercontent.com",),
+            )
+            == "https://lh3.googleusercontent.com/avatar.png"
+        )
+
+    def test_blocks_unlisted_hosts(self, monkeypatch):
+        """Test hosts outside the allowlist."""
+        monkeypatch.setattr(
+            "plane.utils.url.socket.getaddrinfo",
+            lambda hostname, port: [(None, None, None, None, ("8.8.8.8", 0))],
+        )
+
+        with pytest.raises(ValueError, match="host is not allowed"):
+            validate_external_url("https://evil.example/avatar.png", allowed_hosts=("cdn.example.com",))
+
+    def test_blocks_non_http_schemes(self):
+        """Test non-HTTP schemes."""
+        with pytest.raises(ValueError, match="Only HTTP and HTTPS"):
+            validate_external_url("file:///etc/passwd", allowed_hosts=("example.com",))
+
+    def test_blocks_private_resolved_ip(self, monkeypatch):
+        """Test allowlisted hosts that resolve to internal addresses."""
+        monkeypatch.setattr(
+            "plane.utils.url.socket.getaddrinfo",
+            lambda hostname, port: [(None, None, None, None, ("169.254.169.254", 0))],
+        )
+
+        with pytest.raises(ValueError, match="non-public networks"):
+            validate_external_url("https://cdn.example.com/avatar.png", allowed_hosts=("cdn.example.com",))
 
 
 @pytest.mark.unit
