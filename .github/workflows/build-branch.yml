@@ -134,13 +134,16 @@ jobs:
 
       - id: checkout_files
         name: Checkout Files
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4branch_build_push_admin:
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+  branch_build_push_admin:
     name: Build-Push Admin Docker Image
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
     steps:
       - name: Admin Build and Push
-        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0with:
+        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0
+        with:
           build-release: ${{ needs.branch_build_setup.outputs.build_release }}
           build-prerelease: ${{ needs.branch_build_setup.outputs.build_prerelease }}
           release-version: ${{ needs.branch_build_setup.outputs.release_version }}
@@ -161,7 +164,8 @@ jobs:
     needs: [branch_build_setup]
     steps:
       - name: Web Build and Push
-        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0with:
+        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0
+        with:
           build-release: ${{ needs.branch_build_setup.outputs.build_release }}
           build-prerelease: ${{ needs.branch_build_setup.outputs.build_prerelease }}
           release-version: ${{ needs.branch_build_setup.outputs.release_version }}
@@ -182,7 +186,8 @@ jobs:
     needs: [branch_build_setup]
     steps:
       - name: Space Build and Push
-        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0with:
+        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0
+        with:
           build-release: ${{ needs.branch_build_setup.outputs.build_release }}
           build-prerelease: ${{ needs.branch_build_setup.outputs.build_prerelease }}
           release-version: ${{ needs.branch_build_setup.outputs.release_version }}
@@ -203,7 +208,8 @@ jobs:
     needs: [branch_build_setup]
     steps:
       - name: Live Build and Push
-        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0with:
+        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0
+        with:
           build-release: ${{ needs.branch_build_setup.outputs.build_release }}
           build-prerelease: ${{ needs.branch_build_setup.outputs.build_prerelease }}
           release-version: ${{ needs.branch_build_setup.outputs.release_version }}
@@ -224,7 +230,8 @@ jobs:
     needs: [branch_build_setup]
     steps:
       - name: Backend Build and Push
-        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0with:
+        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0
+        with:
           build-release: ${{ needs.branch_build_setup.outputs.build_release }}
           build-prerelease: ${{ needs.branch_build_setup.outputs.build_prerelease }}
           release-version: ${{ needs.branch_build_setup.outputs.release_version }}
@@ -245,7 +252,8 @@ jobs:
     needs: [branch_build_setup]
     steps:
       - name: Proxy Build and Push
-        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0with:
+        uses: makeplane/actions/build-push@7e1a060e61aef4592a7209c0f87be124e89ca2da # v1.0.0
+        with:
           build-release: ${{ needs.branch_build_setup.outputs.build_release }}
           build-prerelease: ${{ needs.branch_build_setup.outputs.build_prerelease }}
           release-version: ${{ needs.branch_build_setup.outputs.release_version }}
@@ -274,7 +282,9 @@ jobs:
       - branch_build_push_proxy
     steps:
       - name: Checkout Files
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4- name: Prepare AIO Assets
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Prepare AIO Assets
         id: prepare_aio_assets
         run: |
           cd deployments/aio/community
@@ -288,12 +298,14 @@ jobs:
           echo "AIO_BUILD_VERSION=${aio_version}" >> $GITHUB_OUTPUT
 
       - name: Upload AIO Assets
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4with:
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
           path: ./deployments/aio/community/dist
           name: aio-assets-dist
 
       - name: AIO Build and Push
-        uses: makeplane/actions/build-push@c6392dc6504dcd3d18d661190224549e047ca3bf # v1.1.0with:
+        uses: makeplane/actions/build-push@c6392dc6504dcd3d18d661190224549e047ca3bf # v1.1.0
+        with:
           build-release: ${{ needs.branch_build_setup.outputs.build_release }}
           build-prerelease: ${{ needs.branch_build_setup.outputs.build_prerelease }}
           release-version: ${{ needs.branch_build_setup.outputs.release_version }}
@@ -325,7 +337,9 @@ jobs:
       - branch_build_push_proxy
     steps:
       - name: Checkout Files
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4- name: Update Assets
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Update Assets
         run: |
           if [ "${{ needs.branch_build_setup.outputs.build_type }}" == "Release" ]; then
             REL_VERSION=${{ needs.branch_build_setup.outputs.release_version }}
@@ -338,7 +352,8 @@ jobs:
           # sed -i 's/APP_RELEASE=stable/APP_RELEASE='${REL_VERSION}'/g' deployments/cli/community/variables.env
 
       - name: Upload Assets
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4with:
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
           name: community-assets
           path: |
             ./deployments/cli/community/setup.sh
@@ -366,7 +381,9 @@ jobs:
       REL_VERSION: ${{ needs.branch_build_setup.outputs.release_version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4- name: Update Assets
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Update Assets
         run: |
           cp ./deployments/cli/community/install.sh deployments/cli/community/setup.sh
           sed -i 's/${APP_RELEASE:-stable}/${APP_RELEASE:-'${REL_VERSION}'}/g' deployments/cli/community/docker-compose.yml
@@ -374,7 +391,8 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@01570a1f39cb168c169c802c3bceb9e93fb10974 # v2.1.0env:
+        uses: softprops/action-gh-release@01570a1f39cb168c169c802c3bceb9e93fb10974 # v2.1.0
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           tag_name: ${{ env.REL_VERSION }}
