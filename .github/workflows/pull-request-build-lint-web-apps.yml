@@ -30,12 +30,15 @@ jobs:
       TURBO_SCM_HEAD: ${{ github.sha }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6with:
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
           fetch-depth: 50
           filter: blob:none
 
       - name: Set up Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6- name: Enable Corepack and pnpm
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+
+      - name: Enable Corepack and pnpm
         run: corepack enable pnpm
 
       - name: Get pnpm store directory
@@ -43,7 +46,8 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - name: Cache pnpm store
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4with:
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
           path: ${{ env.STORE_PATH }}
           key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
@@ -69,12 +73,15 @@ jobs:
       NODE_OPTIONS: "--max-old-space-size=4096"
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6with:
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
           fetch-depth: 50
           filter: blob:none
 
       - name: Set up Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6- name: Enable Corepack and pnpm
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+
+      - name: Enable Corepack and pnpm
         run: corepack enable pnpm
 
       - name: Get pnpm store directory
@@ -82,14 +89,16 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - name: Cache pnpm store
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4with:
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
           path: ${{ env.STORE_PATH }}
           key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             pnpm-store-${{ runner.os }}-
 
       - name: Restore Turbo cache
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4with:
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
           path: .turbo
           key: turbo-${{ runner.os }}-${{ github.event.pull_request.base.sha }}-${{ github.sha }}
           restore-keys: |
@@ -103,7 +112,8 @@ jobs:
         run: pnpm turbo run build --affected
 
       - name: Save Turbo cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4with:
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
           path: .turbo
           key: turbo-${{ runner.os }}-${{ github.event.pull_request.base.sha }}-${{ github.sha }}
 
@@ -120,12 +130,15 @@ jobs:
       TURBO_SCM_HEAD: ${{ github.sha }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6with:
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
           fetch-depth: 50
           filter: blob:none
 
       - name: Set up Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6- name: Enable Corepack and pnpm
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+
+      - name: Enable Corepack and pnpm
         run: corepack enable pnpm
 
       - name: Get pnpm store directory
@@ -133,7 +146,8 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - name: Cache pnpm store
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4with:
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
           path: ${{ env.STORE_PATH }}
           key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
@@ -157,12 +171,15 @@ jobs:
       NODE_OPTIONS: "--max-old-space-size=4096"
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6with:
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
           fetch-depth: 50
           filter: blob:none
 
       - name: Set up Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6- name: Enable Corepack and pnpm
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+
+      - name: Enable Corepack and pnpm
         run: corepack enable pnpm
 
       - name: Get pnpm store directory
@@ -170,14 +187,16 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - name: Cache pnpm store
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4with:
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
           path: ${{ env.STORE_PATH }}
           key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             pnpm-store-${{ runner.os }}-
 
       - name: Restore Turbo cache
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4with:
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
           path: .turbo
           key: turbo-${{ runner.os }}-${{ github.event.pull_request.base.sha }}-${{ github.sha }}
 
