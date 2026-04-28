@@ -4,7 +4,7 @@ vars:
   REPO_LANGUAGE:
     sh: |
       if [ -f package.json ] || [ -f pnpm-lock.yaml ] || [ -f bun.lock ] || [ -f bun.lockb ]; then
-        printf "javascript-typescript"
+        printf "typescript"
       elif [ -f pyproject.toml ] || [ -f requirements.txt ]; then
         printf "python"
       elif [ -f go.mod ]; then
@@ -14,8 +14,12 @@ vars:
       fi
   PACKAGE_MANAGER:
     sh: |
-      if [ -f pnpm-lock.yaml ]; then
+      if [ -f package.json ] && grep -q '"packageManager": "pnpm@' package.json; then
         printf "pnpm"
+      elif [ -f pnpm-lock.yaml ]; then
+        printf "pnpm"
+      elif [ -f package.json ] && grep -q '"packageManager": "bun@' package.json; then
+        printf "bun"
       elif [ -f bun.lock ] || [ -f bun.lockb ]; then
         printf "bun"
       elif [ -f package-lock.json ]; then
@@ -26,18 +30,12 @@ vars:
 
 tasks:
   build:
-    desc: Build the repository using the detected language
+    desc: Build the repository using the detected language/toolchain
     cmds:
       - |
           case "{{.REPO_LANGUAGE}}" in
-            javascript-typescript)
-              if [ "{{.PACKAGE_MANAGER}}" = "pnpm" ]; then
-                pnpm build
-              elif [ "{{.PACKAGE_MANAGER}}" = "bun" ]; then
-                bun run build
-              else
-                npm run build
-              fi
+            typescript)
+              {{.PACKAGE_MANAGER}} run build
               ;;
             python)
               python -m build
@@ -56,13 +54,11 @@ tasks:
     cmds:
       - |
           case "{{.REPO_LANGUAGE}}" in
-            javascript-typescript)
+            typescript)
               if [ "{{.PACKAGE_MANAGER}}" = "pnpm" ]; then
                 pnpm turbo run test
-              elif [ "{{.PACKAGE_MANAGER}}" = "bun" ]; then
-                bun run test
               else
-                npm test
+                {{.PACKAGE_MANAGER}} run test
               fi
               ;;
             python)
@@ -82,14 +78,8 @@ tasks:
     cmds:
       - |
           case "{{.REPO_LANGUAGE}}" in
-            javascript-typescript)
-              if [ "{{.PACKAGE_MANAGER}}" = "pnpm" ]; then
-                pnpm check:lint
-              elif [ "{{.PACKAGE_MANAGER}}" = "bun" ]; then
-                bun run check:lint
-              else
-                npm run check:lint
-              fi
+            typescript)
+              {{.PACKAGE_MANAGER}} run check:lint
               ;;
             python)
               ruff check .
@@ -108,14 +98,8 @@ tasks:
     cmds:
       - |
           case "{{.REPO_LANGUAGE}}" in
-            javascript-typescript)
-              if [ "{{.PACKAGE_MANAGER}}" = "pnpm" ]; then
-                pnpm clean
-              elif [ "{{.PACKAGE_MANAGER}}" = "bun" ]; then
-                bun run clean
-              else
-                npm run clean
-              fi
+            typescript)
+              {{.PACKAGE_MANAGER}} run clean
               ;;
             python)
               rm -rf build dist .pytest_cache .ruff_cache .mypy_cache .coverage htmlcov
