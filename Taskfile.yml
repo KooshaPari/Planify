@@ -99,14 +99,17 @@ tasks:
       - |
           case "{{.REPO_LANGUAGE}}" in
             typescript)
-              rm -rf .turbo .next dist build coverage
+              rm -rf .turbo .next .react-router dist build coverage storybook-static playwright-report test-results
               find apps packages -type d \( \
                 -name .turbo -o \
                 -name .next -o \
                 -name .react-router -o \
                 -name dist -o \
                 -name build -o \
-                -name coverage \
+                -name coverage -o \
+                -name storybook-static -o \
+                -name playwright-report -o \
+                -name test-results \
               \) -prune -exec rm -rf '{}' +
               ;;
             python)
