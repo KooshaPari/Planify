@@ -3,8 +3,23 @@ version: "3"
 vars:
   LANGUAGE:
     sh: |
+      has_typescript=false
+      has_python=false
+
       if find . -path ./node_modules -prune -o -name tsconfig.json -print -quit | grep -q .; then
+        has_typescript=true
+      fi
+
+      if find . -path ./node_modules -prune -o \( -name pyproject.toml -o -name requirements.txt \) -print -quit | grep -q .; then
+        has_python=true
+      fi
+
+      if [ "$has_typescript" = "true" ] && [ "$has_python" = "true" ]; then
+        echo typescript+python
+      elif [ "$has_typescript" = "true" ]; then
         echo typescript
+      elif [ "$has_python" = "true" ]; then
+        echo python
       elif find . -path ./node_modules -prune -o -name package.json -print -quit | grep -q .; then
         echo javascript
       else
