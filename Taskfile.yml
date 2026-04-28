@@ -3,8 +3,10 @@ version: "3"
 vars:
   REPO_LANGUAGE:
     sh: |
-      if [ -f package.json ] || [ -f pnpm-lock.yaml ] || [ -f bun.lock ] || [ -f bun.lockb ]; then
+      if [ -f package.json ] && find . -maxdepth 3 -type f \( -name 'tsconfig*.json' -o -name '*.ts' -o -name '*.tsx' \) | grep -q .; then
         printf "typescript"
+      elif [ -f package.json ] || [ -f pnpm-lock.yaml ] || [ -f bun.lock ] || [ -f bun.lockb ]; then
+        printf "javascript"
       elif [ -f pyproject.toml ] || [ -f requirements.txt ]; then
         printf "python"
       elif [ -f go.mod ]; then
@@ -34,7 +36,7 @@ tasks:
     cmds:
       - |
           case "{{.REPO_LANGUAGE}}" in
-            typescript)
+            typescript|javascript)
               {{.PACKAGE_MANAGER}} run build
               ;;
             python)
@@ -54,7 +56,7 @@ tasks:
     cmds:
       - |
           case "{{.REPO_LANGUAGE}}" in
-            typescript)
+            typescript|javascript)
               if [ "{{.PACKAGE_MANAGER}}" = "pnpm" ]; then
                 pnpm turbo run test
               else
@@ -78,7 +80,7 @@ tasks:
     cmds:
       - |
           case "{{.REPO_LANGUAGE}}" in
-            typescript)
+            typescript|javascript)
               {{.PACKAGE_MANAGER}} run check:lint
               ;;
             python)
@@ -106,7 +108,7 @@ tasks:
           }
 
           case "{{.REPO_LANGUAGE}}" in
-            typescript)
+            typescript|javascript)
               clean_paths .turbo .next .react-router dist build coverage storybook-static playwright-report test-results
               for workspace_dir in apps packages; do
                 if [ -d "$workspace_dir" ]; then
