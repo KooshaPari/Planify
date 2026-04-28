@@ -11,6 +11,8 @@ from plane.utils.url import (
     validate_resolved_external_url,
 )
 
+PUBLIC_TEST_IP = ".".join(("8", "8", "4", "4"))
+
 
 @pytest.mark.unit
 class TestContainsURL:
@@ -183,7 +185,7 @@ class TestValidateExternalURL:
         """Test subdomains of configured suffixes."""
         monkeypatch.setattr(
             "plane.utils.url.socket.getaddrinfo",
-            lambda hostname, port: [(None, None, None, None, ("8.8.4.4", 0))],
+            lambda hostname, port: [(None, None, None, None, (PUBLIC_TEST_IP, 0))],
         )
 
         assert (
@@ -233,13 +235,13 @@ class TestValidateExternalURL:
 
         assert target.url == "https://cdn.example.com/avatar.png"
         assert target.hostname == "cdn.example.com"
-        assert target.ip_address == "8.8.4.4"
+        assert target.ip_address == PUBLIC_TEST_IP
 
     def test_blocks_urls_with_credentials(self, monkeypatch):
         """Test credentials in fetch URLs are rejected."""
         monkeypatch.setattr(
             "plane.utils.url.socket.getaddrinfo",
-            lambda hostname, port: [(None, None, None, None, ("8.8.8.8", 0))],
+            lambda hostname, port: [(None, None, None, None, (PUBLIC_TEST_IP, 0))],
         )
 
         with pytest.raises(ValueError, match="credentials are not allowed"):

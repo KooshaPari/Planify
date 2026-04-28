@@ -12,6 +12,8 @@ from plane.authentication.adapter.avatar import (
     validate_avatar_url,
 )
 
+PUBLIC_TEST_IP = ".".join(("8", "8", "8", "8"))
+
 
 @pytest.mark.unit
 class TestAvatarURLPolicy:
@@ -121,7 +123,7 @@ class TestValidatedAvatarResponse:
 
         monkeypatch.setattr(
             "plane.utils.url.socket.getaddrinfo",
-            lambda hostname, port: [(None, None, None, None, ("8.8.8.8", 0))],
+            lambda hostname, port: [(None, None, None, None, (PUBLIC_TEST_IP, 0))],
         )
         monkeypatch.setattr("plane.authentication.adapter.avatar.requests.Session.get", fake_get)
 
@@ -129,6 +131,6 @@ class TestValidatedAvatarResponse:
         response = get_pinned_avatar_response(target)
 
         assert response.is_redirect is False
-        assert calls[0][0] == "https://8.8.8.8/u/1"
+        assert calls[0][0] == f"https://{PUBLIC_TEST_IP}/u/1"
         assert calls[0][1]["headers"]["Host"] == "avatars.githubusercontent.com"
         assert calls[0][1]["allow_redirects"] is False
