@@ -1,9 +1,9 @@
 version: "3"
 
 vars:
-  PROJECT_LANGUAGE:
+  REPO_LANGUAGE:
     sh: |
-      if [ -f package.json ] && [ -f pnpm-lock.yaml ]; then
+      if [ -f package.json ] || [ -f pnpm-lock.yaml ] || [ -f bun.lock ] || [ -f bun.lockb ]; then
         printf "javascript-typescript"
       elif [ -f pyproject.toml ] || [ -f requirements.txt ]; then
         printf "python"
@@ -15,33 +15,106 @@ vars:
 
 tasks:
   build:
-    desc: Build the detected JavaScript/TypeScript workspace
-    preconditions:
-      - sh: '[ "{{.PROJECT_LANGUAGE}}" = "javascript-typescript" ]'
-        msg: "Taskfile is configured for a JavaScript/TypeScript workspace."
+    desc: Build the repository using the detected language
     cmds:
-      - pnpm build
+      - |
+          case "{{.REPO_LANGUAGE}}" in
+            javascript-typescript)
+              if [ -f pnpm-lock.yaml ]; then
+                pnpm build
+              elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+                bun run build
+              else
+                npm run build
+              fi
+              ;;
+            python)
+              python -m build
+              ;;
+            go)
+              go build ./...
+              ;;
+            *)
+              echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
+              exit 1
+              ;;
+          esac
 
   test:
-    desc: Run workspace tests
-    preconditions:
-      - sh: '[ "{{.PROJECT_LANGUAGE}}" = "javascript-typescript" ]'
-        msg: "Taskfile is configured for a JavaScript/TypeScript workspace."
+    desc: Run repository tests
     cmds:
-      - pnpm turbo run test
+      - |
+          case "{{.REPO_LANGUAGE}}" in
+            javascript-typescript)
+              if [ -f pnpm-lock.yaml ]; then
+                pnpm turbo run test
+              elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+                bun run test
+              else
+                npm test
+              fi
+              ;;
+            python)
+              pytest
+              ;;
+            go)
+              go test ./...
+              ;;
+            *)
+              echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
+              exit 1
+              ;;
+          esac
 
   lint:
-    desc: Run lint checks
-    preconditions:
-      - sh: '[ "{{.PROJECT_LANGUAGE}}" = "javascript-typescript" ]'
-        msg: "Taskfile is configured for a JavaScript/TypeScript workspace."
+    desc: Run repository lint checks
     cmds:
-      - pnpm check:lint
+      - |
+          case "{{.REPO_LANGUAGE}}" in
+            javascript-typescript)
+              if [ -f pnpm-lock.yaml ]; then
+                pnpm check:lint
+              elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+                bun run check:lint
+              else
+                npm run check:lint
+              fi
+              ;;
+            python)
+              ruff check .
+              ;;
+            go)
+              golangci-lint run
+              ;;
+            *)
+              echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
+              exit 1
+              ;;
+          esac
 
   clean:
     desc: Remove build artifacts and caches
-    preconditions:
-      - sh: '[ "{{.PROJECT_LANGUAGE}}" = "javascript-typescript" ]'
-        msg: "Taskfile is configured for a JavaScript/TypeScript workspace."
     cmds:
-      - pnpm clean
+      - |
+          case "{{.REPO_LANGUAGE}}" in
+            javascript-typescript)
+              if [ -f pnpm-lock.yaml ]; then
+                pnpm clean
+              elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+                bun run clean
+              else
+                npm run clean
+              fi
+              ;;
+            python)
+              rm -rf build dist .pytest_cache .ruff_cache .mypy_cache .coverage htmlcov
+              find . -type d -name __pycache__ -prune -exec rm -rf '{}' +
+              ;;
+            go)
+              go clean ./...
+              ;;
+            *)
+              echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
+              exit 1
+              ;;
+          esac
