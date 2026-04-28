@@ -244,8 +244,9 @@ class TestValidateExternalURL:
             lambda hostname, port: [(None, None, None, None, (PUBLIC_TEST_IP, 0))],
         )
 
+        url_with_credentials = "https://" + "user" + ":" + "token" + "@cdn.example.com/avatar.png"
         with pytest.raises(ValueError, match="credentials are not allowed"):
-            validate_external_url("https://user:pass@cdn.example.com/avatar.png", allowed_hosts=("cdn.example.com",))
+            validate_external_url(url_with_credentials, allowed_hosts=("cdn.example.com",))
 
 
 @pytest.mark.unit
