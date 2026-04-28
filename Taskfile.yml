@@ -11,6 +11,11 @@ vars:
         printf "python"
       elif [ -f go.mod ]; then
         printf "go"
+      elif [ -f pom.xml ] || find . -maxdepth 2 -type f \( \
+        -name 'build.gradle' -o \
+        -name 'build.gradle.kts' \
+      \) | grep -q .; then
+        printf "java"
       else
         printf "unknown"
       fi
@@ -45,6 +50,15 @@ tasks:
             go)
               go build ./...
               ;;
+            java)
+              if [ -f pom.xml ]; then
+                ./mvnw package || mvn package
+              elif [ -x ./gradlew ]; then
+                ./gradlew build
+              else
+                gradle build
+              fi
+              ;;
             *)
               echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
               exit 1
@@ -69,6 +83,15 @@ tasks:
             go)
               go test ./...
               ;;
+            java)
+              if [ -f pom.xml ]; then
+                ./mvnw test || mvn test
+              elif [ -x ./gradlew ]; then
+                ./gradlew test
+              else
+                gradle test
+              fi
+              ;;
             *)
               echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
               exit 1
@@ -88,6 +111,15 @@ tasks:
               ;;
             go)
               golangci-lint run
+              ;;
+            java)
+              if [ -f pom.xml ]; then
+                ./mvnw verify || mvn verify
+              elif [ -x ./gradlew ]; then
+                ./gradlew check
+              else
+                gradle check
+              fi
               ;;
             *)
               echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
@@ -132,6 +164,9 @@ tasks:
               ;;
             go)
               go clean ./...
+              ;;
+            java)
+              clean_paths target build .gradle
               ;;
             *)
               echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
