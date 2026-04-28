@@ -8,6 +8,7 @@ from plane.utils.url import (
     is_valid_url,
     normalize_url_path,
     validate_external_url,
+    validate_resolved_external_url,
 )
 
 
@@ -217,6 +218,32 @@ class TestValidateExternalURL:
 
         with pytest.raises(ValueError, match="non-public networks"):
             validate_external_url("https://cdn.example.com/avatar.png", allowed_hosts=("cdn.example.com",))
+
+    def test_resolved_validator_returns_verified_public_ip(self, monkeypatch):
+        """Test callers can reuse the public IP that was checked during validation."""
+        monkeypatch.setattr(
+            "plane.utils.url.socket.getaddrinfo",
+            lambda hostname, port: [(None, None, None, None, ("8.8.4.4", 0))],
+        )
+
+        target = validate_resolved_external_url(
+            "https://cdn.example.com/avatar.png",
+            allowed_hosts=("cdn.example.com",),
+        )
+
+        assert target.url == "https://cdn.example.com/avatar.png"
+        assert target.hostname == "cdn.example.com"
+        assert target.ip_address == "8.8.4.4"
+
+    def test_blocks_urls_with_credentials(self, monkeypatch):
+        """Test credentials in fetch URLs are rejected."""
+        monkeypatch.setattr(
+            "plane.utils.url.socket.getaddrinfo",
+            lambda hostname, port: [(None, None, None, None, ("8.8.8.8", 0))],
+        )
+
+        with pytest.raises(ValueError, match="credentials are not allowed"):
+            validate_external_url("https://user:pass@cdn.example.com/avatar.png", allowed_hosts=("cdn.example.com",))
 
 
 @pytest.mark.unit

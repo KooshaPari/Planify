@@ -5,8 +5,10 @@
 import pytest
 
 from plane.authentication.adapter.avatar import (
+    get_pinned_avatar_response,
     get_avatar_url_policy,
     get_validated_avatar_response,
+    validate_avatar_request_target,
     validate_avatar_url,
 )
 
@@ -70,21 +72,21 @@ class TestValidatedAvatarResponse:
             is_redirect = True
             headers = {"Location": "https://metadata.google.internal/latest"}
 
-        def fake_get(url, **kwargs):
-            calls.append((url, kwargs))
+        def fake_get(target, **kwargs):
+            calls.append((target, kwargs))
             return RedirectResponse()
 
         monkeypatch.setattr(
             "plane.utils.url.socket.getaddrinfo",
             lambda hostname, port: [(None, None, None, None, ("8.8.8.8", 0))],
         )
-        monkeypatch.setattr("plane.authentication.adapter.avatar.requests.get", fake_get)
+        monkeypatch.setattr("plane.authentication.adapter.avatar.get_pinned_avatar_response", fake_get)
 
         with pytest.raises(ValueError, match="host is not allowed"):
             get_validated_avatar_response("github", "https://avatars.githubusercontent.com/u/1")
 
         assert len(calls) == 1
-        assert calls[0][1]["allow_redirects"] is False
+        assert calls[0][0].url == "https://avatars.githubusercontent.com/u/1"
 
     def test_returns_non_redirect_response(self, monkeypatch):
         """Test successful avatar downloads return the fetched response."""
@@ -98,6 +100,35 @@ class TestValidatedAvatarResponse:
             "plane.utils.url.socket.getaddrinfo",
             lambda hostname, port: [(None, None, None, None, ("8.8.8.8", 0))],
         )
-        monkeypatch.setattr("plane.authentication.adapter.avatar.requests.get", lambda url, **kwargs: response)
+        monkeypatch.setattr(
+            "plane.authentication.adapter.avatar.get_pinned_avatar_response",
+            lambda target, **kwargs: response,
+        )
 
         assert get_validated_avatar_response("github", "https://avatars.githubusercontent.com/u/1") is response
+
+    def test_pinned_fetch_uses_verified_ip_and_original_host_header(self, monkeypatch):
+        """Test avatar fetches use the resolved public IP instead of resolving again."""
+        calls = []
+
+        class OkResponse:
+            is_redirect = False
+            headers = {}
+
+        def fake_get(self, url, **kwargs):
+            calls.append((url, kwargs))
+            return OkResponse()
+
+        monkeypatch.setattr(
+            "plane.utils.url.socket.getaddrinfo",
+            lambda hostname, port: [(None, None, None, None, ("8.8.8.8", 0))],
+        )
+        monkeypatch.setattr("plane.authentication.adapter.avatar.requests.Session.get", fake_get)
+
+        target = validate_avatar_request_target("github", "https://avatars.githubusercontent.com/u/1")
+        response = get_pinned_avatar_response(target)
+
+        assert response.is_redirect is False
+        assert calls[0][0] == "https://8.8.8.8/u/1"
+        assert calls[0][1]["headers"]["Host"] == "avatars.githubusercontent.com"
+        assert calls[0][1]["allow_redirects"] is False
