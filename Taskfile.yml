@@ -99,7 +99,15 @@ tasks:
       - |
           case "{{.REPO_LANGUAGE}}" in
             typescript)
-              {{.PACKAGE_MANAGER}} run clean
+              rm -rf .turbo .next dist build coverage
+              find apps packages -type d \( \
+                -name .turbo -o \
+                -name .next -o \
+                -name .react-router -o \
+                -name dist -o \
+                -name build -o \
+                -name coverage \
+              \) -prune -exec rm -rf '{}' +
               ;;
             python)
               rm -rf build dist .pytest_cache .ruff_cache .mypy_cache .coverage htmlcov
