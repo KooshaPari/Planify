@@ -32,6 +32,11 @@ vars:
       fi
 
 tasks:
+  default:
+    desc: List available tasks for the detected workspace
+    cmds:
+      - task --list
+
   build:
     desc: Build the detected workspace
     summary: |
