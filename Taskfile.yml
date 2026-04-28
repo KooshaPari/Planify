@@ -1,22 +1,47 @@
 version: "3"
 
+vars:
+  PROJECT_LANGUAGE:
+    sh: |
+      if [ -f package.json ] && [ -f pnpm-lock.yaml ]; then
+        printf "javascript-typescript"
+      elif [ -f pyproject.toml ] || [ -f requirements.txt ]; then
+        printf "python"
+      elif [ -f go.mod ]; then
+        printf "go"
+      else
+        printf "unknown"
+      fi
+
 tasks:
   build:
-    desc: Build the workspace
+    desc: Build the detected JavaScript/TypeScript workspace
+    preconditions:
+      - sh: '[ "{{.PROJECT_LANGUAGE}}" = "javascript-typescript" ]'
+        msg: "Taskfile is configured for a JavaScript/TypeScript workspace."
     cmds:
       - pnpm build
 
   test:
     desc: Run workspace tests
+    preconditions:
+      - sh: '[ "{{.PROJECT_LANGUAGE}}" = "javascript-typescript" ]'
+        msg: "Taskfile is configured for a JavaScript/TypeScript workspace."
     cmds:
       - pnpm turbo run test
 
   lint:
     desc: Run lint checks
+    preconditions:
+      - sh: '[ "{{.PROJECT_LANGUAGE}}" = "javascript-typescript" ]'
+        msg: "Taskfile is configured for a JavaScript/TypeScript workspace."
     cmds:
       - pnpm check:lint
 
   clean:
     desc: Remove build artifacts and caches
+    preconditions:
+      - sh: '[ "{{.PROJECT_LANGUAGE}}" = "javascript-typescript" ]'
+        msg: "Taskfile is configured for a JavaScript/TypeScript workspace."
     cmds:
       - pnpm clean
