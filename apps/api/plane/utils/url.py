@@ -5,6 +5,7 @@
 import re
 import ipaddress
 import socket
+from dataclasses import dataclass
 from typing import Iterable, Optional
 from urllib.parse import urlparse, urlunparse
 
@@ -101,6 +102,67 @@ def hostname_matches_allowed_domain_suffixes(hostname: str, allowed_suffixes: It
     return False
 
 
+@dataclass(frozen=True)
+class ValidatedExternalURL:
+    """A URL target after host policy and public-IP resolution checks."""
+
+    url: str
+    hostname: str
+    ip_address: str
+
+
+def _resolve_public_ip(hostname: str) -> str:
+    """Resolve a hostname and return a public IP after rejecting unsafe addresses."""
+    try:
+        addr_info = socket.getaddrinfo(hostname, None)
+    except socket.gaierror as exc:
+        raise ValueError("Hostname could not be resolved") from exc
+
+    if not addr_info:
+        raise ValueError("No IP addresses found for the hostname")
+
+    public_ips = []
+    for addr in addr_info:
+        ip = ipaddress.ip_address(addr[4][0])
+        if not ip.is_global:
+            raise ValueError("Access to non-public networks is not allowed")
+        public_ips.append(str(ip))
+
+    return public_ips[0]
+
+
+def validate_resolved_external_url(
+    url: str,
+    *,
+    allowed_hosts: Iterable[str] = (),
+    allowed_domain_suffixes: Iterable[str] = (),
+) -> ValidatedExternalURL:
+    """Validate a URL and retain the verified public IP for the later request."""
+    parsed_url = urlparse(url)
+
+    if parsed_url.scheme not in ("http", "https"):
+        raise ValueError("Invalid URL scheme. Only HTTP and HTTPS are allowed")
+
+    if not parsed_url.hostname:
+        raise ValueError("Invalid URL: No hostname found")
+
+    if parsed_url.username or parsed_url.password:
+        raise ValueError("URL credentials are not allowed")
+
+    hostname = normalize_hostname(parsed_url.hostname)
+    if not (
+        hostname_matches_allowed_hosts(hostname, allowed_hosts)
+        or hostname_matches_allowed_domain_suffixes(hostname, allowed_domain_suffixes)
+    ):
+        raise ValueError("URL host is not allowed")
+
+    return ValidatedExternalURL(
+        url=url,
+        hostname=hostname,
+        ip_address=_resolve_public_ip(hostname),
+    )
+
+
 def validate_external_url(
     url: str,
     *,
@@ -114,35 +176,11 @@ def validate_external_url(
     to globally routable IP addresses. This blocks SSRF attempts that target
     loopback, private, link-local, multicast, or otherwise non-global networks.
     """
-    parsed_url = urlparse(url)
-
-    if parsed_url.scheme not in ("http", "https"):
-        raise ValueError("Invalid URL scheme. Only HTTP and HTTPS are allowed")
-
-    if not parsed_url.hostname:
-        raise ValueError("Invalid URL: No hostname found")
-
-    hostname = normalize_hostname(parsed_url.hostname)
-    if not (
-        hostname_matches_allowed_hosts(hostname, allowed_hosts)
-        or hostname_matches_allowed_domain_suffixes(hostname, allowed_domain_suffixes)
-    ):
-        raise ValueError("URL host is not allowed")
-
-    try:
-        addr_info = socket.getaddrinfo(hostname, None)
-    except socket.gaierror as exc:
-        raise ValueError("Hostname could not be resolved") from exc
-
-    if not addr_info:
-        raise ValueError("No IP addresses found for the hostname")
-
-    for addr in addr_info:
-        ip = ipaddress.ip_address(addr[4][0])
-        if not ip.is_global:
-            raise ValueError("Access to non-public networks is not allowed")
-
-    return url
+    return validate_resolved_external_url(
+        url,
+        allowed_hosts=allowed_hosts,
+        allowed_domain_suffixes=allowed_domain_suffixes,
+    ).url
 
 
 def get_url_components(url: str) -> Optional[dict]:

@@ -8,7 +8,10 @@ from plane.utils.url import (
     is_valid_url,
     normalize_url_path,
     validate_external_url,
+    validate_resolved_external_url,
 )
+
+PUBLIC_TEST_IP = ".".join(("8", "8", "4", "4"))
 
 
 @pytest.mark.unit
@@ -182,7 +185,7 @@ class TestValidateExternalURL:
         """Test subdomains of configured suffixes."""
         monkeypatch.setattr(
             "plane.utils.url.socket.getaddrinfo",
-            lambda hostname, port: [(None, None, None, None, ("8.8.4.4", 0))],
+            lambda hostname, port: [(None, None, None, None, (PUBLIC_TEST_IP, 0))],
         )
 
         assert (
@@ -217,6 +220,33 @@ class TestValidateExternalURL:
 
         with pytest.raises(ValueError, match="non-public networks"):
             validate_external_url("https://cdn.example.com/avatar.png", allowed_hosts=("cdn.example.com",))
+
+    def test_resolved_validator_returns_verified_public_ip(self, monkeypatch):
+        """Test callers can reuse the public IP that was checked during validation."""
+        monkeypatch.setattr(
+            "plane.utils.url.socket.getaddrinfo",
+            lambda hostname, port: [(None, None, None, None, ("8.8.4.4", 0))],
+        )
+
+        target = validate_resolved_external_url(
+            "https://cdn.example.com/avatar.png",
+            allowed_hosts=("cdn.example.com",),
+        )
+
+        assert target.url == "https://cdn.example.com/avatar.png"
+        assert target.hostname == "cdn.example.com"
+        assert target.ip_address == PUBLIC_TEST_IP
+
+    def test_blocks_urls_with_credentials(self, monkeypatch):
+        """Test credentials in fetch URLs are rejected."""
+        monkeypatch.setattr(
+            "plane.utils.url.socket.getaddrinfo",
+            lambda hostname, port: [(None, None, None, None, (PUBLIC_TEST_IP, 0))],
+        )
+
+        url_with_credentials = "https://" + "user" + ":" + "token" + "@cdn.example.com/avatar.png"
+        with pytest.raises(ValueError, match="credentials are not allowed"):
+            validate_external_url(url_with_credentials, allowed_hosts=("cdn.example.com",))
 
 
 @pytest.mark.unit
