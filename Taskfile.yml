@@ -5,6 +5,7 @@ vars:
     sh: |
       has_typescript=false
       has_python=false
+      has_javascript=false
 
       if find . -path ./node_modules -prune -o -name tsconfig.json -print -quit | grep -q .; then
         has_typescript=true
@@ -14,17 +15,22 @@ vars:
         has_python=true
       fi
 
-      if [ "$has_typescript" = "true" ] && [ "$has_python" = "true" ]; then
-        echo typescript+python
-      elif [ "$has_typescript" = "true" ]; then
-        echo typescript
-      elif [ "$has_python" = "true" ]; then
-        echo python
-      elif find . -path ./node_modules -prune -o -name package.json -print -quit | grep -q .; then
-        echo javascript
-      else
-        echo unknown
+      if find . -path ./node_modules -prune -o -name package.json -print -quit | grep -q .; then
+        has_javascript=true
       fi
+
+      labels=""
+      if [ "$has_typescript" = "true" ]; then
+        labels="${labels}typescript"
+      elif [ "$has_javascript" = "true" ]; then
+        labels="${labels}javascript"
+      fi
+
+      if [ "$has_python" = "true" ]; then
+        labels="${labels:+$labels+}python"
+      fi
+
+      echo "${labels:-unknown}"
   PACKAGE_MANAGER:
     sh: |
       if [ -f pnpm-lock.yaml ]; then
@@ -58,7 +64,15 @@ tasks:
       Detected language: {{.LANGUAGE}}
       Package manager: {{.PACKAGE_MANAGER}}
     cmds:
-      - "{{.PACKAGE_MANAGER}} run build"
+      - |
+        if [ -f package.json ]; then
+          {{.PACKAGE_MANAGER}} run build
+        elif [ -f pyproject.toml ]; then
+          uv run python -m build
+        else
+          echo "No supported build command for detected language: {{.LANGUAGE}}" >&2
+          exit 1
+        fi
 
   test:
     desc: Run workspace tests
@@ -67,10 +81,15 @@ tasks:
       Package manager: {{.PACKAGE_MANAGER}}
     cmds:
       - |
-        if [ "{{.TASK_RUNNER}}" = "turbo" ]; then
+        if [ -f package.json ] && [ "{{.TASK_RUNNER}}" = "turbo" ]; then
           {{.PACKAGE_MANAGER}} turbo run test
-        else
+        elif [ -f package.json ]; then
           {{.PACKAGE_MANAGER}} run test
+        elif [ -f pyproject.toml ]; then
+          uv run pytest
+        else
+          echo "No supported test command for detected language: {{.LANGUAGE}}" >&2
+          exit 1
         fi
 
   lint:
@@ -79,7 +98,15 @@ tasks:
       Detected language: {{.LANGUAGE}}
       Package manager: {{.PACKAGE_MANAGER}}
     cmds:
-      - "{{.PACKAGE_MANAGER}} run check:lint"
+      - |
+        if [ -f package.json ]; then
+          {{.PACKAGE_MANAGER}} run check:lint
+        elif [ -f pyproject.toml ]; then
+          uv run ruff check .
+        else
+          echo "No supported lint command for detected language: {{.LANGUAGE}}" >&2
+          exit 1
+        fi
 
   clean:
     desc: Remove generated artifacts and dependencies
@@ -87,4 +114,12 @@ tasks:
       Detected language: {{.LANGUAGE}}
       Package manager: {{.PACKAGE_MANAGER}}
     cmds:
-      - "{{.PACKAGE_MANAGER}} run clean"
+      - |
+        if [ -f package.json ]; then
+          {{.PACKAGE_MANAGER}} run clean
+        elif [ -f pyproject.toml ]; then
+          rm -rf .pytest_cache .ruff_cache .mypy_cache dist build *.egg-info
+          find . -type d -name __pycache__ -prune -exec rm -rf {} +
+        else
+          rm -rf dist build
+        fi
