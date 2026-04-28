@@ -1,0 +1,22 @@
+version: "3"
+
+tasks:
+  build:
+    desc: Build the workspace
+    cmds:
+      - pnpm build
+
+  test:
+    desc: Run workspace tests
+    cmds:
+      - pnpm turbo run test
+
+  lint:
+    desc: Run lint checks
+    cmds:
+      - pnpm check:lint
+
+  clean:
+    desc: Remove build artifacts and caches
+    cmds:
+      - pnpm clean
