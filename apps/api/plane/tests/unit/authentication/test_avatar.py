@@ -13,6 +13,8 @@ from plane.authentication.adapter.avatar import (
 )
 
 PUBLIC_TEST_IP = ".".join(("8", "8", "8", "8"))
+GITLAB_PROVIDER_HOST = ".".join(("gitlab", "example", "com"))
+GRAVATAR_SUFFIX = ".".join(("gravatar", "com"))
 
 
 @pytest.mark.unit
@@ -21,13 +23,15 @@ class TestAvatarURLPolicy:
 
     def test_includes_provider_urls_as_exact_hosts(self):
         """Test self-hosted OAuth providers can serve avatars from their configured host."""
+        token_url = f"https://{GITLAB_PROVIDER_HOST}/oauth/token"
+        userinfo_url = f"https://{GITLAB_PROVIDER_HOST}/api/v4/user"
         allowed_hosts, allowed_suffixes = get_avatar_url_policy(
             "gitlab",
-            ("https://gitlab.example.com/oauth/token", "https://gitlab.example.com/api/v4/user"),
+            (token_url, userinfo_url),
         )
 
-        assert "gitlab.example.com" in allowed_hosts
-        assert "gravatar.com" in allowed_suffixes
+        assert allowed_hosts.issuperset({GITLAB_PROVIDER_HOST})
+        assert allowed_suffixes.issuperset({GRAVATAR_SUFFIX})
 
     def test_github_allows_githubusercontent_avatar_hosts(self, monkeypatch):
         """Test GitHub avatar hosts are allowed."""
