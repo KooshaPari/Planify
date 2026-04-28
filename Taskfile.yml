@@ -97,23 +97,35 @@ tasks:
     desc: Remove build artifacts and caches
     cmds:
       - |
+          clean_paths() {
+            for path in "$@"; do
+              if [ -e "$path" ]; then
+                rm -rf "$path"
+              fi
+            done
+          }
+
           case "{{.REPO_LANGUAGE}}" in
             typescript)
-              rm -rf .turbo .next .react-router dist build coverage storybook-static playwright-report test-results
-              find apps packages -type d \( \
-                -name .turbo -o \
-                -name .next -o \
-                -name .react-router -o \
-                -name dist -o \
-                -name build -o \
-                -name coverage -o \
-                -name storybook-static -o \
-                -name playwright-report -o \
-                -name test-results \
-              \) -prune -exec rm -rf '{}' +
+              clean_paths .turbo .next .react-router dist build coverage storybook-static playwright-report test-results
+              for workspace_dir in apps packages; do
+                if [ -d "$workspace_dir" ]; then
+                  find "$workspace_dir" -type d \( \
+                    -name .turbo -o \
+                    -name .next -o \
+                    -name .react-router -o \
+                    -name dist -o \
+                    -name build -o \
+                    -name coverage -o \
+                    -name storybook-static -o \
+                    -name playwright-report -o \
+                    -name test-results \
+                  \) -prune -exec rm -rf '{}' +
+                fi
+              done
               ;;
             python)
-              rm -rf build dist .pytest_cache .ruff_cache .mypy_cache .coverage htmlcov
+              clean_paths build dist .pytest_cache .ruff_cache .mypy_cache .coverage htmlcov
               find . -type d -name __pycache__ -prune -exec rm -rf '{}' +
               ;;
             go)
