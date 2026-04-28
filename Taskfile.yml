@@ -1,12 +1,39 @@
 version: "3"
 
 vars:
-  LANGUAGE: typescript
-  PACKAGE_MANAGER: pnpm
+  LANGUAGE:
+    sh: |
+      if find . -path ./node_modules -prune -o -name tsconfig.json -print -quit | grep -q .; then
+        echo typescript
+      elif find . -path ./node_modules -prune -o -name package.json -print -quit | grep -q .; then
+        echo javascript
+      else
+        echo unknown
+      fi
+  PACKAGE_MANAGER:
+    sh: |
+      if [ -f pnpm-lock.yaml ]; then
+        echo pnpm
+      elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+        echo bun
+      elif [ -f yarn.lock ]; then
+        echo yarn
+      elif [ -f package-lock.json ]; then
+        echo npm
+      else
+        echo pnpm
+      fi
+  TASK_RUNNER:
+    sh: |
+      if [ -f turbo.json ]; then
+        echo turbo
+      else
+        echo none
+      fi
 
 tasks:
   build:
-    desc: Build the TypeScript/pnpm monorepo
+    desc: Build the detected workspace
     summary: |
       Detected language: {{.LANGUAGE}}
       Package manager: {{.PACKAGE_MANAGER}}
@@ -14,15 +41,20 @@ tasks:
       - "{{.PACKAGE_MANAGER}} run build"
 
   test:
-    desc: Run workspace tests with Turbo
+    desc: Run workspace tests
     summary: |
       Detected language: {{.LANGUAGE}}
       Package manager: {{.PACKAGE_MANAGER}}
     cmds:
-      - "{{.PACKAGE_MANAGER}} turbo run test"
+      - |
+        if [ "{{.TASK_RUNNER}}" = "turbo" ]; then
+          {{.PACKAGE_MANAGER}} turbo run test
+        else
+          {{.PACKAGE_MANAGER}} run test
+        fi
 
   lint:
-    desc: Run OxLint checks across the workspace
+    desc: Run lint checks across the workspace
     summary: |
       Detected language: {{.LANGUAGE}}
       Package manager: {{.PACKAGE_MANAGER}}
