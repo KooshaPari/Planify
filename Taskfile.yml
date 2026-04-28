@@ -7,20 +7,32 @@ vars:
 tasks:
   build:
     desc: Build the TypeScript/pnpm monorepo
+    summary: |
+      Detected language: {{.LANGUAGE}}
+      Package manager: {{.PACKAGE_MANAGER}}
     cmds:
       - "{{.PACKAGE_MANAGER}} run build"
 
   test:
     desc: Run workspace tests with Turbo
+    summary: |
+      Detected language: {{.LANGUAGE}}
+      Package manager: {{.PACKAGE_MANAGER}}
     cmds:
       - "{{.PACKAGE_MANAGER}} turbo run test"
 
   lint:
     desc: Run OxLint checks across the workspace
+    summary: |
+      Detected language: {{.LANGUAGE}}
+      Package manager: {{.PACKAGE_MANAGER}}
     cmds:
       - "{{.PACKAGE_MANAGER}} run check:lint"
 
   clean:
     desc: Remove generated artifacts and dependencies
+    summary: |
+      Detected language: {{.LANGUAGE}}
+      Package manager: {{.PACKAGE_MANAGER}}
     cmds:
       - "{{.PACKAGE_MANAGER}} run clean"
