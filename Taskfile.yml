@@ -12,6 +12,17 @@ vars:
       else
         printf "unknown"
       fi
+  PACKAGE_MANAGER:
+    sh: |
+      if [ -f pnpm-lock.yaml ]; then
+        printf "pnpm"
+      elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+        printf "bun"
+      elif [ -f package-lock.json ]; then
+        printf "npm"
+      else
+        printf "npm"
+      fi
 
 tasks:
   build:
@@ -20,9 +31,9 @@ tasks:
       - |
           case "{{.REPO_LANGUAGE}}" in
             javascript-typescript)
-              if [ -f pnpm-lock.yaml ]; then
+              if [ "{{.PACKAGE_MANAGER}}" = "pnpm" ]; then
                 pnpm build
-              elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+              elif [ "{{.PACKAGE_MANAGER}}" = "bun" ]; then
                 bun run build
               else
                 npm run build
@@ -46,9 +57,9 @@ tasks:
       - |
           case "{{.REPO_LANGUAGE}}" in
             javascript-typescript)
-              if [ -f pnpm-lock.yaml ]; then
+              if [ "{{.PACKAGE_MANAGER}}" = "pnpm" ]; then
                 pnpm turbo run test
-              elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+              elif [ "{{.PACKAGE_MANAGER}}" = "bun" ]; then
                 bun run test
               else
                 npm test
@@ -72,9 +83,9 @@ tasks:
       - |
           case "{{.REPO_LANGUAGE}}" in
             javascript-typescript)
-              if [ -f pnpm-lock.yaml ]; then
+              if [ "{{.PACKAGE_MANAGER}}" = "pnpm" ]; then
                 pnpm check:lint
-              elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+              elif [ "{{.PACKAGE_MANAGER}}" = "bun" ]; then
                 bun run check:lint
               else
                 npm run check:lint
@@ -98,9 +109,9 @@ tasks:
       - |
           case "{{.REPO_LANGUAGE}}" in
             javascript-typescript)
-              if [ -f pnpm-lock.yaml ]; then
+              if [ "{{.PACKAGE_MANAGER}}" = "pnpm" ]; then
                 pnpm clean
-              elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+              elif [ "{{.PACKAGE_MANAGER}}" = "bun" ]; then
                 bun run clean
               else
                 npm run clean
