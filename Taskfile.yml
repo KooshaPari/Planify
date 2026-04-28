@@ -1,175 +1,26 @@
 version: "3"
 
 vars:
-  REPO_LANGUAGE:
-    sh: |
-      if [ -f package.json ] && find . -maxdepth 3 -type f \( -name 'tsconfig*.json' -o -name '*.ts' -o -name '*.tsx' \) | grep -q .; then
-        printf "typescript"
-      elif [ -f package.json ] || [ -f pnpm-lock.yaml ] || [ -f bun.lock ] || [ -f bun.lockb ]; then
-        printf "javascript"
-      elif [ -f pyproject.toml ] || [ -f requirements.txt ]; then
-        printf "python"
-      elif [ -f go.mod ]; then
-        printf "go"
-      elif [ -f pom.xml ] || find . -maxdepth 2 -type f \( \
-        -name 'build.gradle' -o \
-        -name 'build.gradle.kts' \
-      \) | grep -q .; then
-        printf "java"
-      else
-        printf "unknown"
-      fi
-  PACKAGE_MANAGER:
-    sh: |
-      if [ -f package.json ] && grep -q '"packageManager": "pnpm@' package.json; then
-        printf "pnpm"
-      elif [ -f pnpm-lock.yaml ]; then
-        printf "pnpm"
-      elif [ -f package.json ] && grep -q '"packageManager": "bun@' package.json; then
-        printf "bun"
-      elif [ -f bun.lock ] || [ -f bun.lockb ]; then
-        printf "bun"
-      elif [ -f package-lock.json ]; then
-        printf "npm"
-      else
-        printf "npm"
-      fi
+  LANGUAGE: typescript
+  PACKAGE_MANAGER: pnpm
 
 tasks:
   build:
-    desc: Build the repository using the detected language/toolchain
+    desc: Build the TypeScript/pnpm monorepo
     cmds:
-      - |
-          case "{{.REPO_LANGUAGE}}" in
-            typescript|javascript)
-              {{.PACKAGE_MANAGER}} run build
-              ;;
-            python)
-              python -m build
-              ;;
-            go)
-              go build ./...
-              ;;
-            java)
-              if [ -f pom.xml ]; then
-                ./mvnw package || mvn package
-              elif [ -x ./gradlew ]; then
-                ./gradlew build
-              else
-                gradle build
-              fi
-              ;;
-            *)
-              echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
-              exit 1
-              ;;
-          esac
+      - "{{.PACKAGE_MANAGER}} run build"
 
   test:
-    desc: Run repository tests
+    desc: Run workspace tests with Turbo
     cmds:
-      - |
-          case "{{.REPO_LANGUAGE}}" in
-            typescript|javascript)
-              if [ "{{.PACKAGE_MANAGER}}" = "pnpm" ]; then
-                pnpm turbo run test
-              else
-                {{.PACKAGE_MANAGER}} run test
-              fi
-              ;;
-            python)
-              pytest
-              ;;
-            go)
-              go test ./...
-              ;;
-            java)
-              if [ -f pom.xml ]; then
-                ./mvnw test || mvn test
-              elif [ -x ./gradlew ]; then
-                ./gradlew test
-              else
-                gradle test
-              fi
-              ;;
-            *)
-              echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
-              exit 1
-              ;;
-          esac
+      - "{{.PACKAGE_MANAGER}} turbo run test"
 
   lint:
-    desc: Run repository lint checks
+    desc: Run OxLint checks across the workspace
     cmds:
-      - |
-          case "{{.REPO_LANGUAGE}}" in
-            typescript|javascript)
-              {{.PACKAGE_MANAGER}} run check:lint
-              ;;
-            python)
-              ruff check .
-              ;;
-            go)
-              golangci-lint run
-              ;;
-            java)
-              if [ -f pom.xml ]; then
-                ./mvnw verify || mvn verify
-              elif [ -x ./gradlew ]; then
-                ./gradlew check
-              else
-                gradle check
-              fi
-              ;;
-            *)
-              echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
-              exit 1
-              ;;
-          esac
+      - "{{.PACKAGE_MANAGER}} run check:lint"
 
   clean:
-    desc: Remove build artifacts and caches
+    desc: Remove generated artifacts and dependencies
     cmds:
-      - |
-          clean_paths() {
-            for path in "$@"; do
-              if [ -e "$path" ]; then
-                rm -rf "$path"
-              fi
-            done
-          }
-
-          case "{{.REPO_LANGUAGE}}" in
-            typescript|javascript)
-              clean_paths .turbo .next .react-router dist build coverage storybook-static playwright-report test-results
-              for workspace_dir in apps packages; do
-                if [ -d "$workspace_dir" ]; then
-                  find "$workspace_dir" -type d \( \
-                    -name .turbo -o \
-                    -name .next -o \
-                    -name .react-router -o \
-                    -name dist -o \
-                    -name build -o \
-                    -name coverage -o \
-                    -name storybook-static -o \
-                    -name playwright-report -o \
-                    -name test-results \
-                  \) -prune -exec rm -rf '{}' +
-                fi
-              done
-              ;;
-            python)
-              clean_paths build dist .pytest_cache .ruff_cache .mypy_cache .coverage htmlcov
-              find . -type d -name __pycache__ -prune -exec rm -rf '{}' +
-              ;;
-            go)
-              go clean ./...
-              ;;
-            java)
-              clean_paths target build .gradle
-              ;;
-            *)
-              echo "Unsupported repository language: {{.REPO_LANGUAGE}}" >&2
-              exit 1
-              ;;
-          esac
+      - "{{.PACKAGE_MANAGER}} run clean"
