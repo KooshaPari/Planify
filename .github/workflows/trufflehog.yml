@@ -3,7 +3,6 @@ on:
   push:
     branches: [main]
   pull_request:
-
 jobs:
   trufflehog:
     runs-on: ubuntu-latest
@@ -14,4 +13,4 @@ jobs:
       - uses: trufflehog/actions/setup@main
       - run: trufflehog github --only-verified --no-update
         env:
-          GH_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
