@@ -134,7 +134,7 @@ jobs:
 
       - id: checkout_files
         name: Checkout Files
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
   branch_build_push_admin:
     name: Build-Push Admin Docker Image
@@ -282,7 +282,7 @@ jobs:
       - branch_build_push_proxy
     steps:
       - name: Checkout Files
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Prepare AIO Assets
         id: prepare_aio_assets
@@ -298,7 +298,7 @@ jobs:
           echo "AIO_BUILD_VERSION=${aio_version}" >> $GITHUB_OUTPUT
 
       - name: Upload AIO Assets
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v4
         with:
           path: ./deployments/aio/community/dist
           name: aio-assets-dist
@@ -337,7 +337,7 @@ jobs:
       - branch_build_push_proxy
     steps:
       - name: Checkout Files
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Update Assets
         run: |
@@ -352,7 +352,7 @@ jobs:
           # sed -i 's/APP_RELEASE=stable/APP_RELEASE='${REL_VERSION}'/g' deployments/cli/community/variables.env
 
       - name: Upload Assets
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v4
         with:
           name: community-assets
           path: |
@@ -381,7 +381,7 @@ jobs:
       REL_VERSION: ${{ needs.branch_build_setup.outputs.release_version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Update Assets
         run: |
