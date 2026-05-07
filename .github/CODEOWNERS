@@ -1,5 +1,5 @@
-# Default owner for everything
+# Default owner for all files
 * @KooshaPari
 
-# Specific ownership
-# Add specific paths and owners as needed
+# Specific paths
+/.github/ @KooshaPari
