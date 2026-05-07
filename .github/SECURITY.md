@@ -4,4 +4,12 @@
 
 If you discover a security vulnerability, please report it by [opening an issue](https://github.com/KooshaPari/Planify/issues/new?labels=security).
 
-Please do not disclose security issues publicly until a fix is available.
+## Supported Versions
+
+| Version | Supported |
+|---------|-----------|
+| x.x.x   | :white_check_mark: |
+
+## Security Updates
+
+Security updates are released as patch versions.
