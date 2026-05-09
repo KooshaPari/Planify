@@ -5,7 +5,7 @@
 If you discover security vulnerability, please follow the responsible disclosure process:
 
 1. **Do NOT** open public GitHub issue security vulnerabilities.
-2. Email maintainers directly [maintainer email] GitHub Security Advisories feature.
+2. Use [GitHub Private Vulnerability Reporting](https://github.com/KooshaPari/Planify/security/advisories/new) to disclose the issue privately.
 3. Provide detailed information, including:
    - Description issue
    - Steps reproduce
