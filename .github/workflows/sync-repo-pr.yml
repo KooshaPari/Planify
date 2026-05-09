@@ -21,7 +21,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           fetch-depth: 0 # Fetch all history for all branches and tags
 
@@ -47,6 +47,6 @@ jobs:
             echo "Pull Request already exists: $PR_EXISTS"
           else
             echo "Creating new pull request"
-            PR_URL=$(gh pr create --base $TARGET_BRANCH --head $CURRENT_BRANCH --title "${{ vars.SYNC_PR_TITLE }}" --body "")
+            PR_URL=$(gh pr create --base $TARGET_BRANCH --head $CURRENT_BRANCH --title "${{ vars.SYNC_PR_TITLE }}" --body " ")
             echo "Pull Request created: $PR_URL"
           fi
