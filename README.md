@@ -135,7 +135,7 @@ Feel free to ask questions, report bugs, participate in discussions, share ideas
 
 ## 🛡️ Security
 
-If you discover a security vulnerability, please report it responsibly via [GitHub Private Vulnerability Reporting](https://github.com/KooshaPari/Planify/security/advisories/new). See [Security policy](./SECURITY.md) for more info.
+If you discover a security vulnerability, please report it responsibly via [GitHub Private Vulnerability Reporting](https://github.com/makeplane/plane/security/advisories/new). See [Security policy](./SECURITY.md) for more info.
 
 ## 🤝 Contributing
 
