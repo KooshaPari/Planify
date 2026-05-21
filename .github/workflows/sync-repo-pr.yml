@@ -1,6 +1,8 @@
 name: Create PR on Sync
 
 on:
+
+timeout-minutes: 30
   workflow_dispatch:
   push:
     branches:

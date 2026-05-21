@@ -1,6 +1,8 @@
 name: "CodeQL"
 
 on:
+
+timeout-minutes: 20
   workflow_dispatch:
   push:
     branches: ["preview", "canary", "master"]
