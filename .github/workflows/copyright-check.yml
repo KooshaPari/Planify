@@ -1,6 +1,8 @@
 name: Copy Right Check
 
 on:
+
+timeout-minutes: 30
     workflow_dispatch:
     pull_request:
         branches:
