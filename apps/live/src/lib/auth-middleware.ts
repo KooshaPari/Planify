@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+import { timingSafeEqual, createHmac } from "crypto";
 import type { Request, Response, NextFunction } from "express";
 import { logger } from "@plane/logger";
 import { env } from "@/env";
@@ -31,11 +32,24 @@ import { env } from "@/env";
  * }
  * ```
  */
-// TODO - Move to hmac
+/**
+ * Timing-safe comparison of two strings using HMAC-SHA256.
+ * Prevents timing attacks by ensuring comparison time is constant
+ * regardless of where strings first differ.
+ */
+function timingSafeStringEqual(a: string, b: string): boolean {
+  // HMAC both values with a random per-process nonce so length differences
+  // are normalised to a fixed digest length before the safe comparison.
+  const nonce = env.LIVE_SERVER_SECRET_KEY; // stable per-process seed
+  const hmacA = createHmac("sha256", nonce).update(a).digest();
+  const hmacB = createHmac("sha256", nonce).update(b).digest();
+  return timingSafeEqual(hmacA, hmacB);
+}
+
 export const requireSecretKey = (req: Request, res: Response, next: NextFunction): void => {
   const secretKey = req.headers["live-server-secret-key"];
 
-  if (!secretKey || secretKey !== env.LIVE_SERVER_SECRET_KEY) {
+  if (!secretKey || !timingSafeStringEqual(String(secretKey), env.LIVE_SERVER_SECRET_KEY)) {
     logger.warn(`
   ⚠️  [AUTH] Unauthorized access attempt
      Endpoint: ${req.path}

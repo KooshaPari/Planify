@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+import type { AxiosError } from "axios";
 import { logger } from "@plane/logger";
 import type { TDocumentPayload, TPage } from "@plane/types";
 // services
@@ -182,13 +183,14 @@ export abstract class PageCoreService extends APIService {
       return null;
     } catch (error) {
       // Axios throws on 3xx when maxRedirects is 0, so we need to handle the redirect from the error
-      if ((error as any).response?.status === 302 || (error as any).response?.status === 301) {
-        return (error as any).response.headers?.location || null;
+      const axiosErr = error as AxiosError;
+      if (axiosErr.response?.status === 302 || axiosErr.response?.status === 301) {
+        return (axiosErr.response.headers?.location as string | undefined) || null;
       }
       logger.error("Failed to resolve image asset URL", {
         assetId,
         workspaceSlug,
-        error: (error as any).message,
+        error: axiosErr.message,
       });
       return null;
     }
