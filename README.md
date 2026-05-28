@@ -135,9 +135,7 @@ Feel free to ask questions, report bugs, participate in discussions, share ideas
 
 ## 🛡️ Security
 
-If you discover a security vulnerability in Plane, please report it responsibly instead of opening a public issue. We take all legitimate reports seriously and will investigate them promptly. See [Security policy](https://github.com/makeplane/plane/blob/master/SECURITY.md) for more info.
-
-To disclose any security issues, please email us at security@plane.so.
+If you discover a security vulnerability, please report it responsibly via [GitHub Private Vulnerability Reporting](https://github.com/KooshaPari/Planify/security/advisories/new). See [Security policy](./SECURITY.md) for more info.
 
 ## 🤝 Contributing
 

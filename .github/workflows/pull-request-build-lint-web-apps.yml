@@ -8,18 +8,23 @@ on:
     types:
       - "opened"
       - "synchronize"
+      - "ready_for_review"
+      - "review_requested"
       - "reopened"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   # Format check has no build dependencies - run immediately in parallel
   check-format:
     name: check:format
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ubuntu-24.04
     if: |
       github.event.pull_request.draft == false &&
       github.event.pull_request.requested_reviewers != null
@@ -28,13 +33,13 @@ jobs:
       TURBO_SCM_HEAD: ${{ github.sha }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 50
           filter: blob:none
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v6
 
       - name: Enable Corepack and pnpm
         run: corepack enable pnpm
@@ -44,7 +49,7 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - name: Cache pnpm store
-        uses: actions/cache@v5
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ env.STORE_PATH }}
           key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -60,8 +65,7 @@ jobs:
   # Build packages - required for lint and type checks
   build:
     name: Build packages
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: ubuntu-24.04
     if: |
       github.event.pull_request.draft == false &&
       github.event.pull_request.requested_reviewers != null
@@ -71,13 +75,13 @@ jobs:
       NODE_OPTIONS: "--max-old-space-size=4096"
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 50
           filter: blob:none
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v6
 
       - name: Enable Corepack and pnpm
         run: corepack enable pnpm
@@ -87,7 +91,7 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - name: Cache pnpm store
-        uses: actions/cache@v5
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ env.STORE_PATH }}
           key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -95,7 +99,7 @@ jobs:
             pnpm-store-${{ runner.os }}-
 
       - name: Restore Turbo cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: .turbo
           key: turbo-${{ runner.os }}-${{ github.event.pull_request.base.sha }}-${{ github.sha }}
@@ -110,7 +114,7 @@ jobs:
         run: pnpm turbo run build --affected
 
       - name: Save Turbo cache
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: .turbo
           key: turbo-${{ runner.os }}-${{ github.event.pull_request.base.sha }}-${{ github.sha }}
@@ -118,8 +122,7 @@ jobs:
   # Lint check - no build dependency, OxLint is a standalone Rust binary
   check-lint:
     name: check:lint
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ubuntu-24.04
     if: |
       github.event.pull_request.draft == false &&
       github.event.pull_request.requested_reviewers != null
@@ -128,13 +131,13 @@ jobs:
       TURBO_SCM_HEAD: ${{ github.sha }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 50
           filter: blob:none
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v6
 
       - name: Enable Corepack and pnpm
         run: corepack enable pnpm
@@ -144,7 +147,7 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - name: Cache pnpm store
-        uses: actions/cache@v5
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ env.STORE_PATH }}
           key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -160,22 +163,21 @@ jobs:
   # Type check depends on build artifacts
   check-types:
     name: check:types
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build
-    timeout-minutes: 15
     env:
       TURBO_SCM_BASE: ${{ github.event.pull_request.base.sha }}
       TURBO_SCM_HEAD: ${{ github.sha }}
       NODE_OPTIONS: "--max-old-space-size=4096"
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 50
           filter: blob:none
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v6
 
       - name: Enable Corepack and pnpm
         run: corepack enable pnpm
@@ -185,7 +187,7 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - name: Cache pnpm store
-        uses: actions/cache@v5
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ env.STORE_PATH }}
           key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -193,7 +195,7 @@ jobs:
             pnpm-store-${{ runner.os }}-
 
       - name: Restore Turbo cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: .turbo
           key: turbo-${{ runner.os }}-${{ github.event.pull_request.base.sha }}-${{ github.sha }}

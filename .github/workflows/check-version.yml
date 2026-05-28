@@ -1,22 +1,35 @@
 name: Version Change Before Release
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 
 on:
+
+
   pull_request:
     branches:
       - master
 
+permissions:
+  contents: read
+  actions: read
+
+
+timeout-minutes: 30
+
 jobs:
   check-version:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4
 
       - name: Get PR Branch version
         run: echo "PR_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
