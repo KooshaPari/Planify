@@ -2,7 +2,6 @@ name: Feature Preview
 
 on:
 
-timeout-minutes: 30
   workflow_dispatch:
     inputs:
       base_tag_name:
@@ -13,10 +12,17 @@ timeout-minutes: 30
 env:
   TARGET_BRANCH: ${{ github.ref_name }}
 
+permissions:
+  contents: read
+  actions: read
+
+
+timeout-minutes: 30
+
 jobs:
   branch_build_setup:
     name: Build Setup
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       gh_branch_name: ${{ steps.set_env_variables.outputs.TARGET_BRANCH }}
       flat_branch_name: ${{ steps.set_env_variables.outputs.FLAT_BRANCH_NAME }}
@@ -103,7 +109,7 @@ jobs:
   feature-deploy:
     needs: [branch_build_setup, full_build_push]
     name: Feature Deploy
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       KUBE_CONFIG_FILE: ${{ secrets.FEATURE_PREVIEW_KUBE_CONFIG }}
       DEPLOYMENT_NAME: ${{ needs.branch_build_setup.outputs.flat_branch_name }}

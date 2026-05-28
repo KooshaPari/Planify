@@ -2,7 +2,6 @@ name: Sync Repositories
 
 on:
 
-timeout-minutes: 30
   workflow_dispatch:
   push:
     branches:
@@ -10,6 +9,9 @@ timeout-minutes: 30
 
 env:
   SOURCE_BRANCH_NAME: ${{ github.ref_name }}
+
+
+timeout-minutes: 30
 
 jobs:
   sync_changes:

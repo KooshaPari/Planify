@@ -16,12 +16,15 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   # Format check has no build dependencies - run immediately in parallel
   check-format:
     name: check:format
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ubuntu-24.04
     if: |
       github.event.pull_request.draft == false &&
       github.event.pull_request.requested_reviewers != null
@@ -62,8 +65,7 @@ jobs:
   # Build packages - required for lint and type checks
   build:
     name: Build packages
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: ubuntu-24.04
     if: |
       github.event.pull_request.draft == false &&
       github.event.pull_request.requested_reviewers != null
@@ -120,8 +122,7 @@ jobs:
   # Lint check - no build dependency, OxLint is a standalone Rust binary
   check-lint:
     name: check:lint
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ubuntu-24.04
     if: |
       github.event.pull_request.draft == false &&
       github.event.pull_request.requested_reviewers != null
@@ -162,9 +163,8 @@ jobs:
   # Type check depends on build artifacts
   check-types:
     name: check:types
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build
-    timeout-minutes: 15
     env:
       TURBO_SCM_BASE: ${{ github.event.pull_request.base.sha }}
       TURBO_SCM_HEAD: ${{ github.sha }}

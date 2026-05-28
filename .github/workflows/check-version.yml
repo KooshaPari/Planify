@@ -7,14 +7,20 @@ concurrency:
 on:
 
 
-timeout-minutes: 30
   pull_request:
     branches:
       - master
 
+permissions:
+  contents: read
+  actions: read
+
+
+timeout-minutes: 30
+
 jobs:
   check-version:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4

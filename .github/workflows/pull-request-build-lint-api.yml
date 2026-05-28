@@ -18,11 +18,14 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   lint-api:
     name: Lint API
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
+    runs-on: ubuntu-24.04
     if: |
       github.event.pull_request.draft == false &&
       github.event.pull_request.requested_reviewers != null

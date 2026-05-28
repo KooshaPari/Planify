@@ -2,7 +2,6 @@ name: Branch Build CE
 
 on:
 
-timeout-minutes: 30
   workflow_dispatch:
     inputs:
       build_type:
@@ -48,6 +47,13 @@ env:
   RELEASE_VERSION: ${{ github.event.inputs.releaseVersion }}
   IS_PRERELEASE: ${{ github.event.inputs.isPrerelease }}
   AIO_BUILD: ${{ github.event.inputs.aio_build }}
+
+permissions:
+  contents: read
+  actions: read
+
+
+timeout-minutes: 30
 
 jobs:
   branch_build_setup:

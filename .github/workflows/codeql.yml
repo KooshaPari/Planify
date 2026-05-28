@@ -2,17 +2,19 @@ name: "CodeQL"
 
 on:
 
-timeout-minutes: 20
   workflow_dispatch:
   push:
     branches: ["preview", "canary", "master"]
   pull_request:
     branches: ["preview", "canary", "master"]
 
+
+timeout-minutes: 20
+
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       actions: read
       contents: read

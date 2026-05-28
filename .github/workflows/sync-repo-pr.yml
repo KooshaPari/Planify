@@ -2,7 +2,6 @@ name: Create PR on Sync
 
 on:
 
-timeout-minutes: 30
   workflow_dispatch:
   push:
     branches:
@@ -15,9 +14,12 @@ env:
   ACCOUNT_USER_NAME: ${{ vars.ACCOUNT_USER_NAME }}
   ACCOUNT_USER_EMAIL: ${{ vars.ACCOUNT_USER_EMAIL }}
 
+
+timeout-minutes: 30
+
 jobs:
   create_pull_request:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       pull-requests: write
       contents: write
