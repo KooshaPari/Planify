@@ -5,7 +5,7 @@
  */
 
 import { logger } from "@plane/logger";
-import { AppError } from "@/lib/errors";
+import { logProcessError } from "@/lib/process-errors";
 import { Server } from "./server";
 
 let server: Server;
@@ -52,12 +52,10 @@ process.on("SIGINT", async () => {
   process.exit(1);
 });
 
-process.on("unhandledRejection", (err: Error) => {
-  const error = new AppError(err);
-  logger.error(`[UNHANDLED_REJECTION]`, error);
+process.on("unhandledRejection", (reason: unknown) => {
+  logProcessError("[UNHANDLED_REJECTION]", reason);
 });
 
-process.on("uncaughtException", (err: Error) => {
-  const error = new AppError(err);
-  logger.error(`[UNCAUGHT_EXCEPTION]`, error);
+process.on("uncaughtException", (reason: unknown) => {
+  logProcessError("[UNCAUGHT_EXCEPTION]", reason);
 });

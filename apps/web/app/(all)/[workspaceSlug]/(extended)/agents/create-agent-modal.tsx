@@ -6,7 +6,7 @@
 "use client";
 
 import { useState } from "react";
-import { Modal, Button, TextInput } from "@plane/ui";
+import { ModalCore, Button, Input, TextArea } from "@plane/ui";
 import { Bot } from "lucide-react";
 
 interface CreateAgentModalProps {
@@ -45,7 +45,7 @@ export function CreateAgentModal({ workspaceSlug, onClose, onSuccess }: CreateAg
   };
 
   return (
-    <Modal isOpen onClose={onClose} className="w-[500px]">
+    <ModalCore isOpen handleClose={onClose} className="w-[500px]">
       <div className="p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-custom-background-80">
@@ -60,7 +60,7 @@ export function CreateAgentModal({ workspaceSlug, onClose, onSuccess }: CreateAg
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1.5">Name</label>
-            <TextInput
+            <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter agent name"
@@ -70,8 +70,7 @@ export function CreateAgentModal({ workspaceSlug, onClose, onSuccess }: CreateAg
 
           <div>
             <label className="block text-sm font-medium mb-1.5">Description</label>
-            <textarea
-              className="w-full px-3 py-2 rounded-lg border border-custom-border-200 bg-transparent"
+            <TextArea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe what this agent does"
@@ -102,6 +101,6 @@ export function CreateAgentModal({ workspaceSlug, onClose, onSuccess }: CreateAg
           </div>
         </form>
       </div>
-    </Modal>
+    </ModalCore>
   );
 }

@@ -9,7 +9,7 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "react-router";
 import { useTranslation } from "@plane/i18n";
-import { useAgents } from "@/core/hooks/use-agent";
+import { useAgents } from "@/hooks/use-agent";
 import { Button } from "@plane/ui";
 import { Badge } from "@plane/ui";
 import { Spinner } from "@plane/ui";
