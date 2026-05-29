@@ -18,6 +18,7 @@ export * from "./auth";
 
 // Error handling utilities
 export * from "./errors";
+export * from "./process-errors";
 
 // Stateless utilities
 export * from "./stateless";
