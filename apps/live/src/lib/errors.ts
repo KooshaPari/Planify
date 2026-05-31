@@ -7,6 +7,17 @@
 import type { AxiosError } from "axios";
 
 /**
+ * Shape of the JSON body returned by the Plane API on errors.
+ * The `message` field is the human-readable description; all other fields
+ * are optional because the server may return plain text or a different
+ * structure for unexpected failures.
+ */
+type ApiErrorResponseBody = {
+  message?: string;
+  [key: string]: unknown;
+};
+
+/**
  * Application error class that sanitizes and standardizes errors across the app.
  * Extracts only essential information from AxiosError to prevent massive log bloat
  * and sensitive data leaks (cookies, tokens, etc).
@@ -46,7 +57,10 @@ export class AppError extends Error {
     // AxiosError - extract ONLY essential info (no config, no headers, no cookies)
     if (error && typeof error === "object" && "isAxiosError" in error) {
       const axiosError = error as AxiosError;
-      const responseData = axiosError.response?.data as any;
+      const responseData =
+        axiosError.response?.data != null && typeof axiosError.response.data === "object"
+          ? (axiosError.response.data as ApiErrorResponseBody)
+          : undefined;
       super(responseData?.message || axiosError.message);
       this.name = "AppError";
       this.statusCode = axiosError.response?.status;
