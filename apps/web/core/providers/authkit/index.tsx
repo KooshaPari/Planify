@@ -13,7 +13,7 @@
 "use client";
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { IUser } from "@plane/types";
+import type { IUser } from "@plane/types";
 
 // ============================================================================
 // Types
