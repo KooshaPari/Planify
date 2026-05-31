@@ -8,7 +8,6 @@ import os
 import uuid
 from io import BytesIO
 
-import requests
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -29,6 +28,7 @@ from plane.utils.exception_logger import log_exception
 from plane.utils.host import base_host
 from plane.utils.ip_address import get_client_ip
 
+from .avatar import get_validated_avatar_response
 from .error import AUTHENTICATION_ERROR_CODES, AuthenticationException
 
 
@@ -122,6 +122,13 @@ class Adapter:
     def get_avatar_download_headers(self):
         return {}
 
+    def get_avatar_provider_urls(self):
+        return (
+            getattr(self, "auth_url", None),
+            getattr(self, "token_url", None),
+            getattr(self, "userinfo_url", None),
+        )
+
     def check_sync_enabled(self):
         """Check if sync is enabled for the provider"""
         provider_config_map = {
@@ -146,8 +153,13 @@ class Adapter:
 
         try:
             headers = self.get_avatar_download_headers()
-            # Download the avatar image
-            response = requests.get(avatar_url, timeout=10, headers=headers)
+            # Download the avatar image only after validating the provider host.
+            response = get_validated_avatar_response(
+                self.provider,
+                avatar_url,
+                provider_urls=self.get_avatar_provider_urls(),
+                headers=headers,
+            )
             response.raise_for_status()
 
             # Check content length before downloading
@@ -187,7 +199,7 @@ class Adapter:
             storage = S3Storage(request=self.request)
 
             # Create file-like object
-            file_obj = BytesIO(response.content)
+            file_obj = BytesIO(content)
             file_obj.seek(0)
 
             # Upload using boto3 directly

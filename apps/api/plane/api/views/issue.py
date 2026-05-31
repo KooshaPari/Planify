@@ -2477,7 +2477,9 @@ class IssueRelationListCreateAPIEndpoint(BaseAPIView):
 
         relation_type = serializer.validated_data["relation_type"]
         issues = serializer.validated_data["issues"]
-        project = Project.objects.get(pk=project_id, workspace__slug=slug)
+        project = Project.objects.filter(pk=project_id, workspace__slug=slug).first()
+        if not project:
+            return Response({"error": "Project not found"}, status=status.HTTP_404_NOT_FOUND)
 
         actual_relation = get_actual_relation(relation_type)
         is_reverse = relation_type in ["blocking", "start_after", "finish_after"]
