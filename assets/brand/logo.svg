@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Planify">
+  <title>Planify</title>
+  <desc>AI-coded vector app mark: a three-column kanban board with stacked cards advancing left to right toward a checked done column. Hand-authored paths.</desc>
+  <defs>
+    <linearGradient id="pl-todo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+    <linearGradient id="pl-prog" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C084FC"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="pl-done" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#34D399"/>
+      <stop offset="1" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+
+  <!-- App tile -->
+  <rect x="24" y="24" width="464" height="464" rx="108" ry="108" fill="#0E1426"/>
+  <rect x="24" y="24" width="464" height="464" rx="108" ry="108" fill="none" stroke="#222C46" stroke-width="2"/>
+
+  <!-- Column 1: To Do -->
+  <rect x="96"  y="120" width="88" height="272" rx="22" fill="#18203A"/>
+  <rect x="112" y="150" width="56" height="40" rx="12" fill="url(#pl-todo)"/>
+  <rect x="112" y="206" width="56" height="40" rx="12" fill="url(#pl-todo)"/>
+
+  <!-- Column 2: In Progress -->
+  <rect x="212" y="120" width="88" height="272" rx="22" fill="#18203A"/>
+  <rect x="228" y="150" width="56" height="40" rx="12" fill="url(#pl-prog)"/>
+
+  <!-- Column 3: Done -->
+  <rect x="328" y="120" width="88" height="272" rx="22" fill="#18203A"/>
+  <rect x="344" y="150" width="56" height="40" rx="12" fill="url(#pl-done)"/>
+  <rect x="344" y="206" width="56" height="40" rx="12" fill="url(#pl-done)"/>
+
+  <!-- Done checkmark badge -->
+  <circle cx="372" cy="356" r="30" fill="url(#pl-done)"/>
+  <path d="M 358 356 L 369 367 L 388 345" fill="none" stroke="#0E1426" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Progression arrow: card advancing between columns -->
+  <path d="M 184 286 H 212" fill="none" stroke="#7C8AB8" stroke-width="9" stroke-linecap="round"/>
+  <path d="M 200 274 L 216 286 L 200 298" fill="none" stroke="#7C8AB8" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
