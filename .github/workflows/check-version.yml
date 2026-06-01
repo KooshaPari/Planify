@@ -5,12 +5,11 @@ concurrency:
 
 
 on:
-
-
-timeout-minutes: 30
   pull_request:
     branches:
       - master
+
+timeout-minutes: 30
 
 jobs:
   check-version:

@@ -143,6 +143,7 @@ export default observer(function AgentsPage() {
         <CreateAgentModal
           workspaceSlug={workspaceSlug}
           onClose={() => setShowCreateModal(false)}
+          onSuccess={fetchAgents}
         />
       )}
     </>

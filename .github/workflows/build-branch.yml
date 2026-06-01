@@ -1,8 +1,6 @@
 name: Branch Build CE
 
 on:
-
-timeout-minutes: 30
   workflow_dispatch:
     inputs:
       build_type:
@@ -36,6 +34,8 @@ timeout-minutes: 30
     branches:
       - preview
       - canary
+
+timeout-minutes: 30
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
