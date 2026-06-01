@@ -13,7 +13,7 @@
 "use client";
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { IUser } from "@plane/types";
+import type { IUser } from "@plane/types";
 
 // ============================================================================
 // Types
@@ -59,10 +59,6 @@ function setAuthKitTokens(tokens: AuthKitTokens): void {
 
 function clearAuthKitTokens(): void {
   _accessToken = null;
-}
-
-function getAuthKitAccessToken(): string | null {
-  return _accessToken;
 }
 
 // ============================================================================
@@ -112,11 +108,7 @@ export function AuthKitProvider({ children }: { children: React.ReactNode }) {
 
   const refreshSession = useCallback(async () => {
     try {
-      const data = await authKitFetch<{ user: AuthKitUser }>(
-        "/auth/me",
-        {},
-        _accessToken
-      );
+      const data = await authKitFetch<{ user: AuthKitUser }>("/auth/me", {}, _accessToken);
       setSession({ user: data.user, isAuthenticated: true, isLoading: false });
     } catch {
       setSession({ user: null, isAuthenticated: false, isLoading: false });
@@ -131,10 +123,10 @@ export function AuthKitProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = useCallback(async (email: string, password: string) => {
     try {
-      const data = await authKitFetch<{ user: AuthKitUser; tokens: AuthKitTokens }>(
-        "/auth/sign-in",
-        { method: "POST", body: JSON.stringify({ email, password }) }
-      );
+      const data = await authKitFetch<{ user: AuthKitUser; tokens: AuthKitTokens }>("/auth/sign-in", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
       setAuthKitTokens(data.tokens);
       setSession({ user: data.user, isAuthenticated: true, isLoading: false });
       return { success: true };
