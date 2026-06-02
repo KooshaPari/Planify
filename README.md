@@ -1,3 +1,6 @@
+> **Work state:** MAINTENANCE · **Progress:** `██████░░░░ 60%`
+> Phenotype's Plane.so fork (full web/admin/api/space/live apps); frontend candidate #2. Tracks upstream + Phenotype governance overlay; minimal Phenotype-specific product divergence yet. · updated 2026-06-02
+
 <br /><br />
 
 <p align="center">
