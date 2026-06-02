@@ -7,8 +7,10 @@ import django.db.models.deletion
 import plane.db.models.exporter
 import plane.db.models.project
 import uuid
-import random
 import string
+import secrets
+
+_secure_random = secrets.SystemRandom()
 
 
 def generate_display_name(apps, schema_editor):
@@ -18,7 +20,7 @@ def generate_display_name(apps, schema_editor):
         obj.display_name = (
             obj.email.split("@")[0]
             if len(obj.email.split("@"))
-            else "".join(random.choice(string.ascii_letters) for _ in range(6))
+            else "".join(_secure_random.choice(string.ascii_letters) for _ in range(6))
         )
         updated_users.append(obj)
     UserModel.objects.bulk_update(
@@ -100,7 +102,7 @@ def random_cycle_order(apps, schema_editor):
     CycleModel = apps.get_model("db", "Cycle")
     updated_cycles = []
     for obj in CycleModel.objects.all():
-        obj.sort_order = random.randint(1, 65536)
+        obj.sort_order = _secure_random.randint(1, 65536)
         updated_cycles.append(obj)
     CycleModel.objects.bulk_update(
         updated_cycles, ["sort_order"], batch_size=100
@@ -111,7 +113,7 @@ def random_module_order(apps, schema_editor):
     ModuleModel = apps.get_model("db", "Module")
     updated_modules = []
     for obj in ModuleModel.objects.all():
-        obj.sort_order = random.randint(1, 65536)
+        obj.sort_order = _secure_random.randint(1, 65536)
         updated_modules.append(obj)
     ModuleModel.objects.bulk_update(
         updated_modules, ["sort_order"], batch_size=100

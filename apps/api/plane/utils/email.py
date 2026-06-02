@@ -28,13 +28,20 @@ def generate_plain_text_from_html(html_content):
         str: Clean plain text without HTML tags, styles, or excessive whitespace
     """
     # Remove style tags and their content
-    html_content = re.sub(r"<style[^>]*>.*?</style>", "", html_content, flags=re.DOTALL | re.IGNORECASE)
+    style_open = html_content.lower().find("<style")
+    while style_open != -1:
+        style_close = html_content.lower().find("</style>", style_open)
+        if style_close == -1:
+            break
+        html_content = html_content[:style_open] + html_content[style_close + len("</style>") :]
+        style_open = html_content.lower().find("<style")
 
     # Strip HTML tags
     text_content = strip_tags(html_content)
 
     # Remove excessive empty lines
-    text_content = re.sub(r"\n\s*\n\s*\n+", "\n\n", text_content)
+    while "\n\n\n" in text_content:
+        text_content = text_content.replace("\n\n\n", "\n\n")
 
     # Ensure there's a leading and trailing whitespace
     text_content = "\n\n" + text_content.lstrip().rstrip() + "\n\n"

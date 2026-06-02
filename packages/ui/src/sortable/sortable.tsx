@@ -62,6 +62,12 @@ const moveItem = <T,>(
   };
 };
 
+const getSecureRandomSuffix = () => {
+  const randomValues = new Uint32Array(1);
+  crypto.getRandomValues(randomValues);
+  return randomValues[0].toString(36);
+};
+
 export function Sortable<T>({ data, render, onChange, keyExtractor, containerClassName, id }: Props<T>) {
   useEffect(() => {
     const unsubscribe = monitorForElements({
@@ -86,7 +92,7 @@ export function Sortable<T>({ data, render, onChange, keyExtractor, containerCla
   }, [data, keyExtractor, onChange]);
 
   const enhancedData = useMemo(() => {
-    const uuid = id ? id : Math.random().toString(36).substring(7);
+    const uuid = id ? id : `${getSecureRandomSuffix()}`;
     return data.map((item) => ({ ...item, __uuid__: uuid }));
   }, [data, id]);
 

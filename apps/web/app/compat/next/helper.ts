@@ -12,7 +12,9 @@
 export function ensureTrailingSlash(url: string): string {
   try {
     const fallbackBaseUrl =
-      typeof window !== "undefined" && window.location.origin ? window.location.origin : "http://dummy.com";
+      typeof window !== "undefined" && window.location.origin
+        ? window.location.origin
+        : "https://dummy.local";
     // Handle relative URLs by creating a URL object with a fallback base URL
     const urlObj = new URL(url, fallbackBaseUrl);
 

@@ -5,9 +5,12 @@
 import random
 import string
 
+import secrets
+
 
 def get_random_color():
     """
     Get a random color in hex format
     """
-    return "#" + "".join(random.choices(string.hexdigits, k=6))
+    secure_random = secrets.SystemRandom()
+    return "#" + "".join(secure_random.choice("0123456789abcdef") for _ in range(6))

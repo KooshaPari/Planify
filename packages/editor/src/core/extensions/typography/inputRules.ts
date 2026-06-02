@@ -108,7 +108,7 @@ export const raquo = (override?: string) =>
 
 export const multiplication = (override?: string) =>
   textInputRule({
-    find: /\d+\s?([*x])\s?\d+$/,
+    find: /^\d+\s*[xX*]\s*\d+$/,
     replace: override ?? "×",
   });
 

@@ -54,10 +54,16 @@ export const truncateText = (str: string, length: number) => {
  * createSimilarString("hello") // might return "olleh" or "lehol"
  */
 export const createSimilarString = (str: string) => {
-  const shuffled = str
-    .split("")
-    .sort(() => Math.random() - 0.5)
-    .join("");
+  const chars = str.split("");
+
+  for (let index = chars.length - 1; index > 0; index--) {
+    const randomValues = new Uint32Array(1);
+    crypto.getRandomValues(randomValues);
+    const swapIndex = Math.floor((randomValues[0] / (0x100000000 + 1)) * (index + 1));
+    [chars[index], chars[swapIndex]] = [chars[swapIndex], chars[index]];
+  }
+
+  const shuffled = chars.join("");
 
   return shuffled;
 };

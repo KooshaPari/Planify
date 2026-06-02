@@ -15,7 +15,7 @@ FROM base AS builder
 
 RUN pnpm add -g turbo@2.9.4
 
-COPY . .
+COPY . /app
 
 # Create a pruned workspace for just the space app
 RUN turbo prune --scope=space --docker
@@ -83,6 +83,7 @@ COPY --from=installer /app/apps/space/node_modules ./apps/space/node_modules
 COPY --from=installer /app/node_modules ./node_modules
 
 WORKDIR /app/apps/space
+USER node
 
 EXPOSE 3000
 

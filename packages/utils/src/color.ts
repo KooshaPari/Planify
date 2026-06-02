@@ -285,7 +285,10 @@ export function generateIconColors(color: string) {
 export const generateRandomColor = (input: string): THsl => {
   // If input is falsy, generate a random seed string.
   // The random seed is created by converting a random number to base-36 and taking a substring.
-  const seed = input || Math.random().toString(36).substring(2, 8);
+  const randomValues = new Uint32Array(1);
+  crypto.getRandomValues(randomValues);
+  const fallbackSeed = input ? "" : Math.floor((randomValues[0] / (0x100000000 + 1)) * 1e12).toString(36);
+  const seed = input || fallbackSeed;
 
   const uniqueId = seed.length.toString() + seed; // Unique identifier based on string length
   const combinedString = uniqueId + seed;

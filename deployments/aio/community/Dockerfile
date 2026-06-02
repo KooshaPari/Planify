@@ -59,8 +59,11 @@ RUN mkdir -p /app/logs/access && \
     mkdir -p /app/data && \
     chmod +x /app/start.sh
 
+RUN addgroup -S app && adduser -S app -G app && chown -R app:app /app
+
 VOLUME ['/app/data', '/app/logs']
 
 EXPOSE 80 443
 
+USER app
 CMD ["/app/start.sh"] 

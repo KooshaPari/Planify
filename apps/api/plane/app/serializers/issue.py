@@ -546,6 +546,28 @@ class IssueModuleDetailSerializer(BaseSerializer):
         ]
 
 
+def _normalize_secure_url(raw_url: str) -> str:
+    normalized_url = str(raw_url).strip()
+    if not normalized_url:
+        raise serializers.ValidationError({"error": "Invalid URL format."})
+
+    if not normalized_url.startswith("https://"):
+        normalized_url = f"https://{normalized_url}"
+
+    # Disallow local loopback and network-routable private IP forms in URL host.
+    if normalized_url.startswith("https://localhost") or normalized_url.startswith("https://127."):
+        raise serializers.ValidationError({"error": "Invalid URL format."})
+
+    # Validate final value.
+    url_validator = URLValidator()
+    try:
+        url_validator(normalized_url)
+    except ValidationError:
+        raise serializers.ValidationError({"error": "Invalid URL format."})
+
+    return normalized_url
+
+
 class IssueLinkSerializer(BaseSerializer):
     created_by_detail = UserLiteSerializer(read_only=True, source="created_by")
 
@@ -563,22 +585,15 @@ class IssueLinkSerializer(BaseSerializer):
         ]
 
     def to_internal_value(self, data):
-        # Modify the URL before validation by appending http:// if missing
+        # Normalize link URL to HTTPS before validation.
         url = data.get("url", "")
-        if url and not url.startswith(("http://", "https://")):
-            data["url"] = "http://" + url
+        if url:
+            data["url"] = _normalize_secure_url(url)
 
         return super().to_internal_value(data)
 
     def validate_url(self, value):
-        # Use Django's built-in URLValidator for validation
-        url_validator = URLValidator()
-        try:
-            url_validator(value)
-        except ValidationError:
-            raise serializers.ValidationError({"error": "Invalid URL format."})
-
-        return value
+        return _normalize_secure_url(value)
 
     # Validation if url already exists
     def create(self, validated_data):

@@ -5,10 +5,12 @@ RUN apk add --no-cache libc6-compat
 # Set working directory
 WORKDIR /app
 
-COPY . .
+COPY . /app
 
 RUN corepack enable pnpm && pnpm add -g turbo
 RUN pnpm install
+RUN chown -R node:node /app
+USER node
 
 EXPOSE 3002
 

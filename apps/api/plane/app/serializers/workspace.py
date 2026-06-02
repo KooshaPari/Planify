@@ -143,6 +143,26 @@ class WorkspaceUserPropertiesSerializer(BaseSerializer):
         read_only_fields = ["workspace", "user"]
 
 
+def _normalize_secure_url(raw_url: str) -> str:
+    normalized_url = str(raw_url).strip()
+    if not normalized_url:
+        raise serializers.ValidationError({"error": "Invalid URL format."})
+
+    if not normalized_url.startswith("https://"):
+        normalized_url = f"https://{normalized_url}"
+
+    if normalized_url.startswith("https://localhost") or normalized_url.startswith("https://127."):
+        raise serializers.ValidationError({"error": "Invalid URL format."})
+
+    url_validator = URLValidator()
+    try:
+        url_validator(normalized_url)
+    except ValidationError:
+        raise serializers.ValidationError({"error": "Invalid URL format."})
+
+    return normalized_url
+
+
 class WorkspaceUserLinkSerializer(BaseSerializer):
     class Meta:
         model = WorkspaceUserLink
@@ -151,19 +171,13 @@ class WorkspaceUserLinkSerializer(BaseSerializer):
 
     def to_internal_value(self, data):
         url = data.get("url", "")
-        if url and not url.startswith(("http://", "https://")):
-            data["url"] = "http://" + url
+        if url:
+            data["url"] = _normalize_secure_url(url)
 
         return super().to_internal_value(data)
 
     def validate_url(self, value):
-        url_validator = URLValidator()
-        try:
-            url_validator(value)
-        except ValidationError:
-            raise serializers.ValidationError({"error": "Invalid URL format."})
-
-        return value
+        return _normalize_secure_url(value)
 
     def create(self, validated_data):
         # Filtering the WorkspaceUserLink with the given url to check if the link already exists.

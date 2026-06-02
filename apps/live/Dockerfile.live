@@ -17,7 +17,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ARG TURBO_VERSION=2.9.4
 RUN corepack enable pnpm && pnpm add -g turbo@${TURBO_VERSION}
-COPY . .
+COPY . /app
 RUN turbo prune --scope=live --docker
 
 # *****************************************************************************
@@ -63,5 +63,6 @@ COPY --from=installer /app/apps/live/package.json ./apps/live/package.json
 ENV TURBO_TELEMETRY_DISABLED=1
 
 EXPOSE 3000
+USER node
 
 CMD ["node", "apps/live"]

@@ -5,7 +5,9 @@ from django.db import migrations, models
 import django.db.models.deletion
 import plane.db.models.issue
 import uuid
-import random
+import secrets
+
+_secure_random = secrets.SystemRandom()
 
 
 def random_sort_ordering(apps, schema_editor):
@@ -13,7 +15,7 @@ def random_sort_ordering(apps, schema_editor):
 
     bulk_labels = []
     for label in Label.objects.all():
-        label.sort_order = random.randint(0, 65535)
+        label.sort_order = _secure_random.randint(0, 65535)
         bulk_labels.append(label)
 
     Label.objects.bulk_update(bulk_labels, ["sort_order"], batch_size=1000)

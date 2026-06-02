@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
-import random
+import secrets
 import string
 import json
 
@@ -26,9 +26,12 @@ from plane.utils.cache import invalidate_cache
 from plane.bgtasks.issue_activities_task import issue_activity
 
 
+_secure_random = secrets.SystemRandom()
+
+
 def generate_random_name(length=10):
     letters = string.ascii_lowercase
-    return "".join(random.choice(letters) for i in range(length))
+    return "".join(_secure_random.choice(letters) for i in range(length))
 
 
 class ProjectEstimatePointEndpoint(BaseAPIView):

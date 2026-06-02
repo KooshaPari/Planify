@@ -3,7 +3,7 @@
 # See the LICENSE file for details.
 
 # Third party imports
-import random
+import secrets
 from rest_framework import serializers
 
 
@@ -146,8 +146,8 @@ class ProjectCreateSerializer(BaseSerializer):
             validated_data["logo_props"] = {
                 "in_use": "icon",
                 "icon": {
-                    "name": random.choice(self.PROJECT_ICON_DEFAULT_ICONS),
-                    "color": random.choice(self.PROJECT_ICON_DEFAULT_COLORS),
+                    "name": secrets.choice(self.PROJECT_ICON_DEFAULT_ICONS),
+                    "color": secrets.choice(self.PROJECT_ICON_DEFAULT_COLORS),
                 },
             }
 

@@ -86,4 +86,12 @@ export const groupReactions: (reactions: any[], key: string) => { [key: string]:
  * Returns a random emoji code from the RANDOM_EMOJI_CODES array
  * @returns {string} A random emoji code
  */
-export const getRandomEmoji = (): string => RANDOM_EMOJI_CODES[Math.floor(Math.random() * RANDOM_EMOJI_CODES.length)];
+export const getRandomEmoji = (): string => RANDOM_EMOJI_CODES[getRandomEmojiIndex()];
+
+const getRandomEmojiIndex = () => {
+  const randomValues = new Uint32Array(1);
+  crypto.getRandomValues(randomValues);
+  return Math.floor((randomValues[0] / (0x100000000 + 1)) * RANDOM_EMOJI_CODES.length);
+};
+
+export const getSecureRandomEmoji = (): string => RANDOM_EMOJI_CODES[getRandomEmojiIndex()];

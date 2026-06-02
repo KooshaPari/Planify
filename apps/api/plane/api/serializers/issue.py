@@ -388,6 +388,27 @@ class LabelSerializer(BaseSerializer):
         ]
 
 
+def _normalize_secure_url(raw_url: str) -> str:
+    normalized_url = str(raw_url).strip()
+    if not normalized_url:
+        raise serializers.ValidationError("Invalid URL scheme.")
+
+    if not normalized_url.startswith("https://"):
+        normalized_url = f"https://{normalized_url}"
+
+    # Disallow localhost targets for issue links.
+    if normalized_url.startswith("https://localhost") or normalized_url.startswith("https://127."):
+        raise serializers.ValidationError("Invalid URL scheme.")
+
+    validate_url = URLValidator()
+    try:
+        validate_url(normalized_url)
+    except ValidationError:
+        raise serializers.ValidationError("Invalid URL scheme.")
+
+    return normalized_url
+
+
 class IssueLinkCreateSerializer(BaseSerializer):
     """
     Serializer for creating work item external links with validation.
@@ -411,18 +432,7 @@ class IssueLinkCreateSerializer(BaseSerializer):
         ]
 
     def validate_url(self, value):
-        # Check URL format
-        validate_url = URLValidator()
-        try:
-            validate_url(value)
-        except ValidationError:
-            raise serializers.ValidationError("Invalid URL format.")
-
-        # Check URL scheme
-        if not value.startswith(("http://", "https://")):
-            raise serializers.ValidationError("Invalid URL scheme.")
-
-        return value
+        return _normalize_secure_url(value)
 
     # Validation if url already exists
     def create(self, validated_data):

@@ -147,6 +147,12 @@ export const Loading: Story = {
   },
 };
 
+const getRandomState = () => {
+  const randomValues = new Uint32Array(1);
+  crypto.getRandomValues(randomValues);
+  return randomValues[0] % 100;
+};
+
 export const WithActionItems: Story = {
   render() {
     return (
@@ -211,7 +217,7 @@ export const PromiseToast: Story = {
     const handlePromise = () => {
       const promise = new Promise<{ name?: string; error?: string }>((resolve, reject) => {
         setTimeout(() => {
-          Math.random() > 0.5 ? resolve({ name: "Success data" }) : reject({ error: "Failed" });
+          getRandomState() % 2 === 0 ? resolve({ name: "Success data" }) : reject({ error: "Failed" });
         }, 2000);
       });
 

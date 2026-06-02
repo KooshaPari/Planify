@@ -83,6 +83,13 @@ export const DEFAULT_COVER_IMAGE_URL = STATIC_COVER_IMAGES.IMAGE_1;
  * Set of static image URLs for fast O(1) lookup
  */
 const STATIC_COVER_IMAGES_SET = new Set<string>(Object.values(STATIC_COVER_IMAGES));
+const coverImageValues = Object.values(STATIC_COVER_IMAGES);
+
+const getRandomImageIndex = (length: number) => {
+  const randomValues = new Uint32Array(1);
+  crypto.getRandomValues(randomValues);
+  return Math.floor((randomValues[0] / (0x100000000 + 1)) * length);
+};
 
 export type TCoverImageType = "local_static" | "uploaded_asset" | "unsplash";
 
@@ -284,4 +291,4 @@ export const handleCoverImageChange = async (
  * @returns {string} A random cover image URL
  */
 export const getRandomCoverImage = (): string =>
-  Object.values(STATIC_COVER_IMAGES)[Math.floor(Math.random() * Object.keys(STATIC_COVER_IMAGES).length)];
+  coverImageValues[getRandomImageIndex(coverImageValues.length)];

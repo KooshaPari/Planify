@@ -17,7 +17,12 @@ export const LABEL_COLOR_OPTIONS = [
   "#9900EF",
 ];
 
+const getRandomColorIndex = (length: number) => {
+  const randomValues = new Uint32Array(1);
+  crypto.getRandomValues(randomValues);
+  return Math.floor((randomValues[0] / (0x100000000 + 1)) * length);
+};
+
 export const getRandomLabelColor = () => {
-  const randomIndex = Math.floor(Math.random() * LABEL_COLOR_OPTIONS.length);
-  return LABEL_COLOR_OPTIONS[randomIndex];
+  return LABEL_COLOR_OPTIONS[getRandomColorIndex(LABEL_COLOR_OPTIONS.length)];
 };

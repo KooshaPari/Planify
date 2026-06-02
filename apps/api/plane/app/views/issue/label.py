@@ -3,7 +3,9 @@
 # See the LICENSE file for details.
 
 # Python imports
-import random
+import secrets
+
+_secure_random = secrets.SystemRandom()
 
 # Django imports
 from django.db import IntegrityError
@@ -99,7 +101,7 @@ class BulkCreateIssueLabelsEndpoint(BaseAPIView):
                 Label(
                     name=label.get("name", "Migrated"),
                     description=label.get("description", "Migrated Issue"),
-                    color=f"#{random.randint(0, 0xFFFFFF + 1):06X}",
+                    color=f"#{_secure_random.randint(0, 0xFFFFFF):06X}",
                     project_id=project_id,
                     workspace_id=project.workspace_id,
                     created_by=request.user,

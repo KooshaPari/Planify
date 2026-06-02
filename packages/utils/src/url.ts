@@ -9,15 +9,11 @@ import tlds from "./tlds";
 const PROTOCOL_REGEX = /^[a-zA-Z]+:\/\//;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const LOCALHOST_ADDRESSES = ["localhost", "127.0.0.1", "0.0.0.0"];
-const HTTP_PROTOCOL = "http://";
+const HTTPS_PROTOCOL = "https://";
 const MAILTO_PROTOCOL = "mailto:";
-const DEFAULT_PROTOCOL = HTTP_PROTOCOL;
+const DEFAULT_PROTOCOL = HTTPS_PROTOCOL;
 // IPv4 regex - matches 0.0.0.0 to 255.255.255.255
 const IPV4_REGEX = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-// IPv6 regex - comprehensive pattern for all IPv6 formats
-const IPV6_REGEX =
-  /^(?:(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,7}:|(?:[0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,5}(?::[0-9a-fA-F]{1,4}){1,2}|(?:[0-9a-fA-F]{1,4}:){1,4}(?::[0-9a-fA-F]{1,4}){1,3}|(?:[0-9a-fA-F]{1,4}:){1,3}(?::[0-9a-fA-F]{1,4}){1,4}|(?:[0-9a-fA-F]{1,4}:){1,2}(?::[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:(?::[0-9a-fA-F]{1,4}){1,6}|:(?::[0-9a-fA-F]{1,4}){1,7}|::|fe80:(?::[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(?:ffff(?::0{1,4}){0,1}:){0,1}(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])|(?:[0-9a-fA-F]{1,4}:){1,4}:(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/;
-
 /**
  * Checks if a string is a valid IPv4 address
  * @param ip - String to validate as IPv4
@@ -39,7 +35,12 @@ export function isValidIPv6(ip: string): boolean {
   // Remove brackets if present (for URL format like [::1])
   const cleanIP = ip.replace(/^\[|\]$/g, "");
 
-  return IPV6_REGEX.test(cleanIP);
+  try {
+    const normalized = new URL(`${DEFAULT_PROTOCOL}[${cleanIP}]`);
+    return normalized.hostname.toLowerCase() === cleanIP.toLowerCase();
+  } catch (_error) {
+    return false;
+  }
 }
 
 /**
@@ -245,7 +246,7 @@ export function extractURLComponents(url: URL | string): IURLComponents | undefi
   const urlLower = url.toLowerCase();
 
   try {
-    // 1. Handle web URLs with protocols (including mailto, http, https, ftp, etc.)
+    // 1. Handle web URLs with protocols (including mailto, https, etc.).
     if (PROTOCOL_REGEX.test(urlLower) || urlLower.startsWith(MAILTO_PROTOCOL)) {
       return processURL(new URL(url));
     }

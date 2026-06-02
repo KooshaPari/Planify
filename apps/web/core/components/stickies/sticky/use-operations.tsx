@@ -33,7 +33,9 @@ type TProps = {
 };
 
 export const getRandomStickyColor = (): string => {
-  const randomIndex = Math.floor(Math.random() * STICKY_COLORS_LIST.length);
+  const randomValues = new Uint32Array(1);
+  crypto.getRandomValues(randomValues);
+  const randomIndex = Math.floor((randomValues[0] / (0x100000000 + 1)) * STICKY_COLORS_LIST.length);
   return STICKY_COLORS_LIST[randomIndex].key;
 };
 

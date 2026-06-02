@@ -15,7 +15,7 @@ FROM base AS builder
 
 RUN pnpm add -g turbo@2.9.4
 
-COPY . .
+COPY . /app
 
 # Create a pruned workspace for just the admin app
 RUN turbo prune --scope=admin --docker
@@ -79,6 +79,7 @@ FROM nginx:1.29-alpine AS production
 
 COPY apps/admin/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=installer /app/apps/admin/build/client /usr/share/nginx/html/god-mode
+USER nginx
 
 EXPOSE 3000
 

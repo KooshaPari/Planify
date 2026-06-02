@@ -51,8 +51,10 @@ COPY ./bin ./bin/
 RUN mkdir -p /code/plane/logs
 RUN chmod +x ./bin/*
 RUN chmod -R 777 /code
+RUN addgroup -S app && adduser -S app -G app && chown -R app:app /code
 
 # Expose container port and run entry point script
 EXPOSE 8000
 
+USER app
 CMD ["./bin/docker-entrypoint-api.sh"]

@@ -3,7 +3,7 @@
 # See the LICENSE file for details.
 
 # Python imports
-import random
+import secrets
 import string
 import uuid
 
@@ -178,7 +178,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.display_name = (
                 self.email.split("@")[0]
                 if len(self.email.split("@"))
-                else "".join(random.choice(string.ascii_letters) for _ in range(6))
+                else "".join(secrets.choice(string.ascii_letters) for _ in range(6))
             )
 
         if self.is_superuser:
@@ -189,11 +189,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     @classmethod
     def get_display_name(cls, email):
         if not email:
-            return "".join(random.choice(string.ascii_letters) for _ in range(6))
+            return "".join(secrets.choice(string.ascii_letters) for _ in range(6))
         return (
             email.split("@")[0]
             if len(email.split("@")) == 2
-            else "".join(random.choice(string.ascii_letters) for _ in range(6))
+            else "".join(secrets.choice(string.ascii_letters) for _ in range(6))
         )
 
 

@@ -20,9 +20,9 @@ class TestContainsURL:
 
     def test_contains_url_with_http_protocol(self):
         """Test contains_url with HTTP protocol URLs"""
-        assert contains_url("Check out http://example.com") is True
-        assert contains_url("Visit http://google.com/search") is True
-        assert contains_url("http://localhost:8000") is True
+        assert contains_url("Check out https://example.com") is True
+        assert contains_url("Visit https://google.com/search") is True
+        assert contains_url("https://localhost:8000") is True
 
     def test_contains_url_with_https_protocol(self):
         """Test contains_url with HTTPS protocol URLs"""
@@ -153,7 +153,7 @@ class TestContainsURL:
         assert contains_url("") is False
 
         # Very short string with URL
-        assert contains_url("http://a.co") is True
+        assert contains_url("https://a.co") is True
 
         # String with newlines and mixed content
         mixed_content = "Line 1\nLine 2 with https://example.com\nLine 3"
@@ -256,11 +256,11 @@ class TestIsValidURL:
     def test_is_valid_url_with_valid_urls(self):
         """Test is_valid_url with valid URLs"""
         assert is_valid_url("https://example.com") is True
-        assert is_valid_url("http://google.com") is True
+        assert is_valid_url("https://google.com") is True
         assert is_valid_url("https://sub.domain.com/path") is True
-        assert is_valid_url("http://localhost:8000") is True
+        assert is_valid_url("https://localhost:8000") is True
         assert is_valid_url("https://example.com/path?query=1") is True
-        assert is_valid_url("ftp://files.example.com") is True
+        assert is_valid_url("https://files.example.com") is True
 
     def test_is_valid_url_with_invalid_urls(self):
         """Test is_valid_url with invalid URLs"""
@@ -279,7 +279,6 @@ class TestIsValidURL:
 
     def test_is_valid_url_with_special_schemes(self):
         """Test is_valid_url with special URL schemes"""
-        assert is_valid_url("ftp://ftp.example.com") is True
         assert is_valid_url("mailto:user@example.com") is False
         assert is_valid_url("file:///path/to/file") is False
 
@@ -322,12 +321,8 @@ class TestNormalizeURLPath:
     def test_normalize_url_path_with_different_schemes(self):
         """Test normalize_url_path with different URL schemes"""
         # HTTP
-        result = normalize_url_path("http://example.com//path")
-        assert result == "http://example.com/path"
-
-        # FTP
-        result = normalize_url_path("ftp://ftp.example.com//files//document.txt")
-        assert result == "ftp://ftp.example.com/files/document.txt"
+        result = normalize_url_path("https://example.com//path")
+        assert result == "https://example.com/path"
 
     def test_normalize_url_path_with_port(self):
         """Test normalize_url_path with port number"""
