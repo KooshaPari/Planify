@@ -1,0 +1,76 @@
+# =============================================================================
+# Doppler Configuration for Plane
+# =============================================================================
+#
+# Setup:
+#   1. Install Doppler CLI: brew install dopplerhq/cli/doppler
+#   2. Login: doppler login
+#   3. Setup project: doppler setup --project plane --config doppler.yaml
+#   4. Import secrets from your vault/bitwarden
+#
+# Usage:
+#   Development:  doppler run -- bun --filter=web dev --port 3000
+#   Django API:  doppler run -- python manage.py runserver
+#   Tests:        doppler run -- pytest
+#
+# The .env file is NEVER committed. Doppler injects secrets at runtime.
+# =============================================================================
+
+setup:
+  project: "plane"
+  environment: "dev"
+
+vars:
+  # Web app
+  WEB_URL: "http://localhost:3000"
+  ADMIN_URL: "http://localhost:3001"
+
+  # API
+  API_URL: "http://localhost:8000"
+
+  # CORS
+  CORS_ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:3001"
+
+  # Debug
+  DEBUG: "1"
+  IS_VAPTAG: "0"
+
+secrets:
+  # Django
+  SECRET_KEY: null          # REQUIRED: Generate with: openssl rand -hex 64
+  DJANGO_SETTINGS_MODULE: "plane.settings.local"
+
+  # Database
+  DATABASE_URL: null        # REQUIRED: postgresql://user:password@host:5432/plane
+  POSTGRES_DB: "plane"
+  POSTGRES_HOST: "localhost"
+  POSTGRES_PORT: "5432"
+  POSTGRES_USER: "plane"
+  POSTGRES_PASSWORD: null   # REQUIRED
+
+  # Redis
+  REDIS_URL: "redis://localhost:6379"
+  REDIS_HOST: "localhost"
+  REDIS_PORT: "6379"
+
+  # AWS / S3
+  AWS_REGION: "us-east-1"
+  AWS_ACCESS_KEY_ID: null   # REQUIRED if using S3
+  AWS_SECRET_ACCESS_KEY: null
+  AWS_S3_ENDPOINT_URL: "http://localhost:9000"
+  AWS_S3_BUCKET_NAME: "uploads"
+
+  # RabbitMQ
+  RABBITMQ_HOST: "localhost"
+  RABBITMQ_PORT: "5672"
+  RABBITMQ_USER: "plane"
+  RABBITMQ_PASSWORD: null   # REQUIRED
+  RABBITMQ_VHOST: "/"
+
+  # Auth
+  JWT_SECRET: null         # REQUIRED
+  AUTH_SECRET: null        # REQUIRED
+
+  # Optional services
+  SENTRY_DSN: null          # Sentry error tracking
+  POSTHOG_API_KEY: null
