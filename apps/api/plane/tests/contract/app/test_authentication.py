@@ -3,6 +3,7 @@
 # See the LICENSE file for details.
 
 import json
+import secrets
 import uuid
 import pytest
 from django.urls import reverse
@@ -15,6 +16,9 @@ from unittest.mock import patch
 from plane.db.models import User
 from plane.settings.redis import redis_instance
 from plane.license.models import Instance
+
+SYNTHETIC_TEST_PASSWORD = secrets.token_hex(16)
+SYNTHETIC_WRONG_PASSWORD = secrets.token_hex(16)
 
 
 @pytest.fixture
@@ -52,7 +56,7 @@ class TestMagicLinkGenerate:
     def setup_user(self, db):
         """Create a test user for magic link tests"""
         user = User.objects.create(email="user@plane.so")
-        user.set_password("user@123")
+        user.set_password(SYNTHETIC_TEST_PASSWORD)
         user.save()
         return user
 
@@ -124,7 +128,7 @@ class TestSignInEndpoint:
     def setup_user(self, db):
         """Create a test user for authentication tests"""
         user = User.objects.create(email="user@plane.so")
-        user.set_password("user@123")
+        user.set_password(SYNTHETIC_TEST_PASSWORD)
         user.save()
         return user
 
@@ -141,7 +145,7 @@ class TestSignInEndpoint:
     def test_email_validity(self, django_client, setup_user, setup_instance):
         """Test sign-in with invalid email format"""
         url = reverse("sign-in")
-        response = django_client.post(url, {"email": "useremail.com", "password": "user@123"}, follow=True)
+        response = django_client.post(url, {"email": "useremail.com", "password": SYNTHETIC_TEST_PASSWORD}, follow=True)
 
         # Check redirect contains error code
         assert "INVALID_EMAIL_SIGN_IN" in response.redirect_chain[-1][0]
@@ -150,7 +154,7 @@ class TestSignInEndpoint:
     def test_user_exists(self, django_client, setup_user, setup_instance):
         """Test sign-in with non-existent user"""
         url = reverse("sign-in")
-        response = django_client.post(url, {"email": "user@email.so", "password": "user123"}, follow=True)
+        response = django_client.post(url, {"email": "user@email.so", "password": SYNTHETIC_WRONG_PASSWORD}, follow=True)
 
         # Check redirect contains error code
         assert "USER_DOES_NOT_EXIST" in response.redirect_chain[-1][0]
@@ -159,7 +163,7 @@ class TestSignInEndpoint:
     def test_password_validity(self, django_client, setup_user, setup_instance):
         """Test sign-in with incorrect password"""
         url = reverse("sign-in")
-        response = django_client.post(url, {"email": "user@plane.so", "password": "user123"}, follow=True)
+        response = django_client.post(url, {"email": "user@plane.so", "password": SYNTHETIC_WRONG_PASSWORD}, follow=True)
 
         # Check for the specific authentication error in the URL
         redirect_urls = [url for url, _ in response.redirect_chain]
@@ -174,7 +178,7 @@ class TestSignInEndpoint:
         url = reverse("sign-in")
 
         # First make the request without following redirects
-        response = django_client.post(url, {"email": "user@plane.so", "password": "user@123"}, follow=False)
+        response = django_client.post(url, {"email": "user@plane.so", "password": SYNTHETIC_TEST_PASSWORD}, follow=False)
 
         # Check that the initial response is a redirect (302) without error code
         assert response.status_code == 302
@@ -195,7 +199,7 @@ class TestSignInEndpoint:
         # First make the request without following redirects
         response = django_client.post(
             url,
-            {"email": "user@plane.so", "password": "user@123", "next_path": next_path},
+            {"email": "user@plane.so", "password": SYNTHETIC_TEST_PASSWORD, "next_path": next_path},
             follow=False,
         )
 
@@ -217,7 +221,7 @@ class TestMagicSignIn:
     def setup_user(self, db):
         """Create a test user for magic sign-in tests"""
         user = User.objects.create(email="user@plane.so")
-        user.set_password("user@123")
+        user.set_password(SYNTHETIC_TEST_PASSWORD)
         user.save()
         return user
 

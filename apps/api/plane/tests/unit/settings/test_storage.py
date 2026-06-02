@@ -3,9 +3,12 @@
 # See the LICENSE file for details.
 
 import os
+import secrets
 from unittest.mock import Mock, patch
 import pytest
 from plane.settings.storage import S3Storage
+
+SYNTHETIC_AWS_SECRET = secrets.token_hex(16)
 
 
 @pytest.mark.unit
@@ -55,7 +58,7 @@ class TestS3StorageSignedURLExpiration:
         os.environ,
         {
             "AWS_ACCESS_KEY_ID": "test-key",
-            "AWS_SECRET_ACCESS_KEY": "test-secret",
+            "AWS_SECRET_ACCESS_KEY": SYNTHETIC_AWS_SECRET,
             "AWS_S3_BUCKET_NAME": "test-bucket",
             "AWS_REGION": "us-east-1",
         },
@@ -87,7 +90,7 @@ class TestS3StorageSignedURLExpiration:
         os.environ,
         {
             "AWS_ACCESS_KEY_ID": "test-key",
-            "AWS_SECRET_ACCESS_KEY": "test-secret",
+            "AWS_SECRET_ACCESS_KEY": SYNTHETIC_AWS_SECRET,
             "AWS_S3_BUCKET_NAME": "test-bucket",
             "AWS_REGION": "us-east-1",
             "SIGNED_URL_EXPIRATION": "60",
@@ -120,7 +123,7 @@ class TestS3StorageSignedURLExpiration:
         os.environ,
         {
             "AWS_ACCESS_KEY_ID": "test-key",
-            "AWS_SECRET_ACCESS_KEY": "test-secret",
+            "AWS_SECRET_ACCESS_KEY": SYNTHETIC_AWS_SECRET,
             "AWS_S3_BUCKET_NAME": "test-bucket",
             "AWS_REGION": "us-east-1",
         },
@@ -149,7 +152,7 @@ class TestS3StorageSignedURLExpiration:
         os.environ,
         {
             "AWS_ACCESS_KEY_ID": "test-key",
-            "AWS_SECRET_ACCESS_KEY": "test-secret",
+            "AWS_SECRET_ACCESS_KEY": SYNTHETIC_AWS_SECRET,
             "AWS_S3_BUCKET_NAME": "test-bucket",
             "AWS_REGION": "us-east-1",
             "SIGNED_URL_EXPIRATION": "30",
@@ -179,7 +182,7 @@ class TestS3StorageSignedURLExpiration:
         os.environ,
         {
             "AWS_ACCESS_KEY_ID": "test-key",
-            "AWS_SECRET_ACCESS_KEY": "test-secret",
+            "AWS_SECRET_ACCESS_KEY": SYNTHETIC_AWS_SECRET,
             "AWS_S3_BUCKET_NAME": "test-bucket",
             "AWS_REGION": "us-east-1",
             "SIGNED_URL_EXPIRATION": "30",
