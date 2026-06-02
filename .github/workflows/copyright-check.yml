@@ -18,12 +18,11 @@ permissions:
   actions: read
 
 
-timeout-minutes: 30
-
 jobs:
     license-check:
         name: Copy Right Check
         runs-on: ubuntu-24.04
+        timeout-minutes: 30
         steps:
             - name: Checkout repository
               uses: actions/checkout@v6
