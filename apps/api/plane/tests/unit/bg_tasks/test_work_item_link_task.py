@@ -28,13 +28,13 @@ class TestValidateUrlIp:
         with patch("plane.bgtasks.work_item_link_task.socket.getaddrinfo") as mock_dns:
             mock_dns.return_value = [(None, None, None, None, ("192.168.1.1", 0))]
             with pytest.raises(ValueError, match="private/internal"):
-                validate_url_ip("http://example.com")
+                validate_url_ip("https://example.com")
 
     def test_rejects_loopback(self):
         with patch("plane.bgtasks.work_item_link_task.socket.getaddrinfo") as mock_dns:
             mock_dns.return_value = [(None, None, None, None, ("127.0.0.1", 0))]
             with pytest.raises(ValueError, match="private/internal"):
-                validate_url_ip("http://example.com")
+                validate_url_ip("https://example.com")
 
     def test_rejects_non_http_scheme(self):
         with pytest.raises(ValueError, match="Only HTTP and HTTPS"):
@@ -54,20 +54,20 @@ class TestValidateUrlAllowlist:
         allowed = [ipaddress.ip_network("192.168.1.0/24")]
         with patch("plane.utils.ip_address.socket.getaddrinfo") as mock_dns:
             mock_dns.return_value = [(None, None, None, None, ("192.168.1.50", 0))]
-            validate_url("http://example.com", allowed_ips=allowed)  # Should not raise
+            validate_url("https://example.com", allowed_ips=allowed)  # Should not raise
 
     def test_allowlist_does_not_permit_other_private_ip(self):
         allowed = [ipaddress.ip_network("192.168.1.0/24")]
         with patch("plane.utils.ip_address.socket.getaddrinfo") as mock_dns:
             mock_dns.return_value = [(None, None, None, None, ("10.0.0.1", 0))]
             with pytest.raises(ValueError, match="private/internal"):
-                validate_url("http://example.com", allowed_ips=allowed)
+                validate_url("https://example.com", allowed_ips=allowed)
 
     def test_allowlist_permits_loopback_when_explicitly_allowed(self):
         allowed = [ipaddress.ip_network("127.0.0.0/8")]
         with patch("plane.utils.ip_address.socket.getaddrinfo") as mock_dns:
             mock_dns.return_value = [(None, None, None, None, ("127.0.0.1", 0))]
-            validate_url("http://example.com", allowed_ips=allowed)  # Should not raise
+            validate_url("https://example.com", allowed_ips=allowed)  # Should not raise
 
     def test_allowlist_permits_matching_ipv4_with_mixed_version_networks(self):
         allowed = [
@@ -76,7 +76,7 @@ class TestValidateUrlAllowlist:
         ]
         with patch("plane.utils.ip_address.socket.getaddrinfo") as mock_dns:
             mock_dns.return_value = [(None, None, None, None, ("192.168.1.50", 0))]
-            validate_url("http://example.com", allowed_ips=allowed)  # Should not raise
+            validate_url("https://example.com", allowed_ips=allowed)  # Should not raise
 
     def test_allowlist_blocks_non_matching_ipv4_with_mixed_version_networks(self):
         allowed = [
@@ -86,7 +86,7 @@ class TestValidateUrlAllowlist:
         with patch("plane.utils.ip_address.socket.getaddrinfo") as mock_dns:
             mock_dns.return_value = [(None, None, None, None, ("10.0.0.1", 0))]
             with pytest.raises(ValueError, match="private/internal"):
-                validate_url("http://example.com", allowed_ips=allowed)
+                validate_url("https://example.com", allowed_ips=allowed)
 
     def test_allowed_hosts_bypasses_private_ip_check(self):
         """Hostnames in WEBHOOK_ALLOWED_HOSTS skip IP-based blocking — used for
@@ -94,13 +94,13 @@ class TestValidateUrlAllowlist:
         containerised deployments."""
         with patch("plane.utils.ip_address.socket.getaddrinfo") as mock_dns:
             mock_dns.return_value = [(None, None, None, None, ("172.18.0.5", 0))]
-            validate_url("http://silo:3000/hook", allowed_hosts=["silo"])  # Should not raise
+            validate_url("https://silo:3000/hook", allowed_hosts=["silo"])  # Should not raise
 
     def test_allowed_hosts_matches_case_insensitively(self):
         with patch("plane.utils.ip_address.socket.getaddrinfo") as mock_dns:
             mock_dns.return_value = [(None, None, None, None, ("10.0.0.1", 0))]
             validate_url(
-                "http://Silo.Namespace.Svc.Cluster.Local/x",
+                "https://Silo.Namespace.Svc.Cluster.Local/x",
                 allowed_hosts=["silo.namespace.svc.cluster.local"],
             )  # Should not raise
 
@@ -109,7 +109,7 @@ class TestValidateUrlAllowlist:
         protects against operators who allowlist a name that isn't resolvable
         from the API container."""
         with patch("plane.utils.ip_address.socket.getaddrinfo") as mock_dns:
-            validate_url("http://silo/hook", allowed_hosts=["silo"])
+            validate_url("https://silo/hook", allowed_hosts=["silo"])
             mock_dns.assert_not_called()
 
     def test_allowed_hosts_requires_exact_match(self):
@@ -120,7 +120,7 @@ class TestValidateUrlAllowlist:
             mock_dns.return_value = [(None, None, None, None, ("192.168.1.1", 0))]
             with pytest.raises(ValueError, match="private/internal"):
                 validate_url(
-                    "http://attacker.silo.internal/x",
+                    "https://attacker.silo.internal/x",
                     allowed_hosts=["silo.internal"],
                 )
 
@@ -128,7 +128,7 @@ class TestValidateUrlAllowlist:
         with patch("plane.utils.ip_address.socket.getaddrinfo") as mock_dns:
             mock_dns.return_value = [(None, None, None, None, ("10.0.0.1", 0))]
             with pytest.raises(ValueError, match="private/internal"):
-                validate_url("http://silo/hook", allowed_hosts=[])
+                validate_url("https://silo/hook", allowed_hosts=[])
 
 
 @pytest.mark.unit
@@ -173,7 +173,7 @@ class TestSafeGet:
         redirect_resp = _make_response(
             status_code=302,
             is_redirect=True,
-            headers={"Location": "http://192.168.1.1:8080"},
+            headers={"Location": "https://192.168.1.1:8080"},
         )
         mock_get.return_value = redirect_resp
         # First call (initial URL) succeeds, second call (redirect target) fails
