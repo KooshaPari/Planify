@@ -1,5 +1,5 @@
 > **Work state:** MAINTENANCE · **Progress:** `██████░░░░ 60%`
-> Phenotype's Plane.so fork (full web/admin/api/space/live apps); frontend candidate #2. Tracks upstream + Phenotype governance overlay; minimal Phenotype-specific product divergence yet. · updated 2026-06-02
+> Phenotype's Plane.so fork (full web/admin/api/space/live apps). PM frontend candidate #2 of 3 (with AgilePlus's native dashboard + Tracera) — a COMPETING candidate, NOT a duplicate; decision ~2026-06-30. Tracks upstream + Phenotype governance overlay; minimal product divergence yet. · updated 2026-06-02
 
 <br /><br />
 
