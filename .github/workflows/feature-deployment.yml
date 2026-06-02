@@ -54,6 +54,9 @@ jobs:
 
   full_build_push:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      actions: read
     needs: [branch_build_setup]
     env:
       BUILD_TYPE: full
