@@ -1,0 +1,35 @@
+name: SonarCloud
+
+# Deterministically refresh the SonarCloud baseline on every push to master
+# (and analyze every PR), rather than relying on SonarCloud server-side
+# Automatic Analysis. Automatic Analysis must be DISABLED on the project for
+# this CI-based scan to be accepted (the two modes are mutually exclusive).
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# Avoid stacking redundant scans for the same ref.
+concurrency:
+  group: sonarcloud-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sonarcloud:
+    name: SonarCloud scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history so SonarCloud can attribute new code / blame correctly.
+          fetch-depth: 0
+
+      - name: SonarCloud scan
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
