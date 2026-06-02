@@ -21,7 +21,7 @@ from plane.authentication.adapter.error import (
     AuthenticationException,
     AUTHENTICATION_ERROR_CODES,
 )
-from plane.utils.path_validator import get_safe_redirect_url
+from plane.utils.path_validator import get_safe_redirect_url, validate_next_path
 
 
 class GoogleOauthInitiateEndpoint(View):
@@ -29,7 +29,7 @@ class GoogleOauthInitiateEndpoint(View):
         request.session["host"] = base_host(request=request, is_app=True)
         next_path = request.GET.get("next_path")
         if next_path:
-            request.session["next_path"] = str(next_path)
+            request.session["next_path"] = validate_next_path(next_path)
 
         # Check instance configuration
         instance = Instance.objects.first()

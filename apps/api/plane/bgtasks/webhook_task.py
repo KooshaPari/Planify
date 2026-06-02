@@ -52,7 +52,7 @@ from plane.db.models import (
 from plane.license.utils.instance_value import get_email_configuration
 from plane.utils.email import generate_plain_text_from_html
 from plane.utils.exception_logger import log_exception
-from plane.utils.ip_address import validate_url
+from plane.utils.ip_address import safe_post, validate_url
 from plane.settings.mongo import MongoConnection
 
 
@@ -333,8 +333,15 @@ def webhook_send_task(
             allowed_hosts=settings.WEBHOOK_ALLOWED_HOSTS,
         )
 
-        # Send the webhook event
-        response = requests.post(webhook.url, headers=headers, json=payload, timeout=30)
+        # Send the webhook event (validate every redirect hop)
+        response = safe_post(
+            webhook.url,
+            allowed_ips=settings.WEBHOOK_ALLOWED_IPS,
+            allowed_hosts=settings.WEBHOOK_ALLOWED_HOSTS,
+            headers=headers,
+            json=payload,
+            timeout=30,
+        )
 
         # Log the webhook request
         save_webhook_log(

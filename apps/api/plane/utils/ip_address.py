@@ -5,7 +5,9 @@
 # Python imports
 import ipaddress
 import socket
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
+
+import requests
 
 
 def validate_url(url, allowed_ips=None, allowed_hosts=None):
@@ -57,6 +59,33 @@ def validate_url(url, allowed_ips=None, allowed_hosts=None):
             ):
                 continue
             raise ValueError("Access to private/internal networks is not allowed")
+
+
+MAX_REDIRECTS = 5
+
+
+def safe_post(url, allowed_ips=None, allowed_hosts=None, max_redirects=MAX_REDIRECTS, **kwargs):
+    """
+    POST with redirect validation on every hop to prevent SSRF via redirect chains.
+    """
+    validate_url(url, allowed_ips=allowed_ips, allowed_hosts=allowed_hosts)
+
+    current_url = url
+    redirect_count = 0
+    response = requests.post(current_url, allow_redirects=False, **kwargs)
+
+    while response.is_redirect:
+        if redirect_count >= max_redirects:
+            raise RuntimeError(f"Too many redirects for URL: {url}")
+        redirect_url = response.headers.get("Location")
+        if not redirect_url:
+            break
+        current_url = urljoin(current_url, redirect_url)
+        validate_url(current_url, allowed_ips=allowed_ips, allowed_hosts=allowed_hosts)
+        redirect_count += 1
+        response = requests.post(current_url, allow_redirects=False, **kwargs)
+
+    return response
 
 
 def get_client_ip(request):

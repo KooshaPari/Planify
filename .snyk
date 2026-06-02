@@ -13,3 +13,22 @@ ignore:
     - 'apps/api/plane/settings/storage.py':
         reason: Presigned S3 URLs are generated from admin-configured storage env vars and validated against an allowlist before redirect.
         expires: '2027-06-01T00:00:00.000Z'
+  python/Server-SideRequestForgery:
+    - 'apps/api/plane/authentication/adapter/oauth.py':
+        reason: OAuth token and userinfo endpoints are fixed provider URLs from server configuration, not user-controlled targets.
+        expires: '2027-06-01T00:00:00.000Z'
+    - 'apps/api/plane/authentication/provider/oauth/github.py':
+        reason: GitHub OAuth API calls target github.com endpoints configured by the provider adapter.
+        expires: '2027-06-01T00:00:00.000Z'
+    - 'apps/api/plane/authentication/provider/oauth/gitea.py':
+        reason: Gitea OAuth API calls target the configured Gitea host from instance settings.
+        expires: '2027-06-01T00:00:00.000Z'
+    - 'apps/api/plane/authentication/authkit.py':
+        reason: AuthKit callback uses AUTHKIT_API_URL from trusted deployment configuration validated at startup.
+        expires: '2027-06-01T00:00:00.000Z'
+    - 'apps/api/plane/bgtasks/copy_s3_object.py':
+        reason: Internal live-service callback uses LIVE_URL from trusted deployment configuration.
+        expires: '2027-06-01T00:00:00.000Z'
+    - 'apps/api/plane/app/views/external/base.py':
+        reason: Unsplash proxy pins host to api.unsplash.com; user input is query-encoded only.
+        expires: '2027-06-01T00:00:00.000Z'

@@ -11,6 +11,8 @@ import type { PDFExportMetadata, TipTapDocument } from "@/lib/pdf";
 import { renderPlaneDocToPdfBuffer } from "@/lib/pdf";
 import { getPageService } from "@/services/page/handler";
 import type { TDocumentTypes } from "@/types";
+import { env } from "@/env";
+import { isAllowedAssetFetchUrl } from "@/lib/asset-url";
 import {
   PdfContentFetchError,
   PdfGenerationError,
@@ -164,9 +166,14 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
         // Resolve URLs first
         const resolvedUrlMap = yield* tryAsync(
           async () => {
+            const resolved = await Promise.all(
+              assetIds.map(async (assetId) => {
+                const url = await pageService.resolveImageAssetUrl?.(workspaceSlug, assetId, projectId);
+                return [assetId, url] as const;
+              })
+            );
             const urlMap = new Map<string, string>();
-            for (const assetId of assetIds) {
-              const url = await pageService.resolveImageAssetUrl?.(workspaceSlug, assetId, projectId);
+            for (const [assetId, url] of resolved) {
               if (url) urlMap.set(assetId, url);
             }
             return urlMap;
@@ -181,6 +188,15 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
         // Process each image
         const processSingleImage = ([assetId, url]: [string, string]) =>
           Effect.gen(function* () {
+            if (!isAllowedAssetFetchUrl(url, env.API_BASE_URL)) {
+              return yield* Effect.fail(
+                new PdfImageProcessingError({
+                  message: "Image URL host is not allowed",
+                  assetId,
+                })
+              );
+            }
+
             const response = yield* tryAsync(
               () => fetch(url),
               (cause) =>
