@@ -41,7 +41,6 @@ pnpm-debug.log*
 .env.development.local
 .env.production
 .env.production.local
-.env.example  # Template only — copy to .env and fill in real values
 
 # Python virtual environments
 .venv/

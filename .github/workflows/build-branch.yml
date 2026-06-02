@@ -396,7 +396,7 @@ jobs:
     if: ${{ needs.branch_build_setup.outputs.build_type == 'Release' }}
     name: Build Release
     permissions:
-      contents: read
+      contents: write
       actions: read
     runs-on: ubuntu-22.04
     needs:
