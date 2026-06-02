@@ -1,0 +1,15 @@
+# Snyk policy — documents accepted risk / test-only findings
+version: v1.25.0
+ignore:
+  python/NoHardcodedPasswords/test:
+    - '*':
+        reason: Test fixtures use synthetic credentials only; not production secrets.
+        expires: '2027-06-01T00:00:00.000Z'
+  python/NoHardcodedCredentials/test:
+    - '*':
+        reason: Contract tests use synthetic usernames; not production credentials.
+        expires: '2027-06-01T00:00:00.000Z'
+  python/OR:
+    - 'apps/api/plane/settings/storage.py':
+        reason: Presigned S3 URLs are generated from admin-configured storage env vars and validated against an allowlist before redirect.
+        expires: '2027-06-01T00:00:00.000Z'

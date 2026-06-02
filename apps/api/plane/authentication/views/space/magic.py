@@ -6,7 +6,6 @@
 from django.core.validators import validate_email
 from django.http import HttpResponseRedirect
 from django.views import View
-from django.utils.http import url_has_allowed_host_and_scheme
 
 # Third party imports
 from rest_framework import status
@@ -25,7 +24,7 @@ from plane.authentication.adapter.error import (
     AuthenticationException,
     AUTHENTICATION_ERROR_CODES,
 )
-from plane.utils.path_validator import get_safe_redirect_url, validate_next_path, get_allowed_hosts
+from plane.utils.path_validator import build_validated_next_path_redirect, get_safe_redirect_url
 
 
 class MagicGenerateSpaceEndpoint(APIView):
@@ -94,13 +93,11 @@ class MagicSignInSpaceEndpoint(View):
             user = provider.authenticate()
             # Login the user and record his device info
             user_login(request=request, user=user, is_space=True)
-            # redirect to referer path
-            next_path = validate_next_path(next_path=next_path)
-            url = f"{base_host(request=request, is_space=True).rstrip('/')}{next_path}"
-            if url_has_allowed_host_and_scheme(url, allowed_hosts=get_allowed_hosts()):
-                return HttpResponseRedirect(url)
-            else:
-                return HttpResponseRedirect(base_host(request=request, is_space=True))
+            url = build_validated_next_path_redirect(
+                base_url=base_host(request=request, is_space=True),
+                next_path=next_path,
+            )
+            return HttpResponseRedirect(url)
 
         except AuthenticationException as e:
             params = e.get_error_dict()
@@ -152,13 +149,11 @@ class MagicSignUpSpaceEndpoint(View):
             user = provider.authenticate()
             # Login the user and record his device info
             user_login(request=request, user=user, is_space=True)
-            # redirect to referer path
-            next_path = validate_next_path(next_path=next_path)
-            url = f"{base_host(request=request, is_space=True).rstrip('/')}{next_path}"
-            if url_has_allowed_host_and_scheme(url, allowed_hosts=get_allowed_hosts()):
-                return HttpResponseRedirect(url)
-            else:
-                return HttpResponseRedirect(base_host(request=request, is_space=True))
+            url = build_validated_next_path_redirect(
+                base_url=base_host(request=request, is_space=True),
+                next_path=next_path,
+            )
+            return HttpResponseRedirect(url)
 
         except AuthenticationException as e:
             params = e.get_error_dict()

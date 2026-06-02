@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 from zxcvbn import zxcvbn
 
 # Django imports
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.http import HttpResponseRedirect
@@ -146,6 +146,7 @@ class ResetPasswordSpaceEndpoint(View):
                 return HttpResponseRedirect(url)
 
             # set_password also hashes the password that the user will get
+            validate_password(password, user=user)
             user.set_password(password)
             user.is_password_autoset = False
             user.save()

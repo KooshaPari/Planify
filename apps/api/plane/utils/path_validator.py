@@ -184,3 +184,23 @@ def get_safe_redirect_url(base_url: str, next_path: str = "", params: dict = {})
 
     # Return the base URL if the URL is not allowed
     return base_url + (f"?{encoded_params}" if encoded_params else "")
+
+
+def build_validated_next_path_redirect(base_url: str, next_path: str = "") -> str:
+    """
+    Build a safe redirect URL that navigates directly to a validated relative path.
+
+    Unlike get_safe_redirect_url, this returns base_url + next_path (not a query param)
+    for post-login success redirects while preserving the same validation rules.
+    """
+    validated_path = validate_next_path(next_path)
+    base_url = base_url.rstrip("/")
+
+    if not validated_path:
+        return base_url
+
+    url = f"{base_url}{validated_path}"
+    if url_has_allowed_host_and_scheme(url, allowed_hosts=get_allowed_hosts()):
+        return url
+
+    return base_url

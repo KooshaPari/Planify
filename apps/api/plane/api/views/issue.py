@@ -1790,7 +1790,7 @@ class IssueAttachmentListCreateAPIEndpoint(BaseAPIView):
                                 "url": "https://s3.amazonaws.com/bucket/file.pdf?signed-url",
                                 "fields": {
                                     "key": "file.pdf",
-                                    "AWSAccessKeyId": "AKIAIOSFODNN7EXAMPLE",
+                                    "AWSAccessKeyId": "EXAMPLE-ACCESS-KEY-ID",
                                     "policy": "EXAMPLE",
                                     "signature": "EXAMPLE",
                                     "acl": "public-read",

@@ -9,7 +9,8 @@ import uuid
 # Third party imports
 import boto3
 from botocore.exceptions import ClientError
-from urllib.parse import quote
+from django.utils.http import url_has_allowed_host_and_scheme
+from urllib.parse import quote, urlparse
 
 # Module imports
 from plane.utils.exception_logger import log_exception
@@ -136,8 +137,10 @@ class S3Storage(S3Boto3Storage):
             log_exception(e)
             return None
 
-        # The response contains the presigned URL
-        return response
+        if not response:
+            return None
+
+        return validate_storage_redirect_url(response)
 
     def get_object_metadata(self, object_name):
         """Get the metadata for an S3 object"""
@@ -203,3 +206,47 @@ class S3Storage(S3Boto3Storage):
         except ClientError as e:
             log_exception(e)
             return False
+
+
+def get_storage_redirect_allowed_hosts() -> list[str]:
+    """Collect hostnames that presigned storage redirects are allowed to target."""
+    allowed_hosts: list[str] = []
+
+    endpoint = os.environ.get("AWS_S3_ENDPOINT_URL") or os.environ.get("MINIO_ENDPOINT_URL")
+    if endpoint:
+        endpoint_host = urlparse(endpoint).hostname
+        if endpoint_host:
+            allowed_hosts.append(endpoint_host.rstrip(".").lower())
+
+    bucket = os.environ.get("AWS_S3_BUCKET_NAME")
+    region = os.environ.get("AWS_REGION")
+    if bucket and region:
+        allowed_hosts.extend(
+            [
+                f"{bucket}.s3.{region}.amazonaws.com".lower(),
+                f"s3.{region}.amazonaws.com".lower(),
+            ]
+        )
+
+    allowed_hosts.extend(["s3.amazonaws.com"])
+    return list(dict.fromkeys(host for host in allowed_hosts if host))
+
+
+def validate_storage_redirect_url(url: str) -> str:
+    """Ensure a presigned storage URL only redirects to configured storage hosts."""
+    if not url:
+        raise ValueError("Missing storage redirect URL")
+
+    parsed_url = urlparse(url)
+    if parsed_url.scheme not in ("http", "https"):
+        raise ValueError("Invalid storage redirect scheme")
+
+    hostname = (parsed_url.hostname or "").rstrip(".").lower()
+    if not hostname:
+        raise ValueError("Invalid storage redirect URL")
+
+    allowed_hosts = get_storage_redirect_allowed_hosts()
+    if not url_has_allowed_host_and_scheme(url, allowed_hosts=allowed_hosts):
+        raise ValueError("Storage redirect host is not allowed")
+
+    return url
