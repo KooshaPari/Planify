@@ -5,9 +5,21 @@ ignore:
     - '*':
         reason: Test fixtures use synthetic credentials only; not production secrets.
         expires: '2027-06-01T00:00:00.000Z'
+  python/NoHardcodedPasswords:
+    - 'apps/api/plane/tests/**':
+        reason: Test fixtures use synthetic credentials only; not production secrets.
+        expires: '2027-06-01T00:00:00.000Z'
   python/NoHardcodedCredentials/test:
     - '*':
         reason: Contract tests use synthetic usernames; not production credentials.
+        expires: '2027-06-01T00:00:00.000Z'
+  python/NoHardcodedCredentials:
+    - 'apps/api/plane/tests/**':
+        reason: Contract tests use synthetic usernames; not production credentials.
+        expires: '2027-06-01T00:00:00.000Z'
+  python/HardcodedNonCryptoSecret/test:
+    - '*':
+        reason: Test fixtures use synthetic secrets only; not production values.
         expires: '2027-06-01T00:00:00.000Z'
   python/OR:
     - 'apps/api/plane/settings/storage.py':

@@ -16,6 +16,9 @@ from django.utils import timezone
 # Module imports
 from plane.license.models import Instance, InstanceEdition
 from plane.license.bgtasks.tracer import instance_traces
+from plane.utils.url import validate_external_url
+
+GITHUB_RELEASES_URL = "https://api.github.com/repos/makeplane/plane/releases/latest"
 
 
 class Command(BaseCommand):
@@ -40,7 +43,7 @@ class Command(BaseCommand):
     def check_for_latest_version(self, fallback_version):
         try:
             response = requests.get(
-                "https://api.github.com/repos/makeplane/plane/releases/latest",
+                validate_external_url(GITHUB_RELEASES_URL, allowed_hosts=("api.github.com",)),
                 timeout=10,
             )
             response.raise_for_status()
