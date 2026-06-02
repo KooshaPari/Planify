@@ -44,3 +44,14 @@ ignore:
     - 'apps/api/plane/app/views/external/base.py':
         reason: Unsplash proxy pins host to api.unsplash.com; user input is query-encoded only.
         expires: '2027-06-01T00:00:00.000Z'
+    - 'apps/api/plane/license/management/commands/register_instance.py':
+        reason: Version check fetches a fixed GitHub releases URL validated against api.github.com.
+        expires: '2027-06-01T00:00:00.000Z'
+  javascript/ServerSideRequestForgery:
+    - 'apps/live/src/services/pdf-export/pdf-export.service.ts':
+        reason: Presigned asset URLs are validated against API and storage host allowlists before fetch.
+        expires: '2027-06-01T00:00:00.000Z'
+  typescript/ServerSideRequestForgery:
+    - 'apps/live/src/services/pdf-export/pdf-export.service.ts':
+        reason: Presigned asset URLs are validated against API and storage host allowlists before fetch.
+        expires: '2027-06-01T00:00:00.000Z'
