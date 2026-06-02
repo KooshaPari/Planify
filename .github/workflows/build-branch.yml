@@ -48,16 +48,15 @@ env:
   IS_PRERELEASE: ${{ github.event.inputs.isPrerelease }}
   AIO_BUILD: ${{ github.event.inputs.aio_build }}
 
-permissions:
-  contents: read
-  actions: read
-
 
 timeout-minutes: 30
 
 jobs:
   branch_build_setup:
     name: Build Setup
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-22.04
     outputs:
       gh_branch_name: ${{ steps.set_env_variables.outputs.TARGET_BRANCH }}
@@ -146,6 +145,9 @@ jobs:
 
   branch_build_push_admin:
     name: Build-Push Admin Docker Image
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
     steps:
@@ -168,6 +170,9 @@ jobs:
 
   branch_build_push_web:
     name: Build-Push Web Docker Image
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
     steps:
@@ -190,6 +195,9 @@ jobs:
 
   branch_build_push_space:
     name: Build-Push Space Docker Image
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
     steps:
@@ -212,6 +220,9 @@ jobs:
 
   branch_build_push_live:
     name: Build-Push Live Collaboration Docker Image
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
     steps:
@@ -234,6 +245,9 @@ jobs:
 
   branch_build_push_api:
     name: Build-Push API Server Docker Image
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
     steps:
@@ -256,6 +270,9 @@ jobs:
 
   branch_build_push_proxy:
     name: Build-Push Proxy Docker Image
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
     steps:
@@ -279,6 +296,9 @@ jobs:
   branch_build_push_aio:
     if: ${{ needs.branch_build_setup.outputs.aio_build == 'true' }}
     name: Build-Push AIO Docker Image
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-22.04
     needs:
       - branch_build_setup
@@ -334,6 +354,9 @@ jobs:
 
   upload_build_assets:
     name: Upload Build Assets
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-22.04
     needs:
       - branch_build_setup
@@ -374,6 +397,9 @@ jobs:
   publish_release:
     if: ${{ needs.branch_build_setup.outputs.build_type == 'Release' }}
     name: Build Release
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-22.04
     needs:
       [
