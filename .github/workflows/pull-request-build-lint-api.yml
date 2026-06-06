@@ -13,13 +13,6 @@ on:
       - "reopened"
     paths:
       - "apps/api/**"
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
   actions: read
 
 jobs:
@@ -30,10 +23,10 @@ jobs:
       github.event.pull_request.draft == false &&
       github.event.pull_request.requested_reviewers != null
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v4
 
       - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v6
+        uses: actions/setup-python@c8813ba1bc76ebf779b911ad8ffccbf2e449cb48 # v-latest
         with:
           python-version: "3.12.x"
           cache: 'pip'
@@ -44,3 +37,10 @@ jobs:
         run: cd apps/api && pip install -r requirements.txt
       - name: Lint apps/api
         run: ruff check --fix apps/api
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
