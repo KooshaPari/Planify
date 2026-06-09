@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Planify"
+abstract: "Planner/spec-tracking tooling for the Phenotype ecosystem."
+date-released: 2026-06-08
+url: "https://github.com/KooshaPari/Planify"
+license: MIT
+commit: 3efef398a3
