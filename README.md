@@ -1,3 +1,14 @@
+## Work State
+
+| Field | Value |
+|---|---|
+| Last commit | 2026-06-08 |
+| Open issues | 1 |
+| Open PRs | 0 |
+| Focus | Open-source project management (Plane fork), cycles, roadmaps |
+
+Progress: ████████░░ 80%
+
 <br /><br />
 
 <p align="center">
