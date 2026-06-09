@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
 # Plane Project Setup Script
 # This script prepares the local development environment by setting up all necessary .env files

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-set -e
 
 DIST_DIR=${DIST_DIR:-./dist}
 CPU_ARCH=$(uname -m)
