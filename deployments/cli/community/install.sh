@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
 BRANCH=${BRANCH:-master}
 SCRIPT_DIR=$PWD
