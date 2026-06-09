@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
 BRANCH=${BRANCH:-master}
 SERVICE_FOLDER=plane-app
