@@ -1,8 +1,4 @@
 name: OpenSSF Scorecard
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 on:
   workflow_dispatch:
 
@@ -20,6 +16,10 @@ permissions: read-all
 
 timeout-minutes: 10
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   analysis:
     name: Scorecard analysis
