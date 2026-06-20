@@ -73,9 +73,9 @@ config_kit_performance = "config_kit.pytest.plugins.performance"
 config_kit_security = "config_kit.pytest.plugins.security"
 
 [project.urls]
-Homepage = "https://github.com/KooshaPari/PhenoKits/tree/main/libs/python/phenokit-config-kit"
-Documentation = "https://github.com/KooshaPari/PhenoKits/blob/main/libs/python/phenokit-config-kit/README.md"
-Repository = "https://github.com/KooshaPari/PhenoKits"
+Homepage = "https://github.com/KooshaPari/phenotype-sdk/tree/main/lang/python/packages/phenokit-config-kit"
+Documentation = "https://github.com/KooshaPari/phenotype-sdk/blob/main/lang/python/packages/phenokit-config-kit/README.md"
+Repository = "https://github.com/KooshaPari/phenotype-sdk"
 
 [tool.hatch.build.targets.wheel]
 packages = ["config_kit"]
