@@ -21,8 +21,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/KooshaPari/PhenoKits/tree/main/libs/python/pheno-cli-builder"
-Repository = "https://github.com/KooshaPari/PhenoKits"
+Homepage = "https://github.com/KooshaPari/phenotype-sdk/tree/main/lang/python/packages/pheno-cli-builder"
+Repository = "https://github.com/KooshaPari/phenotype-sdk"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pheno_cli_builder"]
