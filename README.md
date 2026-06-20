@@ -42,8 +42,24 @@ phenotype-sdk/
 ├── lang/
 │   ├── rust/                  # Cargo workspace (core crates)
 │   │   ├── Cargo.toml
+│   │   ├── ORIGIN.md
 │   │   └── packages/
-│   │       └── phenotype-core/
+│   │       ├── phenotype-core/           # Re-export hub & foundational types
+│   │       ├── phenotype-async-traits/   # Async iterator, Future, AsyncDrop
+│   │       ├── phenotype-cache-adapter/  # Multi-backend cache
+│   │       ├── phenotype-cost-core/      # Cost analysis & budgeting
+│   │       ├── phenotype-crypto/         # Hashing, encryption, signing
+│   │       ├── phenotype-git-core/       # Git porcelain operations
+│   │       ├── phenotype-http-client-core/ # HTTP connection pooling
+│   │       ├── phenotype-iter/           # Extended iterators & adapters
+│   │       ├── phenotype-macros/         # Procedural macros
+│   │       ├── phenotype-process/        # Process supervision
+│   │       ├── phenotype-rate-limit/     # Token bucket & sliding window
+│   │       ├── phenotype-retry/          # Backoff & retry policies
+│   │       ├── phenotype-string/         # Normalization & sanitization
+│   │       ├── phenotype-test-infra/     # BDD helpers & fixtures
+│   │       ├── phenotype-time/           # Duration & timestamp types
+│   │       └── phenotype-validation/     # Input validation
 │   │
 │   ├── zig/                   # Zig build system (portable primitives)
 │   │   ├── build.zig
@@ -58,6 +74,7 @@ phenotype-sdk/
 │   │   └── packages/
 │   │       ├── devhex/
 │   │       ├── mcpkit/
+│   │       ├── pheno-core-cgo/
 │   │       ├── phenotype-go-auth/
 │   │       ├── phenotype-go-cli/
 │   │       ├── phenotype-go-config/
@@ -69,6 +86,9 @@ phenotype-sdk/
 │   ├── python/                # Python monorepo (data/AI)
 │   │   ├── pyproject.toml
 │   │   ├── uv.lock
+│   │   ├── justfile
+│   │   ├── mcp/
+│   │   │   └── agentmcp/          # Agent MCP framework
 │   │   └── packages/
 │   │       ├── agentmcp-hex/
 │   │       ├── auth-kit/

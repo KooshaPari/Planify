@@ -3,3 +3,26 @@ name = "phenotype-core"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+description = "Phenotype SDK core — foundational types, prelude, and crate re-exports"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+phenotype-time = { path = "../phenotype-time" }
+phenotype-crypto = { path = "../phenotype-crypto" }
+phenotype-validation = { path = "../phenotype-validation" }
+phenotype-iter = { path = "../phenotype-iter" }
+phenotype-process = { path = "../phenotype-process" }
+phenotype-string = { path = "../phenotype-string" }
+phenotype-retry = { path = "../phenotype-retry" }
+phenotype-rate-limit = { path = "../phenotype-rate-limit" }
+phenotype-cache-adapter = { path = "../phenotype-cache-adapter" }
+phenotype-cost-core = { path = "../phenotype-cost-core" }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+tokio = { workspace = true }
