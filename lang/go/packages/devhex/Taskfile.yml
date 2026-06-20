@@ -1,0 +1,37 @@
+version: "3"
+
+vars:
+  GO_PACKAGES: ./...
+  GO_BUILD_FLAGS:
+  GO_TEST_FLAGS: -count=1
+
+tasks:
+  default:
+    desc: List available common tasks
+    cmds:
+      - task --list
+    silent: true
+
+  build:
+    desc: Build all Go packages
+    cmds:
+      - go build {{.GO_BUILD_FLAGS}} {{.GO_PACKAGES}}
+
+  test:
+    desc: Run the Go test suite
+    cmds:
+      - go test {{.GO_TEST_FLAGS}} {{.GO_PACKAGES}}
+
+  lint:
+    desc: Run Go formatting, module, vet, and golangci-lint checks
+    cmds:
+      - sh -c 'files="$(gofmt -l .)"; if [ -n "$files" ]; then printf "%s\n" "$files"; exit 1; fi'
+      - go mod tidy -diff
+      - go vet {{.GO_PACKAGES}}
+      - golangci-lint run {{.GO_PACKAGES}}
+
+  clean:
+    desc: Remove local Go package artifacts and cached test results
+    cmds:
+      - go clean {{.GO_PACKAGES}}
+      - go clean -testcache

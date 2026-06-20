@@ -1,0 +1,31 @@
+# Rust
+lang/rust/target/
+
+# Zig
+lang/zig/zig-cache/
+lang/zig/zig-out/
+
+# Go
+lang/go/vendor/
+
+# Python
+lang/python/__pycache__/
+lang/python/.ruff_cache/
+lang/python/dist/
+lang/python/*.egg-info/
+lang/python/.venv/
+lang/python/.pytest_cache/
+
+# TypeScript
+lang/ts/node_modules/
+lang/ts/dist/
+
+# Mojo
+lang/mojo/.mojo/
+
+# General
+.DS_Store
+*.swp
+*.swo
+*~
+.env
