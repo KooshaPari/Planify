@@ -13,13 +13,13 @@ Go CGO bindings for Rust `phenotype-core`.
 ```bash
 # Generate C headers from Rust
 cd PhenoProc/crates/phenotype-core
-cbindgen --lang c --crate phenotype-core --output ../../PhenoKits/libs/go/pheno-core-cgo/phenotype_core.h
+cbindgen --lang c --crate phenotype-core --output ../pheno-core-cgo/phenotype_core.h
 
 # Build the Rust library as cdylib
 cargo build --release
 
 # Build Go package
-cd PhenoKits/libs/go/pheno-core-cgo
+cd phenotype-sdk/lang/go/packages/pheno-core-cgo
 go build
 ```
 
