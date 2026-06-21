@@ -1,0 +1,30 @@
+{
+  "name": "pheno-predict",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/cargo-cache:1": {},
+    "ghcr.io/devcontainers/features/git-lfs:1": {}
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "rust-analyzer.checkOnSave.command": "clippy",
+        "[rust]": {
+          "editor.defaultFormatter": "rust-lang.rust-analyzer"
+        }
+      },
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml"
+      ]
+    }
+  },
+  "mounts": [
+    "source=cargo-cache-${devcontainerId},target=/usr/local/cargo/registry,type=volume",
+    "source=rust-target-${devcontainerId},target=${containerWorkspaceFolder}/target,type=volume"
+  ]
+}
