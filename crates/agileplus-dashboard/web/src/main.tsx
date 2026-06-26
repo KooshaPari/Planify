@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import axios from 'axios';
+import {
+  ApiClientError,
+  fetchDashboardEpicsStories,
+  fetchDashboardWorkPackages,
+} from './lib/api';
 import { useAgilePlusStore } from './stores/agileplus';
 import './styles/globals.css';
 
@@ -348,43 +352,70 @@ function App() {
   const [view, setView] = useState<View>('dashboard');
   const [apiError, setApiError] = useState<string | null>(null);
 
-  // Fetch work packages
+  // Fetch work packages from agileplus-api v1
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get('/api/dashboard/work-packages.json')
-      .then((res) => {
-        const data = res.data as { work_packages: any[] };
-        setWorkPackages(
-          (data.work_packages ?? []).map((wp: any) => ({
-            id: String(wp.id),
-            title: wp.title ?? '(untitled)',
-            status: wp.status ?? 'planned',
-            priority: wp.priority ?? 'medium',
-            assignee: wp.assignee ?? undefined,
-          })),
-        );
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    let cancelled = false;
+
+    const loadWorkPackages = async () => {
+      setLoading(true);
+      try {
+        const packages = await fetchDashboardWorkPackages();
+        if (!cancelled) {
+          setWorkPackages(packages);
+        }
+      } catch {
+        // Optional for the dashboard header count.
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    void loadWorkPackages();
+
+    return () => {
+      cancelled = true;
+    };
   }, [setWorkPackages, setLoading]);
 
-  // Fetch epics + stories
+  // Fetch epics + stories from agileplus-api v1
   useEffect(() => {
-    setEpicStoriesLoading(true);
-    setApiError(null);
-    axios
-      .get('/api/dashboard/epics-stories.json')
-      .then((res) => {
-        const data = res.data as { epics: Epic[]; stories: Story[]; error?: string };
-        if (data.error) setApiError(data.error);
-        setEpics(data.epics ?? []);
-        setStories(data.stories ?? []);
-      })
-      .catch((err) => {
-        setApiError(`API unavailable: ${err.message}. Start backend with API_PORT=4000 DATABASE_PATH=agileplus.db`);
-      })
-      .finally(() => setEpicStoriesLoading(false));
+    let cancelled = false;
+
+    const loadEpicsStories = async () => {
+      setEpicStoriesLoading(true);
+      setApiError(null);
+      try {
+        const data = await fetchDashboardEpicsStories();
+        if (cancelled) return;
+        setEpics(data.epics);
+        setStories(data.stories);
+      } catch (err) {
+        if (cancelled) return;
+        const message =
+          err instanceof ApiClientError
+            ? `${err.message} (${err.status})`
+            : err instanceof Error
+              ? err.message
+              : 'Unknown error';
+        setApiError(
+          `API unavailable: ${message}. Start agileplus-api (default ${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}) with a valid VITE_API_KEY.`,
+        );
+        setEpics([]);
+        setStories([]);
+      } finally {
+        if (!cancelled) {
+          setEpicStoriesLoading(false);
+        }
+      }
+    };
+
+    void loadEpicsStories();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const views: { id: View; label: string }[] = [

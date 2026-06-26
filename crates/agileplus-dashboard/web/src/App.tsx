@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import {
+  fetchDashboardEpicsStories,
+  fetchDashboardWorkPackages,
+} from './lib/api';
 import { useAgilePlusStore } from './stores/agileplus';
 import { Button, Badge, Card, Pill, Modal, Toast } from './components';
 import './styles/globals.css';
@@ -356,47 +359,51 @@ export function App() {
   const [dataReady, setDataReady] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
-  // Try live API, fall back to seed data
+  // Fetch from agileplus-api v1 endpoints; fall back to seed data when offline.
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get('/api/dashboard/epics-stories.json', { timeout: 3000 })
-      .then((res) => {
-        const data = res.data as { epics: Epic[]; stories: Story[] };
-        if (data.epics?.length) {
+    let cancelled = false;
+
+    const loadDashboard = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchDashboardEpicsStories();
+        if (cancelled) return;
+
+        if (data.epics.length > 0) {
           setEpics(data.epics);
-          setStories(data.stories ?? []);
+          setStories(data.stories);
         } else {
           setEpics(SEED_EPICS);
           setStories(SEED_STORIES);
+          setToastMsg('API returned no epics — showing seed data');
         }
-      })
-      .catch(() => {
+      } catch {
+        if (cancelled) return;
         setEpics(SEED_EPICS);
         setStories(SEED_STORIES);
         setToastMsg('API offline — showing seed data');
-      })
-      .finally(() => {
-        setLoading(false);
-        setDataReady(true);
-      });
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+          setDataReady(true);
+        }
+      }
 
-    // Also try the work-packages endpoint for the Zustand store
-    axios
-      .get('/api/dashboard/work-packages.json', { timeout: 3000 })
-      .then((res) => {
-        const data = res.data as { work_packages: any[] };
-        setWorkPackages(
-          (data.work_packages ?? []).map((wp: any) => ({
-            id: String(wp.id),
-            title: wp.title ?? '(untitled)',
-            status: wp.status ?? 'planned',
-            priority: wp.priority ?? 'medium',
-            assignee: wp.assignee ?? undefined,
-          }))
-        );
-      })
-      .catch(() => {/* no-op */});
+      try {
+        const workPackages = await fetchDashboardWorkPackages();
+        if (!cancelled && workPackages.length > 0) {
+          setWorkPackages(workPackages);
+        }
+      } catch {
+        // Work packages are optional for the main dashboard view.
+      }
+    };
+
+    void loadDashboard();
+
+    return () => {
+      cancelled = true;
+    };
   }, [setWorkPackages, setLoading]);
 
   return (

@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
-import axios from 'axios';
+import { fetchDashboardWorkPackages } from '../lib/api';
 import { useAgilePlusStore } from '../stores/agileplus';
-import type { WorkPackage } from '../types';
 
 // ============================================================================
 // useWorkPackages Hook
-// Fetch and manage work package data from API
+// Fetch and manage work package data from agileplus-api
 // ============================================================================
 
 interface UseWorkPackagesOptions {
@@ -13,11 +12,7 @@ interface UseWorkPackagesOptions {
 }
 
 /**
- * Hook to fetch and manage work packages
- * Integrates with Zustand store and API
- *
- * @example
- * const { workPackages, loading, error } = useWorkPackages();
+ * Hook to fetch and manage work packages from agileplus-api v1 endpoints.
  */
 export function useWorkPackages(options: UseWorkPackagesOptions = {}) {
   const { skip = false } = options;
@@ -26,19 +21,29 @@ export function useWorkPackages(options: UseWorkPackagesOptions = {}) {
   useEffect(() => {
     if (skip) return;
 
+    let cancelled = false;
+
     const fetchWorkPackages = async () => {
       setLoading(true);
       try {
-        const response = await axios.get<WorkPackage[]>('/api/work-packages');
-        setWorkPackages(response.data);
+        const packages = await fetchDashboardWorkPackages();
+        if (!cancelled) {
+          setWorkPackages(packages);
+        }
       } catch (error) {
         console.error('Failed to fetch work packages:', error);
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     };
 
-    fetchWorkPackages();
+    void fetchWorkPackages();
+
+    return () => {
+      cancelled = true;
+    };
   }, [skip, setWorkPackages, setLoading]);
 
   return {
