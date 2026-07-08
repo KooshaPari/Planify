@@ -14,6 +14,7 @@ conventions. See [`TEMPLATE.md`](TEMPLATE.md) for the template and instructions.
 | 0001  | [Use Plane.so fork](0001-use-plane-so-fork.md)               | accepted   | 2026-07-07 |
 | 0002  | [Hybrid frontend stack](0002-frontend-stack.md)              | accepted   | 2026-07-07 |
 | 0003  | [Three-directory monorepo](0003-monorepo-structure.md)       | accepted   | 2026-07-07 |
+| 0004  | [CI workflow strategy](0004-ci-workflow-strategy.md)         | accepted   | 2026-07-08 |
 
 ## Status Legend
 
@@ -35,6 +36,9 @@ conventions. See [`TEMPLATE.md`](TEMPLATE.md) for the template and instructions.
 - **[ADR-0003](0003-monorepo-structure.md)** — The three-directory layout
   (`upstream/` + `site/` + `infra/`), package manager separation, and
   upstream sync isolation policy.
+- **[ADR-0004](0004-ci-workflow-strategy.md)** — GitHub Actions CI strategy
+  with two workflow files (site build + upstream check), Dependabot config,
+  and auto-merge for patch-level dependency updates.
 
 ## Adding a New ADR
 
