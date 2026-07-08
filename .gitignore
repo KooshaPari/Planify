@@ -22,3 +22,22 @@ site/.astro/
 .env
 .env.local
 .env.*.local
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Framework / platform
+.astro/
+.vercel
+
+# Logs
+*.log
+
+# OS / editor (extended)
+.DS_Store
+*.swp
+.vscode/
+.idea/
