@@ -4,31 +4,64 @@
 
 Planify is the web-based project management UI for the Phenotype platform, derived from [Plane](https://github.com/makeplane/plane). It powers the AgilePlus dashboard and integrates with the Phenotype ecosystem.
 
+## Layout
+
+```
+planify/
+├── upstream/                 # Verbatim seed from makeplane/plane@preview (v1.3.1, AGPL-3.0)
+│   ├── apps/                 # admin, api, live, proxy, space, web
+│   ├── packages/             # 15 shared TS packages
+│   ├── deployments/          # Helm + Docker manifests
+│   ├── docs/                 # Architecture + module docs
+│   ├── package.json          # pnpm workspace root
+│   ├── pnpm-workspace.yaml
+│   ├── pnpm-lock.yaml
+│   ├── turbo.json
+│   └── LICENSE.txt           # AGPL-3.0 inherited from upstream
+├── site/                     # planify.space landing page (Astro + Bun + Tailwind)
+├── infra/                    # Phenotype-specific infra additions
+├── UPSTREAM.md               # Original seeding notes
+└── MERGES.md                 # Consolidation provenance
+```
+
 ## Status
 
-This repo is currently a stub. See [UPSTREAM.md](./UPSTREAM.md) for seeding instructions.
+- DONE: `upstream/` seeded with verbatim snapshot of `makeplane/plane@preview` v1.3.1
+- DONE: `infra/docker-compose.plane.yml` mirrors canonical compose from AgilePlus
+- DONE: `site/` scaffolded with Astro + Bun + Tailwind (matches sibling Phenotype landings)
+- WARNING: `.glb` keyboard model missing on disk — site has placeholder + TODO marker
+- SKIPPED: `pnpm install` and `bun install` deferred due to disk pressure (42 GiB free)
 
 ## Deployment
 
-- **Web**: Vercel (phenotype.space subdomain or direct deployment)
-- **Integration**: Embedded in AgilePlus (Rust backend) for unified PM experience
+- Web: Vercel (planify.space or planify.kooshapari.com)
+- Stack: Upstream Plane (apps/web, apps/space, apps/admin)
+- DB/cache: Postgres 16 + Dragonfly via infra/docker-compose.plane.yml
 
 ## Architecture
 
-Planify is the web frontend counterpart to AgilePlus (Rust backend PM substrate). Together they provide:
-- Dashboard UI (Planify)
+Planify is the web frontend counterpart to AgilePlus (Rust backend PM substrate).
+- Dashboard UI (Planify apps/web)
+- Workspace UI (Planify apps/space)
+- Admin UI (Planify apps/admin)
 - Backend API & storage (AgilePlus)
 - Shared domain models (phenotype-domain SDKs)
 
-## Getting Started
+## Quick start
 
-1. Seed from upstream: see [UPSTREAM.md](./UPSTREAM.md)
-2. Install dependencies (typically Node + Bun/npm)
-3. Build & test
-4. Deploy to Vercel
+```
+# 1. Run upstream Plane stack
+cd upstream && pnpm install && pnpm dev
+
+# 2. Or Phenotype-infra compose
+cd ../infra && docker compose -f docker-compose.plane.yml up -d
+
+# 3. Build landing site
+cd ../site && bun install && bun run dev
+```
 
 ## Links
 
-- **AgilePlus**: https://github.com/KooshaPari/AgilePlus
-- **phenotype.space**: phenotype platform hub
-- **Plane upstream**: https://github.com/makeplane/plane
+- Upstream: https://github.com/makeplane/plane
+- AgilePlus: https://github.com/KooshaPari/AgilePlus
+- phenotype-landing: https://github.com/KooshaPari/phenotype-landing
