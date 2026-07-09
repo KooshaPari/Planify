@@ -32,6 +32,21 @@ planify/
 - WARNING: `.glb` keyboard model missing on disk — site has placeholder + TODO marker
 - SKIPPED: `pnpm install` and `bun install` deferred due to disk pressure (42 GiB free)
 
+### CI/CD
+
+![CI](https://github.com/KooshaPari/Planify/actions/workflows/ci.yml/badge.svg)
+![License](https://img.shields.io/github/license/KooshaPari/Planify)
+
+GitHub Actions CI runs on every push and pull request to `main`, with two
+parallel jobs:
+
+- **Site build** — type-checks and builds the Astro landing page (`site/`)
+- **Upstream check** — runs pnpm checks on the Plane.so fork (`upstream/`)
+
+An automated upstream-sync workflow runs weekly to pull changes from
+`makeplane/plane`, and Dependabot auto-merges patch-level npm dependency
+updates.
+
 ## Deployment
 
 - Web: Vercel (planify.space or planify.kooshapari.com)

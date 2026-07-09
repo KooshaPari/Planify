@@ -15,6 +15,7 @@ conventions. See [`TEMPLATE.md`](TEMPLATE.md) for the template and instructions.
 | 0002  | [Hybrid frontend stack](0002-frontend-stack.md)              | accepted   | 2026-07-07 |
 | 0003  | [Three-directory monorepo](0003-monorepo-structure.md)       | accepted   | 2026-07-07 |
 | 0004  | [CI workflow strategy](0004-ci-workflow-strategy.md)         | accepted   | 2026-07-08 |
+| 0005  | [Upstream sync strategy](0005-upstream-sync-strategy.md)     | accepted   | 2026-07-08 |
 
 ## Status Legend
 
@@ -39,6 +40,9 @@ conventions. See [`TEMPLATE.md`](TEMPLATE.md) for the template and instructions.
 - **[ADR-0004](0004-ci-workflow-strategy.md)** — GitHub Actions CI strategy
   with two workflow files (site build + upstream check), Dependabot config,
   and auto-merge for patch-level dependency updates.
+- **[ADR-0005](0005-upstream-sync-strategy.md)** — Weekly automated upstream
+  sync from `makeplane/plane` via GitHub Actions, including conflict handling
+  strategy and the sync PR workflow.
 
 ## Adding a New ADR
 
