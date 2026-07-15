@@ -64,3 +64,32 @@ cargo run -q -p agileplus-cli -- frontend audit --strict --json
 The SQLite package test now exercises the extracted facade modules and caught a
 real `update_feature` persistence gap. Full workspace checks remain the final
 gate, but local disk pressure can currently block large Cargo rebuilds.
+
+## DB-002 Focused Gate
+
+- Run workspace `cargo fmt --check` for the four newly enrolled production crates.
+- Run package-scoped `cargo check` and `cargo test` for CLI, dashboard, SQLite,
+  and MCP intent; unrelated pre-existing compile debt is reported rather than
+  repaired in this slice.
+- Copy `.agileplus/agileplus.db` to a temporary directory and run
+  `scripts/seed_polyrepo_program.py <copy>` twice; never seed the live file.
+
+### 2026-07-15 Result
+
+- Changed-slice `rustfmt` with edition 2024 and `skip_children=true`: pass.
+- Root `cargo fmt --all -- --check`: blocked by pre-existing conflict markers in
+  `commands/list.rs` and `tests/cli_integration.rs`, plus a missing SQLite test module.
+- Package `cargo check`: blocked during dependency resolution because
+  `agileplus-git` requires yanked `gix 0.82.0`.
+- Temporary-copy seeder passes: identical counts on both runs (`projects=7`,
+  `features=27`, `work_packages=84`, `wp_dependencies=6`, `evidence=10`).
+
+## Gix Dependency Gate
+
+- `agileplus-git` used yanked `gix 0.82.0`, preventing workspace dependency
+  resolution before any DB-002 code could compile.
+- Upstream docs identify `gix 0.85.0` as the current release. The AgilePlus
+  crate has no `gix::` callsites, so the forward update is dependency-only.
+- Required proof: `cargo tree -i gix`, focused `agileplus-git` check/tests, then
+  the four DB-002 package checks/tests. Pre-existing merge markers or missing
+  test modules remain separately reported blockers.

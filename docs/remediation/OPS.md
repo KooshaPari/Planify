@@ -57,7 +57,7 @@ process-compose up
 
 | Variable | Default | Component | Description |
 |----------|---------|-----------|-------------|
-| `AGILEPLUS_DB` | `./agileplus.db` | CLI | SQLite path (`agileplus --db`) |
+| `AGILEPLUS_DB` | `.agileplus/agileplus.db` | CLI | SQLite path (`agileplus --db`) |
 | `AGILEPLUS_HOME` | — | Agents / harnesses | Repo root for tooling |
 | `AGILEPLUS_API_URL` | `http://localhost:8080` | MCP, integration tests | HTTP API base |
 | `AGILEPLUS_API_KEY` | `dev-api-key` | API clients | `X-API-Key` header value |
@@ -84,7 +84,7 @@ Pattern for future config keys: `AGILEPLUS_<SECTION>_<KEY>` (see kitty-specs WP1
 cat docs/remediation/env.example.snippet >> .env
 cp .env.example .env.sentry.example   # reference only — merge manually
 
-export AGILEPLUS_DB=./agileplus.db
+export AGILEPLUS_DB=.agileplus/agileplus.db
 export AGILEPLUS_API_URL=http://localhost:8080
 export AGILEPLUS_API_KEY=dev-api-key
 ```

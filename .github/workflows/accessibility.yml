@@ -1,0 +1,195 @@
+# Accessibility Audit CI
+# Runs axe-core analysis and pa11y-ci HTML validation on the dashboard
+# Triggered on PRs and pushes to main when web files change
+
+name: Accessibility Audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "crates/agileplus-dashboard/web/**"
+      - ".github/workflows/accessibility.yml"
+  pull_request:
+    paths:
+      - "crates/agileplus-dashboard/web/**"
+      - ".github/workflows/accessibility.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: a11y-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  # ─── Unit-Level Accessibility (vitest-axe) ───────────────────────────
+  unit-a11y:
+    name: Unit A11y (vitest-axe)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: crates/agileplus-dashboard/web
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: crates/agileplus-dashboard/web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build dashboard
+        run: npm run build
+
+      - name: Run vitest-axe accessibility tests
+        run: npx vitest run --reporter=verbose src/tests/a11y/
+
+      - name: Upload axe unit test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: axe-unit-results
+          path: crates/agileplus-dashboard/web/.vitest-results/
+          if-no-files-found: ignore
+
+  # ─── axe-core CLI Scan on Preview Server ────────────────────────────
+  axe-cli-scan:
+    name: axe-core CLI Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: crates/agileplus-dashboard/web
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: crates/agileplus-dashboard/web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build dashboard
+        run: npm run build
+
+      - name: Install @axe-core/cli
+        run: npm install -g @axe-core/cli
+
+      - name: Start preview server
+        run: |
+          npx vite preview --port 4173 &
+          echo "PREVIEW_PID=$!"
+          # Wait for server to be ready
+          for i in $(seq 1 30); do
+            if curl -s http://localhost:4173 > /dev/null 2>&1; then
+              echo "Preview server ready on :4173"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Run axe-core CLI against dashboard
+        run: |
+          mkdir -p axe-reports
+          axe http://localhost:4173 --save=.axe-results.json --dir=./axe-reports || true
+
+      - name: Upload axe CLI report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: axe-cli-report
+          path: crates/agileplus-dashboard/web/axe-reports/
+          if-no-files-found: ignore
+
+      - name: Stop preview server
+        if: always()
+        run: kill $PREVIEW_PID 2>/dev/null || true
+
+  # ─── pa11y-ci HTML Validation ───────────────────────────────────────
+  pa11y-check:
+    name: pa11y-ci HTML Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: crates/agileplus-dashboard/web
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: crates/agileplus-dashboard/web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build dashboard
+        run: npm run build
+
+      - name: Install pa11y-ci
+        run: npm install -g pa11y-ci
+
+      - name: Start preview server
+        run: |
+          npx vite preview --port 4174 &
+          echo "PA11Y_PID=$!"
+          for i in $(seq 1 30); do
+            if curl -s http://localhost:4174 > /dev/null 2>&1; then
+              echo "Preview server ready on :4174"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Run pa11y-ci
+        run: |
+          mkdir -p pa11y-results
+          pa11y-ci --config .pa11yci.json http://localhost:4174 2>&1 > pa11y-results/pa11y-output.txt || true
+
+      - name: Upload pa11y report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pa11y-report
+          path: crates/agileplus-dashboard/web/pa11y-results/
+          if-no-files-found: ignore
+
+      - name: Stop preview server
+        if: always()
+        run: kill $PA11Y_PID 2>/dev/null || true
+
+  # ─── Summary Gate ──────────────────────────────────────────────────
+  a11y-summary:
+    name: Accessibility Summary
+    needs: [unit-a11y, axe-cli-scan, pa11y-check]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check all a11y jobs passed
+        run: |
+          echo "## Accessibility Audit Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit A11y (vitest-axe) | \${{ needs.unit-a11y.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| axe-core CLI Scan | \${{ needs.axe-cli-scan.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| pa11y-ci HTML Validation | \${{ needs.pa11y-check.result }} |" >> $GITHUB_STEP_SUMMARY

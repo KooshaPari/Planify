@@ -26,7 +26,7 @@ Global flags today:
 
 | Flag | Env | Default | Notes |
 |------|-----|---------|-------|
-| `--db PATH` | `AGILEPLUS_DB` | `./agileplus.db` | SQLite location |
+| `--db PATH` | `AGILEPLUS_DB` | `.agileplus/agileplus.db` | SQLite location |
 | `-h, --help` | — | — | clap-generated per subcommand |
 | `-V, --version` | — | `CARGO_PKG_VERSION` | Workspace `0.1.0` |
 
@@ -161,7 +161,7 @@ The clap `Parser` already sets `version` and `arg_required_else_help = true`. Re
 1. **Root long about:**
    ```
    AgilePlus — spec-driven project management CLI.
-   Environment: AGILEPLUS_DB (default ./agileplus.db)
+   Environment: AGILEPLUS_DB (default .agileplus/agileplus.db)
    Docs: docs/remediation/CLI_API.md
    ```
 2. **`version` subcommand:** print same string as `-V` **plus** git SHA when `AGILEPLUS_BUILD_SHA` is set (CI).
@@ -193,7 +193,7 @@ Auth: API uses `X-API-Key` (`AGILEPLUS_API_KEY`). CLI local mode uses SQLite dir
 # Fail CI on any error
 set -euo pipefail
 
-agileplus --db ./agileplus.db dashboard --json > dashboard.json
+agileplus --db .agileplus/agileplus.db dashboard --json > dashboard.json
 jq -e '.ok == true' dashboard.json >/dev/null 2>&1 || { echo "dashboard failed"; exit 1; }
 
 # Entity link (human output today)

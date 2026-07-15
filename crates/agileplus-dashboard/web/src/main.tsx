@@ -382,7 +382,7 @@ function App() {
         setStories(data.stories ?? []);
       })
       .catch((err) => {
-        setApiError(`API unavailable: ${err.message}. Start backend with API_PORT=4000 DATABASE_PATH=agileplus.db`);
+        setApiError(`API unavailable: ${err.message}. Start backend with API_PORT=4000 AGILEPLUS_DB=.agileplus/agileplus.db`);
       })
       .finally(() => setEpicStoriesLoading(false));
   }, []);

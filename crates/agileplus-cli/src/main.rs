@@ -2,6 +2,7 @@
 //! agileplus-cli — minimal smoke-test CLI backed by in-memory mock data.
 
 mod sync_cmd;
+mod db_path;
 
 pub mod commands;
 
@@ -29,7 +30,7 @@ use sync_cmd::SyncArgs;
     arg_required_else_help = true
 )]
 struct Cli {
-    /// SQLite database path. Defaults to AGILEPLUS_DB, then ./agileplus.db.
+    /// SQLite database path. Defaults to AGILEPLUS_DB, then `.agileplus/agileplus.db`.
     #[arg(long, env = "AGILEPLUS_DB", value_name = "PATH", global = true)]
     db: Option<PathBuf>,
 
@@ -479,12 +480,10 @@ fn truncate(s: &str, max: usize) -> String {
     format!("{t}…")
 }
 
-/// Resolve the SQLite database path from `AGILEPLUS_DB` env var or fall back
-/// to `./agileplus.db` in the current directory.
+/// Resolve the SQLite database path from `AGILEPLUS_DB` or use the canonical
+/// `.agileplus/agileplus.db` path.
 fn db_path(cli: &Cli) -> PathBuf {
-    cli.db
-        .clone()
-        .unwrap_or_else(|| PathBuf::from("agileplus.db"))
+    crate::db_path::resolve_db_path(cli.db.as_deref())
 }
 
 /// Open the file-backed SQLite storage adapter at the resolved DB path.

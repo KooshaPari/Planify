@@ -18,7 +18,7 @@
 
 use std::path::{Path, PathBuf};
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use clap::{Args, Subcommand};
 use rusqlite::Connection;
 use serde::{Deserialize, Serialize};
@@ -318,9 +318,7 @@ pub fn run_with_db(args: &WorklogArgs, db_path: &Path) -> Result<()> {
 }
 
 fn db_path_from_env() -> PathBuf {
-    std::env::var("AGILEPLUS_DB")
-        .map(PathBuf::from)
-        .unwrap_or_else(|_| PathBuf::from("agileplus.db"))
+    crate::db_path::resolve_db_path(None)
 }
 
 // â”€â”€ File-level commands (L2 #25) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -471,11 +469,7 @@ fn to_canonical(raw: &serde_json::Value) -> CanonicalWorklog {
         agent_id: get_str("agent_id").unwrap_or_else(|| "codex-exec".to_string()),
         files_changed: {
             let v: Vec<String> = get_arr("files_changed");
-            if v.is_empty() {
-                get_arr("files")
-            } else {
-                v
-            }
+            if v.is_empty() { get_arr("files") } else { v }
         },
         commit_sha: get_str("commit_sha")
             .or_else(|| get_str("branch"))
@@ -607,6 +601,8 @@ fn is_iso8601_like(s: &str) -> bool {
 /// bundled migration `022_create_worklog_entries.sql` via the regular
 /// `MigrationRunner` so it stays in sync with the rest of the schema.
 pub fn open_db(db_path: &Path) -> Result<Connection> {
+    agileplus_sqlite::ensure_database_parent(db_path)
+        .map_err(|error| anyhow::anyhow!(error.to_string()))?;
     let conn = Connection::open(db_path)
         .with_context(|| format!("opening database at {}", db_path.display()))?;
     conn.execute_batch("PRAGMA foreign_keys=ON;")

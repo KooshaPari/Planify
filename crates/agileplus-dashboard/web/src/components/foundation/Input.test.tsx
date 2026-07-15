@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 import { Input } from './Input';
 
 /**
@@ -43,13 +44,17 @@ describe('Input Component', () => {
   });
 
   it('renders password input type', () => {
-    render(<Input type="password" />);
-    expect(screen.getByRole('textbox')).toHaveAttribute('type', 'password');
+    const { container } = render(<Input type="password" />);
+    const input = container.querySelector('input[type="password"]');
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveAttribute('type', 'password');
   });
 
   it('renders number input type', () => {
-    render(<Input type="number" />);
-    expect(screen.getByRole('textbox')).toHaveAttribute('type', 'number');
+    const { container } = render(<Input type="number" />);
+    const input = container.querySelector('input[type="number"]');
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveAttribute('type', 'number');
   });
 
   // ============================================================================
@@ -57,7 +62,7 @@ describe('Input Component', () => {
   // ============================================================================
 
   it('handles onChange event', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     render(<Input onChange={onChange} />);
     const input = screen.getByRole('textbox');
 

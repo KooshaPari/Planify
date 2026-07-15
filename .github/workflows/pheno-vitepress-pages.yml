@@ -1,0 +1,69 @@
+name: VitePress Pages (local)
+
+on:
+  workflow_call:
+    inputs:
+      concurrency_group:
+        required: false
+        type: string
+        default: vitepress-pages
+      custom_domain:
+        required: false
+        type: boolean
+        default: false
+      docs_dir:
+        required: false
+        type: string
+        default: docs
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ inputs.concurrency_group }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Clone phenodocs
+        run: git clone --depth 1 https://github.com/KooshaPari/phenodocs.git /tmp/phenodocs
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies
+        working-directory: ${{ inputs.docs_dir }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p node_modules/@phenotype
+          ln -sf /tmp/phenodocs/packages/docs node_modules/@phenotype/docs
+          echo "@phenotype:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
+          bun install
+
+      - name: Build VitePress site
+        working-directory: ${{ inputs.docs_dir }}
+        env:
+          GITHUB_PAGES: true
+          PHENOTYPE_CUSTOM_DOMAIN: ${{ inputs.custom_domain }}
+        run: bun run docs:build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ inputs.docs_dir }}/docs/.vitepress/dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

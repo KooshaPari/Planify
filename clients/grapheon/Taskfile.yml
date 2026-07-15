@@ -1,0 +1,63 @@
+# Taskfile for AgilePlus/clients/grapheon
+#
+# Polyglot-compatible client linkage tasks. Mirrors justfile recipes
+# for systems where `just` isn't installed but `go-task` is.
+
+version: '3'
+
+vars:
+  GRAPHEON_FRONTEND: ../../../grapheon-frontend
+  GRAPHEON_SERVER: ../../../Grapheon
+
+tasks:
+  default:
+    desc: List all available tasks
+    cmds:
+      - task --list
+
+  status:
+    desc: Show linkage status + drift detection
+    cmds:
+      - ls -la grapheon-frontend grapheon-server
+      - cmd: |
+          for d in grapheon-frontend grapheon-server; do
+            if [ -L "$d" ]; then
+              target=$(readlink "$d")
+              if [ -d "$target" ]; then
+                echo "  [OK]     $d -> $target"
+              else
+                echo "  [BROKEN] $d -> $target (target missing)"
+              fi
+            elif [ -d "$d" ]; then
+              echo "  [DIR]    $d (not a symlink)"
+            else
+              echo "  [MISSING] $d"
+            fi
+          done
+
+  link:
+    desc: Create symlinks for grapheon-frontend + grapheon-server
+    cmds:
+      - mkdir -p .
+      - ln -sfn {{.GRAPHEON_FRONTEND}} grapheon-frontend
+      - ln -sfn {{.GRAPHEON_SERVER}} grapheon-server
+      - task: status
+
+  unlink:
+    desc: Remove symlinks (source repos untouched)
+    cmds:
+      - rm -f grapheon-frontend grapheon-server
+      - echo "Done."
+
+  refresh:
+    desc: Refresh symlinks (remove + recreate)
+    cmds:
+      - task: unlink
+      - task: link
+
+  verify:
+    desc: Verify linkage + show contents
+    cmds:
+      - task: status
+      - ls grapheon-frontend/ | head -5
+      - ls grapheon-server/ | head -5

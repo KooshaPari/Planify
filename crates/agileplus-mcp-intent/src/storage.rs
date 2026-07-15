@@ -63,9 +63,7 @@ pub async fn store_graph(
 
 /// Open a SQLite storage adapter from the `AGILEPLUS_DB` env or default path.
 pub fn open_storage() -> anyhow::Result<SqliteStorageAdapter> {
-    let db_path = std::env::var("AGILEPLUS_DB")
-        .map(std::path::PathBuf::from)
-        .unwrap_or_else(|_| std::path::PathBuf::from("agileplus.db"));
+    let db_path = agileplus_sqlite::resolve_db_path(None, std::env::var_os("AGILEPLUS_DB"));
     SqliteStorageAdapter::new(&db_path)
         .with_context(|| format!("open SQLite storage at {db_path:?}"))
 }

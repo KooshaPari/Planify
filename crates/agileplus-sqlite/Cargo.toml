@@ -6,6 +6,7 @@ license.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+anyhow.workspace = true
 agileplus-domain = { path = "../agileplus-domain" }
 agileplus-events = { path = "../agileplus-events" }
 rusqlite = { version = "0.32", features = ["bundled"] }

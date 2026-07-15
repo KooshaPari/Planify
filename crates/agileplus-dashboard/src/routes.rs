@@ -2846,4 +2846,61 @@ mod tests {
         let all_healthy = json.get("all_healthy").unwrap().as_bool().unwrap();
         assert!(all_healthy);
     }
+
+    #[tokio::test]
+    async fn cockpit_json_routes_have_stable_contracts() {
+        let state = make_state();
+        let app = router(state);
+
+        let work_packages_response = app
+            .clone()
+            .oneshot(
+                axum::http::Request::builder()
+                    .method("GET")
+                    .uri("/api/dashboard/work-packages.json")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(
+            work_packages_response.status(),
+            axum::http::StatusCode::OK
+        );
+        let work_packages: serde_json::Value = serde_json::from_slice(
+            &axum::body::to_bytes(work_packages_response.into_body(), usize::MAX)
+                .await
+                .unwrap(),
+        )
+        .unwrap();
+        assert!(work_packages["work_packages"].is_array());
+        assert!(work_packages["count"].is_number());
+        assert!(work_packages["timestamp"].is_string());
+
+        let epics_stories_response = app
+            .oneshot(
+                axum::http::Request::builder()
+                    .method("GET")
+                    .uri("/api/dashboard/epics-stories.json")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(
+            epics_stories_response.status(),
+            axum::http::StatusCode::OK
+        );
+        let epics_stories: serde_json::Value = serde_json::from_slice(
+            &axum::body::to_bytes(epics_stories_response.into_body(), usize::MAX)
+                .await
+                .unwrap(),
+        )
+        .unwrap();
+        assert!(epics_stories["epics"].is_array());
+        assert!(epics_stories["stories"].is_array());
+        assert!(epics_stories["epic_count"].is_number());
+        assert!(epics_stories["story_count"].is_number());
+        assert!(epics_stories["timestamp"].is_string());
+    }
 }

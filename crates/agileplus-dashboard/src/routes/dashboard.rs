@@ -29,8 +29,8 @@ use crate::templates::{
 };
 
 use super::helpers::{
-    build_kanban_cards, dashboard_filter_from_query, is_htmx, load_projects, render,
-    DashboardFilter,
+    DashboardFilter, build_kanban_cards, dashboard_filter_from_query, is_htmx, load_projects,
+    render,
 };
 
 // â”€â”€ JSON API Response Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -375,7 +375,7 @@ pub async fn time_footer() -> axum::response::Html<String> {
 
 use axum::response::sse::{Event, Sse};
 use std::convert::Infallible;
-use tokio::time::{interval, Duration};
+use tokio::time::{Duration, interval};
 
 /// GET /api/stream (Server-Sent Events)
 /// Streams real-time feature and health updates to connected clients.
@@ -457,15 +457,24 @@ pub async fn all_work_packages_json(State(state): State<SharedState>) -> impl In
 /// Reads Epics + Stories directly from the SQLite database and returns them
 /// as a flat JSON payload. Used by the React dashboard at port 5176.
 pub async fn epics_stories_json() -> impl IntoResponse {
-    // Resolve db path: DATABASE_URL env â†’ DATABASE_PATH env â†’ default agileplus.db
+    // Deployment overrides win, followed by AGILEPLUS_DB and the canonical local default.
     let db_path: PathBuf = if let Ok(url) = std::env::var("DATABASE_URL") {
         url.strip_prefix("sqlite:").unwrap_or(&url).into()
     } else if let Ok(p) = std::env::var("DATABASE_PATH") {
         PathBuf::from(p)
     } else {
-        PathBuf::from("agileplus.db")
+        agileplus_sqlite::resolve_db_path(None, std::env::var_os("AGILEPLUS_DB"))
     };
 
+    if let Err(e) = agileplus_sqlite::ensure_database_parent(&db_path) {
+        return axum::Json(serde_json::json!({
+            "epics": [],
+            "stories": [],
+            "epic_count": 0,
+            "story_count": 0,
+            "error": e.to_string(),
+        }));
+    }
     let conn = match rusqlite::Connection::open(&db_path) {
         Ok(c) => c,
         Err(e) => {

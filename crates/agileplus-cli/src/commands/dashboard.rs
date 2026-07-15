@@ -25,7 +25,7 @@
 //!       --limit <N>        How many rows to show per "recent" section.
 //!                          [default: 5]
 //!       --db <PATH>        SQLite database path.  [default: $AGILEPLUS_DB
-//!                          or ./agileplus.db]
+//!                          or .agileplus/agileplus.db]
 //!       --json             Emit the same data as a structured JSON
 //!                          document instead of the ASCII table.
 //!       --no-color         Suppress ANSI color escape codes in the
@@ -45,7 +45,8 @@ use agileplus_domain::domain::work_package::WpState;
 #[cfg_attr(not(test), allow(unused_imports))]
 use agileplus_sqlite::migrations::MigrationRunner;
 
-use crate::commands::trace::{open_db, resolve_db_path};
+use crate::commands::trace::open_db;
+use crate::db_path::resolve_db_path;
 
 // â”€â”€ CLI surface â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
@@ -55,7 +56,7 @@ pub struct DashboardArgs {
     #[arg(long, value_name = "N", default_value_t = 5)]
     pub limit: i64,
 
-    /// SQLite database path. Defaults to `$AGILEPLUS_DB` or `./agileplus.db`.
+    /// SQLite database path. Defaults to `$AGILEPLUS_DB` or `.agileplus/agileplus.db`.
     #[arg(long, value_name = "PATH")]
     pub db: Option<PathBuf>,
 

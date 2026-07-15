@@ -5,7 +5,7 @@
 
 use std::error::Error;
 
-use phenotype_error_core::ErrorCode;
+use agileplus_error_core::ErrorCode;
 use thiserror::Error;
 
 use agileplus_domain::error::DomainError;

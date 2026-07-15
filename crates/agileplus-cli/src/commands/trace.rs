@@ -22,7 +22,7 @@
 //!       --by <ACTOR>         Actor recording the link.  [default:
 //!                            $USER or "system"]
 //!       --db <PATH>          SQLite database path.  [default: $AGILEPLUS_DB
-//!                            or ./agileplus.db]
+//!                            or .agileplus/agileplus.db]
 //! ```
 //!
 //! ## Example
@@ -38,6 +38,7 @@ use anyhow::{anyhow, bail, Context, Result};
 use clap::{Args, Subcommand};
 use rusqlite::{params, Connection};
 
+use crate::db_path::resolve_db_path;
 use agileplus_sqlite::migrations::MigrationRunner;
 
 // â”€â”€ CLI surface â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -95,7 +96,7 @@ pub struct LinkArgs {
     #[arg(long, value_name = "ACTOR")]
     pub by: Option<String>,
 
-    /// SQLite database path. Defaults to `$AGILEPLUS_DB` or `./agileplus.db`.
+    /// SQLite database path. Defaults to `$AGILEPLUS_DB` or `.agileplus/agileplus.db`.
     #[arg(long, value_name = "PATH")]
     pub db: Option<PathBuf>,
 }
@@ -363,13 +364,6 @@ pub(crate) fn open_db(path: &Path) -> Result<Connection> {
     let runner = MigrationRunner::new(&conn);
     runner.run_all().context("running migrations")?;
     Ok(conn)
-}
-
-pub(crate) fn resolve_db_path(override_path: Option<&Path>) -> PathBuf {
-    override_path
-        .map(|p| p.to_path_buf())
-        .or_else(|| std::env::var("AGILEPLUS_DB").ok().map(PathBuf::from))
-        .unwrap_or_else(|| PathBuf::from("agileplus.db"))
 }
 
 pub(crate) fn truncate(s: &str, max: usize) -> String {

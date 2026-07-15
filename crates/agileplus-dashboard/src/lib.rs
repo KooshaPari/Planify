@@ -4,6 +4,7 @@
 pub mod app_state;
 pub mod health;
 pub mod process_detector;
+#[path = "routes/mod.rs"]
 pub mod routes;
 pub mod seed;
 pub mod seed_bridge;

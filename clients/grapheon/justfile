@@ -1,0 +1,79 @@
+# justfile for AgilePlus/clients/grapheon
+#
+# Client linkage between AgilePlus monorepo and the Grapheon source repos.
+# Symlinks grapheon-frontend + grapheon-server into the monorepo so updates
+# in the source repos are visible immediately.
+#
+# Usage:
+#   just link       # Create symlinks under clients/grapheon/  (default; idempotent)
+#   just status     # Show what's currently linked and any drift
+#   just unlink     # Remove the symlinks (does NOT delete the source repos)
+#   just refresh    # Pull latest from source repos
+#
+# https://github.com/casey/just
+
+set shell := ["bash", "-uc"]
+set dotenv-load := true
+set positional-arguments := true
+
+# Source repos (relative paths — quoted to handle `..`)
+GRAPHEON_FRONTEND := "../../../grapheon-frontend"
+GRAPHEON_SERVER   := "../../../Grapheon"
+
+# ---------- meta ----------
+
+default:
+    @just --list --unsorted
+
+# Show linkage status + drift detection
+status:
+    @echo "=== Grapheon client symlinks ==="
+    @ls -la grapheon-frontend grapheon-server 2>&1
+    @echo ""
+    @echo "=== Drift check ==="
+    @just _check-link grapheon-frontend
+    @just _check-link grapheon-server
+
+# Internal helper: check if a symlink target exists and is readable
+_check-link name:
+    @if [ -L {{name}} ]; then \
+        target=$(readlink {{name}}); \
+        if [ -d "${target}" ]; then \
+            echo "  [OK]     {{name}} -> ${target}"; \
+        else \
+            echo "  [BROKEN] {{name}} -> ${target} (target missing)"; \
+        fi; \
+    elif [ -d {{name}} ]; then \
+        echo "  [DIR]    {{name}} (not a symlink — run \`just link\` to convert)"; \
+    else \
+        echo "  [MISSING] {{name}} (run \`just link\` to create)"; \
+    fi
+
+# ---------- link management ----------
+
+# Create symlinks for grapheon-frontend + grapheon-server
+link:
+    @echo "Linking Grapheon clients into AgilePlus..."
+    @mkdir -p .
+    @ln -sfn {{GRAPHEON_FRONTEND}} grapheon-frontend
+    @ln -sfn {{GRAPHEON_SERVER}}   grapheon-server
+    @echo "Done."
+    @just status
+
+# Remove symlinks (source repos untouched)
+unlink:
+    @echo "Removing Grapheon client symlinks..."
+    @rm -f grapheon-frontend grapheon-server
+    @echo "Done."
+
+# Refresh symlinks (remove + recreate)
+refresh: unlink link
+
+# Verify linkage + show what's inside
+verify:
+    @just status
+    @echo ""
+    @echo "=== Contents ==="
+    @ls grapheon-frontend/ 2>&1 | head -5
+    @echo "---"
+    @ls grapheon-server/ 2>&1 | head -5

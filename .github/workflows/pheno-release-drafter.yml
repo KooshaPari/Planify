@@ -1,0 +1,17 @@
+name: Release Drafter (local)
+
+on:
+  workflow_call:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-drafter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Draft release notes
+        uses: release-drafter/release-drafter@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

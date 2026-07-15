@@ -217,7 +217,7 @@ Every generated graph is validated against the embedded JSON Schema (`ontology.j
 
 ## Database Integration
 
-The `--store` flag (or `store: true` in options) writes Feature nodes to the AgilePlus SQLite database (`agileplus.db` by default, or `AGILEPLUS_DB` env var).
+The `--store` flag (or `store: true` in options) writes Feature nodes to the AgilePlus SQLite database (`AGILEPLUS_DB`, or `.agileplus/agileplus.db` by default).
 
 - `Intent` and `Plan` nodes are not stored (no direct tables yet).
 - `Feature` nodes are mapped to the `features` table.

@@ -184,6 +184,13 @@ tasks:
       - bun run docs:dev
     dir: docs
 
+  # === Accessibility ===
+  a11y:check:
+    desc: Run accessibility audit on the dashboard (vitest-axe + pa11y-ci)
+    cmds:
+      - cd crates/agileplus-dashboard/web && npm run a11y:axe
+    silent: false
+
   # === Protocol Buffers ===
   proto:
     desc: Generate protobuf/gRPC code

@@ -6,7 +6,7 @@
 //! Idempotent — safe to run multiple times (upsert by requirement_id).
 //!
 //! Usage:
-//!   cargo run -p agileplus-sqlite --bin seed_requirements -- --db agileplus.db
+//!   cargo run -p agileplus-sqlite --bin seed_requirements -- --db .agileplus/agileplus.db
 
 use std::path::PathBuf;
 
@@ -23,7 +23,7 @@ fn main() -> anyhow::Result<()> {
     // Simple arg parse: --db <path>
     let args: Vec<String> = std::env::args().collect();
     let db_path: PathBuf = {
-        let mut p = PathBuf::from("agileplus.db");
+        let mut p = agileplus_sqlite::resolve_db_path(None, std::env::var_os("AGILEPLUS_DB"));
         let mut i = 1;
         while i < args.len() {
             if args[i] == "--db" && i + 1 < args.len() {
@@ -36,13 +36,15 @@ fn main() -> anyhow::Result<()> {
     };
 
     println!("Opening database: {}", db_path.display());
+    agileplus_sqlite::ensure_database_parent(&db_path)
+        .map_err(|error| anyhow::anyhow!(error.to_string()))?;
     let conn = rusqlite::Connection::open(&db_path)?;
     conn.execute_batch("PRAGMA foreign_keys=ON;")?;
 
     let runner = agileplus_sqlite::migrations::MigrationRunner::new(&conn);
     runner.run_all().map_err(|e| anyhow::anyhow!("{e}"))?;
 
-    use agileplus_sqlite::seed::{seed_requirements, Initiative};
+    use agileplus_sqlite::seed::{Initiative, seed_requirements};
 
     let initiatives = vec![
         Initiative {

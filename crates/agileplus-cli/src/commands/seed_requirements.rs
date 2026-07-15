@@ -9,7 +9,7 @@ use std::path::PathBuf;
 
 use clap::Args;
 
-use agileplus_sqlite::seed::{seed_requirements, Initiative};
+use agileplus_sqlite::seed::{Initiative, seed_requirements};
 
 /// Embedded catalog markdown files â€” bundled at compile time.
 /// Paths are relative to this source file:
@@ -27,8 +27,8 @@ const PHENOOBSERVABILITY_CATALOG: &str =
 /// Arguments for the `seed-requirements` subcommand.
 #[derive(Args, Debug)]
 pub struct SeedRequirementsArgs {
-    /// Path to the SQLite database file. Defaults to `./agileplus.db`.
-    #[arg(long, default_value = "agileplus.db")]
+    /// Path to the SQLite database file. Defaults to `AGILEPLUS_DB`, then `.agileplus/agileplus.db`.
+    #[arg(long, env = "AGILEPLUS_DB", default_value = agileplus_sqlite::DEFAULT_DB_PATH)]
     pub db: PathBuf,
 
     /// Print a detailed per-story report.
@@ -37,6 +37,8 @@ pub struct SeedRequirementsArgs {
 }
 
 pub fn run(args: &SeedRequirementsArgs) -> anyhow::Result<()> {
+    agileplus_sqlite::ensure_database_parent(&args.db)
+        .map_err(|error| anyhow::anyhow!(error.to_string()))?;
     let conn = rusqlite::Connection::open(&args.db)?;
     conn.execute_batch("PRAGMA foreign_keys=ON;")?;
     let runner = agileplus_sqlite::migrations::MigrationRunner::new(&conn);

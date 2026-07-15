@@ -3,13 +3,13 @@
 //! the embedded FR/NFR catalogs into the target SQLite database.
 //!
 //! Usage:  cargo run -p agileplus-sqlite --bin seed_db -- [path/to/agileplus.db]
-//! Default db path: agileplus.db  (relative to CWD)
+//! Default db path: AGILEPLUS_DB, then .agileplus/agileplus.db
 
 use std::path::PathBuf;
 
 use agileplus_sqlite::{
     migrations::MigrationRunner,
-    seed::{seed_requirements, Initiative},
+    seed::{Initiative, seed_requirements},
 };
 
 const AGILEPLUS_CATALOG: &str = include_str!("../../../../docs/requirements/agileplus-frnfr.md");
@@ -22,10 +22,14 @@ fn main() -> anyhow::Result<()> {
     let db_path: PathBuf = std::env::args()
         .nth(1)
         .map(PathBuf::from)
-        .unwrap_or_else(|| PathBuf::from("agileplus.db"));
+        .unwrap_or_else(|| {
+            agileplus_sqlite::resolve_db_path(None, std::env::var_os("AGILEPLUS_DB"))
+        });
 
     println!("Seeding database at: {}", db_path.display());
 
+    agileplus_sqlite::ensure_database_parent(&db_path)
+        .map_err(|error| anyhow::anyhow!(error.to_string()))?;
     let conn = rusqlite::Connection::open(&db_path)?;
     conn.execute_batch("PRAGMA foreign_keys=ON;")?;
 

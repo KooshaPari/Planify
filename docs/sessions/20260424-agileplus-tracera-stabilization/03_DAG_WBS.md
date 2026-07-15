@@ -116,3 +116,15 @@
    - Re-run full workspace clippy/test once local disk has enough free space for
      a full rebuild.
    - Prepare a landing branch/PR split that keeps unrelated dirty work isolated.
+
+## 2026-07-15 DB-002 Canonical Path Closure
+
+- [x] Enroll CLI, dashboard, SQLite, and MCP intent production crates in the root workspace.
+- [x] Standardize local precedence: explicit path, `AGILEPLUS_DB`, `.agileplus/agileplus.db`.
+- [x] Preserve deployment overrides including `/data/agileplus.db`.
+- [x] Create database parent directories before file-backed opens.
+- [x] Format the changed Rust slice with Rust 2024 settings.
+- [!] Package checks/tests stop during dependency resolution because the existing
+  `agileplus-git` manifest requires yanked `gix 0.82.0`; no DB-002 code compiles
+  before that unrelated workspace debt is resolved.
+- [x] Replay the polyrepo seeder twice against a temporary canonical database copy.

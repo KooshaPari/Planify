@@ -315,6 +315,90 @@ export interface OnboardingProps {
 // Demo / Onboarding Checklist Types
 // ============================================================================
 
+// ============================================================================
+// Accessibility Audit Types
+// ============================================================================
+
+/**
+ * Severity levels for accessibility audit findings
+ */
+export type A11ySeverity = 'critical' | 'serious' | 'moderate' | 'minor';
+
+/**
+ * WCAG 2.2 success criterion reference
+ */
+export interface WcagCriterion {
+  /** Criterion number (e.g. "1.1.1", "2.4.7") */
+  id: string;
+  /** Criterion title (e.g. "Non-text Content") */
+  title: string;
+  /** Conformance level: A, AA, or AAA */
+  level: 'A' | 'AA' | 'AAA';
+  /** Description of the criterion */
+  description: string;
+}
+
+/**
+ * A single accessibility audit finding for a component or page
+ */
+export interface A11yFinding {
+  /** Unique identifier for this finding */
+  id: string;
+  /** Affected component or page name */
+  component: string;
+  /** WCAG 2.2 criterion reference */
+  criterion: WcagCriterion;
+  /** Severity of the issue */
+  severity: A11ySeverity;
+  /** Human-readable description of the issue */
+  description: string;
+  /** Suggested remediation */
+  remediation: string;
+  /** Current status */
+  status: 'open' | 'in_progress' | 'resolved' | 'waived';
+}
+
+/**
+ * Component-level accessibility audit result
+ */
+export interface ComponentA11yResult {
+  /** Component name */
+  component: string;
+  /** Number of axe-core violations found */
+  violations: number;
+  /** Whether the component passes all axe-core checks */
+  passes: boolean;
+  /** Detailed findings for this component */
+  findings: A11yFinding[];
+  /** WCAG 2.2 conformance level achieved */
+  conformanceLevel: 'A' | 'AA' | 'AAA' | 'none';
+  /** ISO date of last audit */
+  lastAudited: string;
+}
+
+/**
+ * Overall accessibility audit report
+ */
+export interface AccessibilityAudit {
+  /** ISO date of the audit */
+  auditDate: string;
+  /** Overall score (0-100) */
+  score: number;
+  /** Per-component results */
+  components: ComponentA11yResult[];
+  /** Total number of violations across all components */
+  totalViolations: number;
+  /** Summary of pass/fail by WCAG principle */
+  summary: {
+    perceivable: { pass: number; fail: number };
+    operable: { pass: number; fail: number };
+    understandable: { pass: number; fail: number };
+    robust: { pass: number; fail: number };
+  };
+  /** Target score for next audit */
+  targetScore: number;
+}
+
 export interface DemoTask {
   /** Unique identifier for this task (e.g. "create-epic") */
   id: string;

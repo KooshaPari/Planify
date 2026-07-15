@@ -87,7 +87,7 @@ mod tests {
     async fn worklog_schema_executes_via_dyn_trait() {
         let command = schema_command();
         let dyn_command: &dyn SubcommandAsync = &command;
-        let mut ctx = Context::new("agileplus.db");
+        let mut ctx = Context::new(crate::db_path::default_db_path());
 
         let result = dyn_command.execute(&mut ctx).await;
         assert!(result.is_ok());
@@ -97,7 +97,7 @@ mod tests {
     async fn version_executes_via_dyn_trait() {
         let command = VersionArgs;
         let dyn_command: &dyn SubcommandAsync = &command;
-        let mut ctx = Context::new("agileplus.db");
+        let mut ctx = Context::new(crate::db_path::default_db_path());
 
         let result = dyn_command.execute(&mut ctx).await;
         assert!(result.is_ok());

@@ -1,15 +1,21 @@
 name: Alert sync issues
+
 on:
   schedule:
-    - cron: '17 * * * *'
+    - cron: "17 * * * *"
   workflow_dispatch:
-permissions:
-  contents: read
 
+permissions:
+  issues: read
 
 jobs:
-  sync:
-    uses: KooshaPari/phenoShared/.github/workflows/alert-sync-issues.yml@main
-    with:
-      auto-label: auto-alert-sync
-      min_severity: medium
+  audit:
+    name: Audit alert-labelled issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: List pending alert issues
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh issue list --state open --label auto-alert-sync --json number,title,labels
