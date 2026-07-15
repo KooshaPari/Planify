@@ -12,7 +12,17 @@ serde_json.workspace = true
 chrono.workspace = true
 tracing.workspace = true
 anyhow.workspace = true
+clap.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
 
 [dev-dependencies]
 tempfile = "3"
 tokio = { version = "1", features = ["rt", "macros"] }
+
+[features]
+sqlite = []
+codebert = []
+bloom = []
+oai = []
+voyage = []

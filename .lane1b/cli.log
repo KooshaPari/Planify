@@ -1,0 +1,3934 @@
+Reading additional input from stdin...
+2026-07-05T04:52:47.293127Z ERROR codex_core::session::session: failed to load skill /Users/kooshapari/.agents/skills/thegent-skills/SKILL.md: missing YAML frontmatter delimited by ---
+2026-07-05T04:52:47.293811Z ERROR codex_core::session::session: failed to load skill /Users/kooshapari/.agents/skills/compute-mesh/SKILL.md: missing YAML frontmatter delimited by ---
+2026-07-05T04:52:47.293979Z ERROR codex_core::session::session: failed to load skill /Users/kooshapari/.agents/skills/codex-agent/SKILL.md: missing YAML frontmatter delimited by ---
+2026-07-05T04:52:47.294063Z ERROR codex_core::session::session: failed to load skill /Users/kooshapari/.agents/skills/gemini-agent/SKILL.md: missing YAML frontmatter delimited by ---
+2026-07-05T04:52:47.294206Z ERROR codex_core::session::session: failed to load skill /Users/kooshapari/.agents/skills/copilot-agent/SKILL.md: missing YAML frontmatter delimited by ---
+2026-07-05T04:52:47.294248Z ERROR codex_core::session::session: failed to load skill /Users/kooshapari/.agents/skills/forge-agent/SKILL.md: missing YAML frontmatter delimited by ---
+2026-07-05T04:52:47.294316Z ERROR codex_core::session::session: failed to load skill /Users/kooshapari/.agents/skills/cursor-agent/SKILL.md: missing YAML frontmatter delimited by ---
+OpenAI Codex v0.142.4
+--------
+workdir: /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: low
+reasoning summaries: none
+session id: 019f309f-2550-79d1-a3f5-5577abd35159
+--------
+user
+Make `cargo test -p agileplus-cli` COMPILE (0 errors) then RUN in /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile. Currently 149 TEST errors in three clusters: (1) missing dev-deps `assert_cmd` + `predicates`, (2) many E0195 lifetime-trait-sig drift in agileplus-cli/integration.rs against the Story/Epic/User port traits, (3) 2 unsafe calls to std::env::remove_var/set_var in agileplus-cli/src/main.rs (lines 515/521/523). Add missing dev-deps to the cli crate (use workspace versions). Fix E0195 by aligning the trait method sigs in cli/commands/integration.rs with the async_trait blanket impls in domain/ports.rs (or use the same fix-style I used in agileplus-domain/src/ports/story.rs:24 — async_trait + async fn). Fix unsafe env calls by wrapping them in `unsafe { ... }` blocks (justified: env mutation is unsafe in Rust 2024; a comment with a safety justification is enough).
+
+Iterate `cargo test -p agileplus-cli` until 0 errors then run tests; report pass/fail counts. Apply the three lenses: OPTIMIZE (smallest viable unsafe-blocks, comment-justified), DEBUG (each unsafe block + safety comment explains the single-threaded test env), ENRICH (add a smoke assertion that exercise/help --version still works — these are CLI tests after all). Do NOT git commit. Do NOT touch .lane1b/. Print files edited + final result.
+warning: failed to parse plugin hooks config /Users/kooshapari/.codex/plugins/cache/openai-codex/codex/1.0.5/hooks/hooks.json: unknown field `description`, expected `hooks` at line 2 column 15
+warning: Model metadata for `gpt-5.5` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.
+warning: Skill descriptions were shortened to fit the 2% skills context budget. Codex can still see every skill, but some descriptions are shorter. Disable unused skills or plugins to leave more room for the rest.
+codex
+I’ll use the required repo/debugging guidance, then inspect the target worktree and failing crate.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- cat /Users/kooshapari/.codex/skills/systematic-debugging/SKILL.md && cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && pwd && rg --files -g 'AGENTS.md' -g 'Cargo.toml' -g '*.rs' | sed -n '1,120p'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ exited 1 in 7707ms:
+snip: no filter for "cat", passing through -- you can run "cat" directly
+cat: /Users/kooshapari/.codex/skills/systematic-debugging/SKILL.md: No such file or directory
+
+codex
+Skill path alias differed; I’m correcting that and checking memory for AgilePlus-specific validation.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(13940) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- cat /Users/kooshapari/.agents/skills/systematic-debugging/SKILL.md && printf '\\n---MEMORY HITS---\\n' && rg -n \"AgilePlus|agileplus-cli|cargo test -p agileplus-cli|ports/story|cockpit\" /Users/kooshapari/.codex/memories/MEMORY.md" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ succeeded in 9628ms:
+snip: no filter for "cat", passing through -- you can run "cat" directly
+---
+name: systematic-debugging
+description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+---
+
+# Systematic Debugging
+
+## Overview
+
+Random fixes waste time and create new bugs. Quick patches mask underlying issues.
+
+**Core principle:** ALWAYS find root cause before attempting fixes. Symptom fixes are failure.
+
+**Violating the letter of this process is violating the spirit of debugging.**
+
+## The Iron Law
+
+```
+NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
+```
+
+If you haven't completed Phase 1, you cannot propose fixes.
+
+## When to Use
+
+Use for ANY technical issue:
+- Test failures
+- Bugs in production
+- Unexpected behavior
+- Performance problems
+- Build failures
+- Integration issues
+
+**Use this ESPECIALLY when:**
+- Under time pressure (emergencies make guessing tempting)
+- "Just one quick fix" seems obvious
+- You've already tried multiple fixes
+- Previous fix didn't work
+- You don't fully understand the issue
+
+**Don't skip when:**
+- Issue seems simple (simple bugs have root causes too)
+- You're in a hurry (rushing guarantees rework)
+- Manager wants it fixed NOW (systematic is faster than thrashing)
+
+## The Four Phases
+
+You MUST complete each phase before proceeding to the next.
+
+### Phase 1: Root Cause Investigation
+
+**BEFORE attempting ANY fix:**
+
+1. **Read Error Messages Carefully**
+   - Don't skip past errors or warnings
+   - They often contain the exact solution
+   - Read stack traces completely
+   - Note line numbers, file paths, error codes
+
+2. **Reproduce Consistently**
+   - Can you trigger it reliably?
+   - What are the exact steps?
+   - Does it happen every time?
+   - If not reproducible → gather more data, don't guess
+
+3. **Check Recent Changes**
+   - What changed that could cause this?
+   - Git diff, recent commits
+   - New dependencies, config changes
+   - Environmental differences
+
+4. **Gather Evidence in Multi-Component Systems**
+
+   **WHEN system has multiple components (CI → build → signing, API → service → database):**
+
+   **BEFORE proposing fixes, add diagnostic instrumentation:**
+   ```
+   For EACH component boundary:
+     - Log what data enters component
+     - Log what data exits component
+     - Verify environment/config propagation
+     - Check state at each layer
+
+   Run once to gather evidence showing WHERE it breaks
+   THEN analyze evidence to identify failing component
+   THEN investigate that specific component
+   ```
+
+   **Example (multi-layer system):**
+   ```bash
+   # Layer 1: Workflow
+   echo "=== Secrets available in workflow: ==="
+   echo "IDENTITY: ${IDENTITY:+SET}${IDENTITY:-UNSET}"
+
+   # Layer 2: Build script
+   echo "=== Env vars in build script: ==="
+   env | grep IDENTITY || echo "IDENTITY not in environment"
+
+   # Layer 3: Signing script
+   echo "=== Keychain state: ==="
+   security list-keychains
+   security find-identity -v
+
+   # Layer 4: Actual signing
+   codesign --sign "$IDENTITY" --verbose=4 "$APP"
+   ```
+
+   **This reveals:** Which layer fails (secrets → workflow ✓, workflow → build ✗)
+
+5. **Trace Data Flow**
+
+   **WHEN error is deep in call stack:**
+
+   See `root-cause-tracing.md` in this directory for the complete backward tracing technique.
+
+   **Quick version:**
+   - Where does bad value originate?
+   - What called this with bad value?
+   - Keep tracing up until you find the source
+   - Fix at source, not at symptom
+
+### Phase 2: Pattern Analysis
+
+**Find the pattern before fixing:**
+
+1. **Find Working Examples**
+   - Locate similar working code in same codebase
+   - What works that's similar to what's broken?
+
+2. **Compare Against References**
+   - If implementing pattern, read reference implementation COMPLETELY
+   - Don't skim - read every line
+   - Understand the pattern fully before applying
+
+3. **Identify Differences**
+   - What's different between working and broken?
+   - List every difference, however small
+   - Don't assume "that can't matter"
+
+4. **Understand Dependencies**
+   - What other components does this need?
+   - What settings, config, environment?
+   - What assumptions does it make?
+
+### Phase 3: Hypothesis and Testing
+
+**Scientific method:**
+
+1. **Form Single Hypothesis**
+   - State clearly: "I think X is the root cause because Y"
+   - Write it down
+   - Be specific, not vague
+
+2. **Test Minimally**
+   - Make the SMALLEST possible change to test hypothesis
+   - One variable at a time
+   - Don't fix multiple things at once
+
+3. **Verify Before Continuing**
+   - Did it work? Yes → Phase 4
+   - Didn't work? Form NEW hypothesis
+   - DON'T add more fixes on top
+
+4. **When You Don't Know**
+   - Say "I don't understand X"
+   - Don't pretend to know
+   - Ask for help
+   - Research more
+
+### Phase 4: Implementation
+
+**Fix the root cause, not the symptom:**
+
+1. **Create Failing Test Case**
+   - Simplest possible reproduction
+   - Automated test if possible
+   - One-off test script if no framework
+   - MUST have before fixing
+   - Use the `superpowers:test-driven-development` skill for writing proper failing tests
+
+2. **Implement Single Fix**
+   - Address the root cause identified
+   - ONE change at a time
+   - No "while I'm here" improvements
+   - No bundled refactoring
+
+3. **Verify Fix**
+   - Test passes now?
+   - No other tests broken?
+   - Issue actually resolved?
+
+4. **If Fix Doesn't Work**
+   - STOP
+   - Count: How many fixes have you tried?
+   - If < 3: Return to Phase 1, re-analyze with new information
+   - **If ≥ 3: STOP and question the architecture (step 5 below)**
+   - DON'T attempt Fix #4 without architectural discussion
+
+5. **If 3+ Fixes Failed: Question Architecture**
+
+   **Pattern indicating architectural problem:**
+   - Each fix reveals new shared state/coupling/problem in different place
+   - Fixes require "massive refactoring" to implement
+   - Each fix creates new symptoms elsewhere
+
+   **STOP and question fundamentals:**
+   - Is this pattern fundamentally sound?
+   - Are we "sticking with it through sheer inertia"?
+   - Should we refactor architecture vs. continue fixing symptoms?
+
+   **Discuss with your human partner before attempting more fixes**
+
+   This is NOT a failed hypothesis - this is a wrong architecture.
+
+## Red Flags - STOP and Follow Process
+
+If you catch yourself thinking:
+- "Quick fix for now, investigate later"
+- "Just try changing X and see if it works"
+- "Add multiple changes, run tests"
+- "Skip the test, I'll manually verify"
+- "It's probably X, let me fix that"
+- "I don't fully understand but this might work"
+- "Pattern says X but I'll adapt it differently"
+- "Here are the main problems: [lists fixes without investigation]"
+- Proposing solutions before tracing data flow
+- **"One more fix attempt" (when already tried 2+)**
+- **Each fix reveals new problem in different place**
+
+**ALL of these mean: STOP. Return to Phase 1.**
+
+**If 3+ fixes failed:** Question the architecture (see Phase 4.5)
+
+## your human partner's Signals You're Doing It Wrong
+
+**Watch for these redirections:**
+- "Is that not happening?" - You assumed without verifying
+- "Will it show us...?" - You should have added evidence gathering
+- "Stop guessing" - You're proposing fixes without understanding
+- "Ultrathink this" - Question fundamentals, not just symptoms
+- "We're stuck?" (frustrated) - Your approach isn't working
+
+**When you see these:** STOP. Return to Phase 1.
+
+## Common Rationalizations
+
+| Excuse | Reality |
+|--------|---------|
+| "Issue is simple, don't need process" | Simple issues have root causes too. Process is fast for simple bugs. |
+| "Emergency, no time for process" | Systematic debugging is FASTER than guess-and-check thrashing. |
+| "Just try this first, then investigate" | First fix sets the pattern. Do it right from the start. |
+| "I'll write test after confirming fix works" | Untested fixes don't stick. Test first proves it. |
+| "Multiple fixes at once saves time" | Can't isolate what worked. Causes new bugs. |
+| "Reference too long, I'll adapt the pattern" | Partial understanding guarantees bugs. Read it completely. |
+| "I see the problem, let me fix it" | Seeing symptoms ≠ understanding root cause. |
+| "One more fix attempt" (after 2+ failures) | 3+ failures = architectural problem. Question pattern, don't fix again. |
+
+## Quick Reference
+
+| Phase | Key Activities | Success Criteria |
+|-------|---------------|------------------|
+| **1. Root Cause** | Read errors, reproduce, check changes, gather evidence | Understand WHAT and WHY |
+| **2. Pattern** | Find working examples, compare | Identify differences |
+| **3. Hypothesis** | Form theory, test minimally | Confirmed or new hypothesis |
+| **4. Implementation** | Create test, fix, verify | Bug resolved, tests pass |
+
+## When Process Reveals "No Root Cause"
+
+If systematic investigation reveals issue is truly environmental, timing-dependent, or external:
+
+1. You've completed the process
+2. Document what you investigated
+3. Implement appropriate handling (retry, timeout, error message)
+4. Add monitoring/logging for future investigation
+
+**But:** 95% of "no root cause" cases are incomplete investigation.
+
+## Supporting Techniques
+
+These techniques are part of systematic debugging and available in this directory:
+
+- **`root-cause-tracing.md`** - Trace bugs backward through call stack to find original trigger
+- **`defense-in-depth.md`** - Add validation at multiple layers after finding root cause
+- **`condition-based-waiting.md`** - Replace arbitrary timeouts with condition polling
+
+**Related skills:**
+- **superpowers:test-driven-development** - For creating failing test case (Phase 4, Step 1)
+- **superpowers:verification-before-completion** - Verify fix worked before claiming success
+
+## Real-World Impact
+
+From debugging sessions:
+- Systematic approach: 15-30 minutes to fix
+- Random fixes approach: 2-3 hours of thrashing
+- First-time fix rate: 95% vs 40%
+- New bugs introduced: Near zero vs common
+
+---MEMORY HITS---
+1:# Task Group: Phenotype repo manager-mode coordination and cockpit reporting
+5:## Task 1: Persist manager/coordinator + cockpit closeout preference, preference update
+9:- extensions/ad_hoc/notes/2026-06-26-manager-cockpit-reporting.md (cwd=/Users/kooshapari/CodeProjects/Phenotype/repos, rollout_path=extensions/ad_hoc/notes/2026-06-26-manager-cockpit-reporting.md, updated_at=2026-06-26, thread_id=ad-hoc-note, authoritative extension note for closeout format) [ad-hoc note]
+17:- manager mode, sponsor, coordinator, cockpit dashboard, progress bars, agents table, DAG status, ETA tree, macOS glyphs, nerd-font symbols, Phenotype repos
+19:## Task 2: Persist cockpit symbol set and top repo-state bracket, preference update
+23:- extensions/ad_hoc/notes/2026-07-02T223129Z-cockpit-repo-bracket.md (cwd=/Users/kooshapari/CodeProjects/Phenotype/repos, rollout_path=extensions/ad_hoc/notes/2026-07-02T223129Z-cockpit-repo-bracket.md, updated_at=2026-07-02T22:31:29+00:00, thread_id=ad-hoc-note, authoritative extension note for one-line repo-state bracket) [ad-hoc note]
+24:- extensions/ad_hoc/notes/2026-07-02T223009Z-chat-symbols-cockpit.md (cwd=/Users/kooshapari/CodeProjects/Phenotype/repos, rollout_path=extensions/ad_hoc/notes/2026-07-02T223009Z-chat-symbols-cockpit.md, updated_at=2026-07-02T22:30:09+00:00, thread_id=ad-hoc-note, authoritative extension note for cockpit symbol preferences) [ad-hoc note]
+28:- cockpit tick, dashboard-style status report, top bracket, repo/project ownership, Nerd Font, unix-style symbols, non-emoji symbol, [omniroute, pheno, substrate, docs]
+30:## Task 3: Persist polyrepo cockpit tree and ASCII-friendly symbol preference, preference update
+34:- extensions/ad_hoc/notes/20260703-cockpit-polyrepo-dashboard.md (cwd=/Users/kooshapari/CodeProjects/Phenotype/repos, rollout_path=extensions/ad_hoc/notes/20260703-cockpit-polyrepo-dashboard.md, updated_at=2026-07-03, thread_id=ad-hoc-note, authoritative extension note for polyrepo cockpit tree details) [ad-hoc note]
+38:- polyrepo dashboard, cross-project dependencies, ownership tree, ASCII symbols, cockpit tree, elapsed ETA, repo bracket, compact recap
+44:- when ending substantive turns, use a compact cockpit rather than long prose: progress bar with true percent and score/coverage/task breakdowns, time-remaining tree with elapsed and ETA, DAG/lane status lines, `agent | task | state | summary`, and brief next steps/questions only when pertinent [Task 1] [ad-hoc note]
+45:- when formatting cockpit ticks, DAGs, progress trees, agent tables, and similar status reports, prefer compact "Nerd Font / unix-style symbols and icons" and "avoid emoji-style symbols by default" [Task 2] [ad-hoc note]
+46:- when writing a cockpit tick or dashboard-style status report, start with "a single-line top bracket summarizing repo/project ownership and state at a skim", keep it one line when possible, and put it before the progress bars, DAG, agent table, and questions [Task 2] [ad-hoc note]
+47:- when the work spans multiple repos/projects, include cross-project dependencies and ownership directly in the cockpit tree rather than leaving that context for prose below the dashboard [Task 3] [ad-hoc note]
+48:- when choosing cockpit symbols for substantial repo/polyrepo work, prefer compact unix/Nerd-Font-style symbols or plain ASCII symbols over emoji-style symbols when possible [Task 3] [ad-hoc note]
+54:- The 2026-07-02 cockpit-format notes make the status header more specific: begin with a one-line bracket such as `[omniroute 󰄬, pheno ↻, substrate 󰅚, docs ...]`, where each repo/project entry uses a short name plus one compact non-emoji state symbol [Task 2] [ad-hoc note]
+55:- The 2026-07-03 polyrepo cockpit note extends the dashboard schema for multi-repo work: keep the bracket first, render progress bars as a tree with elapsed/ETA when available, and show cross-project dependencies plus ownership in that tree so repo interactions are visible at a glance [Task 3] [ad-hoc note]
+57:- One note captures a time-specific strategic focus: "finish project management for the agents ecosystem and canonical project graph system, with immediate focus on Tracera and AgilePlus gap closure plus flourishing existing strengths" [Task 1] [ad-hoc note]
+62:- symptom: turn closeouts become long narrative reports with weak operational signal -> cause: not using the cockpit schema -> fix: end substantive turns with the requested dashboard elements and only add extra prose when it changes direction or risk [Task 1] [ad-hoc note]
+63:- symptom: cockpit status is harder to scan across polyrepo work -> cause: repos and states are buried lower in the dashboard or rendered with noisy symbols -> fix: put the one-line repo-state bracket first and use compact unix-style / Nerd Font symbols instead of emoji-style markers [Task 2] [ad-hoc note]
+64:- symptom: polyrepo status leaves ownership or dependency edges implicit -> cause: the cockpit tree shows only raw progress without cross-project structure -> fix: include cross-project dependencies and ownership in the tree itself so blockers and handoffs are visible in the dashboard [Task 3] [ad-hoc note]
+66:# Task Group: Phenotype repos Substrate/AgilePlus control-plane and cockpit runtime
+67:scope: Use for broad Rust workspace work under the main Phenotype repos checkout when the user wants a multi-crate Substrate/AgilePlus implementation slice finished end-to-end, validated with exact contract tests, committed, and pushed.
+68:applies_to: cwd=/Users/kooshapari/CodeProjects/Phenotype/repos with primary implementation in /Users/kooshapari/CodeProjects/Phenotype/repos/pheno; reuse_rule=safe for nearby Substrate/AgilePlus Rust work in this checkout family, but keep `pheno/` vs `agileplus/` source-of-truth boundaries explicit.
+70:## Task 1: Complete Substrate/AgilePlus control-plane epic, cockpit runtime, commit, and push, success
+74:- rollout_summaries/2026-06-27T23-19-09-yTWN-substrate_agileplus_cockpit_epic_completion_and_push.md (cwd=/Users/kooshapari/CodeProjects/Phenotype/repos, rollout_path=/Users/kooshapari/.codex/sessions/2026/06/27/rollout-2026-06-27T16-19-09-019f0b61-3b25-7ed3-9f7b-adc8678acc59.jsonl, updated_at=2026-06-30T00:25:29+00:00, thread_id=019f0b61-3b25-7ed3-9f7b-adc8678acc59, completed cockpit/runtime wiring and remote push)
+78:- substrate, AgilePlus, pheno, agileplus, cockpit update, dashboard event stream, router_with_events, conventional commits, git push --no-verify origin HEAD, Ponytail, subagents, build_substrate_dispatch_matches_current_cli_contract
+83:- when cockpit behavior was being defined, the user corrected: "No. Agents Currently [Cockpit] ... Instead all cockpit is one tool call that updates the realtime dashboard for that session" -> treat cockpit as a structured dashboard-update path, not chat suppression [Task 1]
+91:- `pheno/crates/agileplus-api` depends on the dashboard crate at `../../agileplus/crates/agileplus-dashboard`, and cockpit event-stream coverage requires the dashboard `router_with_events` export to stay public [Task 1]
+92:- The exact tests that proved the contract were `dashboard_cockpit_update_is_public_and_visible_in_snapshot`, `dashboard_cockpit_update_reaches_api_event_stream_channel`, `build_substrate_dispatch_matches_current_cli_contract`, and `dry_run_payload_contains_substrate_dispatch_shape` [Task 1]
+94:- The validated finish state was local commit `dc2c901` with message `feat(agileplus): complete epic runtime and cockpit work`, followed by `git push --no-verify origin HEAD` to `origin/chore/l5-110-adr-031-configra-canonical-markers-2026-06-18` [Task 1]
+99:- symptom: cleanup passes remove imports that tests still need -> cause: pruning from clippy output without checking the exact integration test modules -> fix: when cockpit/dashboard tests still reference a type like `CockpitEvent`, keep or locally qualify it instead of deleting the import globally [Task 1]
+
+  → Reproduce cli compile errors
+  • Patch deps, traits, env safety
+  • Add CLI smoke assertion
+  • Iterate cargo test
+  • Summarize edited files
+codex
+I’m in the worktree now, reproducing the exact crate failure first.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(23074) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && pwd && find .. -name AGENTS.md -print && git status --short && cargo test -p agileplus-cli'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ exited 1 in 8950ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+/Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile
+../speckitty-catalog/thegent-shm/AGENTS.md
+../speckitty-catalog/AGENTS.md
+../speckitty-catalog/.kittify/templates/AGENTS.md
+../speckitty-catalog/.kittify/AGENTS.md
+../sqlite-test-migration-runner/thegent-shm/AGENTS.md
+../sqlite-test-migration-runner/AGENTS.md
+../sqlite-test-migration-runner/.kittify/templates/AGENTS.md
+../sqlite-test-migration-runner/.kittify/AGENTS.md
+../cli-test-reconcile/thegent-shm/AGENTS.md
+../cli-test-reconcile/AGENTS.md
+../cli-test-reconcile/.kittify/templates/AGENTS.md
+../cli-test-reconcile/.kittify/AGENTS.md
+?? .lane1b/
+
+codex
+The status shows only `.lane1b/` untracked; I’ll leave it untouched and inspect local instructions plus cargo output.
+hook: PreToolUse
+hook: PreToolUse
+codex(23644) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && cat AGENTS.md && cargo test -p agileplus-cli 2>&1 | tee /tmp/agileplus-cli-test.out; exit "'${pipestatus[1]}'"'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+codex(23652) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+ exited 1 in 1163ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+# AgilePlus AGENTS.MD
+
+## Project Overview
+AgilePlus is the Phenotype-org spec-driven development framework. Rust CLI + workspace for managing specs, work packages, and project governance. CLI: `agileplus <command>`
+
+## Stack
+- Language: Rust
+- Build: Cargo workspace (members added when source exists; scaffolded crates/libs excluded until populated)
+- CLI: Custom typer-based CLI
+- Spec storage: `kitty-specs/` (inside the agileplus workspace)
+
+## Key Commands
+- `cargo build --release`
+- `cargo test`
+- `agileplus specify --title "<title>" --description "<desc>"`
+- `agileplus status <feature-id> --wp <wp-id> --state <state>`
+
+## Quality Gates
+- `cargo clippy --all` + `cargo fmt --all`
+- `cargo test --workspace`
+- `cargo deny check licenses` (configured via `deny.toml`)
+- `ruff check python/` (Python quality)
+
+## Branch Discipline
+- Feature work: `<repo>-wtrees/<subject>/` (e.g., `AgilePlus-wtrees/<topic>/`)
+- Canonical `AgilePlus/` = bare repo (main only, no direct commits)
+- Tracked workspace: `agileplus/` (lowercase; actual git worktree)
+- Branch naming: `chore/`, `feat/`, `fix/` prefixes
+
+## Governance Integration
+- Specs: `kitty-specs/<feature-id>/` (relative to agileplus workspace root)
+- Worklog: `AgilePlus/.work-audit/worklog.md`
+
+## Repo Structure
+- `agileplus/` — **primary tracked workspace** (lowercase; all actual source lives here)
+- `AgilePlus/` — bare git repo (remote: KooshaPari/AgilePlus; commits only via PR merge)
+- `*-wtrees/` — feature worktrees; safe to work in directly
+- `kitty-specs/` — root-level spec archive (legacy, read-only)
+- Individual repos: `Agentora/`, `pheno/`, etc.
+
+## Important Notes
+- **Never commit directly to `AgilePlus/` main** — it is bare. All changes go through PRs.
+- **Do not use `AgilePlus-wtrees/<subject>/`** — the worktree convention is `<repo>-wtrees/` (lowercase repo name).
+- See `agileplus/CLAUDE.md` for detailed workspace structure, bootstrap status, and agent operating notes.
+
+## Architecture Decision Records
+
+This repo documents architecture decisions in two locations:
+- **`ADR.md`** (root) --- inline ADR-001 through ADR-014
+- **`docs/adr/`** --- individual ADR files covering additional decisions
+
+| ID | Title | Status | Location |
+|----|-------|--------|----------|
+| ADR-001 | Rust Workspace Monorepo with 22 Crates | Accepted | [`ADR.md`](ADR.md) |
+| ADR-002 | Hexagonal Architecture with Port/Adapter Pattern | Accepted | [`ADR.md`](ADR.md) |
+| ADR-003 | SQLite as Local-First Storage with Optional External Sync | Accepted | [`ADR.md`](ADR.md) |
+| ADR-004 | SHA-256 Hash-Chained Immutable Audit Log and Event Store | Accepted | [`ADR.md`](ADR.md) |
+| ADR-005 | gRPC Service Layer with Tonic + Protobuf | Accepted | [`ADR.md`](ADR.md) |
+| ADR-006 | NATS JetStream as the Event Bus | Accepted | [`ADR.md`](ADR.md) |
+| ADR-007 | Plugin Architecture via External Git-Sourced Crates | Accepted | [`ADR.md`](ADR.md) |
+| ADR-008 | Python MCP Server for AI Agent Integration | Accepted | [`ADR.md`](ADR.md) |
+| ADR-009 | OpenTelemetry for Observability with OTLP Export | Accepted | [`ADR.md`](ADR.md) |
+| ADR-010 | process-compose for Local Dev Orchestration | Accepted | [`ADR.md`](ADR.md) |
+| ADR-011 | Credentials Management via OS Keychain | Accepted | [`ADR.md`](ADR.md) |
+| ADR-012 | P2P Replication with Vector Clocks | Accepted | [`ADR.md`](ADR.md) |
+| ADR-013 | Neo4j for Graph-Based Dependency Queries | Accepted | [`ADR.md`](ADR.md) |
+| ADR-014 | Import Subsystem with Manifest-Driven Ingestion | Accepted | [`ADR.md`](ADR.md) |
+| ADR-0002 | Integration/Consolidate Branch Strategy | Accepted | [`docs/adr/0002-integration-consolidate-branch-strategy.md`](docs/adr/0002-integration-consolidate-branch-strategy.md) |
+| ADR-0003 | Docs Tree Consolidation | Accepted | [`docs/adr/0003-docs-tree-consolidation.md`](docs/adr/0003-docs-tree-consolidation.md) |
+| ADR-0004 | JSON Metadata to YAML Frontmatter + Code Decorators | Accepted | [`docs/adr/0004-json-to-frontmatter-decorators.md`](docs/adr/0004-json-to-frontmatter-decorators.md) |
+| ADR-0005 | traceability-core Git Dependency | Accepted | [`docs/adr/0005-traceability-core-git-dependency.md`](docs/adr/0005-traceability-core-git-dependency.md) |
+| ADR-0006 | Absorb agileplus-spec-harmonizer into workspace | Accepted | [`docs/adr/0006-agileplus-spec-harmonizer-absorption.md`](docs/adr/0006-agileplus-spec-harmonizer-absorption.md) |
+| --- | Task Runner Selection | Accepted | [`docs/adr/001-task-runner-selection.md`](docs/adr/001-task-runner-selection.md) |
+| --- | Registry Adapter Architecture | Accepted | [`docs/adr/002-registry-adapter-architecture.md`](docs/adr/002-registry-adapter-architecture.md) |
+| ADR-012 | Plugin Architecture (docs/adr copy) | Accepted | [`docs/adr/ADR-012-plugin-architecture.md`](docs/adr/ADR-012-plugin-architecture.md) |
+
+codex
+Cargo output didn’t surface cleanly, so I’m reading the captured failure file directly.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(23717) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'wc -l /tmp/agileplus-cli-test.out; sed -n \"1,220p\" /tmp/agileplus-cli-test.out; tail -80 /tmp/agileplus-cli-test.out'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ succeeded in 1184ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+       0 /tmp/agileplus-cli-test.out
+
+codex
+I’ll run Cargo plainly now and capture compile diagnostics.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(23952) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc '/Users/kooshapari/go/bin/snip -- cargo test -p agileplus-cli' in /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile
+ exited 101 in 117757ms:
+fail: 0
+ignored: 0
+pass: 0
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling libc v0.2.186
+   Compiling proc-macro2 v1.0.106
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.45
+   Compiling cfg-if v1.0.4
+   Compiling serde_core v1.0.228
+   Compiling serde v1.0.228
+   Compiling memchr v2.8.0
+   Compiling once_cell v1.21.4
+   Compiling smallvec v1.15.1
+   Compiling parking_lot_core v0.9.12
+   Compiling scopeguard v1.2.0
+   Compiling itoa v1.0.18
+   Compiling thiserror v2.0.18
+   Compiling lock_api v0.4.14
+   Compiling bitflags v2.13.0
+   Compiling regex-syntax v0.8.11
+   Compiling version_check v0.9.5
+   Compiling aho-corasick v1.1.4
+   Compiling subtle v2.6.1
+   Compiling stable_deref_trait v1.2.1
+   Compiling typenum v1.20.1
+   Compiling find-msvc-tools v0.1.9
+   Compiling shlex v2.0.1
+   Compiling pin-project-lite v0.2.17
+   Compiling fastrand v2.4.1
+   Compiling generic-array v0.14.7
+   Compiling hashbrown v0.17.1
+   Compiling log v0.4.33
+   Compiling pkg-config v0.3.33
+   Compiling crc32fast v1.5.0
+   Compiling gix-trace v0.1.20
+   Compiling tinyvec_macros v0.1.1
+   Compiling errno v0.3.14
+   Compiling jobserver v0.1.34
+   Compiling cpufeatures v0.2.17
+   Compiling tinyvec v1.11.0
+   Compiling syn v2.0.117
+   Compiling parking_lot v0.12.5
+   Compiling cc v1.2.65
+   Compiling futures-core v0.3.32
+   Compiling signal-hook-registry v1.4.8
+   Compiling mio v1.2.0
+   Compiling socket2 v0.6.3
+   Compiling same-file v1.0.6
+   Compiling unicode-normalization v0.1.25
+   Compiling walkdir v2.5.0
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling tracing-core v0.1.36
+   Compiling digest v0.10.7
+   Compiling prodash v31.0.0
+   Compiling core-foundation-sys v0.8.7
+   Compiling zlib-rs v0.6.5
+   Compiling gix-utils v0.3.3
+   Compiling futures-sink v0.3.32
+   Compiling percent-encoding v2.3.2
+   Compiling byteorder v1.5.0
+   Compiling heapless v0.8.0
+   Compiling equivalent v1.0.2
+   Compiling hash32 v0.3.1
+   Compiling zeroize v1.9.0
+   Compiling regex-automata v0.4.14
+   Compiling getrandom v0.4.3
+   Compiling rustix v1.1.4
+   Compiling sha1 v0.10.6
+   Compiling slab v0.4.12
+   Compiling zmij v1.0.21
+   Compiling sha1-checked v0.10.0
+   Compiling futures-channel v0.3.32
+   Compiling getrandom v0.2.17
+   Compiling serde_json v1.0.150
+   Compiling zerocopy v0.8.52
+   Compiling faster-hex v0.10.0
+   Compiling futures-task v0.3.32
+   Compiling futures-io v0.3.32
+   Compiling cmake v0.1.58
+   Compiling fnv v1.0.7
+   Compiling fs_extra v1.3.0
+   Compiling jiff v0.2.31
+   Compiling dunce v1.0.5
+   Compiling ring v0.17.14
+   Compiling rustls-pki-types v1.15.0
+   Compiling aws-lc-sys v0.42.0
+   Compiling indexmap v2.14.0
+   Compiling litemap v0.8.2
+   Compiling writeable v0.6.3
+   Compiling httparse v1.10.1
+   Compiling base64 v0.22.1
+   Compiling tempfile v3.27.0
+   Compiling autocfg v1.5.1
+   Compiling utf8_iter v1.0.4
+   Compiling vcpkg v0.2.15
+   Compiling aws-lc-rs v1.17.1
+   Compiling num-traits v0.2.19
+   Compiling icu_properties_data v2.2.0
+   Compiling icu_normalizer_data v2.2.0
+   Compiling security-framework-sys v2.17.0
+   Compiling synstructure v0.13.2
+   Compiling core-foundation v0.10.1
+   Compiling memmap2 v0.9.11
+   Compiling bstr v1.12.3
+   Compiling untrusted v0.9.0
+   Compiling tower-service v0.3.3
+   Compiling security-framework v3.7.0
+   Compiling serde_derive v1.0.228
+   Compiling thiserror-impl v2.0.18
+   Compiling gix-validate v0.11.2
+   Compiling tokio-macros v2.7.0
+   Compiling tracing-attributes v0.1.31
+   Compiling gix-error v0.2.4
+   Compiling zerofrom-derive v0.1.7
+   Compiling yoke-derive v0.8.2
+   Compiling zerovec-derive v0.11.3
+   Compiling gix-path v0.12.1
+   Compiling displaydoc v0.2.6
+   Compiling tracing v0.1.44
+   Compiling futures-macro v0.3.32
+   Compiling gix-date v0.15.5
+   Compiling zerofrom v0.1.8
+   Compiling gix-actor v0.41.1
+   Compiling yoke v0.8.3
+   Compiling system-configuration-sys v0.6.0
+   Compiling form_urlencoded v1.2.2
+   Compiling rustls v0.23.41
+   Compiling futures-util v0.3.32
+   Compiling try-lock v0.2.5
+   Compiling atomic-waker v1.1.2
+   Compiling zerovec v0.11.6
+   Compiling zerotrie v0.2.4
+   Compiling want v0.3.1
+   Compiling ppv-lite86 v0.2.21
+   Compiling core-foundation v0.9.4
+   Compiling httpdate v1.0.3
+   Compiling gix-chunk v0.7.2
+   Compiling sync_wrapper v1.0.2
+   Compiling tower-layer v0.3.3
+   Compiling nonempty v0.12.0
+   Compiling ipnet v2.12.0
+   Compiling gix-quote v0.7.2
+   Compiling system-configuration v0.7.0
+   Compiling sha2 v0.10.9
+   Compiling anyhow v1.0.103
+   Compiling async-trait v0.1.89
+   Compiling tinystr v0.8.3
+   Compiling potential_utf v0.1.5
+   Compiling iana-time-zone v0.1.65
+   Compiling encoding_rs v0.8.35
+   Compiling icu_locale_core v2.2.0
+   Compiling icu_collections v2.2.0
+   Compiling getrandom v0.3.4
+   Compiling bytes v1.11.1
+   Compiling chrono v0.4.45
+   Compiling rustls-native-certs v0.8.4
+   Compiling unicode-bom v2.0.3
+   Compiling time-core v0.1.9
+   Compiling num-conv v0.2.2
+   Compiling tokio v1.52.2
+   Compiling gix-features v0.48.1
+   Compiling http v1.4.2
+   Compiling time-macros v0.2.31
+   Compiling icu_provider v2.2.0
+   Compiling gix-hash v0.25.1
+   Compiling gix-fs v0.21.2
+   Compiling icu_normalizer v2.2.0
+   Compiling gix-hashtable v0.15.2
+   Compiling icu_properties v2.2.0
+   Compiling gix-object v0.60.0
+   Compiling http-body v1.0.1
+   Compiling gix-tempfile v23.0.2
+   Compiling gix-glob v0.26.1
+   Compiling http-body-util v0.1.3
+   Compiling gix-lock v23.0.1
+   Compiling gix-commitgraph v0.37.1
+   Compiling deranged v0.5.8
+   Compiling static_assertions v1.1.0
+   Compiling mime v0.3.17
+   Compiling powerfmt v0.2.0
+   Compiling kstring v2.0.2
+   Compiling agileplus-domain v0.1.0 (/Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain)
+   Compiling gix-revwalk v0.31.0
+   Compiling rand_core v0.9.5
+   Compiling pin-project-internal v1.1.13
+   Compiling openssl-sys v0.9.117
+error[E0432]: unresolved import `crate::builder`
+    --> crates/agileplus-domain/src/intent_graph.rs:1141:16
+     |
+1141 | pub use crate::builder::{EdgeBuilder, NodeBuilder};
+     |                ^^^^^^^ could not find `builder` in the crate root
+
+error[E0432]: unresolved import `crate::domain::epic`
+ --> crates/agileplus-domain/src/ports/epic.rs:4:20
+  |
+4 | use crate::domain::epic::{Epic, EpicStatus};
+  |                    ^^^^ could not find `epic` in `domain`
+
+error[E0432]: unresolved import `crate::domain::story`
+ --> crates/agileplus-domain/src/ports/plane_sync.rs:4:20
+  |
+4 | use crate::domain::story::{Story, StoryStatus};
+  |                    ^^^^^ could not find `story` in `domain`
+
+error[E0432]: unresolved import `crate::domain::audit`
+ --> crates/agileplus-domain/src/ports/storage.rs:5:20
+  |
+5 | use crate::domain::audit::AuditEntry;
+  |                    ^^^^^ could not find `audit` in `domain`
+
+error[E0432]: unresolved import `crate::domain::cycle`
+ --> crates/agileplus-domain/src/ports/storage.rs:6:20
+  |
+6 | use crate::domain::cycle::{Cycle, CycleFeature, CycleState, CycleWithFeatures};
+  |                    ^^^^^ could not find `cycle` in `domain`
+
+error[E0432]: unresolved import `crate::domain::feature`
+ --> crates/agileplus-domain/src/ports/storage.rs:7:20
+  |
+7 | use crate::domain::feature::Feature;
+  |                    ^^^^^^^ could not find `feature` in `domain`
+
+error[E0432]: unresolved import `crate::domain::governance`
+ --> crates/agileplus-domain/src/ports/storage.rs:8:20
+  |
+8 | use crate::domain::governance::{Evidence, GovernanceContract, PolicyRule};
+  |                    ^^^^^^^^^^ could not find `governance` in `domain`
+
+error[E0432]: unresolved import `crate::domain::metric`
+ --> crates/agileplus-domain/src/ports/storage.rs:9:20
+  |
+9 | use crate::domain::metric::Metric;
+  |                    ^^^^^^ could not find `metric` in `domain`
+
+error[E0432]: unresolved import `crate::domain::module`
+  --> crates/agileplus-domain/src/ports/storage.rs:10:20
+   |
+10 | use crate::domain::module::{Module, ModuleFeatureTag, ModuleWithFeatures};
+   |                    ^^^^^^ could not find `module` in `domain`
+
+error[E0432]: unresolved import `crate::domain::project`
+  --> crates/agileplus-domain/src/ports/storage.rs:11:20
+   |
+11 | use crate::domain::project::Project;
+   |                    ^^^^^^^ could not find `project` in `domain`
+
+error[E0432]: unresolved import `crate::domain::state_machine`
+  --> crates/agileplus-domain/src/ports/storage.rs:12:20
+   |
+12 | use crate::domain::state_machine::FeatureState;
+   |                    ^^^^^^^^^^^^^ could not find `state_machine` in `domain`
+
+error[E0432]: unresolved import `crate::domain::sync_mapping`
+  --> crates/agileplus-domain/src/ports/storage.rs:13:20
+   |
+13 | use crate::domain::sync_mapping::SyncMapping;
+   |                    ^^^^^^^^^^^^ could not find `sync_mapping` in `domain`
+
+error[E0432]: unresolved import `crate::domain::work_package`
+  --> crates/agileplus-domain/src/ports/storage.rs:14:20
+   |
+14 | use crate::domain::work_package::{WorkPackage, WpDependency, WpState};
+   |                    ^^^^^^^^^^^^ could not find `work_package` in `domain`
+
+error[E0432]: unresolved import `crate::domain::story`
+ --> crates/agileplus-domain/src/ports/story.rs:4:20
+  |
+4 | use crate::domain::story::{Story, StoryStatus};
+  |                    ^^^^^ could not find `story` in `domain`
+
+error[E0433]: cannot find module or crate `traceability_core` in this scope
+  --> crates/agileplus-domain/src/lib.rs:20:9
+   |
+20 | pub use traceability_core::governance::{
+   |         ^^^^^^^^^^^^^^^^^ use of unresolved module or unlinked crate `traceability_core`
+   |
+help: there is a crate or module with a similar name
+   |
+20 - pub use traceability_core::governance::{
+20 + pub use traceability_port::governance::{
+   |
+
+error[E0433]: cannot find module or crate `traceability_core` in this scope
+  --> crates/agileplus-domain/src/lib.rs:24:9
+   |
+24 | pub use traceability_core::intent_graph::{
+   |         ^^^^^^^^^^^^^^^^^ use of unresolved module or unlinked crate `traceability_core`
+   |
+help: there is a crate or module with a similar name
+   |
+24 - pub use traceability_core::intent_graph::{
+24 + pub use traceability_port::intent_graph::{
+   |
+
+error[E0433]: cannot find module or crate `traceability_core` in this scope
+  --> crates/agileplus-domain/src/lib.rs:28:9
+   |
+28 | pub use traceability_core::lifecycle::{FeatureState, Transition, TransitionResult};
+   |         ^^^^^^^^^^^^^^^^^ use of unresolved module or unlinked crate `traceability_core`
+   |
+help: there is a crate or module with a similar name
+   |
+28 - pub use traceability_core::lifecycle::{FeatureState, Transition, TransitionResult};
+28 + pub use traceability_port::lifecycle::{FeatureState, Transition, TransitionResult};
+   |
+
+error[E0432]: unresolved imports `crate::domain::audit`, `crate::domain::backlog`, `crate::domain::cycle`, `crate::domain::epic`, `crate::domain::feature`, `crate::domain::governance`, `crate::domain::metric`, `crate::domain::module`, `crate::domain::project`, `crate::domain::state_machine`, `crate::domain::story`, `crate::domain::sync_mapping`, `crate::domain::user`, `crate::domain::work_package`
+  --> crates/agileplus-domain/src/ports.rs:40:5
+   |
+40 |     audit::AuditEntry,
+   |     ^^^^^ could not find `audit` in `domain`
+41 |     backlog::{BacklogFilters, BacklogItem, BacklogPriority, BacklogStatus, Intent},
+   |     ^^^^^^^ could not find `backlog` in `domain`
+42 |     cycle::{Cycle, CycleFeature, CycleState, CycleWithFeatures},
+   |     ^^^^^ could not find `cycle` in `domain`
+43 |     epic::{Epic, EpicStatus},
+   |     ^^^^ could not find `epic` in `domain`
+44 |     feature::Feature,
+   |     ^^^^^^^ could not find `feature` in `domain`
+45 |     governance::{Evidence, GovernanceContract, PolicyRule},
+   |     ^^^^^^^^^^ could not find `governance` in `domain`
+46 |     metric::Metric,
+   |     ^^^^^^ could not find `metric` in `domain`
+47 |     module::{Module, ModuleFeatureTag, ModuleWithFeatures},
+   |     ^^^^^^ could not find `module` in `domain`
+48 |     project::Project,
+   |     ^^^^^^^ could not find `project` in `domain`
+49 |     state_machine::FeatureState,
+   |     ^^^^^^^^^^^^^ could not find `state_machine` in `domain`
+50 |     story::{Story, StoryStatus},
+   |     ^^^^^
+51 |     sync_mapping::SyncMapping,
+   |     ^^^^^^^^^^^^
+52 |     user::{User, UserRole, UserStatus},
+   |     ^^^^
+53 |     work_package::{WorkPackage, WpDependency, WpState},
+   |     ^^^^^^^^^^^^
+
+error[E0432]: unresolved import `zeroize`
+ --> crates/agileplus-domain/src/credentials/memory.rs:4:5
+  |
+4 | use zeroize::Zeroizing;
+  |     ^^^^^^^ use of unresolved module or unlinked crate `zeroize`
+  |
+  = help: if you wanted to use a crate named `zeroize`, use `cargo add zeroize` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `regex`
+ --> crates/agileplus-domain/src/intent_graph.rs:7:5
+  |
+7 | use regex::Regex;
+  |     ^^^^^ use of unresolved module or unlinked crate `regex`
+  |
+  = help: if you wanted to use a crate named `regex`, use `cargo add regex` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `self::vcs::BranchInfo`
+  --> crates/agileplus-domain/src/ports.rs:57:17
+   |
+57 | use self::vcs::{BranchInfo, ConflictInfo, FeatureArtifacts, MergeResult, WorktreeInfo};
+   |                 ^^^^^^^^^^ no `BranchInfo` in `ports::vcs`
+
+error[E0432]: unresolved import `async_trait`
+ --> crates/agileplus-domain/src/ports/traceability_port.rs:4:5
+  |
+4 | use async_trait::async_trait;
+  |     ^^^^^^^^^^^ use of unresolved module or unlinked crate `async_trait`
+  |
+  = help: if you wanted to use a crate named `async_trait`, use `cargo add async_trait` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `async_trait`
+  --> crates/agileplus-domain/src/ports.rs:36:5
+   |
+36 | use async_trait::async_trait;
+   |     ^^^^^^^^^^^ use of unresolved module or unlinked crate `async_trait`
+   |
+   = help: if you wanted to use a crate named `async_trait`, use `cargo add async_trait` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `async_trait`
+ --> crates/agileplus-domain/src/adapters/noop_trace_adapter.rs:6:5
+  |
+6 | use async_trait::async_trait;
+  |     ^^^^^^^^^^^ use of unresolved module or unlinked crate `async_trait`
+  |
+  = help: if you wanted to use a crate named `async_trait`, use `cargo add async_trait` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `toml` in this scope
+  --> crates/agileplus-domain/src/config/loader.rs:12:23
+   |
+12 |     TomlParse(#[from] toml::de::Error),
+   |                       ^^^^ use of unresolved module or unlinked crate `toml`
+   |
+   = help: if you wanted to use a crate named `toml`, use `cargo add toml` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `toml` in this scope
+  --> crates/agileplus-domain/src/config/loader.rs:14:27
+   |
+14 |     TomlSerialize(#[from] toml::ser::Error),
+   |                           ^^^^ use of unresolved module or unlinked crate `toml`
+   |
+   = help: if you wanted to use a crate named `toml`, use `cargo add toml` to add it to your `Cargo.toml`
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/mod.rs:16:7
+   |
+16 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: `#[warn(unexpected_cfgs)]` on by default
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/factory.rs:4:7
+  |
+4 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/factory.rs:11:15
+   |
+11 |         #[cfg(feature = "keychain")]
+   |               ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/factory.rs:19:19
+   |
+19 |         #[cfg(not(feature = "keychain"))]
+   |                   ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/keychain.rs:1:7
+  |
+1 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/keychain.rs:3:7
+  |
+3 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/keychain.rs:9:7
+  |
+9 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/keychain.rs:14:7
+   |
+14 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/keychain.rs:27:7
+   |
+27 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/keychain.rs:34:7
+   |
+34 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+   Compiling idna_adapter v1.2.2
+   Compiling libz-sys v1.1.29
+   Compiling rand_core v0.6.4
+   Compiling idna v1.1.0
+   Compiling foldhash v0.2.0
+   Compiling base64ct v1.8.3
+   Compiling rustversion v1.0.22
+error[E0433]: cannot find module or crate `dirs_next` in this scope
+  --> crates/agileplus-domain/src/config/core.rs:26:5
+   |
+26 |     dirs_next::home_dir()
+   |     ^^^^^^^^^ use of unresolved module or unlinked crate `dirs_next`
+   |
+   = help: if you wanted to use a crate named `dirs_next`, use `cargo add dirs_next` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `dirs_next` in this scope
+  --> crates/agileplus-domain/src/config/credentials.rs:32:5
+   |
+32 |     dirs_next::home_dir()
+   |     ^^^^^^^^^ use of unresolved module or unlinked crate `dirs_next`
+   |
+   = help: if you wanted to use a crate named `dirs_next`, use `cargo add dirs_next` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `dirs_next` in this scope
+  --> crates/agileplus-domain/src/config/loader.rs:24:9
+   |
+24 |         dirs_next::home_dir()
+   |         ^^^^^^^^^ use of unresolved module or unlinked crate `dirs_next`
+   |
+   = help: if you wanted to use a crate named `dirs_next`, use `cargo add dirs_next` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `toml` in this scope
+  --> crates/agileplus-domain/src/config/loader.rs:35:37
+   |
+35 |             let config: AppConfig = toml::from_str(&content)?;
+   |                                     ^^^^ use of unresolved module or unlinked crate `toml`
+   |
+   = help: if you wanted to use a crate named `toml`, use `cargo add toml` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `toml` in this scope
+  --> crates/agileplus-domain/src/config/loader.rs:95:27
+   |
+95 |             let content = toml::to_string_pretty(&AppConfig::default())?;
+   |                           ^^^^ use of unresolved module or unlinked crate `toml`
+   |
+   = help: if you wanted to use a crate named `toml`, use `cargo add toml` to add it to your `Cargo.toml`
+
+   Compiling ryu v1.0.23
+   Compiling semver v1.0.28
+   Compiling allocator-api2 v0.2.21
+   Compiling url v2.5.8
+   Compiling pem-rfc7468 v0.7.0
+   Compiling rustc_version v0.4.1
+   Compiling pin-project v1.1.13
+   Compiling time v0.3.53
+   Compiling gix-attributes v0.33.2
+   Compiling futures-executor v0.3.32
+   Compiling hashbrown v0.16.1
+   Compiling gix-sec v0.14.1
+   Compiling ahash v0.8.12
+   Compiling const-oid v0.9.6
+   Compiling shell-words v1.1.1
+   Compiling der v0.7.10
+   Compiling gix-command v0.9.1
+   Compiling curve25519-dalek v4.1.3
+Some errors have detailed explanations: E0432, E0433.
+For more information about an error, try `rustc --explain E0432`.
+warning: `agileplus-domain` (lib) generated 10 warnings
+error: could not compile `agileplus-domain` (lib) due to 31 previous errors; 10 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+
+ERROR: Reconnecting... 2/5
+codex
+Cargo is still compiling; polling for the actual diagnostics.
+codex
+First failure is earlier than the reported clusters: `agileplus-domain` is missing config deps. I’m checking manifests before patching.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(37175) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && sed -n \"1,220p\" Cargo.toml && printf \"\\n--- cli Cargo ---\\n\" && sed -n \"1,220p\" crates/agileplus-cli/Cargo.toml && printf \"\\n--- domain Cargo ---\\n\" && sed -n \"1,220p\" crates/agileplus-domain/Cargo.toml && printf \"\\n--- refs ---\\n\" && rg -n \"dirs-next|dirs_next|toml|assert_cmd|predicates\" -S Cargo.toml crates/*/Cargo.toml Cargo.lock'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ exited 1 in 1306ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+[workspace]
+resolver = "2"
+# Active members — only crates/libs with actual source files.
+# Remaining scaffolding (44 crates, 19 libs) tracked but excluded from
+# workspace until source is implemented. See: kitty-specs/003-agileplus-platform-completion.
+members = [
+  "rust", # agileplus-proto: tonic/prost gRPC stubs (buf-generated)
+  "crates/agileplus-cli", # agileplus: spec-first CLI binary
+  "crates/agileplus-application",
+  "crates/agileplus-domain",
+  "crates/agileplus-git",
+  "crates/agileplus-github",
+  "crates/agileplus-graph",
+  "crates/agileplus-plane",
+  "crates/agileplus-sqlite",
+  "crates/agileplus-triage",
+  "crates/agileplus-telemetry",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+rust-version = "1.88"
+repository = "https://github.com/KooshaPari/AgilePlus"
+homepage = "https://phenotype.space/agileplus"
+description = "AgilePlus — spec-first project management CLI (FR/NFR traceability)"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = "warn"
+pedantic = "warn"
+
+[workspace.metadata.dist]
+cargo-dist-version = "0.28.0"
+ci = ["github"]
+installers = ["shell", "powershell", "msi"]
+targets = [
+  "x86_64-pc-windows-msvc",
+  "x86_64-unknown-linux-gnu",
+  "aarch64-apple-darwin",
+  "x86_64-apple-darwin",
+]
+install-path = "CARGO_HOME"
+pr-run-mode = "plan"
+
+[workspace.dependencies]
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+
+# Async runtime
+tokio = { version = "1.39", features = ["full"] }
+tokio-stream = "0.1"
+tokio-util = "0.7"
+futures = "0.3"
+futures-util = "0.3"
+
+# Error handling
+thiserror = "2"
+anyhow = "1"
+
+# Web / HTTP
+axum = { version = "0.8", features = ["json", "macros"] }
+axum-extra = { version = "0.10", features = ["typed-header"] }
+tower = { version = "0.5", features = ["limit", "timeout"] }
+tower-http = { version = "0.6", features = ["cors", "fs", "trace"] }
+hyper = "1"
+hyper-util = "0.1"
+
+# Observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+opentelemetry = { version = "0.32", features = ["metrics"] }
+opentelemetry_sdk = { version = "0.32.1", features = [
+  "metrics",
+  "trace",
+  "rt-tokio",
+] }
+opentelemetry-otlp = { version = "0.32", features = ["tonic", "gzip-tonic"] }
+tracing-opentelemetry = "0.33"
+sentry = { version = "0.34", features = ["tracing"] }
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Crypto / hashing
+sha2 = "0.10"
+zeroize = { version = "1", features = ["derive"] }
+base64 = "0.22"
+
+# gRPC / proto (used by agileplus-proto, agileplus-grpc, plugin-grpc, agent-service)
+tonic = { version = "0.13", features = ["transport", "prost"] }
+tonic-build = "0.14"
+tonic-health = "0.13"
+prost = "0.14"
+prost-build = "0.13"
+
+# Async utilities
+async-trait = "0.1"
+
+# Templating
+askama = "0.12"
+
+# Git
+gix = "0.83"
+git2 = "0.19"
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+# Data / storage
+rusqlite = { version = "0.32", features = ["bundled"] }
+redis = { version = "0.27", features = ["tokio-comp", "connection-manager"] }
+
+# HTTP client
+reqwest = { version = "0.12", features = ["json"] }
+
+# Benchmarks
+criterion = "0.5"
+
+# Utils
+uuid = { version = "1", features = ["v4"] }
+rand = "0.8"
+toml = "0.8"
+dirs-next = "2"
+keyring = "3"
+
+# OpenAPI
+utoipa = "4"
+async-nats = "0.38"
+paste = "1"
+agileplus-config = { path = "crates/agileplus-config" }
+agileplus-proto = { path = "crates/agileplus-proto" }
+agileplus-telemetry = { path = "crates/agileplus-telemetry" }
+
+# cargo-machete false-positive ignores (dev-only / proc-macro / build-deps)
+[workspace.metadata.cargo-machete]
+ignored = [
+  "cucumber",
+  "axum-test",
+  "paste",
+  "dirs",
+  "serde_yaml",
+  "uuid",
+  "async-trait",
+  "tracing-subscriber",
+  "tracing-appender",
+  "tracing-opentelemetry",
+  "futures",
+  "futures-util",
+  "tonic",
+  "tonic-build",
+  "prost",
+  "prost-build",
+  "utoipa",
+  "opentelemetry",
+  "opentelemetry_sdk",
+  "opentelemetry-otlp",
+  "gix",
+  "tempfile",
+]
+
+--- cli Cargo ---
+[package]
+name = "agileplus-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license = "MIT OR Apache-2.0"
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+documentation = "https://docs.rs/agileplus-cli"
+keywords = ["project-management", "traceability", "agile", "spec-first"]
+categories = ["command-line-utilities", "development-tools"]
+authors = ["kooshapari"]
+
+[[bin]]
+name = "agileplus"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+clap = { version = "4", features = ["derive", "env"] }
+chrono.workspace = true
+agileplus-application = { path = "../agileplus-application" }
+agileplus-domain = { path = "../agileplus-domain" }
+agileplus-git = { path = "../agileplus-git" }
+agileplus-github = { path = "../agileplus-github" }
+agileplus-plane = { path = "../agileplus-plane" }
+agileplus-sqlite = { path = "../agileplus-sqlite" }
+agileplus-triage = { path = "../agileplus-triage" }
+agileplus-telemetry.workspace = true
+rusqlite = { version = "0.32", features = ["bundled"] }
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+comfy-table = "7"
+
+[dev-dependencies]
+proptest = "1"
+tokio-test = "0.4"
+tempfile = "3"
+
+[package.metadata.cargo-machete]
+ignored = ["agileplus-git", "tracing-subscriber"]
+
+--- domain Cargo ---
+[package]
+name = "agileplus-domain"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+serde = { workspace = true, features = ["derive"] }
+serde_json.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+sha2.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true
+
+--- refs ---
+
+codex
+The workspace already defines `toml` and `dirs-next`; domain simply doesn’t consume them. Next I’m inspecting trait signatures and CLI tests.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(49239) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && sed -n \"1,220p\" crates/agileplus-domain/src/ports/story.rs && printf \"\\n--- domain ports mod ---\\n\" && sed -n \"1,260p\" crates/agileplus-domain/src/ports.rs && printf \"\\n--- cli integration ---\\n\" && sed -n \"1,320p\" crates/agileplus-cli/src/commands/integration.rs && printf \"\\n--- main env lines ---\\n\" && sed -n \"480,540p\" crates/agileplus-cli/src/main.rs && printf \"\\n--- tests ---\\n\" && rg -n \"assert_cmd|predicates|version|help|Command::cargo_bin|cargo_bin\" crates/agileplus-cli -S'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+2026-07-05T05:11:15.909581Z ERROR codex_shell_escalation::unix::escalate_server: escalate session failed: socket closed while receiving frame header
+ exited 1 in 174ms:
+codex
+That inspection command returned no useful output, so I’ll split the reads into smaller chunks.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(49317) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && ls crates/agileplus-domain/src && ls crates/agileplus-cli/src/commands && sed -n \"1,220p\" crates/agileplus-domain/src/ports/story.rs'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ succeeded in 1543ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+adapters
+builder.rs
+config
+credentials
+domain
+error.rs
+intent_graph.rs
+lib.rs
+plugins
+ports
+ports.rs
+traceability.rs
+validate.rs
+branch.rs
+cycle
+dag.rs
+dashboard.rs
+frontend.rs
+gate_add.rs
+gate_run.rs
+governance.rs
+implement
+implement.rs
+import_dagctl.rs
+import.rs
+intent.rs
+legacy_scan.rs
+list_epics.rs
+list_projects.rs
+list_stories.rs
+list_tests.rs
+list.rs
+mod.rs
+module
+mvp.rs
+plan
+plan.rs
+pr_builder.rs
+queue
+research.rs
+retrospective
+retrospective.rs
+review_loop.rs
+run_record.rs
+scheduler.rs
+scope_status.rs
+scope.rs
+seed_requirements.rs
+ship.rs
+sidecar_status.rs
+specify
+specify.rs
+specs.rs
+trace.rs
+triage.rs
+validate
+validate.rs
+version.rs
+worklog.rs
+worktree.rs
+// SPDX-License-Identifier: MIT OR Apache-2.0
+//! Story repository port.
+
+use crate::domain::story::{Story, StoryStatus};
+use crate::error::DomainError;
+
+/// Repository port for Story aggregates.
+pub trait StoryRepository: Send + Sync {
+    fn create(&self, story: &Story) -> Result<i64, DomainError>;
+    fn get_by_id(&self, id: i64) -> Result<Option<Story>, DomainError>;
+    fn update_status(&self, id: i64, status: StoryStatus) -> Result<(), DomainError>;
+    fn list_by_epic(&self, epic_id: i64) -> Result<Vec<Story>, DomainError>;
+
+    /// Upsert a story keyed by `story.requirement_id`.
+    ///
+    /// If a story with the same `requirement_id` already exists, its
+    /// title/description/status are updated and the existing row ID is
+    /// returned. Otherwise, the story is inserted and the new row ID is
+    /// returned.
+    ///
+    /// Returns `Err(DomainError::Validation)` if `story.requirement_id`
+    /// is `None`.
+    ///
+    /// The default implementation performs a get-then-insert/update using
+    /// the base `create` / `get_by_id` methods.  Adapters with native
+    /// SQL UPSERT support should override this for efficiency.
+    fn upsert_by_requirement_id(&self, story: &Story) -> Result<i64, DomainError> {
+        let req_id = story.requirement_id.as_deref().ok_or_else(|| {
+            DomainError::Validation(
+                "upsert_by_requirement_id requires story.requirement_id to be set".to_string(),
+            )
+        })?;
+
+        // Walk all stories for this epic and check for a match.
+        // This default impl is O(n) per epic and intended only as a
+        // portable fallback; adapters should override with an indexed query.
+        let candidates = self.list_by_epic(story.epic_id)?;
+        if let Some(existing) = candidates
+            .iter()
+            .find(|s| s.requirement_id.as_deref() == Some(req_id))
+        {
+            // Update status to reflect latest GitHub state.
+            self.update_status(existing.id, story.status)?;
+            Ok(existing.id)
+        } else {
+            self.create(story)
+        }
+    }
+}
+
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(49664) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- sed -n '1,320p' crates/agileplus-domain/src/ports.rs && printf '\\n--- cli integration 1 ---\\n' && sed -n '1,360p' crates/agileplus-cli/src/commands/integration.rs && printf '\\n--- cli integration rest ---\\n' && sed -n '360,760p' crates/agileplus-cli/src/commands/integration.rs" in /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile
+ exited 1 in 1503ms:
+snip: no filter for "sed", passing through -- you can run "sed" directly
+// SPDX-License-Identifier: MIT OR Apache-2.0
+//! Hexagonal-architecture ports — async traits implemented by adapters.
+
+#[path = "ports/agent.rs"]
+pub mod agent;
+#[path = "ports/epic.rs"]
+pub mod epic;
+#[path = "ports/events.rs"]
+pub mod events;
+#[path = "ports/observability.rs"]
+pub mod observability;
+#[path = "ports/plane_sync.rs"]
+pub mod plane_sync;
+#[path = "ports/storage.rs"]
+pub mod storage;
+#[path = "ports/story.rs"]
+pub mod story;
+#[path = "ports/traceability_port.rs"]
+pub mod traceability_port;
+#[path = "ports/vcs.rs"]
+pub mod vcs;
+
+pub use agent::AgentPort;
+pub use epic::EpicRepository;
+pub use events::{DomainEvent, DomainEventPublisher};
+pub use observability::ObservabilityPort;
+pub use plane_sync::{
+    plane_state_to_story_status, story_status_to_plane_state, PlaneIssue, PlaneProject,
+    PlaneSyncPort,
+};
+pub use story::StoryRepository;
+pub use traceability_port::TraceabilityPort;
+
+use std::path::{Path, PathBuf};
+
+use async_trait::async_trait;
+use serde::{Deserialize, Serialize};
+
+use crate::domain::{
+    audit::AuditEntry,
+    backlog::{BacklogFilters, BacklogItem, BacklogPriority, BacklogStatus, Intent},
+    cycle::{Cycle, CycleFeature, CycleState, CycleWithFeatures},
+    epic::{Epic, EpicStatus},
+    feature::Feature,
+    governance::{Evidence, GovernanceContract, PolicyRule},
+    metric::Metric,
+    module::{Module, ModuleFeatureTag, ModuleWithFeatures},
+    project::Project,
+    state_machine::FeatureState,
+    story::{Story, StoryStatus},
+    sync_mapping::SyncMapping,
+    user::{User, UserRole, UserStatus},
+    work_package::{WorkPackage, WpDependency, WpState},
+};
+use crate::error::DomainError;
+
+use self::vcs::{BranchInfo, ConflictInfo, FeatureArtifacts, MergeResult, WorktreeInfo};
+
+// ReviewPort — a no-op port for code-review integrations (WP09, not yet implemented).
+// Kept as a compile-time bound placeholder so the gRPC server type parameters compile.
+pub trait ReviewPort: Send + Sync {}
+// Blanket impl so any struct can satisfy the bound without implementing anything.
+impl ReviewPort for () {}
+
+/// Outcome recorded after a ticket has been reviewed in triage.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TriageOutcome {
+    Accepted,
+    Dismissed,
+}
+
+/// Ticket surfaced to a triage consumer.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct TriageTicket {
+    pub id: String,
+    pub title: String,
+    pub description: String,
+    pub intent: Intent,
+    pub priority: BacklogPriority,
+    pub status: BacklogStatus,
+    pub source: String,
+    pub feature_slug: Option<String>,
+    pub tags: Vec<String>,
+}
+
+impl From<BacklogItem> for TriageTicket {
+    fn from(item: BacklogItem) -> Self {
+        Self {
+            id: item.id.unwrap_or_default().to_string(),
+            title: item.title,
+            description: item.description,
+            intent: item.intent,
+            priority: item.priority,
+            status: item.status,
+            source: item.source,
+            feature_slug: item.feature_slug,
+            tags: item.tags,
+        }
+    }
+}
+
+/// Focused triage port for fetching the next ticket and recording a disposition.
+#[async_trait]
+pub trait TriagePort: Send + Sync {
+    async fn next_ticket(&self) -> Result<TriageTicket, TriageError>;
+    async fn record_outcome(&self, id: &str, outcome: TriageOutcome) -> Result<(), TriageError>;
+}
+
+/// Triaging-specific error surface decoupled from any storage implementation.
+#[derive(Debug, thiserror::Error, PartialEq, Eq)]
+pub enum TriageError {
+    #[error("no triage ticket available")]
+    NoTicketAvailable,
+    #[error("invalid triage ticket id: {0}")]
+    InvalidTicketId(String),
+    #[error("triage ticket not found: {0}")]
+    TicketNotFound(String),
+    #[error("triage storage error: {0}")]
+    Storage(String),
+}
+
+impl From<DomainError> for TriageError {
+    fn from(value: DomainError) -> Self {
+        match value {
+            DomainError::NotFound(message) => Self::TicketNotFound(message),
+            DomainError::Storage(message) => Self::Storage(message),
+            other => Self::Storage(other.to_string()),
+        }
+    }
+}
+
+/// Primary storage port — full CRUD across all domain aggregates.
+#[async_trait]
+pub trait StoragePort: Send + Sync {
+    // --- Features ---
+    async fn create_feature(&self, feature: &Feature) -> Result<i64, DomainError>;
+    async fn get_feature_by_slug(&self, slug: &str) -> Result<Option<Feature>, DomainError>;
+    async fn get_feature_by_id(&self, id: i64) -> Result<Option<Feature>, DomainError>;
+    async fn update_feature_state(&self, id: i64, state: FeatureState) -> Result<(), DomainError>;
+    async fn update_feature(&self, feature: &Feature) -> Result<(), DomainError>;
+    async fn list_features_by_state(
+        &self,
+        state: FeatureState,
+    ) -> Result<Vec<Feature>, DomainError>;
+    async fn list_all_features(&self) -> Result<Vec<Feature>, DomainError>;
+    async fn list_features_by_label(&self, label: &str) -> Result<Vec<Feature>, DomainError>;
+
+    // --- Work Packages ---
+    async fn create_work_package(&self, wp: &WorkPackage) -> Result<i64, DomainError>;
+    async fn get_work_package(&self, id: i64) -> Result<Option<WorkPackage>, DomainError>;
+    async fn update_wp_state(&self, id: i64, state: WpState) -> Result<(), DomainError>;
+    async fn list_wps_by_feature(&self, feature_id: i64) -> Result<Vec<WorkPackage>, DomainError>;
+    async fn add_wp_dependency(&self, dep: &WpDependency) -> Result<(), DomainError>;
+    async fn get_wp_dependencies(&self, wp_id: i64) -> Result<Vec<WpDependency>, DomainError>;
+    async fn get_ready_wps(&self, feature_id: i64) -> Result<Vec<WorkPackage>, DomainError>;
+
+    // --- MVP: story-scoped work packages ---
+    /// Create a work package and link it to a story (story_work_packages join).
+    async fn create_work_package_for_story(
+        &self,
+        _story_id: i64,
+        _wp: &WorkPackage,
+    ) -> Result<i64, DomainError> {
+        Err(DomainError::NotImplemented)
+    }
+    /// List the work packages linked to a story.
+    async fn list_wps_by_story(&self, _story_id: i64) -> Result<Vec<WorkPackage>, DomainError> {
+        Err(DomainError::NotImplemented)
+    }
+    /// List every work package across all features/stories.
+    async fn list_all_work_packages(&self) -> Result<Vec<WorkPackage>, DomainError> {
+        Err(DomainError::NotImplemented)
+    }
+    /// Return planned work packages that are ready to start: every explicit
+    /// dependency points to a Done WP AND no file in its scope overlaps a
+    /// Doing/Review WP. Optionally restricted to a cycle.
+    async fn get_next_ready_wps(
+        &self,
+        _cycle: Option<i64>,
+    ) -> Result<Vec<WorkPackage>, DomainError> {
+        Err(DomainError::NotImplemented)
+    }
+    /// Link a story to a cycle (cycle_stories join).
+    async fn add_story_to_cycle(&self, _cycle_id: i64, _story_id: i64) -> Result<(), DomainError> {
+        Err(DomainError::NotImplemented)
+    }
+
+    // --- Audit ---
+    async fn append_audit_entry(&self, entry: &AuditEntry) -> Result<i64, DomainError>;
+    async fn get_audit_trail(&self, feature_id: i64) -> Result<Vec<AuditEntry>, DomainError>;
+    async fn get_latest_audit_entry(
+        &self,
+        feature_id: i64,
+    ) -> Result<Option<AuditEntry>, DomainError>;
+
+    // --- Evidence ---
+    async fn create_evidence(&self, ev: &Evidence) -> Result<i64, DomainError>;
+    async fn get_evidence_by_wp(&self, wp_id: i64) -> Result<Vec<Evidence>, DomainError>;
+    async fn get_evidence_by_fr(&self, fr_id: &str) -> Result<Vec<Evidence>, DomainError>;
+
+    // --- Policy / Governance ---
+    async fn create_policy_rule(&self, rule: &PolicyRule) -> Result<i64, DomainError>;
+    async fn list_active_policies(&self) -> Result<Vec<PolicyRule>, DomainError>;
+    async fn record_metric(&self, metric: &Metric) -> Result<i64, DomainError>;
+    async fn get_metrics_by_feature(&self, feature_id: i64) -> Result<Vec<Metric>, DomainError>;
+    async fn create_governance_contract(
+        &self,
+        contract: &GovernanceContract,
+    ) -> Result<i64, DomainError>;
+    async fn get_governance_contract(
+        &self,
+        feature_id: i64,
+        version: i32,
+    ) -> Result<Option<GovernanceContract>, DomainError>;
+    async fn get_latest_governance_contract(
+        &self,
+        feature_id: i64,
+    ) -> Result<Option<GovernanceContract>, DomainError>;
+
+    // --- Modules ---
+    async fn create_module(&self, module: &Module) -> Result<i64, DomainError>;
+    async fn get_module(&self, id: i64) -> Result<Option<Module>, DomainError>;
+    async fn get_module_by_slug(&self, slug: &str) -> Result<Option<Module>, DomainError>;
+    async fn update_module(
+        &self,
+        id: i64,
+        friendly_name: &str,
+        description: Option<&str>,
+    ) -> Result<(), DomainError>;
+    async fn delete_module(&self, id: i64) -> Result<(), DomainError>;
+    async fn list_root_modules(&self) -> Result<Vec<Module>, DomainError>;
+    async fn list_child_modules(&self, parent_id: i64) -> Result<Vec<Module>, DomainError>;
+    async fn get_module_with_features(
+        &self,
+        id: i64,
+    ) -> Result<Option<ModuleWithFeatures>, DomainError>;
+    async fn tag_feature_to_module(&self, tag: &ModuleFeatureTag) -> Result<(), DomainError>;
+    async fn untag_feature_from_module(
+        &self,
+        module_id: i64,
+        feature_id: i64,
+    ) -> Result<(), DomainError>;
+
+    // --- Cycles ---
+    async fn create_cycle(&self, cycle: &Cycle) -> Result<i64, DomainError>;
+    async fn get_cycle(&self, id: i64) -> Result<Option<Cycle>, DomainError>;
+    async fn update_cycle_state(&self, id: i64, state: CycleState) -> Result<(), DomainError>;
+    async fn list_cycles_by_state(&self, state: CycleState) -> Result<Vec<Cycle>, DomainError>;
+    async fn list_cycles_by_module(&self, module_id: i64) -> Result<Vec<Cycle>, DomainError>;
+    async fn list_all_cycles(&self) -> Result<Vec<Cycle>, DomainError>;
+    async fn get_cycle_with_features(
+        &self,
+        id: i64,
+    ) -> Result<Option<CycleWithFeatures>, DomainError>;
+    async fn add_feature_to_cycle(&self, entry: &CycleFeature) -> Result<(), DomainError>;
+    async fn remove_feature_from_cycle(
+        &self,
+        cycle_id: i64,
+        feature_id: i64,
+    ) -> Result<(), DomainError>;
+
+    // --- Sync Mappings ---
+    async fn get_sync_mapping(
+        &self,
+        entity_type: &str,
+        entity_id: i64,
+    ) -> Result<Option<SyncMapping>, DomainError>;
+    async fn upsert_sync_mapping(&self, mapping: &SyncMapping) -> Result<(), DomainError>;
+    async fn get_sync_mapping_by_plane_id(
+        &self,
+        entity_type: &str,
+        plane_issue_id: &str,
+    ) -> Result<Option<SyncMapping>, DomainError>;
+    async fn delete_sync_mapping(
+        &self,
+        entity_type: &str,
+        entity_id: i64,
+    ) -> Result<(), DomainError>;
+
+    // --- Projects ---
+    async fn create_project(&self, project: &Project) -> Result<i64, DomainError>;
+    async fn get_project_by_slug(&self, slug: &str) -> Result<Option<Project>, DomainError>;
+    async fn get_project_by_id(&self, id: i64) -> Result<Option<Project>, DomainError>;
+    async fn list_all_projects(&self) -> Result<Vec<Project>, DomainError>;
+    async fn delete_project(&self, id: i64) -> Result<(), DomainError>;
+
+    // --- Users ---
+    async fn create_user(&self, user: &User) -> Result<i64, DomainError>;
+    async fn get_user_by_id(&self, id: i64) -> Result<Option<User>, DomainError>;
+    async fn get_user_by_email(&self, email: &str) -> Result<Option<User>, DomainError>;
+    async fn update_user_status(&self, id: i64, status: UserStatus) -> Result<(), DomainError>;
+    async fn update_user_role(&self, id: i64, role: UserRole) -> Result<(), DomainError>;
+    async fn list_all_users(&self) -> Result<Vec<User>, DomainError>;
+    async fn delete_user(&self, id: i64) -> Result<(), DomainError>;
+
+    // --- Epics ---
+    async fn create_epic(&self, epic: &Epic) -> Result<i64, DomainError>;
+    async fn get_epic_by_id(&self, id: i64) -> Result<Option<Epic>, DomainError>;
+    async fn update_epic_status(&self, id: i64, status: EpicStatus) -> Result<(), DomainError>;
+    async fn list_epics_by_project(&self, project_id: i64) -> Result<Vec<Epic>, DomainError>;
+    async fn delete_epic(&self, id: i64) -> Result<(), DomainError>;
+
+    // --- Stories ---
+    async fn create_story(&self, story: &Story) -> Result<i64, DomainError>;
+    async fn get_story_by_id(&self, id: i64) -> Result<Option<Story>, DomainError>;
+    async fn update_story_status(&self, id: i64, status: StoryStatus) -> Result<(), DomainError>;
+    async fn list_stories_by_epic(&self, epic_id: i64) -> Result<Vec<Story>, DomainError>;
+    async fn list_stories_by_project(&self, project_id: i64) -> Result<Vec<Story>, DomainError>;
+    async fn delete_story(&self, id: i64) -> Result<(), DomainError>;
+    /// Upsert a story keyed by `story.requirement_id` — see
+    /// [`StoryRepository::upsert_by_requirement_id`] for semantics.
+    async fn upsert_story_by_requirement_id(&self, story: &Story) -> Result<i64, DomainError>;
+}
+
+// ── Blanket impls ─────────────────────────────────────────────────────────────
+//
+// Any type that implements `StoragePort` automatically satisfies the focused
+// repository sub-ports.  This lets `AppState<S, …>` pass `Arc<S>` directly
+// to use-cases that only depend on the narrower port trait.
+
+--- cli integration 1 ---
+sed: crates/agileplus-cli/src/commands/integration.rs: No such file or directory
+
+codex
+The target file path differs; I’m locating the actual integration impls and test modules.
+hook: PreToolUse
+hook: PreToolUse
+codex(49938) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && rg -n \"impl .*StoryRepository|async_trait|create_story|create_epic|create_user|assert_cmd|predicates|cargo_bin|--version|--help\" crates/agileplus-cli crates/agileplus-domain/src crates/agileplus-sqlite/src -S'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ exited 1 in 3248ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+
+codex
+I’m seeing unexpected empty search results, so I’ll verify paths and use direct file listing.
+hook: PreToolUse
+hook: PreToolUse
+codex(50138) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && find crates/agileplus-cli -maxdepth 3 -type f | sort | sed -n \"1,200p\" && printf \"\\n--- integration filename search ---\\n\" && find . -path \"*.rs\" -type f | grep -E \"integration|test\" | sed -n \"1,200p\"'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ succeeded in 4552ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+crates/agileplus-cli/Cargo.toml
+crates/agileplus-cli/README.md
+crates/agileplus-cli/src/agent_adapter.rs
+crates/agileplus-cli/src/agent_stub.rs
+crates/agileplus-cli/src/commands/branch.rs
+crates/agileplus-cli/src/commands/dag.rs
+crates/agileplus-cli/src/commands/dashboard.rs
+crates/agileplus-cli/src/commands/frontend.rs
+crates/agileplus-cli/src/commands/gate_add.rs
+crates/agileplus-cli/src/commands/gate_run.rs
+crates/agileplus-cli/src/commands/governance.rs
+crates/agileplus-cli/src/commands/implement.rs
+crates/agileplus-cli/src/commands/import_dagctl.rs
+crates/agileplus-cli/src/commands/import.rs
+crates/agileplus-cli/src/commands/intent.rs
+crates/agileplus-cli/src/commands/legacy_scan.rs
+crates/agileplus-cli/src/commands/list_epics.rs
+crates/agileplus-cli/src/commands/list_projects.rs
+crates/agileplus-cli/src/commands/list_stories.rs
+crates/agileplus-cli/src/commands/list_tests.rs
+crates/agileplus-cli/src/commands/list.rs
+crates/agileplus-cli/src/commands/mod.rs
+crates/agileplus-cli/src/commands/mvp.rs
+crates/agileplus-cli/src/commands/plan.rs
+crates/agileplus-cli/src/commands/pr_builder.rs
+crates/agileplus-cli/src/commands/research.rs
+crates/agileplus-cli/src/commands/retrospective.rs
+crates/agileplus-cli/src/commands/review_loop.rs
+crates/agileplus-cli/src/commands/run_record.rs
+crates/agileplus-cli/src/commands/scheduler.rs
+crates/agileplus-cli/src/commands/scope_status.rs
+crates/agileplus-cli/src/commands/scope.rs
+crates/agileplus-cli/src/commands/seed_requirements.rs
+crates/agileplus-cli/src/commands/ship.rs
+crates/agileplus-cli/src/commands/sidecar_status.rs
+crates/agileplus-cli/src/commands/specify.rs
+crates/agileplus-cli/src/commands/specs.rs
+crates/agileplus-cli/src/commands/trace.rs
+crates/agileplus-cli/src/commands/triage.rs
+crates/agileplus-cli/src/commands/validate.rs
+crates/agileplus-cli/src/commands/version.rs
+crates/agileplus-cli/src/commands/worklog.rs
+crates/agileplus-cli/src/commands/worktree.rs
+crates/agileplus-cli/src/context.rs
+crates/agileplus-cli/src/lib.rs
+crates/agileplus-cli/src/main.rs
+crates/agileplus-cli/src/runtime.rs
+crates/agileplus-cli/src/sync_cmd.rs
+crates/agileplus-cli/tests/cli_integration.rs
+crates/agileplus-cli/tests/cli_smoke.rs
+crates/agileplus-cli/tests/fixtures/sample-spec-revised.md
+crates/agileplus-cli/tests/fixtures/sample-spec.md
+crates/agileplus-cli/tests/triage_port_adapter.rs
+
+--- integration filename search ---
+./crates/agileplus-api/tests/api_integration/branch.rs
+./crates/agileplus-api/tests/api_integration/features_work_packages.rs
+./crates/agileplus-api/tests/api_integration/module_cycle.rs
+./crates/agileplus-api/tests/api_integration/audit_governance.rs
+./crates/agileplus-api/tests/api_integration/support/observability.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/policy.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/work_package.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/backlog.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/feature.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/content_storage_impl.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/sync_mapping.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/audit.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/storage_impl.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/metrics.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/cycle.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/evidence.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/mod.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/module.rs
+./crates/agileplus-api/tests/api_integration/support/storage_port_impl/feature_backlog.rs
+./crates/agileplus-api/tests/api_integration/support/mod.rs
+./crates/agileplus-api/tests/api_integration/support/storage.rs
+./crates/agileplus-api/tests/api_integration/support/vcs.rs
+./crates/agileplus-api/tests/api_integration/worktree.rs
+./crates/agileplus-api/tests/api_integration/core_routes.rs
+./crates/agileplus-api/tests/api_integration.rs
+./crates/agileplus-nats/src/bus/tests.rs
+./crates/agileplus-p2p/src/export/tests.rs
+./crates/agileplus-p2p/src/import/tests.rs
+./crates/agileplus-p2p/src/git_merge/tests.rs
+./crates/phenotype-dep-guard/tests/integration.rs
+./crates/agileplus-contract-tests/src/lib.rs
+./crates/pheno-vibecoding-guard/tests/lint_test.rs
+./crates/agileplus-integration-tests/tests/feature_lifecycle.rs
+./crates/agileplus-integration-tests/tests/modules_and_cycles/scoped_cycles.rs
+./crates/agileplus-integration-tests/tests/modules_and_cycles/edge_cases.rs
+./crates/agileplus-integration-tests/tests/modules_and_cycles/cycle_lifecycle.rs
+./crates/agileplus-integration-tests/tests/modules_and_cycles/compatibility.rs
+./crates/agileplus-integration-tests/tests/modules_and_cycles/helpers.rs
+./crates/agileplus-integration-tests/tests/modules_and_cycles/module_hierarchy.rs
+./crates/agileplus-integration-tests/tests/dashboard_sse.rs
+./crates/agileplus-integration-tests/tests/modules_and_cycles.rs
+./crates/agileplus-integration-tests/tests/service_failure.rs
+./crates/agileplus-integration-tests/tests/sync_conflict.rs
+./crates/agileplus-integration-tests/tests/service_control.rs
+./crates/agileplus-integration-tests/src/lib.rs
+./crates/agileplus-integration-tests/src/common/harness.rs
+./crates/agileplus-integration-tests/src/common/mod.rs
+./crates/agileplus-integration-tests/src/common/fixtures.rs
+./crates/agileplus-git/tests/integration/branches.rs
+./crates/agileplus-git/tests/integration/harness.rs
+./crates/agileplus-git/tests/integration/history.rs
+./crates/agileplus-git/tests/integration/worktrees.rs
+./crates/agileplus-git/tests/integration/artifacts.rs
+./crates/agileplus-git/tests/integration.rs
+./crates/agileplus-witness/tests/integration_test.rs
+./crates/agileplus-subcmds/src/platform/tests.rs
+./crates/agileplus-subcmds/src/device/tests.rs
+./crates/agileplus-subcmds/src/sync/tests.rs
+./crates/agileplus-subcmds/src/events/tests.rs
+./crates/agileplus-plane/src/inbound/tests.rs
+./crates/agileplus-plane/src/client/tests.rs
+./crates/agileplus-triage/src/tests_dedup.rs
+./crates/agileplus-fixtures/src/test_fixtures.rs
+./crates/agileplus-hook/tests/integration_test.rs
+./crates/agileplus-sqlite/src/lib/tests/governance_metrics.rs
+./crates/agileplus-sqlite/src/lib/tests/modules_cycles.rs
+./crates/agileplus-sqlite/src/lib/tests/mod.rs
+./crates/agileplus-sqlite/src/lib/tests/mvp_story_work_packages.rs
+./crates/agileplus-sqlite/src/lib/tests/feature_work_packages.rs
+./crates/agileplus-sqlite/src/tests.rs
+./crates/agileplus-sqlite/src/rebuild/tests.rs
+./crates/pheno-flags/tests/flag_test.rs
+./crates/agileplus-convoy/tests/integration_test.rs
+./crates/agileplus-grpc/tests/pact_schema.rs
+./crates/agileplus-grpc/tests/grpc_integration.rs
+./crates/agileplus-grpc/src/server/integrations.rs
+./crates/agileplus-grpc/src/server/tests.rs
+./crates/agileplus-telemetry/src/adapter/tests.rs
+./crates/pheno-ci-templates/tests/include_test.rs
+./crates/agileplus-cli/tests/cli_smoke.rs
+./crates/agileplus-cli/tests/cli_integration.rs
+./crates/agileplus-cli/tests/triage_port_adapter.rs
+./crates/agileplus-cli/src/commands/validate/tests.rs
+./crates/agileplus-cli/src/commands/plan/tests.rs
+./crates/agileplus-cli/src/commands/module/tests.rs
+./crates/agileplus-cli/src/commands/cycle/tests.rs
+./crates/agileplus-cli/src/commands/retrospective/tests.rs
+./crates/agileplus-cli/src/commands/list_tests.rs
+./crates/agileplus-cli/src/commands/implement/tests.rs
+./crates/agileplus-cli/src/commands/specify/tests.rs
+./crates/pheno-ssot-template/tests/ssot_test.rs
+./crates/agileplus-cache/tests/integration_tests.rs
+./crates/agileplus-events/tests/events_smoke_test.rs
+./crates/agileplus-spec-harmonizer/tests/integration.rs
+./crates/agileplus-domain/tests/acceptance_traceability_integration_test.rs
+./crates/agileplus-domain/tests/traceability_test.rs
+./crates/agileplus-domain/tests/proptest_audit.rs
+./crates/agileplus-domain/src/config/tests.rs
+./crates/agileplus-domain/src/domain/work_package/tests.rs
+./crates/agileplus-domain/src/domain/cycle/tests.rs
+./crates/agileplus-dashboard/tests/health_integration.rs
+./crates/agileplus-dashboard/tests/seed_integration.rs
+./crates/agileplus-dashboard/src/routes_tests.rs
+./crates/agileplus-dashboard/src/routes/tests.rs
+./crates/agileplus-dashboard/src/_routes_wip/tests.rs
+./crates/agileplus-trace-validator/tests/edge_cases_extra.rs
+./crates/agileplus-trace-validator/tests/edge_cases.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/branch.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/features_work_packages.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/module_cycle.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/audit_governance.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/observability.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/policy.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/work_package.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/backlog.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/feature.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/content_storage_impl.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/sync_mapping.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/audit.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/storage_impl.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/metrics.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/cycle.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/evidence.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/mod.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/module.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage_port_impl/feature_backlog.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/mod.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/storage.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/support/vcs.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/worktree.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration/core_routes.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-api/tests/api_integration.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-nats/src/bus/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-p2p/src/export/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-p2p/src/import/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-p2p/src/git_merge/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/feature_lifecycle.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/modules_and_cycles/scoped_cycles.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/modules_and_cycles/edge_cases.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/modules_and_cycles/cycle_lifecycle.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/modules_and_cycles/compatibility.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/modules_and_cycles/helpers.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/modules_and_cycles/module_hierarchy.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/dashboard_sse.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/modules_and_cycles.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/service_failure.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/sync_conflict.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/tests/service_control.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/src/lib.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/src/common/harness.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/src/common/mod.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-integration-tests/src/common/fixtures.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-git/tests/integration/branches.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-git/tests/integration/harness.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-git/tests/integration/history.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-git/tests/integration/worktrees.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-git/tests/integration/artifacts.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-git/tests/integration.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-subcmds/src/platform/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-subcmds/src/device/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-subcmds/src/sync/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-subcmds/src/events/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-plane/src/inbound/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-plane/src/client/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-sqlite/src/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-sqlite/src/rebuild/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-grpc/tests/pact_schema.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-grpc/tests/grpc_integration.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-grpc/src/server/integrations.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-grpc/src/server/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-telemetry/src/adapter/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-cli/tests/cli_integration.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-cli/src/commands/validate/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-cli/src/commands/plan/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-cli/src/commands/module/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-cli/src/commands/cycle/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-cli/src/commands/retrospective/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-cli/src/commands/implement/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-cli/src/commands/specify/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-domain/tests/proptest_audit.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-domain/src/config/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-domain/src/domain/work_package/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-domain/src/domain/cycle/tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-dashboard/tests/seed_integration.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-dashboard/src/routes_tests.rs
+./archive/PhenoLang-crates-2026-06-20/crates/agileplus-dashboard/src/routes/tests.rs
+./tests/integration/test_full_workflow.rs
+./tests/contracts/events_sqlite_contract.rs
+./tests/contracts/sync_plane_contract.rs
+./tests/contracts/dashboard_api_contract.rs
+./tests/contracts/api_events_contract.rs
+./tests/clap_ext_smoke.rs
+./tests/fixtures/mod.rs
+./tests/bdd/fixtures_test.rs
+./tests/bdd/main.rs
+./tests/e2e/roundtrip.rs
+./agileplus-agents/crates/agileplus-agent-review/tests/coderabbit_tests.rs
+./agileplus-agents/crates/agileplus-agent-review/tests/ci_status_tests.rs
+./agileplus-agents/crates/agileplus-agent-review/tests/fallback_tests.rs
+./agileplus-agents/crates/agileplus-agent-review/tests/integration.rs
+
+codex
+I found the CLI test files. I’ll patch manifest deps first so compilation reaches the CLI-specific errors.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+codex(50469) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+hook: PreToolUse Completed
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && grep -R \"lints.workspace\\|unsafe_code\" -n crates/agileplus-cli/Cargo.toml crates/agileplus-domain/Cargo.toml Cargo.toml && grep -n \"name = \\\"assert_cmd\\\"\\|name = \\\"predicates\\\"\\|name = \\\"dirs-next\\\"\\|name = \\\"toml\\\"\" Cargo.lock | head -50 && sed -n \"1,220p\" crates/agileplus-cli/tests/cli_smoke.rs && printf \"\\n---\\n\" && sed -n \"1,260p\" crates/agileplus-cli/tests/cli_integration.rs'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ succeeded in 2128ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+Cargo.toml:30:unsafe_code = "forbid"
+4528:name = "toml"
+//! Smoke tests for the new CLI subcommands added in this change set.
+//!
+//! These tests shell out to the built `agileplus-cli` binary so that they
+//! exercise the real clap dispatch, the in-memory `MockStore`, and the
+//! `anyhow::bail!` → stderr → exit(1) error path.
+//!
+//! The binary path is provided by cargo at build time through
+//! `env!("CARGO_BIN_EXE_agileplus-cli")`.
+
+use assert_cmd::Command;
+
+/// Helper: build a `Command` for the in-tree binary.
+fn cli() -> Command {
+    Command::cargo_bin("agileplus-cli").expect("agileplus-cli binary should be built")
+}
+
+// ── top-level status ─────────────────────────────────────────────────────────
+
+#[test]
+fn status_prints_expected_sections() {
+    let output = cli().arg("status").assert().success().get_output().clone();
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(
+        stdout.contains("AgilePlus project status"),
+        "missing title: {stdout}"
+    );
+    assert!(
+        stdout.contains("Modules :"),
+        "missing modules line: {stdout}"
+    );
+    assert!(
+        stdout.contains("Features:"),
+        "missing features line: {stdout}"
+    );
+    assert!(
+        stdout.contains("Cycles  :"),
+        "missing cycles line: {stdout}"
+    );
+    assert!(
+        stdout.contains("Active cycle:"),
+        "missing active cycle line: {stdout}"
+    );
+    assert!(
+        stdout.contains("Features by state:"),
+        "missing per-state breakdown: {stdout}"
+    );
+}
+
+#[test]
+fn version_prints_known_prefix() {
+    let output = cli().arg("version").assert().success().get_output().clone();
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(
+        stdout.contains("agileplus-cli v"),
+        "expected `agileplus-cli v` prefix, got: {stdout}"
+    );
+}
+
+// ── feature count ────────────────────────────────────────────────────────────
+
+#[test]
+fn feature_count_total_matches_seeded_data() {
+    let output = cli()
+        .args(["feature", "count"])
+        .assert()
+        .success()
+        .get_output()
+        .clone();
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(stdout.contains("STATE"), "header missing: {stdout}");
+    assert!(stdout.contains("COUNT"), "header missing: {stdout}");
+    assert!(stdout.contains("TOTAL"), "totals line missing: {stdout}");
+}
+
+#[test]
+fn feature_count_with_state_filter_is_single_number() {
+    // `created` exists in the seeded store — output should be a single integer
+    // and must NOT contain the multi-row "STATE/COUNT" table.
+    let output = cli()
+        .args(["feature", "count", "--state", "created"])
+        .assert()
+        .success()
+        .get_output()
+        .clone();
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(
+        !stdout.contains("STATE"),
+        "should not print table when filtered: {stdout}"
+    );
+    let trimmed = stdout.trim();
+    let n: usize = trimmed
+        .parse()
+        .unwrap_or_else(|_| panic!("expected a single integer, got `{trimmed}`"));
+    assert!(n >= 1, "expected at least 1 created feature, got {n}");
+}
+
+#[test]
+fn feature_count_rejects_unknown_state() {
+    cli()
+        .args(["feature", "count", "--state", "bogus"])
+        .assert()
+        .failure() // exit code 1
+        .stderr(predicates::str::contains("invalid --state `bogus`"));
+}
+
+// ── feature search ───────────────────────────────────────────────────────────
+
+#[test]
+fn feature_search_matches_by_slug() {
+    // `core-platform` is the slug of the seeded module; at least one feature
+    // should carry a slug/label that contains `core`.
+    let output = cli()
+        .args(["feature", "search", "core"])
+        .assert()
+        .success()
+        .get_output()
+        .clone();
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    // Either we find a match (and the table header is printed), or we get
+    // the explicit "No features matched" message. Both are valid.
+    assert!(
+        stdout.contains("SLUG") || stdout.contains("No features matched"),
+        "unexpected output: {stdout}"
+    );
+}
+
+#[test]
+fn feature_search_with_no_results_is_informative() {
+    let output = cli()
+        .args(["feature", "search", "definitely-no-such-substring-zzz"])
+        .assert()
+        .success()
+        .get_output()
+        .clone();
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(
+        stdout.contains("No features matched"),
+        "expected friendly empty result, got: {stdout}"
+    );
+}
+
+// ── feature ready ────────────────────────────────────────────────────────────
+
+#[test]
+fn feature_ready_is_idempotent() {
+    // The seed does not have a `validated` feature, so the command prints
+    // a friendly "No features are currently in the `validated` state." line.
+    // Running it twice must produce the same output and exit 0 both times.
+    let expected_phrase = "validated";
+    for _ in 0..2 {
+        let output = cli()
+            .args(["feature", "ready"])
+            .assert()
+            .success()
+            .get_output()
+            .clone();
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        assert!(
+            stdout.contains(expected_phrase) || stdout.contains("ID"),
+            "unexpected ready output: {stdout}"
+        );
+    }
+}
+
+// ── module show / search ─────────────────────────────────────────────────────
+
+#[test]
+fn module_show_existing_id() {
+    let output = cli()
+        .args(["module", "show", "1"])
+        .assert()
+        .success()
+        .get_output()
+        .clone();
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(
+        stdout.contains("id          : 1"),
+        "missing id line: {stdout}"
+    );
+    assert!(
+        stdout.contains("slug        :"),
+        "missing slug line: {stdout}"
+    );
+    assert!(
+        stdout.contains("name        :"),
+        "missing name line: {stdout}"
+    );
+    assert!(
+        stdout.contains("features    :"),
+        "missing feature-count line: {stdout}"
+    );
+}
+
+#[test]
+fn module_show_missing_id_errors_with_nonzero_exit() {
+    cli()
+        .args(["module", "show", "99999"])
+        .assert()
+        .failure()
+        .stderr(predicates::str::contains("module 99999 not found"));
+}
+
+#[test]
+fn module_search_returns_table_or_empty_message() {
+    let output = cli()
+        .args(["module", "search", "platform"])
+        .assert()
+        .success()
+        .get_output()
+        .clone();
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(
+        stdout.contains("SLUG") || stdout.contains("No modules matched"),
+        "unexpected module-search output: {stdout}"
+    );
+}
+
+// ── cycle list / set / current ───────────────────────────────────────────────
+
+#[test]
+
+---
+//! Integration tests for the agileplus CLI binary.
+//!
+//! Uses assert_cmd to test the binary end-to-end.
+
+use assert_cmd::Command;
+
+#[test]
+fn help_prints_usage() {
+    Command::cargo_bin("agileplus")
+        .unwrap()
+        .arg("--help")
+        .assert()
+        .success()
+        .stdout(predicates::str::contains("Spec-driven development engine"));
+}
+
+// NOTE: The tests below (specify/research/specs/frontend/plan subcommand
+// coverage) were removed here. They were merged in verbatim from a stale
+// `pr-769` branch that assumed CLI subcommands — `specify`, `research`,
+// `plan`, `specs`, and `frontend` — that do not exist in this crate's
+// `Command` enum (see `src/main.rs`; the real surface is
+// Feature/Module/Cycle/Version/Sync/SeedRequirements/ListProjects/
+// ListEpics/ListStories/Trace/Dashboard/Worklog). Landing them as-is would
+// have committed permanently-failing tests. This gap is the same
+// aspirational-scaffolding debt already tracked and parked per PR#878;
+// re-add equivalent coverage once those subcommands are actually
+// implemented.
+//
+// Removed test fns (for reference when implementing the above):
+// - specify_help_prints_subcommand_usage
+// - research_help_prints_subcommand_usage
+// - specify_from_file_creates_feature
+// - specify_creates_spec_artifact
+// - specs_audit_json_reports_legacy_gap
+// - specs_audit_strict_fails_on_gap_and_passes_when_clean
+// - frontend_audit_strict_accepts_active_and_marked_scaffold_surfaces
+// - frontend_audit_strict_fails_on_unmarked_scaffold
+// - research_on_nonexistent_feature_runs_pre_specify_mode
+// - research_after_specify_transitions_to_researched
+// - plan_requires_researched_state_unless_forced
+// - specify_refinement_detects_no_changes
+// - specify_refinement_writes_diff_artifact
+// - no_git_repo_shows_helpful_error (used the "specify" subcommand)
+//
+// The `fixtures_dir()` and `init_temp_git_repo()` helpers those tests used
+// were removed along with them; reinstate as needed alongside the real
+// subcommand implementations.
+
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(52035) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- sed -n '500,530p' crates/agileplus-cli/src/main.rs && printf '\\n--- domain config files ---\\n' && sed -n '1,130p' crates/agileplus-domain/src/config/core.rs && sed -n '1,130p' crates/agileplus-domain/src/config/credentials.rs && sed -n '1,130p' crates/agileplus-domain/src/config/loader.rs" in /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile
+ succeeded in 2043ms:
+snip: no filter for "sed", passing through -- you can run "sed" directly
+
+    #[test]
+    fn mock_store_seed_contains_cli_fixtures() {
+        let store = MockStore::seed();
+
+        assert_eq!(store.features.len(), 3);
+        assert_eq!(store.modules.len(), 2);
+        assert_eq!(store.cycles.len(), 1);
+        assert_eq!(store.cycles[0].state, CycleState::Active);
+    }
+
+    #[test]
+    fn db_path_defaults_when_env_missing() {
+        std::env::remove_var("AGILEPLUS_DB");
+        assert_eq!(db_path_from_env(), PathBuf::from("agileplus.db"));
+    }
+
+    #[test]
+    fn db_path_uses_env_override() {
+        std::env::set_var("AGILEPLUS_DB", "/tmp/agileplus-test.db");
+        assert_eq!(db_path_from_env(), PathBuf::from("/tmp/agileplus-test.db"));
+        std::env::remove_var("AGILEPLUS_DB");
+    }
+}
+
+// ── entry point ──────────────────────────────────────────────────────────────
+
+#[allow(clippy::items_after_test_module)]
+#[tokio::main]
+async fn main() {
+    let _telemetry = agileplus_telemetry::init_subscriber().ok();
+
+--- domain config files ---
+use std::path::PathBuf;
+
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct CoreConfig {
+    #[serde(default = "default_db_path")]
+    pub database_path: PathBuf,
+    #[serde(default = "default_specs_dir")]
+    pub specs_dir: String,
+    #[serde(default = "default_target_branch")]
+    pub default_target_branch: String,
+}
+
+impl Default for CoreConfig {
+    fn default() -> Self {
+        Self {
+            database_path: default_db_path(),
+            specs_dir: default_specs_dir(),
+            default_target_branch: default_target_branch(),
+        }
+    }
+}
+
+fn default_db_path() -> PathBuf {
+    dirs_next::home_dir()
+        .unwrap_or_else(|| PathBuf::from("."))
+        .join(".agileplus")
+        .join("agileplus.db")
+}
+
+fn default_specs_dir() -> String {
+    "agileplus".to_string()
+}
+
+fn default_target_branch() -> String {
+    "main".to_string()
+}
+use std::path::PathBuf;
+
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum CredentialBackend {
+    #[default]
+    Auto,
+    Keychain,
+    File,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct CredentialConfig {
+    #[serde(default)]
+    pub backend: CredentialBackend,
+    #[serde(default = "default_credential_path")]
+    pub file_path: PathBuf,
+}
+
+impl Default for CredentialConfig {
+    fn default() -> Self {
+        Self {
+            backend: CredentialBackend::Auto,
+            file_path: default_credential_path(),
+        }
+    }
+}
+
+fn default_credential_path() -> PathBuf {
+    dirs_next::home_dir()
+        .unwrap_or_else(|| PathBuf::from("."))
+        .join(".agileplus")
+        .join("credentials.enc")
+}
+use std::path::PathBuf;
+use std::{env, fs};
+
+use super::AppConfig;
+
+/// Errors that can occur when loading or saving configuration.
+#[derive(Debug, thiserror::Error)]
+pub enum ConfigError {
+    #[error("IO error: {0}")]
+    Io(#[from] std::io::Error),
+    #[error("TOML parse error: {0}")]
+    TomlParse(#[from] toml::de::Error),
+    #[error("TOML serialize error: {0}")]
+    TomlSerialize(#[from] toml::ser::Error),
+    #[error("invalid config value: {0}")]
+    Validation(String),
+    #[error("environment variable parse error: {0}")]
+    EnvParse(String),
+}
+
+impl AppConfig {
+    /// Path to the user-level config file: `~/.agileplus/config.toml`.
+    pub fn config_path() -> PathBuf {
+        dirs_next::home_dir()
+            .unwrap_or_else(|| PathBuf::from("."))
+            .join(".agileplus")
+            .join("config.toml")
+    }
+
+    /// Load config from disk, falling back to defaults if no file exists.
+    pub fn load() -> Result<Self, ConfigError> {
+        let path = Self::config_path();
+        if path.exists() {
+            let content = fs::read_to_string(&path)?;
+            let config: AppConfig = toml::from_str(&content)?;
+            config.validate()?;
+            Ok(config)
+        } else {
+            Ok(AppConfig::default())
+        }
+    }
+
+    /// Load config with environment variable overrides applied after file parsing.
+    ///
+    /// Supported env vars: `API_PORT`, `AGILEPLUS_HTTP_PORT`,
+    /// `AGILEPLUS_API_PORT`, `AGILEPLUS_GRPC_PORT`,
+    /// `AGILEPLUS_TELEMETRY_LOG_LEVEL`, `AGILEPLUS_CORE_DB_PATH`,
+    /// `AGILEPLUS_CORE_SPECS_DIR`.
+    pub fn load_with_env_overrides() -> Result<Self, ConfigError> {
+        let mut config = Self::load()?;
+
+        if let Ok(port) = env::var("API_PORT") {
+            config.api.port = port
+                .parse()
+                .map_err(|_| ConfigError::EnvParse(format!("API_PORT={port}")))?;
+        }
+        if let Ok(port) = env::var("AGILEPLUS_HTTP_PORT") {
+            config.api.port = port
+                .parse()
+                .map_err(|_| ConfigError::EnvParse(format!("AGILEPLUS_HTTP_PORT={port}")))?;
+        }
+        if let Ok(port) = env::var("AGILEPLUS_API_PORT") {
+            config.api.port = port
+                .parse()
+                .map_err(|_| ConfigError::EnvParse(format!("AGILEPLUS_API_PORT={port}")))?;
+        }
+        if let Ok(port) = env::var("AGILEPLUS_GRPC_PORT") {
+            config.api.grpc_port = port
+                .parse()
+                .map_err(|_| ConfigError::EnvParse(format!("AGILEPLUS_GRPC_PORT={port}")))?;
+        }
+        if let Ok(level) = env::var("AGILEPLUS_TELEMETRY_LOG_LEVEL") {
+            config.telemetry.log_level = level;
+        }
+        if let Ok(db) = env::var("AGILEPLUS_CORE_DB_PATH") {
+            config.core.database_path = PathBuf::from(db);
+        }
+        if let Ok(dir) = env::var("AGILEPLUS_CORE_SPECS_DIR") {
+            config.core.specs_dir = dir;
+        }
+
+        config.validate()?;
+        Ok(config)
+    }
+
+    /// Write the current config (or a fresh default) to disk if the file does not yet exist.
+    ///
+    /// Returns the path that was written.
+    pub fn init_default() -> Result<PathBuf, ConfigError> {
+        let path = Self::config_path();
+        if !path.exists() {
+            if let Some(parent) = path.parent() {
+                fs::create_dir_all(parent)?;
+            }
+            let content = toml::to_string_pretty(&AppConfig::default())?;
+            fs::write(&path, content)?;
+        }
+        Ok(path)
+    }
+
+    /// Validate that the loaded configuration is internally consistent.
+    pub(crate) fn validate(&self) -> Result<(), ConfigError> {
+        let valid_log_levels = ["trace", "debug", "info", "warn", "error"];
+        if !valid_log_levels.contains(&self.telemetry.log_level.to_lowercase().as_str()) {
+            return Err(ConfigError::Validation(format!(
+                "invalid log_level '{}'; must be one of: {}",
+                self.telemetry.log_level,
+                valid_log_levels.join(", ")
+            )));
+        }
+        if self.api.port == 0 {
+            return Err(ConfigError::Validation("api.port must be > 0".to_string()));
+        }
+        if self.api.grpc_port == 0 {
+            return Err(ConfigError::Validation(
+                "api.grpc_port must be > 0".to_string(),
+            ));
+        }
+        Ok(())
+    }
+}
+
+codex
+I’ve got the root causes. Next patching the minimal manifests, unsafe blocks, and smoke coverage.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(60161) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- apply_patch <<'PATCH'
+*** Begin Patch
+*** Update File: /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain/Cargo.toml
+@@
+ sha2.workspace = true
++dirs-next.workspace = true
++toml.workspace = true
+ 
+ [dev-dependencies]
+ tokio.workspace = true
+*** Update File: /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-cli/Cargo.toml
+@@
+ [dev-dependencies]
++assert_cmd = \"2\"
++predicates = \"3\"
+ proptest = \"1\"
+ tokio-test = \"0.4\"
+ tempfile = \"3\"
+*** Update File: /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-cli/src/main.rs
+@@
+     #[test]
+     fn db_path_defaults_when_env_missing() {
+-        std::env::remove_var(\"AGILEPLUS_DB\");
++        // SAFETY: this unit test mutates process env before any threads are spawned or observed.
++        unsafe { std::env::remove_var(\"AGILEPLUS_DB\") };
+         assert_eq"'!(db_path_from_env(), PathBuf::from("agileplus.db"));
+     }
+ 
+     #[test]
+     fn db_path_uses_env_override() {
+-        std::env::set_var("AGILEPLUS_DB", "/tmp/agileplus-test.db");
++        // SAFETY: this unit test mutates process env before any threads are spawned or observed.
++        unsafe { std::env::set_var("AGILEPLUS_DB", "/tmp/agileplus-test.db") };
+         assert_eq!(db_path_from_env(), PathBuf::from("/tmp/agileplus-test.db"));
+-        std::env::remove_var("AGILEPLUS_DB");
++        // SAFETY: this unit test mutates process env before any threads are spawned or observed.
++        unsafe { std::env::remove_var("AGILEPLUS_DB") };
+     }
+ }
+*** Update File: /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-cli/tests/cli_integration.rs
+@@
+ fn help_prints_usage() {
+     Command::cargo_bin("agileplus")
+         .unwrap()
+         .arg("--help")
+         .assert()
+@@
+         .stdout(predicates::str::contains("Spec-driven development engine"));
+ }
++
++#[test]
++fn version_flag_prints_package_version() {
++    Command::cargo_bin("agileplus")
++        .unwrap()
++        .arg("--version")
++        .assert()
++        .success()
++        .stdout(predicates::str::contains(env!("CARGO_PKG_VERSION")));
++}
+*** End Patch
+PATCH' in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ succeeded in 367ms:
+snip: no filter for "apply_patch", passing through -- you can run "apply_patch" directly
+Success. Updated the following files:
+M /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain/Cargo.toml
+M /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-cli/Cargo.toml
+M /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-cli/src/main.rs
+M /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-cli/tests/cli_integration.rs
+
+codex
+Manifest and smoke fixes are in; now rerunning the crate to expose trait drift.
+  ✓ Reproduce cli compile errors
+  → Patch deps, traits, env safety
+  ✓ Add CLI smoke assertion
+  • Iterate cargo test
+  • Summarize edited files
+hook: PreToolUse
+hook: PreToolUse
+codex(61575) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc '/Users/kooshapari/go/bin/snip -- cargo test -p agileplus-cli' in /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile
+codex
+Still compiling; polling the next diagnostic set.
+codex
+Build is still running after dependency compilation; waiting for final errors/tests.
+ exited 101 in 91290ms:
+    Updating crates.io index
+    Blocking waiting for file lock on package cache
+     Locking 10 packages to latest compatible versions
+      Adding assert_cmd v2.2.2
+      Adding difflib v0.4.0
+      Adding dirs-next v2.0.0
+      Adding dirs-sys-next v0.1.2
+      Adding float-cmp v0.10.0
+      Adding normalize-line-endings v0.3.0
+      Adding predicates v3.1.4
+      Adding predicates-core v1.0.10
+      Adding predicates-tree v1.0.13
+      Adding termtree v0.5.1
+    Blocking waiting for file lock on package cache
+   Compiling tokio-util v0.7.18
+   Compiling aws-lc-rs v1.17.1
+   Compiling aws-lc-sys v0.42.0
+   Compiling serde_spanned v0.6.9
+   Compiling toml_datetime v0.6.11
+   Compiling winnow v0.7.15
+   Compiling toml_write v0.1.2
+   Compiling dirs-sys-next v0.1.2
+   Compiling tokio-stream v0.1.18
+   Compiling rand_chacha v0.3.1
+   Compiling rustls v0.23.41
+   Compiling rand_chacha v0.9.0
+   Compiling gix-ref v0.63.0
+   Compiling dirs-next v2.0.0
+   Compiling gix-packetline v0.21.5
+   Compiling opentelemetry v0.32.0
+   Compiling signature v2.2.0
+   Compiling libssh2-sys v0.3.2
+   Compiling either v1.16.0
+   Compiling native-tls v0.2.18
+   Compiling heck v0.5.0
+   Compiling rand v0.9.4
+   Compiling itertools v0.14.0
+   Compiling h2 v0.4.15
+   Compiling tower v0.5.3
+   Compiling rand v0.8.6
+   Compiling curve25519-dalek v4.1.3
+   Compiling arc-swap v1.9.2
+   Compiling tower-http v0.6.11
+   Compiling ahash v0.8.12
+   Compiling spki v0.7.3
+   Compiling toml_edit v0.22.27
+   Compiling serde_urlencoded v0.7.1
+   Compiling gix-traverse v0.57.0
+   Compiling libsqlite3-sys v0.30.1
+   Compiling rustls-webpki v0.103.13
+   Compiling num-integer v0.1.46
+   Compiling gix-url v0.36.1
+   Compiling gix-config-value v0.18.1
+   Compiling adler2 v2.0.1
+   Compiling anstyle v1.0.14
+   Compiling lazy_static v1.5.0
+   Compiling simd-adler32 v0.3.9
+   Compiling crossbeam-utils v0.8.21
+   Compiling miniz_oxide v0.8.9
+   Compiling sharded-slab v0.1.7
+   Compiling num-bigint v0.4.6
+   Compiling prost-derive v0.14.4
+   Compiling pkcs8 v0.10.2
+   Compiling hashbrown v0.14.5
+   Compiling ed25519 v2.2.3
+   Compiling openssl-sys v0.9.117
+   Compiling libz-sys v1.1.29
+   Compiling clru v0.6.3
+   Compiling toml v0.8.23
+   Compiling gix-revision v0.45.0
+   Compiling webpki-roots v1.0.8
+   Compiling gix-bitmap v0.3.2
+   Compiling tracing-serde v0.2.0
+   Compiling tracing-log v0.2.0
+   Compiling libgit2-sys v0.18.5+1.9.4
+   Compiling regex v1.12.4
+   Compiling matchers v0.2.0
+   Compiling agileplus-domain v0.1.0 (/Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain)
+   Compiling serde_path_to_error v0.1.20
+   Compiling filetime v0.2.29
+   Compiling thread_local v1.1.9
+error[E0432]: unresolved import `crate::builder`
+    --> crates/agileplus-domain/src/intent_graph.rs:1141:16
+     |
+1141 | pub use crate::builder::{EdgeBuilder, NodeBuilder};
+     |                ^^^^^^^ could not find `builder` in the crate root
+
+error[E0432]: unresolved import `crate::domain::epic`
+ --> crates/agileplus-domain/src/ports/epic.rs:4:20
+  |
+4 | use crate::domain::epic::{Epic, EpicStatus};
+  |                    ^^^^ could not find `epic` in `domain`
+
+error[E0432]: unresolved import `crate::domain::story`
+ --> crates/agileplus-domain/src/ports/plane_sync.rs:4:20
+  |
+4 | use crate::domain::story::{Story, StoryStatus};
+  |                    ^^^^^ could not find `story` in `domain`
+
+error[E0432]: unresolved import `crate::domain::audit`
+ --> crates/agileplus-domain/src/ports/storage.rs:5:20
+  |
+5 | use crate::domain::audit::AuditEntry;
+  |                    ^^^^^ could not find `audit` in `domain`
+
+error[E0432]: unresolved import `crate::domain::cycle`
+ --> crates/agileplus-domain/src/ports/storage.rs:6:20
+  |
+6 | use crate::domain::cycle::{Cycle, CycleFeature, CycleState, CycleWithFeatures};
+  |                    ^^^^^ could not find `cycle` in `domain`
+
+error[E0432]: unresolved import `crate::domain::feature`
+ --> crates/agileplus-domain/src/ports/storage.rs:7:20
+  |
+7 | use crate::domain::feature::Feature;
+  |                    ^^^^^^^ could not find `feature` in `domain`
+
+error[E0432]: unresolved import `crate::domain::governance`
+ --> crates/agileplus-domain/src/ports/storage.rs:8:20
+  |
+8 | use crate::domain::governance::{Evidence, GovernanceContract, PolicyRule};
+  |                    ^^^^^^^^^^ could not find `governance` in `domain`
+
+error[E0432]: unresolved import `crate::domain::metric`
+ --> crates/agileplus-domain/src/ports/storage.rs:9:20
+  |
+9 | use crate::domain::metric::Metric;
+  |                    ^^^^^^ could not find `metric` in `domain`
+
+error[E0432]: unresolved import `crate::domain::module`
+  --> crates/agileplus-domain/src/ports/storage.rs:10:20
+   |
+10 | use crate::domain::module::{Module, ModuleFeatureTag, ModuleWithFeatures};
+   |                    ^^^^^^ could not find `module` in `domain`
+
+error[E0432]: unresolved import `crate::domain::project`
+  --> crates/agileplus-domain/src/ports/storage.rs:11:20
+   |
+11 | use crate::domain::project::Project;
+   |                    ^^^^^^^ could not find `project` in `domain`
+
+error[E0432]: unresolved import `crate::domain::state_machine`
+  --> crates/agileplus-domain/src/ports/storage.rs:12:20
+   |
+12 | use crate::domain::state_machine::FeatureState;
+   |                    ^^^^^^^^^^^^^ could not find `state_machine` in `domain`
+
+error[E0432]: unresolved import `crate::domain::sync_mapping`
+  --> crates/agileplus-domain/src/ports/storage.rs:13:20
+   |
+13 | use crate::domain::sync_mapping::SyncMapping;
+   |                    ^^^^^^^^^^^^ could not find `sync_mapping` in `domain`
+
+error[E0432]: unresolved import `crate::domain::work_package`
+  --> crates/agileplus-domain/src/ports/storage.rs:14:20
+   |
+14 | use crate::domain::work_package::{WorkPackage, WpDependency, WpState};
+   |                    ^^^^^^^^^^^^ could not find `work_package` in `domain`
+
+error[E0432]: unresolved import `crate::domain::story`
+ --> crates/agileplus-domain/src/ports/story.rs:4:20
+  |
+4 | use crate::domain::story::{Story, StoryStatus};
+  |                    ^^^^^ could not find `story` in `domain`
+
+error[E0433]: cannot find module or crate `traceability_core` in this scope
+  --> crates/agileplus-domain/src/lib.rs:20:9
+   |
+20 | pub use traceability_core::governance::{
+   |         ^^^^^^^^^^^^^^^^^ use of unresolved module or unlinked crate `traceability_core`
+   |
+help: there is a crate or module with a similar name
+   |
+20 - pub use traceability_core::governance::{
+20 + pub use traceability_port::governance::{
+   |
+
+error[E0433]: cannot find module or crate `traceability_core` in this scope
+  --> crates/agileplus-domain/src/lib.rs:24:9
+   |
+24 | pub use traceability_core::intent_graph::{
+   |         ^^^^^^^^^^^^^^^^^ use of unresolved module or unlinked crate `traceability_core`
+   |
+help: there is a crate or module with a similar name
+   |
+24 - pub use traceability_core::intent_graph::{
+24 + pub use traceability_port::intent_graph::{
+   |
+
+error[E0433]: cannot find module or crate `traceability_core` in this scope
+  --> crates/agileplus-domain/src/lib.rs:28:9
+   |
+28 | pub use traceability_core::lifecycle::{FeatureState, Transition, TransitionResult};
+   |         ^^^^^^^^^^^^^^^^^ use of unresolved module or unlinked crate `traceability_core`
+   |
+help: there is a crate or module with a similar name
+   |
+28 - pub use traceability_core::lifecycle::{FeatureState, Transition, TransitionResult};
+28 + pub use traceability_port::lifecycle::{FeatureState, Transition, TransitionResult};
+   |
+
+error[E0432]: unresolved imports `crate::domain::audit`, `crate::domain::backlog`, `crate::domain::cycle`, `crate::domain::epic`, `crate::domain::feature`, `crate::domain::governance`, `crate::domain::metric`, `crate::domain::module`, `crate::domain::project`, `crate::domain::state_machine`, `crate::domain::story`, `crate::domain::sync_mapping`, `crate::domain::user`, `crate::domain::work_package`
+  --> crates/agileplus-domain/src/ports.rs:40:5
+   |
+40 |     audit::AuditEntry,
+   |     ^^^^^ could not find `audit` in `domain`
+41 |     backlog::{BacklogFilters, BacklogItem, BacklogPriority, BacklogStatus, Intent},
+   |     ^^^^^^^ could not find `backlog` in `domain`
+42 |     cycle::{Cycle, CycleFeature, CycleState, CycleWithFeatures},
+   |     ^^^^^ could not find `cycle` in `domain`
+43 |     epic::{Epic, EpicStatus},
+   |     ^^^^ could not find `epic` in `domain`
+44 |     feature::Feature,
+   |     ^^^^^^^ could not find `feature` in `domain`
+45 |     governance::{Evidence, GovernanceContract, PolicyRule},
+   |     ^^^^^^^^^^ could not find `governance` in `domain`
+46 |     metric::Metric,
+   |     ^^^^^^ could not find `metric` in `domain`
+47 |     module::{Module, ModuleFeatureTag, ModuleWithFeatures},
+   |     ^^^^^^ could not find `module` in `domain`
+48 |     project::Project,
+   |     ^^^^^^^ could not find `project` in `domain`
+49 |     state_machine::FeatureState,
+   |     ^^^^^^^^^^^^^ could not find `state_machine` in `domain`
+50 |     story::{Story, StoryStatus},
+   |     ^^^^^
+51 |     sync_mapping::SyncMapping,
+   |     ^^^^^^^^^^^^
+52 |     user::{User, UserRole, UserStatus},
+   |     ^^^^
+53 |     work_package::{WorkPackage, WpDependency, WpState},
+   |     ^^^^^^^^^^^^
+
+error[E0432]: unresolved import `zeroize`
+ --> crates/agileplus-domain/src/credentials/memory.rs:4:5
+  |
+4 | use zeroize::Zeroizing;
+  |     ^^^^^^^ use of unresolved module or unlinked crate `zeroize`
+  |
+  = help: if you wanted to use a crate named `zeroize`, use `cargo add zeroize` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `regex`
+ --> crates/agileplus-domain/src/intent_graph.rs:7:5
+  |
+7 | use regex::Regex;
+  |     ^^^^^ use of unresolved module or unlinked crate `regex`
+  |
+  = help: if you wanted to use a crate named `regex`, use `cargo add regex` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `self::vcs::BranchInfo`
+  --> crates/agileplus-domain/src/ports.rs:57:17
+   |
+57 | use self::vcs::{BranchInfo, ConflictInfo, FeatureArtifacts, MergeResult, WorktreeInfo};
+   |                 ^^^^^^^^^^ no `BranchInfo` in `ports::vcs`
+
+error[E0432]: unresolved import `async_trait`
+ --> crates/agileplus-domain/src/ports/traceability_port.rs:4:5
+  |
+4 | use async_trait::async_trait;
+  |     ^^^^^^^^^^^ use of unresolved module or unlinked crate `async_trait`
+  |
+  = help: if you wanted to use a crate named `async_trait`, use `cargo add async_trait` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `async_trait`
+  --> crates/agileplus-domain/src/ports.rs:36:5
+   |
+36 | use async_trait::async_trait;
+   |     ^^^^^^^^^^^ use of unresolved module or unlinked crate `async_trait`
+   |
+   = help: if you wanted to use a crate named `async_trait`, use `cargo add async_trait` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `async_trait`
+ --> crates/agileplus-domain/src/adapters/noop_trace_adapter.rs:6:5
+  |
+6 | use async_trait::async_trait;
+  |     ^^^^^^^^^^^ use of unresolved module or unlinked crate `async_trait`
+  |
+  = help: if you wanted to use a crate named `async_trait`, use `cargo add async_trait` to add it to your `Cargo.toml`
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/mod.rs:16:7
+   |
+16 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: `#[warn(unexpected_cfgs)]` on by default
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/factory.rs:4:7
+  |
+4 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/factory.rs:11:15
+   |
+11 |         #[cfg(feature = "keychain")]
+   |               ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/factory.rs:19:19
+   |
+19 |         #[cfg(not(feature = "keychain"))]
+   |                   ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/keychain.rs:1:7
+  |
+1 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/keychain.rs:3:7
+  |
+3 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/keychain.rs:9:7
+  |
+9 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/keychain.rs:14:7
+   |
+14 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/keychain.rs:27:7
+   |
+27 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/keychain.rs:34:7
+   |
+34 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+   Compiling nu-ansi-term v0.50.3
+   Compiling hyper v1.10.1
+   Compiling thiserror v1.0.69
+   Compiling portable-atomic v1.13.1
+   Compiling utf8parse v0.2.2
+   Compiling anstyle-parse v1.0.0
+   Compiling tracing-subscriber v0.3.23
+   Compiling gix-index v0.51.0
+   Compiling gix-refspec v0.41.0
+   Compiling webpki-roots v0.26.11
+   Compiling gix-pack v0.70.0
+   Compiling prost v0.14.4
+   Compiling ed25519-dalek v2.2.0
+Some errors have detailed explanations: E0432, E0433.
+For more information about an error, try `rustc --explain E0432`.
+warning: `agileplus-domain` (lib) generated 10 warnings
+error: could not compile `agileplus-domain` (lib) due to 24 previous errors; 10 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+fail: 0
+ignored: 0
+pass: 0
+
+codex
+The reported CLI clusters are gated by domain export breakage. I’m fixing only the dependency/export surface needed to compile through.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(69239) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && sed -n \"1,260p\" crates/agileplus-domain/src/lib.rs && printf \"\\n--- domain mod ---\\n\" && find crates/agileplus-domain/src/domain -maxdepth 2 -type f -print | sort | sed -n \"1,200p\" && printf \"\\n--- top-level files ---\\n\" && find crates/agileplus-domain/src -maxdepth 1 -type f -print | sort'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ succeeded in 2586ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+// SPDX-License-Identifier: MIT OR Apache-2.0
+//! `agileplus-domain` — core domain types, error, and port traits.
+
+pub use error::DomainError;
+pub use error::ErrorCode;
+pub type DomainResult<T> = std::result::Result<T, DomainError>;
+
+pub mod config;
+pub mod credentials;
+pub mod domain;
+pub mod error;
+pub mod intent_graph;
+pub mod ports;
+pub mod adapters;
+pub mod traceability;
+
+// Shared PM/traceability spine (phenotype-pm-core). AgilePlus-local aggregates
+// remain in `domain::*`; lifecycle, governance, and intent graph are canonical
+// in `traceability-core` and re-exported here for backward-compatible paths.
+pub use traceability_core::governance::{
+    BuiltinPolicy, Evidence, EvidenceRequirement, EvidenceType, GovernanceContract,
+    GovernanceRule, PolicyCheck, PolicyDefinition, PolicyDomain, PolicyRule,
+};
+pub use traceability_core::intent_graph::{
+    CanonicalLinkType, CanonicalMap, DagStage, Edge, GraphMetadata, IntentGraph, Meta, Node,
+    NodeType, RelationshipType, Status as NodeStatus, ValidationError,
+};
+pub use traceability_core::lifecycle::{FeatureState, Transition, TransitionResult};
+
+--- domain mod ---
+crates/agileplus-domain/src/domain/api_key.rs
+crates/agileplus-domain/src/domain/audit.rs
+crates/agileplus-domain/src/domain/backlog.rs
+crates/agileplus-domain/src/domain/cycle.rs
+crates/agileplus-domain/src/domain/cycle/entity.rs
+crates/agileplus-domain/src/domain/cycle/feature.rs
+crates/agileplus-domain/src/domain/cycle/mod.rs
+crates/agileplus-domain/src/domain/cycle/progress.rs
+crates/agileplus-domain/src/domain/cycle/state.rs
+crates/agileplus-domain/src/domain/cycle/tests.rs
+crates/agileplus-domain/src/domain/cycle/with_features.rs
+crates/agileplus-domain/src/domain/device_node.rs
+crates/agileplus-domain/src/domain/epic.rs
+crates/agileplus-domain/src/domain/event.rs
+crates/agileplus-domain/src/domain/feature.rs
+crates/agileplus-domain/src/domain/governance.rs
+crates/agileplus-domain/src/domain/metric.rs
+crates/agileplus-domain/src/domain/mod.rs
+crates/agileplus-domain/src/domain/module.rs
+crates/agileplus-domain/src/domain/project.rs
+crates/agileplus-domain/src/domain/service_health.rs
+crates/agileplus-domain/src/domain/snapshot.rs
+crates/agileplus-domain/src/domain/state_machine.rs
+crates/agileplus-domain/src/domain/story.rs
+crates/agileplus-domain/src/domain/sync_mapping.rs
+crates/agileplus-domain/src/domain/user.rs
+crates/agileplus-domain/src/domain/work_package.rs
+crates/agileplus-domain/src/domain/work_package/dependency.rs
+crates/agileplus-domain/src/domain/work_package/mod.rs
+crates/agileplus-domain/src/domain/work_package/tests.rs
+
+--- top-level files ---
+crates/agileplus-domain/src/builder.rs
+crates/agileplus-domain/src/error.rs
+crates/agileplus-domain/src/intent_graph.rs
+crates/agileplus-domain/src/lib.rs
+crates/agileplus-domain/src/ports.rs
+crates/agileplus-domain/src/traceability.rs
+crates/agileplus-domain/src/validate.rs
+
+codex
+`lib.rs` is missing exports for existing modules; I’ll add them and rerun.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex(74481) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- apply_patch <<'PATCH'
+*** Begin Patch
+*** Update File: /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain/src/lib.rs
+@@
+ pub mod adapters;
++pub mod builder;
+ pub mod traceability;
++pub mod validate;
+*** End Patch
+PATCH" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ succeeded in 330ms:
+snip: no filter for "apply_patch", passing through -- you can run "apply_patch" directly
+Success. Updated the following files:
+M /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain/src/lib.rs
+
+codex
+Now I’ll re-run and capture the next compiler cluster.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+codex(74698) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+hook: PreToolUse Completed
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc '/Users/kooshapari/go/bin/snip -- cargo test -p agileplus-cli' in /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile
+ exited 101 in 6411ms:
+fail: 0
+ignored: 0
+pass: 0
+   Compiling agileplus-domain v0.1.0 (/Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain)
+   Compiling hyper-rustls v0.27.9
+   Compiling fallible-iterator v0.3.0
+   Compiling fallible-streaming-iterator v0.1.9
+   Compiling gix-protocol v0.61.0
+   Compiling dirs-sys v0.4.1
+   Compiling anstream v1.0.0
+   Compiling nkeys v0.4.5
+   Compiling opentelemetry-proto v0.32.0
+   Compiling document-features v0.2.12
+   Compiling gix-worktree v0.52.0
+   Compiling gix-worktree-stream v0.32.0
+error[E0432]: unresolved import `crate::domain::epic`
+ --> crates/agileplus-domain/src/ports/epic.rs:4:20
+  |
+4 | use crate::domain::epic::{Epic, EpicStatus};
+  |                    ^^^^ could not find `epic` in `domain`
+
+error[E0432]: unresolved import `crate::domain::story`
+ --> crates/agileplus-domain/src/ports/plane_sync.rs:4:20
+  |
+4 | use crate::domain::story::{Story, StoryStatus};
+  |                    ^^^^^ could not find `story` in `domain`
+
+error[E0432]: unresolved import `crate::domain::audit`
+ --> crates/agileplus-domain/src/ports/storage.rs:5:20
+  |
+5 | use crate::domain::audit::AuditEntry;
+  |                    ^^^^^ could not find `audit` in `domain`
+
+error[E0432]: unresolved import `crate::domain::cycle`
+ --> crates/agileplus-domain/src/ports/storage.rs:6:20
+  |
+6 | use crate::domain::cycle::{Cycle, CycleFeature, CycleState, CycleWithFeatures};
+  |                    ^^^^^ could not find `cycle` in `domain`
+
+error[E0432]: unresolved import `crate::domain::feature`
+ --> crates/agileplus-domain/src/ports/storage.rs:7:20
+  |
+7 | use crate::domain::feature::Feature;
+  |                    ^^^^^^^ could not find `feature` in `domain`
+
+error[E0432]: unresolved import `crate::domain::governance`
+ --> crates/agileplus-domain/src/ports/storage.rs:8:20
+  |
+8 | use crate::domain::governance::{Evidence, GovernanceContract, PolicyRule};
+  |                    ^^^^^^^^^^ could not find `governance` in `domain`
+
+error[E0432]: unresolved import `crate::domain::metric`
+ --> crates/agileplus-domain/src/ports/storage.rs:9:20
+  |
+9 | use crate::domain::metric::Metric;
+  |                    ^^^^^^ could not find `metric` in `domain`
+
+error[E0432]: unresolved import `crate::domain::module`
+  --> crates/agileplus-domain/src/ports/storage.rs:10:20
+   |
+10 | use crate::domain::module::{Module, ModuleFeatureTag, ModuleWithFeatures};
+   |                    ^^^^^^ could not find `module` in `domain`
+
+error[E0432]: unresolved import `crate::domain::project`
+  --> crates/agileplus-domain/src/ports/storage.rs:11:20
+   |
+11 | use crate::domain::project::Project;
+   |                    ^^^^^^^ could not find `project` in `domain`
+
+error[E0432]: unresolved import `crate::domain::state_machine`
+  --> crates/agileplus-domain/src/ports/storage.rs:12:20
+   |
+12 | use crate::domain::state_machine::FeatureState;
+   |                    ^^^^^^^^^^^^^ could not find `state_machine` in `domain`
+
+error[E0432]: unresolved import `crate::domain::sync_mapping`
+  --> crates/agileplus-domain/src/ports/storage.rs:13:20
+   |
+13 | use crate::domain::sync_mapping::SyncMapping;
+   |                    ^^^^^^^^^^^^ could not find `sync_mapping` in `domain`
+
+error[E0432]: unresolved import `crate::domain::work_package`
+  --> crates/agileplus-domain/src/ports/storage.rs:14:20
+   |
+14 | use crate::domain::work_package::{WorkPackage, WpDependency, WpState};
+   |                    ^^^^^^^^^^^^ could not find `work_package` in `domain`
+
+error[E0432]: unresolved import `crate::domain::story`
+ --> crates/agileplus-domain/src/ports/story.rs:4:20
+  |
+4 | use crate::domain::story::{Story, StoryStatus};
+  |                    ^^^^^ could not find `story` in `domain`
+
+error[E0433]: cannot find module or crate `traceability_core` in this scope
+  --> crates/agileplus-domain/src/lib.rs:22:9
+   |
+22 | pub use traceability_core::governance::{
+   |         ^^^^^^^^^^^^^^^^^ use of unresolved module or unlinked crate `traceability_core`
+   |
+help: there is a crate or module with a similar name
+   |
+22 - pub use traceability_core::governance::{
+22 + pub use traceability_port::governance::{
+   |
+
+error[E0433]: cannot find module or crate `traceability_core` in this scope
+  --> crates/agileplus-domain/src/lib.rs:26:9
+   |
+26 | pub use traceability_core::intent_graph::{
+   |         ^^^^^^^^^^^^^^^^^ use of unresolved module or unlinked crate `traceability_core`
+   |
+help: there is a crate or module with a similar name
+   |
+26 - pub use traceability_core::intent_graph::{
+26 + pub use traceability_port::intent_graph::{
+   |
+
+error[E0433]: cannot find module or crate `traceability_core` in this scope
+  --> crates/agileplus-domain/src/lib.rs:30:9
+   |
+30 | pub use traceability_core::lifecycle::{FeatureState, Transition, TransitionResult};
+   |         ^^^^^^^^^^^^^^^^^ use of unresolved module or unlinked crate `traceability_core`
+   |
+help: there is a crate or module with a similar name
+   |
+30 - pub use traceability_core::lifecycle::{FeatureState, Transition, TransitionResult};
+30 + pub use traceability_port::lifecycle::{FeatureState, Transition, TransitionResult};
+   |
+
+error[E0432]: unresolved imports `crate::domain::audit`, `crate::domain::backlog`, `crate::domain::cycle`, `crate::domain::epic`, `crate::domain::feature`, `crate::domain::governance`, `crate::domain::metric`, `crate::domain::module`, `crate::domain::project`, `crate::domain::state_machine`, `crate::domain::story`, `crate::domain::sync_mapping`, `crate::domain::user`, `crate::domain::work_package`
+  --> crates/agileplus-domain/src/ports.rs:40:5
+   |
+40 |     audit::AuditEntry,
+   |     ^^^^^ could not find `audit` in `domain`
+41 |     backlog::{BacklogFilters, BacklogItem, BacklogPriority, BacklogStatus, Intent},
+   |     ^^^^^^^ could not find `backlog` in `domain`
+42 |     cycle::{Cycle, CycleFeature, CycleState, CycleWithFeatures},
+   |     ^^^^^ could not find `cycle` in `domain`
+43 |     epic::{Epic, EpicStatus},
+   |     ^^^^ could not find `epic` in `domain`
+44 |     feature::Feature,
+   |     ^^^^^^^ could not find `feature` in `domain`
+45 |     governance::{Evidence, GovernanceContract, PolicyRule},
+   |     ^^^^^^^^^^ could not find `governance` in `domain`
+46 |     metric::Metric,
+   |     ^^^^^^ could not find `metric` in `domain`
+47 |     module::{Module, ModuleFeatureTag, ModuleWithFeatures},
+   |     ^^^^^^ could not find `module` in `domain`
+48 |     project::Project,
+   |     ^^^^^^^ could not find `project` in `domain`
+49 |     state_machine::FeatureState,
+   |     ^^^^^^^^^^^^^ could not find `state_machine` in `domain`
+50 |     story::{Story, StoryStatus},
+   |     ^^^^^
+51 |     sync_mapping::SyncMapping,
+   |     ^^^^^^^^^^^^
+52 |     user::{User, UserRole, UserStatus},
+   |     ^^^^
+53 |     work_package::{WorkPackage, WpDependency, WpState},
+   |     ^^^^^^^^^^^^
+
+error[E0432]: unresolved import `zeroize`
+ --> crates/agileplus-domain/src/credentials/memory.rs:4:5
+  |
+4 | use zeroize::Zeroizing;
+  |     ^^^^^^^ use of unresolved module or unlinked crate `zeroize`
+  |
+  = help: if you wanted to use a crate named `zeroize`, use `cargo add zeroize` to add it to your `Cargo.toml`
+
+   Compiling rusqlite v0.32.1
+   Compiling thiserror v1.0.69
+error[E0432]: unresolved import `regex`
+ --> crates/agileplus-domain/src/intent_graph.rs:7:5
+  |
+7 | use regex::Regex;
+  |     ^^^^^ use of unresolved module or unlinked crate `regex`
+  |
+  = help: if you wanted to use a crate named `regex`, use `cargo add regex` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `self::vcs::BranchInfo`
+  --> crates/agileplus-domain/src/ports.rs:57:17
+   |
+57 | use self::vcs::{BranchInfo, ConflictInfo, FeatureArtifacts, MergeResult, WorktreeInfo};
+   |                 ^^^^^^^^^^ no `BranchInfo` in `ports::vcs`
+
+error[E0432]: unresolved import `async_trait`
+ --> crates/agileplus-domain/src/ports/traceability_port.rs:4:5
+  |
+4 | use async_trait::async_trait;
+  |     ^^^^^^^^^^^ use of unresolved module or unlinked crate `async_trait`
+  |
+  = help: if you wanted to use a crate named `async_trait`, use `cargo add async_trait` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `async_trait`
+  --> crates/agileplus-domain/src/ports.rs:36:5
+   |
+36 | use async_trait::async_trait;
+   |     ^^^^^^^^^^^ use of unresolved module or unlinked crate `async_trait`
+   |
+   = help: if you wanted to use a crate named `async_trait`, use `cargo add async_trait` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `async_trait`
+ --> crates/agileplus-domain/src/adapters/noop_trace_adapter.rs:6:5
+  |
+6 | use async_trait::async_trait;
+  |     ^^^^^^^^^^^ use of unresolved module or unlinked crate `async_trait`
+  |
+  = help: if you wanted to use a crate named `async_trait`, use `cargo add async_trait` to add it to your `Cargo.toml`
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/mod.rs:16:7
+   |
+16 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: `#[warn(unexpected_cfgs)]` on by default
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/factory.rs:4:7
+  |
+4 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/factory.rs:11:15
+   |
+11 |         #[cfg(feature = "keychain")]
+   |               ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/factory.rs:19:19
+   |
+19 |         #[cfg(not(feature = "keychain"))]
+   |                   ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/keychain.rs:1:7
+  |
+1 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/keychain.rs:3:7
+  |
+3 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+ --> crates/agileplus-domain/src/credentials/keychain.rs:9:7
+  |
+9 | #[cfg(feature = "keychain")]
+  |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+  |
+  = note: no expected values for `feature`
+  = help: consider adding `keychain` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/keychain.rs:14:7
+   |
+14 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/keychain.rs:27:7
+   |
+27 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition value: `keychain`
+  --> crates/agileplus-domain/src/credentials/keychain.rs:34:7
+   |
+34 | #[cfg(feature = "keychain")]
+   |       ^^^^^^^^^^^^^^^^^^^^ help: remove the condition
+   |
+   = note: no expected values for `feature`
+   = help: consider adding `keychain` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+   Compiling jsonwebtoken v9.3.1
+   Compiling reqwest v0.13.4
+   Compiling gix-submodule v0.30.0
+   Compiling snafu v0.8.9
+   Compiling gix-odb v0.80.0
+   Compiling tonic v0.14.6
+   Compiling hyper-tls v0.6.0
+   Compiling libgit2-sys v0.18.5+1.9.4
+   Compiling crossbeam-channel v0.5.15
+   Compiling tokio-websockets v0.10.1
+   Compiling portable-atomic v1.13.1
+   Compiling nuid v0.5.0
+   Compiling gix-discover v0.51.0
+   Compiling futures v0.3.32
+   Compiling axum-core v0.5.6
+   Compiling hyper-timeout v0.5.2
+Some errors have detailed explanations: E0432, E0433.
+For more information about an error, try `rustc --explain E0432`.
+warning: `agileplus-domain` (lib) generated 10 warnings
+error: could not compile `agileplus-domain` (lib) due to 23 previous errors; 10 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+
+codex
+Domain module files exist but aren’t exported; I’m checking its module table and the traceability dependency.
+hook: PreToolUse
+hook: PreToolUse
+hook:codex(74793) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+ PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && sed -n \"1,260p\" crates/agileplus-domain/src/domain/mod.rs && rg -n \"traceability-core|traceability_core|agileplus-domain\" -S Cargo.toml crates/*/Cargo.toml'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ exited 1 in 399ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+//! Domain types for the AgilePlus event sourcing system.
+
+pub mod event;
+pub mod snapshot;
+
+codex
+I’ll expose the already-present domain submodules and locate the intended traceability crate name.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+codex(74934) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+hook: PreToolUse Completed
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- zsh -lc 'cd /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile && find . -maxdepth 4 -name Cargo.toml -print | xargs grep -n \"name = .*traceability\\|traceability-core\\|traceability_core\" || true && sed -n \"1,220p\" crates/agileplus-domain/src/domain/governance.rs && sed -n \"1,80p\" crates/agileplus-domain/src/domain/state_machine.rs'" in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ succeeded in 924ms:
+snip: no filter for "zsh", passing through -- you can run "zsh" directly
+./crates/traceability-core/Cargo.toml:2:name = "traceability-core"
+./crates/shared-traceability/Cargo.toml:2:name = "shared-traceability"
+//! Governance types — re-exported from `traceability-core`.
+
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
+
+/// Policy domain category.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum PolicyDomain {
+    Security,
+    Quality,
+    Compliance,
+    Performance,
+    Custom,
+}
+
+impl PolicyDomain {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            PolicyDomain::Security => "security",
+            PolicyDomain::Quality => "quality",
+            PolicyDomain::Compliance => "compliance",
+            PolicyDomain::Performance => "performance",
+            PolicyDomain::Custom => "custom",
+        }
+    }
+}
+
+/// The definition of a policy rule (stored as JSON blob).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PolicyDefinition {
+    pub description: String,
+    pub check: PolicyCheck,
+}
+
+/// An active policy rule in the registry.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PolicyRule {
+    pub id: i64,
+    pub domain: PolicyDomain,
+    pub rule: PolicyDefinition,
+    pub active: bool,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
+}
+
+/// A governance rule captured inside a contract.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GovernanceRule {
+    pub transition: String,
+    pub required_evidence: Vec<String>,
+    pub policy_refs: Vec<i64>,
+}
+
+/// A versioned governance contract bound to a feature.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GovernanceContract {
+    pub id: i64,
+    pub feature_id: i64,
+    pub version: i32,
+    pub rules: Vec<GovernanceRule>,
+    pub bound_at: DateTime<Utc>,
+}
+
+/// Type of evidence artifact.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum EvidenceType {
+    TestResult,
+    CiOutput,
+    ReviewApproval,
+    SecurityScan,
+    LintResult,
+    ManualAttestation,
+}
+
+impl EvidenceType {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            EvidenceType::TestResult => "test_result",
+            EvidenceType::CiOutput => "ci_output",
+            EvidenceType::ReviewApproval => "review_approval",
+            EvidenceType::SecurityScan => "security_scan",
+            EvidenceType::LintResult => "lint_result",
+            EvidenceType::ManualAttestation => "manual_attestation",
+        }
+    }
+}
+
+/// An evidence artifact attached to a work package.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Evidence {
+    pub id: i64,
+    pub wp_id: i64,
+    pub fr_id: String,
+    pub evidence_type: EvidenceType,
+    pub artifact_path: String,
+    pub metadata: Option<serde_json::Value>,
+    pub created_at: DateTime<Utc>,
+}
+
+/// The result of a policy check.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum PolicyCheck {
+    ManualApproval,
+    Automated,
+}
+
+/// A well-known built-in policy that maps a short reference key to a
+/// `PolicyDomain` + `EvidenceType` pair.  Used by the `validate` command to
+/// resolve policy references without requiring a database lookup.
+#[derive(Debug, Clone, Copy)]
+pub struct BuiltinPolicy {
+    /// Short human-readable label (e.g. "Unit tests passing").
+    pub label: &'static str,
+    /// Governance domain for grouping.
+    pub domain: PolicyDomain,
+    /// Required evidence kind.
+    pub evidence_type: EvidenceType,
+}
+
+impl BuiltinPolicy {
+    /// Well-known built-in policies keyed by their reference string.
+    const KNOWN: &'static [(&'static str, BuiltinPolicy)] = &[
+        (
+            "tests-pass",
+            BuiltinPolicy {
+                label: "Unit tests passing",
+                domain: PolicyDomain::Quality,
+                evidence_type: EvidenceType::TestResult,
+            },
+        ),
+        (
+            "ci-green",
+            BuiltinPolicy {
+                label: "CI pipeline green",
+                domain: PolicyDomain::Quality,
+                evidence_type: EvidenceType::CiOutput,
+            },
+        ),
+        (
+            "review-approved",
+            BuiltinPolicy {
+                label: "Peer review approved",
+                domain: PolicyDomain::Quality,
+                evidence_type: EvidenceType::ReviewApproval,
+            },
+        ),
+        (
+            "security-scan",
+            BuiltinPolicy {
+                label: "Security scan clean",
+                domain: PolicyDomain::Security,
+                evidence_type: EvidenceType::SecurityScan,
+            },
+        ),
+        (
+            "lint-pass",
+            BuiltinPolicy {
+                label: "Lint checks pass",
+                domain: PolicyDomain::Quality,
+                evidence_type: EvidenceType::LintResult,
+            },
+        ),
+    ];
+
+    /// Look up a built-in policy by its reference key.
+    /// Returns `None` for unknown (custom) policy references.
+    pub fn from_ref(policy_ref: &str) -> Option<&'static BuiltinPolicy> {
+        Self::KNOWN
+            .iter()
+            .find(|(key, _)| *key == policy_ref)
+            .map(|(_, bp)| bp)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn policy_domain_as_str() {
+        assert_eq!(PolicyDomain::Security.as_str(), "security");
+        assert_eq!(PolicyDomain::Quality.as_str(), "quality");
+        assert_eq!(PolicyDomain::Compliance.as_str(), "compliance");
+        assert_eq!(PolicyDomain::Performance.as_str(), "performance");
+        assert_eq!(PolicyDomain::Custom.as_str(), "custom");
+    }
+
+    #[test]
+    fn evidence_type_as_str() {
+        assert_eq!(EvidenceType::TestResult.as_str(), "test_result");
+        assert_eq!(EvidenceType::CiOutput.as_str(), "ci_output");
+        assert_eq!(EvidenceType::ReviewApproval.as_str(), "review_approval");
+        assert_eq!(EvidenceType::SecurityScan.as_str(), "security_scan");
+        assert_eq!(EvidenceType::LintResult.as_str(), "lint_result");
+        assert_eq!(
+            EvidenceType::ManualAttestation.as_str(),
+            "manual_attestation"
+        );
+    }
+
+    #[test]
+    fn builtin_policy_known_refs_resolve() {
+        let tests_pass = BuiltinPolicy::from_ref("tests-pass").unwrap();
+        assert_eq!(tests_pass.domain, PolicyDomain::Quality);
+        assert_eq!(tests_pass.evidence_type, EvidenceType::TestResult);
+
+        let security = BuiltinPolicy::from_ref("security-scan").unwrap();
+        assert_eq!(security.domain, PolicyDomain::Security);
+    }
+
+    #[test]
+    fn builtin_policy_unknown_ref_returns_none() {
+        assert!(BuiltinPolicy::from_ref("nonexistent-policy").is_none());
+        assert!(BuiltinPolicy::from_ref("").is_none());
+    }
+
+    #[test]
+    fn policy_domain_serde_roundtrip() {
+//! Feature lifecycle state machine — re-exported from `traceability-core`.
+
+pub use traceability_core::lifecycle::{FeatureState, Transition, TransitionResult};
+
+use crate::error::DomainError;
+
+/// Transition a feature state, mapping core lifecycle errors to [`DomainError`].
+pub fn transition(
+    state: FeatureState,
+    target: FeatureState,
+) -> Result<TransitionResult, DomainError> {
+    state.transition(target).map_err(|e| DomainError::InvalidTransition {
+        from: e.from,
+        to: e.to,
+        reason: e.reason,
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn valid_lifecycle_transition_succeeds() {
+        let result = transition(FeatureState::Created, FeatureState::Specified).expect("domain operation");
+        assert_eq!(result.transition.from, FeatureState::Created);
+        assert_eq!(result.transition.to, FeatureState::Specified);
+    }
+
+    #[test]
+    fn invalid_transition_returns_error() {
+        let err = transition(FeatureState::Created, FeatureState::Shipped).unwrap_err();
+        assert!(matches!(err, DomainError::InvalidTransition { .. }));
+    }
+
+    #[test]
+    fn backward_transition_rejected() {
+        let err = transition(FeatureState::Specified, FeatureState::Created).unwrap_err();
+        assert!(matches!(err, DomainError::InvalidTransition { .. }));
+    }
+
+    #[test]
+    fn full_happy_path_lifecycle() {
+        let states = [
+            FeatureState::Created,
+            FeatureState::Specified,
+            FeatureState::Researched,
+            FeatureState::Planned,
+            FeatureState::Implementing,
+            FeatureState::Validated,
+            FeatureState::Shipped,
+            FeatureState::Retrospected,
+        ];
+        for window in states.windows(2) {
+            let result = transition(window[0], window[1]);
+            assert!(
+                result.is_ok(),
+                "transition {:?} -> {:?} should succeed",
+                window[0],
+                window[1]
+            );
+        }
+    }
+
+    #[test]
+    fn feature_state_from_str_roundtrips() {
+        let all_states = [
+            "created",
+            "specified",
+            "researched",
+            "planned",
+            "implementing",
+            "validated",
+            "shipped",
+            "retrospected",
+        ];
+        for s in all_states {
+            let state: FeatureState = s.parse().expect("domain operation");
+            assert_eq!(state.to_string(), s);
+        }
+
+codex
+The missing modules are local files, and `traceability-core` is a local crate. I’ll add those precise exports/dependency.
+hook: PreToolUse
+hook: PreToolUse
+codex(76003) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/Users/kooshapari/.local/share/codex/standalone/codex-resources/zsh/bin/zsh -lc "/Users/kooshapari/go/bin/snip -- apply_patch <<'PATCH'
+*** Begin Patch
+*** Update File: /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain/Cargo.toml
+@@
+ sha2.workspace = true
+ dirs-next.workspace = true
+ toml.workspace = true
++traceability-core = { path = \"../traceability-core\" }
+*** Update File: /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain/src/domain/mod.rs
+@@
+ //"'! Domain types for the AgilePlus event sourcing system.
+ 
++pub mod api_key;
++pub mod audit;
++pub mod backlog;
++pub mod cycle;
++pub mod device_node;
++pub mod epic;
+ pub mod event;
++pub mod feature;
++pub mod governance;
++pub mod metric;
++pub mod module;
++pub mod project;
++pub mod service_health;
+ pub mod snapshot;
++pub mod state_machine;
++pub mod story;
++pub mod sync_mapping;
++pub mod user;
++pub mod work_package;
+*** End Patch
+PATCH' in /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera
+ succeeded in 377ms:
+snip: no filter for "apply_patch", passing through -- you can run "apply_patch" directly
+Success. Updated the following files:
+M /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain/Cargo.toml
+M /Users/kooshapari/CodeProjects/Phenotype/repos/AgilePlus/.claude/worktrees/cli-test-reconcile/crates/agileplus-domain/src/domain/mod.rs
+
+codex
+Domain export holes are patched; rerunning to reach the next compile cluster.
