@@ -69,6 +69,12 @@
 
 ## Deferred
 
+- `agileplus-git` no longer blocks dependency resolution: its direct `gix`
+  dependency is updated from yanked `0.82.0` to current `0.85.0`.
+- Focused compilation now reaches `agileplus-triage` and stops because that
+  crate imports undeclared `clap`, `tokio`, and `thiserror` dependencies. It
+  also declares no Cargo features for existing `sqlite`, `codebert`, `bloom`,
+  `oai`, and `voyage` cfgs. This is separate from DB-002 and the gix update.
 - The dashboard web scaffold still has temporal Phase 2 docs and generated
   artifacts that should be consolidated before it is either completed as a real
   React package or archived more aggressively.

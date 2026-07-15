@@ -93,3 +93,12 @@ gate, but local disk pressure can currently block large Cargo rebuilds.
 - Required proof: `cargo tree -i gix`, focused `agileplus-git` check/tests, then
   the four DB-002 package checks/tests. Pre-existing merge markers or missing
   test modules remain separately reported blockers.
+
+### Gix Gate Result
+
+- `cargo tree -i gix`: pass; `gix 0.85.0 -> agileplus-git -> agileplus-cli`.
+- `cargo check -p agileplus-git`: the new gix dependency and its feature graph
+  compile, then the build stops in unrelated `agileplus-triage` manifest debt
+  (undeclared `clap`, `tokio`, and `thiserror`).
+- Focused `agileplus-git` tests and DB-002 package tests remain gated by that
+  upstream dependency; no failure in the gix update or DB-path code was reached.
