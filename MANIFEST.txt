@@ -1,0 +1,5 @@
+Source: /Users/kooshapari/CodeProjects/Phenotype/repos/Tracera-pr-worktree-20260703-0014/
+Captured: 2026-07-14
+Reason: Git pointer broken (.git file points to nonexistent Tracera/.git/worktrees/<name>/). Working tree preserved before cleanup.
+Excluded: target/ (Rust build cache, 207 MB)
+Included: 1119 files - 207 MB target/ = ~? MB
