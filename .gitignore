@@ -1,25 +1,11 @@
-../*
-../.*
-*.toml
-*.yaml
-*.json
-!pyproject.toml
-!deny.toml
-!.gitleaks.toml
-!package.json
-!vercel.json
-!.commitlintrc.json
-!.coderabbit.yaml
+# Build artifacts
+target/
 
-# Environment configuration
-.env
-.env.local
-.env.*.local
+# Vim swap files
+*.swp
 
-# Git worktrees (Claude Code artifact directories)
-.worktrees/
-.claude/worktrees/
-worktrees/
+# macOS metadata
+.DS_Store
 
-# Vercel
-.vercel
+# Rust backup files (created by some editors/tools)
+**/*.rs.bk

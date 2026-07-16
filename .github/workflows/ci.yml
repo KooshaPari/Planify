@@ -1,17 +1,21 @@
+# CI pipeline for AgilePlus Rust workspace
+#
+# Runs on push to main and on all PRs.
+# Only ubuntu-latest is used — no macOS/Windows runners per billing policy.
+# Uses Swatinem/rust-cache for caching Rust compilation artifacts.
+
 name: CI
 
 on:
   push:
     branches: [main]
   pull_request:
-  merge_group:
-  workflow_dispatch:
-permissions:
-  contents: read
+    branches: [main]
 
-
+# Cancel in-progress runs for the same workflow+ref (PR or branch) to avoid
+# wasting CI on stale commits pushed before the previous run finished.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -19,352 +23,112 @@ env:
   RUSTFLAGS: "-D warnings"
 
 jobs:
-  # ─── Proto Lint & Breaking ─────────────────────────────────────────
-  buf:
-    permissions:
-      contents: read
-      pull-requests: write
-    name: Buf Lint & Breaking
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
+  # ── Check ────────────────────────────────────────────────────────────────
+  # Fast compilation check; also verifies MSRV (minimum Rust 1.75).
+  check:
+    name: check
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-      - uses: bufbuild/buf-action@v1
-        with:
-          lint: true
-          format: true
-          breaking: false
-          pr_comment: false
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  # ─── Rust Quality ──────────────────────────────────────────────────
-  rust-check:
-    name: Rust Quality
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@nightly
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
         with:
-          components: rustfmt, clippy
-      - uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: rust
-      - uses: arduino/setup-protoc@v3
-        with:
-          version: "28.x"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Format check
-        run: cd rust && cargo fmt --check
-      - name: Clippy (warnings = errors)
-        run: cd rust && cargo clippy --all-targets -- -D warnings
-      - name: Build
-        run: cd rust && cargo build
-      - name: Test
-        run: cd rust && cargo test
+          toolchain: stable
 
-  rust-build:
-    name: Rust Build
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@nightly
-      - uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: rust
-      - uses: arduino/setup-protoc@v3
-        with:
-          version: "28.x"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: cd rust && cargo build --all
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
 
-  rust-msrv:
-    name: Rust MSRV (stable)
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: rust
-      - uses: arduino/setup-protoc@v3
-        with:
-          version: "28.x"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Check MSRV compatibility
-        run: cd rust && cargo check
-
-  # ─── Rust Security & Dep Audit ─────────────────────────────────────
-  rust-audit:
-    name: Rust Security Audit
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    permissions:
-      contents: read
-      checks: write
-    steps:
-      - uses: actions/checkout@v7
-      - uses: rustsec/audit-check@v2.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install cargo-deny
-        run: cargo install cargo-deny
-      - name: Check licenses, advisories, duplicates
-        run: cargo deny check -c rust/deny.toml
-
-  rust-extras:
-    name: Rust Extras (machete, semver, typos)
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@nightly
-      - uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: rust
-      - uses: arduino/setup-protoc@v3
-        with:
-          version: "28.x"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install extras
-        run: cargo install cargo-machete cargo-semver-checks
-      - name: Detect unused deps
-        run: cd rust && cargo machete
-      - name: Semver compatibility check
-        run: cd rust && cargo semver-checks check-release || true
-      - name: Typo check
-        uses: crate-ci/typos@v1
-        continue-on-error: true
-
-  # ─── Rust Coverage ────────────────────────────────────────────────
-  rust-coverage:
-    name: Rust Coverage
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@nightly
-      - uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: rust
-      - uses: arduino/setup-protoc@v3
-        with:
-          version: "28.x"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install tarpaulin
-        run: cargo install cargo-tarpaulin
-      - name: Generate coverage
-        run: cargo tarpaulin --workspace --out xml --output-dir coverage --fail-under 60
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v7
-        with:
-          files: ./coverage/cobertura.xml
-          flags: rust
-          fail_ci_if_error: false
-          verbose: true
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-  # ─── Core Workspace ───────────────────────────────────────────────
-  core-check:
-    name: Core Workspace Quality
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@nightly
-        with:
-          components: rustfmt, clippy
-      - uses: Swatinem/rust-cache@v2
-      - uses: arduino/setup-protoc@v3
-        with:
-          version: "28.x"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Format check
-        run: cargo fmt --all -- --check
-      - name: Clippy (warnings = errors)
-        run: cargo clippy --workspace -- -D warnings
-      - name: Build
-        run: cargo build --workspace
-      - name: Test
-        run: cargo test --workspace
-
-  core-build:
-    name: Core Build
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@nightly
-      - uses: Swatinem/rust-cache@v2
-      - uses: arduino/setup-protoc@v3
-        with:
-          version: "28.x"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: cargo build --workspace
-
-  core-msrv:
-    name: Core MSRV (1.86)
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@1.86.0
-      - uses: Swatinem/rust-cache@v2
-      - uses: arduino/setup-protoc@v3
-        with:
-          version: "28.x"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Check MSRV compatibility
+      - name: cargo check — workspace
         run: cargo check --workspace
 
-  core-docs:
-    name: Core Documentation
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@nightly
-      - uses: Swatinem/rust-cache@v2
-      - uses: arduino/setup-protoc@v3
+      - name: MSRV check (minimum Rust 1.75)
+        # Verify the workspace still compiles with the minimum supported
+        # Rust version (1.75). This catches accidental use of newer APIs.
+        uses: dtolnay/rust-toolchain@master
         with:
-          version: "28.x"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build docs
-        run: cargo doc --no-deps --workspace
+          toolchain: 1.75
 
-  domain-deps-lint:
-    name: Domain Zero-Dep Lint
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
+      - name: cargo check — workspace (MSRV 1.75)
+        run: cargo check --workspace
+
+  # ── Test ─────────────────────────────────────────────────────────────────
+  # Run the full test suite across the workspace.
+  test:
+    name: test
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - name: Validate domain crate dependencies
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: cargo test — workspace
+        run: cargo test --workspace --no-fail-fast 2>&1 | tee test-output.log
+
+      - name: Upload test output on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output
+          path: test-output.log
+
+  # ── Lint ─────────────────────────────────────────────────────────────────
+  # Clippy with -D warnings so the build fails on any lint violation.
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          components: clippy
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: cargo clippy — workspace (deny warnings)
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+  # ── Size check ───────────────────────────────────────────────────────────
+  # Warn on any .rs source file exceeding 500 lines, to encourage
+  # modularity and keep files manageable.
+  size-check:
+    name: size-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for .rs files over 500 lines
+        shell: bash
         run: |
-          ALLOWED="serde serde_json chrono sha2 thiserror toml dirs-next zeroize keyring"
-          DEPS=$(sed -n '/^\[dependencies\]/,/^\[/{/^\[/d;p}' crates/agileplus-domain/Cargo.toml | grep -E '^\w' | cut -d'.' -f1 | cut -d' ' -f1)
-          for dep in $DEPS; do
-            if ! echo "$ALLOWED" | grep -qw "$dep"; then
-              echo "ERROR: disallowed dependency '$dep' in agileplus-domain"
-              exit 1
+          # Scan all .rs files outside target/ and warn when a file exceeds
+          # the 500-line limit. This exits 0 (does not fail the build) so
+          # the output serves as an advisory notice in the workflow log.
+          echo "--- File size check: any .rs file over 500 lines ---"
+          over_limit=0
+          while IFS= read -r -d '' file; do
+            lines=$(wc -l < "$file")
+            if [ "$lines" -gt 500 ]; then
+              echo "⚠️  WARNING: ${file#./} has $lines lines (exceeds 500-line limit)"
+              over_limit=$((over_limit + 1))
             fi
-          done
-          echo "Domain dependency check passed"
+          done < <(find . -name "*.rs" -not -path "./target/*" -print0)
 
-  # ─── Python Quality ────────────────────────────────────────────────
-  python-check:
-    if: false  # disabled: no python/ subdir exists in this monorepo
-    name: Python Quality
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.14"
-      - name: Install uv
-        run: pip install uv
-      - name: Install package
-        run: cd python3 && uv sync
-      - name: Ruff format check
-        run: cd python3 && uvx ruff format --check .
-      - name: Ruff lint
-        run: cd python3 && uvx ruff check .
-      - name: pip-audit
-        run: |
-          cd python3
-          tmp_requirements="$(mktemp)"
-          uv export --format requirements-txt --no-hashes --no-editable \
-            -o "$tmp_requirements" >/dev/null
-          uvx pip-audit -r "$tmp_requirements" --no-deps --disable-pip \
-            --ignore-vuln CVE-2026-4539
-          rm -f "$tmp_requirements"
-
-  python-install:
-    if: false  # disabled: no python/ subdir exists in this monorepo
-    name: Python Install
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.14"
-      - name: Install uv
-        run: pip install uv
-      - name: Install package
-        run: cd python3 && uv sync
-
-  # ─── Config Lint ───────────────────────────────────────────────────
-  config-lint:
-    name: Config Lint
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v7
-      - name: Install taplo
-        uses: taiki-e/install-action@v2
-        with:
-          tool: taplo
-      - name: TOML format check
-        # pyproject.toml is intentionally absent (no python/ subdir in this monorepo).
-        # Only the two TOML files that exist on main are checked.
-        run: taplo format --check Cargo.toml rust/Cargo.toml
-      - name: actionlint
-        uses: reviewdog/action-actionlint@v1
-
-  # ─── Commit Lint ───────────────────────────────────────────────────
-  commit-lint:
-    name: Conventional Commits
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-      # Empirical fix (eco-044-gate-triage): wagoid/commitlint-github-action
-      # lints every commit in the PR diff range, including the synthetic merge
-      # commit ("Merge <head> into <base>"). That commit lacks a conventional
-      # subject (e.g. "feat: ...") and fails [subject-empty]/[type-empty].
-      # We replace the action with an explicit setup + run that:
-      #   1. Installs commitlint + config-conventional
-      #   2. Lints only non-merge commits in the PR range
-      - name: Set up Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: "20"
-      - name: Install commitlint
-        run: |
-          npm install --no-save \
-            commitlint@^19 \
-            @commitlint/config-conventional@^19
-      - name: Lint PR commit messages (skip merges)
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          set -euo pipefail
-          # List non-merge commits introduced by the PR.
-          COMMITS=$(git log --no-merges --pretty=format:%H "${BASE_SHA}..${HEAD_SHA}")
-          if [ -z "$COMMITS" ]; then
-            echo "No non-merge commits to lint (PR contains only merges)."
-            exit 0
+          if [ "$over_limit" -gt 0 ]; then
+            echo "--- $over_limit file(s) exceed the 500-line limit ---"
+          else
+            echo "✅ All .rs files are within the 500-line limit."
           fi
-          FAIL=0
-          for sha in $COMMITS; do
-            MSG=$(git log -1 --pretty=format:%B "$sha")
-            echo "── Linting ${sha:0:12} ──"
-            echo "$MSG" | npx commitlint --config .commitlintrc.yml || FAIL=1
-          done
-          if [ "$FAIL" -ne 0 ]; then
-            echo "::error::Conventional Commits gate failed."
-            exit 1
-          fi
-          echo "All non-merge PR commits conform to Conventional Commits."

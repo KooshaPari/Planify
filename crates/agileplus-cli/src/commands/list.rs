@@ -1,79 +1,36 @@
-//! List features from storage (read-only).
+use std::path::PathBuf;
 
-use std::str::FromStr;
-
-use anyhow::{Context, Result, anyhow};
+use agileplus_sqlite::Storage;
+use anyhow::{Context, Result};
 use clap::Args;
 
-use agileplus_domain::domain::state_machine::FeatureState;
-use agileplus_domain::ports::StoragePort;
-
+/// List all intent graph ids stored in a SQLite database.
 #[derive(Debug, Args)]
-pub struct ListArgs {
-    /// Filter by feature state (created, specified, researched, planned,
-    /// implementing, validated, shipped, retrospected).
-    #[arg(long)]
-    pub state: Option<String>,
+#[command(name = "list")]
+pub struct ListCommand {
+    /// Path to the SQLite database.
+    #[arg(short, long)]
+    db: PathBuf,
 }
 
-pub async fn run<S: StoragePort>(args: ListArgs, storage: &S) -> Result<()> {
-    let features = if let Some(ref s) = args.state {
-        let state = FeatureState::from_str(s).map_err(|e| anyhow!("{e}"))?;
-        storage
-            .list_features_by_state(state)
-            .await
-            .context("listing features by state")?
-    } else {
-        storage
-            .list_all_features()
-            .await
-            .context("listing features")?
-    };
+impl ListCommand {
+    pub fn run(&self) -> Result<()> {
+        let storage = Storage::open(&self.db)
+            .with_context(|| format!("Failed to open storage at: {}", self.db.display()))?;
 
-    if features.is_empty() {
-        println!("No features found.");
-        return Ok(());
-    }
+        let ids = storage
+            .list_graphs()
+            .with_context(|| format!("Failed to list graphs in: {}", self.db.display()))?;
 
-    println!(
-        "{:<8}  {:<36}  {:<14}  {:<20}",
-        "ID", "SLUG", "STATE", "TITLE"
-    );
-    println!("{}", "-".repeat(100));
+        if ids.is_empty() {
+            println!("(no graphs stored in {})", self.db.display());
+            return Ok(());
+        }
 
-    for f in features {
-        println!(
-            "{:<8}  {:<36}  {:<14}  {}",
-            f.id,
-            truncate_cell(&f.slug, 36),
-            f.state.to_string(),
-            f.friendly_name
-        );
-    }
-
-    Ok(())
-}
-
-fn truncate_cell(s: &str, max_chars: usize) -> String {
-    let count = s.chars().count();
-    if count <= max_chars {
-        return s.to_string();
-    }
-    let shortened: String = s.chars().take(max_chars.saturating_sub(1)).collect();
-    format!("{shortened}…")
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn truncate_cell_keeps_short_values() {
-        assert_eq!(truncate_cell("short", 10), "short");
-    }
-
-    #[test]
-    fn truncate_cell_shortens_long_values() {
-        assert_eq!(truncate_cell("abcdef", 4), "abc…");
+        println!("{} graph(s) in {}:", ids.len(), self.db.display());
+        for id in &ids {
+            println!("  {id}");
+        }
+        Ok(())
     }
 }

@@ -1,119 +1,131 @@
-<!-- work-state: 🟢 ready | ██████████ 100% (phase-finish-stack complete) -->
-# build / coverage / e2e / perf / qe
-[![Coverage ≥85%](https://img.shields.io/badge/coverage-≥85%25-brightgreen)](.github/workflows/coverage.yml)
-[![E2E](https://img.shields.io/badge/e2e-100%25-brightgreen)](.github/workflows/e2e.yml)
-[![Perf](https://img.shields.io/badge/perf-100%25-brightgreen)](.github/workflows/perf.yml)
-[![QE](https://img.shields.io/badge/qe-100%25-brightgreen)](.github/workflows/qe.yml)
-[![Deploy Worker](https://img.shields.io/badge/CF%20Workers-deployed-blue)](.github/workflows/deploy-worker.yml)
-[![Vercel](https://img.shields.io/badge/Vercel-serverless-black)](vercel.json)
-[![GH Pages](https://img.shields.io/badge/GitHub%20Pages-live-success)](.github/workflows/deploy-frontend.yml)
-[![Helm](https://img.shields.io/badge/Helm-chart-blueviolet)](deploy/kubernetes/Chart.yaml)
-[![PWA](https://img.shields.io/badge/PWA-installable-orange)](workspace/manifest.json)
-**Quality Gate:** coverage ≥85% · e2e 100% · perf 100% · qe 100%
-
-<p align="center">
-  <a href="assets/brand/logo.svg"><img src="assets/brand/logo.svg" alt="AgilePlus" width="160" height="160"></a>
-</p>
-<p align="center"><em>AI-native project management with hexagonal Rust core, Plane.so / GitHub integration, and an AI-agent MCP surface.</em></p>
-<p align="center"><sub><a href="assets/brand/README.md">Brand assets &amp; palette</a> · <a href="docs/assets/identity/">visual identity demo</a></sub></p>
-
----
-
 # AgilePlus
 
-**Project management system with AI agent integration** — 24-crate Rust monorepo with hexagonal architecture, Python MCP server, and Plane.so/GitHub integration.
+> Convert prompts into validated intent graphs, persist them locally,
+> query them from anywhere.
 
-## Project Overview
+[![CI](https://img.shields.io/github/actions/workflow/status/phenotype/agileplus/ci.yml?branch=main&style=flat-square)](https://github.com/phenotype/agileplus/actions)
+[![crates.io](https://img.shields.io/crates/v/agileplus-cli?style=flat-square)](https://crates.io/crates/agileplus-cli)
+[![version](https://img.shields.io/badge/version-0.3.0-blue?style=flat-square)](CHANGELOG.md)
+[![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
-AgilePlus is a full-stack project management platform built with:
-- **Rust** (24 crates) — Core domain, storage, event sourcing, CLI, REST API
-- **Python** — MCP server for AI agent integration
-- **TypeScript** — pheno-cli, React components
+AgilePlus is an intent-graph workspace. A prompt goes in, a typed DAG
+of Intent, Feature, Plan, Story, Bug, Metric, and Hypothesis nodes
+comes out, gets validated against the AgilePlus ontology, and lands
+in a local SQLite database that the CLI, HTTP server, MCP server, web
+UI, and plugin system can all read and write.
 
-## Key Features
+## Quickstart
 
-- Domain model: Feature, WorkPackage, Cycle, Module with state machines
-- Event sourcing with audit trails and hash chains
-- SQLite storage with hexagonal adapter pattern
-- gRPC protocol definitions
-- REST API with API key authentication
-- OpenTelemetry tracing and metrics
-- Git VCS adapter integration
-- Plane.so sync (push/pull)
-- GitHub integration
-
-## About this shelf
+Install the CLI and run the canonical prompt-to-persistence
+round-trip:
 
 ```bash
-# Setup
-cd AgilePlus
-bun install
-cargo build --workspace
+# 1. Install the CLI.
+cargo install agileplus-cli
 
-# Run CLI
-cargo run --package pheno-cli -- --help
+# 2. Convert a prompt into a validated intent graph (writes graph.json).
+agileplus intent --prompt "Build an OAuth2 authentication system with login and session management."
 
-# Start REST server
-cargo run --package pheno-cli -- serve
-
-# Run tests
-cargo test --workspace
+# 3. Persist the graph into a local SQLite database.
+agileplus store --db ./g.db --input graph.json
 ```
+
+That gives you a queryable, validated, persisted intent graph in a
+single SQLite file with no external services required. Run
+`agileplus --help` to see every subcommand, or jump to
+[`docs/roadmap.md`](docs/roadmap.md) for the long view.
+
+## Architecture
+
+Four binaries and three library crates, all in one Cargo workspace.
+The library crates own the domain logic; the binaries are thin
+transport adapters that compose them.
+
+```
+            ┌─────────────────────────────────────────────┐
+            │              Binaries (entry points)        │
+            │                                             │
+            │   agileplus-cli      agileplus-server      │
+            │   (CLI front end)    (HTTP API + SSE)      │
+            │                                             │
+            │   agileplus-mcp-intent                      │
+            │   (MCP tool server / prompt-to-graph)       │
+            └────────────┬──────────────┬────────────────┘
+                         │              │
+                         ▼              ▼
+            ┌─────────────────────────────────────────────┐
+            │          Library crates (pure logic)       │
+            │                                             │
+            │   agileplus-trace-validator                │
+            │   (ontology, DAG, edge constraints)        │
+            │                                             │
+            │   agileplus-sqlite                         │
+            │   (Storage + migrations + tagged/notes)    │
+            └────────────┬────────────────────────────────┘
+                         │
+                         ▼
+            ┌─────────────────────────────────────────────┐
+            │   agileplus-domain (foundational types)     │
+            │                                             │
+            │   NodeType, Edge, Meta, builder API,        │
+            │   query/ops, ontology_ext (Stories, Bugs,  │
+            │   Metrics, Hypotheses)                      │
+            └─────────────────────────────────────────────┘
+```
+
+- **Domain types** are pure Rust with no I/O; everything else depends
+  on them.
+- **Validator** is also pure; the HTTP server and CLI invoke it on
+  every write.
+- **Storage** is the single persistence boundary; CLI, server, and
+  MCP all share the same `Storage` API.
+- **Servers** add network-facing concerns: routing, SSE streaming,
+  MCP transport, JSON serialization.
+
+## Crates
+
+| Crate | Type | Description |
+|-------|------|-------------|
+| [`agileplus-cli`](./crates/agileplus-cli) | bin | Command-line entry point: prompt-to-graph, store, list, dump, query, tag, note. |
+| [`agileplus-server`](./crates/agileplus-server) | bin | axum-based HTTP API with SSE streaming for live graph changes. |
+| [`agileplus-mcp-intent`](./crates/agileplus-mcp-intent) | bin | MCP server and HTTP API for prompt-to-intent-graph conversion. |
+| [`agileplus-trace-validator`](./crates/agileplus-trace-validator) | lib | Ontology + DAG + edge-constraint validator; pure Rust, no I/O. |
+| [`agileplus-domain`](./crates/agileplus-domain) | lib | Foundational types: `Node`, `Edge`, `IntentGraph`, builder API. |
+| [`agileplus-sqlite`](./crates/agileplus-sqlite) | lib | Canonical SQLite storage with migrations, tags, and notes. |
+
+Each crate has its own `README.md` with a purpose statement, install
+command, minimal usage example, and links to the per-crate API docs.
 
 ## Documentation
 
-| Document | Purpose |
-|----------|---------|
-| [PLAN.md](./PLAN.md) | Implementation phases and task tracking |
-| [PRD.md](./PRD.md) | Product requirements and user journeys |
-| [FUNCTIONAL_REQUIREMENTS.md](./FUNCTIONAL_REQUIREMENTS.md) | Detailed FR traceability |
-| [AGENTS.md](./AGENTS.md) | Agent interaction rules |
-| [GOVERNANCE.md](./GOVERNANCE.md) | Project governance |
+The full architecture, ontology spec, ADR, and roadmap live under
+[`docs/`](docs/README.md):
 
-### MCP, APIs, and routing infrastructure
+- [`docs/README.md`](docs/README.md) — index and reading order.
+- [`docs/roadmap.md`](docs/roadmap.md) — Phase 0 (shipped) → Phase 5 (planned).
+- [`docs/spec/intent-graph-ontology.md`](docs/spec/intent-graph-ontology.md) — formal v1.0.0 ontology.
+- [`docs/research/ontology-expansion.md`](docs/research/ontology-expansion.md) — Phase 1 ontology work.
+- [`docs/adr/0001-shard-lock-dag.md`](docs/adr/0001-shard-lock-dag.md) — shard-lock concurrency ADR.
 
-```
-AgilePlus/
-├── crates/          # 24 Rust crates (workspace)
-├── python/          # Python MCP server
-├── pheno-cli/       # CLI tool
-├── kitty-specs/     # Feature specifications
-├── docs/            # Documentation
-└── harnesses/       # Agent harness configs
-```
+## Versioning and Releases
 
-## Traceability
+We follow [Semantic Versioning](https://semver.org/). The current
+release is **v0.3.0** (see [`CHANGELOG.md`](CHANGELOG.md)). The
+release pipeline (`.github/workflows/release.yml`) builds auditable
+binaries for all four binaries on every `v*` tag, attaches them to a
+GitHub Release, and publishes all crates to crates.io in dependency
+order using `cargo-workspaces`.
 
-1. **Identify the project** — Check `projects/INDEX.md` or ask the user
-2. **Navigate to project** — `cd <project-name>`
-3. **Read project rules** — Check for `CLAUDE.md` or `AGENTS.md` in project
-4. **Do the work** — Follow shelf rules in `AGENTS.md`
-5. **Commit & push** — Use conventional commits, open PR if needed
+## License
 
-## NOT AgilePlus
+This workspace is licensed under the MIT License — see
+[`LICENSE`](LICENSE) for the full text. Copyright (c) 2026
+Koosha Pari.
 
-This shelf contains **many projects**, of which AgilePlus is one.
-AgilePlus-specific documentation lives inside the `AgilePlus/` project directory,
-not at shelf level.
+## Contributing
 
-The files that were previously here describing AgilePlus have been moved to
-their correct locations:
-- AgilePlus governance → `AgilePlus/GOVERNANCE.md`
-- AgilePlus agent rules → `AgilePlus/AGENTS.md`
-- AgilePlus README → `AgilePlus/README.md`
-
-## Getting Help
-
-- Shelf-level issues: Ask here
-- Project-specific issues: `cd <project>` and check that project's docs
-- Architecture decisions: `cat docs/adr/INDEX.md`
-- General questions: Check `projects/INDEX.md` first
-
-
-## Worklog schema — cross-reference (ADR-032, 2026-06-18)
-
-This repo's `WORKLOG.md` uses the **AgilePlus team-sprint schema** (`L#-#` req_ids, device/topic/branch/scope/owner/eta + per-sprint entries). It coexists with the **pheno-worklog-schema v2.0/v2.1** (`L5-###` req_ids, 10/11 columns) used by the fleet-substrate layer.
-
-Per [ADR-032](https://github.com/KooshaPari/phenotype-org-audits/blob/main/audits/2026-06-18_ADR-032-worklog-schema-both-stay.md), **both schemas stay** — they track different metadata (team-sprint vs. fleet-level), have non-colliding `req_id` prefixes, and the cost of forcing convergence is higher than the cost of divergence. The `req_id` is the join key if cross-schema audit is ever needed.
-
-To query across both schemas, use the `req_id` prefix as a discriminator: `L#-#` (this repo) vs. `L5-###` (fleet substrate).
+Contributions are welcome via pull requests against `main`. Read the
+shard-lock ADR at
+[`docs/adr/0001-shard-lock-dag.md`](docs/adr/0001-shard-lock-dag.md)
+before opening multi-agent work — the workspace uses a 3-shard
+allow-list to keep concurrent edits collision-free.

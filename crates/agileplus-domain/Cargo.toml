@@ -2,27 +2,22 @@
 name = "agileplus-domain"
 version.workspace = true
 edition.workspace = true
+authors.workspace = true
 license.workspace = true
-rust-version.workspace = true
+description.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+readme.workspace = true
+keywords.workspace = true
+categories.workspace = true
 
 [dependencies]
-serde = { workspace = true, features = ["derive"] }
-serde_json.workspace = true
-thiserror.workspace = true
-chrono.workspace = true
-sha2.workspace = true
-# Un-park 2026-07-04: shared PM/traceability spine + deps the domain code uses.
-traceability-core = { path = "../traceability-core" }
-toml.workspace = true
-dirs-next.workspace = true
-zeroize.workspace = true
-regex.workspace = true
-async-trait.workspace = true
-indexmap.workspace = true
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+regex = { workspace = true }
+uuid = { workspace = true }
 
 [dev-dependencies]
-tokio.workspace = true
-tempfile.workspace = true
-uuid.workspace = true
-proptest.workspace = true
-tokio-test.workspace = true

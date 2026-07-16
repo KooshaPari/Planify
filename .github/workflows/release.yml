@@ -1,69 +1,169 @@
 name: Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        required: true
-        type: string
-        description: "Release version"
-      language:
-        required: true
-        type: string
-        description: "Programming language"
-      registry:
-        required: true
-        type: string
-        description: "Package registry"
-      channel:
-        required: false
-        type: string
-        default: stable
-        description: "Release channel (alpha, beta, canary, stable)"
-      dry_run:
-        required: false
-        type: boolean
-        default: false
-        description: "Run without publishing"
+  push:
+    tags:
+      - "v*"
 
 permissions:
   contents: write
+  id-token: write
 
 concurrency:
-  group: agileplus-release-${{ inputs.version }}
-  cancel-in-progress: false
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
-  gate-check:
-    uses: ./.github/workflows/gate-check.yml
-    with:
-      language: ${{ inputs.language }}
-      channel: ${{ inputs.channel }}
-      risk_profile: high
+  test:
+    name: Test (${{ matrix.toolchain }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain: [stable, beta, 1.81.0]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  changelog:
-    needs: gate-check
-    uses: ./.github/workflows/changelog.yml
-    with:
-      version: ${{ inputs.version }}
+      - name: Install Rust ${{ matrix.toolchain }}
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          components: rustfmt, clippy
+
+      - name: Cache cargo registry & target
+        uses: Swatinem/rust-cache@v2
+
+      - name: cargo check
+        run: cargo check --workspace --all-targets
+
+      - name: cargo test
+        run: cargo test --workspace
+
+      - name: cargo clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: rustfmt check
+        uses: rust-lang/rustfmt@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+
+  build-binaries:
+    name: Build Release Binaries
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+
+      - name: Cache cargo registry & target
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install cargo-auditable
+        uses: taiki-e/install-action@v1
+        with:
+          tool: cargo-auditable
+
+      - name: Build auditable binaries
+        run: cargo auditable build --release --workspace --bins
+
+      - name: Upload agileplus
+        uses: actions/upload-artifact@v4
+        with:
+          name: agileplus
+          path: target/release/agileplus
+
+      - name: Upload agileplus-server
+        uses: actions/upload-artifact@v4
+        with:
+          name: agileplus-server
+          path: target/release/agileplus-server
+
+      - name: Upload agileplus-mcp-intent
+        uses: actions/upload-artifact@v4
+        with:
+          name: agileplus-mcp-intent
+          path: target/release/agileplus-mcp-intent
+
+      - name: Upload agileplus-trace-validator
+        uses: actions/upload-artifact@v4
+        with:
+          name: agileplus-trace-validator
+          path: target/release/agileplus-trace-validator
+
+  release:
+    name: GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build-binaries]
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download binaries
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Extract CHANGELOG section
+        id: changelog
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          awk -v v="${VERSION}" '
+            BEGIN { pat = "^## \\[" v "\\]" }
+            $0 ~ pat { found = 1; next }
+            found && /^## \[/ { exit }
+            found { print }
+          ' CHANGELOG.md > RELEASE_NOTES.md || true
+          if [ ! -s RELEASE_NOTES.md ]; then
+            printf "## Changes in %s\n\nSee CHANGELOG.md for full details.\n" "$VERSION" > RELEASE_NOTES.md
+          fi
+          echo "notes_path=RELEASE_NOTES.md" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: v${{ github.ref_name }}
+          body_path: ${{ steps.changelog.outputs.notes_path }}
+          files: |
+            artifacts/agileplus/agileplus
+            artifacts/agileplus-server/agileplus-server
+            artifacts/agileplus-mcp-intent/agileplus-mcp-intent
+            artifacts/agileplus-trace-validator/agileplus-trace-validator
+          fail_on_unmatched_files: true
 
   publish:
-    needs: changelog
-    uses: ./.github/workflows/publish.yml
-    with:
-      language: ${{ inputs.language }}
-      registry: ${{ inputs.registry }}
-      version: ${{ inputs.version }}
-      channel: ${{ inputs.channel }}
-      dry_run: ${{ inputs.dry_run }}
-    secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      CARGO_TOKEN: ${{ secrets.CARGO_TOKEN }}
+    name: Publish to crates.io
+    runs-on: ubuntu-latest
+    needs: [build-binaries]
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  binaries:
-    needs: gate-check
-    uses: ./.github/workflows/binaries.yml
-    with:
-      version: ${{ inputs.version }}
-      dry_run: ${{ inputs.dry_run }}
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+
+      - name: Cache cargo registry & target
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install cargo-workspaces
+        uses: taiki-e/install-action@v1
+        with:
+          tool: cargo-workspaces
+
+      - name: Publish crates in dependency order (idempotent)
+        run: cargo publish --workspace --from-git
+        env:
+          CARGO_REGISTRIES_CRATES_IO_PROTOCOL: git
