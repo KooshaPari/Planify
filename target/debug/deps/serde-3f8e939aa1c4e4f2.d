@@ -1,0 +1,14 @@
+/Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/deps/serde-3f8e939aa1c4e4f2.d: /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/build/serde-98acfcc476fba3cb/out/private.rs
+
+/Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/deps/libserde-3f8e939aa1c4e4f2.rlib: /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/build/serde-98acfcc476fba3cb/out/private.rs
+
+/Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/deps/libserde-3f8e939aa1c4e4f2.rmeta: /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/build/serde-98acfcc476fba3cb/out/private.rs
+
+/Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs:
+/Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs:
+/Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs:
+/Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs:
+/Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs:
+/Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/build/serde-98acfcc476fba3cb/out/private.rs:
+
+# env-dep:OUT_DIR=/Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/build/serde-98acfcc476fba3cb/out

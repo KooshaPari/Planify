@@ -1,0 +1,1 @@
+cargo:rustc-env=MIME_TYPES_GENERATED_PATH=/Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/build/mime_guess-49033e1aa593e77f/out/mime_types_generated.rs

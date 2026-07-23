@@ -1,0 +1,8 @@
+/Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/deps/mime-0d606a5ee95f5c72.d: /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime-0.3.17/src/lib.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime-0.3.17/src/parse.rs
+
+/Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/deps/libmime-0d606a5ee95f5c72.rlib: /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime-0.3.17/src/lib.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime-0.3.17/src/parse.rs
+
+/Users/kooshapari/CodeProjects/Phenotype/repos/Planify2/target/debug/deps/libmime-0d606a5ee95f5c72.rmeta: /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime-0.3.17/src/lib.rs /Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime-0.3.17/src/parse.rs
+
+/Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime-0.3.17/src/lib.rs:
+/Users/kooshapari/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime-0.3.17/src/parse.rs:
