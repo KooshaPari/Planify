@@ -1,0 +1,88 @@
+{# ── Theme Toggle Partial ────────────────────────────────────────────── #}
+{# Light / Dark / System theme switcher. Place in nav or settings. Usage: #}
+{#   {% include "partials/theme-toggle.html" %} #}
+{# Reads/writes theme preference to localStorage, applies via CSS vars. #}
+
+<div class="flex items-center gap-1 text-xs" x-data="themeToggle()">
+  <button @click="setTheme('light')"
+          :class="theme === 'light' ? 'bg-zinc-700 text-white' : 'text-zinc-500 hover:text-zinc-300'"
+          class="px-2 py-0.5 rounded transition"
+          title="Light mode">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+    </svg>
+  </button>
+  <button @click="setTheme('dark')"
+          :class="theme === 'dark' ? 'bg-zinc-700 text-white' : 'text-zinc-500 hover:text-zinc-300'"
+          class="px-2 py-0.5 rounded transition"
+          title="Dark mode">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+    </svg>
+  </button>
+  <button @click="setTheme('system')"
+          :class="theme === 'system' ? 'bg-zinc-700 text-white' : 'text-zinc-500 hover:text-zinc-300'"
+          class="px-2 py-0.5 rounded transition"
+          title="System preference">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+function themeToggle() {
+  return {
+    theme: localStorage.getItem('ap-theme') || 'system',
+    setTheme(t) {
+      this.theme = t;
+      localStorage.setItem('ap-theme', t);
+      this.applyTheme(t);
+    },
+    applyTheme(t) {
+      const root = document.documentElement;
+      if (t === 'light') {
+        root.style.setProperty('--color-bg', '#fafafa');
+        root.style.setProperty('--color-bg-dark', '#f4f4f5');
+        root.style.setProperty('--color-surface', '#e4e4e7');
+        root.style.setProperty('--color-border', '#d4d4d8');
+        root.style.setProperty('--color-text', '#18181b');
+        root.style.setProperty('--color-muted', '#71717a');
+        document.body.classList.remove('dark');
+        document.body.classList.add('light');
+      } else if (t === 'dark') {
+        root.style.setProperty('--color-bg', '#18181b');
+        root.style.setProperty('--color-bg-dark', '#09090b');
+        root.style.setProperty('--color-surface', '#27272a');
+        root.style.setProperty('--color-border', '#3f3f46');
+        root.style.setProperty('--color-text', '#f4f4f5');
+        root.style.setProperty('--color-muted', '#71717a');
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
+      } else {
+        // system — reset to defaults (dark by default, or follow prefers-color-scheme)
+        root.style.removeProperty('--color-bg');
+        root.style.removeProperty('--color-bg-dark');
+        root.style.removeProperty('--color-surface');
+        root.style.removeProperty('--color-border');
+        root.style.removeProperty('--color-text');
+        root.style.removeProperty('--color-muted');
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          document.body.classList.remove('dark');
+          document.body.classList.add('light');
+        } else {
+          document.body.classList.remove('light');
+          document.body.classList.add('dark');
+        }
+      }
+    },
+    init() {
+      this.applyTheme(this.theme);
+      // Listen for system preference changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (this.theme === 'system') this.applyTheme('system');
+      });
+    },
+  };
+}
+</script>

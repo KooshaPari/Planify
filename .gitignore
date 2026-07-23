@@ -1,43 +1,52 @@
-# Plane / Planify upstream build artifacts
-upstream/node_modules/
-upstream/apps/*/node_modules/
-upstream/packages/*/node_modules/
-upstream/.turbo/
-upstream/.next/
-upstream/dist/
-upstream/.pnpm-store/
+# Rust
+target/
+agileplus-agents/target/
 
-# Landing site
-site/node_modules/
-site/dist/
-site/.astro/
-
-# OS / editor
-.DS_Store
-*.swp
-.vscode/
-.idea/
-
-# Secrets / local config
-.env
-.env.local
-.env.*.local
-
-# Dependencies
-node_modules/
-
-# Build output
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
 dist/
 
-# Framework / platform
-.astro/
-.vercel
+# Generated stubs (regenerated at build time)
+rust/src/gen/
+python/src/gen/
 
-# Logs
-*.log
+# Node
+node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
 
-# OS / editor (extended)
+# OS
 .DS_Store
 *.swp
-.vscode/
+*~
+
+# IDE
 .idea/
+.vscode/
+*.iml
+# Excluded via sparse-checkout
+kitty-specs/
+
+# Orphan/legacy directories (duplicates of kitty-specs)
+agileplus/
+
+# Local environment files
+.env
+.env.local
+
+# Local development data
+.agileplus/
+
+# Reference repos (not submodules)
+references/
+.claude/
+.codex/
+.cursor/
+
+# Worktrees
+worktrees/
+.worktrees/
