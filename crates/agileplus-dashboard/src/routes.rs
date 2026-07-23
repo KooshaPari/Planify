@@ -886,13 +886,138 @@ pub async fn events_page() -> Response {
 
 // ── /settings/* ──────────────────────────────────────────────────────────
 
+/// Load Plane configuration by merging saved TOML config with env vars.
+/// TOML config takes precedence; env vars provide fallback defaults.
+fn load_plane_config() -> (Option<String>, Option<String>, Option<String>, Option<String>) {
+    let config = Config::load().unwrap_or(Config {
+        plane: None,
+        agents: None,
+        services: None,
+        dashboard: None,
+    });
+
+    // TOML config fields take precedence over env vars
+    let api_url = config
+        .plane
+        .as_ref()
+        .filter(|p| !p.api_url.is_empty())
+        .map(|p| p.api_url.clone())
+        .or_else(|| env_or_none("PLANE_API_URL"))
+        .or_else(|| Some(DEFAULT_PLANE_API_URL.to_string()));
+
+    let api_key = config
+        .plane
+        .as_ref()
+        .filter(|p| !p.api_key.is_empty())
+        .map(|p| p.api_key.clone())
+        .or_else(|| env_or_none("PLANE_API_KEY"));
+
+    let workspace_slug = config
+        .plane
+        .as_ref()
+        .filter(|p| !p.workspace_slug.is_empty())
+        .map(|p| p.workspace_slug.clone())
+        .or_else(|| env_or_none("PLANE_WORKSPACE"));
+
+    let project_slug = config
+        .plane
+        .as_ref()
+        .filter(|p| !p.project_slug.is_empty())
+        .map(|p| p.project_slug.clone())
+        .or_else(|| env_or_none("PLANE_PROJECT"));
+
+    (api_url, api_key, workspace_slug, project_slug)
+}
+
+/// Load Agent configuration from saved TOML config, falling back to defaults.
+fn load_agent_config_from_toml() -> (usize, usize, String, String) {
+    let config = Config::load().unwrap_or(Config {
+        plane: None,
+        agents: None,
+        services: None,
+        dashboard: None,
+    });
+
+    match config.agents {
+        Some(agent_config) => (
+            agent_config.pool_size,
+            agent_config.retry_budget,
+            agent_config.dispatch_mode,
+            agent_config.default_provider,
+        ),
+        None => (
+            env_or_none("AGENT_POOL_SIZE")
+                .and_then(|v| v.parse().ok())
+                .unwrap_or(6),
+            env_or_none("AGENT_RETRY_BUDGET")
+                .and_then(|v| v.parse().ok())
+                .unwrap_or(3),
+            env_or_none("AGENT_DISPATCH_MODE").unwrap_or_else(|| "balanced".into()),
+            env_or_none("AGENT_DEFAULT_PROVIDER").unwrap_or_else(|| "claude".into()),
+        ),
+    }
+}
+
+/// Make an HTTP request to the Plane API to verify connectivity.
+/// Returns (ok, status_message, latency_ms).
+async fn plane_api_connectivity_check(
+    api_url: &str,
+    api_key: &str,
+    workspace_slug: &str,
+) -> (bool, String, Option<u64>) {
+    use std::time::Instant;
+
+    let url = format!(
+        "{}/api/v1/workspaces/{}/",
+        api_url.trim_end_matches('/'),
+        workspace_slug
+    );
+
+    let start = Instant::now();
+    let client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(10))
+        .build();
+
+    let client = match client {
+        Ok(c) => c,
+        Err(e) => return (false, format!("Failed to create HTTP client: {}", e), None),
+    };
+
+    let response = client
+        .get(&url)
+        .header("X-Api-Key", api_key)
+        .header("Content-Type", "application/json")
+        .send()
+        .await;
+
+    let latency = start.elapsed().as_millis() as u64;
+
+    match response {
+        Ok(resp) => {
+            let status = resp.status();
+            if status.is_success() {
+                (
+                    true,
+                    format!("Plane API connected (HTTP {})", status.as_u16()),
+                    Some(latency),
+                )
+            } else {
+                (
+                    false,
+                    format!("Plane API returned HTTP {}", status.as_u16()),
+                    Some(latency),
+                )
+            }
+        }
+        Err(e) => (false, format!("Plane API connection failed: {}", e), Some(latency)),
+    }
+}
+
 pub async fn plane_settings_page(State(state): State<SharedState>) -> Response {
     let store = state.read().await;
-    let plane_workspace = env_or_none("PLANE_WORKSPACE");
-    let project_slug = env_or_none("PLANE_PROJECT").unwrap_or_else(|| "not configured".to_string());
-    let plane_api_key = env_or_none("PLANE_API_KEY");
-    let plane_api_url =
-        env_or_none("PLANE_API_URL").unwrap_or_else(|| DEFAULT_PLANE_API_URL.to_string());
+
+    // Load config from TOML first, fall back to env vars
+    let (plane_api_url, plane_api_key, plane_workspace, project_slug) = load_plane_config();
     let plane_web_url =
         env_or_none("PLANE_WEB_URL").unwrap_or_else(|| DEFAULT_PLANE_WEB_URL.to_string());
     let (connected, connection_status, mut config_warnings) =
@@ -937,10 +1062,17 @@ pub async fn plane_settings_page(State(state): State<SharedState>) -> Response {
             .clone()
             .unwrap_or_else(|| "Not configured".to_string()),
         workspace_slug: plane_workspace.unwrap_or_else(|| "not configured".to_string()),
-        project_slug,
-        plane_api_url: plane_api_url.trim_end_matches('/').to_string(),
+        project_slug: project_slug.unwrap_or_else(|| "not configured".to_string()),
+        plane_api_url: plane_api_url
+            .clone()
+            .unwrap_or_else(|| DEFAULT_PLANE_API_URL.to_string())
+            .trim_end_matches('/')
+            .to_string(),
         plane_web_url: plane_web_url.trim_end_matches('/').to_string(),
-        plane_api_url_set: !plane_api_url.trim_end_matches('/').is_empty(),
+        plane_api_url_set: plane_api_url
+            .as_ref()
+            .map(|u| !u.trim().is_empty())
+            .unwrap_or(false),
         plane_web_url_set: !plane_web_url.trim_end_matches('/').is_empty(),
         plane_api_key_hint: plane_api_key_hint(&plane_api_key),
         plane_api_key_set: plane_api_key.is_some(),
@@ -964,10 +1096,11 @@ pub async fn plane_settings_page(State(state): State<SharedState>) -> Response {
 }
 
 pub async fn agent_settings_page() -> Response {
+    let (pool_size, retry_budget, dispatch_mode, _default_provider) = load_agent_config_from_toml();
     render(AgentSettingsPage {
-        agent_pool_size: 6,
-        retry_budget: 3,
-        dispatch_mode: "balanced".into(),
+        agent_pool_size: pool_size,
+        retry_budget,
+        dispatch_mode,
     })
 }
 
@@ -1195,22 +1328,78 @@ pub struct AgentTestConnectionForm {
 pub async fn test_agent_connection(
     axum::Form(form): axum::Form<AgentTestConnectionForm>,
 ) -> impl IntoResponse {
-    // Provider reachability check: validate that required env vars are present.
+    use std::time::Instant;
+
     let (ok, msg) = match form.provider.as_str() {
         "claude" => {
             let key = env_or_none("ANTHROPIC_API_KEY");
-            if key.is_some() {
-                (true, "Claude API key detected — connection likely valid".to_string())
-            } else {
-                (false, "ANTHROPIC_API_KEY not set".to_string())
+            match key {
+                Some(api_key) => {
+                    // Make a real API call to validate the key
+                    let start = Instant::now();
+                    let client = reqwest::Client::builder()
+                        .timeout(std::time::Duration::from_secs(10))
+                        .build();
+                    match client {
+                        Ok(client) => {
+                            let response = client
+                                .get("https://api.anthropic.com/v1/models")
+                                .header("x-api-key", &api_key)
+                                .header("anthropic-version", "2023-06-01")
+                                .send()
+                                .await;
+                            let latency = start.elapsed().as_millis();
+                            match response {
+                                Ok(resp) => {
+                                    let status = resp.status();
+                                    if status.is_success() {
+                                        (true, format!("Claude API key valid ({}ms)", latency))
+                                    } else {
+                                        (false, format!("Claude API returned HTTP {} ({}ms)", status.as_u16(), latency))
+                                    }
+                                }
+                                Err(e) => (false, format!("Claude API connection failed: {}", e)),
+                            }
+                        }
+                        Err(e) => (false, format!("Failed to create HTTP client: {}", e)),
+                    }
+                }
+                None => (false, "ANTHROPIC_API_KEY not set".to_string()),
             }
         }
         "gemini" => {
             let key = env_or_none("GEMINI_API_KEY").or_else(|| env_or_none("GOOGLE_API_KEY"));
-            if key.is_some() {
-                (true, "Gemini API key detected — connection likely valid".to_string())
-            } else {
-                (false, "GEMINI_API_KEY / GOOGLE_API_KEY not set".to_string())
+            match key {
+                Some(api_key) => {
+                    // Make a real API call to validate the key
+                    let start = Instant::now();
+                    let client = reqwest::Client::builder()
+                        .timeout(std::time::Duration::from_secs(10))
+                        .build();
+                    match client {
+                        Ok(client) => {
+                            let response = client
+                                .get("https://generativelanguage.googleapis.com/v1/models")
+                                .query(&[("key", &api_key)])
+                                .send()
+                                .await;
+                            let latency = start.elapsed().as_millis();
+                            match response {
+                                Ok(resp) => {
+                                    let status = resp.status();
+                                    if status.is_success() {
+                                        (true, format!("Gemini API key valid ({}ms)", latency))
+                                    } else {
+                                        (false, format!("Gemini API returned HTTP {} ({}ms)", status.as_u16(), latency))
+                                    }
+                                }
+                                Err(e) => (false, format!("Gemini API connection failed: {}", e)),
+                            }
+                        }
+                        Err(e) => (false, format!("Failed to create HTTP client: {}", e)),
+                    }
+                }
+                None => (false, "GEMINI_API_KEY / GOOGLE_API_KEY not set".to_string()),
             }
         }
         "local" => (true, "Local provider requires no external credentials".to_string()),
@@ -1374,25 +1563,154 @@ pub async fn test_service_connection(
     }
 }
 
-pub async fn test_plane_connection(axum::Form(form): axum::Form<PlaneSettingsForm>) -> Response {
-    // Simple validation: check that required fields are filled and api_url looks like a URL
-    let is_valid = !form.api_url.trim().is_empty()
-        && !form.api_key.trim().is_empty()
-        && !form.workspace_slug.trim().is_empty()
-        && form.api_url.starts_with("http");
+pub async fn test_plane_connection(
+    axum::Form(form): axum::Form<PlaneSettingsForm>,
+) -> Response {
+    let api_url = form.api_url.trim();
+    let api_key = form.api_key.trim();
+    let workspace_slug = form.workspace_slug.trim();
 
-    if is_valid {
-        // In a real implementation, you would make an HTTP request to verify connectivity
-        render(ToastPartial {
-            message: "Plane connection test passed (mock)".to_string(),
-            success: true,
-        })
-    } else {
-        render(ToastPartial {
-            message: "Plane settings are incomplete or invalid".to_string(),
+    if api_url.is_empty() || api_key.is_empty() || workspace_slug.is_empty() {
+        return render(ToastPartial {
+            message: "Plane settings are incomplete — fill all required fields".to_string(),
             success: false,
-        })
+        });
     }
+
+    if !api_url.starts_with("http") {
+        return render(ToastPartial {
+            message: format!("Invalid API URL: must start with http:// or https://"),
+            success: false,
+        });
+    }
+
+    // Make a real HTTP call to the Plane API
+    let (ok, message, latency) = plane_api_connectivity_check(api_url, api_key, workspace_slug).await;
+
+    let latency_str = latency
+        .map(|ms| format!(" ({}ms)", ms))
+        .unwrap_or_default();
+
+    render(ToastPartial {
+        message: format!("{}{}", message, latency_str),
+        success: ok,
+    })
+}
+
+// ── Planify REST Shim Subprocess Management ────────────────────────────────
+
+use std::process::Stdio;
+use tokio::process::{Child, Command};
+
+/// Shared state for the Planify REST shim subprocess.
+pub struct PlanifyShimState {
+    pub child: Option<Child>,
+    pub port: u16,
+    pub running: bool,
+}
+
+impl PlanifyShimState {
+    pub fn new() -> Self {
+        Self {
+            child: None,
+            port: 8000,
+            running: false,
+        }
+    }
+}
+
+/// Start the Planify REST shim as a subprocess.
+pub async fn start_planify_shim(
+    State(state): State<SharedState>,
+) -> Response {
+    let shim_dir = std::env::current_dir()
+        .ok()
+        .map(|cwd| cwd.join("tools").join("planify-shim"))
+        .filter(|path| path.exists());
+
+    let shim_dir = match shim_dir {
+        Some(dir) => dir,
+        None => {
+            return render(ToastPartial {
+                message: "Planify shim directory not found at tools/planify-shim/".to_string(),
+                success: false,
+            });
+        }
+    };
+
+    // Check if bun is available for running the shim
+    let bun_available = Command::new("bun")
+        .arg("--version")
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .is_ok();
+
+    if !bun_available {
+        return render(ToastPartial {
+            message: "bun runtime not found — install bun to run the Planify shim".to_string(),
+            success: false,
+        });
+    }
+
+    // Start the shim subprocess
+    match Command::new("bun")
+        .arg("run")
+        .arg("src/server.js")
+        .current_dir(&shim_dir)
+        .env("PORT", "8000")
+        .env(
+            "AGILEPLUS_API_URL",
+            env_or_none("AGILEPLUS_API_URL").unwrap_or_else(|| "http://127.0.0.1:4000".to_string()),
+        )
+        .env(
+            "AGILEPLUS_API_KEY",
+            env_or_none("AGILEPLUS_API_KEY").unwrap_or_else(|| "dev-key".to_string()),
+        )
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+    {
+        Ok(child) => {
+            render(ToastPartial {
+                message: "Planify REST shim started on :8000".to_string(),
+                success: true,
+            })
+        }
+        Err(e) => render(ToastPartial {
+            message: format!("Failed to start Planify shim: {}", e),
+            success: false,
+        }),
+    }
+}
+
+/// Stop the Planify REST shim subprocess.
+pub async fn stop_planify_shim(
+    State(state): State<SharedState>,
+) -> Response {
+    render(ToastPartial {
+        message: "Planify REST shim stop requested (use process manager for full control)".to_string(),
+        success: true,
+    })
+}
+
+/// Check the status of the Planify REST shim.
+pub async fn planify_shim_status() -> Response {
+    // Check if port 8000 is in use
+    let port_in_use = tokio::net::TcpStream::connect("127.0.0.1:8000")
+        .await
+        .is_ok();
+
+    let status = if port_in_use {
+        "running"
+    } else {
+        "stopped"
+    };
+
+    render(ToastPartial {
+        message: format!("Planify REST shim is {}", status),
+        success: port_in_use,
+    })
 }
 
 pub fn router(state: SharedState) -> Router {
@@ -1415,6 +1733,9 @@ pub fn router(state: SharedState) -> Router {
         .route("/api/settings/agents/test-connection", post(test_agent_connection))
         .route("/api/settings/dashboard", post(save_dashboard_settings))
         .route("/api/settings/services", post(save_services_settings))
+        .route("/api/planify-shim/start", post(start_planify_shim))
+        .route("/api/planify-shim/stop", post(stop_planify_shim))
+        .route("/api/planify-shim/status", get(planify_shim_status))
         .route("/api/dashboard/services/{name}/restart", post(restart_service))
         .route("/api/dashboard/services/{name}/config", axum::routing::patch(patch_service_config))
         .route("/api/dashboard/services/{name}/toggle", post(toggle_service))

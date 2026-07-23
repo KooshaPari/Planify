@@ -272,5 +272,53 @@
       Environment variables (<code class="font-mono bg-zinc-700 px-1.5 py-0.5 rounded">NATS_URL</code>, <code class="font-mono bg-zinc-700 px-1.5 py-0.5 rounded">NEO4J_URL</code>, etc.) always take precedence.
     </p>
   </section>
+
+  <!-- Planify REST Shim Controls -->
+  <section class="rounded border border-zinc-700 bg-zinc-800 p-5 space-y-4">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="font-bold text-zinc-100 text-lg">Planify REST Shim</h2>
+        <p class="text-xs text-zinc-400 mt-1">Node/Express adapter that exposes Plane's REST API shape backed by AgilePlus Axum backend.</p>
+      </div>
+      <div
+        id="shim-status"
+        hx-get="/api/planify-shim/status"
+        hx-trigger="load, every 10s"
+        hx-swap="innerHTML"
+        class="text-sm"
+      >
+        Checking&hellip;
+      </div>
+    </div>
+
+    <div class="flex gap-2">
+      <button
+        type="button"
+        hx-post="/api/planify-shim/start"
+        hx-swap="none"
+        hx-indicator="#shim-start-ind"
+        class="px-4 py-2 bg-green-700 hover:bg-green-600 text-white text-sm font-medium rounded border border-green-600 transition"
+      >
+        Start Shim
+      </button>
+      <span id="shim-start-ind" class="htmx-request:inline hidden text-zinc-400 text-xs self-center">Starting&hellip;</span>
+
+      <button
+        type="button"
+        hx-post="/api/planify-shim/stop"
+        hx-swap="none"
+        hx-indicator="#shim-stop-ind"
+        class="px-4 py-2 bg-red-700 hover:bg-red-600 text-white text-sm font-medium rounded border border-red-600 transition"
+      >
+        Stop Shim
+      </button>
+      <span id="shim-stop-ind" class="htmx-request:inline hidden text-zinc-400 text-xs self-center">Stopping&hellip;</span>
+    </div>
+
+    <div class="text-xs text-zinc-500 space-y-1">
+      <p>The shim maps: <code class="font-mono bg-zinc-700 px-1 py-0.5 rounded">workspace=agileplus root</code>, <code class="font-mono bg-zinc-700 px-1 py-0.5 rounded">project=Feature</code>, <code class="font-mono bg-zinc-700 px-1 py-0.5 rounded">issue=WorkPackage</code>.</p>
+      <p>Runs on <code class="font-mono bg-zinc-700 px-1 py-0.5 rounded">:8000</code> (Planify's VITE_API_BASE_URL default).</p>
+    </div>
+  </section>
 </div>
 {% endblock %}
