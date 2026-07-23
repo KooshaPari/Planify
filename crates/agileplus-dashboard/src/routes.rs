@@ -1621,7 +1621,7 @@ impl PlanifyShimState {
 
 /// Start the Planify REST shim as a subprocess.
 pub async fn start_planify_shim(
-    State(state): State<SharedState>,
+    State(_state): State<SharedState>,
 ) -> Response {
     let shim_dir = std::env::current_dir()
         .ok()
@@ -1671,7 +1671,7 @@ pub async fn start_planify_shim(
         .stderr(Stdio::piped())
         .spawn()
     {
-        Ok(child) => {
+        Ok(_child) => {
             render(ToastPartial {
                 message: "Planify REST shim started on :8000".to_string(),
                 success: true,
@@ -1686,7 +1686,7 @@ pub async fn start_planify_shim(
 
 /// Stop the Planify REST shim subprocess.
 pub async fn stop_planify_shim(
-    State(state): State<SharedState>,
+    State(_state): State<SharedState>,
 ) -> Response {
     render(ToastPartial {
         message: "Planify REST shim stop requested (use process manager for full control)".to_string(),

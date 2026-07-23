@@ -1,30 +1,6 @@
-{# ── Skeleton Loading Partial ────────────────────────────────────────── #}
-{# Renders animated loading placeholders. Usage: #}
-{#   {% include "partials/skeleton.html" with context %} #}
-{# Variables: variant (text|card|image|block), count, width, height #}
-
-{% set variant = variant|default("text") %}
-{% set count = count|default(1) %}
-
+{# Skeleton loading placeholders (3 text lines) #}
 <span class="inline-flex flex-col gap-2" aria-busy="true" aria-label="Loading" role="status">
-  {% for _ in range(count) %}
-    {% if variant == "card" %}
-      <div class="skeleton-card">
-        <div class="skeleton skeleton-image"></div>
-        <div class="skeleton skeleton-text-lg" style="width: 60%"></div>
-        <div class="skeleton skeleton-text" style="width: 100%"></div>
-        <div class="skeleton skeleton-text" style="width: 80%"></div>
-        <div class="flex gap-2 mt-1">
-          <div class="skeleton" style="width: 4rem; height: 1.5rem"></div>
-          <div class="skeleton" style="width: 4rem; height: 1.5rem"></div>
-        </div>
-      </div>
-    {% elif variant == "image" %}
-      <div class="skeleton skeleton-image"></div>
-    {% elif variant == "block" %}
-      <div class="skeleton skeleton-block"></div>
-    {% else %}
-      <div class="skeleton skeleton-text" style="{% if width %}width: {{ width }}{% endif %}"></div>
-    {% endif %}
-  {% endfor %}
+  <div class="skeleton skeleton-text" style="width: 100%"></div>
+  <div class="skeleton skeleton-text" style="width: 85%"></div>
+  <div class="skeleton skeleton-text" style="width: 65%"></div>
 </span>

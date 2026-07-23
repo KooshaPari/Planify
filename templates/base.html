@@ -68,7 +68,7 @@
            hx-get="/api/dashboard/projects"
            hx-trigger="load"
            hx-swap="innerHTML">
-        {% include "partials/skeleton.html" with context, variant="text", count=3 %}
+        {% include "partials/skeleton.html" %}
       </div>
 
       <h2 class="text-xs uppercase tracking-widest text-zinc-500 pb-1 border-b border-zinc-700">
@@ -88,7 +88,7 @@
            hx-get="/api/dashboard/agents"
            hx-trigger="load, every 5s"
            hx-swap="innerHTML">
-        {% include "partials/skeleton.html" with context, variant="text", count=4 %}
+        {% include "partials/skeleton.html" %}
       </div>
     </aside>
 
