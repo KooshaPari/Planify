@@ -22,11 +22,27 @@ function defaultFixturePath() {
   if (process.env.DUAL_HARNESS_FIXTURE) {
     return process.env.DUAL_HARNESS_FIXTURE;
   }
-  // .../worktrees/Planify2/<topic>/scripts/dual-harness → repos/
-  const here = __dirname;
-  const repos = path.resolve(here, "../../../../../");
+  const candidateBaseDirs = [
+    path.resolve(__dirname, "../../"),
+    path.resolve(__dirname, "../../../"),
+    path.resolve(__dirname, "../../../../"),
+    path.resolve(__dirname, "../../../../../"),
+  ];
+  for (const base of candidateBaseDirs) {
+    const p = path.join(
+      base,
+      "pheno-harness",
+      "plans",
+      "2026-07-22-dual-harness-matrix",
+      "fixtures",
+      "shared-3task.v1.json",
+    );
+    if (fs.existsSync(p)) {
+      return p;
+    }
+  }
   return path.join(
-    repos,
+    candidateBaseDirs[0],
     "pheno-harness",
     "plans",
     "2026-07-22-dual-harness-matrix",
