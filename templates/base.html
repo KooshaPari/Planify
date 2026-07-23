@@ -31,6 +31,8 @@
       <a href="/settings/plane" class="hover:text-white text-zinc-400 hover:underline">Plane</a>
       <a href="/settings"   class="hover:text-white text-zinc-400 hover:underline">Settings</a>
     </div>
+    {% include "partials/theme-toggle.html" %}
+  </nav>
     <div x-show="navOpen" @click.away="navOpen = false" class="md:hidden absolute top-full left-0 right-0 bg-zinc-950 border-b border-zinc-700 flex flex-col gap-2 px-4 py-3 text-sm z-50">
       <a href="/home"      class="hover:text-white text-zinc-400">Home</a>
       <a href="/dashboard"  class="hover:text-white text-zinc-400">Dashboard</a>
@@ -66,7 +68,7 @@
            hx-get="/api/dashboard/projects"
            hx-trigger="load"
            hx-swap="innerHTML">
-        <span class="text-zinc-500 text-xs">Loading projects…</span>
+        {% include "partials/skeleton.html" with context, variant="text", count=3 %}
       </div>
 
       <h2 class="text-xs uppercase tracking-widest text-zinc-500 pb-1 border-b border-zinc-700">
@@ -86,7 +88,7 @@
            hx-get="/api/dashboard/agents"
            hx-trigger="load, every 5s"
            hx-swap="innerHTML">
-        <span class="text-zinc-500 text-xs">Loading…</span>
+        {% include "partials/skeleton.html" with context, variant="text", count=4 %}
       </div>
     </aside>
 
