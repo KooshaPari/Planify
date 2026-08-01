@@ -55,7 +55,8 @@
     }
   ],
   "shallow_backup": {
-    "sha": "d5088392caead6f851052e93de688b677735a672",
+    "sha256": "635da262653c734d51fb9a5bfe303399b85e4dcf4d6b3cf4ff82fc5017525212",
+    "tip_commit": "d5088392caead6f851052e93de688b677735a672",
     "ref": "refs/sources/planify2/archive-main-d5088392",
     "complete_history_verified": false,
     "required_follow_up": "independent restore and ref-parity verification"
@@ -72,6 +73,7 @@
       "monolithic_object": null,
       "chunk_count": 9,
       "chunk_size_bytes": 104857600,
+      "last_chunk_bytes": 21877472,
       "status": "chunked_first_cloud_verified",
       "reconstructed_sha256": "683b563f4e47f1dde173df5a645945d93784b70b094d3a26763fa10ec58ccdf7",
       "remote_chunk_hashes": {
