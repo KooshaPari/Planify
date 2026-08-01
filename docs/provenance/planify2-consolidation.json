@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "captured_at": "2026-08-01",
+  "captured_at": "2026-08-01T10:13:57Z",
   "canonical_repository": {
     "name": "KooshaPari/Planify",
     "url": "https://github.com/KooshaPari/Planify",
@@ -56,10 +56,15 @@
   ],
   "shallow_backup": {
     "sha256": "635da262653c734d51fb9a5bfe303399b85e4dcf4d6b3cf4ff82fc5017525212",
+    "sha256_scope": "SHA-256 of the pre-unshallow Planify2 .git/shallow file bytes, including its original newline bytes",
     "tip_commit": "d5088392caead6f851052e93de688b677735a672",
+    "tip_commit_scope": "commit object published as refs/sources/planify2/archive-main-d5088392",
     "ref": "refs/sources/planify2/archive-main-d5088392",
     "complete_history_verified": false,
-    "required_follow_up": "independent restore and ref-parity verification"
+    "required_follow_up": [
+      "independent restore from the durable bundle artifact",
+      "verify parity between the archive-main ref and the source commit"
+    ]
   },
   "bundle": {
     "source_head": "e6b8e23511e6e43ac5466543b57ab4d192ddb50d",
@@ -117,6 +122,13 @@
     ]
   },
   "gates": {
+    "status_enum": ["pass", "pending", "blocked", "held"],
+    "status_meanings": {
+      "pass": "evidence-backed gate satisfied",
+      "pending": "evidence collection or verification is in progress",
+      "blocked": "a prerequisite or external dependency prevents completion",
+      "held": "intentionally not eligible until policy conditions are satisfied"
+    },
     "consolidation_commit_recorded": "pass",
     "hidden_refs_recorded": "pass",
     "bundle_sha256_and_size_recorded": "pass",
