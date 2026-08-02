@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0",
+  "captured_at": "2026-08-01T10:13:57Z",
+  "canonical_repository": {
+    "name": "KooshaPari/Planify",
+    "url": "https://github.com/KooshaPari/Planify",
+    "default_branch": "master",
+    "observed_head": "1cdd70d86927a56c5d347432ef2bc2a917daddbf",
+    "observation": "fresh isolated clone; no local changes before this manifest"
+  },
+  "consolidation": {
+    "source": "KooshaPari/Planify2",
+    "landing_pull_request": {
+      "number": 61,
+      "url": "https://github.com/KooshaPari/Planify/pull/61",
+      "title": "feat(consolidation): merge Planify2 provenance, landing site, and Plane stack compose",
+      "state": "MERGED",
+      "merged_at": "2026-07-23T09:52:59Z",
+      "merge_commit": "e63d784de4cff52c6eded2815da0f0273cd6d8d8",
+      "base": "master",
+      "head": "consolidate/agileplus-from-planify2"
+    },
+    "archive_record": {
+      "label": "zz-archive-Planify2",
+      "intended_remote": "KooshaPari/zz-archive-Planify2",
+      "remote_resolution_at_capture": "404/not resolvable via GitHub API",
+      "source_remote_resolution_at_capture": {
+        "remote": "KooshaPari/Planify2",
+        "git_ls_remote": "repository not found",
+        "github_api": "404/not found"
+      },
+      "interpretation": "External state is discrepant: neither the historical source remote nor the requested archive alias resolves live. Do not infer deletion or loss. Retain hidden source refs, local bundle evidence, and this record until an owner-authorized archive endpoint is confirmed."
+    }
+  },
+  "hidden_source_refs": [
+    {
+      "ref": "refs/sources/planify2/archive-main-d5088392",
+      "sha": "d5088392caead6f851052e93de688b677735a672",
+      "role": "shallow archive-main backup"
+    },
+    {
+      "ref": "refs/sources/planify2/main",
+      "sha": "6a9aa2f07080787b726fb6b5f16427b37635829c",
+      "role": "Planify2 source main"
+    },
+    {
+      "ref": "refs/sources/planify2/feat/dual-harness-fixture-adapter",
+      "sha": "6d35ba6c7ba84dc36162b7c9f8df0efd1304f7d7",
+      "role": "source feature ref"
+    },
+    {
+      "ref": "refs/sources/planify2/feat/dual-harness-fixture-path-fix",
+      "sha": "e6b8e23511e6e43ac5466543b57ab4d192ddb50d",
+      "role": "source feature ref"
+    }
+  ],
+  "shallow_backup": {
+    "sha256": "635da262653c734d51fb9a5bfe303399b85e4dcf4d6b3cf4ff82fc5017525212",
+    "sha256_scope": "SHA-256 of the pre-unshallow Planify2 .git/shallow file bytes, including its original newline bytes",
+    "tip_commit": "d5088392caead6f851052e93de688b677735a672",
+    "tip_commit_scope": "commit object published as refs/sources/planify2/archive-main-d5088392",
+    "ref": "refs/sources/planify2/archive-main-d5088392",
+    "complete_history_verified": false,
+    "required_follow_up": [
+      "independent restore from the durable bundle artifact",
+      "verify parity between the archive-main ref and the source commit"
+    ]
+  },
+  "bundle": {
+    "source_head": "e6b8e23511e6e43ac5466543b57ab4d192ddb50d",
+    "sha256": "683b563f4e47f1dde173df5a645945d93784b70b094d3a26763fa10ec58ccdf7",
+    "bytes": 860738272,
+    "git_bundle_verify": "pass",
+    "r2": {
+      "provider": "cloudflare-r2",
+      "bucket": "tracera-artifacts",
+      "uri": "r2://tracera-artifacts/preservation/Planify2/683b563f4e47f1dde173df5a645945d93784b70b094d3a26763fa10ec58ccdf7/chunks-v3/",
+      "monolithic_object": null,
+      "chunk_count": 9,
+      "chunk_size_bytes": 104857600,
+      "last_chunk_bytes": 21877472,
+      "status": "chunked_first_cloud_verified",
+      "reconstructed_sha256": "683b563f4e47f1dde173df5a645945d93784b70b094d3a26763fa10ec58ccdf7",
+      "remote_chunk_hashes": {
+        "part-aa": "fe816e65ea5dccb0b68aa52c32d00f47a3a50a93726c029d7fdcf9f713bf1520",
+        "part-ab": "2efd2b39b04b81aef7d3f26eba734ba8cc53278ae44ddbde08fda0bff9bb5216",
+        "part-ac": "6a92567ce0391b9d0d27ba5d3f4cf4f7587966589bb3d663259432acacff9c62",
+        "part-ad": "8013997d10ff7bbd188c75d62ec54705c19d70de628c934177ab7f3462cb5481",
+        "part-ae": "2d6b3eab0655111e99493dfc69925e54c2db4c47f520aed9f7eb761c137e7c82",
+        "part-af": "8c4adba46c2eae4c026c92e1f6154a7c05a520cb9eb2b9f000f4701ca98bb5bb",
+        "part-ag": "1a074f73ab6fac76eedaecff0e8e548a1fd88fac9d91e969a30ac2c0a58c512f",
+        "part-ah": "1ff73b6a436762658cd54bb470e63c6c0e69153b93c5a04a120172b409996d56",
+        "part-ai": "7e3003a82b0e66c0718119c263e82fde83b7c0f75da6ef8a27dedf2b580cb367"
+      },
+      "restore": "component verified; independent physical restore and second-cloud copy remain pending"
+    }
+  },
+  "dirty_baseline": {
+    "entry_count": 2035,
+    "state": "preserved",
+    "source": "active Planify baseline capture",
+    "policy": "Do not normalize, stage, reset, clean, or delete these entries as part of consolidation."
+  },
+  "zero_delete_policy": {
+    "enabled": true,
+    "protected_surfaces": [
+      "repositories",
+      "branches",
+      "tags",
+      "hidden refs",
+      "worktrees",
+      "dirty files",
+      "bundle parts"
+    ],
+    "forbidden_actions": [
+      "delete",
+      "git reset --hard",
+      "git clean",
+      "force-push",
+      "prune",
+      "rewrite"
+    ]
+  },
+  "gates": {
+    "status_enum": ["pass", "pending", "blocked", "held"],
+    "status_meanings": {
+      "pass": "evidence-backed gate satisfied",
+      "pending": "evidence collection or verification is in progress",
+      "blocked": "a prerequisite or external dependency prevents completion",
+      "held": "intentionally not eligible until policy conditions are satisfied"
+    },
+    "consolidation_commit_recorded": "pass",
+    "hidden_refs_recorded": "pass",
+    "bundle_sha256_and_size_recorded": "pass",
+    "r2_chunk_hashes_recorded": "pass",
+    "dirty_baseline_preserved": "pass",
+    "archive_alias_resolved": "blocked",
+    "independent_restore": "pending",
+    "second_cloud_copy": "pending",
+    "sponsor_ack": "pending",
+    "archive_eligible": "held"
+  }
+}
