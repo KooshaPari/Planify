@@ -10,7 +10,11 @@ import type { TModuleDisplayFilters, TModuleFilters } from "@plane/types";
 // components
 import { Header, EHeaderVariant, Tag } from "@plane/ui";
 import { replaceUnderscoreIfSnakeCase } from "@plane/utils";
-import { AppliedDateFilters, AppliedMembersFilters, AppliedStatusFilters } from "@/components/modules";
+import {
+  AppliedDateFilters,
+  AppliedMembersFilters,
+  AppliedStatusFilters,
+} from "@/components/modules";
 // helpers
 // types
 
@@ -56,7 +60,9 @@ export function ModuleAppliedFiltersList(props: Props) {
           return (
             <Tag key={filterKey}>
               <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-11 text-tertiary">{replaceUnderscoreIfSnakeCase(filterKey)}</span>
+                <span className="text-11 text-tertiary">
+                  {replaceUnderscoreIfSnakeCase(filterKey)}
+                </span>
                 {filterKey === "status" && (
                   <AppliedStatusFilters
                     editable={isEditingAllowed}

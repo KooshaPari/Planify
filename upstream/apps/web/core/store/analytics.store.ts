@@ -63,7 +63,10 @@ export abstract class BaseAnalyticsStore implements IBaseAnalyticsStore {
   }
 
   get selectedDurationLabel() {
-    return ANALYTICS_DURATION_FILTER_OPTIONS.find((item) => item.value === this.selectedDuration)?.name ?? null;
+    return (
+      ANALYTICS_DURATION_FILTER_OPTIONS.find((item) => item.value === this.selectedDuration)
+        ?.name ?? null
+    );
   }
 
   updateSelectedProjects = (projects: string[]) => {

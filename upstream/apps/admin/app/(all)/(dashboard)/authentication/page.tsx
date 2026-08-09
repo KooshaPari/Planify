@@ -24,7 +24,9 @@ import { useInstance } from "@/hooks/store";
 // types
 import type { Route } from "./+types/page";
 
-const InstanceAuthenticationPage = observer(function InstanceAuthenticationPage(_props: Route.ComponentProps) {
+const InstanceAuthenticationPage = observer(function InstanceAuthenticationPage(
+  _props: Route.ComponentProps,
+) {
   // theme
   const { resolvedTheme: resolvedThemeAdmin } = useTheme();
   const resolvedTheme = resolveGeneralTheme(resolvedThemeAdmin);
@@ -33,7 +35,8 @@ const InstanceAuthenticationPage = observer(function InstanceAuthenticationPage(
   // state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   // store hooks
-  const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } = useInstance();
+  const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } =
+    useInstance();
   // derived values
   const enableSignUpConfig = formattedConfig?.ENABLE_SIGNUP ?? "";
 
@@ -95,7 +98,7 @@ const InstanceAuthenticationPage = observer(function InstanceAuthenticationPage(
           setIsSubmitting(false);
         });
     },
-    [formattedConfig, updateInstanceConfigurations]
+    [formattedConfig, updateInstanceConfigurations],
   );
 
   // Get authentication modes - this will use updateConfig which includes validation
@@ -112,7 +115,8 @@ const InstanceAuthenticationPage = observer(function InstanceAuthenticationPage(
     <PageWrapper
       header={{
         title: "Manage authentication modes for your instance",
-        description: "Configure authentication modes for your team and restrict sign-ups to be invite only.",
+        description:
+          "Configure authentication modes for your team and restrict sign-ups to be invite only.",
       }}
     >
       {formattedConfig ? (
@@ -120,7 +124,9 @@ const InstanceAuthenticationPage = observer(function InstanceAuthenticationPage(
           <div className={cn("flex w-full items-center gap-14 rounded-sm")}>
             <div className="flex grow items-center gap-4">
               <div className="grow">
-                <div className="pb-1 text-16 font-medium">Allow anyone to sign up even without an invite</div>
+                <div className="pb-1 text-16 font-medium">
+                  Allow anyone to sign up even without an invite
+                </div>
                 <div className={cn("text-11 leading-5 font-regular text-tertiary")}>
                   Toggling this off will only let users sign up when they are invited.
                 </div>

@@ -27,7 +27,8 @@ export const bannerStyling: IBannerStyling = {
 };
 
 // Base banner styles
-export const bannerBaseStyles = "flex items-center justify-between w-full transition-all duration-200";
+export const bannerBaseStyles =
+  "flex items-center justify-between w-full transition-all duration-200";
 
 // Get banner container styling
 export const getBannerStyling = (variant: TBannerVariant): string => {
@@ -42,7 +43,8 @@ export const getBannerTitleStyling = (): string =>
   `font-medium text-secondary flex-1 min-w-0 ${bannerSizeStyling.title}`;
 
 // Get action container styling
-export const getBannerActionStyling = (): string => `flex items-center flex-shrink-0 ${bannerSizeStyling.action}`;
+export const getBannerActionStyling = (): string =>
+  `flex items-center flex-shrink-0 ${bannerSizeStyling.action}`;
 
 // Get dismiss button styling
 export const getBannerDismissStyling = (): string =>

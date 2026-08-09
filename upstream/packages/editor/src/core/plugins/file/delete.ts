@@ -19,10 +19,17 @@ import type { TFileNode } from "./types";
 
 const DELETE_PLUGIN_KEY = new PluginKey("delete-utility");
 
-export const TrackFileDeletionPlugin = (editor: Editor, deleteHandler: TFileHandler["delete"]): Plugin =>
+export const TrackFileDeletionPlugin = (
+  editor: Editor,
+  deleteHandler: TFileHandler["delete"],
+): Plugin =>
   new Plugin({
     key: DELETE_PLUGIN_KEY,
-    appendTransaction: (transactions: readonly Transaction[], oldState: EditorState, newState: EditorState) => {
+    appendTransaction: (
+      transactions: readonly Transaction[],
+      oldState: EditorState,
+      newState: EditorState,
+    ) => {
       const newFileSources: {
         [nodeType: string]: Set<string> | undefined;
       } = {};

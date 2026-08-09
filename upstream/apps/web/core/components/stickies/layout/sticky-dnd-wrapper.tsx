@@ -11,7 +11,10 @@ import type {
   DragLocationHistory,
 } from "@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types";
 import type { ElementDragPayload } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { pointerOutsideOfPreview } from "@atlaskit/pragmatic-drag-and-drop/element/pointer-outside-of-preview";
 import { setCustomNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview";
 import { attachInstruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
@@ -32,7 +35,11 @@ type Props = {
   isLastChild: boolean;
   isInFirstRow: boolean;
   isInLastRow: boolean;
-  handleDrop: (self: DropTargetRecord, source: ElementDragPayload, location: DragLocationHistory) => void;
+  handleDrop: (
+    self: DropTargetRecord,
+    source: ElementDragPayload,
+    location: DragLocationHistory,
+  ) => void;
   handleLayout: () => void;
 };
 
@@ -79,7 +86,7 @@ export const StickyDNDWrapper = observer(function StickyDNDWrapper(props: Props)
                         showToolbar={false}
                       />
                     </div>
-                  </div>
+                  </div>,
                 );
                 return () => root.unmount();
               },
@@ -116,7 +123,7 @@ export const StickyDNDWrapper = observer(function StickyDNDWrapper(props: Props)
             setInstruction(undefined);
             handleDrop(self, source, location);
           },
-        })
+        }),
       );
   }, [handleDrop, isDragging, isLastChild, pathname, stickyId, workspaceSlug]);
 

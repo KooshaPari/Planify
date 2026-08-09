@@ -23,7 +23,7 @@ export function useRouter() {
         // no-op in this shim
       },
     }),
-    [navigate]
+    [navigate],
   );
 }
 

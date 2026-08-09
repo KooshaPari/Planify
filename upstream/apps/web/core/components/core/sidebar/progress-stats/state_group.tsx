@@ -25,8 +25,16 @@ type TStateGroupStatComponent = {
   isEditable?: boolean;
 };
 
-export const StateGroupStatComponent = observer(function StateGroupStatComponent(props: TStateGroupStatComponent) {
-  const { distribution, isEditable, totalIssuesCount, selectedStateGroups, handleStateGroupFiltersUpdate } = props;
+export const StateGroupStatComponent = observer(function StateGroupStatComponent(
+  props: TStateGroupStatComponent,
+) {
+  const {
+    distribution,
+    isEditable,
+    totalIssuesCount,
+    selectedStateGroups,
+    handleStateGroupFiltersUpdate,
+  } = props;
 
   return (
     <div>

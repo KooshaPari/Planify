@@ -30,7 +30,12 @@ type TIssueLinkItem = {
 
 export const IssueLinkItem = observer(function IssueLinkItem(props: TIssueLinkItem) {
   // props
-  const { linkId, linkOperations, isNotAllowed, issueServiceType = EIssueServiceType.ISSUES } = props;
+  const {
+    linkId,
+    linkOperations,
+    isNotAllowed,
+    issueServiceType = EIssueServiceType.ISSUES,
+  } = props;
   // hooks
   const { t } = useTranslation();
   const {

@@ -78,13 +78,12 @@ export class EditorAssetStore implements IEditorAssetStore {
   }
 
   // helper methods
-  getAssetUploadStatusByEditorBlockId: IEditorAssetStore["getAssetUploadStatusByEditorBlockId"] = computedFn(
-    (blockId) => {
+  getAssetUploadStatusByEditorBlockId: IEditorAssetStore["getAssetUploadStatusByEditorBlockId"] =
+    computedFn((blockId) => {
       const blockDetails = this.assetsUploadStatus[blockId];
       if (!blockDetails) return undefined;
       return blockDetails;
-    }
-  );
+    });
 
   // actions
   private debouncedUpdateProgress = debounce((blockId: string, progress: number) => {
@@ -117,14 +116,19 @@ export class EditorAssetStore implements IEditorAssetStore {
           (progressEvent) => {
             const progressPercentage = Math.round((progressEvent.progress ?? 0) * 100);
             this.debouncedUpdateProgress(blockId, progressPercentage);
-          }
+          },
         );
         return response;
       } else {
-        const response = await this.fileService.uploadWorkspaceAsset(workspaceSlug, data, file, (progressEvent) => {
-          const progressPercentage = Math.round((progressEvent.progress ?? 0) * 100);
-          this.debouncedUpdateProgress(blockId, progressPercentage);
-        });
+        const response = await this.fileService.uploadWorkspaceAsset(
+          workspaceSlug,
+          data,
+          file,
+          (progressEvent) => {
+            const progressPercentage = Math.round((progressEvent.progress ?? 0) * 100);
+            this.debouncedUpdateProgress(blockId, progressPercentage);
+          },
+        );
         return response;
       }
     } catch (error) {

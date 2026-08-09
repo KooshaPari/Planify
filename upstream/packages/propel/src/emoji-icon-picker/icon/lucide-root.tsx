@@ -16,7 +16,9 @@ type LucideIconsListProps = {
 export function LucideIconsList(props: LucideIconsListProps) {
   const { query, onChange, activeColor } = props;
 
-  const filteredArray = LUCIDE_ICONS_LIST.filter((icon) => icon.name.toLowerCase().includes(query.toLowerCase()));
+  const filteredArray = LUCIDE_ICONS_LIST.filter((icon) =>
+    icon.name.toLowerCase().includes(query.toLowerCase()),
+  );
 
   return (
     <>

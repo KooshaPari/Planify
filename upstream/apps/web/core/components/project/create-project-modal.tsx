@@ -37,7 +37,9 @@ enum EProjectCreationSteps {
 export function CreateProjectModal(props: Props) {
   const { isOpen, onClose, setToFavorite = false, workspaceSlug, data, templateId } = props;
   // states
-  const [currentStep, setCurrentStep] = useState<EProjectCreationSteps>(EProjectCreationSteps.CREATE_PROJECT);
+  const [currentStep, setCurrentStep] = useState<EProjectCreationSteps>(
+    EProjectCreationSteps.CREATE_PROJECT,
+  );
   const [createdProjectId, setCreatedProjectId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -79,7 +81,11 @@ export function CreateProjectModal(props: Props) {
         />
       )}
       {currentStep === EProjectCreationSteps.FEATURE_SELECTION && (
-        <ProjectFeatureUpdate projectId={createdProjectId} workspaceSlug={workspaceSlug} onClose={onClose} />
+        <ProjectFeatureUpdate
+          projectId={createdProjectId}
+          workspaceSlug={workspaceSlug}
+          onClose={onClose}
+        />
       )}
     </ModalCore>
   );

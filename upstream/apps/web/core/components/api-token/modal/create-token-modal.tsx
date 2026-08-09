@@ -45,7 +45,9 @@ export function CreateApiTokenModal(props: Props) {
     const csvData = {
       Title: data.label,
       Description: data.description,
-      Expiry: data.expired_at ? (renderFormattedDate(data.expired_at)?.replace(",", " ") ?? "") : "Never expires",
+      Expiry: data.expired_at
+        ? (renderFormattedDate(data.expired_at)?.replace(",", " ") ?? "")
+        : "Never expires",
       "Secret key": data.token ?? "",
     };
 
@@ -67,7 +69,7 @@ export function CreateApiTokenModal(props: Props) {
 
             return [res, ...prevData];
           },
-          false
+          false,
         );
       })
       .catch((err) => {
@@ -82,7 +84,12 @@ export function CreateApiTokenModal(props: Props) {
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={() => {}} position={EModalPosition.TOP} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={() => {}}
+      position={EModalPosition.TOP}
+      width={EModalWidth.XXL}
+    >
       {generatedToken ? (
         <GeneratedTokenDetails handleClose={handleClose} tokenDetails={generatedToken} />
       ) : (

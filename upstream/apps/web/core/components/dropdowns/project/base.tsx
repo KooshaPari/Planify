@@ -119,9 +119,12 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
   const filteredOptions = sortBySelectedFirst(
     (query === ""
       ? options?.filter((o) => o?.value !== currentProjectId)
-      : options?.filter((o) => o?.value !== currentProjectId && o?.query.toLowerCase().includes(query.toLowerCase()))
+      : options?.filter(
+          (o) =>
+            o?.value !== currentProjectId && o?.query.toLowerCase().includes(query.toLowerCase()),
+        )
     )?.filter((o): o is NonNullable<typeof o> => o !== undefined),
-    value
+    value,
   );
 
   const { handleClose, handleKeyDown, handleOnClick, searchInputKeyDown } = useDropdown({
@@ -142,7 +145,11 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
   const getDisplayName = (value: string | string[] | null, placeholder: string = "") => {
     if (Array.isArray(value)) {
       const firstProject = getProjectById(value[0]);
-      return value.length ? (value.length === 1 ? firstProject?.name : `${value.length} projects`) : placeholder;
+      return value.length
+        ? value.length === 1
+          ? firstProject?.name
+          : `${value.length} projects`
+        : placeholder;
     } else {
       return value ? (getProjectById(value)?.name ?? placeholder) : placeholder;
     }
@@ -196,7 +203,7 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
               "cursor-not-allowed text-secondary": disabled,
               "cursor-pointer": !disabled,
             },
-            buttonContainerClassName
+            buttonContainerClassName,
           )}
           onClick={handleOnClick}
           disabled={disabled}
@@ -205,7 +212,11 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
             className={buttonClassName}
             isActive={isOpen}
             tooltipHeading="Project"
-            tooltipContent={value?.length ? `${value.length} project${value.length !== 1 ? "s" : ""}` : placeholder}
+            tooltipContent={
+              value?.length
+                ? `${value.length} project${value.length !== 1 ? "s" : ""}`
+                : placeholder
+            }
             showTooltip={showTooltip}
             variant={buttonVariant}
             renderToolTipByDefault={renderByDefault}
@@ -215,7 +226,10 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
               <span className="max-w-40 truncate">{getDisplayName(value, placeholder)}</span>
             )}
             {dropdownArrow && (
-              <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
+              <ChevronDownIcon
+                className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)}
+                aria-hidden="true"
+              />
             )}
           </DropdownButton>
         </button>

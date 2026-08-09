@@ -91,7 +91,9 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
             <SidebarPropertyListItem icon={StatePropertyIcon} label={t("common.state")}>
               <StateDropdown
                 value={issue?.state_id}
-                onChange={(val) => issueOperations.update(workspaceSlug, projectId, issueId, { state_id: val })}
+                onChange={(val) =>
+                  issueOperations.update(workspaceSlug, projectId, issueId, { state_id: val })
+                }
                 projectId={projectId?.toString() ?? ""}
                 disabled={!isEditable}
                 buttonVariant="transparent-with-text"
@@ -106,12 +108,18 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
             <SidebarPropertyListItem icon={MembersPropertyIcon} label={t("common.assignees")}>
               <MemberDropdown
                 value={issue?.assignee_ids ?? undefined}
-                onChange={(val) => issueOperations.update(workspaceSlug, projectId, issueId, { assignee_ids: val })}
+                onChange={(val) =>
+                  issueOperations.update(workspaceSlug, projectId, issueId, { assignee_ids: val })
+                }
                 disabled={!isEditable}
                 projectId={projectId?.toString() ?? ""}
                 placeholder={t("issue.add.assignee")}
                 multiple
-                buttonVariant={issue?.assignee_ids?.length > 1 ? "transparent-without-text" : "transparent-with-text"}
+                buttonVariant={
+                  issue?.assignee_ids?.length > 1
+                    ? "transparent-without-text"
+                    : "transparent-with-text"
+                }
                 className="group w-full grow"
                 buttonContainerClassName="w-full text-left h-7.5"
                 buttonClassName={`text-body-xs-regular justify-between ${issue?.assignee_ids?.length > 0 ? "" : "text-placeholder"}`}
@@ -124,7 +132,9 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
             <SidebarPropertyListItem icon={PriorityPropertyIcon} label={t("common.priority")}>
               <PriorityDropdown
                 value={issue?.priority}
-                onChange={(val) => issueOperations.update(workspaceSlug, projectId, issueId, { priority: val })}
+                onChange={(val) =>
+                  issueOperations.update(workspaceSlug, projectId, issueId, { priority: val })
+                }
                 disabled={!isEditable}
                 buttonVariant="transparent-with-text"
                 className="h-7.5 w-full grow rounded-sm"
@@ -137,12 +147,17 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
               <SidebarPropertyListItem icon={UserCirclePropertyIcon} label={t("common.created_by")}>
                 <div className="flex gap-2 px-2">
                   <ButtonAvatars showTooltip userIds={createdByDetails.id} />
-                  <span className="grow truncate text-body-xs-regular leading-5">{createdByDetails?.display_name}</span>
+                  <span className="grow truncate text-body-xs-regular leading-5">
+                    {createdByDetails?.display_name}
+                  </span>
                 </div>
               </SidebarPropertyListItem>
             )}
 
-            <SidebarPropertyListItem icon={StartDatePropertyIcon} label={t("common.order_by.start_date")}>
+            <SidebarPropertyListItem
+              icon={StartDatePropertyIcon}
+              label={t("common.order_by.start_date")}
+            >
               <DateDropdown
                 placeholder={t("issue.add.start_date")}
                 value={issue.start_date}
@@ -162,7 +177,10 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
               />
             </SidebarPropertyListItem>
 
-            <SidebarPropertyListItem icon={DueDatePropertyIcon} label={t("common.order_by.due_date")}>
+            <SidebarPropertyListItem
+              icon={DueDatePropertyIcon}
+              label={t("common.order_by.due_date")}
+            >
               <div className="flex w-full items-center gap-2">
                 <DateDropdown
                   placeholder={t("issue.add.due_date")}
@@ -179,12 +197,17 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
                   buttonContainerClassName="w-full text-left h-7.5"
                   buttonClassName={cn("text-body-xs-regular", {
                     "text-placeholder": !issue.target_date,
-                    "text-danger-primary": shouldHighlightIssueDueDate(issue.target_date, stateDetails?.group),
+                    "text-danger-primary": shouldHighlightIssueDueDate(
+                      issue.target_date,
+                      stateDetails?.group,
+                    ),
                   })}
                   hideIcon
                   clearIconClassName="h-3 w-3 hidden group-hover:inline text-primary"
                 />
-                {issue.target_date && <DateAlert date={issue.target_date} workItem={issue} projectId={projectId} />}
+                {issue.target_date && (
+                  <DateAlert date={issue.target_date} workItem={issue} projectId={projectId} />
+                )}
               </div>
             </SidebarPropertyListItem>
 
@@ -193,7 +216,9 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
                 <EstimateDropdown
                   value={issue?.estimate_point ?? undefined}
                   onChange={(val: string | undefined) =>
-                    issueOperations.update(workspaceSlug, projectId, issueId, { estimate_point: val })
+                    issueOperations.update(workspaceSlug, projectId, issueId, {
+                      estimate_point: val,
+                    })
                   }
                   projectId={projectId}
                   disabled={!isEditable}

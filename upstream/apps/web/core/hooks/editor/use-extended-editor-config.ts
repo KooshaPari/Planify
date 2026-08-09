@@ -18,10 +18,8 @@ export type TExtendedEditorConfig = {
 };
 
 export const useExtendedEditorConfig = (): TExtendedEditorConfig => {
-  const getExtendedEditorFileHandlers: TExtendedEditorConfig["getExtendedEditorFileHandlers"] = useCallback(
-    () => ({}),
-    []
-  );
+  const getExtendedEditorFileHandlers: TExtendedEditorConfig["getExtendedEditorFileHandlers"] =
+    useCallback(() => ({}), []);
 
   return {
     getExtendedEditorFileHandlers,

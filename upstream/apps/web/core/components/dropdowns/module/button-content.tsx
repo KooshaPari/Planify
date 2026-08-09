@@ -69,7 +69,7 @@ export function ModuleButtonContent(props: ModuleButtonContentProps) {
                   key={moduleId}
                   className={cn(
                     "flex max-w-full items-center gap-1 rounded-sm bg-layer-1 py-1 text-secondary",
-                    className
+                    className,
                   )}
                 >
                   {!hideIcon && <ModuleIcon className="h-2.5 w-2.5 flex-shrink-0" />}
@@ -81,7 +81,9 @@ export function ModuleButtonContent(props: ModuleButtonContentProps) {
                       isMobile={isMobile}
                       renderByDefault={false}
                     >
-                      <span className="max-w-40 truncate text-11 font-medium">{moduleDetails?.name}</span>
+                      <span className="max-w-40 truncate text-11 font-medium">
+                        {moduleDetails?.name}
+                      </span>
                     </Tooltip>
                   )}
                   {!disabled && (
@@ -114,7 +116,10 @@ export function ModuleButtonContent(props: ModuleButtonContentProps) {
           </>
         )}
         {dropdownArrow && (
-          <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
+          <ChevronDownIcon
+            className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)}
+            aria-hidden="true"
+          />
         )}
       </>
     );
@@ -123,10 +128,15 @@ export function ModuleButtonContent(props: ModuleButtonContentProps) {
       <>
         {!hideIcon && <ModuleIcon className="h-3 w-3 flex-shrink-0" />}
         {!hideText && (
-          <span className="flex-grow truncate text-left">{value ? getModuleById(value)?.name : placeholder}</span>
+          <span className="flex-grow truncate text-left">
+            {value ? getModuleById(value)?.name : placeholder}
+          </span>
         )}
         {dropdownArrow && (
-          <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
+          <ChevronDownIcon
+            className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)}
+            aria-hidden="true"
+          />
         )}
       </>
     );

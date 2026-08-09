@@ -15,7 +15,14 @@ interface ProgressCircleProps {
   dashOffset: number;
 }
 
-export function ProgressCircle({ center, radius, color, strokeWidth, circumference, dashOffset }: ProgressCircleProps) {
+export function ProgressCircle({
+  center,
+  radius,
+  color,
+  strokeWidth,
+  circumference,
+  dashOffset,
+}: ProgressCircleProps) {
   return (
     <circle
       cx={center}

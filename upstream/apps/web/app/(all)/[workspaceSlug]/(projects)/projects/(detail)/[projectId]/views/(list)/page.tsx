@@ -44,7 +44,10 @@ function ProjectViewsPage({ params }: Route.ComponentProps) {
   // derived values
   const project = getProjectById(projectId);
   const pageTitle = project?.name ? `${project?.name} - Views` : undefined;
-  const canPerformEmptyStateActions = allowPermissions([EUserProjectRoles.ADMIN], EUserPermissionsLevel.PROJECT);
+  const canPerformEmptyStateActions = allowPermissions(
+    [EUserProjectRoles.ADMIN],
+    EUserPermissionsLevel.PROJECT,
+  );
   const resolvedPath = resolvedTheme === "light" ? lightViewsAsset : darkViewsAsset;
 
   const handleRemoveFilter = useCallback(
@@ -61,7 +64,7 @@ function ProjectViewsPage({ params }: Route.ComponentProps) {
 
       updateFilters("filters", { [key]: newValues });
     },
-    [filters.filters, updateFilters]
+    [filters.filters, updateFilters],
   );
 
   const isFiltersApplied = calculateTotalFilters(filters?.filters ?? {}) !== 0;

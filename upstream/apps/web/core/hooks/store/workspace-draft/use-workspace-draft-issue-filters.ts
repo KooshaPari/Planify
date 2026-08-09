@@ -12,7 +12,8 @@ import type { IWorkspaceDraftIssues } from "@/store/issue/workspace-draft";
 
 export const useWorkspaceDraftIssueFilters = (): IWorkspaceDraftIssues => {
   const context = useContext(StoreContext);
-  if (context === undefined) throw new Error("useWorkspaceDraftIssueFilters must be used within StoreProvider");
+  if (context === undefined)
+    throw new Error("useWorkspaceDraftIssueFilters must be used within StoreProvider");
 
   return context.issue.workspaceDraftIssues;
 };

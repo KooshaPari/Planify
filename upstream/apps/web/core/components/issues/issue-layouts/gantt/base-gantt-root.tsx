@@ -89,14 +89,17 @@ export const BaseGanttRoot = observer(function BaseGanttRoot(props: IBaseGanttRo
     updateIssue && (await updateIssue(issue.project_id, issue.id, payload));
   };
 
-  const isAllowed = allowPermissions([EUserPermissions.ADMIN, EUserPermissions.MEMBER], EUserPermissionsLevel.PROJECT);
+  const isAllowed = allowPermissions(
+    [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+    EUserPermissionsLevel.PROJECT,
+  );
   const updateBlockDates = useCallback(
     (
       updates: {
         id: string;
         start_date?: string;
         target_date?: string;
-      }[]
+      }[],
     ) =>
       issues.updateIssueDates(workspaceSlug.toString(), updates, projectId.toString()).catch(() => {
         setToast({
@@ -105,7 +108,7 @@ export const BaseGanttRoot = observer(function BaseGanttRoot(props: IBaseGanttRo
           message: "Error while updating work item dates, Please try again Later",
         });
       }),
-    [issues, projectId, workspaceSlug]
+    [issues, projectId, workspaceSlug],
   );
 
   const quickAdd =
@@ -134,7 +137,9 @@ export const BaseGanttRoot = observer(function BaseGanttRoot(props: IBaseGanttRo
             blockIds={issuesIds}
             blockUpdateHandler={updateIssueBlockStructure}
             blockToRender={(data: TIssue) => <IssueGanttBlock issueId={data.id} isEpic={isEpic} />}
-            sidebarToRender={(props) => <IssueGanttSidebar {...props} showAllBlocks isEpic={isEpic} />}
+            sidebarToRender={(props) => (
+              <IssueGanttSidebar {...props} showAllBlocks isEpic={isEpic} />
+            )}
             enableBlockLeftResize={isAllowed}
             enableBlockRightResize={isAllowed}
             enableBlockMove={isAllowed}

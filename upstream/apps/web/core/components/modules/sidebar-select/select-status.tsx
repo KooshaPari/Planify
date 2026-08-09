@@ -40,11 +40,14 @@ export function SidebarStatusSelect({ control, submitChanges, watch }: Props) {
           render={({ field: { value } }) => (
             <CustomSelect
               label={
-                <span className={`flex items-center gap-2 text-left capitalize ${value ? "" : "text-primary"}`}>
+                <span
+                  className={`flex items-center gap-2 text-left capitalize ${value ? "" : "text-primary"}`}
+                >
                   <span
                     className="h-2 w-2 flex-shrink-0 rounded-full"
                     style={{
-                      backgroundColor: MODULE_STATUS?.find((option) => option.value === value)?.color,
+                      backgroundColor: MODULE_STATUS?.find((option) => option.value === value)
+                        ?.color,
                     }}
                   />
                   {watch("status")}
@@ -58,7 +61,10 @@ export function SidebarStatusSelect({ control, submitChanges, watch }: Props) {
               {MODULE_STATUS.map((option) => (
                 <CustomSelect.Option key={option.value} value={option.value}>
                   <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 flex-shrink-0 rounded-full" style={{ backgroundColor: option.color }} />
+                    <span
+                      className="h-2 w-2 flex-shrink-0 rounded-full"
+                      style={{ backgroundColor: option.color }}
+                    />
                     {t(option.i18n_label)}
                   </div>
                 </CustomSelect.Option>

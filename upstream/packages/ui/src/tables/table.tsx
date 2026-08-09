@@ -42,7 +42,10 @@ export function Table<T>(props: TTableData<T>) {
             className={cn("divide-x divide-subtle text-13 text-secondary", tBodyTrClassName)}
           >
             {columns.map((column) => (
-              <td key={`${column.key}-${keyExtractor(item)}`} className={cn("px-2.5 py-2", tdClassName)}>
+              <td
+                key={`${column.key}-${keyExtractor(item)}`}
+                className={cn("px-2.5 py-2", tdClassName)}
+              >
                 {column.tdRender(item)}
               </td>
             ))}

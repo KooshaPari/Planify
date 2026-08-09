@@ -10,7 +10,12 @@ import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element
 interface UseGroupDropTargetProps {
   groupId: string;
   enableDragDrop?: boolean;
-  onDrop?: (itemId: string, targetId: string | null, sourceGroupId: string, targetGroupId: string) => void;
+  onDrop?: (
+    itemId: string,
+    targetId: string | null,
+    sourceGroupId: string,
+    targetGroupId: string,
+  ) => void;
 }
 
 interface DragSourceData {
@@ -24,7 +29,11 @@ interface DragSourceData {
  *
  * @returns groupRef (attach to the droppable container) and isDraggingOver (for visual feedback)
  */
-export const useGroupDropTarget = ({ groupId, enableDragDrop = false, onDrop }: UseGroupDropTargetProps) => {
+export const useGroupDropTarget = ({
+  groupId,
+  enableDragDrop = false,
+  onDrop,
+}: UseGroupDropTargetProps) => {
   const groupRef = useRef<HTMLDivElement | null>(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
 

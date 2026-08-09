@@ -51,7 +51,7 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setTheme, updateUserTheme]
+    [setTheme, updateUserTheme],
   );
 
   const handleUpdateTimezone = useCallback(
@@ -75,7 +75,7 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [updateCurrentUser]
+    [updateCurrentUser],
   );
 
   const handleUpdateUserProfile = useCallback(
@@ -99,7 +99,7 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [updateUserProfile]
+    [updateUserProfile],
   );
 
   return [

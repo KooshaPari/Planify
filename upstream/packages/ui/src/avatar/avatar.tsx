@@ -88,14 +88,18 @@ export function Avatar(props: Props) {
         tabIndex={-1}
       >
         {src ? (
-          <img src={src} className={cn("h-full w-full", getBorderRadius(shape), className)} alt={name} />
+          <img
+            src={src}
+            className={cn("h-full w-full", getBorderRadius(shape), className)}
+            alt={name}
+          />
         ) : (
           <div
             className={cn(
               sizeInfo.fontSize,
               "grid h-full w-full place-items-center",
               getBorderRadius(shape),
-              className
+              className,
             )}
             style={{
               backgroundColor: fallbackBackgroundColor ?? "#028375",

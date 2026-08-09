@@ -9,9 +9,14 @@ import type { TDraggableData } from "@plane/constants";
 import { STATE_GROUPS } from "@plane/constants";
 import type { IState, IStateResponse } from "@plane/types";
 
-export const orderStateGroups = (unorderedStateGroups: IStateResponse | undefined): IStateResponse | undefined => {
+export const orderStateGroups = (
+  unorderedStateGroups: IStateResponse | undefined,
+): IStateResponse | undefined => {
   if (!unorderedStateGroups) return undefined;
-  return Object.assign({ backlog: [], unstarted: [], started: [], completed: [], cancelled: [] }, unorderedStateGroups);
+  return Object.assign(
+    { backlog: [], unstarted: [], started: [], completed: [], cancelled: [] },
+    unorderedStateGroups,
+  );
 };
 
 export const sortStates = (states: IState[]) => {
@@ -21,14 +26,17 @@ export const sortStates = (states: IState[]) => {
     if (stateA.group === stateB.group) {
       return stateA.sequence - stateB.sequence;
     }
-    return Object.keys(STATE_GROUPS).indexOf(stateA.group) - Object.keys(STATE_GROUPS).indexOf(stateB.group);
+    return (
+      Object.keys(STATE_GROUPS).indexOf(stateA.group) -
+      Object.keys(STATE_GROUPS).indexOf(stateB.group)
+    );
   });
 };
 
 export const getCurrentStateSequence = (
   groupSates: IState[],
   destinationData: TDraggableData,
-  edge: string | undefined
+  edge: string | undefined,
 ) => {
   const defaultSequence = 65535;
   if (!edge) return defaultSequence;

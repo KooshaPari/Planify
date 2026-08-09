@@ -18,7 +18,7 @@ interface SeparatorProps extends React.ComponentProps<typeof SeparatorPrimitive>
 
 const Separator = React.forwardRef(function Separator(
   { orientation = "horizontal", className, ...props }: SeparatorProps,
-  ref: React.ForwardedRef<React.ElementRef<typeof SeparatorPrimitive>>
+  ref: React.ForwardedRef<React.ElementRef<typeof SeparatorPrimitive>>,
 ) {
   return (
     <SeparatorPrimitive
@@ -27,7 +27,12 @@ const Separator = React.forwardRef(function Separator(
       data-slot="separator"
       data-orientation={orientation}
       {...props}
-      className={cn("bg-subtle-1", "shrink-0", orientation === "horizontal" ? "h-px w-full" : "h-full w-px", className)}
+      className={cn(
+        "bg-subtle-1",
+        "shrink-0",
+        orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
+        className,
+      )}
     />
   );
 });

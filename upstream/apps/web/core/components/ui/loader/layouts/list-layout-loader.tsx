@@ -18,7 +18,7 @@ export const ListLoaderItemRow = forwardRef(function ListLoaderItemRow(
     renderForPlaceHolder = false,
     defaultPropertyCount = 6,
   }: { shouldAnimate?: boolean; renderForPlaceHolder?: boolean; defaultPropertyCount?: number },
-  ref: React.ForwardedRef<HTMLDivElement>
+  ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   return (
     <Row
@@ -41,7 +41,7 @@ export const ListLoaderItemRow = forwardRef(function ListLoaderItemRow(
             {
               "animate-pulse": shouldAnimate,
               "bg-surface-2": renderForPlaceHolder,
-            }
+            },
           )}
         />
       </div>

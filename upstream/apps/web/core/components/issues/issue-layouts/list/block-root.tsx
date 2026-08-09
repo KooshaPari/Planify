@@ -8,7 +8,10 @@ import type { MutableRefObject } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { attachInstruction, extractInstruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
+import {
+  attachInstruction,
+  extractInstruction,
+} from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
 import { observer } from "mobx-react";
 // plane helpers
 import { useOutsideClickDetector } from "@plane/hooks";
@@ -31,7 +34,9 @@ import type { TRenderQuickActions } from "./list-view-types";
 type Props = {
   issueId: string;
   issuesMap: TIssueMap;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   quickActions: TRenderQuickActions;
   canEditProperties: (projectId: string | undefined) => boolean;
   displayProperties: IIssueDisplayProperties | undefined;
@@ -77,7 +82,9 @@ export const IssueBlockRoot = observer(function IssueBlockRoot(props: Props) {
   // hooks
   const { isMobile } = usePlatformOS();
   // store hooks
-  const { subIssues: subIssuesStore } = useIssueDetail(isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES);
+  const { subIssues: subIssuesStore } = useIssueDetail(
+    isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES,
+  );
 
   const isSubIssue = nestingLevel !== 0;
 
@@ -110,7 +117,7 @@ export const IssueBlockRoot = observer(function IssueBlockRoot(props: Props) {
               ? extractedInstruction === "reorder-below" && isLastChild
                 ? "DRAG_BELOW"
                 : "DRAG_OVER"
-              : undefined
+              : undefined,
           );
         },
         onDragLeave: () => {
@@ -119,7 +126,7 @@ export const IssueBlockRoot = observer(function IssueBlockRoot(props: Props) {
         onDrop: () => {
           setInstruction(undefined);
         },
-      })
+      }),
     );
   }, [issueId, isLastChild, issueBlockRef, isSubIssue, canDropOverIssue, setInstruction]);
 
@@ -138,8 +145,12 @@ export const IssueBlockRoot = observer(function IssueBlockRoot(props: Props) {
         root={containerRef}
         classNames={`relative ${isLastChild && !isExpanded ? "" : "border-b border-b-subtle"}`}
         verticalOffset={100}
-        defaultValue={shouldRenderByDefault || (issuesMap[issueId] ? isIssueNew(issuesMap[issueId]) : false)}
-        placeholderChildren={<ListLoaderItemRow shouldAnimate={false} renderForPlaceHolder defaultPropertyCount={4} />}
+        defaultValue={
+          shouldRenderByDefault || (issuesMap[issueId] ? isIssueNew(issuesMap[issueId]) : false)
+        }
+        placeholderChildren={
+          <ListLoaderItemRow shouldAnimate={false} renderForPlaceHolder defaultPropertyCount={4} />
+        }
         shouldRecordHeights={isMobile}
       >
         <IssueBlock
@@ -184,7 +195,9 @@ export const IssueBlockRoot = observer(function IssueBlockRoot(props: Props) {
             shouldRenderByDefault={isExpanded}
           />
         ))}
-      {isLastChild && <DropIndicator classNames={"absolute z-[2]"} isVisible={instruction === "DRAG_BELOW"} />}
+      {isLastChild && (
+        <DropIndicator classNames={"absolute z-[2]"} isVisible={instruction === "DRAG_BELOW"} />
+      )}
     </div>
   );
 });

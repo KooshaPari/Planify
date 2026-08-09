@@ -20,7 +20,9 @@ type TDeleteWorkspace = {
   workspace: IWorkspace | null;
 };
 
-export const DeleteWorkspaceSection = observer(function DeleteWorkspaceSection(props: TDeleteWorkspace) {
+export const DeleteWorkspaceSection = observer(function DeleteWorkspaceSection(
+  props: TDeleteWorkspace,
+) {
   const { workspace } = props;
   // states
   const [deleteWorkspaceModal, setDeleteWorkspaceModal] = useState(false);

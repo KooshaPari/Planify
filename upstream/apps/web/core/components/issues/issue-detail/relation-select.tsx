@@ -35,8 +35,17 @@ type TIssueRelationSelect = {
   disabled?: boolean;
 };
 
-export const IssueRelationSelect = observer(function IssueRelationSelect(props: TIssueRelationSelect) {
-  const { className = "", workspaceSlug, projectId, issueId, relationKey, disabled = false } = props;
+export const IssueRelationSelect = observer(function IssueRelationSelect(
+  props: TIssueRelationSelect,
+) {
+  const {
+    className = "",
+    workspaceSlug,
+    projectId,
+    issueId,
+    relationKey,
+    disabled = false,
+  } = props;
   // hooks
   const { getProjectById } = useProject();
   const {
@@ -66,7 +75,7 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
       projectId,
       issueId,
       relationKey,
-      data.map((i) => i.id)
+      data.map((i) => i.id),
     );
 
     toggleRelationModal(null, null);
@@ -100,7 +109,7 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
             "hover:bg-layer-1": !disabled,
             "bg-layer-1": isRelationKeyModalActive,
           },
-          className
+          className,
         )}
         onClick={() => toggleRelationModal(issueId, relationKey)}
         disabled={disabled}
@@ -119,7 +128,11 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
                     key={relationIssueId}
                     className={`group flex items-center gap-1 rounded-sm px-1.5 pt-1 pb-1 leading-3 hover:bg-surface-2 ${currRelationOption?.className}`}
                   >
-                    <Tooltip tooltipHeading="Title" tooltipContent={currentIssue.name} isMobile={isMobile}>
+                    <Tooltip
+                      tooltipHeading="Title"
+                      tooltipContent={currentIssue.name}
+                      isMobile={isMobile}
+                    >
                       <Link
                         href={generateWorkItemLink({
                           workspaceSlug,
@@ -142,7 +155,13 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            removeRelation(workspaceSlug, projectId, issueId, relationKey, relationIssueId);
+                            removeRelation(
+                              workspaceSlug,
+                              projectId,
+                              issueId,
+                              relationKey,
+                              relationIssueId,
+                            );
                           }}
                         >
                           <CloseIcon className="h-2.5 w-2.5 text-tertiary hover:text-danger-primary" />
@@ -154,7 +173,9 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
               })}
             </div>
           ) : (
-            <span className="text-body-xs-regular text-placeholder">{currRelationOption?.placeholder}</span>
+            <span className="text-body-xs-regular text-placeholder">
+              {currRelationOption?.placeholder}
+            </span>
           )}
           {!disabled && (
             <span

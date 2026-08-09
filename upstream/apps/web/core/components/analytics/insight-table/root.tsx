@@ -22,7 +22,7 @@ interface InsightTableProps<T extends Exclude<TAnalyticsTabsBase, "overview">> {
 }
 
 export function InsightTable<T extends Exclude<TAnalyticsTabsBase, "overview">>(
-  props: InsightTableProps<T>
+  props: InsightTableProps<T>,
 ): React.ReactElement {
   const { data, isLoading, columns, headerText, onExport } = props;
   const { t } = useTranslation();

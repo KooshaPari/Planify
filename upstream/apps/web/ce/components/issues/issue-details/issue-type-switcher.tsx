@@ -15,7 +15,9 @@ export type TIssueTypeSwitcherProps = {
   disabled: boolean;
 };
 
-export const IssueTypeSwitcher = observer(function IssueTypeSwitcher(props: TIssueTypeSwitcherProps) {
+export const IssueTypeSwitcher = observer(function IssueTypeSwitcher(
+  props: TIssueTypeSwitcherProps,
+) {
   const { issueId } = props;
   // store hooks
   const {
@@ -26,5 +28,12 @@ export const IssueTypeSwitcher = observer(function IssueTypeSwitcher(props: TIss
 
   if (!issue || !issue.project_id) return <></>;
 
-  return <IssueIdentifier issueId={issueId} projectId={issue.project_id} size="md" enableClickToCopyIdentifier />;
+  return (
+    <IssueIdentifier
+      issueId={issueId}
+      projectId={issue.project_id}
+      size="md"
+      enableClickToCopyIdentifier
+    />
+  );
 });

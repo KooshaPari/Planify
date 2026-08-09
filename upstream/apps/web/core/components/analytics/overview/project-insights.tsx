@@ -32,8 +32,14 @@ const ProjectInsights = observer(function ProjectInsights() {
   const params = useParams();
   const { t } = useTranslation();
   const workspaceSlug = params.workspaceSlug.toString();
-  const { selectedDuration, selectedDurationLabel, selectedProjects, selectedCycle, selectedModule, isPeekView } =
-    useAnalytics();
+  const {
+    selectedDuration,
+    selectedDurationLabel,
+    selectedProjects,
+    selectedCycle,
+    selectedModule,
+    isPeekView,
+  } = useAnalytics();
 
   const { data: projectInsightsData, isLoading: isLoadingProjectInsight } = useSWR(
     `radar-chart-project-insights-${workspaceSlug}-${selectedDuration}-${selectedProjects}-${selectedCycle}-${selectedModule}-${isPeekView}`,
@@ -47,8 +53,8 @@ const ProjectInsights = observer(function ProjectInsights() {
           ...(selectedCycle ? { cycle_id: selectedCycle } : {}),
           ...(selectedModule ? { module_id: selectedModule } : {}),
         },
-        isPeekView
-      )
+        isPeekView,
+      ),
   );
 
   return (
@@ -96,15 +102,22 @@ const ProjectInsights = observer(function ProjectInsights() {
             </Suspense>
           )}
           <div className="w-full lg:w-2/5">
-            <div className="text-13 text-tertiary">{t("workspace_analytics.summary_of_projects")}</div>
-            <div className="mb-3 border-b border-subtle py-2">{t("workspace_analytics.all_projects")}</div>
+            <div className="text-13 text-tertiary">
+              {t("workspace_analytics.summary_of_projects")}
+            </div>
+            <div className="mb-3 border-b border-subtle py-2">
+              {t("workspace_analytics.all_projects")}
+            </div>
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between text-13 text-tertiary">
                 <div>{t("workspace_analytics.trend_on_charts")}</div>
                 <div>{t("common.work_items")}</div>
               </div>
               {projectInsightsData?.map((item) => (
-                <div key={item.key} className="flex items-center justify-between text-13 text-primary">
+                <div
+                  key={item.key}
+                  className="flex items-center justify-between text-13 text-primary"
+                >
                   <div>{item.name}</div>
                   <div className="flex items-center gap-1">
                     {/* <TrendPiece key={item.key} size='xs' /> */}

@@ -33,7 +33,12 @@ export function ConfirmIssueDiscard(props: Props) {
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.TOP} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.TOP}
+      width={EModalWidth.XXL}
+    >
       <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div className="sm:flex sm:items-start">
           <div className="mt-3 text-center sm:mt-0 sm:text-left">

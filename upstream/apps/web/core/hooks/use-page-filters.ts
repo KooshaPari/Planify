@@ -26,29 +26,30 @@ const DEFAULT_PERSONALIZATION_VALUES: TPagesPersonalizationConfig = {
 
 export const usePageFilters = () => {
   // local storage
-  const { storedValue: pagesConfig, setValue: setPagesConfig } = useLocalStorage<TPagesPersonalizationConfig>(
-    "pages_config",
-    DEFAULT_PERSONALIZATION_VALUES
-  );
+  const { storedValue: pagesConfig, setValue: setPagesConfig } =
+    useLocalStorage<TPagesPersonalizationConfig>("pages_config", DEFAULT_PERSONALIZATION_VALUES);
   // stored values
   const isFullWidth = useMemo(
-    () => (pagesConfig?.full_width === undefined ? DEFAULT_PERSONALIZATION_VALUES.full_width : pagesConfig?.full_width),
-    [pagesConfig?.full_width]
+    () =>
+      pagesConfig?.full_width === undefined
+        ? DEFAULT_PERSONALIZATION_VALUES.full_width
+        : pagesConfig?.full_width,
+    [pagesConfig?.full_width],
   );
   const isStickyToolbarEnabled = useMemo(
     () =>
       pagesConfig?.sticky_toolbar === undefined
         ? DEFAULT_PERSONALIZATION_VALUES.sticky_toolbar
         : pagesConfig?.sticky_toolbar,
-    [pagesConfig?.sticky_toolbar]
+    [pagesConfig?.sticky_toolbar],
   );
   const fontSize = useMemo(
     () => pagesConfig?.font_size ?? DEFAULT_PERSONALIZATION_VALUES.font_size,
-    [pagesConfig?.font_size]
+    [pagesConfig?.font_size],
   );
   const fontStyle = useMemo(
     () => pagesConfig?.font_style ?? DEFAULT_PERSONALIZATION_VALUES.font_style,
-    [pagesConfig?.font_style]
+    [pagesConfig?.font_style],
   );
   // update action
   const handleUpdateConfig = useCallback(
@@ -58,7 +59,7 @@ export const usePageFilters = () => {
         ...payload,
       });
     },
-    [pagesConfig, setPagesConfig]
+    [pagesConfig, setPagesConfig],
   );
   /**
    * @description action to update full_width value
@@ -70,7 +71,7 @@ export const usePageFilters = () => {
         full_width: value,
       });
     },
-    [handleUpdateConfig]
+    [handleUpdateConfig],
   );
   /**
    * @description action to update font_size value
@@ -82,7 +83,7 @@ export const usePageFilters = () => {
         font_size: value,
       });
     },
-    [handleUpdateConfig]
+    [handleUpdateConfig],
   );
   /**
    * @description action to update font_size value
@@ -94,7 +95,7 @@ export const usePageFilters = () => {
         font_style: value,
       });
     },
-    [handleUpdateConfig]
+    [handleUpdateConfig],
   );
   /**
    * @description action to update full_width value
@@ -106,7 +107,7 @@ export const usePageFilters = () => {
         sticky_toolbar: value,
       });
     },
-    [handleUpdateConfig]
+    [handleUpdateConfig],
   );
 
   return {

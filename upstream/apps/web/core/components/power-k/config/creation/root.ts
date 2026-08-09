@@ -11,7 +11,8 @@ import { usePowerKCreationCommandsRecord } from "./command";
 import type { TPowerKCreationCommandKeys } from "./command";
 
 export const usePowerKCreationCommands = (): TPowerKCommandConfig[] => {
-  const optionsList: Record<TPowerKCreationCommandKeys, TPowerKCommandConfig> = usePowerKCreationCommandsRecord();
+  const optionsList: Record<TPowerKCreationCommandKeys, TPowerKCommandConfig> =
+    usePowerKCreationCommandsRecord();
   return [
     optionsList["create_work_item"],
     optionsList["create_page"],

@@ -15,7 +15,11 @@ type UseProjectActionsProps = {
   activeItem?: TNavigationItem;
 };
 
-export const useProjectActions = ({ workspaceSlug, projectId, activeItem }: UseProjectActionsProps) => {
+export const useProjectActions = ({
+  workspaceSlug,
+  projectId,
+  activeItem,
+}: UseProjectActionsProps) => {
   const [publishModalOpen, setPublishModalOpen] = useState(false);
   const [leaveProjectModalOpen, setLeaveProjectModalOpen] = useState(false);
 

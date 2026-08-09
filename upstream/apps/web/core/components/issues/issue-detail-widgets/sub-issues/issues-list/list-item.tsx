@@ -38,7 +38,7 @@ type Props = {
   handleIssueCrudState: (
     key: "create" | "existing" | "update" | "delete",
     issueId: string,
-    issue?: TIssue | null
+    issue?: TIssue | null,
   ) => void;
   subIssueOperations: TSubIssueOperations;
   issueId: string;
@@ -78,7 +78,8 @@ export const SubIssuesListItem = observer(function SubIssuesListItem(props: Prop
   const issue = getIssueById(issueId);
 
   // derived values
-  const projectDetail = (issue && issue.project_id && project.getProjectById(issue.project_id)) || undefined;
+  const projectDetail =
+    (issue && issue.project_id && project.getProjectById(issue.project_id)) || undefined;
 
   const subIssueHelpers = subIssueHelpersByIssueId(parentIssueId);
   const subIssueCount = issue?.sub_issues_count ?? 0;
@@ -88,7 +89,8 @@ export const SubIssuesListItem = observer(function SubIssuesListItem(props: Prop
   const displayProperties = subIssueFilters?.displayProperties ?? {};
 
   //
-  const handleIssuePeekOverview = (issue: TIssue) => handleRedirection(workspaceSlug, issue, isMobile);
+  const handleIssuePeekOverview = (issue: TIssue) =>
+    handleRedirection(workspaceSlug, issue, isMobile);
 
   if (!issue) return <></>;
 
@@ -151,7 +153,10 @@ export const SubIssuesListItem = observer(function SubIssuesListItem(props: Prop
             </div>
 
             <div className="flex w-full cursor-pointer items-center gap-3 truncate">
-              <WithDisplayPropertiesHOC displayProperties={displayProperties || {}} displayPropertyKey="key">
+              <WithDisplayPropertiesHOC
+                displayProperties={displayProperties || {}}
+                displayPropertyKey="key"
+              >
                 <div className="flex-shrink-0">
                   {projectDetail && (
                     <IssueIdentifier
@@ -219,7 +224,12 @@ export const SubIssuesListItem = observer(function SubIssuesListItem(props: Prop
                   <CustomMenu.MenuItem
                     onClick={() => {
                       if (issue.project_id)
-                        subIssueOperations.removeSubIssue(workspaceSlug, issue.project_id, parentIssueId, issue.id);
+                        subIssueOperations.removeSubIssue(
+                          workspaceSlug,
+                          issue.project_id,
+                          parentIssueId,
+                          issue.id,
+                        );
                     }}
                   >
                     <div className="flex items-center gap-2">

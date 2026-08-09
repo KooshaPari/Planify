@@ -48,7 +48,7 @@ export const Banner = React.forwardRef(function Banner(
     children,
     ...props
   }: BannerProps,
-  ref: React.ForwardedRef<HTMLDivElement>
+  ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   // Handle dismissal
   const handleDismiss = () => {

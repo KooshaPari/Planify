@@ -33,14 +33,24 @@ type Props = {
     parentIssueId: string,
     issueId: string,
     issueData: Partial<TIssue>,
-    oldIssue?: Partial<TIssue>
+    oldIssue?: Partial<TIssue>,
   ) => Promise<void>;
   displayProperties?: IIssueDisplayProperties;
   issue: TIssue;
 };
 
-export const SubIssuesListItemProperties = observer(function SubIssuesListItemProperties(props: Props) {
-  const { workspaceSlug, parentIssueId, issueId, canEdit, updateSubIssue, displayProperties, issue } = props;
+export const SubIssuesListItemProperties = observer(function SubIssuesListItemProperties(
+  props: Props,
+) {
+  const {
+    workspaceSlug,
+    parentIssueId,
+    issueId,
+    canEdit,
+    updateSubIssue,
+    displayProperties,
+    issue,
+  } = props;
   const { t } = useTranslation();
   const { getStateById } = useProjectState();
 
@@ -69,11 +79,14 @@ export const SubIssuesListItemProperties = observer(function SubIssuesListItemPr
   const stateDetails = useMemo(() => getStateById(issue.state_id), [getStateById, issue.state_id]);
   const shouldHighlight = useMemo(
     () => shouldHighlightIssueDueDate(issue.target_date, stateDetails?.group),
-    [issue.target_date, stateDetails?.group]
+    [issue.target_date, stateDetails?.group],
   );
   // date range is enabled only when both dates are available and both dates are enabled
   const isDateRangeEnabled: boolean = Boolean(
-    issue.start_date && issue.target_date && displayProperties?.start_date && displayProperties?.due_date
+    issue.start_date &&
+    issue.target_date &&
+    displayProperties?.start_date &&
+    displayProperties?.due_date,
   );
 
   if (!displayProperties) return <></>;
@@ -98,7 +111,7 @@ export const SubIssuesListItemProperties = observer(function SubIssuesListItemPr
                 {
                   state_id: val,
                 },
-                { ...issue }
+                { ...issue },
               )
             }
             disabled={!canEdit}
@@ -149,7 +162,9 @@ export const SubIssuesListItemProperties = observer(function SubIssuesListItemPr
             }}
             isClearable
             mergeDates
-            buttonVariant={issue.start_date || issue.target_date ? "border-with-text" : "border-without-text"}
+            buttonVariant={
+              issue.start_date || issue.target_date ? "border-with-text" : "border-without-text"
+            }
             buttonClassName={shouldHighlight ? "text-danger-primary" : ""}
             disabled={!canEdit}
             showTooltip
@@ -217,8 +232,14 @@ export const SubIssuesListItemProperties = observer(function SubIssuesListItemPr
             }
             disabled={!canEdit}
             multiple
-            buttonVariant={(issue?.assignee_ids || []).length > 0 ? "transparent-without-text" : "border-without-text"}
-            buttonClassName={(issue?.assignee_ids || []).length > 0 ? "hover:bg-transparent px-0" : ""}
+            buttonVariant={
+              (issue?.assignee_ids || []).length > 0
+                ? "transparent-without-text"
+                : "border-without-text"
+            }
+            buttonClassName={
+              (issue?.assignee_ids || []).length > 0 ? "hover:bg-transparent px-0" : ""
+            }
           />
         </div>
       </WithDisplayPropertiesHOC>

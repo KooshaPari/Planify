@@ -40,7 +40,7 @@ export class WorkspaceNotificationService extends APIService {
    */
   async list(
     workspaceSlug: string,
-    params: TNotificationPaginatedInfoQueryParams
+    params: TNotificationPaginatedInfoQueryParams,
   ): Promise<TNotificationPaginatedInfo | undefined> {
     return this.get(`/api/workspaces/${workspaceSlug}/users/notifications`, { params })
       .then((response) => response?.data)
@@ -59,9 +59,12 @@ export class WorkspaceNotificationService extends APIService {
   async update(
     workspaceSlug: string,
     notificationId: string,
-    data: Partial<TNotification>
+    data: Partial<TNotification>,
   ): Promise<TNotification | undefined> {
-    return this.patch(`/api/workspaces/${workspaceSlug}/users/notifications/${notificationId}/`, data)
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/users/notifications/${notificationId}/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -74,7 +77,10 @@ export class WorkspaceNotificationService extends APIService {
    * @param {string} notificationId - The unique identifier for the notification
    * @returns {Promise<TNotification | undefined>} The updated notification
    */
-  async markAsRead(workspaceSlug: string, notificationId: string): Promise<TNotification | undefined> {
+  async markAsRead(
+    workspaceSlug: string,
+    notificationId: string,
+  ): Promise<TNotification | undefined> {
     return this.post(`/api/workspaces/${workspaceSlug}/users/notifications/${notificationId}/read/`)
       .then((response) => response?.data)
       .catch((error) => {
@@ -88,8 +94,13 @@ export class WorkspaceNotificationService extends APIService {
    * @param {string} notificationId - The unique identifier for the notification
    * @returns {Promise<TNotification | undefined>} The updated notification
    */
-  async markAsUnread(workspaceSlug: string, notificationId: string): Promise<TNotification | undefined> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/users/notifications/${notificationId}/read/`)
+  async markAsUnread(
+    workspaceSlug: string,
+    notificationId: string,
+  ): Promise<TNotification | undefined> {
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/users/notifications/${notificationId}/read/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -103,7 +114,9 @@ export class WorkspaceNotificationService extends APIService {
    * @returns {Promise<TNotification | undefined>} The updated notification
    */
   async archive(workspaceSlug: string, notificationId: string): Promise<TNotification | undefined> {
-    return this.post(`/api/workspaces/${workspaceSlug}/users/notifications/${notificationId}/archive/`)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/users/notifications/${notificationId}/archive/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -116,8 +129,13 @@ export class WorkspaceNotificationService extends APIService {
    * @param {string} notificationId - The unique identifier for the notification
    * @returns {Promise<TNotification | undefined>} The updated notification
    */
-  async unarchive(workspaceSlug: string, notificationId: string): Promise<TNotification | undefined> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/users/notifications/${notificationId}/archive/`)
+  async unarchive(
+    workspaceSlug: string,
+    notificationId: string,
+  ): Promise<TNotification | undefined> {
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/users/notifications/${notificationId}/archive/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -132,7 +150,7 @@ export class WorkspaceNotificationService extends APIService {
    */
   async markAllAsRead(
     workspaceSlug: string,
-    data: TNotificationPaginatedInfoQueryParams
+    data: TNotificationPaginatedInfoQueryParams,
   ): Promise<TNotification | undefined> {
     return this.post(`/api/workspaces/${workspaceSlug}/users/notifications/mark-all-read/`, data)
       .then((response) => response?.data)

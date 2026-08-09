@@ -10,7 +10,10 @@ export enum EUserPermissions {
   GUEST = 5,
 }
 
-export type TUserPermissions = EUserPermissions.ADMIN | EUserPermissions.MEMBER | EUserPermissions.GUEST;
+export type TUserPermissions =
+  | EUserPermissions.ADMIN
+  | EUserPermissions.MEMBER
+  | EUserPermissions.GUEST;
 
 // project network
 export enum EProjectNetwork {

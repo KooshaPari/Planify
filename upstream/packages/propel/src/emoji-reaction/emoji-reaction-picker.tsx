@@ -60,7 +60,7 @@ export function EmojiReactionPicker(props: EmojiReactionPickerProps) {
       onChange(emoji);
       if (closeOnSelect) handleToggle(false);
     },
-    [onChange, closeOnSelect, handleToggle]
+    [onChange, closeOnSelect, handleToggle],
   );
 
   return (
@@ -70,7 +70,10 @@ export function EmojiReactionPicker(props: EmojiReactionPickerProps) {
       </Popover.Button>
       <Popover.Panel
         positionerClassName="z-50"
-        className={cn("w-80 overflow-hidden rounded-md border-[0.5px] border-strong bg-surface-1", dropdownClassName)}
+        className={cn(
+          "w-80 overflow-hidden rounded-md border-[0.5px] border-strong bg-surface-1",
+          dropdownClassName,
+        )}
         side={finalSide}
         align={finalAlign}
         sideOffset={8}

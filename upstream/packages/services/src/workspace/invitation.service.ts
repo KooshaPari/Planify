@@ -5,7 +5,11 @@
  */
 
 import { API_BASE_URL } from "@plane/constants";
-import type { IWorkspaceMemberInvitation, IWorkspaceBulkInviteFormData, IWorkspaceMember } from "@plane/types";
+import type {
+  IWorkspaceMemberInvitation,
+  IWorkspaceBulkInviteFormData,
+  IWorkspaceMember,
+} from "@plane/types";
 import { APIService } from "../api.service";
 
 /**
@@ -67,7 +71,11 @@ export class WorkspaceInvitationService extends APIService {
    * @param data
    * @returns
    */
-  async update(workspaceSlug: string, invitationId: string, data: Partial<IWorkspaceMember>): Promise<any> {
+  async update(
+    workspaceSlug: string,
+    invitationId: string,
+    data: Partial<IWorkspaceMember>,
+  ): Promise<any> {
     return this.patch(`/api/workspaces/${workspaceSlug}/invitations/${invitationId}/`, data)
       .then((response) => response?.data)
       .catch((error) => {

@@ -68,15 +68,27 @@ export interface ICycleStore {
   fetchAllCycles: (workspaceSlug: string, projectId: string) => Promise<undefined | ICycle[]>;
   fetchActiveCycle: (workspaceSlug: string, projectId: string) => Promise<undefined | ICycle[]>;
   fetchArchivedCycles: (workspaceSlug: string, projectId: string) => Promise<undefined | ICycle[]>;
-  fetchArchivedCycleDetails: (workspaceSlug: string, projectId: string, cycleId: string) => Promise<ICycle>;
+  fetchArchivedCycleDetails: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+  ) => Promise<ICycle>;
   fetchCycleDetails: (workspaceSlug: string, projectId: string, cycleId: string) => Promise<ICycle>;
-  fetchActiveCycleProgress: (workspaceSlug: string, projectId: string, cycleId: string) => Promise<TProgressSnapshot>;
-  fetchActiveCycleProgressPro: (workspaceSlug: string, projectId: string, cycleId: string) => Promise<void>;
+  fetchActiveCycleProgress: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+  ) => Promise<TProgressSnapshot>;
+  fetchActiveCycleProgressPro: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+  ) => Promise<void>;
   fetchActiveCycleAnalytics: (
     workspaceSlug: string,
     projectId: string,
     cycleId: string,
-    analytic_type: string
+    analytic_type: string,
   ) => Promise<TCycleDistribution | TCycleEstimateDistribution>;
   // crud
   createCycle: (workspaceSlug: string, projectId: string, data: Partial<ICycle>) => Promise<ICycle>;
@@ -84,12 +96,16 @@ export interface ICycleStore {
     workspaceSlug: string,
     projectId: string,
     cycleId: string,
-    data: Partial<ICycle>
+    data: Partial<ICycle>,
   ) => Promise<ICycle>;
   deleteCycle: (workspaceSlug: string, projectId: string, cycleId: string) => Promise<void>;
   // favorites
   addCycleToFavorites: (workspaceSlug: string, projectId: string, cycleId: string) => Promise<any>;
-  removeCycleFromFavorites: (workspaceSlug: string, projectId: string, cycleId: string) => Promise<void>;
+  removeCycleFromFavorites: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+  ) => Promise<void>;
   // archive
   archiveCycle: (workspaceSlug: string, projectId: string, cycleId: string) => Promise<void>;
   restoreCycle: (workspaceSlug: string, projectId: string, cycleId: string) => Promise<void>;
@@ -165,7 +181,9 @@ export class CycleStore implements ICycleStore {
   get currentProjectCycleIds() {
     const projectId = this.rootStore.router.projectId;
     if (!projectId || !this.fetchedMap[projectId]) return null;
-    let allCycles = Object.values(this.cycleMap ?? {}).filter((c) => c?.project_id === projectId && !c?.archived_at);
+    let allCycles = Object.values(this.cycleMap ?? {}).filter(
+      (c) => c?.project_id === projectId && !c?.archived_at,
+    );
     allCycles = sortBy(allCycles, [(c) => c.sort_order]);
     const allCycleIds = allCycles.map((c) => c.id);
     return allCycleIds;
@@ -182,7 +200,8 @@ export class CycleStore implements ICycleStore {
       const hasEndDatePassed = endDate && isPast(endDate);
       const isEndDateToday = endDate && isToday(endDate);
       return (
-        c.project_id === projectId && ((hasEndDatePassed && !isEndDateToday) || c.status?.toLowerCase() === "completed")
+        c.project_id === projectId &&
+        ((hasEndDatePassed && !isEndDateToday) || c.status?.toLowerCase() === "completed")
       );
     });
     completedCycles = sortBy(completedCycles, [(c) => c.sort_order]);
@@ -200,7 +219,10 @@ export class CycleStore implements ICycleStore {
       const endDate = getDate(c.end_date);
       const hasEndDatePassed = endDate && isPast(endDate);
       return (
-        c.project_id === projectId && !hasEndDatePassed && !c?.archived_at && c.status?.toLowerCase() !== "completed"
+        c.project_id === projectId &&
+        !hasEndDatePassed &&
+        !c?.archived_at &&
+        c.status?.toLowerCase() !== "completed"
       );
     });
     incompleteCycles = sortBy(incompleteCycles, [(c) => c.sort_order]);
@@ -217,7 +239,7 @@ export class CycleStore implements ICycleStore {
     const activeCycle = Object.keys(this.cycleMap ?? {}).find(
       (cycleId) =>
         this.cycleMap?.[cycleId]?.project_id === projectId &&
-        this.cycleMap?.[cycleId]?.status?.toLowerCase() === "current"
+        this.cycleMap?.[cycleId]?.status?.toLowerCase() === "current",
     );
     return activeCycle || null;
   }
@@ -229,7 +251,7 @@ export class CycleStore implements ICycleStore {
     const projectId = this.rootStore.router.projectId;
     if (!projectId || !this.fetchedMap[projectId]) return null;
     let archivedCycles = Object.values(this.cycleMap ?? {}).filter(
-      (c) => c.project_id === projectId && !!c.archived_at
+      (c) => c.project_id === projectId && !!c.archived_at,
     );
     archivedCycles = sortBy(archivedCycles, [(c) => c.sort_order]);
     const archivedCycleIds = archivedCycles.map((c) => c.id);
@@ -248,7 +270,10 @@ export class CycleStore implements ICycleStore {
     if (cycle.version === 2) return cycle.progress?.some((p) => p.total_estimate_points > 0);
     else if (cycle.version === 1) {
       const completionChart = cycle.estimate_distribution?.completion_chart || {};
-      return !isEmpty(completionChart) && Object.keys(completionChart).some((p) => completionChart[p]! > 0);
+      return (
+        !isEmpty(completionChart) &&
+        Object.keys(completionChart).some((p) => completionChart[p]! > 0)
+      );
     } else return false;
   });
 
@@ -267,7 +292,7 @@ export class CycleStore implements ICycleStore {
         c.project_id === projectId &&
         !c.archived_at &&
         c.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        shouldFilterCycle(c, filters ?? {})
+        shouldFilterCycle(c, filters ?? {}),
     );
     cycles = orderCycles(cycles, sortByManual);
     const cycleIds = cycles.map((c) => c.id);
@@ -290,7 +315,7 @@ export class CycleStore implements ICycleStore {
         !c.archived_at &&
         c.status?.toLowerCase() === "completed" &&
         c.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        shouldFilterCycle(c, filters ?? {})
+        shouldFilterCycle(c, filters ?? {}),
     );
     cycles = sortBy(cycles, [(c) => !c.start_date]);
     const cycleIds = cycles.map((c) => c.id);
@@ -311,7 +336,7 @@ export class CycleStore implements ICycleStore {
         c.project_id === projectId &&
         !!c.archived_at &&
         c.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        shouldFilterCycle(c, filters ?? {})
+        shouldFilterCycle(c, filters ?? {}),
     );
     cycles = sortBy(cycles, [(c) => !c.start_date]);
     const cycleIds = cycles.map((c) => c.id);
@@ -339,7 +364,9 @@ export class CycleStore implements ICycleStore {
   getProjectCycleDetails = computedFn((projectId: string): ICycle[] | null => {
     if (!this.fetchedMap[projectId]) return null;
 
-    let cycles = Object.values(this.cycleMap ?? {}).filter((c) => c.project_id === projectId && !c?.archived_at);
+    let cycles = Object.values(this.cycleMap ?? {}).filter(
+      (c) => c.project_id === projectId && !c?.archived_at,
+    );
     cycles = sortBy(cycles, [(c) => c.sort_order]);
     return cycles || null;
   });
@@ -465,15 +492,17 @@ export class CycleStore implements ICycleStore {
    * @returns
    */
   fetchActiveCycle = async (workspaceSlug: string, projectId: string) =>
-    await this.cycleService.getCyclesWithParams(workspaceSlug, projectId, "current").then((response) => {
-      runInAction(() => {
-        response.forEach((cycle) => {
-          set(this.activeCycleIdMap, [cycle.id], true);
-          set(this.cycleMap, [cycle.id], cycle);
+    await this.cycleService
+      .getCyclesWithParams(workspaceSlug, projectId, "current")
+      .then((response) => {
+        runInAction(() => {
+          response.forEach((cycle) => {
+            set(this.activeCycleIdMap, [cycle.id], true);
+            set(this.cycleMap, [cycle.id], cycle);
+          });
         });
+        return response;
       });
-      return response;
-    });
 
   /**
    * @description fetches active cycle progress
@@ -484,13 +513,15 @@ export class CycleStore implements ICycleStore {
    */
   fetchActiveCycleProgress = async (workspaceSlug: string, projectId: string, cycleId: string) => {
     this.progressLoader = true;
-    return await this.cycleService.workspaceActiveCyclesProgress(workspaceSlug, projectId, cycleId).then((progress) => {
-      runInAction(() => {
-        set(this.cycleMap, [cycleId], { ...this.cycleMap[cycleId], ...progress });
-        this.progressLoader = false;
+    return await this.cycleService
+      .workspaceActiveCyclesProgress(workspaceSlug, projectId, cycleId)
+      .then((progress) => {
+        runInAction(() => {
+          set(this.cycleMap, [cycleId], { ...this.cycleMap[cycleId], ...progress });
+          this.progressLoader = false;
+        });
+        return progress;
       });
-      return progress;
-    });
   };
 
   /**
@@ -501,7 +532,9 @@ export class CycleStore implements ICycleStore {
    *  @returns
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  fetchActiveCycleProgressPro = action(async (workspaceSlug: string, projectId: string, cycleId: string) => {});
+  fetchActiveCycleProgressPro = action(
+    async (workspaceSlug: string, projectId: string, cycleId: string) => {},
+  );
 
   /**
    * @description fetches active cycle analytics
@@ -514,13 +547,17 @@ export class CycleStore implements ICycleStore {
     workspaceSlug: string,
     projectId: string,
     cycleId: string,
-    analytic_type: string
+    analytic_type: string,
   ) =>
     await this.cycleService
       .workspaceActiveCyclesAnalytics(workspaceSlug, projectId, cycleId, analytic_type)
       .then((cycle) => {
         runInAction(() => {
-          set(this.cycleMap, [cycleId, analytic_type === "points" ? "estimate_distribution" : "distribution"], cycle);
+          set(
+            this.cycleMap,
+            [cycleId, analytic_type === "points" ? "estimate_distribution" : "distribution"],
+            cycle,
+          );
         });
         return cycle;
       });
@@ -533,12 +570,14 @@ export class CycleStore implements ICycleStore {
    * @returns
    */
   fetchArchivedCycleDetails = async (workspaceSlug: string, projectId: string, cycleId: string) =>
-    await this.cycleArchiveService.getArchivedCycleDetails(workspaceSlug, projectId, cycleId).then((response) => {
-      runInAction(() => {
-        set(this.cycleMap, [response.id], { ...this.cycleMap?.[response.id], ...response });
+    await this.cycleArchiveService
+      .getArchivedCycleDetails(workspaceSlug, projectId, cycleId)
+      .then((response) => {
+        runInAction(() => {
+          set(this.cycleMap, [response.id], { ...this.cycleMap?.[response.id], ...response });
+        });
+        return response;
       });
-      return response;
-    });
 
   /**
    * @description fetches cycle details
@@ -584,7 +623,7 @@ export class CycleStore implements ICycleStore {
           set(this.cycleMap, [response.id], response);
         });
         return response;
-      })
+      }),
   );
 
   /**
@@ -595,7 +634,12 @@ export class CycleStore implements ICycleStore {
    * @param data
    * @returns
    */
-  updateCycleDetails = async (workspaceSlug: string, projectId: string, cycleId: string, data: Partial<ICycle>) => {
+  updateCycleDetails = async (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    data: Partial<ICycle>,
+  ) => {
     try {
       runInAction(() => {
         set(this.cycleMap, [cycleId], { ...this.cycleMap?.[cycleId], ...data });
@@ -622,7 +666,8 @@ export class CycleStore implements ICycleStore {
       runInAction(() => {
         delete this.cycleMap[cycleId];
         delete this.activeCycleIdMap[cycleId];
-        if (this.rootStore.favorite.entityMap[cycleId]) this.rootStore.favorite.removeFavoriteFromStore(cycleId);
+        if (this.rootStore.favorite.entityMap[cycleId])
+          this.rootStore.favorite.removeFavoriteFromStore(cycleId);
       });
     });
 
@@ -693,7 +738,8 @@ export class CycleStore implements ICycleStore {
       .then((response) => {
         runInAction(() => {
           set(this.cycleMap, [cycleId, "archived_at"], response.archived_at);
-          if (this.rootStore.favorite.entityMap[cycleId]) this.rootStore.favorite.removeFavoriteFromStore(cycleId);
+          if (this.rootStore.favorite.entityMap[cycleId])
+            this.rootStore.favorite.removeFavoriteFromStore(cycleId);
         });
       })
       .catch((error) => {

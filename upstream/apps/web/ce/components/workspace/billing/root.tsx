@@ -7,7 +7,10 @@
 import { useState } from "react";
 import { observer } from "mobx-react";
 // plane imports
-import { DEFAULT_PRODUCT_BILLING_FREQUENCY, SUBSCRIPTION_WITH_BILLING_FREQUENCY } from "@plane/constants";
+import {
+  DEFAULT_PRODUCT_BILLING_FREQUENCY,
+  SUBSCRIPTION_WITH_BILLING_FREQUENCY,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import type { TBillingFrequency, TProductBillingFrequency } from "@plane/types";
 import { EProductSubscriptionEnum } from "@plane/types";
@@ -20,7 +23,7 @@ import { PlansComparison } from "./comparison/root";
 export const BillingRoot = observer(function BillingRoot() {
   const [isCompareAllFeaturesSectionOpen, setIsCompareAllFeaturesSectionOpen] = useState(false);
   const [productBillingFrequency, setProductBillingFrequency] = useState<TProductBillingFrequency>(
-    DEFAULT_PRODUCT_BILLING_FREQUENCY
+    DEFAULT_PRODUCT_BILLING_FREQUENCY,
   );
   const { t } = useTranslation();
 
@@ -29,7 +32,9 @@ export const BillingRoot = observer(function BillingRoot() {
    * @param {EProductSubscriptionEnum} subscriptionType - Type of subscription to get frequency for
    * @returns {TBillingFrequency | undefined} - Billing frequency if subscription supports it, undefined otherwise
    */
-  const getBillingFrequency = (subscriptionType: EProductSubscriptionEnum): TBillingFrequency | undefined =>
+  const getBillingFrequency = (
+    subscriptionType: EProductSubscriptionEnum,
+  ): TBillingFrequency | undefined =>
     SUBSCRIPTION_WITH_BILLING_FREQUENCY.includes(subscriptionType)
       ? productBillingFrequency[subscriptionType]
       : undefined;
@@ -40,7 +45,10 @@ export const BillingRoot = observer(function BillingRoot() {
    * @param {TBillingFrequency} frequency - New billing frequency to set
    * @returns {void}
    */
-  const setBillingFrequency = (subscriptionType: EProductSubscriptionEnum, frequency: TBillingFrequency): void =>
+  const setBillingFrequency = (
+    subscriptionType: EProductSubscriptionEnum,
+    frequency: TBillingFrequency,
+  ): void =>
     setProductBillingFrequency({ ...productBillingFrequency, [subscriptionType]: frequency });
 
   return (

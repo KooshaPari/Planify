@@ -23,7 +23,7 @@ export const StickyItemDragHandle = observer(function StickyItemDragHandle(props
         "absolute top-3 left-1/2 mr-2 hidden -translate-x-1/2 rotate-90 cursor-grab items-center justify-center rounded-sm text-placeholder group-hover/sticky:flex",
         {
           "cursor-grabbing": isDragging,
-        }
+        },
       )}
     >
       <DragHandle className="bg-transparent" />

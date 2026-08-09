@@ -32,7 +32,9 @@ export const FilterState = observer(function FilterState(props: Props) {
   const appliedFiltersCount = appliedFilters?.length ?? 0;
 
   const sortedOptions = useMemo(() => {
-    const filteredOptions = (states ?? []).filter((s) => s.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredOptions = (states ?? []).filter((s) =>
+      s.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
 
     return sortBy(filteredOptions, [(s) => !(appliedFilters ?? []).includes(s.id)]);
     // eslint-disable-next-line react-hooks/exhaustive-deps

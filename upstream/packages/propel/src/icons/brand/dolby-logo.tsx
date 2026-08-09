@@ -8,7 +8,12 @@ import * as React from "react";
 
 import type { ISvgIcons } from "../type";
 
-export function DolbyLogo({ width = "40", height = "16", className, color = "currentColor" }: ISvgIcons) {
+export function DolbyLogo({
+  width = "40",
+  height = "16",
+  className,
+  color = "currentColor",
+}: ISvgIcons) {
   return (
     <svg
       width={width}

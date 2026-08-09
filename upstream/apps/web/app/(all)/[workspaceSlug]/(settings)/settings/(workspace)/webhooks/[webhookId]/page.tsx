@@ -44,7 +44,7 @@ function WebhookDetailsPage({ params }: Route.ComponentProps) {
 
   useSWR(
     isAdmin ? `WEBHOOK_DETAILS_${workspaceSlug}_${webhookId}` : null,
-    isAdmin ? () => fetchWebhookById(workspaceSlug, webhookId) : null
+    isAdmin ? () => fetchWebhookById(workspaceSlug, webhookId) : null,
   );
 
   const handleUpdateWebhook = async (formData: IWebhook) => {
@@ -97,12 +97,17 @@ function WebhookDetailsPage({ params }: Route.ComponentProps) {
   return (
     <SettingsContentWrapper header={<WebhookDetailsWorkspaceSettingsHeader />}>
       <PageHead title={pageTitle} />
-      <DeleteWebhookModal isOpen={deleteWebhookModal} onClose={() => setDeleteWebhookModal(false)} />
+      <DeleteWebhookModal
+        isOpen={deleteWebhookModal}
+        onClose={() => setDeleteWebhookModal(false)}
+      />
       <div className="w-full space-y-8 overflow-y-auto">
         <div>
           <WebhookForm onSubmit={handleUpdateWebhook} data={currentWebhook} />
         </div>
-        {currentWebhook && <WebhookDeleteSection openDeleteModal={() => setDeleteWebhookModal(true)} />}
+        {currentWebhook && (
+          <WebhookDeleteSection openDeleteModal={() => setDeleteWebhookModal(true)} />
+        )}
       </div>
     </SettingsContentWrapper>
   );

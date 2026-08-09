@@ -130,7 +130,11 @@ export const badgeStyling: IBadgeStyling = {
   },
 };
 
-export const getBadgeStyling = (variant: TBadgeVariant, size: TBadgeSizes, disabled: boolean = false): string => {
+export const getBadgeStyling = (
+  variant: TBadgeVariant,
+  size: TBadgeSizes,
+  disabled: boolean = false,
+): string => {
   let tempVariant: string = ``;
   const currentVariant = badgeStyling[variant];
 

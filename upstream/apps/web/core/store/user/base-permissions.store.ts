@@ -14,7 +14,12 @@ import {
   EUserPermissionsLevel,
   WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS_LINKS,
 } from "@plane/constants";
-import type { EUserProjectRoles, IUserProjectsRole, IWorkspaceMemberMe, TProjectMembership } from "@plane/types";
+import type {
+  EUserProjectRoles,
+  IUserProjectsRole,
+  IWorkspaceMemberMe,
+  TProjectMembership,
+} from "@plane/types";
 import { EUserWorkspaceRoles } from "@plane/types";
 // plane web imports
 import { WorkspaceService } from "@/services/workspace.service";
@@ -36,11 +41,13 @@ export interface IBaseUserPermissionStore {
   workspaceProjectsPermissions: Record<string, IUserProjectsRole>; // workspaceSlug -> IUserProjectsRole
   // computed helpers
   workspaceInfoBySlug: (workspaceSlug: string) => IWorkspaceMemberMe | undefined;
-  getWorkspaceRoleByWorkspaceSlug: (workspaceSlug: string) => TUserPermissions | EUserWorkspaceRoles | undefined;
+  getWorkspaceRoleByWorkspaceSlug: (
+    workspaceSlug: string,
+  ) => TUserPermissions | EUserWorkspaceRoles | undefined;
   getProjectRolesByWorkspaceSlug: (workspaceSlug: string) => IUserProjectsRole;
   getProjectRoleByWorkspaceSlugAndProjectId: (
     workspaceSlug: string,
-    projectId?: string
+    projectId?: string,
   ) => EUserPermissions | undefined;
   fetchWorkspaceLevelProjectEntities: (workspaceSlug: string, projectId: string) => void;
   allowPermissions: (
@@ -48,7 +55,7 @@ export interface IBaseUserPermissionStore {
     level: TUserPermissionsLevel,
     workspaceSlug?: string,
     projectId?: string,
-    onPermissionAllowed?: () => boolean
+    onPermissionAllowed?: () => boolean,
   ) => boolean;
   // actions
   fetchUserWorkspaceInfo: (workspaceSlug: string) => Promise<IWorkspaceMemberMe>;
@@ -109,8 +116,11 @@ export abstract class BaseUserPermissionStore implements IBaseUserPermissionStor
   getWorkspaceRoleByWorkspaceSlug = computedFn(
     (workspaceSlug: string): TUserPermissions | EUserWorkspaceRoles | undefined => {
       if (!workspaceSlug) return undefined;
-      return this.workspaceUserInfo[workspaceSlug]?.role as TUserPermissions | EUserWorkspaceRoles | undefined;
-    }
+      return this.workspaceUserInfo[workspaceSlug]?.role as
+        | TUserPermissions
+        | EUserWorkspaceRoles
+        | undefined;
+    },
   );
 
   /**
@@ -119,14 +129,16 @@ export abstract class BaseUserPermissionStore implements IBaseUserPermissionStor
    * @param { string } projectId
    * @returns { EUserPermissions | undefined }
    */
-  protected getProjectRole = computedFn((workspaceSlug: string, projectId?: string): EUserPermissions | undefined => {
-    if (!workspaceSlug || !projectId) return undefined;
-    const projectRole = this.workspaceProjectsPermissions?.[workspaceSlug]?.[projectId];
-    if (!projectRole) return undefined;
-    const workspaceRole = this.workspaceUserInfo?.[workspaceSlug]?.role;
-    if (workspaceRole === EUserWorkspaceRoles.ADMIN) return EUserPermissions.ADMIN;
-    else return projectRole;
-  });
+  protected getProjectRole = computedFn(
+    (workspaceSlug: string, projectId?: string): EUserPermissions | undefined => {
+      if (!workspaceSlug || !projectId) return undefined;
+      const projectRole = this.workspaceProjectsPermissions?.[workspaceSlug]?.[projectId];
+      if (!projectRole) return undefined;
+      const workspaceRole = this.workspaceUserInfo?.[workspaceSlug]?.role;
+      if (workspaceRole === EUserWorkspaceRoles.ADMIN) return EUserPermissions.ADMIN;
+      else return projectRole;
+    },
+  );
 
   /**
    * @description Returns the project permissions by workspace slug
@@ -152,7 +164,7 @@ export abstract class BaseUserPermissionStore implements IBaseUserPermissionStor
    */
   abstract getProjectRoleByWorkspaceSlugAndProjectId: (
     workspaceSlug: string,
-    projectId?: string
+    projectId?: string,
   ) => EUserPermissions | undefined;
 
   /**
@@ -171,7 +183,9 @@ export abstract class BaseUserPermissionStore implements IBaseUserPermissionStor
    */
   hasPageAccess = computedFn((workspaceSlug: string, key: string): boolean => {
     if (!workspaceSlug || !key) return false;
-    const settings = WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS_LINKS.find((item) => item.key === key);
+    const settings = WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS_LINKS.find(
+      (item) => item.key === key,
+    );
     if (settings) {
       return this.allowPermissions(settings.access, EUserPermissionsLevel.WORKSPACE, workspaceSlug);
     }
@@ -193,7 +207,7 @@ export abstract class BaseUserPermissionStore implements IBaseUserPermissionStor
     level: TUserPermissionsLevel,
     workspaceSlug?: string,
     projectId?: string,
-    onPermissionAllowed?: () => boolean
+    onPermissionAllowed?: () => boolean,
   ): boolean => {
     const { workspaceSlug: currentWorkspaceSlug, projectId: currentProjectId } = this.store.router;
     if (!workspaceSlug) workspaceSlug = currentWorkspaceSlug;
@@ -210,14 +224,20 @@ export abstract class BaseUserPermissionStore implements IBaseUserPermissionStor
     if (level === EUserPermissionsLevel.PROJECT) {
       currentUserRole = (workspaceSlug &&
         projectId &&
-        this.getProjectRoleByWorkspaceSlugAndProjectId(workspaceSlug, projectId)) as EUserPermissions | undefined;
+        this.getProjectRoleByWorkspaceSlugAndProjectId(workspaceSlug, projectId)) as
+        | EUserPermissions
+        | undefined;
     }
 
     if (typeof currentUserRole === "string") {
       currentUserRole = parseInt(currentUserRole);
     }
 
-    if (currentUserRole && typeof currentUserRole === "number" && allowPermissions.includes(currentUserRole)) {
+    if (
+      currentUserRole &&
+      typeof currentUserRole === "number" &&
+      allowPermissions.includes(currentUserRole)
+    ) {
       if (onPermissionAllowed) {
         return onPermissionAllowed();
       } else {
@@ -277,7 +297,10 @@ export abstract class BaseUserPermissionStore implements IBaseUserPermissionStor
    * @param { string } projectId
    * @returns { Promise<TProjectMembership | undefined> }
    */
-  fetchUserProjectInfo = async (workspaceSlug: string, projectId: string): Promise<TProjectMembership> => {
+  fetchUserProjectInfo = async (
+    workspaceSlug: string,
+    projectId: string,
+  ): Promise<TProjectMembership> => {
     try {
       const response = await projectMemberService.projectMemberMe(workspaceSlug, projectId);
       if (response) {
@@ -320,7 +343,8 @@ export abstract class BaseUserPermissionStore implements IBaseUserPermissionStor
   joinProject = async (workspaceSlug: string, projectId: string): Promise<void> => {
     try {
       const response = await userService.joinProject(workspaceSlug, [projectId]);
-      const projectMemberRole = this.getWorkspaceRoleByWorkspaceSlug(workspaceSlug) ?? EUserPermissions.MEMBER;
+      const projectMemberRole =
+        this.getWorkspaceRoleByWorkspaceSlug(workspaceSlug) ?? EUserPermissions.MEMBER;
       if (response) {
         runInAction(() => {
           set(this.workspaceProjectsPermissions, [workspaceSlug, projectId], projectMemberRole);

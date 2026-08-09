@@ -24,7 +24,7 @@ import { CustomXAxisTick, CustomYAxisTick } from "../components/tick";
 import { CustomTooltip } from "../components/tooltip";
 
 export const LineChart = React.memo(function LineChart<K extends string, T extends string>(
-  props: TLineChartProps<K, T>
+  props: TLineChartProps<K, T>,
 ) {
   const {
     data,
@@ -89,7 +89,7 @@ export const LineChart = React.memo(function LineChart<K extends string, T exten
           onMouseLeave={() => setActiveLine(null)}
         />
       )),
-    [activeLegend, lines]
+    [activeLegend, lines],
   );
 
   return (

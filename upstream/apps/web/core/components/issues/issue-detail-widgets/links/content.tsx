@@ -23,7 +23,12 @@ export function IssueLinksCollapsibleContent(props: Props) {
   const { workspaceSlug, projectId, issueId, disabled, issueServiceType } = props;
 
   // helper
-  const handleLinkOperations = useLinkOperations(workspaceSlug, projectId, issueId, issueServiceType);
+  const handleLinkOperations = useLinkOperations(
+    workspaceSlug,
+    projectId,
+    issueId,
+    issueServiceType,
+  );
 
   return (
     <LinkList

@@ -60,14 +60,16 @@ export function Tooltip(props: ITooltipProps) {
               {
                 hidden: isMobile,
               },
-              className
+              className,
             )}
             side={finalSide}
             sideOffset={sideOffset}
             align={finalAlign}
             render={
               <BaseTooltip.Popup>
-                {tooltipHeading && <p className="text-caption-md-medium text-primary">{tooltipHeading}</p>}
+                {tooltipHeading && (
+                  <p className="text-caption-md-medium text-primary">{tooltipHeading}</p>
+                )}
                 {tooltipContent && (
                   <p
                     className={cn("text-caption-sm-regular text-secondary", {

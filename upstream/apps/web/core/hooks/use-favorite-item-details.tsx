@@ -53,15 +53,24 @@ export const useFavoriteItemDetails = (workspaceSlug: string, favorite: IFavorit
   switch (favoriteItemEntityType) {
     case "project":
       itemTitle = currentProjectDetails?.name ?? favoriteItemName;
-      itemIcon = <FavoriteItemIcon type="project" logo={currentProjectDetails?.logo_props || favoriteItemLogoProps} />;
+      itemIcon = (
+        <FavoriteItemIcon
+          type="project"
+          logo={currentProjectDetails?.logo_props || favoriteItemLogoProps}
+        />
+      );
       break;
     case "page":
       itemTitle = getPageName(pageDetail?.name ?? favoriteItemName);
-      itemIcon = <FavoriteItemIcon type="page" logo={pageDetail?.logo_props ?? favoriteItemLogoProps} />;
+      itemIcon = (
+        <FavoriteItemIcon type="page" logo={pageDetail?.logo_props ?? favoriteItemLogoProps} />
+      );
       break;
     case "view":
       itemTitle = viewDetails?.name ?? favoriteItemName;
-      itemIcon = <FavoriteItemIcon type="view" logo={viewDetails?.logo_props || favoriteItemLogoProps} />;
+      itemIcon = (
+        <FavoriteItemIcon type="view" logo={viewDetails?.logo_props || favoriteItemLogoProps} />
+      );
       break;
     case "cycle":
       itemTitle = cycleDetail?.name ?? favoriteItemName;

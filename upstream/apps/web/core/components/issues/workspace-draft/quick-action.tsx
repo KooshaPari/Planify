@@ -17,7 +17,9 @@ export interface Props {
   MENU_ITEMS: TContextMenuItem[];
 }
 
-export const WorkspaceDraftIssueQuickActions = observer(function WorkspaceDraftIssueQuickActions(props: Props) {
+export const WorkspaceDraftIssueQuickActions = observer(function WorkspaceDraftIssueQuickActions(
+  props: Props,
+) {
   const { parentRef, MENU_ITEMS } = props;
 
   const { t } = useTranslation();
@@ -44,7 +46,7 @@ export const WorkspaceDraftIssueQuickActions = observer(function WorkspaceDraftI
               {
                 "text-placeholder": item.disabled,
               },
-              item.className
+              item.className,
             )}
             disabled={item.disabled}
           >

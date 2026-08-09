@@ -26,7 +26,10 @@ type Props = {
   entityInformation: TDescriptionVersionEntityInformation;
   fetchHandlers: {
     listDescriptionVersions: (entityId: string) => Promise<TDescriptionVersionsListResponse>;
-    retrieveDescriptionVersion: (entityId: string, versionId: string) => Promise<TDescriptionVersionDetails>;
+    retrieveDescriptionVersion: (
+      entityId: string,
+      versionId: string,
+    ) => Promise<TDescriptionVersionDetails>;
   };
   handleRestore: (descriptionHTML: string) => void;
   projectId?: string;
@@ -34,7 +37,8 @@ type Props = {
 };
 
 export const DescriptionVersionsRoot = observer(function DescriptionVersionsRoot(props: Props) {
-  const { className, entityInformation, fetchHandlers, handleRestore, projectId, workspaceSlug } = props;
+  const { className, entityInformation, fetchHandlers, handleRestore, projectId, workspaceSlug } =
+    props;
   // states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeVersionId, setActiveVersionId] = useState<string | null>(null);
@@ -43,12 +47,14 @@ export const DescriptionVersionsRoot = observer(function DescriptionVersionsRoot
   // fetch versions list
   const { data: versionsListResponse } = useSWR(
     entityId ? `DESCRIPTION_VERSIONS_LIST_${entityId}` : null,
-    entityId ? () => fetchHandlers.listDescriptionVersions(entityId) : null
+    entityId ? () => fetchHandlers.listDescriptionVersions(entityId) : null,
   );
   // fetch active version details
   const { data: activeVersionResponse } = useSWR(
     entityId && activeVersionId ? `DESCRIPTION_VERSION_DETAILS_${activeVersionId}` : null,
-    entityId && activeVersionId ? () => fetchHandlers.retrieveDescriptionVersion(entityId, activeVersionId) : null
+    entityId && activeVersionId
+      ? () => fetchHandlers.retrieveDescriptionVersion(entityId, activeVersionId)
+      : null,
   );
   const versions = versionsListResponse?.results;
   const versionsCount = versions?.length ?? 0;
@@ -67,7 +73,7 @@ export const DescriptionVersionsRoot = observer(function DescriptionVersionsRoot
         setActiveVersionId(versions?.[activeVersionIndex + 1].id ?? null);
       }
     },
-    [activeVersionIndex, versions, versionsCount]
+    [activeVersionIndex, versions, versionsCount],
   );
 
   return (

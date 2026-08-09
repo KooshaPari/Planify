@@ -9,4 +9,7 @@ import type { TPowerKModalPageDetails } from "@/components/power-k/ui/modal/cons
 // local imports
 import type { TPowerKPageTypeExtended } from "./types";
 
-export const POWER_K_MODAL_PAGE_DETAILS_EXTENDED: Record<TPowerKPageTypeExtended, TPowerKModalPageDetails> = {};
+export const POWER_K_MODAL_PAGE_DETAILS_EXTENDED: Record<
+  TPowerKPageTypeExtended,
+  TPowerKModalPageDetails
+> = {};

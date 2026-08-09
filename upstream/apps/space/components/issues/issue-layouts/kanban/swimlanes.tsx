@@ -40,9 +40,12 @@ export interface IKanBanSwimLanes {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
-  getPaginationData: (groupId: string | undefined, subGroupId: string | undefined) => TPaginationData | undefined;
+  getPaginationData: (
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ) => TPaginationData | undefined;
   getIssueLoader: (groupId?: string, subGroupId?: string) => TLoader;
   showEmptyGroup: boolean;
   scrollableContainerRef?: MutableRefObject<HTMLDivElement | null>;
@@ -70,8 +73,22 @@ export const KanBanSwimLanes = observer(function KanBanSwimLanes(props: IKanBanS
   const modules = useModule();
   const state = useStates();
 
-  const groupByList = getGroupByColumns(groupBy as GroupByColumnTypes, cycle, modules, label, state, member);
-  const subGroupByList = getGroupByColumns(subGroupBy as GroupByColumnTypes, cycle, modules, label, state, member);
+  const groupByList = getGroupByColumns(
+    groupBy as GroupByColumnTypes,
+    cycle,
+    modules,
+    label,
+    state,
+    member,
+  );
+  const subGroupByList = getGroupByColumns(
+    subGroupBy as GroupByColumnTypes,
+    cycle,
+    modules,
+    label,
+    state,
+    member,
+  );
 
   if (!groupByList || !subGroupByList) return null;
 
@@ -115,11 +132,14 @@ interface ISubGroupSwimlaneHeader {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
 }
 
-const visibilitySubGroupByGroupCount = (subGroupIssueCount: number, showEmptyGroup: boolean): boolean => {
+const visibilitySubGroupByGroupCount = (
+  subGroupIssueCount: number,
+  showEmptyGroup: boolean,
+): boolean => {
   let subGroupHeaderVisibility = true;
 
   if (showEmptyGroup) subGroupHeaderVisibility = true;
@@ -145,12 +165,23 @@ const SubGroupSwimlaneHeader = observer(function SubGroupSwimlaneHeader({
         groupList.map((group: IGroupByColumn) => {
           const groupCount = getGroupIssueCount(group.id, undefined, false) ?? 0;
 
-          const subGroupByVisibilityToggle = visibilitySubGroupByGroupCount(groupCount, showEmptyGroup);
+          const subGroupByVisibilityToggle = visibilitySubGroupByGroupCount(
+            groupCount,
+            showEmptyGroup,
+          );
 
           if (subGroupByVisibilityToggle === false) return <></>;
           return (
-            <div key={`${subGroupBy}_${group.id}`} className="flex w-[350px] flex-shrink-0 flex-col">
-              <HeaderGroupByCard groupBy={groupBy} icon={group.icon} title={group.name} count={groupCount} />
+            <div
+              key={`${subGroupBy}_${group.id}`}
+              className="flex w-[350px] flex-shrink-0 flex-col"
+            >
+              <HeaderGroupByCard
+                groupBy={groupBy}
+                icon={group.icon}
+                title={group.name}
+                count={groupCount}
+              />
             </div>
           );
         })}
@@ -166,9 +197,12 @@ interface ISubGroupSwimlane extends ISubGroupSwimlaneHeader {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
-  getPaginationData: (groupId: string | undefined, subGroupId: string | undefined) => TPaginationData | undefined;
+  getPaginationData: (
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ) => TPaginationData | undefined;
   getIssueLoader: (groupId?: string, subGroupId?: string) => TLoader;
   scrollableContainerRef?: MutableRefObject<HTMLDivElement | null>;
   loadMoreIssues: (groupId?: string, subGroupId?: string) => void;
@@ -223,9 +257,12 @@ interface ISubGroup {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
-  getPaginationData: (groupId: string | undefined, subGroupId: string | undefined) => TPaginationData | undefined;
+  getPaginationData: (
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ) => TPaginationData | undefined;
   getIssueLoader: (groupId?: string, subGroupId?: string) => TLoader;
   scrollableContainerRef?: MutableRefObject<HTMLDivElement | null>;
   loadMoreIssues: (groupId?: string, subGroupId?: string) => void;
@@ -254,7 +291,7 @@ const SubGroup = observer(function SubGroup(props: ISubGroup) {
 
   const visibilitySubGroupBy = (
     _list: IGroupByColumn,
-    subGroupCount: number
+    subGroupCount: number,
   ): { showGroup: boolean; showIssues: boolean } => {
     const subGroupVisibility = {
       showGroup: true,

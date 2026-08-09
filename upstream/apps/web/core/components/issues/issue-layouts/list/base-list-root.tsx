@@ -11,7 +11,12 @@ import { useParams } from "next/navigation";
 // plane constants
 import { EIssueFilterType, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
 // types
-import type { EIssuesStoreType, GroupByColumnTypes, TGroupedIssues, TIssueKanbanFilters } from "@plane/types";
+import type {
+  EIssuesStoreType,
+  GroupByColumnTypes,
+  TGroupedIssues,
+  TIssueKanbanFilters,
+} from "@plane/types";
 import { EIssueLayoutTypes } from "@plane/types";
 // constants
 // hooks
@@ -84,7 +89,8 @@ export const BaseListRoot = observer(function BaseListRoot(props: IBaseListRoot)
   const { workspaceSlug, projectId } = useParams();
   const { updateFilters } = useIssuesActions(storeType);
   const collapsedGroups =
-    issuesFilter?.issueFilters?.kanbanFilters || ({ group_by: [], sub_group_by: [] } as TIssueKanbanFilters);
+    issuesFilter?.issueFilters?.kanbanFilters ||
+    ({ group_by: [], sub_group_by: [] } as TIssueKanbanFilters);
 
   useEffect(() => {
     fetchIssues("init-loader", { canGroup: true, perPageCount: group_by ? 50 : 100 }, viewId);
@@ -94,18 +100,20 @@ export const BaseListRoot = observer(function BaseListRoot(props: IBaseListRoot)
   // auth
   const isEditingAllowed = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
   const { enableInlineEditing, enableQuickAdd, enableIssueCreation } = issues?.viewFlags || {};
 
   const canEditProperties = useCallback(
     (projectId: string | undefined) => {
       const isEditingAllowedBasedOnProject =
-        canEditPropertiesBasedOnProject && projectId ? canEditPropertiesBasedOnProject(projectId) : isEditingAllowed;
+        canEditPropertiesBasedOnProject && projectId
+          ? canEditPropertiesBasedOnProject(projectId)
+          : isEditingAllowed;
 
       return !!enableInlineEditing && isEditingAllowedBasedOnProject;
     },
-    [canEditPropertiesBasedOnProject, enableInlineEditing, isEditingAllowed]
+    [canEditPropertiesBasedOnProject, enableInlineEditing, isEditingAllowed],
   );
 
   const handleOnDrop = useGroupIssuesDragNDrop(storeType, orderBy, group_by);
@@ -117,21 +125,31 @@ export const BaseListRoot = observer(function BaseListRoot(props: IBaseListRoot)
         issue={issue}
         handleDelete={async () => removeIssue(issue.project_id, issue.id)}
         handleUpdate={async (data) => updateIssue && updateIssue(issue.project_id, issue.id, data)}
-        handleRemoveFromView={async () => removeIssueFromView && removeIssueFromView(issue.project_id, issue.id)}
+        handleRemoveFromView={async () =>
+          removeIssueFromView && removeIssueFromView(issue.project_id, issue.id)
+        }
         handleArchive={async () => archiveIssue && archiveIssue(issue.project_id, issue.id)}
         handleRestore={async () => restoreIssue && restoreIssue(issue.project_id, issue.id)}
         readOnly={!canEditProperties(issue.project_id ?? undefined) || isCompletedCycle}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isCompletedCycle, canEditProperties, removeIssue, updateIssue, removeIssueFromView, archiveIssue, restoreIssue]
+    [
+      isCompletedCycle,
+      canEditProperties,
+      removeIssue,
+      updateIssue,
+      removeIssueFromView,
+      archiveIssue,
+      restoreIssue,
+    ],
   );
 
   const loadMoreIssues = useCallback(
     (groupId?: string) => {
       fetchNextIssues(groupId);
     },
-    [fetchNextIssues]
+    [fetchNextIssues],
   );
 
   // kanbanFilters and EIssueFilterType.KANBAN_FILTERS are used because the state is shared between kanban view and list view
@@ -149,7 +167,7 @@ export const BaseListRoot = observer(function BaseListRoot(props: IBaseListRoot)
         } as TIssueKanbanFilters);
       }
     },
-    [workspaceSlug, issuesFilter, projectId, updateFilters]
+    [workspaceSlug, issuesFilter, projectId, updateFilters],
   );
 
   return (

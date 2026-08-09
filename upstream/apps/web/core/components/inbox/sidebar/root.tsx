@@ -76,7 +76,7 @@ export const InboxSidebar = observer(function InboxSidebar(props: IInboxSidebarP
     if (workspaceSlug && projectId && currentTab && filteredInboxIssueIds.length > 0) {
       if (inboxIssueId === undefined) {
         router.push(
-          `/${workspaceSlug}/projects/${projectId}/intake?currentTab=${currentTab}&inboxIssueId=${filteredInboxIssueIds[0]}`
+          `/${workspaceSlug}/projects/${projectId}/intake?currentTab=${currentTab}&inboxIssueId=${filteredInboxIssueIds[0]}`,
         );
       }
     }
@@ -91,12 +91,14 @@ export const InboxSidebar = observer(function InboxSidebar(props: IInboxSidebarP
               key={option?.key}
               className={cn(
                 `relative flex h-full cursor-pointer items-center gap-1 px-3 text-13 font-medium transition-all`,
-                currentTab === option?.key ? `text-accent-primary` : `hover:text-secondary`
+                currentTab === option?.key ? `text-accent-primary` : `hover:text-secondary`,
               )}
               onClick={() => {
                 if (currentTab != option?.key) {
                   handleCurrentTab(workspaceSlug, projectId, option?.key);
-                  router.push(`/${workspaceSlug}/projects/${projectId}/intake?currentTab=${option?.key}`);
+                  router.push(
+                    `/${workspaceSlug}/projects/${projectId}/intake?currentTab=${option?.key}`,
+                  );
                 }
               }}
             >
@@ -109,7 +111,7 @@ export const InboxSidebar = observer(function InboxSidebar(props: IInboxSidebarP
               <div
                 className={cn(
                   `absolute right-0 bottom-0 left-0 rounded-t-md border`,
-                  currentTab === option?.key ? `border-accent-strong` : `border-transparent`
+                  currentTab === option?.key ? `border-accent-strong` : `border-transparent`,
                 )}
               />
             </div>
@@ -120,7 +122,9 @@ export const InboxSidebar = observer(function InboxSidebar(props: IInboxSidebarP
         </Header>
         <InboxIssueAppliedFilters />
 
-        {loader != undefined && loader === "filter-loading" && !inboxIssuePaginationInfo?.next_page_results ? (
+        {loader != undefined &&
+        loader === "filter-loading" &&
+        !inboxIssuePaginationInfo?.next_page_results ? (
           <InboxSidebarLoader />
         ) : (
           <div
@@ -154,7 +158,8 @@ export const InboxSidebar = observer(function InboxSidebar(props: IInboxSidebarP
                     actions={[
                       {
                         label: t("project_empty_state.intake_sidebar.cta_primary"),
-                        onClick: () => router.push(`/${workspaceSlug}/projects/${projectId}/intake`),
+                        onClick: () =>
+                          router.push(`/${workspaceSlug}/projects/${projectId}/intake`),
                         variant: "primary",
                       },
                     ]}

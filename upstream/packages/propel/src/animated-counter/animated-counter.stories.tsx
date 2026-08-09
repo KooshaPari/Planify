@@ -283,7 +283,9 @@ export const InBadge: Story = {
       <div className="space-y-6 p-4">
         <div className="flex flex-col items-center gap-4">
           <div className="relative">
-            <button className="rounded-lg border border-subtle bg-layer-1 px-4 py-2">Notifications</button>
+            <button className="rounded-lg border border-subtle bg-layer-1 px-4 py-2">
+              Notifications
+            </button>
             <div className="bg-red-500 absolute -top-2 -right-2 flex h-6 min-w-[24px] items-center justify-center rounded-full px-1.5 text-on-color">
               <AnimatedCounter count={notifications} size="sm" className="text-11 font-medium" />
             </div>
@@ -323,7 +325,10 @@ export const FastAnimation: Story = {
             >
               +10 Fast
             </button>
-            <button className="rounded-sm bg-layer-1 px-4 py-2 hover:bg-surface-2" onClick={() => setCount(0)}>
+            <button
+              className="rounded-sm bg-layer-1 px-4 py-2 hover:bg-surface-2"
+              onClick={() => setCount(0)}
+            >
               Reset
             </button>
           </div>

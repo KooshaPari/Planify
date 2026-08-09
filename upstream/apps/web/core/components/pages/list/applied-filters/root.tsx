@@ -44,7 +44,9 @@ export function PageAppliedFiltersList(props: Props) {
         return (
           <Tag key={filterKey}>
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-11 text-tertiary">{replaceUnderscoreIfSnakeCase(filterKey)}</span>
+              <span className="text-11 text-tertiary">
+                {replaceUnderscoreIfSnakeCase(filterKey)}
+              </span>
               {DATE_FILTERS.includes(filterKey) && (
                 <AppliedDateFilters
                   editable={isEditingAllowed}

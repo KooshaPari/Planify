@@ -30,26 +30,39 @@ export interface IWorkspaceIssues extends IBaseIssuesStore {
     workspaceSlug: string,
     viewId: string,
     loadType: TLoader,
-    options: IssuePaginationOptions
+    options: IssuePaginationOptions,
   ) => Promise<TIssuesResponse | undefined>;
   fetchIssuesWithExistingPagination: (
     workspaceSlug: string,
     viewId: string,
-    loadType: TLoader
+    loadType: TLoader,
   ) => Promise<TIssuesResponse | undefined>;
   fetchNextIssues: (
     workspaceSlug: string,
     viewId: string,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) => Promise<TIssuesResponse | undefined>;
 
   createIssue: (workspaceSlug: string, projectId: string, data: Partial<TIssue>) => Promise<TIssue>;
-  updateIssue: (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>;
+  updateIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => Promise<void>;
   archiveIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
   removeBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  archiveBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  bulkUpdateProperties: (workspaceSlug: string, projectId: string, data: TBulkOperationsPayload) => Promise<void>;
+  archiveBulkIssues: (
+    workspaceSlug: string,
+    projectId: string,
+    issueIds: string[],
+  ) => Promise<void>;
+  bulkUpdateProperties: (
+    workspaceSlug: string,
+    projectId: string,
+    data: TBulkOperationsPayload,
+  ) => Promise<void>;
 
   quickAddIssue: undefined;
   clear(): void;
@@ -99,7 +112,7 @@ export class WorkspaceIssues extends BaseIssuesStore implements IWorkspaceIssues
     viewId: string,
     loadType: TLoader,
     options: IssuePaginationOptions,
-    isExistingPaginationOptions: boolean = false
+    isExistingPaginationOptions: boolean = false,
   ) => {
     try {
       // set loader and clear store
@@ -109,14 +122,27 @@ export class WorkspaceIssues extends BaseIssuesStore implements IWorkspaceIssues
       this.clear(!isExistingPaginationOptions);
 
       // get params from pagination options
-      const params = this.issueFilterStore?.getFilterParams(options, viewId, undefined, undefined, undefined);
+      const params = this.issueFilterStore?.getFilterParams(
+        options,
+        viewId,
+        undefined,
+        undefined,
+        undefined,
+      );
       // call the fetch issues API with the params
       const response = await this.workspaceService.getViewIssues(workspaceSlug, params, {
         signal: this.controller.signal,
       });
 
       // after fetching issues, call the base method to process the response further
-      this.onfetchIssues(response, options, workspaceSlug, undefined, undefined, !isExistingPaginationOptions);
+      this.onfetchIssues(
+        response,
+        options,
+        workspaceSlug,
+        undefined,
+        undefined,
+        !isExistingPaginationOptions,
+      );
       return response;
     } catch (error) {
       // set loader to undefined if errored out
@@ -135,7 +161,12 @@ export class WorkspaceIssues extends BaseIssuesStore implements IWorkspaceIssues
    * @param subGroupId
    * @returns
    */
-  fetchNextIssues = async (workspaceSlug: string, viewId: string, groupId?: string, subGroupId?: string) => {
+  fetchNextIssues = async (
+    workspaceSlug: string,
+    viewId: string,
+    groupId?: string,
+    subGroupId?: string,
+  ) => {
     const cursorObject = this.getPaginationData(groupId, subGroupId);
     // if there are no pagination options and the next page results do not exist the return
     if (!this.paginationOptions || (cursorObject && !cursorObject?.nextPageResults)) return;
@@ -149,7 +180,7 @@ export class WorkspaceIssues extends BaseIssuesStore implements IWorkspaceIssues
         viewId,
         this.getNextCursor(groupId, subGroupId),
         groupId,
-        subGroupId
+        subGroupId,
       );
       // call the fetch issues API with the params for next page in issues
       const response = await this.workspaceService.getViewIssues(workspaceSlug, params);
@@ -172,7 +203,11 @@ export class WorkspaceIssues extends BaseIssuesStore implements IWorkspaceIssues
    * @param loadType
    * @returns
    */
-  fetchIssuesWithExistingPagination = async (workspaceSlug: string, viewId: string, loadType: TLoader) => {
+  fetchIssuesWithExistingPagination = async (
+    workspaceSlug: string,
+    viewId: string,
+    loadType: TLoader,
+  ) => {
     if (!this.paginationOptions) return;
     return await this.fetchIssues(workspaceSlug, viewId, loadType, this.paginationOptions, true);
   };

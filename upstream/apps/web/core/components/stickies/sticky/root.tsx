@@ -39,7 +39,9 @@ export const StickyNote = observer(function StickyNote(props: TProps) {
   // sticky operations
   const { stickyOperations } = useStickyOperations({ workspaceSlug });
   // derived values
-  const stickyData: Partial<TSticky> = stickyId ? stickies[stickyId] : { background_color: getRandomStickyColor() };
+  const stickyData: Partial<TSticky> = stickyId
+    ? stickies[stickyId]
+    : { background_color: getRandomStickyColor() };
   // const isStickiesPage = pathName?.includes("stickies");
   const backgroundColor =
     STICKY_COLORS_LIST.find((c) => c.key === stickyData?.background_color)?.backgroundColor ||
@@ -56,14 +58,14 @@ export const StickyNote = observer(function StickyNote(props: TProps) {
         });
       }
     },
-    [stickyId, stickyOperations]
+    [stickyId, stickyOperations],
   );
 
   const debouncedFormSave = useCallback(
     debounce(async (payload: Partial<TSticky>) => {
       await handleChange(payload);
     }, 500),
-    [stickyOperations, stickyData, handleChange]
+    [stickyOperations, stickyData, handleChange],
   );
 
   const handleDelete = async () => {
@@ -80,7 +82,10 @@ export const StickyNote = observer(function StickyNote(props: TProps) {
         handleClose={() => setIsDeleteModalOpen(false)}
       />
       <div
-        className={cn("group/sticky flex h-fit w-full flex-col overflow-y-scroll rounded-sm", className)}
+        className={cn(
+          "group/sticky flex h-fit w-full flex-col overflow-y-scroll rounded-sm",
+          className,
+        )}
         style={{
           backgroundColor,
         }}

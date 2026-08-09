@@ -49,7 +49,8 @@ export const useParseEditorContent = (args: TArgs) => {
         span.setAttribute("data-node-type", "mention-block");
         // get the user id from the component
         const id = component.getAttribute("entity_identifier") || "";
-        const entityType = (component.getAttribute("entity_name") || "user_mention") as TSearchEntities;
+        const entityType = (component.getAttribute("entity_name") ||
+          "user_mention") as TSearchEntities;
         let textContent = "user";
         if (entityType === "user_mention") {
           const userDetails = getUserDetails(id);
@@ -136,7 +137,7 @@ export const useParseEditorContent = (args: TArgs) => {
               console.error("Failed to convert image to base64:", error);
             }
           }
-        })
+        }),
       );
       // replace all checkbox elements
       const checkboxComponents = doc.querySelectorAll("input[type='checkbox']");
@@ -157,10 +158,12 @@ export const useParseEditorContent = (args: TArgs) => {
       // serialize the document back into a string
       let serializedDoc = doc.body.innerHTML;
       // remove null colors from table elements
-      serializedDoc = serializedDoc.replace(/background-color: null/g, "").replace(/color: null/g, "");
+      serializedDoc = serializedDoc
+        .replace(/background-color: null/g, "")
+        .replace(/color: null/g, "");
       return serializedDoc;
     },
-    [getUserDetails, parseAdditionalEditorContent]
+    [getUserDetails, parseAdditionalEditorContent],
   );
 
   /**
@@ -176,37 +179,43 @@ export const useParseEditorContent = (args: TArgs) => {
       const mentionRegex =
         /<mention-component[^>]*entity_identifier="([^"]+)"[^>]*entity_name="([^"]+)"[^>]*><\/mention-component>/g;
       const originUrl = typeof window !== "undefined" && (window.location.origin ?? "");
-      parsedMarkdownContent = parsedMarkdownContent.replace(mentionRegex, (_match, id, entity_type) => {
-        const entityType = entity_type as TSearchEntities;
-        if (!id || !entityType) return "";
-        if (entityType === "user_mention") {
-          const userDetails = getUserDetails(id);
-          if (!userDetails) return "";
-          return `[${userDetails.display_name}](${originUrl}/${workspaceSlug}/profile/${id})`;
-        } else {
-          const mentionDetails = parseAdditionalEditorContent({
-            id,
-            entityType,
-          });
-          if (!mentionDetails) {
-            return "";
+      parsedMarkdownContent = parsedMarkdownContent.replace(
+        mentionRegex,
+        (_match, id, entity_type) => {
+          const entityType = entity_type as TSearchEntities;
+          if (!id || !entityType) return "";
+          if (entityType === "user_mention") {
+            const userDetails = getUserDetails(id);
+            if (!userDetails) return "";
+            return `[${userDetails.display_name}](${originUrl}/${workspaceSlug}/profile/${id})`;
           } else {
-            const { redirectionPath, textContent } = mentionDetails;
-            return `[${textContent}](${originUrl}/${redirectionPath})`;
+            const mentionDetails = parseAdditionalEditorContent({
+              id,
+              entityType,
+            });
+            if (!mentionDetails) {
+              return "";
+            } else {
+              const { redirectionPath, textContent } = mentionDetails;
+              return `[${textContent}](${originUrl}/${redirectionPath})`;
+            }
           }
-        }
-      });
+        },
+      );
       // replace the matched image components with <img src={src} >
-      const imageComponentRegex = /<image-component[^>]*src="([^"]+)"[^>]*>[^]*<\/image-component>/g;
+      const imageComponentRegex =
+        /<image-component[^>]*src="([^"]+)"[^>]*>[^]*<\/image-component>/g;
       const imgTagRegex = /<img[^>]*src="([^"]+)"[^>]*\/?>/g;
       if (noAssets) {
         // remove all image components
-        parsedMarkdownContent = parsedMarkdownContent.replace(imageComponentRegex, "").replace(imgTagRegex, "");
+        parsedMarkdownContent = parsedMarkdownContent
+          .replace(imageComponentRegex, "")
+          .replace(imgTagRegex, "");
       } else {
         // replace the matched image components with <img src={src} >
         parsedMarkdownContent = parsedMarkdownContent.replace(
           imageComponentRegex,
-          (_match, src) => `<img src="${src}" >`
+          (_match, src) => `<img src="${src}" >`,
         );
       }
       // remove all issue-embed components
@@ -214,7 +223,7 @@ export const useParseEditorContent = (args: TArgs) => {
       parsedMarkdownContent = parsedMarkdownContent.replace(issueEmbedRegex, "");
       return parsedMarkdownContent;
     },
-    [getUserDetails, parseAdditionalEditorContent, workspaceSlug]
+    [getUserDetails, parseAdditionalEditorContent, workspaceSlug],
   );
 
   const getEditorMetaData = useCallback(
@@ -268,7 +277,7 @@ export const useParseEditorContent = (args: TArgs) => {
         user_mentions: userMentions,
       };
     },
-    [getUserDetails, projectId, workspaceSlug]
+    [getUserDetails, projectId, workspaceSlug],
   );
 
   return {

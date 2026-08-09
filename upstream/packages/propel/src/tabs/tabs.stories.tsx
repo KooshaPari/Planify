@@ -243,7 +243,10 @@ export const DynamicTabs: Story = {
     return (
       <div className="w-[500px]">
         <div className="mb-4">
-          <button onClick={addTab} className="rounded-sm bg-layer-1 px-3 py-1.5 text-13 hover:bg-surface-2">
+          <button
+            onClick={addTab}
+            className="rounded-sm bg-layer-1 px-3 py-1.5 text-13 hover:bg-surface-2"
+          >
             Add Tab
           </button>
         </div>

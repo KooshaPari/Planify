@@ -120,9 +120,13 @@ function ProjectCreateHeader(props: Props) {
                 handleFormOnChange?.();
                 setIsOpen(false);
               }}
-              defaultIconColor={value?.in_use && value.in_use === "icon" ? value.icon?.color : undefined}
+              defaultIconColor={
+                value?.in_use && value.in_use === "icon" ? value.icon?.color : undefined
+              }
               defaultOpen={
-                value?.in_use && value.in_use === "emoji" ? EmojiIconPickerTypes.EMOJI : EmojiIconPickerTypes.ICON
+                value?.in_use && value.in_use === "emoji"
+                  ? EmojiIconPickerTypes.EMOJI
+                  : EmojiIconPickerTypes.ICON
               }
             />
           )}

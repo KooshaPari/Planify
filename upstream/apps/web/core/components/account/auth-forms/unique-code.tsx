@@ -45,7 +45,10 @@ export function AuthUniqueCodeForm(props: TAuthUniqueCodeForm) {
   // derived values
   const defaultResetTimerValue = 5;
   // states
-  const [uniqueCodeFormData, setUniqueCodeFormData] = useState<TUniqueCodeFormValues>({ ...defaultValues, email });
+  const [uniqueCodeFormData, setUniqueCodeFormData] = useState<TUniqueCodeFormValues>({
+    ...defaultValues,
+    email,
+  });
   const [isRequestingNewCode, setIsRequestingNewCode] = useState(false);
   const [csrfToken, setCsrfToken] = useState<string | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -73,7 +76,9 @@ export function AuthUniqueCodeForm(props: TAuthUniqueCodeForm) {
 
   useEffect(() => {
     if (csrfToken === undefined)
-      authService.requestCSRFToken().then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
+      authService
+        .requestCSRFToken()
+        .then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
   }, [csrfToken]);
 
   const isRequestNewCodeDisabled = isRequestingNewCode || resendTimerCode > 0;
@@ -162,7 +167,13 @@ export function AuthUniqueCodeForm(props: TAuthUniqueCodeForm) {
       </div>
 
       <div className="space-y-2.5">
-        <Button type="submit" variant="primary" className="w-full" size="xl" disabled={isButtonDisabled}>
+        <Button
+          type="submit"
+          variant="primary"
+          className="w-full"
+          size="xl"
+          disabled={isButtonDisabled}
+        >
           {isRequestingNewCode ? (
             t("auth.common.unique_code.sending_code")
           ) : isSubmitting ? (

@@ -19,7 +19,7 @@ const useIssuePeekOverviewRedirection = (isEpic: boolean = false) => {
   const router = useRouter();
   //   store hooks
   const { getIsIssuePeeked, setPeekIssue } = useIssueDetail(
-    isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES
+    isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES,
   );
   const { getProjectIdentifierById } = useProject();
 
@@ -27,7 +27,7 @@ const useIssuePeekOverviewRedirection = (isEpic: boolean = false) => {
     workspaceSlug: string | undefined,
     issue: TIssue | undefined,
     isMobile = false,
-    nestingLevel?: number
+    nestingLevel?: number,
   ) => {
     if (!issue) return;
     const { project_id, id, archived_at, tempId } = issue;
@@ -46,7 +46,13 @@ const useIssuePeekOverviewRedirection = (isEpic: boolean = false) => {
       if (isMobile) {
         router.push(workItemLink);
       } else {
-        setPeekIssue({ workspaceSlug, projectId: project_id, issueId: id, nestingLevel, isArchived: !!archived_at });
+        setPeekIssue({
+          workspaceSlug,
+          projectId: project_id,
+          issueId: id,
+          nestingLevel,
+          isArchived: !!archived_at,
+        });
       }
     }
   };

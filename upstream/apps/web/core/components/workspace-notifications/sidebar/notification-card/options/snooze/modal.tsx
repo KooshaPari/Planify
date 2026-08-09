@@ -99,7 +99,7 @@ export function NotificationSnoozeModal(props: TNotificationSnoozeModal) {
 
     const time = formData.time.split(":");
     const hours = parseInt(
-      `${period === "AM" ? time[0] : parseInt(time[0]) + 12 === 24 ? "00" : parseInt(time[0]) + 12}`
+      `${period === "AM" ? time[0] : parseInt(time[0]) + 12 === 24 ? "00" : parseInt(time[0]) + 12}`,
     );
     const minutes = parseInt(time[1]);
 
@@ -113,7 +113,12 @@ export function NotificationSnoozeModal(props: TNotificationSnoozeModal) {
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <form onSubmit={handleSubmit(onSubmit)} className="p-5">
         <div className="flex items-center justify-between">
           <h3 className="text-h5-medium leading-6 text-primary">Customize Snooze Time</h3>
@@ -177,10 +182,13 @@ export function NotificationSnoozeModal(props: TNotificationSnoozeModal) {
                       onClick={() => {
                         setValue("period", "AM");
                       }}
-                      className={cn("flex h-full w-1/2 cursor-pointer items-center justify-center text-center", {
-                        "bg-accent-primary/90 text-on-color": watch("period") === "AM",
-                        "bg-layer-1": watch("period") !== "AM",
-                      })}
+                      className={cn(
+                        "flex h-full w-1/2 cursor-pointer items-center justify-center text-center",
+                        {
+                          "bg-accent-primary/90 text-on-color": watch("period") === "AM",
+                          "bg-layer-1": watch("period") !== "AM",
+                        },
+                      )}
                     >
                       AM
                     </div>
@@ -188,10 +196,13 @@ export function NotificationSnoozeModal(props: TNotificationSnoozeModal) {
                       onClick={() => {
                         setValue("period", "PM");
                       }}
-                      className={cn("flex h-full w-1/2 cursor-pointer items-center justify-center text-center", {
-                        "bg-accent-primary/90 text-on-color": watch("period") === "PM",
-                        "bg-layer-1": watch("period") !== "PM",
-                      })}
+                      className={cn(
+                        "flex h-full w-1/2 cursor-pointer items-center justify-center text-center",
+                        {
+                          "bg-accent-primary/90 text-on-color": watch("period") === "PM",
+                          "bg-layer-1": watch("period") !== "PM",
+                        },
+                      )}
                     >
                       PM
                     </div>
@@ -205,7 +216,9 @@ export function NotificationSnoozeModal(props: TNotificationSnoozeModal) {
                       </CustomSelect.Option>
                     ))
                   ) : (
-                    <p className="p-3 text-center text-secondary">No available time for this date.</p>
+                    <p className="p-3 text-center text-secondary">
+                      No available time for this date.
+                    </p>
                   )}
                 </CustomSelect>
               )}

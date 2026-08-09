@@ -7,7 +7,12 @@
 import { forwardRef } from "react";
 // plane imports
 import { DocumentEditorWithRef } from "@plane/editor";
-import type { IEditorPropsExtended, EditorRefApi, IDocumentEditorProps, TFileHandler } from "@plane/editor";
+import type {
+  IEditorPropsExtended,
+  EditorRefApi,
+  IDocumentEditorProps,
+  TFileHandler,
+} from "@plane/editor";
 import type { MakeOptional, TSearchEntityRequestPayload, TSearchResponse } from "@plane/types";
 import { cn } from "@plane/utils";
 // hooks
@@ -40,7 +45,7 @@ type DocumentEditorWrapperProps = MakeOptional<
 
 export const DocumentEditor = forwardRef(function DocumentEditor(
   props: DocumentEditorWrapperProps,
-  ref: React.ForwardedRef<EditorRefApi>
+  ref: React.ForwardedRef<EditorRefApi>,
 ) {
   const {
     containerClassName,
@@ -67,7 +72,9 @@ export const DocumentEditor = forwardRef(function DocumentEditor(
   // use editor mention
   const { fetchMentions } = useEditorMention({
     enableAdvancedMentions: true,
-    searchEntity: editable ? async (payload) => await props.searchMentionCallback(payload) : async () => ({}),
+    searchEntity: editable
+      ? async (payload) => await props.searchMentionCallback(payload)
+      : async () => ({}),
   });
   // editor config
   const { getEditorFileHandlers } = useEditorConfig();
@@ -75,7 +82,10 @@ export const DocumentEditor = forwardRef(function DocumentEditor(
   return (
     <DocumentEditorWithRef
       ref={ref}
-      disabledExtensions={[...documentEditorExtensions.disabled, ...(additionalDisabledExtensions ?? [])]}
+      disabledExtensions={[
+        ...documentEditorExtensions.disabled,
+        ...(additionalDisabledExtensions ?? []),
+      ]}
       editable={editable}
       flaggedExtensions={documentEditorExtensions.flagged}
       fileHandler={getEditorFileHandlers({
@@ -93,7 +103,9 @@ export const DocumentEditor = forwardRef(function DocumentEditor(
           return res;
         },
         renderComponent: EditorMentionsRoot,
-        getMentionedEntityDetails: (id: string) => ({ display_name: getUserDetails(id)?.display_name ?? "" }),
+        getMentionedEntityDetails: (id: string) => ({
+          display_name: getUserDetails(id)?.display_name ?? "",
+        }),
       }}
       extendedEditorProps={extendedEditorProps}
       {...rest}

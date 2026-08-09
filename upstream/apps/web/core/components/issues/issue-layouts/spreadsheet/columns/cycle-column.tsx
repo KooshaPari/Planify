@@ -32,10 +32,11 @@ export const SpreadsheetCycleColumn = observer(function SpreadsheetCycleColumn(p
   const handleCycle = useCallback(
     async (cycleId: string | null) => {
       if (!workspaceSlug || !issue || !issue.project_id || issue.cycle_id === cycleId) return;
-      if (cycleId) await addCycleToIssue(workspaceSlug.toString(), issue.project_id, cycleId, issue.id);
+      if (cycleId)
+        await addCycleToIssue(workspaceSlug.toString(), issue.project_id, cycleId, issue.id);
       else await removeCycleFromIssue(workspaceSlug.toString(), issue.project_id, issue.id);
     },
-    [workspaceSlug, issue, addCycleToIssue, removeCycleFromIssue]
+    [workspaceSlug, issue, addCycleToIssue, removeCycleFromIssue],
   );
 
   return (

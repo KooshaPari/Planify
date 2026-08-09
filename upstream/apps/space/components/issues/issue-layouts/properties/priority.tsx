@@ -35,7 +35,10 @@ export function IssueBlockPriority({
   if (priority_detail === null) return <></>;
 
   return (
-    <Tooltip tooltipHeading="Priority" tooltipContent={t(priority_detail?.titleTranslationKey || "")}>
+    <Tooltip
+      tooltipHeading="Priority"
+      tooltipContent={t(priority_detail?.titleTranslationKey || "")}
+    >
       <div
         className={cn(
           "flex h-full items-center gap-1.5 rounded-sm border-[0.5px] px-2 py-0.5 text-11",
@@ -45,7 +48,7 @@ export function IssueBlockPriority({
             "px-0.5": !shouldShowName,
             // highlight the whole button if text is hidden and priority is urgent
             "border-priority-urgent": priority === "urgent" && shouldShowName,
-          }
+          },
         )}
       >
         {priority ? (
@@ -65,7 +68,9 @@ export function IssueBlockPriority({
         ) : (
           <SignalHigh className="size-3" />
         )}
-        {shouldShowName && <span className="pl-2 text-13">{t(priority_detail?.titleTranslationKey || "")}</span>}
+        {shouldShowName && (
+          <span className="pl-2 text-13">{t(priority_detail?.titleTranslationKey || "")}</span>
+        )}
       </div>
     </Tooltip>
   );

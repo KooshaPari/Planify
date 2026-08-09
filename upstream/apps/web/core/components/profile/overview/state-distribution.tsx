@@ -60,16 +60,22 @@ export function ProfileStateDistribution({ stateDistribution, userProfile }: Pro
             <div className="flex items-center">
               <div className="w-full space-y-4">
                 {stateDistribution.map((group) => (
-                  <div key={group.state_group} className="flex items-center justify-between gap-2 text-11">
+                  <div
+                    key={group.state_group}
+                    className="flex items-center justify-between gap-2 text-11"
+                  >
                     <div className="flex items-center gap-1.5">
                       <div
                         className="h-2.5 w-2.5 rounded-xs"
                         style={{
                           backgroundColor:
-                            STATE_GROUPS[group.state_group]?.color ?? "var(--background-color-accent-primary)",
+                            STATE_GROUPS[group.state_group]?.color ??
+                            "var(--background-color-accent-primary)",
                         }}
                       />
-                      <div className="whitespace-nowrap">{STATE_GROUPS[group.state_group].label}</div>
+                      <div className="whitespace-nowrap">
+                        {STATE_GROUPS[group.state_group].label}
+                      </div>
                     </div>
                     <div>{group.state_count}</div>
                   </div>

@@ -22,7 +22,9 @@ export interface ICalendarStore {
   calendarPayload: ICalendarPayload | null;
 
   // action
-  updateCalendarFilters: (filters: Partial<{ activeMonthDate: Date; activeWeekDate: Date }>) => void;
+  updateCalendarFilters: (
+    filters: Partial<{ activeMonthDate: Date; activeWeekDate: Date }>,
+  ) => void;
   updateCalendarPayload: (date: Date) => void;
   regenerateCalendar: () => void;
 
@@ -34,7 +36,9 @@ export interface ICalendarStore {
     | undefined;
   activeWeekNumber: number;
   allDaysOfActiveWeek: ICalendarWeek | undefined;
-  getStartAndEndDate: (layout: "week" | "month") => { startDate: string; endDate: string } | undefined;
+  getStartAndEndDate: (
+    layout: "week" | "month",
+  ) => { startDate: string; endDate: string } | undefined;
 }
 
 export class CalendarStore implements ICalendarStore {
@@ -80,7 +84,7 @@ export class CalendarStore implements ICalendarStore {
       () => {
         // Regenerate calendar when startOfWeek preference changes
         this.regenerateCalendar();
-      }
+      },
     );
   }
 
@@ -134,7 +138,9 @@ export class CalendarStore implements ICalendarStore {
     if (!monthData) return undefined;
 
     // Calculate firstDayOfMonth offset (same logic as calendar generation)
-    const startOfWeek = this.rootStore?.rootStore?.user?.userProfile?.data?.start_of_the_week ?? EStartOfTheWeek.SUNDAY;
+    const startOfWeek =
+      this.rootStore?.rootStore?.user?.userProfile?.data?.start_of_the_week ??
+      EStartOfTheWeek.SUNDAY;
     const firstDayOfMonthRaw = new Date(year, month, 1).getDay();
     const firstDayOfMonth = (firstDayOfMonthRaw - startOfWeek + 7) % 7;
 
@@ -181,7 +187,8 @@ export class CalendarStore implements ICalendarStore {
     if (!this.calendarPayload) return null;
 
     const nextDate = new Date(date);
-    const startOfWeek = this.rootStore.rootStore.user.userProfile.data?.start_of_the_week ?? EStartOfTheWeek.SUNDAY;
+    const startOfWeek =
+      this.rootStore.rootStore.user.userProfile.data?.start_of_the_week ?? EStartOfTheWeek.SUNDAY;
 
     runInAction(() => {
       this.calendarPayload = generateCalendarData(this.calendarPayload, nextDate, startOfWeek);
@@ -189,7 +196,8 @@ export class CalendarStore implements ICalendarStore {
   };
 
   initCalendar = () => {
-    const startOfWeek = this.rootStore.rootStore.user.userProfile.data?.start_of_the_week ?? EStartOfTheWeek.SUNDAY;
+    const startOfWeek =
+      this.rootStore.rootStore.user.userProfile.data?.start_of_the_week ?? EStartOfTheWeek.SUNDAY;
     const newCalendarPayload = generateCalendarData(null, new Date(), startOfWeek);
 
     runInAction(() => {
@@ -202,7 +210,8 @@ export class CalendarStore implements ICalendarStore {
    * This should be called when startOfWeek preference changes
    */
   regenerateCalendar = () => {
-    const startOfWeek = this.rootStore.rootStore.user.userProfile.data?.start_of_the_week ?? EStartOfTheWeek.SUNDAY;
+    const startOfWeek =
+      this.rootStore.rootStore.user.userProfile.data?.start_of_the_week ?? EStartOfTheWeek.SUNDAY;
     const { activeMonthDate } = this.calendarFilters;
 
     // Force complete regeneration by passing null to clear all cached data

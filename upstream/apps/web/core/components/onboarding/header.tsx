@@ -40,13 +40,17 @@ export const OnboardingHeader = observer(function OnboardingHeader(props: Onboar
         updateCurrentStep(EOnboardingSteps.ROLE_SETUP);
         break;
       case EOnboardingSteps.WORKSPACE_CREATE_OR_JOIN:
-        updateCurrentStep(isSelfManaged ? EOnboardingSteps.PROFILE_SETUP : EOnboardingSteps.USE_CASE_SETUP);
+        updateCurrentStep(
+          isSelfManaged ? EOnboardingSteps.PROFILE_SETUP : EOnboardingSteps.USE_CASE_SETUP,
+        );
         break;
     }
   };
 
   // can go back
-  const canGoBack = ![EOnboardingSteps.PROFILE_SETUP, EOnboardingSteps.INVITE_MEMBERS].includes(currentStep);
+  const canGoBack = ![EOnboardingSteps.PROFILE_SETUP, EOnboardingSteps.INVITE_MEMBERS].includes(
+    currentStep,
+  );
 
   // step order for progress tracking — include INVITE_MEMBERS if user is currently on it
   const showInviteStep = !hasInvitations || currentStep === EOnboardingSteps.INVITE_MEMBERS;
@@ -76,10 +80,20 @@ export const OnboardingHeader = observer(function OnboardingHeader(props: Onboar
           />
         </Tooltip>
       </div>
-      <div className={cn("flex w-full items-center justify-between gap-6 px-6", canGoBack && "pr-6 pl-4")}>
+      <div
+        className={cn(
+          "flex w-full items-center justify-between gap-6 px-6",
+          canGoBack && "pr-6 pl-4",
+        )}
+      >
         <div className="flex items-center gap-2.5">
           {canGoBack && (
-            <button onClick={handleStepBack} className="cursor-pointer" type="button" disabled={!canGoBack}>
+            <button
+              onClick={handleStepBack}
+              className="cursor-pointer"
+              type="button"
+              disabled={!canGoBack}
+            >
               <ChevronLeftIcon className="size-6 text-placeholder" />
             </button>
           )}

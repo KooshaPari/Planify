@@ -66,7 +66,10 @@ export function ShortcutsModal(props: Props) {
                   <Dialog.Title as="h3" className="flex justify-between px-5">
                     <span className="text-16 font-medium">Keyboard shortcuts</span>
                     <button type="button" onClick={handleClose}>
-                      <CloseIcon className="h-4 w-4 text-secondary hover:text-primary" aria-hidden="true" />
+                      <CloseIcon
+                        className="h-4 w-4 text-secondary hover:text-primary"
+                        aria-hidden="true"
+                      />
                     </button>
                   </Dialog.Title>
                   <div className="px-5">

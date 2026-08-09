@@ -43,7 +43,13 @@ export const IssuesLayoutSelection = observer(function IssuesLayoutSelection(pro
 
   const handleCurrentBoardView = (boardView: TIssueLayout) => {
     updateIssueFilters(anchor, "display_filters", "layout", boardView);
-    const { queryParam } = queryParamGenerator({ board: boardView, peekId, priority, state, labels });
+    const { queryParam } = queryParamGenerator({
+      board: boardView,
+      peekId,
+      priority,
+      state,
+      labels,
+    });
     router.push(`/issues/${anchor}?${queryParam}`);
   };
 
@@ -57,7 +63,9 @@ export const IssuesLayoutSelection = observer(function IssuesLayoutSelection(pro
             <button
               type="button"
               className={`group grid h-[22px] w-7 place-items-center overflow-hidden rounded-sm bg-layer-transparent transition-all hover:bg-layer-transparent-hover ${
-                activeLayout == layout.key ? "bg-layer-transparent-active hover:bg-layer-transparent-selected" : ""
+                activeLayout == layout.key
+                  ? "bg-layer-transparent-active hover:bg-layer-transparent-selected"
+                  : ""
               }`}
               onClick={() => handleCurrentBoardView(layout.key)}
             >

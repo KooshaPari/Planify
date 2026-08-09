@@ -23,8 +23,13 @@ function BillingSettingsPage() {
   const { workspaceUserInfo, allowPermissions } = useUserPermissions();
   const { currentWorkspace } = useWorkspace();
   // derived values
-  const canPerformWorkspaceAdminActions = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.WORKSPACE);
-  const pageTitle = currentWorkspace?.name ? `${currentWorkspace.name} - Billing & Plans` : undefined;
+  const canPerformWorkspaceAdminActions = allowPermissions(
+    [EUserPermissions.ADMIN],
+    EUserPermissionsLevel.WORKSPACE,
+  );
+  const pageTitle = currentWorkspace?.name
+    ? `${currentWorkspace.name} - Billing & Plans`
+    : undefined;
 
   if (workspaceUserInfo && !canPerformWorkspaceAdminActions) {
     return <NotAuthorizedView section="settings" className="h-auto" />;

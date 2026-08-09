@@ -56,13 +56,18 @@ export const GroupItem = observer(function GroupItem(props: TGroupItem) {
 
   return (
     <div
-      className={cn("space-y-1 rounded-sm border border-subtle bg-surface-2 p-2 transition-all", groupItemClassName)}
+      className={cn(
+        "space-y-1 rounded-sm border border-subtle bg-surface-2 p-2 transition-all",
+        groupItemClassName,
+      )}
       ref={dropElementRef}
     >
       <div className="flex items-center justify-between gap-2">
         <div
           className="flex w-full cursor-pointer items-center py-1"
-          onClick={() => (!currentStateExpanded ? handleExpand(groupKey) : handleGroupCollapse(groupKey))}
+          onClick={() =>
+            !currentStateExpanded ? handleExpand(groupKey) : handleGroupCollapse(groupKey)
+          }
         >
           <div
             className={cn(
@@ -70,7 +75,7 @@ export const GroupItem = observer(function GroupItem(props: TGroupItem) {
               {
                 "rotate-0": currentStateExpanded,
                 "-rotate-90": !currentStateExpanded,
-              }
+              },
             )}
           >
             <ChevronDownIcon className="h-4 w-4" />
@@ -85,7 +90,8 @@ export const GroupItem = observer(function GroupItem(props: TGroupItem) {
           data-ph-element={STATE_TRACKER_ELEMENTS.STATE_GROUP_ADD_BUTTON}
           className={cn(
             "flex h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-sm text-accent-primary/80 transition-colors hover:bg-layer-1 hover:text-accent-primary",
-            (!isEditable || createState) && "cursor-not-allowed text-placeholder hover:text-placeholder"
+            (!isEditable || createState) &&
+              "cursor-not-allowed text-placeholder hover:text-placeholder",
           )}
           onClick={() => {
             if (!createState) {

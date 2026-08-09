@@ -14,7 +14,9 @@ export interface IMemberFilters {
 }
 
 // Helper function to parse order key and direction
-export const parseOrderKey = (orderKey?: TMemberOrderByOptions): { field: string; direction: "asc" | "desc" } => {
+export const parseOrderKey = (
+  orderKey?: TMemberOrderByOptions,
+): { field: string; direction: "asc" | "desc" } => {
   // Default to sorting by display_name in ascending order when no order key is provided
   if (!orderKey) {
     return {
@@ -32,7 +34,11 @@ export const parseOrderKey = (orderKey?: TMemberOrderByOptions): { field: string
 };
 
 // Unified function to get sort key for any member type
-export const getMemberSortKey = (memberDetails: IUserLite, field: string, memberRole?: string): string | Date => {
+export const getMemberSortKey = (
+  memberDetails: IUserLite,
+  field: string,
+  memberRole?: string,
+): string | Date => {
   switch (field) {
     case "display_name":
       return memberDetails.display_name?.toLowerCase() || "";
@@ -62,7 +68,7 @@ export const getMemberSortKey = (memberDetails: IUserLite, field: string, member
 // Filter functions
 export const filterProjectMembersByRole = (
   members: TProjectMembership[],
-  roleFilters: string[]
+  roleFilters: string[],
 ): TProjectMembership[] => {
   if (roleFilters.length === 0) return members;
 
@@ -72,9 +78,11 @@ export const filterProjectMembersByRole = (
   });
 };
 
-export const filterWorkspaceMembersByRole = <T extends { role: string | EUserPermissions; is_active?: boolean }>(
+export const filterWorkspaceMembersByRole = <
+  T extends { role: string | EUserPermissions; is_active?: boolean },
+>(
   members: T[],
-  roleFilters: string[]
+  roleFilters: string[],
 ): T[] => {
   if (roleFilters.length === 0) return members;
 
@@ -103,7 +111,7 @@ export const sortMembers = <T>(
   memberDetailsMap: Record<string, IUserLite>,
   getMemberKey: (member: T) => string,
   getMemberRole: (member: T) => string,
-  orderBy?: TMemberOrderByOptions
+  orderBy?: TMemberOrderByOptions,
 ): T[] => {
   if (!orderBy) return members;
 
@@ -151,11 +159,13 @@ export const sortProjectMembers = (
   members: TProjectMembership[],
   memberDetailsMap: Record<string, IUserLite>,
   getMemberKey: (member: TProjectMembership) => string,
-  filters?: IMemberFilters
+  filters?: IMemberFilters,
 ): TProjectMembership[] => {
   // Apply role filtering first
   const filteredMembers =
-    filters?.roles && filters.roles.length > 0 ? filterProjectMembersByRole(members, filters.roles) : members;
+    filters?.roles && filters.roles.length > 0
+      ? filterProjectMembersByRole(members, filters.roles)
+      : members;
 
   // If no order_by filter, return filtered members
   if (!filters?.order_by) return filteredMembers;
@@ -166,18 +176,22 @@ export const sortProjectMembers = (
     memberDetailsMap,
     getMemberKey,
     (member) => String(member.role ?? member.original_role ?? ""),
-    filters.order_by
+    filters.order_by,
   );
 };
 
-export const sortWorkspaceMembers = <T extends { role: string | EUserPermissions; is_active?: boolean }>(
+export const sortWorkspaceMembers = <
+  T extends { role: string | EUserPermissions; is_active?: boolean },
+>(
   members: T[],
   memberDetailsMap: Record<string, IUserLite>,
   getMemberKey: (member: T) => string,
-  filters?: IMemberFilters
+  filters?: IMemberFilters,
 ): T[] => {
   const filteredMembers =
-    filters?.roles && filters.roles.length > 0 ? filterWorkspaceMembersByRole(members, filters.roles) : members;
+    filters?.roles && filters.roles.length > 0
+      ? filterWorkspaceMembersByRole(members, filters.roles)
+      : members;
 
   // If no order_by filter, return filtered members
   if (!filters?.order_by) return filteredMembers;
@@ -188,6 +202,6 @@ export const sortWorkspaceMembers = <T extends { role: string | EUserPermissions
     memberDetailsMap,
     getMemberKey,
     (member) => String(member.role ?? ""),
-    filters.order_by
+    filters.order_by,
   );
 };

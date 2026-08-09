@@ -15,7 +15,7 @@ interface Props {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
   getIssueLoader: (groupId?: string, subGroupId?: string) => TLoader;
 }
@@ -34,7 +34,9 @@ export const IssueLayoutHOC = observer(function IssueLayoutHOC(props: Props) {
   }
 
   if (getGroupIssueCount(undefined, undefined, false) === 0) {
-    return <div className="grid size-full place-items-center text-secondary">No work items found</div>;
+    return (
+      <div className="grid size-full place-items-center text-secondary">No work items found</div>
+    );
   }
 
   return <>{props.children}</>;

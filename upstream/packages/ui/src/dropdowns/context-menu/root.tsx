@@ -207,7 +207,7 @@ function ContextMenuWithoutPortal(props: ContextMenuProps) {
         "pointer-events-none fixed top-0 left-0 z-30 h-screen w-screen cursor-default opacity-0 transition-opacity",
         {
           "pointer-events-auto opacity-100": isOpen,
-        }
+        },
       )}
     >
       <div

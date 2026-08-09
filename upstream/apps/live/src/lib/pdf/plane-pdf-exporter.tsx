@@ -51,14 +51,24 @@ Font.register({
 });
 
 export const createPdfDocument = (doc: TipTapDocument, options: PDFExportOptions = {}) => {
-  const { title, author, subject, pageSize = "A4", pageOrientation = "portrait", metadata, noAssets } = options;
+  const {
+    title,
+    author,
+    subject,
+    pageSize = "A4",
+    pageOrientation = "portrait",
+    metadata,
+    noAssets,
+  } = options;
 
   // Merge noAssets into metadata for use in node renderers
   const mergedMetadata = { ...metadata, noAssets };
 
   const content = doc.content || [];
   const getKey = createKeyGenerator();
-  const renderedContent = content.map((node, index) => renderNode(node, "doc", index, mergedMetadata, getKey));
+  const renderedContent = content.map((node, index) =>
+    renderNode(node, "doc", index, mergedMetadata, getKey),
+  );
 
   return (
     <Document title={title} author={author} subject={subject}>
@@ -72,7 +82,7 @@ export const createPdfDocument = (doc: TipTapDocument, options: PDFExportOptions
 
 export const renderPlaneDocToPdfBuffer = async (
   doc: TipTapDocument,
-  options: PDFExportOptions = {}
+  options: PDFExportOptions = {},
 ): Promise<Buffer> => {
   const pdfDocument = createPdfDocument(doc, options);
   const pdfInstance = pdf(pdfDocument);
@@ -81,7 +91,10 @@ export const renderPlaneDocToPdfBuffer = async (
   return Buffer.from(arrayBuffer);
 };
 
-export const renderPlaneDocToPdfBlob = async (doc: TipTapDocument, options: PDFExportOptions = {}): Promise<Blob> => {
+export const renderPlaneDocToPdfBlob = async (
+  doc: TipTapDocument,
+  options: PDFExportOptions = {},
+): Promise<Blob> => {
   const pdfDocument = createPdfDocument(doc, options);
   const pdfInstance = pdf(pdfDocument);
   return await pdfInstance.toBlob();

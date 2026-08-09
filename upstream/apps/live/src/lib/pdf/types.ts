@@ -34,7 +34,7 @@ export type PDFRenderContext = {
 export type PDFNodeRenderer = (
   node: TipTapNode,
   children: React.ReactElement[],
-  context: PDFRenderContext
+  context: PDFRenderContext,
 ) => React.ReactElement;
 
 export type PDFMarkRenderer = (mark: TipTapMark, currentStyle: Style) => Style;

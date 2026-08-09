@@ -8,7 +8,8 @@ import { isEmpty } from "lodash-es";
 
 export const storage = {
   set: (key: string, value: object | string | boolean): void => {
-    if (typeof window === undefined || typeof window === "undefined" || !key || !value) return undefined;
+    if (typeof window === undefined || typeof window === "undefined" || !key || !value)
+      return undefined;
     const tempValue: string | undefined = value
       ? ["string", "boolean"].includes(typeof value)
         ? value.toString()

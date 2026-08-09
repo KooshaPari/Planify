@@ -52,7 +52,7 @@ type TProjectSettingsMemberDefaultsProps = {
 };
 
 export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMemberDefaults(
-  props: TProjectSettingsMemberDefaultsProps
+  props: TProjectSettingsMemberDefaultsProps,
 ) {
   const { workspaceSlug, projectId } = props;
   // plane hooks
@@ -66,14 +66,14 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
     [EUserPermissions.ADMIN],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug,
-    currentProjectDetails?.id
+    currentProjectDetails?.id,
   );
   // form info
   const { reset, control } = useForm<IProject>({ defaultValues });
   // fetching user members
   useSWR(
     workspaceSlug && projectId ? PROJECT_DETAILS(workspaceSlug, projectId) : null,
-    workspaceSlug && projectId ? () => fetchProjectDetails(workspaceSlug, projectId) : null
+    workspaceSlug && projectId ? () => fetchProjectDetails(workspaceSlug, projectId) : null,
   );
 
   useEffect(() => {
@@ -82,8 +82,10 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
     reset({
       ...currentProjectDetails,
       default_assignee:
-        (currentProjectDetails.default_assignee as IUserLite)?.id ?? currentProjectDetails.default_assignee,
-      project_lead: (currentProjectDetails.project_lead as IUserLite)?.id ?? currentProjectDetails.project_lead,
+        (currentProjectDetails.default_assignee as IUserLite)?.id ??
+        currentProjectDetails.default_assignee,
+      project_lead:
+        (currentProjectDetails.project_lead as IUserLite)?.id ?? currentProjectDetails.project_lead,
       workspace: (currentProjectDetails.workspace as IWorkspace).id,
     });
   }, [currentProjectDetails, reset]);
@@ -94,8 +96,11 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
     reset({
       ...currentProjectDetails,
       default_assignee:
-        (currentProjectDetails?.default_assignee as IUserLite)?.id ?? currentProjectDetails?.default_assignee,
-      project_lead: (currentProjectDetails?.project_lead as IUserLite)?.id ?? currentProjectDetails?.project_lead,
+        (currentProjectDetails?.default_assignee as IUserLite)?.id ??
+        currentProjectDetails?.default_assignee,
+      project_lead:
+        (currentProjectDetails?.project_lead as IUserLite)?.id ??
+        currentProjectDetails?.project_lead,
       ...formData,
     });
 
@@ -105,7 +110,9 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
           ? null
           : (formData.default_assignee ?? currentProjectDetails?.default_assignee),
       project_lead:
-        formData.project_lead === "none" ? null : (formData.project_lead ?? currentProjectDetails?.project_lead),
+        formData.project_lead === "none"
+          ? null
+          : (formData.project_lead ?? currentProjectDetails?.project_lead),
     })
       .then(() => {
         setToast({
@@ -139,7 +146,10 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
 
   return (
     <div className="my-6 flex flex-col gap-y-6">
-      <DefaultSettingItem title="Project Lead" description="Select the project lead for the project.">
+      <DefaultSettingItem
+        title="Project Lead"
+        description="Select the project lead for the project."
+      >
         {currentProjectDetails ? (
           <Controller
             control={control}
@@ -160,7 +170,10 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
           </Loader>
         )}
       </DefaultSettingItem>
-      <DefaultSettingItem title="Default Assignee" description="Select the default assignee for the project.">
+      <DefaultSettingItem
+        title="Default Assignee"
+        description="Select the default assignee for the project."
+      >
         {currentProjectDetails ? (
           <Controller
             control={control}
@@ -189,7 +202,9 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
           <div className="flex items-center justify-end">
             <ToggleSwitch
               value={!!currentProjectDetails?.guest_view_all_features}
-              onChange={() => toggleGuestViewAllIssues(!currentProjectDetails?.guest_view_all_features)}
+              onChange={() =>
+                toggleGuestViewAllIssues(!currentProjectDetails?.guest_view_all_features)
+              }
               disabled={!isAdmin}
               size="sm"
             />

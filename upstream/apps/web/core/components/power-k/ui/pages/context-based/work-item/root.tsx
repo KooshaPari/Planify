@@ -27,7 +27,9 @@ type Props = {
   handleSelection: (data: unknown) => void;
 };
 
-export const PowerKWorkItemContextBasedPages = observer(function PowerKWorkItemContextBasedPages(props: Props) {
+export const PowerKWorkItemContextBasedPages = observer(function PowerKWorkItemContextBasedPages(
+  props: Props,
+) {
   const { activePage, handleSelection } = props;
   // navigation
   const { workItem: entityIdentifier } = useParams();
@@ -41,7 +43,9 @@ export const PowerKWorkItemContextBasedPages = observer(function PowerKWorkItemC
   // derived values
   const entityId = entityIdentifier ? getIssueIdByIdentifier(entityIdentifier.toString()) : null;
   const entityDetails = entityId ? getIssueById(entityId) : null;
-  const projectMemberIds = entityDetails?.project_id ? getProjectMemberIds(entityDetails.project_id, false) : [];
+  const projectMemberIds = entityDetails?.project_id
+    ? getProjectMemberIds(entityDetails.project_id, false)
+    : [];
 
   if (!entityDetails) return null;
 
@@ -53,7 +57,10 @@ export const PowerKWorkItemContextBasedPages = observer(function PowerKWorkItemC
       )}
       {/* priority menu */}
       {activePage === "update-work-item-priority" && (
-        <PowerKWorkItemPrioritiesMenu handleSelect={handleSelection} workItemDetails={entityDetails} />
+        <PowerKWorkItemPrioritiesMenu
+          handleSelect={handleSelection}
+          workItemDetails={entityDetails}
+        />
       )}
       {/* members menu */}
       {activePage === "update-work-item-assignee" && (
@@ -65,7 +72,10 @@ export const PowerKWorkItemContextBasedPages = observer(function PowerKWorkItemC
       )}
       {/* estimates menu */}
       {activePage === "update-work-item-estimate" && (
-        <PowerKWorkItemEstimatesMenu handleSelect={handleSelection} workItemDetails={entityDetails} />
+        <PowerKWorkItemEstimatesMenu
+          handleSelect={handleSelection}
+          workItemDetails={entityDetails}
+        />
       )}
       {/* cycles menu */}
       {activePage === "update-work-item-cycle" && (

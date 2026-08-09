@@ -57,7 +57,7 @@ export function ArchiveRestoreProjectModal(props: Props) {
           type: TOAST_TYPE.ERROR,
           title: "Error!",
           message: "Project could not be archived. Please try again.",
-        })
+        }),
       )
       .finally(() => setIsLoading(false));
   };
@@ -80,13 +80,18 @@ export function ArchiveRestoreProjectModal(props: Props) {
           type: TOAST_TYPE.ERROR,
           title: "Error!",
           message: "Project could not be restored. Please try again.",
-        })
+        }),
       )
       .finally(() => setIsLoading(false));
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.LG}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.LG}
+    >
       <div className="px-5 py-4">
         <h3 className="text-18 font-medium 2xl:text-20">
           {archive ? "Archive" : "Restore"} {projectDetails.name}

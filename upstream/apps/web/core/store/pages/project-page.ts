@@ -80,10 +80,11 @@ export class ProjectPage extends BasePage implements TProjectPage {
     if (!workspaceSlug || !this.project_ids?.length) return;
     let highestRole: EUserPermissions | undefined = undefined;
     this.project_ids.map((projectId) => {
-      const currentUserProjectRole = this.rootStore.user.permission.getProjectRoleByWorkspaceSlugAndProjectId(
-        workspaceSlug?.toString() || "",
-        projectId?.toString() || ""
-      );
+      const currentUserProjectRole =
+        this.rootStore.user.permission.getProjectRoleByWorkspaceSlugAndProjectId(
+          workspaceSlug?.toString() || "",
+          projectId?.toString() || "",
+        );
       if (currentUserProjectRole) {
         if (!highestRole) highestRole = currentUserProjectRole;
         else if (currentUserProjectRole > highestRole) highestRole = currentUserProjectRole;
@@ -179,7 +180,9 @@ export class ProjectPage extends BasePage implements TProjectPage {
     const isLocked = this.is_locked;
 
     return (
-      !isArchived && !isLocked && (isOwner || (isPublic && !!highestRole && highestRole >= EUserPermissions.MEMBER))
+      !isArchived &&
+      !isLocked &&
+      (isOwner || (isPublic && !!highestRole && highestRole >= EUserPermissions.MEMBER))
     );
   }
 

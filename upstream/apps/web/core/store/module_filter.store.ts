@@ -34,7 +34,11 @@ export interface IModuleFilterStore {
   getArchivedFiltersByProjectId: (projectId: string) => TModuleFilters | undefined;
   // actions
   updateDisplayFilters: (projectId: string, displayFilters: TModuleDisplayFilters) => void;
-  updateFilters: (projectId: string, filters: TModuleFilters, state?: keyof TModuleFiltersByState) => void;
+  updateFilters: (
+    projectId: string,
+    filters: TModuleFilters,
+    state?: keyof TModuleFiltersByState,
+  ) => void;
   updateSearchQuery: (query: string) => void;
   updateArchivedModulesSearchQuery: (query: string) => void;
   clearAllFilters: (projectId: string, state?: keyof TModuleFiltersByState) => void;
@@ -77,7 +81,7 @@ export class ModuleFilterStore implements IModuleFilterStore {
         if (!projectId) return;
         this.initProjectModuleFilters(projectId);
         this.searchQuery = "";
-      }
+      },
     );
 
     // Load initial data from localStorage after reactions are set up
@@ -173,7 +177,9 @@ export class ModuleFilterStore implements IModuleFilterStore {
    * @description get archived filters of a project by projectId
    * @param {string} projectId
    */
-  getArchivedFiltersByProjectId = computedFn((projectId: string) => this.filters[projectId].archived);
+  getArchivedFiltersByProjectId = computedFn(
+    (projectId: string) => this.filters[projectId].archived,
+  );
 
   /**
    * @description initialize display filters and filters of a project
@@ -204,7 +210,11 @@ export class ModuleFilterStore implements IModuleFilterStore {
   updateDisplayFilters = (projectId: string, displayFilters: TModuleDisplayFilters) => {
     runInAction(() => {
       Object.keys(displayFilters).forEach((key) => {
-        set(this.displayFilters, [projectId, key], displayFilters[key as keyof TModuleDisplayFilters]);
+        set(
+          this.displayFilters,
+          [projectId, key],
+          displayFilters[key as keyof TModuleDisplayFilters],
+        );
       });
     });
     this.saveDisplayFiltersToLocalStorage();
@@ -215,7 +225,11 @@ export class ModuleFilterStore implements IModuleFilterStore {
    * @param {string} projectId
    * @param {TModuleFilters} filters
    */
-  updateFilters = (projectId: string, filters: TModuleFilters, state: keyof TModuleFiltersByState = "default") => {
+  updateFilters = (
+    projectId: string,
+    filters: TModuleFilters,
+    state: keyof TModuleFiltersByState = "default",
+  ) => {
     runInAction(() => {
       Object.keys(filters).forEach((key) => {
         set(this.filters, [projectId, state, key], filters[key as keyof TModuleFilters]);

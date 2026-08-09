@@ -42,7 +42,14 @@ type Props = {
 };
 
 export const PageNavigationPaneRoot = observer(function PageNavigationPaneRoot(props: Props) {
-  const { handleClose, isNavigationPaneOpen, page, versionHistory, extensions = [], storeType } = props;
+  const {
+    handleClose,
+    isNavigationPaneOpen,
+    page,
+    versionHistory,
+    extensions = [],
+    storeType,
+  } = props;
 
   // navigation
   const router = useRouter();
@@ -51,7 +58,7 @@ export const PageNavigationPaneRoot = observer(function PageNavigationPaneRoot(p
   const { updateQueryParams } = useQueryParams();
   // derived values
   const navigationPaneQueryParam = searchParams.get(
-    PAGE_NAVIGATION_PANE_TABS_QUERY_PARAM
+    PAGE_NAVIGATION_PANE_TABS_QUERY_PARAM,
   ) as TPageNavigationPaneTab | null;
   const activeTab: TPageNavigationPaneTab = navigationPaneQueryParam || "outline";
 
@@ -82,7 +89,7 @@ export const PageNavigationPaneRoot = observer(function PageNavigationPaneRoot(p
       });
       router.push(updatedRoute);
     },
-    [router, updateQueryParams]
+    [router, updateQueryParams],
   );
 
   return (
@@ -108,7 +115,11 @@ export const PageNavigationPaneRoot = observer(function PageNavigationPaneRoot(p
 
       <div className="animate-slide-in-right flex flex-1 flex-col overflow-hidden">
         {ActiveExtension ? (
-          <ActiveExtension.component page={page} extensionData={ActiveExtension.data} storeType={storeType} />
+          <ActiveExtension.component
+            page={page}
+            extensionData={ActiveExtension.data}
+            storeType={storeType}
+          />
         ) : showNavigationTabs ? (
           <Tabs value={activeTab} onValueChange={handleTabChange}>
             <PageNavigationPaneTabsList />

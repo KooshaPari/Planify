@@ -107,7 +107,9 @@ export interface ClientForceCloseMessage {
 /**
  * Admin command handler function type
  */
-export type AdminCommandHandler<T extends AdminCommandData = AdminCommandData> = (data: T) => Promise<void> | void;
+export type AdminCommandHandler<T extends AdminCommandData = AdminCommandData> = (
+  data: T,
+) => Promise<void> | void;
 
 /**
  * Type guard to check if data is a ForceCloseCommandData

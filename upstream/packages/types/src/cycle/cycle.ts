@@ -127,7 +127,9 @@ export interface CycleIssueResponse {
   sub_issues_count: number;
 }
 
-export type SelectCycleType = (ICycle & { actionType: "edit" | "delete" | "create-issue" }) | undefined;
+export type SelectCycleType =
+  | (ICycle & { actionType: "edit" | "delete" | "create-issue" })
+  | undefined;
 
 export type CycleDateCheckData = {
   start_date: string;

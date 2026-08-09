@@ -25,14 +25,17 @@ import { QuickAddIssueRoot } from "../quick-add";
 
 type TCalendarQuickAddIssueActions = {
   prePopulatedData?: Partial<TIssue>;
-  quickAddCallback?: (projectId: string | null | undefined, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddCallback?: (
+    projectId: string | null | undefined,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   addIssuesToView?: (issueIds: string[]) => Promise<any>;
   onOpen?: () => void;
   isEpic?: boolean;
 };
 
 export const CalendarQuickAddIssueActions = observer(function CalendarQuickAddIssueActions(
-  props: TCalendarQuickAddIssueActions
+  props: TCalendarQuickAddIssueActions,
 ) {
   const { prePopulatedData, quickAddCallback, addIssuesToView, onOpen, isEpic = false } = props;
   const { t } = useTranslation();
@@ -55,7 +58,14 @@ export const CalendarQuickAddIssueActions = observer(function CalendarQuickAddIs
 
     const issueIds = data.map((i) => i.id);
     const addExistingIssuesPromise = Promise.all(
-      data.map((issue) => updateIssue(workspaceSlug.toString(), projectId.toString(), issue.id, prePopulatedData ?? {}))
+      data.map((issue) =>
+        updateIssue(
+          workspaceSlug.toString(),
+          projectId.toString(),
+          issue.id,
+          prePopulatedData ?? {},
+        ),
+      ),
     ).then(() => addIssuesToView?.(issueIds));
 
     setPromiseToast(addExistingIssuesPromise, {
@@ -114,7 +124,7 @@ export const CalendarQuickAddIssueActions = observer(function CalendarQuickAddIs
               "overflow-hidden rounded-sm bg-layer-transparent hover:bg-layer-transparent-hover md:opacity-0 md:group-hover:opacity-100",
               {
                 block: isMenuOpen,
-              }
+              },
             )}
           >
             <CustomMenu
@@ -136,7 +146,9 @@ export const CalendarQuickAddIssueActions = observer(function CalendarQuickAddIs
                 {isEpic ? t("epic.add.label") : t("issue.add.label")}
               </CustomMenu.MenuItem>
               {!isEpic && (
-                <CustomMenu.MenuItem onClick={handleExistingIssue}>{t("issue.add.existing")}</CustomMenu.MenuItem>
+                <CustomMenu.MenuItem onClick={handleExistingIssue}>
+                  {t("issue.add.existing")}
+                </CustomMenu.MenuItem>
               )}
             </CustomMenu>
           </div>

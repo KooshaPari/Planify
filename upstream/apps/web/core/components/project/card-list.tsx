@@ -27,7 +27,8 @@ type TProjectCardListProps = {
 };
 
 export const ProjectCardList = observer(function ProjectCardList(props: TProjectCardListProps) {
-  const { totalProjectIds: totalProjectIdsProps, filteredProjectIds: filteredProjectIdsProps } = props;
+  const { totalProjectIds: totalProjectIdsProps, filteredProjectIds: filteredProjectIdsProps } =
+    props;
   // plane hooks
   const { t } = useTranslation();
   // store hooks
@@ -49,10 +50,15 @@ export const ProjectCardList = observer(function ProjectCardList(props: TProject
   // permissions
   const canPerformEmptyStateActions = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
-  if (!filteredProjectIds || !workspaceProjectIds || loader === "init-loader" || fetchStatus !== "complete")
+  if (
+    !filteredProjectIds ||
+    !workspaceProjectIds ||
+    loader === "init-loader" ||
+    fetchStatus !== "complete"
+  )
     return <ProjectsLoader />;
 
   if (workspaceProjectIds?.length === 0 && !currentWorkspaceDisplayFilters?.archived_projects)

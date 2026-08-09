@@ -8,7 +8,11 @@ import { action, makeObservable, observable } from "mobx";
 import { computedFn } from "mobx-utils";
 // plane imports
 import type { TExpressionOptions } from "@plane/constants";
-import type { EIssuesStoreType, TWorkItemFilterExpression, TWorkItemFilterProperty } from "@plane/types";
+import type {
+  EIssuesStoreType,
+  TWorkItemFilterExpression,
+  TWorkItemFilterProperty,
+} from "@plane/types";
 import { LOGICAL_OPERATOR } from "@plane/types";
 import { getOperatorForPayload } from "@plane/utils";
 // local imports
@@ -29,19 +33,26 @@ type TGetOrCreateFilterParams = {
 
 export interface IWorkItemFilterStore {
   filters: Map<TWorkItemFilterKey, IWorkItemFilterInstance>; // key is the entity id (project, cycle, workspace, teamspace, etc)
-  getFilter: (entityType: EIssuesStoreType, entityId: string) => IWorkItemFilterInstance | undefined;
+  getFilter: (
+    entityType: EIssuesStoreType,
+    entityId: string,
+  ) => IWorkItemFilterInstance | undefined;
   getOrCreateFilter: (params: TGetOrCreateFilterParams) => IWorkItemFilterInstance;
-  resetExpression: (entityType: EIssuesStoreType, entityId: string, expression: TWorkItemFilterExpression) => void;
+  resetExpression: (
+    entityType: EIssuesStoreType,
+    entityId: string,
+    expression: TWorkItemFilterExpression,
+  ) => void;
   updateFilterExpressionFromConditions: (
     entityType: EIssuesStoreType,
     entityId: string,
     conditions: TWorkItemFilterCondition[],
-    fallbackFn: (expression: TWorkItemFilterExpression) => Promise<void>
+    fallbackFn: (expression: TWorkItemFilterExpression) => Promise<void>,
   ) => Promise<void>;
   updateFilterValueFromSidebar: (
     entityType: EIssuesStoreType,
     entityId: string,
-    condition: TWorkItemFilterCondition
+    condition: TWorkItemFilterCondition,
   ) => void;
   deleteFilter: (entityType: EIssuesStoreType, entityId: string) => void;
 }
@@ -70,7 +81,7 @@ export class WorkItemFilterStore implements IWorkItemFilterStore {
    * @returns The filter instance.
    */
   getFilter: IWorkItemFilterStore["getFilter"] = computedFn((entityType, entityId) =>
-    this.filters.get(this._getFilterKey(entityType, entityId))
+    this.filters.get(this._getFilterKey(entityType, entityId)),
   );
 
   // ------------ actions ------------
@@ -111,12 +122,14 @@ export class WorkItemFilterStore implements IWorkItemFilterStore {
    * @param entityId - The entity id.
    * @param expression - The expression to update.
    */
-  resetExpression: IWorkItemFilterStore["resetExpression"] = action((entityType, entityId, expression) => {
-    const filter = this.getFilter(entityType, entityId);
-    if (filter) {
-      filter.resetExpression(expression);
-    }
-  });
+  resetExpression: IWorkItemFilterStore["resetExpression"] = action(
+    (entityType, entityId, expression) => {
+      const filter = this.getFilter(entityType, entityId);
+      if (filter) {
+        filter.resetExpression(expression);
+      }
+    },
+  );
 
   /**
    * Updates the filter expression from conditions.
@@ -125,8 +138,8 @@ export class WorkItemFilterStore implements IWorkItemFilterStore {
    * @param conditions - The conditions to update.
    * @param fallbackFn - The fallback function to update the expression if the filter instance does not exist.
    */
-  updateFilterExpressionFromConditions: IWorkItemFilterStore["updateFilterExpressionFromConditions"] = action(
-    async (entityType, entityId, conditions, fallbackFn) => {
+  updateFilterExpressionFromConditions: IWorkItemFilterStore["updateFilterExpressionFromConditions"] =
+    action(async (entityType, entityId, conditions, fallbackFn) => {
       const filter = this.getFilter(entityType, entityId);
       const newFilterExpression = buildWorkItemFilterExpressionFromConditions({
         conditions,
@@ -139,8 +152,7 @@ export class WorkItemFilterStore implements IWorkItemFilterStore {
       } else {
         await fallbackFn(newFilterExpression);
       }
-    }
-  );
+    });
 
   /**
    * Handles sidebar filter updates by adding new conditions or updating existing ones.
@@ -159,13 +171,16 @@ export class WorkItemFilterStore implements IWorkItemFilterStore {
       // Early return if filter instance doesn't exist
       if (!filter) {
         console.warn(
-          `Cannot handle sidebar filters update: filter instance not found for entity type "${entityType}" with ID "${entityId}"`
+          `Cannot handle sidebar filters update: filter instance not found for entity type "${entityType}" with ID "${entityId}"`,
         );
         return;
       }
 
       // Check for existing conditions with the same property and operator
-      const conditionNode = filter.findFirstConditionByPropertyAndOperator(condition.property, condition.operator);
+      const conditionNode = filter.findFirstConditionByPropertyAndOperator(
+        condition.property,
+        condition.operator,
+      );
 
       // No existing condition found - add new condition with AND logic
       if (!conditionNode) {
@@ -184,7 +199,7 @@ export class WorkItemFilterStore implements IWorkItemFilterStore {
 
       // Update existing condition (assuming single condition per property-operator pair)
       filter.updateConditionValue(conditionNode.id, condition.value);
-    }
+    },
   );
 
   /**
@@ -204,7 +219,8 @@ export class WorkItemFilterStore implements IWorkItemFilterStore {
    * @param entityId - The entity id.s
    * @returns The filter key.
    */
-  _getFilterKey = (entityType: EIssuesStoreType, entityId: string): TWorkItemFilterKey => `${entityType}-${entityId}`;
+  _getFilterKey = (entityType: EIssuesStoreType, entityId: string): TWorkItemFilterKey =>
+    `${entityType}-${entityId}`;
 
   /**
    * Initializes a filter instance.

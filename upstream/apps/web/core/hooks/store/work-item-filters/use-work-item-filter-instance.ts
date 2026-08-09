@@ -12,7 +12,7 @@ import { useWorkItemFilters } from "./use-work-item-filters";
 
 export const useWorkItemFilterInstance = (
   entityType: EIssuesStoreType,
-  entityId: string | undefined
+  entityId: string | undefined,
 ): IWorkItemFilterInstance | undefined => {
   const { getFilter } = useWorkItemFilters();
   return entityId ? getFilter(entityType, entityId) : undefined;

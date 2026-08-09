@@ -51,13 +51,13 @@ export const ViewListItemAction = observer(function ViewListItemAction(props: Pr
   // local storage
   const { setValue: toggleFavoriteMenu, storedValue: isFavoriteOpen } = useLocalStorage<boolean>(
     IS_FAVORITE_MENU_OPEN,
-    false
+    false,
   );
 
   // derived values
   const isEditingAllowed = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   const access = view.access;
@@ -82,7 +82,11 @@ export const ViewListItemAction = observer(function ViewListItemAction(props: Pr
 
   return (
     <>
-      <PublishViewModal isOpen={isPublishModalOpen} onClose={() => setPublishModalOpen(false)} view={view} />
+      <PublishViewModal
+        isOpen={isPublishModalOpen}
+        onClose={() => setPublishModalOpen(false)}
+        view={view}
+      />
       {workspaceSlug && projectId && view && (
         <CreateUpdateProjectViewModal
           isOpen={createUpdateViewModal}
@@ -92,10 +96,18 @@ export const ViewListItemAction = observer(function ViewListItemAction(props: Pr
           data={view}
         />
       )}
-      <DeleteProjectViewModal data={view} isOpen={deleteViewModal} onClose={() => setDeleteViewModal(false)} />
+      <DeleteProjectViewModal
+        data={view}
+        isOpen={deleteViewModal}
+        onClose={() => setDeleteViewModal(false)}
+      />
       <div className="cursor-default text-tertiary">
         <Tooltip tooltipContent={access === EViewAccess.PUBLIC ? "Public" : "Private"}>
-          {access === EViewAccess.PUBLIC ? <Earth className="h-4 w-4" /> : <LockIcon className="h-4 w-4" />}
+          {access === EViewAccess.PUBLIC ? (
+            <Earth className="h-4 w-4" />
+          ) : (
+            <LockIcon className="h-4 w-4" />
+          )}
         </Tooltip>
       </div>
 

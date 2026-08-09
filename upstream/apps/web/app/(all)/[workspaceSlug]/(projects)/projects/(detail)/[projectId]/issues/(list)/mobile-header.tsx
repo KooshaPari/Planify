@@ -42,15 +42,20 @@ export const ProjectIssuesMobileHeader = observer(function ProjectIssuesMobileHe
       if (!workspaceSlug || !projectId) return;
       updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_FILTERS, { layout: layout });
     },
-    [workspaceSlug, projectId, updateFilters]
+    [workspaceSlug, projectId, updateFilters],
   );
 
   const handleDisplayFilters = useCallback(
     (updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>) => {
       if (!workspaceSlug || !projectId) return;
-      updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_FILTERS, updatedDisplayFilter);
+      updateFilters(
+        workspaceSlug,
+        projectId,
+        EIssueFilterType.DISPLAY_FILTERS,
+        updatedDisplayFilter,
+      );
     },
-    [workspaceSlug, projectId, updateFilters]
+    [workspaceSlug, projectId, updateFilters],
   );
 
   const handleDisplayProperties = useCallback(
@@ -58,7 +63,7 @@ export const ProjectIssuesMobileHeader = observer(function ProjectIssuesMobileHe
       if (!workspaceSlug || !projectId) return;
       updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_PROPERTIES, property);
     },
-    [workspaceSlug, projectId, updateFilters]
+    [workspaceSlug, projectId, updateFilters],
   );
 
   return (
@@ -86,7 +91,9 @@ export const ProjectIssuesMobileHeader = observer(function ProjectIssuesMobileHe
           >
             <DisplayFiltersSelection
               layoutDisplayFiltersOptions={
-                activeLayout ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout] : undefined
+                activeLayout
+                  ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout]
+                  : undefined
               }
               displayFilters={issueFilters?.displayFilters ?? {}}
               handleDisplayFiltersUpdate={handleDisplayFilters}

@@ -23,7 +23,9 @@ export const PowerKOpenProjectMenu = observer(function PowerKOpenProjectMenu(pro
   const { loader, joinedProjectIds, getPartialProjectById } = useProject();
   // derived values
   const projectsList = joinedProjectIds
-    ? joinedProjectIds.map((id) => getPartialProjectById(id)).filter((project) => project !== undefined)
+    ? joinedProjectIds
+        .map((id) => getPartialProjectById(id))
+        .filter((project) => project !== undefined)
     : [];
 
   if (loader === "init-loader") return <Spinner />;

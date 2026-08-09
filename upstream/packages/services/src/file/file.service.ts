@@ -79,7 +79,10 @@ export class FileService extends APIService {
    * @returns {Promise<TDuplicateAssetResponse>} Promise resolving to a record of asset IDs
    * @throws {Error} If the request fails
    */
-  async duplicateAssets(workspaceSlug: string, data: TDuplicateAssetData): Promise<TDuplicateAssetResponse> {
+  async duplicateAssets(
+    workspaceSlug: string,
+    data: TDuplicateAssetData,
+  ): Promise<TDuplicateAssetResponse> {
     return this.post(`/api/assets/v2/workspaces/${workspaceSlug}/duplicate-assets/`, data)
       .then((response) => response?.data)
       .catch((error) => {

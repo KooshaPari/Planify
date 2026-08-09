@@ -16,6 +16,8 @@ export type TAdditionalPageNavigationPaneAssetItemProps = {
   page: TPageInstance;
 };
 
-export function AdditionalPageNavigationPaneAssetItem(_props: TAdditionalPageNavigationPaneAssetItemProps) {
+export function AdditionalPageNavigationPaneAssetItem(
+  _props: TAdditionalPageNavigationPaneAssetItemProps,
+) {
   return null;
 }

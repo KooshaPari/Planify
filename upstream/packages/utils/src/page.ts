@@ -41,7 +41,7 @@ export const filterPagesByPageType = (pageType: TPageNavigationTabs, pages: TPag
 export const orderPages = (
   pages: TPage[],
   sortByKey: TPageFiltersSortKey | undefined,
-  sortByOrder: TPageFiltersSortBy
+  sortByOrder: TPageFiltersSortBy,
 ): TPage[] => {
   let orderedPages: TPage[] = [];
   if (pages.length === 0 || !sortByKey) return [];
@@ -77,7 +77,8 @@ export const shouldFilterPage = (page: TPage, filters: TPageFilterProps | undefi
     if (filterKey === "created_at" && filters?.created_at && filters.created_at.length > 0) {
       const createdDate = getDate(page.created_at);
       filters?.created_at.forEach((dateFilter) => {
-        fallsInFilters = fallsInFilters && !!createdDate && satisfiesDateFilter(createdDate, dateFilter);
+        fallsInFilters =
+          fallsInFilters && !!createdDate && satisfiesDateFilter(createdDate, dateFilter);
       });
     }
   });

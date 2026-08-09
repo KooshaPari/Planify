@@ -18,7 +18,10 @@ type Props = {
   shouldShowBorder?: boolean;
 };
 
-export const IssueBlockCycle = observer(function IssueBlockCycle({ cycleId, shouldShowBorder = true }: Props) {
+export const IssueBlockCycle = observer(function IssueBlockCycle({
+  cycleId,
+  shouldShowBorder = true,
+}: Props) {
   const { getCycleById } = useCycle();
 
   const cycle = getCycleById(cycleId);
@@ -28,7 +31,7 @@ export const IssueBlockCycle = observer(function IssueBlockCycle({ cycleId, shou
       <div
         className={cn(
           "flex h-full w-full items-center justify-between gap-1 rounded-sm px-2.5 py-1 text-11 duration-300 focus:outline-none",
-          { "border-[0.5px] border-strong": shouldShowBorder }
+          { "border-[0.5px] border-strong": shouldShowBorder },
         )}
       >
         <div className="flex w-full items-center gap-1.5 text-11">

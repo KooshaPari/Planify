@@ -22,7 +22,7 @@ export const NotificationsProfileSettings = observer(function NotificationsProfi
   const { t } = useTranslation();
   // fetching user email notification settings
   const { data, isLoading } = useSWR("CURRENT_USER_EMAIL_NOTIFICATION_SETTINGS", () =>
-    userService.currentUserEmailNotificationSettings()
+    userService.currentUserEmailNotificationSettings(),
   );
 
   if (!data || isLoading) {

@@ -27,7 +27,7 @@ export const ListLayout = observer(function ListLayout() {
       [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
       EUserPermissionsLevel.PROJECT,
       workspaceSlug.toString(),
-      projectId
+      projectId,
     );
 
   return (

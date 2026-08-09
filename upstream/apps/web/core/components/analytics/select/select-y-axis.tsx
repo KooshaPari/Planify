@@ -21,10 +21,16 @@ type Props = {
   options: { value: ChartYAxisMetric; label: string }[];
 };
 
-export const SelectYAxis = observer(function SelectYAxis({ value, onChange, hiddenOptions, options }: Props) {
+export const SelectYAxis = observer(function SelectYAxis({
+  value,
+  onChange,
+  hiddenOptions,
+  options,
+}: Props) {
   // hooks
   const { projectId } = useParams();
-  const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } = useProjectEstimates();
+  const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } =
+    useProjectEstimates();
 
   const isEstimateEnabled = (analyticsOption: string) => {
     if (analyticsOption === "estimate") {

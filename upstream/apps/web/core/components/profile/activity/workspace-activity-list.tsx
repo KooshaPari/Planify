@@ -41,7 +41,7 @@ export function WorkspaceActivityListPage(props: Props) {
             cursor,
             per_page: perPage,
           })
-      : null
+      : null,
   );
 
   useEffect(() => {

@@ -12,7 +12,12 @@ import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { ChevronLeftIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { IEstimateFormData, TEstimateSystemKeys, TEstimatePointsObject, TEstimateTypeError } from "@plane/types";
+import type {
+  IEstimateFormData,
+  TEstimateSystemKeys,
+  TEstimatePointsObject,
+  TEstimateTypeError,
+} from "@plane/types";
 import { EModalPosition, EModalWidth, ModalCore } from "@plane/ui";
 // hooks
 import { useProjectEstimates } from "@/hooks/store/estimates";
@@ -27,7 +32,9 @@ type TCreateEstimateModal = {
   handleClose: () => void;
 };
 
-export const CreateEstimateModal = observer(function CreateEstimateModal(props: TCreateEstimateModal) {
+export const CreateEstimateModal = observer(function CreateEstimateModal(
+  props: TCreateEstimateModal,
+) {
   // props
   const { workspaceSlug, projectId, isOpen, handleClose } = props;
   // hooks
@@ -35,18 +42,21 @@ export const CreateEstimateModal = observer(function CreateEstimateModal(props: 
   const { t } = useTranslation();
   // states
   const [estimateSystem, setEstimateSystem] = useState<TEstimateSystemKeys>(EEstimateSystem.POINTS);
-  const [estimatePoints, setEstimatePoints] = useState<TEstimatePointsObject[] | undefined>(undefined);
+  const [estimatePoints, setEstimatePoints] = useState<TEstimatePointsObject[] | undefined>(
+    undefined,
+  );
   const [estimatePointError, setEstimatePointError] = useState<TEstimateTypeError>(undefined);
   const [buttonLoader, setButtonLoader] = useState(false);
 
-  const handleUpdatePoints = (newPoints: TEstimatePointsObject[] | undefined) => setEstimatePoints(newPoints);
+  const handleUpdatePoints = (newPoints: TEstimatePointsObject[] | undefined) =>
+    setEstimatePoints(newPoints);
 
   const handleEstimatePointError = (
     key: number,
     oldValue: string,
     newValue: string,
     message: string | undefined,
-    mode: "add" | "delete" = "add"
+    mode: "add" | "delete" = "add",
   ) => {
     setEstimatePointError((prev) => {
       if (mode === "add") {
@@ -126,7 +136,8 @@ export const CreateEstimateModal = observer(function CreateEstimateModal(props: 
             delete newError[currentKey];
           } else {
             newError[currentKey].message =
-              newError[currentKey].message || t("project_settings.estimates.validation.remove_empty");
+              newError[currentKey].message ||
+              t("project_settings.estimates.validation.remove_empty");
           }
         });
         return newError;
@@ -158,7 +169,9 @@ export const CreateEstimateModal = observer(function CreateEstimateModal(props: 
                 <ChevronLeftIcon className="h-4 w-4" />
               </div>
             )}
-            <div className="text-18 font-medium text-primary">{t("project_settings.estimates.new")}</div>
+            <div className="text-18 font-medium text-primary">
+              {t("project_settings.estimates.new")}
+            </div>
           </div>
           <div className="text-gray-400 text-11">
             {t("project_settings.estimates.create.step", {
@@ -204,7 +217,12 @@ export const CreateEstimateModal = observer(function CreateEstimateModal(props: 
             {t("common.cancel")}
           </Button>
           {estimatePoints && (
-            <Button variant="primary" size="lg" onClick={handleCreateEstimate} disabled={buttonLoader}>
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={handleCreateEstimate}
+              disabled={buttonLoader}
+            >
               {buttonLoader ? t("common.creating") : t("project_settings.estimates.create.label")}
             </Button>
           )}

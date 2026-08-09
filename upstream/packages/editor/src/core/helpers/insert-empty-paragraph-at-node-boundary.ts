@@ -11,7 +11,10 @@ import { CORE_EXTENSIONS } from "@/constants/extension";
 
 type Direction = "up" | "down";
 
-export const insertEmptyParagraphAtNodeBoundaries: (direction: Direction, nodeType: string) => KeyboardShortcutCommand =
+export const insertEmptyParagraphAtNodeBoundaries: (
+  direction: Direction,
+  nodeType: string,
+) => KeyboardShortcutCommand =
   (direction, nodeType) =>
   ({ editor }) => {
     try {
@@ -78,7 +81,10 @@ export const insertEmptyParagraphAtNodeBoundaries: (direction: Direction, nodeTy
             editor.chain().setTextSelection(endOfParagraphPos).run();
           } else if (!nextNode) {
             // If there is no next node (end of document), insert a new paragraph
-            editor.chain().insertContentAt(insertPosDown, { type: CORE_EXTENSIONS.PARAGRAPH }).run();
+            editor
+              .chain()
+              .insertContentAt(insertPosDown, { type: CORE_EXTENSIONS.PARAGRAPH })
+              .run();
             editor
               .chain()
               .setTextSelection(insertPosDown + 1)
@@ -95,7 +101,10 @@ export const insertEmptyParagraphAtNodeBoundaries: (direction: Direction, nodeTy
 
       return true; // Return true if the operation was successful
     } catch (error) {
-      console.error(`An error occurred while inserting a line ${direction} the ${nodeType}:`, error);
+      console.error(
+        `An error occurred while inserting a line ${direction} the ${nodeType}:`,
+        error,
+      );
       return false; // Return false if an error occurred
     }
   };

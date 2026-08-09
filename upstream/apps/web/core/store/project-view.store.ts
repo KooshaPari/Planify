@@ -32,21 +32,33 @@ export interface IProjectViewStore {
   getViewById: (viewId: string) => IProjectView;
   // fetch actions
   fetchViews: (workspaceSlug: string, projectId: string) => Promise<undefined | IProjectView[]>;
-  fetchViewDetails: (workspaceSlug: string, projectId: string, viewId: string) => Promise<IProjectView>;
+  fetchViewDetails: (
+    workspaceSlug: string,
+    projectId: string,
+    viewId: string,
+  ) => Promise<IProjectView>;
   // CRUD actions
-  createView: (workspaceSlug: string, projectId: string, data: Partial<IProjectView>) => Promise<IProjectView>;
+  createView: (
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<IProjectView>,
+  ) => Promise<IProjectView>;
   updateView: (
     workspaceSlug: string,
     projectId: string,
     viewId: string,
-    data: Partial<IProjectView>
+    data: Partial<IProjectView>,
   ) => Promise<IProjectView>;
   deleteView: (workspaceSlug: string, projectId: string, viewId: string) => Promise<any>;
   updateFilters: <T extends keyof TViewFilters>(filterKey: T, filterValue: TViewFilters[T]) => void;
   clearAllFilters: () => void;
   // favorites actions
   addViewToFavorites: (workspaceSlug: string, projectId: string, viewId: string) => Promise<any>;
-  removeViewFromFavorites: (workspaceSlug: string, projectId: string, viewId: string) => Promise<any>;
+  removeViewFromFavorites: (
+    workspaceSlug: string,
+    projectId: string,
+    viewId: string,
+  ) => Promise<any>;
 }
 
 export class ProjectViewStore implements IProjectViewStore {
@@ -99,7 +111,9 @@ export class ProjectViewStore implements IProjectViewStore {
   get projectViewIds() {
     const projectId = this.rootStore.router.projectId;
     if (!projectId || !this.fetchedMap[projectId]) return null;
-    const viewIds = Object.keys(this.viewMap ?? {})?.filter((viewId) => this.viewMap?.[viewId]?.project === projectId);
+    const viewIds = Object.keys(this.viewMap ?? {})?.filter(
+      (viewId) => this.viewMap?.[viewId]?.project === projectId,
+    );
     return viewIds;
   }
 
@@ -125,7 +139,7 @@ export class ProjectViewStore implements IProjectViewStore {
       (view) =>
         view?.project === projectId &&
         getViewName(view.name).toLowerCase().includes(this.filters.searchQuery.toLowerCase()) &&
-        shouldFilterView(view, this.filters.filters)
+        shouldFilterView(view, this.filters.filters),
     );
     filteredViews = orderViews(filteredViews, this.filters.sortKey, this.filters.sortBy);
 
@@ -188,7 +202,11 @@ export class ProjectViewStore implements IProjectViewStore {
    * @param viewId
    * @returns Promise<IProjectView>
    */
-  fetchViewDetails = async (workspaceSlug: string, projectId: string, viewId: string): Promise<IProjectView> =>
+  fetchViewDetails = async (
+    workspaceSlug: string,
+    projectId: string,
+    viewId: string,
+  ): Promise<IProjectView> =>
     await this.viewService.getViewDetails(workspaceSlug, projectId, viewId).then((response) => {
       runInAction(() => {
         set(this.viewMap, [viewId], response);
@@ -203,8 +221,16 @@ export class ProjectViewStore implements IProjectViewStore {
    * @param data
    * @returns Promise<IProjectView>
    */
-  async createView(workspaceSlug: string, projectId: string, data: Partial<IProjectView>): Promise<IProjectView> {
-    const response = await this.viewService.createView(workspaceSlug, projectId, getValidatedViewFilters(data));
+  async createView(
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<IProjectView>,
+  ): Promise<IProjectView> {
+    const response = await this.viewService.createView(
+      workspaceSlug,
+      projectId,
+      getValidatedViewFilters(data),
+    );
 
     runInAction(() => {
       set(this.viewMap, [response.id], response);
@@ -225,7 +251,7 @@ export class ProjectViewStore implements IProjectViewStore {
     workspaceSlug: string,
     projectId: string,
     viewId: string,
-    data: Partial<IProjectView>
+    data: Partial<IProjectView>,
   ): Promise<IProjectView> {
     const currentView = this.getViewById(viewId);
 
@@ -249,7 +275,8 @@ export class ProjectViewStore implements IProjectViewStore {
     await this.viewService.deleteView(workspaceSlug, projectId, viewId).then(() => {
       runInAction(() => {
         delete this.viewMap[viewId];
-        if (this.rootStore.favorite.entityMap[viewId]) this.rootStore.favorite.removeFavoriteFromStore(viewId);
+        if (this.rootStore.favorite.entityMap[viewId])
+          this.rootStore.favorite.removeFavoriteFromStore(viewId);
       });
     });
   };

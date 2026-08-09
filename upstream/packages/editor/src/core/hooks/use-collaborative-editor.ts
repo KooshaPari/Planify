@@ -29,7 +29,10 @@ import type {
 import { useEditorNavigation } from "./use-editor-navigation";
 import { useTitleEditor } from "./use-title-editor";
 
-type UseCollaborativeEditorArgs = Omit<TCollaborativeEditorHookProps, "realtimeConfig" | "serverHandler" | "user"> & {
+type UseCollaborativeEditorArgs = Omit<
+  TCollaborativeEditorHookProps,
+  "realtimeConfig" | "serverHandler" | "user"
+> & {
   provider: HocuspocusProvider;
   user: TCollaborativeEditorHookProps["user"];
   actions: {
@@ -67,7 +70,8 @@ export const useCollaborativeEditor = (props: UseCollaborativeEditorArgs) => {
     user,
   } = props;
 
-  const { mainNavigationExtension, titleNavigationExtension, setMainEditor, setTitleEditor } = useEditorNavigation();
+  const { mainNavigationExtension, titleNavigationExtension, setMainEditor, setTitleEditor } =
+    useEditorNavigation();
 
   // Memoize extensions to avoid unnecessary editor recreations
   const editorExtensions = useMemo(
@@ -104,7 +108,7 @@ export const useCollaborativeEditor = (props: UseCollaborativeEditorArgs) => {
       editable,
       user,
       mainNavigationExtension,
-    ]
+    ],
   );
 
   // Editor configuration
@@ -157,7 +161,7 @@ export const useCollaborativeEditor = (props: UseCollaborativeEditorArgs) => {
       placeholder,
       showPlaceholderOnEmpty,
       tabIndex,
-    ]
+    ],
   );
 
   const editor = useEditor(editorConfig);
@@ -170,7 +174,7 @@ export const useCollaborativeEditor = (props: UseCollaborativeEditorArgs) => {
       }),
       titleNavigationExtension,
     ],
-    [provider, titleNavigationExtension]
+    [provider, titleNavigationExtension],
   );
 
   const titleEditorConfig = useMemo<{
@@ -193,7 +197,16 @@ export const useCollaborativeEditor = (props: UseCollaborativeEditorArgs) => {
       extendedEditorProps,
       getEditorMetaData,
     }),
-    [provider, id, editable, titleRef, updatePageProperties, titleExtensions, extendedEditorProps, getEditorMetaData]
+    [
+      provider,
+      id,
+      editable,
+      titleRef,
+      updatePageProperties,
+      titleExtensions,
+      extendedEditorProps,
+      getEditorMetaData,
+    ],
   );
 
   const titleEditor = useTitleEditor(titleEditorConfig as Parameters<typeof useTitleEditor>[0]);

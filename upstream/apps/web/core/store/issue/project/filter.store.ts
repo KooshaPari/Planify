@@ -38,7 +38,7 @@ export interface IProjectIssuesFilter extends IBaseIssueFilterStore {
     projectId: string,
     cursor: string | undefined,
     groupId: string | undefined,
-    subGroupId: string | undefined
+    subGroupId: string | undefined,
   ) => Partial<Record<TIssueParams, string | boolean>>;
   getIssueFilters(projectId: string): IIssueFilters | undefined;
   // action
@@ -46,13 +46,13 @@ export interface IProjectIssuesFilter extends IBaseIssueFilterStore {
   updateFilterExpression: (
     workspaceSlug: string,
     projectId: string,
-    filters: TWorkItemFilterExpression
+    filters: TWorkItemFilterExpression,
   ) => Promise<void>;
   updateFilters: (
     workspaceSlug: string,
     projectId: string,
     filterType: TSupportedFilterTypeForUpdate,
-    filters: TSupportedFilterForUpdate
+    filters: TSupportedFilterForUpdate,
   ) => Promise<void>;
 }
 
@@ -108,14 +108,18 @@ export class ProjectIssuesFilter extends IssueFilterHelperStore implements IProj
     const userFilters = this.getIssueFilters(projectId);
     if (!userFilters) return undefined;
 
-    const filteredParams = handleIssueQueryParamsByLayout(userFilters?.displayFilters?.layout, "issues");
+    const filteredParams = handleIssueQueryParamsByLayout(
+      userFilters?.displayFilters?.layout,
+      "issues",
+    );
     if (!filteredParams) return undefined;
 
-    const filteredRouteParams: Partial<Record<TIssueParams, string | boolean>> = this.computedFilteredParams(
-      userFilters?.richFilters,
-      userFilters?.displayFilters,
-      filteredParams
-    );
+    const filteredRouteParams: Partial<Record<TIssueParams, string | boolean>> =
+      this.computedFilteredParams(
+        userFilters?.richFilters,
+        userFilters?.displayFilters,
+        filteredParams,
+      );
 
     return filteredRouteParams;
   }
@@ -126,12 +130,18 @@ export class ProjectIssuesFilter extends IssueFilterHelperStore implements IProj
       projectId: string,
       cursor: string | undefined,
       groupId: string | undefined,
-      subGroupId: string | undefined
+      subGroupId: string | undefined,
     ) => {
       const filterParams = this.getAppliedFilters(projectId);
-      const paginationParams = this.getPaginationParams(filterParams, options, cursor, groupId, subGroupId);
+      const paginationParams = this.getPaginationParams(
+        filterParams,
+        options,
+        cursor,
+        groupId,
+        subGroupId,
+      );
       return paginationParams;
-    }
+    },
   );
 
   fetchFilters = async (workspaceSlug: string, projectId: string) => {
@@ -152,7 +162,7 @@ export class ProjectIssuesFilter extends IssueFilterHelperStore implements IProj
         EIssuesStoreType.PROJECT,
         workspaceSlug,
         projectId,
-        currentUserId
+        currentUserId,
       );
       kanbanFilters.group_by = _kanbanFilters?.kanban_filters?.group_by || [];
       kanbanFilters.sub_group_by = _kanbanFilters?.kanban_filters?.sub_group_by || [];
@@ -174,14 +184,18 @@ export class ProjectIssuesFilter extends IssueFilterHelperStore implements IProj
   updateFilterExpression: IProjectIssuesFilter["updateFilterExpression"] = async (
     workspaceSlug,
     projectId,
-    filters
+    filters,
   ) => {
     try {
       runInAction(() => {
         set(this.filters, [projectId, "richFilters"], filters);
       });
 
-      this.rootIssueStore.projectIssues.fetchIssuesWithExistingPagination(workspaceSlug, projectId, "mutation");
+      this.rootIssueStore.projectIssues.fetchIssuesWithExistingPagination(
+        workspaceSlug,
+        projectId,
+        "mutation",
+      );
       await this.projectService.updateProjectUserProperties(workspaceSlug, projectId, {
         rich_filters: filters,
       });
@@ -191,7 +205,12 @@ export class ProjectIssuesFilter extends IssueFilterHelperStore implements IProj
     }
   };
 
-  updateFilters: IProjectIssuesFilter["updateFilters"] = async (workspaceSlug, projectId, type, filters) => {
+  updateFilters: IProjectIssuesFilter["updateFilters"] = async (
+    workspaceSlug,
+    projectId,
+    type,
+    filters,
+  ) => {
     try {
       if (isEmpty(this.filters) || isEmpty(this.filters[projectId])) return;
 
@@ -221,7 +240,10 @@ export class ProjectIssuesFilter extends IssueFilterHelperStore implements IProj
             updatedDisplayFilters.sub_group_by = null;
           }
           // set group_by to state if layout is switched to kanban and group_by is null
-          if (_filters.displayFilters.layout === "kanban" && _filters.displayFilters.group_by === null) {
+          if (
+            _filters.displayFilters.layout === "kanban" &&
+            _filters.displayFilters.group_by === null
+          ) {
             _filters.displayFilters.group_by = "state";
             updatedDisplayFilters.group_by = "state";
           }
@@ -231,7 +253,7 @@ export class ProjectIssuesFilter extends IssueFilterHelperStore implements IProj
               set(
                 this.filters,
                 [projectId, "displayFilters", _key],
-                updatedDisplayFilters[_key as keyof IIssueDisplayFilterOptions]
+                updatedDisplayFilters[_key as keyof IIssueDisplayFilterOptions],
               );
             });
           });
@@ -241,7 +263,11 @@ export class ProjectIssuesFilter extends IssueFilterHelperStore implements IProj
           }
 
           if (this.getShouldReFetchIssues(updatedDisplayFilters)) {
-            this.rootIssueStore.projectIssues.fetchIssuesWithExistingPagination(workspaceSlug, projectId, "mutation");
+            this.rootIssueStore.projectIssues.fetchIssuesWithExistingPagination(
+              workspaceSlug,
+              projectId,
+              "mutation",
+            );
           }
 
           await this.projectService.updateProjectUserProperties(workspaceSlug, projectId, {
@@ -252,14 +278,17 @@ export class ProjectIssuesFilter extends IssueFilterHelperStore implements IProj
         }
         case EIssueFilterType.DISPLAY_PROPERTIES: {
           const updatedDisplayProperties = filters as IIssueDisplayProperties;
-          _filters.displayProperties = { ..._filters.displayProperties, ...updatedDisplayProperties };
+          _filters.displayProperties = {
+            ..._filters.displayProperties,
+            ...updatedDisplayProperties,
+          };
 
           runInAction(() => {
             Object.keys(updatedDisplayProperties).forEach((_key) => {
               set(
                 this.filters,
                 [projectId, "displayProperties", _key],
-                updatedDisplayProperties[_key as keyof IIssueDisplayProperties]
+                updatedDisplayProperties[_key as keyof IIssueDisplayProperties],
               );
             });
           });
@@ -276,16 +305,23 @@ export class ProjectIssuesFilter extends IssueFilterHelperStore implements IProj
 
           const currentUserId = this.rootIssueStore.currentUserId;
           if (currentUserId)
-            this.handleIssuesLocalFilters.set(EIssuesStoreType.PROJECT, type, workspaceSlug, projectId, currentUserId, {
-              kanban_filters: _filters.kanbanFilters,
-            });
+            this.handleIssuesLocalFilters.set(
+              EIssuesStoreType.PROJECT,
+              type,
+              workspaceSlug,
+              projectId,
+              currentUserId,
+              {
+                kanban_filters: _filters.kanbanFilters,
+              },
+            );
 
           runInAction(() => {
             Object.keys(updatedKanbanFilters).forEach((_key) => {
               set(
                 this.filters,
                 [projectId, "kanbanFilters", _key],
-                updatedKanbanFilters[_key as keyof TIssueKanbanFilters]
+                updatedKanbanFilters[_key as keyof TIssueKanbanFilters],
               );
             });
           });

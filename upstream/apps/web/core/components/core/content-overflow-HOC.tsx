@@ -20,7 +20,9 @@ interface IContentOverflowWrapper {
   customButton?: ReactNode;
 }
 
-export const ContentOverflowWrapper = observer(function ContentOverflowWrapper(props: IContentOverflowWrapper) {
+export const ContentOverflowWrapper = observer(function ContentOverflowWrapper(
+  props: IContentOverflowWrapper,
+) {
   const {
     children,
     maxHeight = 625,
@@ -64,7 +66,8 @@ export const ContentOverflowWrapper = observer(function ContentOverflowWrapper(p
       const shouldUpdate = mutations.some(
         (mutation) =>
           mutation.type === "childList" ||
-          (mutation.type === "attributes" && (mutation.attributeName === "style" || mutation.attributeName === "class"))
+          (mutation.type === "attributes" &&
+            (mutation.attributeName === "style" || mutation.attributeName === "class")),
       );
 
       if (shouldUpdate) {
@@ -113,9 +116,10 @@ export const ContentOverflowWrapper = observer(function ContentOverflowWrapper(p
       className={cn(
         "relative",
         {
-          [`overflow-hidden transition-[height] duration-300 ease-in-out`]: containerHeight > maxHeight,
+          [`overflow-hidden transition-[height] duration-300 ease-in-out`]:
+            containerHeight > maxHeight,
         },
-        containerClassName
+        containerClassName,
       )}
       style={{
         height: showAll ? `${containerHeight}px` : `${Math.min(maxHeight, containerHeight)}px`,
@@ -139,7 +143,7 @@ export const ContentOverflowWrapper = observer(function ContentOverflowWrapper(p
             {
               "absolute h-[100px] opacity-100": !showAll,
               "absolute h-[30px] opacity-70": showAll,
-            }
+            },
           )}
           style={{
             pointerEvents: isTransitioning ? "none" : "auto",
@@ -149,7 +153,7 @@ export const ContentOverflowWrapper = observer(function ContentOverflowWrapper(p
             <button
               className={cn(
                 "w-full gap-1 text-13 font-medium text-accent-primary transition-opacity duration-300",
-                buttonClassName
+                buttonClassName,
               )}
               onClick={handleToggle}
               disabled={isTransitioning}

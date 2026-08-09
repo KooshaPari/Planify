@@ -460,7 +460,9 @@ describe("PDF Rendering Integration", () => {
       };
 
       const portraitBuffer = await renderPlaneDocToPdfBuffer(doc, { pageOrientation: "portrait" });
-      const landscapeBuffer = await renderPlaneDocToPdfBuffer(doc, { pageOrientation: "landscape" });
+      const landscapeBuffer = await renderPlaneDocToPdfBuffer(doc, {
+        pageOrientation: "landscape",
+      });
 
       const portraitText = await extractPdfText(portraitBuffer);
       const landscapeText = await extractPdfText(landscapeBuffer);

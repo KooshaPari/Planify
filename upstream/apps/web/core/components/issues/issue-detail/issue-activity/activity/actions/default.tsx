@@ -16,7 +16,9 @@ import { IssueActivityBlockComponent } from "./";
 
 type TIssueDefaultActivity = { activityId: string; ends: "top" | "bottom" | undefined };
 
-export const IssueDefaultActivity = observer(function IssueDefaultActivity(props: TIssueDefaultActivity) {
+export const IssueDefaultActivity = observer(function IssueDefaultActivity(
+  props: TIssueDefaultActivity,
+) {
   const { activityId, ends } = props;
   // hooks
   const {
@@ -39,7 +41,10 @@ export const IssueDefaultActivity = observer(function IssueDefaultActivity(props
           source && source !== EInboxIssueSource.IN_APP ? (
             <span>
               created the work item via{" "}
-              <span className="font-medium">{capitalizeFirstLetter(source.toLowerCase() || "")}</span>.
+              <span className="font-medium">
+                {capitalizeFirstLetter(source.toLowerCase() || "")}
+              </span>
+              .
             </span>
           ) : (
             <span> created the work item.</span>

@@ -18,7 +18,7 @@ export const broadcastError = async (
   errorType: "fetch" | "store",
   context: HocusPocusServerContext,
   errorCode?: "content_too_large" | "page_locked" | "page_archived",
-  shouldDisconnect?: boolean
+  shouldDisconnect?: boolean,
 ) => {
   try {
     const errorEvent = createRealtimeEvent({

@@ -22,7 +22,13 @@ type Props = {
 export const IssueKanbanLayoutRoot = observer(function IssueKanbanLayoutRoot(props: Props) {
   const { anchor } = props;
   // store hooks
-  const { groupedIssueIds, getIssueLoader, fetchNextPublicIssues, getGroupIssueCount, getPaginationData } = useIssue();
+  const {
+    groupedIssueIds,
+    getIssueLoader,
+    fetchNextPublicIssues,
+    getGroupIssueCount,
+    getPaginationData,
+  } = useIssue();
 
   const displayProperties: IIssueDisplayProperties = useMemo(
     () => ({
@@ -32,7 +38,7 @@ export const IssueKanbanLayoutRoot = observer(function IssueKanbanLayoutRoot(pro
       priority: true,
       due_date: true,
     }),
-    []
+    [],
   );
 
   const fetchMoreIssues = useCallback(
@@ -41,13 +47,13 @@ export const IssueKanbanLayoutRoot = observer(function IssueKanbanLayoutRoot(pro
         fetchNextPublicIssues(anchor, groupId, subgroupId);
       }
     },
-    [anchor, getIssueLoader, fetchNextPublicIssues]
+    [anchor, getIssueLoader, fetchNextPublicIssues],
   );
 
   const debouncedFetchMoreIssues = debounce(
     (groupId?: string, subgroupId?: string) => fetchMoreIssues(groupId, subgroupId),
     300,
-    { leading: true, trailing: false }
+    { leading: true, trailing: false },
   );
 
   const scrollableContainerRef = useRef<HTMLDivElement | null>(null);

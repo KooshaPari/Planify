@@ -17,7 +17,9 @@ interface IHeaderSubGroupByCard {
   toggleExpanded: () => void;
 }
 
-export const HeaderSubGroupByCard = observer(function HeaderSubGroupByCard(props: IHeaderSubGroupByCard) {
+export const HeaderSubGroupByCard = observer(function HeaderSubGroupByCard(
+  props: IHeaderSubGroupByCard,
+) {
   const { icon, title, count, isExpanded, toggleExpanded } = props;
   return (
     <div
@@ -25,7 +27,11 @@ export const HeaderSubGroupByCard = observer(function HeaderSubGroupByCard(props
       onClick={() => toggleExpanded()}
     >
       <div className="flex h-[20px] w-[20px] flex-shrink-0 items-center justify-center overflow-hidden rounded-xs transition-all hover:bg-layer-1">
-        {isExpanded ? <ChevronUpIcon width={14} strokeWidth={2} /> : <ChevronDownIcon width={14} strokeWidth={2} />}
+        {isExpanded ? (
+          <ChevronUpIcon width={14} strokeWidth={2} />
+        ) : (
+          <ChevronDownIcon width={14} strokeWidth={2} />
+        )}
       </div>
 
       <div className="flex h-[20px] w-[20px] flex-shrink-0 items-center justify-center overflow-hidden rounded-xs">

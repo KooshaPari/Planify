@@ -15,7 +15,10 @@ import { useTimeLineChartStore } from "@/hooks/use-timeline-chart";
 
 type RightResizableProps = {
   enableBlockRightResize: boolean;
-  handleBlockDrag: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, dragDirection: "left" | "right" | "move") => void;
+  handleBlockDrag: (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    dragDirection: "left" | "right" | "move",
+  ) => void;
   isMoving: "left" | "right" | "move" | undefined;
   position?: {
     marginLeft: number;
@@ -28,7 +31,9 @@ export const RightResizable = observer(function RightResizable(props: RightResiz
 
   const { getDateFromPositionOnGantt } = useTimeLineChartStore();
 
-  const date = position ? getDateFromPositionOnGantt(position.marginLeft + position.width, -1) : undefined;
+  const date = position
+    ? getDateFromPositionOnGantt(position.marginLeft + position.width, -1)
+    : undefined;
   const dateString = date ? renderFormattedDate(date) : undefined;
 
   const isRightResizing = isMoving === "right" || isMoving === "move";
@@ -57,7 +62,7 @@ export const RightResizable = observer(function RightResizable(props: RightResiz
           "absolute top-1/2 right-1 z-[5] h-7 w-1 -translate-y-1/2 rounded-xs bg-surface-1 opacity-0 transition-all duration-300 group-hover:opacity-100",
           {
             "-right-1.5 opacity-100": isRightResizing,
-          }
+          },
         )}
       />
     </>

@@ -42,7 +42,10 @@ export class SitesProjectPublishService extends APIService {
    * @returns {Promise<TProjectPublishSettings>} The publish settings
    * @throws {Error} If the API request fails
    */
-  async retrieveSettingsByProjectId(workspaceSlug: string, projectID: string): Promise<TProjectPublishSettings> {
+  async retrieveSettingsByProjectId(
+    workspaceSlug: string,
+    projectID: string,
+  ): Promise<TProjectPublishSettings> {
     return this.get(`/api/public/workspaces/${workspaceSlug}/projects/${projectID}/anchor/`)
       .then((response) => response?.data)
       .catch((error) => {

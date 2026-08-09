@@ -31,12 +31,16 @@ function ScrollArea({
   ...props
 }: ScrollAreaProps) {
   return (
-    <BaseScrollArea.Root data-slot="scroll-area" className={cn("relative", rootClassName)} {...props}>
+    <BaseScrollArea.Root
+      data-slot="scroll-area"
+      className={cn("relative", rootClassName)}
+      {...props}
+    >
       <BaseScrollArea.Viewport
         data-slot="scroll-area-viewport"
         className={cn(
           "focus-visible:ring-ring/50 size-full overscroll-contain rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline",
-          viewportClassName
+          viewportClassName,
         )}
       >
         {children}
@@ -86,9 +90,11 @@ const ScrollBar = React.memo(function ScrollBar({
         orientation === "vertical" && verticalSizeStyles[size],
         orientation === "horizontal" && horizontalSizeStyles[size],
         scrollType === "always" && "opacity-100",
-        scrollType === "scroll" && "data-[scrolling]:opacity-100 data-[scrolling]:delay-0 data-[scrolling]:duration-75",
-        scrollType === "hover" && "data-[hovering]:opacity-100 data-[hovering]:delay-0 data-[hovering]:duration-75",
-        className
+        scrollType === "scroll" &&
+          "data-[scrolling]:opacity-100 data-[scrolling]:delay-0 data-[scrolling]:duration-75",
+        scrollType === "hover" &&
+          "data-[hovering]:opacity-100 data-[hovering]:delay-0 data-[hovering]:duration-75",
+        className,
       )}
       {...props}
     >
@@ -96,7 +102,7 @@ const ScrollBar = React.memo(function ScrollBar({
         data-slot="scroll-area-thumb"
         className={cn(
           "relative flex-1 rounded-[10px] bg-scrollbar-thumb group-hover/track:bg-scrollbar-thumb-hover group-active/track:bg-scrollbar-thumb-active data-[scrolling]:bg-scrollbar-thumb-active",
-          thumbSizeStyles[size]
+          thumbSizeStyles[size],
         )}
       />
     </BaseScrollArea.Scrollbar>

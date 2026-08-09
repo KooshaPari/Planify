@@ -121,7 +121,8 @@ export const markRenderers: MarkRendererRegistry = {
         newStyle.backgroundColor = backgroundColor;
       } else if (backgroundColor in EDITOR_BACKGROUND_COLORS) {
         // Color key lookup
-        newStyle.backgroundColor = EDITOR_BACKGROUND_COLORS[backgroundColor as keyof typeof EDITOR_BACKGROUND_COLORS];
+        newStyle.backgroundColor =
+          EDITOR_BACKGROUND_COLORS[backgroundColor as keyof typeof EDITOR_BACKGROUND_COLORS];
       }
     }
 

@@ -39,9 +39,12 @@ export const IssueBlockState = observer(function IssueBlockState(props: Props) {
   return (
     <Tooltip tooltipHeading="State" tooltipContent={state.name}>
       <div
-        className={cn("flex h-full w-full items-center justify-between gap-1 rounded-sm px-2.5 py-1 text-11", {
-          "border-[0.5px] border-strong": shouldShowBorder,
-        })}
+        className={cn(
+          "flex h-full w-full items-center justify-between gap-1 rounded-sm px-2.5 py-1 text-11",
+          {
+            "border-[0.5px] border-strong": shouldShowBorder,
+          },
+        )}
       >
         <div className="flex w-full items-center gap-1.5">
           <StateGroupIcon stateGroup={state.group} />

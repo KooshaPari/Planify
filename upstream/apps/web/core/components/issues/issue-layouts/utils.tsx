@@ -12,7 +12,13 @@ import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import { EIconSize, ISSUE_PRIORITIES, STATE_GROUPS } from "@plane/constants";
 import { Logo } from "@plane/propel/emoji-icon-picker";
 import type { ISvgIcons } from "@plane/propel/icons";
-import { CycleGroupIcon, CycleIcon, ModuleIcon, PriorityIcon, StateGroupIcon } from "@plane/propel/icons";
+import {
+  CycleGroupIcon,
+  CycleIcon,
+  ModuleIcon,
+  PriorityIcon,
+  StateGroupIcon,
+} from "@plane/propel/icons";
 import type {
   GroupByColumnTypes,
   IGroupByColumn,
@@ -157,7 +163,9 @@ const getCycleColumns = (): IGroupByColumn[] | undefined => {
   if (!currentProjectDetails || !currentProjectDetails?.id) return;
   const { getProjectCycleDetails } = store.cycle;
   // Get the cycle details for the current project
-  const cycleDetails = currentProjectDetails?.id ? getProjectCycleDetails(currentProjectDetails?.id) : undefined;
+  const cycleDetails = currentProjectDetails?.id
+    ? getProjectCycleDetails(currentProjectDetails?.id)
+    : undefined;
   // Map the cycle details to the group by columns
   const cycles: IGroupByColumn[] = [];
   cycleDetails?.map((cycle) => {
@@ -169,7 +177,9 @@ const getCycleColumns = (): IGroupByColumn[] | undefined => {
       icon: <CycleGroupIcon cycleGroup={cycleStatus} className="h-3.5 w-3.5" />,
       payload: { cycle_id: cycle.id },
       isDropDisabled,
-      dropErrorMessage: isDropDisabled ? "Work item cannot be moved to completed cycles" : undefined,
+      dropErrorMessage: isDropDisabled
+        ? "Work item cannot be moved to completed cycles"
+        : undefined,
     });
   });
   cycles.push({
@@ -188,7 +198,9 @@ const getModuleColumns = (): IGroupByColumn[] | undefined => {
   // get project module ids and module details
   const { getProjectModuleDetails } = store.module;
   // get module details
-  const moduleDetails = currentProjectDetails?.id ? getProjectModuleDetails(currentProjectDetails?.id) : undefined;
+  const moduleDetails = currentProjectDetails?.id
+    ? getProjectModuleDetails(currentProjectDetails?.id)
+    : undefined;
   // map module details to group by columns
   const modules: IGroupByColumn[] = [];
   moduleDetails?.map((module) => {
@@ -218,7 +230,12 @@ const getStateColumns = ({ projectId }: TGetColumns): IGroupByColumn[] | undefin
     name: state.name,
     icon: (
       <div className="size-4 rounded-full">
-        <StateGroupIcon stateGroup={state.group} color={state.color} size={EIconSize.LG} percentage={state.order} />
+        <StateGroupIcon
+          stateGroup={state.group}
+          color={state.color}
+          size={EIconSize.LG}
+          percentage={state.order}
+        />
       </div>
     ),
     payload: { state_id: state.id },
@@ -263,13 +280,19 @@ const getLabelsColumns = ({ isWorkspaceLevel }: TGetColumns): IGroupByColumn[] =
     id: label.id,
     name: label.name,
     icon: (
-      <div className="h-[12px] w-[12px] rounded-full" style={{ backgroundColor: label.color ? label.color : "#666" }} />
+      <div
+        className="h-[12px] w-[12px] rounded-full"
+        style={{ backgroundColor: label.color ? label.color : "#666" }}
+      />
     ),
     payload: label?.id === "None" ? {} : { label_ids: [label.id] },
   }));
 };
 
-const getAssigneeColumns = ({ isWorkspaceLevel, projectId }: TGetColumns): IGroupByColumn[] | undefined => {
+const getAssigneeColumns = ({
+  isWorkspaceLevel,
+  projectId,
+}: TGetColumns): IGroupByColumn[] | undefined => {
   // store values
   const { getUserDetails } = store.memberRoot;
   // derived values
@@ -284,7 +307,9 @@ const getAssigneeColumns = ({ isWorkspaceLevel, projectId }: TGetColumns): IGrou
     assigneeColumns.push({
       id: memberId,
       name: member?.display_name || "",
-      icon: <Avatar name={member?.display_name} src={getFileURL(member?.avatar_url ?? "")} size="md" />,
+      icon: (
+        <Avatar name={member?.display_name} src={getFileURL(member?.avatar_url ?? "")} size="md" />
+      ),
       payload: { assignee_ids: [memberId] },
     });
   });
@@ -307,7 +332,9 @@ const getCreatedByColumns = (): IGroupByColumn[] | undefined => {
     return {
       id: memberId,
       name: member?.display_name || "",
-      icon: <Avatar name={member?.display_name} src={getFileURL(member?.avatar_url ?? "")} size="md" />,
+      icon: (
+        <Avatar name={member?.display_name} src={getFileURL(member?.avatar_url ?? "")} size="md" />
+      ),
       payload: {},
     };
   });
@@ -315,7 +342,7 @@ const getCreatedByColumns = (): IGroupByColumn[] | undefined => {
 
 export const getDisplayPropertiesCount = (
   displayProperties: IIssueDisplayProperties,
-  ignoreFields?: (keyof IIssueDisplayProperties)[]
+  ignoreFields?: (keyof IIssueDisplayProperties)[],
 ) => {
   const propertyKeys = Object.keys(displayProperties) as (keyof IIssueDisplayProperties)[];
 
@@ -337,7 +364,7 @@ export const getDisplayPropertiesCount = (
 export const highlightIssueOnDrop = (
   elementId: string | undefined,
   shouldScrollIntoView = true,
-  shouldHighLightWithLine = false
+  shouldHighLightWithLine = false,
 ) => {
   setTimeout(async () => {
     const sourceElementId = elementId ?? "";
@@ -353,7 +380,9 @@ export const highlightIssueOnDrop = (
  * @param payload
  * @returns
  */
-export const getSourceFromDropPayload = (payload: IPragmaticDropPayload): GroupDropLocation | undefined => {
+export const getSourceFromDropPayload = (
+  payload: IPragmaticDropPayload,
+): GroupDropLocation | undefined => {
   const { location, source: sourceIssue } = payload;
 
   const sourceIssueData = sourceIssue.data;
@@ -385,7 +414,9 @@ export const getSourceFromDropPayload = (payload: IPragmaticDropPayload): GroupD
  * @param payload
  * @returns
  */
-export const getDestinationFromDropPayload = (payload: IPragmaticDropPayload): GroupDropLocation | undefined => {
+export const getDestinationFromDropPayload = (
+  payload: IPragmaticDropPayload,
+): GroupDropLocation | undefined => {
   const { location } = payload;
 
   let destinationIssueData, destinationColumnData;
@@ -409,7 +440,9 @@ export const getDestinationFromDropPayload = (payload: IPragmaticDropPayload): G
   if (!destinationColumnData?.groupId) return;
 
   // extract instruction from destination issue
-  const extractedInstruction = destinationIssueData ? extractInstruction(destinationIssueData)?.type : "";
+  const extractedInstruction = destinationIssueData
+    ? extractInstruction(destinationIssueData)?.type
+    : "";
 
   return {
     groupId: destinationColumnData.groupId as string,
@@ -432,7 +465,7 @@ const handleSortOrder = (
   destinationIssueId: string | undefined,
   getIssueById: (issueId: string) => TIssue | undefined,
   shouldAddIssueAtTop = false,
-  canAddIssueBelow = false
+  canAddIssueBelow = false,
 ) => {
   const sortOrderDefaultValue = 65535;
   let currentIssueState = {};
@@ -492,8 +525,11 @@ const handleSortOrder = (
   return currentIssueState;
 };
 
-export const getIssueBlockId = (issueId: string | undefined, groupId: string | undefined, subGroupId?: string) =>
-  `issue_${issueId}_${groupId}_${subGroupId}`;
+export const getIssueBlockId = (
+  issueId: string | undefined,
+  groupId: string | undefined,
+  subGroupId?: string,
+) => `issue_${issueId}_${groupId}_${subGroupId}`;
 
 /**
  * returns empty Array if groupId is None
@@ -510,10 +546,15 @@ export const handleGroupDragDrop = async (
   destination: GroupDropLocation,
   getIssueById: (issueId: string) => TIssue | undefined,
   getIssueIds: (groupId?: string, subGroupId?: string) => string[] | undefined,
-  updateIssueOnDrop: (projectId: string, issueId: string, data: Partial<TIssue>, issueUpdates: IssueUpdates) => void,
+  updateIssueOnDrop: (
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+    issueUpdates: IssueUpdates,
+  ) => void,
   groupBy: TIssueGroupByOptions | undefined,
   subGroupBy: TIssueGroupByOptions | undefined,
-  shouldAddIssueAtTop = false
+  shouldAddIssueAtTop = false,
 ) => {
   if (!source.id || (subGroupBy && (!source.subGroupId || !destination.subGroupId))) return;
 
@@ -538,7 +579,7 @@ export const handleGroupDragDrop = async (
       destination.id,
       getIssueById,
       shouldAddIssueAtTop,
-      !!destination.canAddIssueBelow
+      !!destination.canAddIssueBelow,
     ),
   };
 
@@ -550,39 +591,57 @@ export const handleGroupDragDrop = async (
     // If groupValues is an array, remove source groupId and add destination groupId
     if (Array.isArray(groupValue)) {
       pull(groupValue, source.groupId);
-      if (destination.groupId !== "None") groupValue = uniq(concat(groupValue, [destination.groupId]));
+      if (destination.groupId !== "None")
+        groupValue = uniq(concat(groupValue, [destination.groupId]));
     } // else just update the groupValue based on destination groupId
     else {
       groupValue = destination.groupId === "None" ? null : destination.groupId;
     }
 
     // keep track of updates on what was added and what was removed
-    issueUpdates[groupKey] = { ADD: getGroupId(destination.groupId), REMOVE: getGroupId(source.groupId) };
+    issueUpdates[groupKey] = {
+      ADD: getGroupId(destination.groupId),
+      REMOVE: getGroupId(source.groupId),
+    };
     updatedIssue = { ...updatedIssue, [groupKey]: groupValue };
   }
 
   // do the same for subgroup
   // update updatedIssue values based on the source and destination subGroupIds
-  if (subGroupBy && source.subGroupId && destination.subGroupId && source.subGroupId !== destination.subGroupId) {
+  if (
+    subGroupBy &&
+    source.subGroupId &&
+    destination.subGroupId &&
+    source.subGroupId !== destination.subGroupId
+  ) {
     const subGroupKey = ISSUE_FILTER_DEFAULT_DATA[subGroupBy];
     let subGroupValue: any = clone(sourceIssue[subGroupKey]);
 
     // If subGroupValue is an array, remove source subGroupId and add destination subGroupId
     if (Array.isArray(subGroupValue)) {
       pull(subGroupValue, source.subGroupId);
-      if (destination.subGroupId !== "None") subGroupValue = uniq(concat(subGroupValue, [destination.subGroupId]));
+      if (destination.subGroupId !== "None")
+        subGroupValue = uniq(concat(subGroupValue, [destination.subGroupId]));
     } // else just update the subGroupValue based on destination subGroupId
     else {
       subGroupValue = destination.subGroupId === "None" ? null : destination.subGroupId;
     }
 
     // keep track of updates on what was added and what was removed
-    issueUpdates[subGroupKey] = { ADD: getGroupId(destination.subGroupId), REMOVE: getGroupId(source.subGroupId) };
+    issueUpdates[subGroupKey] = {
+      ADD: getGroupId(destination.subGroupId),
+      REMOVE: getGroupId(source.subGroupId),
+    };
     updatedIssue = { ...updatedIssue, [subGroupKey]: subGroupValue };
   }
 
   if (updatedIssue && sourceIssue?.project_id) {
-    return await updateIssueOnDrop(sourceIssue?.project_id, sourceIssue.id, updatedIssue, issueUpdates);
+    return await updateIssueOnDrop(
+      sourceIssue?.project_id,
+      sourceIssue.id,
+      updatedIssue,
+      issueUpdates,
+    );
   }
 };
 
@@ -658,11 +717,13 @@ export function getApproximateCardHeight(displayProperties: IIssueDisplayPropert
   let propertyCount = 0;
 
   // count the remaining properties
-  (Object.keys(clonedProperties) as (keyof IIssueDisplayProperties)[]).forEach((key: keyof IIssueDisplayProperties) => {
-    if (clonedProperties[key]) {
-      propertyCount++;
-    }
-  });
+  (Object.keys(clonedProperties) as (keyof IIssueDisplayProperties)[]).forEach(
+    (key: keyof IIssueDisplayProperties) => {
+      if (clonedProperties[key]) {
+        propertyCount++;
+      }
+    },
+  );
 
   // based on property count, approximate the height of each card
   if (propertyCount > 3) {
@@ -681,8 +742,11 @@ export function getApproximateCardHeight(displayProperties: IIssueDisplayPropert
  * @returns
  */
 export const getBlockViewDetails = (
-  block: { start_date: string | undefined | null; target_date: string | undefined | null } | undefined | null,
-  backgroundColor: string
+  block:
+    | { start_date: string | undefined | null; target_date: string | undefined | null }
+    | undefined
+    | null,
+  backgroundColor: string,
 ) => {
   const isBlockVisibleOnChart = block?.start_date || block?.target_date;
   const isBlockComplete = block?.start_date && block?.target_date;
@@ -728,7 +792,7 @@ export function SpreadSheetPropertyIcon(props: ISvgIcons & { iconKey: string }) 
  */
 export const isDisplayFiltersApplied = (filters: Partial<IIssueFilters>): boolean => {
   const isDisplayPropertiesApplied = Object.keys(DEFAULT_DISPLAY_PROPERTIES).some(
-    (key) => !filters.displayProperties?.[key as keyof IIssueDisplayProperties]
+    (key) => !filters.displayProperties?.[key as keyof IIssueDisplayProperties],
   );
 
   const isDisplayFiltersApplied = Object.keys(filters.displayFilters ?? {}).some((key) => {
@@ -765,7 +829,10 @@ export const isFiltersApplied = (filters: IIssueFilterOptions): boolean =>
  * // For "PROJ-1234"
  * calculateIdentifierWidth(4, 1234) // Returns width for "PROJ" + "-" + "1234"
  */
-export const calculateIdentifierWidth = (projectIdentifierLength: number, maxSequenceId: number): number => {
+export const calculateIdentifierWidth = (
+  projectIdentifierLength: number,
+  maxSequenceId: number,
+): number => {
   const sequenceDigits = Math.max(1, Math.floor(Math.log10(maxSequenceId)) + 1);
   return projectIdentifierLength * 7 + 7 + sequenceDigits * 7; // project identifier chars + dash + sequence digits
 };

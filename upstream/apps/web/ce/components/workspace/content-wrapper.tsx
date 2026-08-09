@@ -32,7 +32,7 @@ export const WorkspaceContentWrapper = observer(function WorkspaceContentWrapper
             "relative size-full flex-grow overflow-hidden pr-2 pb-2 pl-2 transition-all duration-300 ease-in-out",
             {
               "pl-0!": shouldRenderAppRail,
-            }
+            },
           )}
         >
           {children}

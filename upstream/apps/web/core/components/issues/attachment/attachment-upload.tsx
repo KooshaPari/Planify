@@ -35,7 +35,7 @@ export const IssueAttachmentUpload = observer(function IssueAttachmentUpload(pro
       setIsLoading(true);
       attachmentOperations.create(currentFile).finally(() => setIsLoading(false));
     },
-    [attachmentOperations, workspaceSlug]
+    [attachmentOperations, workspaceSlug],
   );
 
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
@@ -46,7 +46,9 @@ export const IssueAttachmentUpload = observer(function IssueAttachmentUpload(pro
   });
 
   const fileError =
-    fileRejections.length > 0 ? `Invalid file type or size (max ${maxFileSize / 1024 / 1024} MB)` : null;
+    fileRejections.length > 0
+      ? `Invalid file type or size (max ${maxFileSize / 1024 / 1024} MB)`
+      : null;
 
   return (
     <div

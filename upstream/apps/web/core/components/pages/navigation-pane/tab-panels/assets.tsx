@@ -90,7 +90,9 @@ const AssetItem = observer(function AssetItem(props: AssetItemProps) {
               className="pointer-events-none flex shrink-0 items-center gap-1 rounded-sm px-1 py-0.5 text-secondary opacity-0 transition-opacity group-hover/asset-item:pointer-events-auto group-hover/asset-item:opacity-100 hover:text-primary"
             >
               <Download className="size-3 shrink-0" />
-              <span className="text-11 font-medium">{t("page_navigation_pane.tabs.assets.download_button")}</span>
+              <span className="text-11 font-medium">
+                {t("page_navigation_pane.tabs.assets.download_button")}
+              </span>
             </a>
           </div>
         </div>
@@ -107,7 +109,9 @@ const AssetItem = observer(function AssetItem(props: AssetItemProps) {
   );
 });
 
-export const PageNavigationPaneAssetsTabPanel = observer(function PageNavigationPaneAssetsTabPanel(props: Props) {
+export const PageNavigationPaneAssetsTabPanel = observer(function PageNavigationPaneAssetsTabPanel(
+  props: Props,
+) {
   const { page } = props;
   // derived values
   const {

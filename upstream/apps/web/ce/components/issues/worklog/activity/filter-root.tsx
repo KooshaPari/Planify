@@ -20,15 +20,17 @@ export type TActivityFilterRoot = {
 export function ActivityFilterRoot(props: TActivityFilterRoot) {
   const { selectedFilters, toggleFilter } = props;
 
-  const filters: TActivityFilterOption[] = Object.entries(ACTIVITY_FILTER_TYPE_OPTIONS).map(([key, value]) => {
-    const filterKey = key as TActivityFilters;
-    return {
-      key: filterKey,
-      labelTranslationKey: value.labelTranslationKey,
-      isSelected: selectedFilters.includes(filterKey),
-      onClick: () => toggleFilter(filterKey),
-    };
-  });
+  const filters: TActivityFilterOption[] = Object.entries(ACTIVITY_FILTER_TYPE_OPTIONS).map(
+    ([key, value]) => {
+      const filterKey = key as TActivityFilters;
+      return {
+        key: filterKey,
+        labelTranslationKey: value.labelTranslationKey,
+        isSelected: selectedFilters.includes(filterKey),
+        onClick: () => toggleFilter(filterKey),
+      };
+    },
+  );
 
   return <ActivityFilter selectedFilters={selectedFilters} filterOptions={filters} />;
 }

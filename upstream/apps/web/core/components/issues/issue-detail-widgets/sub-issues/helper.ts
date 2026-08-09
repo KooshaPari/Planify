@@ -91,11 +91,19 @@ export const useSubIssueOperations = (issueServiceType: TIssueServiceType): TSub
         issueId,
         issueData,
         oldIssue = {},
-        fromModal = false
+        fromModal = false,
       ) => {
         try {
           setSubIssueHelpers(parentIssueId, "issue_loader", issueId);
-          await updateSubIssue(workspaceSlug, projectId, parentIssueId, issueId, issueData, oldIssue, fromModal);
+          await updateSubIssue(
+            workspaceSlug,
+            projectId,
+            parentIssueId,
+            issueId,
+            issueData,
+            oldIssue,
+            fromModal,
+          );
           setToast({
             type: TOAST_TYPE.SUCCESS,
             title: t("toast.success"),
@@ -166,7 +174,7 @@ export const useSubIssueOperations = (issueServiceType: TIssueServiceType): TSub
       setSubIssueHelpers,
       t,
       updateSubIssue,
-    ]
+    ],
   );
 
   return subIssueOperations;

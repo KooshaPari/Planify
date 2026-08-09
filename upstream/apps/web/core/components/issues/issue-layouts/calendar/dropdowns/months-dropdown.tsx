@@ -22,14 +22,19 @@ import type { IProjectViewIssuesFilter } from "@/store/issue/project-views";
 // helpers
 
 interface Props {
-  issuesFilterStore: IProjectIssuesFilter | IModuleIssuesFilter | ICycleIssuesFilter | IProjectViewIssuesFilter;
+  issuesFilterStore:
+    | IProjectIssuesFilter
+    | IModuleIssuesFilter
+    | ICycleIssuesFilter
+    | IProjectViewIssuesFilter;
 }
 export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(props: Props) {
   const { issuesFilterStore } = props;
 
   const issueCalendarView = useCalendarView();
 
-  const calendarLayout = issuesFilterStore.issueFilters?.displayFilters?.calendar?.layout ?? "month";
+  const calendarLayout =
+    issuesFilterStore.issueFilters?.displayFilters?.calendar?.layout ?? "month";
 
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
@@ -60,7 +65,10 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
 
     if (!firstDay || !lastDay) return "Week view";
 
-    if (firstDay.getMonth() === lastDay.getMonth() && firstDay.getFullYear() === lastDay.getFullYear())
+    if (
+      firstDay.getMonth() === lastDay.getMonth() &&
+      firstDay.getFullYear() === lastDay.getFullYear()
+    )
       return `${MONTHS_LIST[firstDay.getMonth() + 1].title} ${firstDay.getFullYear()}`;
 
     if (firstDay.getFullYear() !== lastDay.getFullYear()) {
@@ -114,7 +122,11 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
                 type="button"
                 className="grid place-items-center"
                 onClick={() => {
-                  const previousYear = new Date(activeMonthDate.getFullYear() - 1, activeMonthDate.getMonth(), 1);
+                  const previousYear = new Date(
+                    activeMonthDate.getFullYear() - 1,
+                    activeMonthDate.getMonth(),
+                    1,
+                  );
                   handleDateChange(previousYear);
                 }}
               >
@@ -125,7 +137,11 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
                 type="button"
                 className="grid place-items-center"
                 onClick={() => {
-                  const nextYear = new Date(activeMonthDate.getFullYear() + 1, activeMonthDate.getMonth(), 1);
+                  const nextYear = new Date(
+                    activeMonthDate.getFullYear() + 1,
+                    activeMonthDate.getMonth(),
+                    1,
+                  );
                   handleDateChange(nextYear);
                 }}
               >

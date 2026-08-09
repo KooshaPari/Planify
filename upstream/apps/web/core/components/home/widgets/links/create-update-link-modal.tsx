@@ -33,7 +33,9 @@ const defaultValues: TLinkCreateFormFieldOptions = {
   url: "",
 };
 
-export const LinkCreateUpdateModal = observer(function LinkCreateUpdateModal(props: TLinkCreateEditModal) {
+export const LinkCreateUpdateModal = observer(function LinkCreateUpdateModal(
+  props: TLinkCreateEditModal,
+) {
   // props
   const { isModalOpen, handleOnClose, linkOperations, preloadedData } = props;
   // react hook form
@@ -54,7 +56,8 @@ export const LinkCreateUpdateModal = observer(function LinkCreateUpdateModal(pro
   const handleFormSubmit = async (formData: TLinkCreateFormFieldOptions) => {
     const parsedUrl = formData.url.startsWith("http") ? formData.url : `http://${formData.url}`;
     try {
-      if (!formData || !formData.id) await linkOperations.create({ title: formData.title, url: parsedUrl });
+      if (!formData || !formData.id)
+        await linkOperations.create({ title: formData.title, url: parsedUrl });
       else await linkOperations.update(formData.id, { title: formData.title, url: parsedUrl });
       onClose();
     } catch (error) {
@@ -99,7 +102,9 @@ export const LinkCreateUpdateModal = observer(function LinkCreateUpdateModal(pro
                   />
                 )}
               />
-              {errors.url && <span className="text-11 text-danger-primary">{t("link.modal.url.required")}</span>}
+              {errors.url && (
+                <span className="text-11 text-danger-primary">{t("link.modal.url.required")}</span>
+              )}
             </div>
             <div>
               <label htmlFor="title" className="mb-2 text-14 font-medium text-secondary">
@@ -130,7 +135,13 @@ export const LinkCreateUpdateModal = observer(function LinkCreateUpdateModal(pro
             {t("Cancel")}
           </Button>
           <Button variant="primary" size="lg" type="submit" loading={isSubmitting}>
-            {preloadedData?.id ? (isSubmitting ? t("updating") : t("update")) : isSubmitting ? t("adding") : t("add")}{" "}
+            {preloadedData?.id
+              ? isSubmitting
+                ? t("updating")
+                : t("update")
+              : isSubmitting
+                ? t("adding")
+                : t("add")}{" "}
             {t("home.quick_links.title")}
           </Button>
         </div>

@@ -14,7 +14,9 @@ type Props = {
   isSubmitting: TNameDescriptionLoader;
 };
 
-export const NameDescriptionUpdateStatus = observer(function NameDescriptionUpdateStatus(props: Props) {
+export const NameDescriptionUpdateStatus = observer(function NameDescriptionUpdateStatus(
+  props: Props,
+) {
   const { isSubmitting } = props;
 
   return (
@@ -27,7 +29,9 @@ export const NameDescriptionUpdateStatus = observer(function NameDescriptionUpda
         {isSubmitting !== "submitted" && isSubmitting !== "saved" && (
           <RefreshCw className="size-3.5 animate-spin stroke-tertiary" />
         )}
-        <span className="text-13 text-tertiary">{isSubmitting === "submitting" ? "Saving..." : "Saved"}</span>
+        <span className="text-13 text-tertiary">
+          {isSubmitting === "submitting" ? "Saving..." : "Saved"}
+        </span>
       </div>
     </>
   );

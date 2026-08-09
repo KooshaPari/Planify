@@ -28,7 +28,10 @@ export type TPowerKSearchResultGroupDetails = {
   title: string;
 };
 
-export const POWER_K_SEARCH_RESULTS_GROUPS_MAP: Record<TPowerKSearchResultsKeys, TPowerKSearchResultGroupDetails> = {
+export const POWER_K_SEARCH_RESULTS_GROUPS_MAP: Record<
+  TPowerKSearchResultsKeys,
+  TPowerKSearchResultGroupDetails
+> = {
   cycle: {
     icon: ContrastIcon,
     itemName: (cycle: IWorkspaceDefaultSearchResult) => (
@@ -104,7 +107,8 @@ export const POWER_K_SEARCH_RESULTS_GROUPS_MAP: Record<TPowerKSearchResultsKeys,
   project: {
     icon: Briefcase,
     itemName: (project: IWorkspaceProjectSearchResult) => project?.name,
-    path: (project: IWorkspaceProjectSearchResult) => `/${project?.workspace__slug}/projects/${project?.id}/issues/`,
+    path: (project: IWorkspaceProjectSearchResult) =>
+      `/${project?.workspace__slug}/projects/${project?.id}/issues/`,
     title: "Projects",
   },
   workspace: {

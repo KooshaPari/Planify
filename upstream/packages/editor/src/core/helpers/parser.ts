@@ -5,7 +5,12 @@
  */
 
 // plane imports
-import type { TDocumentPayload, TDuplicateAssetData, TDuplicateAssetResponse, TEditorAssetType } from "@plane/types";
+import type {
+  TDocumentPayload,
+  TDuplicateAssetData,
+  TDuplicateAssetResponse,
+  TEditorAssetType,
+} from "@plane/types";
 // plane web imports
 import {
   extractAdditionalAssetsFromHTMLContent,
@@ -41,7 +46,10 @@ const extractAssetsFromHTMLContent = (htmlContent: string): string[] => {
  * @param props
  * @returns {string} HTML content with replaced assets
  */
-const replaceAssetsInHTMLContent = (props: { htmlContent: string; assetMap: Record<string, string> }): string => {
+const replaceAssetsInHTMLContent = (props: {
+  htmlContent: string;
+  assetMap: Record<string, string>;
+}): string => {
   const { htmlContent, assetMap } = props;
   // create a DOM parser
   const parser = new DOMParser();
@@ -71,7 +79,8 @@ export const getEditorContentWithReplacedAssets = async (props: {
   variant: "rich" | "document";
   duplicateAssetService: (params: TDuplicateAssetData) => Promise<TDuplicateAssetResponse>;
 }): Promise<TDocumentPayload> => {
-  const { descriptionHTML, entityId, entityType, projectId, variant, duplicateAssetService } = props;
+  const { descriptionHTML, entityId, entityType, projectId, variant, duplicateAssetService } =
+    props;
   let replacedDescription = descriptionHTML;
   // step 1: extract image assets from the description
   const assetIds = extractAssetsFromHTMLContent(descriptionHTML);

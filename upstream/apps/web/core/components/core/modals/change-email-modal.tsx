@@ -63,7 +63,7 @@ export const ChangeEmailModal = observer(function ChangeEmailModal(props: Props)
         type: TOAST_TYPE.ERROR,
         title: t("auth.sign_out.toast.error.title"),
         message: t("auth.sign_out.toast.error.message"),
-      })
+      }),
     );
   };
 
@@ -118,7 +118,9 @@ export const ChangeEmailModal = observer(function ChangeEmailModal(props: Props)
       const errorCode = err?.error_code?.toString();
 
       // Use authErrorHandler to get user-friendly error message
-      const errorInfo = errorCode ? authErrorHandler(errorCode as EAuthenticationErrorCodes) : undefined;
+      const errorInfo = errorCode
+        ? authErrorHandler(errorCode as EAuthenticationErrorCodes)
+        : undefined;
 
       // Get error message from handler or fallback
       const errorMessage = errorInfo
@@ -132,14 +134,23 @@ export const ChangeEmailModal = observer(function ChangeEmailModal(props: Props)
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <div className="space-y-0 px-4 py-4">
         <h3 className="text-16 leading-6 font-medium text-primary">{changeEmailT("title")}</h3>
         <p className="my-4 text-13 text-secondary">{changeEmailT("description")}</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-4" noValidate>
         <div className="flex flex-col gap-1">
-          {secondStep && <h4 className="text-13 font-medium text-secondary">{changeEmailT("form.email.label")}</h4>}
+          {secondStep && (
+            <h4 className="text-13 font-medium text-secondary">
+              {changeEmailT("form.email.label")}
+            </h4>
+          )}
           <Controller
             control={control}
             name="email"
@@ -162,19 +173,23 @@ export const ChangeEmailModal = observer(function ChangeEmailModal(props: Props)
                 placeholder={changeEmailT("form.email.placeholder")}
                 className={cn(
                   { "border-danger-strong": errors.email },
-                  { "cursor-not-allowed !bg-surface-2": secondStep }
+                  { "cursor-not-allowed !bg-surface-2": secondStep },
                 )}
                 autoComplete="off"
                 disabled={secondStep}
               />
             )}
           />
-          {errors?.email && <span className="text-11 text-danger-primary">{errors?.email?.message}</span>}
+          {errors?.email && (
+            <span className="text-11 text-danger-primary">{errors?.email?.message}</span>
+          )}
         </div>
 
         {secondStep && (
           <div className="flex flex-col gap-1">
-            <h4 className="text-13 font-medium text-secondary">{changeEmailT("form.code.label")}</h4>
+            <h4 className="text-13 font-medium text-secondary">
+              {changeEmailT("form.code.label")}
+            </h4>
             <Controller
               control={control}
               name="code"
@@ -196,7 +211,9 @@ export const ChangeEmailModal = observer(function ChangeEmailModal(props: Props)
             {errors?.code ? (
               <span className="text-11 text-danger-primary">{errors?.code?.message}</span>
             ) : (
-              <span className="text-11 text-success-primary">{changeEmailT("form.code.helper_text")}</span>
+              <span className="text-11 text-success-primary">
+                {changeEmailT("form.code.helper_text")}
+              </span>
             )}
           </div>
         )}

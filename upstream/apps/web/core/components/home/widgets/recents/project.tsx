@@ -40,7 +40,9 @@ export function RecentProject(props: BlockProps) {
           <div className="grid size-8 flex-shrink-0 place-items-center rounded-sm bg-layer-2">
             <Logo logo={projectDetails?.logo_props} size={16} />
           </div>
-          <div className="text-13 font-medium whitespace-nowrap text-placeholder">{projectDetails?.identifier}</div>
+          <div className="text-13 font-medium whitespace-nowrap text-placeholder">
+            {projectDetails?.identifier}
+          </div>
         </div>
       }
       appendTitleElement={
@@ -59,9 +61,13 @@ export function RecentProject(props: BlockProps) {
                 disabled
                 multiple
                 buttonVariant={
-                  projectDetails?.project_members?.length > 0 ? "transparent-without-text" : "border-without-text"
+                  projectDetails?.project_members?.length > 0
+                    ? "transparent-without-text"
+                    : "border-without-text"
                 }
-                buttonClassName={projectDetails?.project_members?.length > 0 ? "hover:bg-transparent px-0" : ""}
+                buttonClassName={
+                  projectDetails?.project_members?.length > 0 ? "hover:bg-transparent px-0" : ""
+                }
                 showTooltip={projectDetails?.project_members?.length === 0}
                 placeholder="Assignees"
                 optionsClassName="z-10"

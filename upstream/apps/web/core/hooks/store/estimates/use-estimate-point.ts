@@ -12,7 +12,7 @@ import type { IEstimatePoint } from "@/store/estimates/estimate-point";
 
 export const useEstimatePoint = (
   estimateId: string | undefined,
-  estimatePointId: string | undefined
+  estimatePointId: string | undefined,
 ): IEstimatePoint => {
   const context = useContext(StoreContext);
   if (context === undefined) throw new Error("useEstimatePoint must be used within StoreProvider");

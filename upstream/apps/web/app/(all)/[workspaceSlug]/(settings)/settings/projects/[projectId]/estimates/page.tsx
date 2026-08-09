@@ -25,8 +25,13 @@ function EstimatesSettingsPage({ params }: Route.ComponentProps) {
   const { workspaceUserInfo, allowPermissions } = useUserPermissions();
 
   // derived values
-  const pageTitle = currentProjectDetails?.name ? `${currentProjectDetails?.name} - Estimates` : undefined;
-  const canPerformProjectAdminActions = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT);
+  const pageTitle = currentProjectDetails?.name
+    ? `${currentProjectDetails?.name} - Estimates`
+    : undefined;
+  const canPerformProjectAdminActions = allowPermissions(
+    [EUserPermissions.ADMIN],
+    EUserPermissionsLevel.PROJECT,
+  );
 
   if (workspaceUserInfo && !canPerformProjectAdminActions) {
     return <NotAuthorizedView section="settings" isProjectView className="h-auto" />;
@@ -35,8 +40,14 @@ function EstimatesSettingsPage({ params }: Route.ComponentProps) {
   return (
     <SettingsContentWrapper header={<EstimatesProjectSettingsHeader />}>
       <PageHead title={pageTitle} />
-      <div className={`w-full ${canPerformProjectAdminActions ? "" : "pointer-events-none opacity-60"}`}>
-        <EstimateRoot workspaceSlug={workspaceSlug} projectId={projectId} isAdmin={canPerformProjectAdminActions} />
+      <div
+        className={`w-full ${canPerformProjectAdminActions ? "" : "pointer-events-none opacity-60"}`}
+      >
+        <EstimateRoot
+          workspaceSlug={workspaceSlug}
+          projectId={projectId}
+          isAdmin={canPerformProjectAdminActions}
+        />
       </div>
     </SettingsContentWrapper>
   );

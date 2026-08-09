@@ -53,8 +53,13 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
   // ref
   const formRef = useRef<HTMLFormElement>(null);
   // states
-  const [csrfPromise, setCsrfPromise] = useState<Promise<{ csrf_token: string }> | undefined>(undefined);
-  const [passwordFormData, setPasswordFormData] = useState<TPasswordFormValues>({ ...defaultValues, email });
+  const [csrfPromise, setCsrfPromise] = useState<Promise<{ csrf_token: string }> | undefined>(
+    undefined,
+  );
+  const [passwordFormData, setPasswordFormData] = useState<TPasswordFormValues>({
+    ...defaultValues,
+    email,
+  });
   const [showPassword, setShowPassword] = useState({
     password: false,
     retypePassword: false,
@@ -99,7 +104,10 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
     ) : (
       passwordFormData.password.length > 0 &&
       getPasswordStrength(passwordFormData.password) != E_PASSWORD_STRENGTH.STRENGTH_VALID && (
-        <PasswordStrengthIndicator password={passwordFormData.password} isFocused={isPasswordInputFocused} />
+        <PasswordStrengthIndicator
+          password={passwordFormData.password}
+          isFocused={isPasswordInputFocused}
+        />
       )
     );
 
@@ -107,15 +115,18 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
     () =>
       !isSubmitting &&
       !!passwordFormData.password &&
-      (mode === EAuthModes.SIGN_UP ? passwordFormData.password === passwordFormData.confirm_password : true)
+      (mode === EAuthModes.SIGN_UP
+        ? passwordFormData.password === passwordFormData.confirm_password
+        : true)
         ? false
         : true,
-    [isSubmitting, mode, passwordFormData.confirm_password, passwordFormData.password]
+    [isSubmitting, mode, passwordFormData.confirm_password, passwordFormData.password],
   );
 
   const password = passwordFormData?.password ?? "";
   const confirmPassword = passwordFormData?.confirm_password ?? "";
-  const renderPasswordMatchError = !isRetryPasswordInputFocused || confirmPassword.length >= password.length;
+  const renderPasswordMatchError =
+    !isRetryPasswordInputFocused || confirmPassword.length >= password.length;
 
   const handleCSRFToken = async () => {
     if (!formRef || !formRef.current) return;
@@ -154,7 +165,8 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
           await handleCSRFToken();
           const isPasswordValid =
             mode === EAuthModes.SIGN_UP
-              ? getPasswordStrength(passwordFormData.password) === E_PASSWORD_STRENGTH.STRENGTH_VALID
+              ? getPasswordStrength(passwordFormData.password) ===
+                E_PASSWORD_STRENGTH.STRENGTH_VALID
               : true;
           if (isPasswordValid) {
             setIsSubmitting(true);
@@ -174,7 +186,9 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
           <label htmlFor="email" className="text-13 font-medium text-tertiary">
             {t("auth.common.email.label")}
           </label>
-          <div className={`relative flex items-center rounded-md border border-strong bg-surface-1`}>
+          <div
+            className={`relative flex items-center rounded-md border border-strong bg-surface-1`}
+          >
             <Input
               id="email"
               name="email"
@@ -200,7 +214,9 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
 
         <div className="space-y-1">
           <label htmlFor="password" className="text-13 font-medium text-tertiary">
-            {mode === EAuthModes.SIGN_IN ? t("auth.common.password.label") : t("auth.common.password.set_password")}
+            {mode === EAuthModes.SIGN_IN
+              ? t("auth.common.password.label")
+              : t("auth.common.password.set_password")}
           </label>
           <div className="relative flex items-center rounded-md bg-surface-1">
             <Input
@@ -221,7 +237,9 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
               onClick={() => handleShowPassword("password")}
               className="absolute right-3 grid size-5 place-items-center"
               aria-label={t(
-                showPassword?.password ? "aria_labels.auth_forms.hide_password" : "aria_labels.auth_forms.show_password"
+                showPassword?.password
+                  ? "aria_labels.auth_forms.hide_password"
+                  : "aria_labels.auth_forms.show_password",
               )}
             >
               {showPassword?.password ? (
@@ -258,7 +276,7 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
                 aria-label={t(
                   showPassword?.retypePassword
                     ? "aria_labels.auth_forms.hide_password"
-                    : "aria_labels.auth_forms.show_password"
+                    : "aria_labels.auth_forms.show_password",
                 )}
                 onClick={() => handleShowPassword("retypePassword")}
               >
@@ -272,7 +290,9 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
             {!!passwordFormData.confirm_password &&
               passwordFormData.password !== passwordFormData.confirm_password &&
               renderPasswordMatchError && (
-                <span className="text-13 text-danger-primary">{t("auth.common.password.errors.match")}</span>
+                <span className="text-13 text-danger-primary">
+                  {t("auth.common.password.errors.match")}
+                </span>
               )}
           </div>
         )}
@@ -280,7 +300,13 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
         <div className="space-y-2.5">
           {mode === EAuthModes.SIGN_IN ? (
             <>
-              <Button type="submit" variant="primary" className="w-full" size="xl" disabled={isButtonDisabled}>
+              <Button
+                type="submit"
+                variant="primary"
+                className="w-full"
+                size="xl"
+                disabled={isButtonDisabled}
+              >
                 {isSubmitting ? (
                   <Spinner height="20px" width="20px" />
                 ) : isSMTPConfigured ? (
@@ -303,7 +329,13 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
               )}
             </>
           ) : (
-            <Button type="submit" variant="primary" className="w-full" size="xl" disabled={isButtonDisabled}>
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-full"
+              size="xl"
+              disabled={isButtonDisabled}
+            >
               {isSubmitting ? <Spinner height="20px" width="20px" /> : "Create account"}
             </Button>
           )}

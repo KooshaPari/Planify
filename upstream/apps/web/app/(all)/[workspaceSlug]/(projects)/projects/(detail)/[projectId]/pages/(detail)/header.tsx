@@ -54,7 +54,11 @@ export const PageDetailsHeader = observer(function PageDetailsHeader() {
         query: _page.name,
         content: (
           <div className="flex items-center justify-between gap-2">
-            <SwitcherLabel logo_props={_page.logo_props} name={getPageName(_page.name)} LabelIcon={PageIcon} />
+            <SwitcherLabel
+              logo_props={_page.logo_props}
+              name={getPageName(_page.name)}
+              LabelIcon={PageIcon}
+            />
             <PageAccessIcon {..._page} />
           </div>
         ),
@@ -69,7 +73,10 @@ export const PageDetailsHeader = observer(function PageDetailsHeader() {
       <Header.LeftItem>
         <div>
           <Breadcrumbs isLoading={loader === "init-loader"}>
-            <CommonProjectBreadcrumbs workspaceSlug={workspaceSlug?.toString()} projectId={projectId?.toString()} />
+            <CommonProjectBreadcrumbs
+              workspaceSlug={workspaceSlug?.toString()}
+              projectId={projectId?.toString()}
+            />
             <Breadcrumbs.Item
               component={
                 <BreadcrumbLink

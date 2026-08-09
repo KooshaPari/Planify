@@ -30,7 +30,7 @@ export const useTimeZoneConverter = (projectId: string) => {
       // return the formatted date
       return format(convertedDate, formatToken);
     },
-    [userTimezone]
+    [userTimezone],
   );
 
   /**

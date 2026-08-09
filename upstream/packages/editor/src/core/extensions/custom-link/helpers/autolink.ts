@@ -5,7 +5,12 @@
  */
 
 import type { NodeWithPos } from "@tiptap/core";
-import { combineTransactionSteps, findChildrenInRange, getChangedRanges, getMarksBetween } from "@tiptap/core";
+import {
+  combineTransactionSteps,
+  findChildrenInRange,
+  getChangedRanges,
+  getMarksBetween,
+} from "@tiptap/core";
 import type { MarkType } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { find } from "linkifyjs";
@@ -19,8 +24,12 @@ export function autolink(options: AutolinkOptions): Plugin {
   return new Plugin({
     key: new PluginKey("autolink"),
     appendTransaction: (transactions, oldState, newState) => {
-      const docChanges = transactions.some((transaction) => transaction.docChanged) && !oldState.doc.eq(newState.doc);
-      const preventAutolink = transactions.some((transaction) => transaction.getMeta("preventAutolink"));
+      const docChanges =
+        transactions.some((transaction) => transaction.docChanged) &&
+        !oldState.doc.eq(newState.doc);
+      const preventAutolink = transactions.some((transaction) =>
+        transaction.getMeta("preventAutolink"),
+      );
 
       if (!docChanges || preventAutolink) {
         return;
@@ -32,7 +41,11 @@ export function autolink(options: AutolinkOptions): Plugin {
 
       changes.forEach(({ newRange }) => {
         // Now let’s see if we can add new links.
-        const nodesInChangedRanges = findChildrenInRange(newState.doc, newRange, (node) => node.isTextblock);
+        const nodesInChangedRanges = findChildrenInRange(
+          newState.doc,
+          newRange,
+          (node) => node.isTextblock,
+        );
 
         let textBlock: NodeWithPos | undefined;
         let textBeforeWhitespace: string | undefined;
@@ -44,7 +57,7 @@ export function autolink(options: AutolinkOptions): Plugin {
             textBlock.pos,
             textBlock.pos + textBlock.node.nodeSize,
             undefined,
-            " "
+            " ",
           );
         } else if (
           nodesInChangedRanges.length &&
@@ -52,7 +65,12 @@ export function autolink(options: AutolinkOptions): Plugin {
           newState.doc.textBetween(newRange.from, newRange.to, " ", " ").endsWith(" ")
         ) {
           textBlock = nodesInChangedRanges[0];
-          textBeforeWhitespace = newState.doc.textBetween(textBlock.pos, newRange.to, undefined, " ");
+          textBeforeWhitespace = newState.doc.textBetween(
+            textBlock.pos,
+            newRange.to,
+            undefined,
+            " ",
+          );
         }
 
         if (textBlock && textBeforeWhitespace) {
@@ -63,7 +81,8 @@ export function autolink(options: AutolinkOptions): Plugin {
           }
 
           const lastWordBeforeSpace = wordsBeforeWhitespace[wordsBeforeWhitespace.length - 1];
-          const lastWordAndBlockOffset = textBlock.pos + textBeforeWhitespace.lastIndexOf(lastWordBeforeSpace);
+          const lastWordAndBlockOffset =
+            textBlock.pos + textBeforeWhitespace.lastIndexOf(lastWordBeforeSpace);
 
           if (!lastWordBeforeSpace) {
             return false;
@@ -94,7 +113,11 @@ export function autolink(options: AutolinkOptions): Plugin {
             })
             // Add link mark.
             .forEach((link) => {
-              if (getMarksBetween(link.from, link.to, newState.doc).some((item) => item.mark.type === options.type)) {
+              if (
+                getMarksBetween(link.from, link.to, newState.doc).some(
+                  (item) => item.mark.type === options.type,
+                )
+              ) {
                 return;
               }
 
@@ -103,7 +126,7 @@ export function autolink(options: AutolinkOptions): Plugin {
                 link.to,
                 options.type.create({
                   href: link.href,
-                })
+                }),
               );
             });
         }

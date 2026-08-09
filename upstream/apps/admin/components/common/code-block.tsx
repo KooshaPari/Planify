@@ -20,7 +20,7 @@ export function CodeBlock({ children, className, darkerShade }: TProps) {
         {
           "border-subtle bg-layer-1 text-secondary": darkerShade,
         },
-        className
+        className,
       )}
     >
       {children}

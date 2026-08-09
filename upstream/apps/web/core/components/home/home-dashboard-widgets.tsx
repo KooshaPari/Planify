@@ -68,8 +68,14 @@ export const DashboardWidgets = observer(function DashboardWidgets() {
   // theme hook
   const { resolvedTheme } = useTheme();
   // store hooks
-  const { toggleWidgetSettings, widgetsMap, showWidgetSettings, orderedWidgets, isAnyWidgetEnabled, loading } =
-    useHome();
+  const {
+    toggleWidgetSettings,
+    widgetsMap,
+    showWidgetSettings,
+    orderedWidgets,
+    isAnyWidgetEnabled,
+    loading,
+  } = useHome();
   const { loader } = useProject();
   // plane hooks
   const { t } = useTranslation();

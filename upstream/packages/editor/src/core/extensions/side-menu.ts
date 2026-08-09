@@ -73,7 +73,8 @@ const SideMenu = (options: SideMenuPluginProps) => {
   editorSideMenu.id = "editor-side-menu";
   // side menu view actions
   const hideSideMenu = () => {
-    if (!editorSideMenu?.classList.contains("side-menu-hidden")) editorSideMenu?.classList.add("side-menu-hidden");
+    if (!editorSideMenu?.classList.contains("side-menu-hidden"))
+      editorSideMenu?.classList.add("side-menu-hidden");
   };
   const showSideMenu = () => editorSideMenu?.classList.remove("side-menu-hidden");
   // side menu elements
@@ -126,7 +127,10 @@ const SideMenu = (options: SideMenuPluginProps) => {
             rect.left -= 20;
           }
 
-          if (node.parentElement?.parentElement?.matches("td") || node.parentElement?.parentElement?.matches("th")) {
+          if (
+            node.parentElement?.parentElement?.matches("td") ||
+            node.parentElement?.parentElement?.matches("th")
+          ) {
             if (node.matches("ul:not([data-type=taskList]) li, ol li")) {
               rect.left -= 5;
             }

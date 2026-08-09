@@ -19,13 +19,18 @@ export class IssueArchiveService extends APIService {
     this.serviceType = serviceType;
   }
 
-  async getArchivedIssues(workspaceSlug: string, projectId: string, queries?: any, config = {}): Promise<any> {
+  async getArchivedIssues(
+    workspaceSlug: string,
+    projectId: string,
+    queries?: any,
+    config = {},
+  ): Promise<any> {
     return this.get(
       `/api/workspaces/${workspaceSlug}/projects/${projectId}/archived-issues/`,
       {
         params: { ...queries },
       },
-      config
+      config,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -36,11 +41,13 @@ export class IssueArchiveService extends APIService {
   async archiveIssue(
     workspaceSlug: string,
     projectId: string,
-    issueId: string
+    issueId: string,
   ): Promise<{
     archived_at: string;
   }> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/archive/`)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/archive/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -48,7 +55,9 @@ export class IssueArchiveService extends APIService {
   }
 
   async restoreIssue(workspaceSlug: string, projectId: string, issueId: string): Promise<any> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/archive/`)
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/archive/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -59,11 +68,14 @@ export class IssueArchiveService extends APIService {
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    queries?: any
+    queries?: any,
   ): Promise<TIssue> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/archive/`, {
-      params: queries,
-    })
+    return this.get(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/archive/`,
+      {
+        params: queries,
+      },
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

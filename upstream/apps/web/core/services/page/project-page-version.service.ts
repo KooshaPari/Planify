@@ -16,8 +16,14 @@ export class ProjectPageVersionService extends APIService {
     super(API_BASE_URL);
   }
 
-  async fetchAllVersions(workspaceSlug: string, projectId: string, pageId: string): Promise<TPageVersion[]> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/versions/`)
+  async fetchAllVersions(
+    workspaceSlug: string,
+    projectId: string,
+    pageId: string,
+  ): Promise<TPageVersion[]> {
+    return this.get(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/versions/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -28,18 +34,25 @@ export class ProjectPageVersionService extends APIService {
     workspaceSlug: string,
     projectId: string,
     pageId: string,
-    versionId: string
+    versionId: string,
   ): Promise<TPageVersion> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/versions/${versionId}/`)
+    return this.get(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/versions/${versionId}/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
       });
   }
 
-  async restoreVersion(workspaceSlug: string, projectId: string, pageId: string, versionId: string): Promise<void> {
+  async restoreVersion(
+    workspaceSlug: string,
+    projectId: string,
+    pageId: string,
+    versionId: string,
+  ): Promise<void> {
     return this.post(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/versions/${versionId}/restore/`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/versions/${versionId}/restore/`,
     )
       .then((response) => response?.data)
       .catch((error) => {

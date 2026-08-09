@@ -10,7 +10,7 @@ import { EEstimateSystem } from "@plane/constants";
 export const isEstimatePointValuesRepeated = (
   estimatePoints: string[],
   estimateType: EEstimateSystem,
-  newEstimatePoint?: string
+  newEstimatePoint?: string,
 ) => {
   const currentEstimatePoints = estimatePoints.map((estimatePoint) => estimatePoint.trim());
   let isRepeated = false;

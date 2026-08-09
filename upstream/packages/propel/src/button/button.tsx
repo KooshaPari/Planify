@@ -9,7 +9,10 @@ import { cn } from "../utils";
 import type { ButtonProps } from "./helper";
 import { getIconStyling, buttonVariants } from "./helper";
 
-const Button = React.forwardRef(function Button(props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) {
+const Button = React.forwardRef(function Button(
+  props: ButtonProps,
+  ref: React.ForwardedRef<HTMLButtonElement>,
+) {
   const {
     variant = "primary",
     size = "base",
@@ -33,9 +36,17 @@ const Button = React.forwardRef(function Button(props: ButtonProps, ref: React.F
       disabled={disabled || loading}
       {...rest}
     >
-      {prependIcon && React.cloneElement(prependIcon, { className: cn("shrink-0", buttonIconStyle), strokeWidth: 2 })}
+      {prependIcon &&
+        React.cloneElement(prependIcon, {
+          className: cn("shrink-0", buttonIconStyle),
+          strokeWidth: 2,
+        })}
       {children}
-      {appendIcon && React.cloneElement(appendIcon, { className: cn("shrink-0", buttonIconStyle), strokeWidth: 2 })}
+      {appendIcon &&
+        React.cloneElement(appendIcon, {
+          className: cn("shrink-0", buttonIconStyle),
+          strokeWidth: 2,
+        })}
     </button>
   );
 });

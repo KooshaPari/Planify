@@ -67,7 +67,7 @@ export function BubbleMenuNodeSelector(props: Props) {
           "flex h-full items-center gap-1 rounded-sm px-3 text-13 font-medium whitespace-nowrap text-tertiary transition-colors hover:bg-layer-1 active:bg-layer-1",
           {
             "bg-layer-1": context.open,
-          }
+          },
         ),
       }}
       menuButton={
@@ -94,14 +94,16 @@ export function BubbleMenuNodeSelector(props: Props) {
               "flex items-center justify-between rounded-sm px-1 py-1.5 text-13 text-secondary hover:bg-layer-1",
               {
                 "bg-layer-1": activeItem.name === item.name,
-              }
+              },
             )}
           >
             <div className="flex items-center space-x-2">
               <item.icon className="size-3 flex-shrink-0" />
               <span>{item.name}</span>
             </div>
-            {activeItem.name === item.name && <CheckIcon className="size-3 flex-shrink-0 text-tertiary" />}
+            {activeItem.name === item.name && (
+              <CheckIcon className="size-3 flex-shrink-0 text-tertiary" />
+            )}
           </button>
         ))}
       </section>

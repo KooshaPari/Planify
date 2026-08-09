@@ -30,7 +30,7 @@ export const ProjectEmptyState = observer(function ProjectEmptyState() {
 
   const canPerformEmptyStateActions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   return (

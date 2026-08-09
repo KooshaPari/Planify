@@ -25,9 +25,12 @@ export class CycleOperationsService extends APIService {
     projectId: string,
     data: {
       cycle: string;
-    }
+    },
   ): Promise<any> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-cycles/`, data)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-cycles/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -42,8 +45,14 @@ export class CycleOperationsService extends APIService {
    * @returns {Promise<any>} The removal response
    * @throws {Error} If the request fails
    */
-  async removeFromFavorites(workspaceSlug: string, projectId: string, cycleId: string): Promise<any> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-cycles/${cycleId}/`)
+  async removeFromFavorites(
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+  ): Promise<any> {
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-cycles/${cycleId}/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -65,9 +74,12 @@ export class CycleOperationsService extends APIService {
     cycleId: string,
     data: {
       new_cycle_id: string;
-    }
+    },
   ): Promise<any> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/transfer-issues/`, data)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/transfer-issues/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

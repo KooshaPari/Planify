@@ -18,8 +18,13 @@ import { StickiesLayout } from "./stickies-list";
 export const StickiesInfinite = observer(function StickiesInfinite() {
   const { workspaceSlug } = useParams();
   // hooks
-  const { fetchWorkspaceStickies, fetchNextWorkspaceStickies, getWorkspaceStickyIds, loader, paginationInfo } =
-    useSticky();
+  const {
+    fetchWorkspaceStickies,
+    fetchNextWorkspaceStickies,
+    getWorkspaceStickyIds,
+    loader,
+    paginationInfo,
+  } = useSticky();
   //state
   const [elementRef, setElementRef] = useState<HTMLDivElement | null>(null);
 
@@ -29,7 +34,7 @@ export const StickiesInfinite = observer(function StickiesInfinite() {
   useSWR(
     workspaceSlug ? `WORKSPACE_STICKIES_${workspaceSlug}` : null,
     workspaceSlug ? () => fetchWorkspaceStickies(workspaceSlug.toString()) : null,
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   const handleLoadMore = () => {
@@ -37,7 +42,8 @@ export const StickiesInfinite = observer(function StickiesInfinite() {
     fetchNextWorkspaceStickies(workspaceSlug?.toString());
   };
 
-  const hasNextPage = paginationInfo?.next_page_results && paginationInfo?.next_cursor !== undefined;
+  const hasNextPage =
+    paginationInfo?.next_page_results && paginationInfo?.next_cursor !== undefined;
   const shouldObserve = hasNextPage && loader !== "pagination";
   const workspaceStickies = getWorkspaceStickyIds(workspaceSlug?.toString());
   useIntersectionObserver(containerRef, shouldObserve ? elementRef : null, handleLoadMore);

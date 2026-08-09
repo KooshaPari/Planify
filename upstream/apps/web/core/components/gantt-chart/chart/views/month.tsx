@@ -41,7 +41,10 @@ export const MonthChartView = observer(function MonthChartView(_props: any) {
             }}
           >
             {/** Main Month Title */}
-            <div className="flex h-7" style={{ marginLeft: `${marginLeftDays * currentViewData.data.dayWidth}px` }}>
+            <div
+              className="flex h-7"
+              style={{ marginLeft: `${marginLeftDays * currentViewData.data.dayWidth}px` }}
+            >
               {months?.map((monthBlock) => (
                 <div
                   key={`month-${monthBlock?.month}-${monthBlock?.year}`}
@@ -56,7 +59,11 @@ export const MonthChartView = observer(function MonthChartView(_props: any) {
                   >
                     {monthBlock?.title}
                     {monthBlock.today && (
-                      <span className={cn("ml-2 rounded-sm bg-accent-primary px-1 text-9 font-medium text-on-color")}>
+                      <span
+                        className={cn(
+                          "ml-2 rounded-sm bg-accent-primary px-1 text-9 font-medium text-on-color",
+                        )}
+                      >
                         Current
                       </span>
                     )}
@@ -73,7 +80,7 @@ export const MonthChartView = observer(function MonthChartView(_props: any) {
                     "flex flex-shrink-0 justify-between px-2 py-1 text-center capitalize outline-[0.25px] outline-subtle-1",
                     {
                       "bg-accent-primary/20": weekBlock.today,
-                    }
+                    },
                   )}
                   style={{ width: `${currentViewData?.data.dayWidth * 7}px` }}
                 >
@@ -86,7 +93,9 @@ export const MonthChartView = observer(function MonthChartView(_props: any) {
                       {weekBlock.startDate.getDate()}-{weekBlock.endDate.getDate()}
                     </span>
                   </div>
-                  <div className="space-x-1 text-11 font-medium">{weekBlock.weekData.shortTitle}</div>
+                  <div className="space-x-1 text-11 font-medium">
+                    {weekBlock.weekData.shortTitle}
+                  </div>
                 </div>
               ))}
             </div>

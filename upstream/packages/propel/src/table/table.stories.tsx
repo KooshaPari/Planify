@@ -5,7 +5,16 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from "./core";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from "./core";
 
 const meta = {
   title: "Components/Table",
@@ -179,30 +188,42 @@ export const WithBadges: Story = {
           <TableRow>
             <TableCell>Website Redesign</TableCell>
             <TableCell>
-              <span className="bg-green-100 rounded-full px-2 py-1 text-11 text-success-primary">In Progress</span>
+              <span className="bg-green-100 rounded-full px-2 py-1 text-11 text-success-primary">
+                In Progress
+              </span>
             </TableCell>
             <TableCell>
-              <span className="bg-red-100 rounded-full px-2 py-1 text-11 text-danger-primary">High</span>
+              <span className="bg-red-100 rounded-full px-2 py-1 text-11 text-danger-primary">
+                High
+              </span>
             </TableCell>
             <TableCell>John Doe</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Mobile App</TableCell>
             <TableCell>
-              <span className="bg-blue-100 text-blue-800 rounded-full px-2 py-1 text-11">Planned</span>
+              <span className="bg-blue-100 text-blue-800 rounded-full px-2 py-1 text-11">
+                Planned
+              </span>
             </TableCell>
             <TableCell>
-              <span className="bg-yellow-100 text-yellow-800 rounded-full px-2 py-1 text-11">Medium</span>
+              <span className="bg-yellow-100 text-yellow-800 rounded-full px-2 py-1 text-11">
+                Medium
+              </span>
             </TableCell>
             <TableCell>Jane Smith</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>API Integration</TableCell>
             <TableCell>
-              <span className="bg-gray-100 text-gray-800 rounded-full px-2 py-1 text-11">Completed</span>
+              <span className="bg-gray-100 text-gray-800 rounded-full px-2 py-1 text-11">
+                Completed
+              </span>
             </TableCell>
             <TableCell>
-              <span className="bg-green-100 rounded-full px-2 py-1 text-11 text-success-primary">Low</span>
+              <span className="bg-green-100 rounded-full px-2 py-1 text-11 text-success-primary">
+                Low
+              </span>
             </TableCell>
             <TableCell>Bob Wilson</TableCell>
           </TableRow>

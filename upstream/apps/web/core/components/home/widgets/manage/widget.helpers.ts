@@ -5,7 +5,12 @@
  */
 
 import { extractInstruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
-import type { InstructionType, IPragmaticPayloadLocation, TDropTarget, TWidgetEntityData } from "@plane/types";
+import type {
+  InstructionType,
+  IPragmaticPayloadLocation,
+  TDropTarget,
+  TWidgetEntityData,
+} from "@plane/types";
 
 export type TargetData = {
   id: string;
@@ -24,7 +29,7 @@ export type TargetData = {
 export const getInstructionFromPayload = (
   dropTarget: TDropTarget,
   source: TDropTarget,
-  location: IPragmaticPayloadLocation
+  location: IPragmaticPayloadLocation,
 ): InstructionType | undefined => {
   const dropTargetData = dropTarget?.data as TargetData;
   const sourceData = source?.data as TargetData;

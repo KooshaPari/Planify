@@ -12,10 +12,15 @@ import type { TWorkItemFilterExpression, TWorkItemFilterProperty } from "@plane/
 import type { TFiltersRowProps } from "@/components/rich-filters/filters-row";
 import { FiltersRow } from "@/components/rich-filters/filters-row";
 
-type TWorkItemFiltersRowProps = TFiltersRowProps<TWorkItemFilterProperty, TWorkItemFilterExpression> & {
+type TWorkItemFiltersRowProps = TFiltersRowProps<
+  TWorkItemFilterProperty,
+  TWorkItemFilterExpression
+> & {
   filter: IWorkItemFilterInstance;
 };
 
-export const WorkItemFiltersRow = observer(function WorkItemFiltersRow(props: TWorkItemFiltersRowProps) {
+export const WorkItemFiltersRow = observer(function WorkItemFiltersRow(
+  props: TWorkItemFiltersRowProps,
+) {
   return <FiltersRow {...props} />;
 });

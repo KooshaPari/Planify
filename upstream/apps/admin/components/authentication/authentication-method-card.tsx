@@ -18,7 +18,15 @@ type Props = {
 };
 
 export function AuthenticationMethodCard(props: Props) {
-  const { name, description, icon, config, disabled = false, withBorder = true, unavailable = false } = props;
+  const {
+    name,
+    description,
+    icon,
+    config,
+    disabled = false,
+    withBorder = true,
+    unavailable = false,
+  } = props;
 
   return (
     <div
@@ -32,7 +40,9 @@ export function AuthenticationMethodCard(props: Props) {
         })}
       >
         <div className="shrink-0">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-layer-1">{icon}</div>
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-layer-1">
+            {icon}
+          </div>
         </div>
         <div className="grow">
           <div

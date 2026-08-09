@@ -31,7 +31,10 @@ export function CustomImageExtension(props: Props) {
   // derived values
   const { getAssetSrc, getAssetDownloadSrc, restore: restoreImageFn } = fileHandler;
 
-  return CustomImageExtensionConfig.extend<CustomImageExtensionOptions, CustomImageExtensionStorage>({
+  return CustomImageExtensionConfig.extend<
+    CustomImageExtensionOptions,
+    CustomImageExtensionStorage
+  >({
     selectable: isEditable,
     draggable: isEditable,
 

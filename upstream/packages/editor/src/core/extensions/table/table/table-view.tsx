@@ -37,7 +37,7 @@ export class TableView implements NodeView {
     cellMinWidth: number,
     decorations: readonly Decoration[],
     editor: Editor,
-    getPos: NodeViewProps["getPos"]
+    getPos: NodeViewProps["getPos"],
   ) {
     this.node = node;
     this.cellMinWidth = cellMinWidth;
@@ -50,7 +50,7 @@ export class TableView implements NodeView {
     this.colgroup = h(
       "colgroup",
       null,
-      Array.from({ length: this.map.width }, () => 1).map(() => h("col"))
+      Array.from({ length: this.map.width }, () => 1).map(() => h("col")),
     );
     this.tbody = h("tbody");
     this.table = h("table", null, this.colgroup, this.tbody);
@@ -60,7 +60,7 @@ export class TableView implements NodeView {
       {
         className: "table-wrapper editor-full-width-block horizontal-scrollbar scrollbar-sm",
       },
-      this.table
+      this.table,
     );
 
     this.render();

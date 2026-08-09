@@ -31,7 +31,13 @@ interface FormFieldProps {
   optional?: boolean;
 }
 
-export function FormField({ label, htmlFor, children, className, optional = false }: FormFieldProps) {
+export function FormField({
+  label,
+  htmlFor,
+  children,
+  className,
+  optional = false,
+}: FormFieldProps) {
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
       <Label htmlFor={htmlFor}>
@@ -59,7 +65,7 @@ export function ValidationMessage({ type, message, className }: ValidationMessag
           "text-danger-primary": type === "error",
           "text-success-primary": type === "success",
         },
-        className
+        className,
       )}
     >
       {message}

@@ -26,7 +26,9 @@ type TInvitationModalActionsProps = {
   className?: string;
 };
 
-export const InvitationModalActions = observer(function InvitationModalActions(props: TInvitationModalActionsProps) {
+export const InvitationModalActions = observer(function InvitationModalActions(
+  props: TInvitationModalActionsProps,
+) {
   const {
     isInviteDisabled = false,
     isSubmitting = false,
@@ -48,7 +50,7 @@ export const InvitationModalActions = observer(function InvitationModalActions(p
           "flex items-center gap-1 bg-transparent py-2 pr-3 text-caption-md-medium text-accent-primary outline-accent-strong",
           {
             "cursor-not-allowed opacity-60": isInviteDisabled,
-          }
+          },
         )}
         onClick={appendField}
         disabled={isInviteDisabled}
@@ -60,9 +62,16 @@ export const InvitationModalActions = observer(function InvitationModalActions(p
         <Button variant="secondary" size="lg" onClick={handleClose}>
           {cancelButtonText || t("cancel")}
         </Button>
-        <Button variant="primary" size="lg" type="submit" loading={isSubmitting} disabled={isInviteDisabled}>
+        <Button
+          variant="primary"
+          size="lg"
+          type="submit"
+          loading={isSubmitting}
+          disabled={isInviteDisabled}
+        >
           {isSubmitting
-            ? submitButtonText?.loading || t("workspace_settings.settings.members.modal.button_loading")
+            ? submitButtonText?.loading ||
+              t("workspace_settings.settings.members.modal.button_loading")
             : submitButtonText?.default || t("workspace_settings.settings.members.modal.button")}
         </Button>
       </div>

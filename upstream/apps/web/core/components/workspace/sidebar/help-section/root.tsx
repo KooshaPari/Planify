@@ -29,7 +29,10 @@ export const HelpMenuRoot = observer(function HelpMenuRoot() {
 
   return (
     <>
-      <ProductUpdatesModal isOpen={isProductUpdatesModalOpen} handleClose={() => setProductUpdatesModalOpen(false)} />
+      <ProductUpdatesModal
+        isOpen={isProductUpdatesModalOpen}
+        handleClose={() => setProductUpdatesModalOpen(false)}
+      />
 
       <CustomMenu
         customButton={
@@ -79,7 +82,9 @@ export const HelpMenuRoot = observer(function HelpMenuRoot() {
             <span className="text-11">{t("whats_new")}</span>
           </button>
         </CustomMenu.MenuItem>
-        <CustomMenu.MenuItem onClick={() => window.open("https://forum.plane.so", "_blank", "noopener,noreferrer")}>
+        <CustomMenu.MenuItem
+          onClick={() => window.open("https://forum.plane.so", "_blank", "noopener,noreferrer")}
+        >
           <div className="flex items-center gap-x-2 rounded-sm text-11">
             <span className="text-11">Forum</span>
           </div>

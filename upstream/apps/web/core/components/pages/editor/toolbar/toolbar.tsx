@@ -50,7 +50,8 @@ const ToolbarButton = React.memo(function ToolbarButton(props: ToolbarButtonProp
           })
         }
         className={cn("grid size-7 shrink-0 place-items-center rounded-sm text-tertiary", {
-          "bg-layer-transparent-selected text-primary hover:bg-layer-transparent-selected": isActive,
+          "bg-layer-transparent-selected text-primary hover:bg-layer-transparent-selected":
+            isActive,
           "hover:bg-layer-transparent-hover": !isActive,
         })}
       >
@@ -112,7 +113,7 @@ export function PageToolbar(props: Props) {
     editorRef.isMenuItemActive({
       itemKey: item.itemKey,
       ...item.extraProps,
-    })
+    }),
   );
 
   return (
@@ -125,7 +126,7 @@ export function PageToolbar(props: Props) {
               {
                 "bg-layer-1-selected text-primary": isTypographyMenuOpen,
                 "text-tertiary hover:bg-layer-1-hover": !isTypographyMenuOpen,
-              }
+              },
             )}
           >
             {activeTypography?.name || "Text"}
@@ -143,7 +144,8 @@ export function PageToolbar(props: Props) {
           <CustomMenu.MenuItem
             key={item.renderKey}
             className={cn("flex items-center justify-between gap-2", {
-              "bg-layer-transparent-selected text-primary": activeTypography?.itemKey === item.itemKey,
+              "bg-layer-transparent-selected text-primary":
+                activeTypography?.itemKey === item.itemKey,
               "hover:bg-layer-transparent-hover": !(activeTypography?.itemKey === item.itemKey),
             })}
             onClick={() => {
@@ -159,7 +161,9 @@ export function PageToolbar(props: Props) {
               <item.icon className="size-3" />
               {item.name}
             </span>
-            {activeTypography?.itemKey === item.itemKey && <CheckIcon className="size-3 shrink-0 text-tertiary" />}
+            {activeTypography?.itemKey === item.itemKey && (
+              <CheckIcon className="size-3 shrink-0 text-tertiary" />
+            )}
           </CustomMenu.MenuItem>
         ))}
       </CustomMenu>

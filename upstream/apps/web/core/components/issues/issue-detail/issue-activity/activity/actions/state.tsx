@@ -12,7 +12,11 @@ import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { IssueActivityBlockComponent, IssueLink } from "./";
 // icons
 
-type TIssueStateActivity = { activityId: string; showIssue?: boolean; ends: "top" | "bottom" | undefined };
+type TIssueStateActivity = {
+  activityId: string;
+  showIssue?: boolean;
+  ends: "top" | "bottom" | undefined;
+};
 
 export const IssueStateActivity = observer(function IssueStateActivity(props: TIssueStateActivity) {
   const { activityId, showIssue = true, ends } = props;

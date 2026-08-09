@@ -62,7 +62,9 @@ export type TInstanceAuthenticationConfigurationKeys =
   | TInstanceGitlabAuthenticationConfigurationKeys
   | TInstanceGiteaAuthenticationConfigurationKeys;
 
-export type TInstanceAuthenticationKeys = TInstanceAuthenticationMethodKeys | TInstanceAuthenticationConfigurationKeys;
+export type TInstanceAuthenticationKeys =
+  | TInstanceAuthenticationMethodKeys
+  | TInstanceAuthenticationConfigurationKeys;
 
 export type TGetBaseAuthenticationModeProps = {
   disabled: boolean;

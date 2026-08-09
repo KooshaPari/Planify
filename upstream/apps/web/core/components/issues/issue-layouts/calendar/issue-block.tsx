@@ -54,11 +54,14 @@ export const CalendarIssueBlock = observer(
     const { issuesFilter } = useIssues(storeType);
     const { getProjectIdentifierById } = useProject();
 
-    const stateColor = getProjectStates(issue?.project_id)?.find((state) => state?.id == issue?.state_id)?.color || "";
+    const stateColor =
+      getProjectStates(issue?.project_id)?.find((state) => state?.id == issue?.state_id)?.color ||
+      "";
     const projectIdentifier = getProjectIdentifierById(issue?.project_id);
 
     // handlers
-    const handleIssuePeekOverview = (issue: TIssue) => handleRedirection(workspaceSlug.toString(), issue, isMobile);
+    const handleIssuePeekOverview = (issue: TIssue) =>
+      handleRedirection(workspaceSlug.toString(), issue, isMobile);
 
     useOutsideClickDetector(menuActionRef, () => setIsMenuActive(false));
 
@@ -75,7 +78,8 @@ export const CalendarIssueBlock = observer(
     );
 
     const isMenuActionRefAboveScreenBottom =
-      menuActionRef?.current && menuActionRef?.current?.getBoundingClientRect().bottom < window.innerHeight - 220;
+      menuActionRef?.current &&
+      menuActionRef?.current?.getBoundingClientRect().bottom < window.innerHeight - 220;
 
     const placement = isMenuActionRefAboveScreenBottom ? "bottom-end" : "top-end";
 
@@ -114,8 +118,10 @@ export const CalendarIssueBlock = observer(
                     {
                       "border-accent-strong bg-surface-2 shadow-raised-200": isDragging,
                       "bg-surface-1 hover:bg-surface-2": !isDragging,
-                      "border border-accent-strong hover:border-accent-strong": getIsIssuePeeked(issue.id),
-                    }
+                      "border border-accent-strong hover:border-accent-strong": getIsIssuePeeked(
+                        issue.id,
+                      ),
+                    },
                   )}
                 >
                   <div className="flex h-full items-center gap-1.5 truncate">
@@ -134,7 +140,9 @@ export const CalendarIssueBlock = observer(
                         displayProperties={issuesFilter?.issueFilters?.displayProperties}
                       />
                     )}
-                    <div className="truncate text-13 font-medium md:text-11 md:font-regular">{issue.name}</div>
+                    <div className="truncate text-13 font-medium md:text-11 md:font-regular">
+                      {issue.name}
+                    </div>
                   </div>
                   <div
                     className={cn("size-5 flex-shrink-0", {
@@ -173,7 +181,7 @@ export const CalendarIssueBlock = observer(
         </Popover.Panel>
       </Popover>
     );
-  })
+  }),
 );
 
 CalendarIssueBlock.displayName = "CalendarIssueBlock";

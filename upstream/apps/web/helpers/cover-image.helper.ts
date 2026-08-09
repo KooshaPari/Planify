@@ -135,11 +135,17 @@ export const getCoverImageType = (imageUrl: string): TCoverImageType => {
  * - Local static images: returned as-is (served from assets folder)
  * - Uploaded assets: processed through getFileURL (adds backend URL)
  */
-export function getCoverImageDisplayURL(imageUrl: string | null | undefined, fallbackUrl: string): string;
-export function getCoverImageDisplayURL(imageUrl: string | null | undefined, fallbackUrl: null): string | null;
 export function getCoverImageDisplayURL(
   imageUrl: string | null | undefined,
-  fallbackUrl: string | null
+  fallbackUrl: string,
+): string;
+export function getCoverImageDisplayURL(
+  imageUrl: string | null | undefined,
+  fallbackUrl: null,
+): string | null;
+export function getCoverImageDisplayURL(
+  imageUrl: string | null | undefined,
+  fallbackUrl: string | null,
 ): string | null {
   if (!imageUrl) {
     return fallbackUrl;
@@ -164,7 +170,7 @@ export function getCoverImageDisplayURL(
  */
 export const analyzeCoverImageChange = (
   currentImage: string | null | undefined,
-  newImage: string | null | undefined
+  newImage: string | null | undefined,
 ): TCoverImageResult => {
   const hasChanged = currentImage !== newImage;
 
@@ -203,7 +209,7 @@ export const uploadCoverImage = async (
     entityIdentifier: string;
     entityType: EFileAssetType;
     isUserAsset?: boolean;
-  }
+  },
 ): Promise<string> => {
   const { workspaceSlug, entityIdentifier, entityType, isUserAsset = false } = uploadConfig;
 
@@ -231,7 +237,7 @@ export const uploadCoverImage = async (
         entity_identifier: entityIdentifier,
         entity_type: entityType,
       },
-      file
+      file,
     );
     return uploadResult.asset_url;
   } else {
@@ -245,7 +251,7 @@ export const uploadCoverImage = async (
         entity_identifier: entityIdentifier,
         entity_type: entityType,
       },
-      file
+      file,
     );
     return uploadResult.asset_url;
   }
@@ -262,7 +268,7 @@ export const handleCoverImageChange = async (
     entityIdentifier: string;
     entityType: EFileAssetType;
     isUserAsset?: boolean;
-  }
+  },
 ): Promise<TCoverImagePayload | undefined> => {
   const analysis = analyzeCoverImageChange(currentImage, newImage);
   if (!analysis.shouldUpdate) return;
@@ -284,4 +290,6 @@ export const handleCoverImageChange = async (
  * @returns {string} A random cover image URL
  */
 export const getRandomCoverImage = (): string =>
-  Object.values(STATIC_COVER_IMAGES)[Math.floor(Math.random() * Object.keys(STATIC_COVER_IMAGES).length)];
+  Object.values(STATIC_COVER_IMAGES)[
+    Math.floor(Math.random() * Object.keys(STATIC_COVER_IMAGES).length)
+  ];

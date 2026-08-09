@@ -30,7 +30,7 @@ type Props = {
     draggingLabelId: string,
     droppedParentId: string | null,
     droppedLabelId: string | undefined,
-    dropAtEndOfList: boolean
+    dropAtEndOfList: boolean,
   ) => void;
   labelOperationsCallbacks: TLabelOperationsCallbacks;
   isEditable?: boolean;
@@ -84,7 +84,13 @@ export function ProjectSettingLabelItem(props: Props) {
   ];
 
   return (
-    <LabelDndHOC label={label} isGroup={false} isChild={isChild} isLastChild={isLastChild} onDrop={onDrop}>
+    <LabelDndHOC
+      label={label}
+      isGroup={false}
+      isChild={isChild}
+      isLastChild={isLastChild}
+      onDrop={onDrop}
+    >
       {(isDragging, isDroppingInLabel, dragHandleRef) => (
         <div
           className={`rounded-sm ${isDroppingInLabel ? "border-[2px] border-accent-strong" : "border-[1.5px] border-transparent"}`}

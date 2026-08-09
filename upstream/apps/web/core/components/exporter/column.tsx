@@ -54,7 +54,9 @@ export const useExportColumns = () => {
     {
       key: "Exported projects",
       content: "Exported projects",
-      tdRender: (rowData: RowData) => <div className="text-13">{rowData.project.length} project(s)</div>,
+      tdRender: (rowData: RowData) => (
+        <div className="text-13">{rowData.project.length} project(s)</div>
+      ),
     },
     {
       key: "Format",

@@ -58,7 +58,7 @@ export const ThemeSwitcher = observer(function ThemeSwitcher(props: {
         console.error("Error updating theme:", error);
       }
     },
-    [updateUserTheme]
+    [updateUserTheme],
   );
 
   if (!userProfile) return null;

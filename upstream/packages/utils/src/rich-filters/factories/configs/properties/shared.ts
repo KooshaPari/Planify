@@ -9,7 +9,12 @@ import type { IProject, IUserLite, TOperatorConfigMap, TSupportedOperators } fro
 import { COMPARISON_OPERATOR, EQUALITY_OPERATOR } from "@plane/types";
 // local imports
 import { getDatePickerConfig, getDateRangePickerConfig, getMultiSelectConfig } from "../core";
-import type { IFilterIconConfig, TCreateDateFilterParams, TCreateFilterConfigParams, TFilterIconType } from "../shared";
+import type {
+  IFilterIconConfig,
+  TCreateDateFilterParams,
+  TCreateFilterConfigParams,
+  TFilterIconType,
+} from "../shared";
 import { createOperatorConfigEntry } from "../shared";
 
 // ------------ Base User Filter Types ------------
@@ -27,7 +32,10 @@ export type TCreateUserFilterParams = TCreateFilterConfigParams &
  * @param params - The filter params
  * @returns The member multi select config
  */
-export const getMemberMultiSelectConfig = (params: TCreateUserFilterParams, singleValueOperator: TSupportedOperators) =>
+export const getMemberMultiSelectConfig = (
+  params: TCreateUserFilterParams,
+  singleValueOperator: TSupportedOperators,
+) =>
   getMultiSelectConfig<IUserLite, string, IUserLite>(
     {
       items: params.members,
@@ -42,16 +50,18 @@ export const getMemberMultiSelectConfig = (params: TCreateUserFilterParams, sing
     },
     {
       ...params,
-    }
+    },
   );
 
 // ------------ Date Operators ------------
 
 export const getSupportedDateOperators = (params: TCreateDateFilterParams): TOperatorConfigMap =>
   new Map([
-    createOperatorConfigEntry(EQUALITY_OPERATOR.EXACT, params, (updatedParams) => getDatePickerConfig(updatedParams)),
+    createOperatorConfigEntry(EQUALITY_OPERATOR.EXACT, params, (updatedParams) =>
+      getDatePickerConfig(updatedParams),
+    ),
     createOperatorConfigEntry(COMPARISON_OPERATOR.RANGE, params, (updatedParams) =>
-      getDateRangePickerConfig(updatedParams)
+      getDateRangePickerConfig(updatedParams),
     ),
   ]);
 
@@ -72,7 +82,7 @@ export type TCreateProjectFilterParams = TCreateFilterConfigParams &
  */
 export const getProjectMultiSelectConfig = (
   params: TCreateProjectFilterParams,
-  singleValueOperator: TSupportedOperators
+  singleValueOperator: TSupportedOperators,
 ) =>
   getMultiSelectConfig<IProject, string, IProject>(
     {
@@ -88,7 +98,7 @@ export const getProjectMultiSelectConfig = (
     },
     {
       ...params,
-    }
+    },
   );
 
 /**

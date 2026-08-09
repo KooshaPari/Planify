@@ -24,7 +24,9 @@ type TIssueParentSelect = {
   workspaceSlug: string;
 };
 
-export const IssueParentSelectRoot = observer(function IssueParentSelectRoot(props: TIssueParentSelect) {
+export const IssueParentSelectRoot = observer(function IssueParentSelectRoot(
+  props: TIssueParentSelect,
+) {
   const { issueId, issueOperations, projectId, workspaceSlug } = props;
   const { t } = useTranslation();
   // store hooks
@@ -56,7 +58,7 @@ export const IssueParentSelectRoot = observer(function IssueParentSelectRoot(pro
     workspaceSlug: string,
     projectId: string,
     parentIssueId: string,
-    issueId: string
+    issueId: string,
   ) => {
     try {
       setSubIssueHelpers(parentIssueId, "issue_loader", issueId);

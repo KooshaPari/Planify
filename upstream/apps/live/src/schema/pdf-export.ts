@@ -21,36 +21,54 @@ export const PdfExportRequestBody = Schema.Struct({
 
 export type TPdfExportRequestBody = Schema.Schema.Type<typeof PdfExportRequestBody>;
 
-export class PdfValidationError extends Schema.TaggedError<PdfValidationError>()("PdfValidationError", {
-  message: Schema.NonEmptyTrimmedString,
-  cause: Schema.optional(Schema.Unknown),
-}) {}
+export class PdfValidationError extends Schema.TaggedError<PdfValidationError>()(
+  "PdfValidationError",
+  {
+    message: Schema.NonEmptyTrimmedString,
+    cause: Schema.optional(Schema.Unknown),
+  },
+) {}
 
-export class PdfAuthenticationError extends Schema.TaggedError<PdfAuthenticationError>()("PdfAuthenticationError", {
-  message: Schema.NonEmptyTrimmedString,
-}) {}
+export class PdfAuthenticationError extends Schema.TaggedError<PdfAuthenticationError>()(
+  "PdfAuthenticationError",
+  {
+    message: Schema.NonEmptyTrimmedString,
+  },
+) {}
 
-export class PdfContentFetchError extends Schema.TaggedError<PdfContentFetchError>()("PdfContentFetchError", {
-  message: Schema.NonEmptyTrimmedString,
-  cause: Schema.optional(Schema.Unknown),
-}) {}
+export class PdfContentFetchError extends Schema.TaggedError<PdfContentFetchError>()(
+  "PdfContentFetchError",
+  {
+    message: Schema.NonEmptyTrimmedString,
+    cause: Schema.optional(Schema.Unknown),
+  },
+) {}
 
-export class PdfMetadataFetchError extends Schema.TaggedError<PdfMetadataFetchError>()("PdfMetadataFetchError", {
-  message: Schema.NonEmptyTrimmedString,
-  source: Schema.Literal("user-mentions"),
-  cause: Schema.optional(Schema.Unknown),
-}) {}
+export class PdfMetadataFetchError extends Schema.TaggedError<PdfMetadataFetchError>()(
+  "PdfMetadataFetchError",
+  {
+    message: Schema.NonEmptyTrimmedString,
+    source: Schema.Literal("user-mentions"),
+    cause: Schema.optional(Schema.Unknown),
+  },
+) {}
 
-export class PdfImageProcessingError extends Schema.TaggedError<PdfImageProcessingError>()("PdfImageProcessingError", {
-  message: Schema.NonEmptyTrimmedString,
-  assetId: Schema.NonEmptyTrimmedString,
-  cause: Schema.optional(Schema.Unknown),
-}) {}
+export class PdfImageProcessingError extends Schema.TaggedError<PdfImageProcessingError>()(
+  "PdfImageProcessingError",
+  {
+    message: Schema.NonEmptyTrimmedString,
+    assetId: Schema.NonEmptyTrimmedString,
+    cause: Schema.optional(Schema.Unknown),
+  },
+) {}
 
-export class PdfGenerationError extends Schema.TaggedError<PdfGenerationError>()("PdfGenerationError", {
-  message: Schema.NonEmptyTrimmedString,
-  cause: Schema.optional(Schema.Unknown),
-}) {}
+export class PdfGenerationError extends Schema.TaggedError<PdfGenerationError>()(
+  "PdfGenerationError",
+  {
+    message: Schema.NonEmptyTrimmedString,
+    cause: Schema.optional(Schema.Unknown),
+  },
+) {}
 
 export class PdfTimeoutError extends Schema.TaggedError<PdfTimeoutError>()("PdfTimeoutError", {
   message: Schema.NonEmptyTrimmedString,

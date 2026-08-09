@@ -34,7 +34,7 @@ export function CommandRenderer(props: Props) {
       acc[group].push(command);
       return acc;
     },
-    {} as Record<TPowerKCommandGroup, TPowerKCommandConfig[]>
+    {} as Record<TPowerKCommandGroup, TPowerKCommandConfig[]>,
   );
 
   const sortedGroups = Object.keys(commandsByGroup).sort((a, b) => {

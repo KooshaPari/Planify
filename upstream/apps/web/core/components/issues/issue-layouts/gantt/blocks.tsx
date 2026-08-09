@@ -51,7 +51,10 @@ export const IssueGanttBlock = observer(function IssueGanttBlock(props: Props) {
   // derived values
   const issueDetails = getIssueById(issueId);
   const stateDetails =
-    issueDetails && getProjectStates(issueDetails?.project_id)?.find((state) => state?.id == issueDetails?.state_id);
+    issueDetails &&
+    getProjectStates(issueDetails?.project_id)?.find(
+      (state) => state?.id == issueDetails?.state_id,
+    );
 
   const { blockStyle } = getBlockViewDetails(issueDetails, stateDetails?.color ?? "");
 

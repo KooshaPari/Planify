@@ -41,18 +41,32 @@ export const usePersonalNavigationPreferences = () => {
     }
 
     // Extract personal items from the store (stickies, your_work, drafts)
-    const personalItems: Record<TPersonalNavigationItemKey, { enabled: boolean; sort_order: number }> = {
+    const personalItems: Record<
+      TPersonalNavigationItemKey,
+      { enabled: boolean; sort_order: number }
+    > = {
       stickies: {
-        enabled: storePreferences.stickies?.is_pinned ?? DEFAULT_PERSONAL_PREFERENCES.items.stickies.enabled,
-        sort_order: storePreferences.stickies?.sort_order ?? DEFAULT_PERSONAL_PREFERENCES.items.stickies.sort_order,
+        enabled:
+          storePreferences.stickies?.is_pinned ??
+          DEFAULT_PERSONAL_PREFERENCES.items.stickies.enabled,
+        sort_order:
+          storePreferences.stickies?.sort_order ??
+          DEFAULT_PERSONAL_PREFERENCES.items.stickies.sort_order,
       },
       your_work: {
-        enabled: storePreferences.your_work?.is_pinned ?? DEFAULT_PERSONAL_PREFERENCES.items.your_work.enabled,
-        sort_order: storePreferences.your_work?.sort_order ?? DEFAULT_PERSONAL_PREFERENCES.items.your_work.sort_order,
+        enabled:
+          storePreferences.your_work?.is_pinned ??
+          DEFAULT_PERSONAL_PREFERENCES.items.your_work.enabled,
+        sort_order:
+          storePreferences.your_work?.sort_order ??
+          DEFAULT_PERSONAL_PREFERENCES.items.your_work.sort_order,
       },
       drafts: {
-        enabled: storePreferences.drafts?.is_pinned ?? DEFAULT_PERSONAL_PREFERENCES.items.drafts.enabled,
-        sort_order: storePreferences.drafts?.sort_order ?? DEFAULT_PERSONAL_PREFERENCES.items.drafts.sort_order,
+        enabled:
+          storePreferences.drafts?.is_pinned ?? DEFAULT_PERSONAL_PREFERENCES.items.drafts.enabled,
+        sort_order:
+          storePreferences.drafts?.sort_order ??
+          DEFAULT_PERSONAL_PREFERENCES.items.drafts.sort_order,
       },
     };
 
@@ -75,7 +89,7 @@ export const usePersonalNavigationPreferences = () => {
         },
       ]);
     },
-    [workspaceSlug, preferences, updateBulkSidebarPreferences]
+    [workspaceSlug, preferences, updateBulkSidebarPreferences],
   );
 
   const updatePersonalItemOrder = useCallback(
@@ -93,12 +107,12 @@ export const usePersonalNavigationPreferences = () => {
 
       await updateBulkSidebarPreferences(workspaceSlug.toString(), bulkData);
     },
-    [workspaceSlug, preferences, updateBulkSidebarPreferences]
+    [workspaceSlug, preferences, updateBulkSidebarPreferences],
   );
 
   const isPersonalItemEnabled = useCallback(
     (key: TPersonalNavigationItemKey): boolean => preferences.items[key]?.enabled ?? true,
-    [preferences]
+    [preferences],
   );
 
   return {
@@ -121,12 +135,17 @@ export const useProjectNavigationPreferences = () => {
     // 1. Try API data first
     if (
       storePreferences &&
-      (storePreferences.navigation_control_preference || storePreferences.navigation_project_limit !== undefined)
+      (storePreferences.navigation_control_preference ||
+        storePreferences.navigation_project_limit !== undefined)
     ) {
-      const limit = storePreferences.navigation_project_limit ?? DEFAULT_PROJECT_PREFERENCES.limitedProjectsCount;
+      const limit =
+        storePreferences.navigation_project_limit ??
+        DEFAULT_PROJECT_PREFERENCES.limitedProjectsCount;
 
       return {
-        navigationMode: storePreferences.navigation_control_preference || DEFAULT_PROJECT_PREFERENCES.navigationMode,
+        navigationMode:
+          storePreferences.navigation_control_preference ||
+          DEFAULT_PROJECT_PREFERENCES.navigationMode,
         limitedProjectsCount: limit > 0 ? limit : DEFAULT_PROJECT_PREFERENCES.limitedProjectsCount,
         showLimitedProjects: limit > 0, // Derived: 0 = false, >0 = true
       };
@@ -145,7 +164,7 @@ export const useProjectNavigationPreferences = () => {
         navigation_control_preference: mode,
       });
     },
-    [workspaceSlug, updateProjectNavigationPreferences]
+    [workspaceSlug, updateProjectNavigationPreferences],
   );
 
   // Update show limited projects
@@ -154,13 +173,15 @@ export const useProjectNavigationPreferences = () => {
       if (!workspaceSlug) return;
 
       // When toggling off, set to 0; when toggling on, use current count or default
-      const newLimit = show ? preferences.limitedProjectsCount || DEFAULT_PROJECT_PREFERENCES.limitedProjectsCount : 0;
+      const newLimit = show
+        ? preferences.limitedProjectsCount || DEFAULT_PROJECT_PREFERENCES.limitedProjectsCount
+        : 0;
 
       await updateProjectNavigationPreferences(workspaceSlug.toString(), {
         navigation_project_limit: newLimit,
       });
     },
-    [workspaceSlug, updateProjectNavigationPreferences, preferences.limitedProjectsCount]
+    [workspaceSlug, updateProjectNavigationPreferences, preferences.limitedProjectsCount],
   );
 
   // Update limited projects count
@@ -172,7 +193,7 @@ export const useProjectNavigationPreferences = () => {
         navigation_project_limit: count,
       });
     },
-    [workspaceSlug, updateProjectNavigationPreferences]
+    [workspaceSlug, updateProjectNavigationPreferences],
   );
 
   return {
@@ -215,7 +236,7 @@ export const useWorkspaceNavigationPreferences = () => {
         },
       ]);
     },
-    [workspaceSlug, preferences, updateBulkSidebarPreferences]
+    [workspaceSlug, preferences, updateBulkSidebarPreferences],
   );
 
   const updateWorkspaceItemOrder = useCallback(
@@ -233,12 +254,13 @@ export const useWorkspaceNavigationPreferences = () => {
 
       await updateBulkSidebarPreferences(workspaceSlug.toString(), bulkData);
     },
-    [workspaceSlug, preferences, updateBulkSidebarPreferences]
+    [workspaceSlug, preferences, updateBulkSidebarPreferences],
   );
 
   const getWorkspaceItemState = useCallback(
-    (key: string): TWorkspaceNavigationItemState => preferences.items[key] || { is_pinned: false, sort_order: 0 },
-    [preferences]
+    (key: string): TWorkspaceNavigationItemState =>
+      preferences.items[key] || { is_pinned: false, sort_order: 0 },
+    [preferences],
   );
 
   const isWorkspaceItemPinned = useCallback(
@@ -246,7 +268,7 @@ export const useWorkspaceNavigationPreferences = () => {
       const state = getWorkspaceItemState(key);
       return state.is_pinned;
     },
-    [getWorkspaceItemState]
+    [getWorkspaceItemState],
   );
 
   const updateWorkspaceItemSortOrder = useCallback(
@@ -263,7 +285,7 @@ export const useWorkspaceNavigationPreferences = () => {
         },
       ]);
     },
-    [workspaceSlug, preferences, updateBulkSidebarPreferences]
+    [workspaceSlug, preferences, updateBulkSidebarPreferences],
   );
 
   return {
@@ -279,7 +301,7 @@ export const useWorkspaceNavigationPreferences = () => {
 export const useAppRailPreferences = () => {
   const { storedValue, setValue } = useLocalStorage<TAppRailPreferences>(
     APP_RAIL_PREFERENCES_KEY,
-    DEFAULT_APP_RAIL_PREFERENCES
+    DEFAULT_APP_RAIL_PREFERENCES,
   );
 
   const updateDisplayMode = useCallback(
@@ -288,12 +310,13 @@ export const useAppRailPreferences = () => {
         displayMode: mode,
       });
     },
-    [setValue]
+    [setValue],
   );
 
   const toggleDisplayMode = useCallback(() => {
     const currentPreferences = storedValue || DEFAULT_APP_RAIL_PREFERENCES;
-    const newMode = currentPreferences.displayMode === "icon_only" ? "icon_with_label" : "icon_only";
+    const newMode =
+      currentPreferences.displayMode === "icon_only" ? "icon_with_label" : "icon_only";
     updateDisplayMode(newMode);
   }, [storedValue, updateDisplayMode]);
 

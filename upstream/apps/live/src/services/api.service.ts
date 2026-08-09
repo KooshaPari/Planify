@@ -29,7 +29,7 @@ export abstract class APIService {
       (response) => response,
       (error) => {
         return Promise.reject(new AppError(error));
-      }
+      },
     );
   }
 

@@ -6,7 +6,15 @@
 
 import { FloatingOverlay } from "@floating-ui/react";
 import type { SuggestionProps } from "@tiptap/suggestion";
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { v4 as uuidv4 } from "uuid";
 import { debounce } from "lodash-es";
 // plane utils
@@ -22,7 +30,10 @@ export type MentionsListDropdownProps = SuggestionProps<TMentionSection, TMentio
     onClose: () => void;
   };
 
-export const MentionsListDropdown = forwardRef(function MentionsListDropdown(props: MentionsListDropdownProps, ref) {
+export const MentionsListDropdown = forwardRef(function MentionsListDropdown(
+  props: MentionsListDropdownProps,
+  ref,
+) {
   const { command, query, searchCallback, onClose } = props;
   // states
   const [sections, setSections] = useState<TMentionSection[]>([]);
@@ -49,7 +60,7 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
         console.error("Error selecting mention item:", error);
       }
     },
-    [command, sections]
+    [command, sections],
   );
 
   useImperativeHandle(ref, () => ({
@@ -96,7 +107,7 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
         setIsLoading(false);
       }
     }, 300),
-    [searchCallback]
+    [searchCallback],
   );
 
   // trigger debounced search when query changes
@@ -112,7 +123,7 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
     () => () => {
       debouncedSearchCallback.cancel();
     },
-    [debouncedSearchCallback]
+    [debouncedSearchCallback],
   );
 
   // scroll to the dropdown item when navigating via keyboard
@@ -120,12 +131,15 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
     const container = dropdownContainer?.current;
     if (!container) return;
 
-    const item = container.querySelector(`#mention-item-${selectedIndex.section}-${selectedIndex.item}`) as HTMLElement;
+    const item = container.querySelector(
+      `#mention-item-${selectedIndex.section}-${selectedIndex.item}`,
+    ) as HTMLElement;
     if (item) {
       const containerRect = container.getBoundingClientRect();
       const itemRect = item.getBoundingClientRect();
 
-      const isItemInView = itemRect.top >= containerRect.top && itemRect.bottom <= containerRect.bottom;
+      const isItemInView =
+        itemRect.top >= containerRect.top && itemRect.bottom <= containerRect.bottom;
 
       if (!isItemInView) {
         item.scrollIntoView({ block: "nearest" });
@@ -162,9 +176,12 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
         ) : sections.length ? (
           sections.map((section, sectionIndex) => (
             <div key={section.key} className="space-y-2">
-              {section.title && <h6 className="text-11 font-semibold text-tertiary">{section.title}</h6>}
+              {section.title && (
+                <h6 className="text-11 font-semibold text-tertiary">{section.title}</h6>
+              )}
               {section.items.map((item, itemIndex) => {
-                const isSelected = sectionIndex === selectedIndex.section && itemIndex === selectedIndex.item;
+                const isSelected =
+                  sectionIndex === selectedIndex.section && itemIndex === selectedIndex.item;
 
                 return (
                   <button
@@ -175,7 +192,7 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
                       "flex w-full items-center gap-2 truncate rounded-sm px-1 py-1.5 text-left text-11 text-secondary hover:bg-layer-1-hover",
                       {
                         "bg-layer-1-hover": isSelected,
-                      }
+                      },
                     )}
                     onClick={(e) => {
                       e.preventDefault();
@@ -189,9 +206,13 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
                       })
                     }
                   >
-                    <span className="grid size-5 flex-shrink-0 place-items-center">{item.icon}</span>
+                    <span className="grid size-5 flex-shrink-0 place-items-center">
+                      {item.icon}
+                    </span>
                     {item.subTitle && (
-                      <h5 className="flex-shrink-0 text-11 whitespace-nowrap text-tertiary">{item.subTitle}</h5>
+                      <h5 className="flex-shrink-0 text-11 whitespace-nowrap text-tertiary">
+                        {item.subTitle}
+                      </h5>
                     )}
                     <p className="flex-grow truncate">{item.title}</p>
                   </button>

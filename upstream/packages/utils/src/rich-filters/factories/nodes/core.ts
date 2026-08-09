@@ -22,7 +22,7 @@ import { FILTER_NODE_TYPE, LOGICAL_OPERATOR } from "@plane/types";
  * @returns The created condition node
  */
 export const createConditionNode = <P extends TFilterProperty, V extends TFilterValue>(
-  condition: TFilterConditionPayload<P, V>
+  condition: TFilterConditionPayload<P, V>,
 ): TFilterConditionNode<P, V> => ({
   id: uuidv4(),
   type: FILTER_NODE_TYPE.CONDITION,
@@ -35,7 +35,7 @@ export const createConditionNode = <P extends TFilterProperty, V extends TFilter
  * @returns The created AND group node
  */
 export const createAndGroupNode = <P extends TFilterProperty>(
-  nodes: TFilterExpression<P>[]
+  nodes: TFilterExpression<P>[],
 ): TFilterAndGroupNode<P> => ({
   id: uuidv4(),
   type: FILTER_NODE_TYPE.GROUP,

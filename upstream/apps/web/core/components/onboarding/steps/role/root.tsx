@@ -92,7 +92,10 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
       {/* Header */}
-      <CommonOnboardingHeader title="What's your role?" description="Let's set up Plane for how you work." />
+      <CommonOnboardingHeader
+        title="What's your role?"
+        description="Let's set up Plane for how you work."
+      />
       {/* Role Selection */}
       <div className="flex flex-col gap-3">
         <p className="text-body-sm-semibold text-placeholder">Select one</p>
@@ -145,7 +148,13 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
       </div>
       {/* Action Buttons */}
       <div className="space-y-3">
-        <Button variant="primary" type="submit" className="w-full" size="xl" disabled={isButtonDisabled}>
+        <Button
+          variant="primary"
+          type="submit"
+          className="w-full"
+          size="xl"
+          disabled={isButtonDisabled}
+        >
           Continue
         </Button>
         <Button variant="ghost" onClick={handleSkip} className="w-full text-tertiary" size="xl">

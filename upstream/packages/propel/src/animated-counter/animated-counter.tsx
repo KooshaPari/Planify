@@ -50,7 +50,12 @@ export function AnimatedCounter({ count, className, size = "md" }: AnimatedCount
   const sizeClass = sizeClasses[size];
 
   return (
-    <div className={cn("relative inline-flex min-w-2 items-center justify-center overflow-hidden", sizeClass)}>
+    <div
+      className={cn(
+        "relative inline-flex min-w-2 items-center justify-center overflow-hidden",
+        sizeClass,
+      )}
+    >
       {/* Previous number sliding out */}
       {isAnimating && (
         <span
@@ -64,7 +69,7 @@ export function AnimatedCounter({ count, className, size = "md" }: AnimatedCount
             {
               "animate-fade-out animate-slide-out": isAnimating && direction === "up",
               "animate-fade-out animate-slide-out-down": isAnimating && direction === "down",
-            }
+            },
           )}
         >
           {prevCount}
@@ -82,7 +87,7 @@ export function AnimatedCounter({ count, className, size = "md" }: AnimatedCount
             "animate-slide-in-from-bottom": isAnimating && direction === "up",
             "animate-slide-in-from-top": isAnimating && direction === "down",
           },
-          className
+          className,
         )}
       >
         {displayCount}

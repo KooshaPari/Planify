@@ -22,7 +22,11 @@ export function PowerKPreferencesStartOfWeekMenu(props: Props) {
   return (
     <Command.Group>
       {START_OF_THE_WEEK_OPTIONS.map((day) => (
-        <PowerKModalCommandItem key={day.value} onSelect={() => onSelect(day.value)} label={day.label} />
+        <PowerKModalCommandItem
+          key={day.value}
+          onSelect={() => onSelect(day.value)}
+          label={day.label}
+        />
       ))}
     </Command.Group>
   );

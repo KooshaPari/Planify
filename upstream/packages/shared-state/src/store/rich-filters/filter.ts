@@ -98,28 +98,32 @@ export interface IFilterInstance<P extends TFilterProperty, E extends TExternalF
   // filter condition
   findConditionsByPropertyAndOperator: (
     property: P,
-    operator: TAllAvailableOperatorsForDisplay
+    operator: TAllAvailableOperatorsForDisplay,
   ) => TFilterConditionNodeForDisplay<P, TFilterValue>[];
   findFirstConditionByPropertyAndOperator: (
     property: P,
-    operator: TAllAvailableOperatorsForDisplay
+    operator: TAllAvailableOperatorsForDisplay,
   ) => TFilterConditionNodeForDisplay<P, TFilterValue> | undefined;
   addCondition: <V extends TFilterValue>(
     groupOperator: TLogicalOperator,
     condition: TFilterConditionPayload<P, V>,
-    isNegation: boolean
+    isNegation: boolean,
   ) => void;
   updateConditionProperty: (
     conditionId: string,
     property: P,
     operator: TSupportedOperators,
-    isNegation: boolean
+    isNegation: boolean,
   ) => void;
-  updateConditionOperator: (conditionId: string, operator: TSupportedOperators, isNegation: boolean) => void;
+  updateConditionOperator: (
+    conditionId: string,
+    operator: TSupportedOperators,
+    isNegation: boolean,
+  ) => void;
   updateConditionValue: <V extends TFilterValue>(
     conditionId: string,
     value: SingleOrArray<V>,
-    forceUpdate?: boolean
+    forceUpdate?: boolean,
   ) => void;
   removeCondition: (conditionId: string) => void;
   // config actions
@@ -137,7 +141,10 @@ type TFilterParams<P extends TFilterProperty, E extends TExternalFilter> = {
   onExpressionChange?: (expression: E) => void;
 };
 
-export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter> implements IFilterInstance<P, E> {
+export class FilterInstance<
+  P extends TFilterProperty,
+  E extends TExternalFilter,
+> implements IFilterInstance<P, E> {
   // observables
   id: string;
   initialFilterExpression: TFilterExpression<P> | null;
@@ -165,7 +172,9 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
     this.expression = cloneDeep(initialExpression);
     this.expressionOptions = this.helper.initializeExpressionOptions(params.options?.expression);
     this.onExpressionChange = params.onExpressionChange;
-    this.helper.setInitialVisibility(params.options?.visibility ?? DEFAULT_FILTER_VISIBILITY_OPTIONS);
+    this.helper.setInitialVisibility(
+      params.options?.visibility ?? DEFAULT_FILTER_VISIBILITY_OPTIONS,
+    );
 
     makeObservable(this, {
       // observables
@@ -332,7 +341,7 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
         this._resetInitialFilterExpression();
       }
       this._notifyExpressionChange();
-    }
+    },
   );
 
   /**
@@ -341,12 +350,13 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
    * @param operator - The operator to find the conditions by.
    * @returns All the conditions that match the property and operator.
    */
-  findConditionsByPropertyAndOperator: IFilterInstance<P, E>["findConditionsByPropertyAndOperator"] = action(
-    (property, operator) => {
-      if (!this.expression) return [];
-      return findConditionsByPropertyAndOperator(this.expression, property, operator);
-    }
-  );
+  findConditionsByPropertyAndOperator: IFilterInstance<
+    P,
+    E
+  >["findConditionsByPropertyAndOperator"] = action((property, operator) => {
+    if (!this.expression) return [];
+    return findConditionsByPropertyAndOperator(this.expression, property, operator);
+  });
 
   /**
    * Finds the first condition by property and operator.
@@ -354,13 +364,14 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
    * @param operator - The operator to find the condition by.
    * @returns The first condition that matches the property and operator.
    */
-  findFirstConditionByPropertyAndOperator: IFilterInstance<P, E>["findFirstConditionByPropertyAndOperator"] = action(
-    (property, operator) => {
-      if (!this.expression) return undefined;
-      const conditions = findConditionsByPropertyAndOperator(this.expression, property, operator);
-      return conditions[0];
-    }
-  );
+  findFirstConditionByPropertyAndOperator: IFilterInstance<
+    P,
+    E
+  >["findFirstConditionByPropertyAndOperator"] = action((property, operator) => {
+    if (!this.expression) return undefined;
+    const conditions = findConditionsByPropertyAndOperator(this.expression, property, operator);
+    return conditions[0];
+  });
 
   /**
    * Adds a condition to the filter expression.
@@ -368,15 +379,22 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
    * @param condition - The condition to add.
    * @param isNegation - Whether the condition should be negated.
    */
-  addCondition: IFilterInstance<P, E>["addCondition"] = action((groupOperator, condition, isNegation = false) => {
-    const conditionValue = condition.value;
+  addCondition: IFilterInstance<P, E>["addCondition"] = action(
+    (groupOperator, condition, isNegation = false) => {
+      const conditionValue = condition.value;
 
-    this.expression = this.helper.addConditionToExpression(this.expression, groupOperator, condition, isNegation);
+      this.expression = this.helper.addConditionToExpression(
+        this.expression,
+        groupOperator,
+        condition,
+        isNegation,
+      );
 
-    if (hasValidValue(conditionValue)) {
-      this._notifyExpressionChange();
-    }
-  });
+      if (hasValidValue(conditionValue)) {
+        this._notifyExpressionChange();
+      }
+    },
+  );
 
   /**
    * Updates the property of a condition in the filter expression.
@@ -387,7 +405,8 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
     (conditionId: string, property: P, operator: TSupportedOperators, isNegation: boolean) => {
       if (!this.expression) return;
       const conditionBeforeUpdate = cloneDeep(findNodeById(this.expression, conditionId));
-      if (!conditionBeforeUpdate || conditionBeforeUpdate.type !== FILTER_NODE_TYPE.CONDITION) return;
+      if (!conditionBeforeUpdate || conditionBeforeUpdate.type !== FILTER_NODE_TYPE.CONDITION)
+        return;
 
       // Update the condition property
       const updatedExpression = this.helper.handleConditionPropertyUpdate(
@@ -395,14 +414,14 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
         conditionId,
         property,
         operator,
-        isNegation
+        isNegation,
       );
 
       if (updatedExpression) {
         this.expression = updatedExpression;
         this._notifyExpressionChange();
       }
-    }
+    },
   );
 
   /**
@@ -414,7 +433,8 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
     (conditionId: string, operator: TSupportedOperators, isNegation: boolean) => {
       if (!this.expression) return;
       const conditionBeforeUpdate = cloneDeep(findNodeById(this.expression, conditionId));
-      if (!conditionBeforeUpdate || conditionBeforeUpdate.type !== FILTER_NODE_TYPE.CONDITION) return;
+      if (!conditionBeforeUpdate || conditionBeforeUpdate.type !== FILTER_NODE_TYPE.CONDITION)
+        return;
 
       // Get the operator configs for the current and new operators
       const currentOperatorConfig = this.configManager
@@ -432,7 +452,7 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
         conditionId,
         operator,
         isNegation,
-        shouldResetConditionValue
+        shouldResetConditionValue,
       );
 
       if (updatedExpression) {
@@ -442,7 +462,7 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
       if (hasValidValue(conditionBeforeUpdate.value)) {
         this._notifyExpressionChange();
       }
-    }
+    },
   );
 
   /**
@@ -452,7 +472,11 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
    * @param forceUpdate - Whether to force the update even if the value is the same as the condition before update.
    */
   updateConditionValue: IFilterInstance<P, E>["updateConditionValue"] = action(
-    <V extends TFilterValue>(conditionId: string, value: SingleOrArray<V>, forceUpdate: boolean = false) => {
+    <V extends TFilterValue>(
+      conditionId: string,
+      value: SingleOrArray<V>,
+      forceUpdate: boolean = false,
+    ) => {
       // If the expression is not valid, return
       if (!this.expression) return;
 
@@ -460,7 +484,8 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
       const conditionBeforeUpdate = cloneDeep(findNodeById(this.expression, conditionId));
 
       // If the condition is not valid, return
-      if (!conditionBeforeUpdate || conditionBeforeUpdate.type !== FILTER_NODE_TYPE.CONDITION) return;
+      if (!conditionBeforeUpdate || conditionBeforeUpdate.type !== FILTER_NODE_TYPE.CONDITION)
+        return;
 
       // If the value is not valid, remove the condition
       if (!hasValidValue(value)) {
@@ -480,7 +505,7 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
 
       // Notify the change
       this._notifyExpressionChange();
-    }
+    },
   );
 
   /**
@@ -539,12 +564,14 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
    * Updates the expression options for the filter instance.
    * This allows dynamic updates to options like isDisabled properties.
    */
-  updateExpressionOptions: IFilterInstance<P, E>["updateExpressionOptions"] = action((newOptions) => {
-    this.expressionOptions = {
-      ...this.expressionOptions,
-      ...newOptions,
-    };
-  });
+  updateExpressionOptions: IFilterInstance<P, E>["updateExpressionOptions"] = action(
+    (newOptions) => {
+      this.expressionOptions = {
+        ...this.expressionOptions,
+        ...newOptions,
+      };
+    },
+  );
 
   // ------------ private helpers ------------
   /**
@@ -559,7 +586,7 @@ export class FilterInstance<P extends TFilterProperty, E extends TExternalFilter
    * @returns The external filter representation of the filter instance.
    */
   private _getExternalExpression = computedFn(() =>
-    this.adapter.toExternal(sanitizeAndStabilizeExpression(toJS(this.expression)))
+    this.adapter.toExternal(sanitizeAndStabilizeExpression(toJS(this.expression))),
   );
 
   /**

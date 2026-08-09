@@ -68,7 +68,9 @@ export const CommentReactions = observer(function CommentReactions(props: Props)
   };
 
   const handleReactionClick = (reactionHex: string) => {
-    const userReaction = userReactions?.find((r) => r.actor_detail.id === user?.id && r.reaction === reactionHex);
+    const userReaction = userReactions?.find(
+      (r) => r.actor_detail.id === user?.id && r.reaction === reactionHex,
+    );
 
     if (userReaction) handleRemoveReaction(reactionHex);
     else handleAddReaction(reactionHex);
@@ -93,7 +95,10 @@ export const CommentReactions = observer(function CommentReactions(props: Props)
         return {
           emoji: stringToEmoji(reaction),
           count: reactionList.length,
-          reacted: commentReactions?.some((r) => r?.actor_detail?.id === user?.id && r.reaction === reaction) || false,
+          reacted:
+            commentReactions?.some(
+              (r) => r?.actor_detail?.id === user?.id && r.reaction === reaction,
+            ) || false,
           users: userNames,
         };
       });

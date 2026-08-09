@@ -66,7 +66,7 @@ export abstract class PageCoreService extends APIService {
    */
   async updatePageProperties(
     pageId: string,
-    params: { data: Partial<TPage>; abortSignal?: AbortSignal }
+    params: { data: Partial<TPage>; abortSignal?: AbortSignal },
   ): Promise<TPage> {
     const { data, abortSignal } = params;
 
@@ -163,7 +163,7 @@ export abstract class PageCoreService extends APIService {
   async resolveImageAssetUrl(
     workspaceSlug: string,
     assetId: string,
-    projectId?: string | null
+    projectId?: string | null,
   ): Promise<string | null> {
     const path = projectId
       ? `/api/assets/v2/workspaces/${workspaceSlug}/projects/${projectId}/${assetId}/?disposition=inline`
@@ -204,7 +204,7 @@ export abstract class PageCoreService extends APIService {
   async resolveImageAssetUrls(
     workspaceSlug: string,
     assetIds: string[],
-    projectId?: string | null
+    projectId?: string | null,
   ): Promise<Map<string, string>> {
     const urlMap = new Map<string, string>();
 
@@ -213,7 +213,7 @@ export abstract class PageCoreService extends APIService {
       assetIds.map(async (assetId) => {
         const url = await this.resolveImageAssetUrl(workspaceSlug, assetId, projectId);
         return { assetId, url };
-      })
+      }),
     );
 
     for (const result of results) {

@@ -30,7 +30,7 @@ export const moveSelectedColumns = (
   table: TableNodeLocation,
   selection: CellSelection,
   to: number,
-  tr: Transaction
+  tr: Transaction,
 ): Transaction => {
   const tableMap = TableMap.get(table.node);
 
@@ -77,7 +77,7 @@ export const moveSelectedRows = (
   table: TableNodeLocation,
   selection: CellSelection,
   to: number,
-  tr: Transaction
+  tr: Transaction,
 ): Transaction => {
   const tableMap = TableMap.get(table.node);
 
@@ -115,7 +115,11 @@ export const moveSelectedRows = (
  * @param {Transaction} tr - The transaction.
  * @returns {Transaction} The updated transaction.
  */
-export const duplicateRows = (table: TableNodeLocation, rowIndices: number[], tr: Transaction): Transaction => {
+export const duplicateRows = (
+  table: TableNodeLocation,
+  rowIndices: number[],
+  tr: Transaction,
+): Transaction => {
   const rows = tableToCells(table);
 
   const { map, width } = TableMap.get(table.node);
@@ -136,7 +140,7 @@ export const duplicateRows = (table: TableNodeLocation, rowIndices: number[], tr
   for (let i = rowIndices.length - 1; i >= 0; i--) {
     tr.insert(
       insertPos,
-      rows[rowIndices[i]].filter((r) => r !== null)
+      rows[rowIndices[i]].filter((r) => r !== null),
     );
   }
 
@@ -150,7 +154,11 @@ export const duplicateRows = (table: TableNodeLocation, rowIndices: number[], tr
  * @param {Transaction} tr - The transaction.
  * @returns {Transaction} The updated transaction.
  */
-export const duplicateColumns = (table: TableNodeLocation, columnIndices: number[], tr: Transaction): Transaction => {
+export const duplicateColumns = (
+  table: TableNodeLocation,
+  columnIndices: number[],
+  tr: Transaction,
+): Transaction => {
   const rows = tableToCells(table);
 
   const { map, width, height } = TableMap.get(table.node);
@@ -209,10 +217,15 @@ const tableToCells = (table: TableNodeLocation): TableRows => {
  * @param {TableRows} rows - The table rows.
  * @param {Transaction} tr - The transaction.
  */
-const tableFromCells = (editor: Editor, table: TableNodeLocation, rows: TableRows, tr: Transaction): void => {
+const tableFromCells = (
+  editor: Editor,
+  table: TableNodeLocation,
+  rows: TableRows,
+  tr: Transaction,
+): void => {
   const schema = editor.schema.nodes;
   const newRowNodes = rows.map((row) =>
-    schema.tableRow.create(null, row.filter((cell) => cell !== null) as readonly Node[])
+    schema.tableRow.create(null, row.filter((cell) => cell !== null) as readonly Node[]),
   );
   const newTableNode = table.node.copy(Fragment.from(newRowNodes));
   tr.replaceWith(table.pos, table.pos + table.node.nodeSize, newTableNode);

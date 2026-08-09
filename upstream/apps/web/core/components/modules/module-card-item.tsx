@@ -52,15 +52,19 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
   const pathname = usePathname();
   // store hooks
   const { allowPermissions } = useUserPermissions();
-  const { getModuleById, addModuleToFavorites, removeModuleFromFavorites, updateModuleDetails } = useModule();
+  const { getModuleById, addModuleToFavorites, removeModuleFromFavorites, updateModuleDetails } =
+    useModule();
   const { getUserDetails } = useMember();
   // local storage
-  const { setValue: toggleFavoriteMenu, storedValue } = useLocalStorage<boolean>(IS_FAVORITE_MENU_OPEN, false);
+  const { setValue: toggleFavoriteMenu, storedValue } = useLocalStorage<boolean>(
+    IS_FAVORITE_MENU_OPEN,
+    false,
+  );
   // derived values
   const moduleDetails = getModuleById(moduleId);
   const isEditingAllowed = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
   const isDisabled = !isEditingAllowed || !!moduleDetails?.archived_at;
   const renderIcon = Boolean(moduleDetails?.start_date) || Boolean(moduleDetails?.target_date);
@@ -71,11 +75,13 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
     e.preventDefault();
     if (!workspaceSlug || !projectId) return;
 
-    const addToFavoritePromise = addModuleToFavorites(workspaceSlug.toString(), projectId.toString(), moduleId).then(
-      () => {
-        if (!storedValue) toggleFavoriteMenu(true);
-      }
-    );
+    const addToFavoritePromise = addModuleToFavorites(
+      workspaceSlug.toString(),
+      projectId.toString(),
+      moduleId,
+    ).then(() => {
+      if (!storedValue) toggleFavoriteMenu(true);
+    });
 
     setPromiseToast(addToFavoritePromise, {
       loading: "Adding module to favorites...",
@@ -98,7 +104,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
     const removeFromFavoritePromise = removeModuleFromFavorites(
       workspaceSlug.toString(),
       projectId.toString(),
-      moduleId
+      moduleId,
     );
 
     setPromiseToast(removeFromFavoritePromise, {
@@ -174,7 +180,9 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
         : `${moduleCompletedIssues}/${moduleTotalIssues} Work items`
     : `0 work items`;
 
-  const moduleLeadDetails = moduleDetails.lead_id ? getUserDetails(moduleDetails.lead_id) : undefined;
+  const moduleLeadDetails = moduleDetails.lead_id
+    ? getUserDetails(moduleDetails.lead_id)
+    : undefined;
 
   const progressIndicatorData = PROGRESS_STATE_GROUPS_DETAILS.map((group, index) => ({
     id: index,
@@ -185,7 +193,10 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
 
   return (
     <div className="relative" data-prevent-progress>
-      <Link ref={parentRef} href={`/${workspaceSlug}/projects/${moduleDetails.project_id}/modules/${moduleDetails.id}`}>
+      <Link
+        ref={parentRef}
+        href={`/${workspaceSlug}/projects/${moduleDetails.project_id}/modules/${moduleDetails.id}`}
+      >
         <Card>
           <div>
             <div className="flex items-center justify-between gap-2">
@@ -223,7 +234,10 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
               )}
             </div>
             <LinearProgressIndicator size="lg" data={progressIndicatorData} />
-            <div className="flex items-center justify-between py-0.5" onClick={handleEventPropagation}>
+            <div
+              className="flex items-center justify-between py-0.5"
+              onClick={handleEventPropagation}
+            >
               <DateRangeDropdown
                 buttonContainerClassName={`h-6 w-full flex ${isDisabled ? "cursor-not-allowed" : "cursor-pointer"} items-center gap-1.5 text-tertiary border-[0.5px] border-strong rounded-sm text-11`}
                 buttonVariant="transparent-with-text"

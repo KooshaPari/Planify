@@ -49,7 +49,13 @@ export function ComicBoxButton(props: Props) {
   return (
     <Popover as="div" className="relative">
       <Popover.Button as={Fragment}>
-        <Button variant="primary" size="lg" ref={setReferenceElement} onClick={onClick} disabled={disabled}>
+        <Button
+          variant="primary"
+          size="lg"
+          ref={setReferenceElement}
+          onClick={onClick}
+          disabled={disabled}
+        >
           {icon}
           <span className="leading-4">{label}</span>
           <span className="relative h-2 w-2">
@@ -58,7 +64,9 @@ export function ComicBoxButton(props: Props) {
               onMouseLeave={handleMouseLeave}
               className={`bg-blue-300 absolute right-0 z-10 h-2.5 w-2.5 animate-ping rounded-full`}
             />
-            <div className={`bg-blue-400/40 absolute right-0 mt-0.5 mr-0.5 h-1.5 w-1.5 rounded-full`} />
+            <div
+              className={`bg-blue-400/40 absolute right-0 mt-0.5 mr-0.5 h-1.5 w-1.5 rounded-full`}
+            />
           </span>
         </Button>
       </Popover.Button>

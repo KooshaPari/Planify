@@ -104,8 +104,12 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
           const errorData = err ?? {};
 
           const nameError = errorData.name?.includes("PROJECT_NAME_ALREADY_EXIST");
-          const identifierError = errorData?.identifier?.includes("PROJECT_IDENTIFIER_ALREADY_EXIST");
-          const nameSpecialCharError = errorData?.name?.includes("PROJECT_NAME_CANNOT_CONTAIN_SPECIAL_CHARACTERS");
+          const identifierError = errorData?.identifier?.includes(
+            "PROJECT_IDENTIFIER_ALREADY_EXIST",
+          );
+          const nameSpecialCharError = errorData?.name?.includes(
+            "PROJECT_NAME_CANNOT_CONTAIN_SPECIAL_CHARACTERS",
+          );
 
           if (nameError || identifierError || nameSpecialCharError) {
             if (nameError) {
@@ -165,12 +169,16 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
 
     // Handle cover image changes
     try {
-      const coverImagePayload = await handleCoverImageChange(project.cover_image_url, formData.cover_image_url, {
-        workspaceSlug: workspaceSlug.toString(),
-        entityIdentifier: project.id,
-        entityType: EFileAssetType.PROJECT_COVER,
-        isUserAsset: false,
-      });
+      const coverImagePayload = await handleCoverImageChange(
+        project.cover_image_url,
+        formData.cover_image_url,
+        {
+          workspaceSlug: workspaceSlug.toString(),
+          entityIdentifier: project.id,
+          entityType: EFileAssetType.PROJECT_COVER,
+          isUserAsset: false,
+        },
+      );
 
       if (coverImagePayload) {
         Object.assign(payload, coverImagePayload);
@@ -190,7 +198,8 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
       await projectService
         .checkProjectIdentifierAvailability(workspaceSlug, payload.identifier ?? "")
         .then(async (res) => {
-          if (res.exists) setError("identifier", { message: t("common.identifier_already_exists") });
+          if (res.exists)
+            setError("identifier", { message: t("common.identifier_already_exists") });
           else await handleUpdateChange(payload);
         });
     else await handleUpdateChange(payload);
@@ -234,9 +243,13 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
                     });
                     setIsOpen(false);
                   }}
-                  defaultIconColor={value?.in_use && value.in_use === "icon" ? value?.icon?.color : undefined}
+                  defaultIconColor={
+                    value?.in_use && value.in_use === "icon" ? value?.icon?.color : undefined
+                  }
                   defaultOpen={
-                    value.in_use && value.in_use === "emoji" ? EmojiIconPickerTypes.EMOJI : EmojiIconPickerTypes.ICON
+                    value.in_use && value.in_use === "emoji"
+                      ? EmojiIconPickerTypes.EMOJI
+                      : EmojiIconPickerTypes.ICON
                   }
                   disabled={!isAdmin}
                 />
@@ -331,7 +344,8 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
                 name="identifier"
                 rules={{
                   required: t("project_id_is_required"),
-                  validate: (value) => /^[ÇŞĞIİÖÜA-Z0-9]+$/.test(value.toUpperCase()) || t("project_id_allowed_char"),
+                  validate: (value) =>
+                    /^[ÇŞĞIİÖÜA-Z0-9]+$/.test(value.toUpperCase()) || t("project_id_allowed_char"),
                   minLength: {
                     value: 1,
                     message: t("project_id_min_char"),
@@ -384,7 +398,10 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
                       <div className="flex items-center gap-1">
                         {selectedNetwork ? (
                           <>
-                            <ProjectNetworkIcon iconKey={selectedNetwork.iconKey} className="h-3.5 w-3.5" />
+                            <ProjectNetworkIcon
+                              iconKey={selectedNetwork.iconKey}
+                              className="h-3.5 w-3.5"
+                            />
                             {t(selectedNetwork.i18n_label)}
                           </>
                         ) : (
@@ -433,12 +450,20 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
                 </>
               )}
             />
-            {errors.timezone && <span className="text-11 text-danger-primary">{errors.timezone.message}</span>}
+            {errors.timezone && (
+              <span className="text-11 text-danger-primary">{errors.timezone.message}</span>
+            )}
           </div>
         </div>
         <div className="flex items-center justify-between py-2">
           <>
-            <Button variant="primary" size="lg" type="submit" loading={isLoading} disabled={!isAdmin}>
+            <Button
+              variant="primary"
+              size="lg"
+              type="submit"
+              loading={isLoading}
+              disabled={!isAdmin}
+            >
               {isLoading ? t("updating") : t("common.update_project")}
             </Button>
             <span className="text-13 text-placeholder italic">

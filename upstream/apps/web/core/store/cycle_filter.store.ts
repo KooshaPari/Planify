@@ -28,7 +28,11 @@ export interface ICycleFilterStore {
   getArchivedFiltersByProjectId: (projectId: string) => TCycleFilters | undefined;
   // actions
   updateDisplayFilters: (projectId: string, displayFilters: TCycleDisplayFilters) => void;
-  updateFilters: (projectId: string, filters: TCycleFilters, state?: keyof TCycleFiltersByState) => void;
+  updateFilters: (
+    projectId: string,
+    filters: TCycleFilters,
+    state?: keyof TCycleFiltersByState,
+  ) => void;
   updateSearchQuery: (query: string) => void;
   updateArchivedCyclesSearchQuery: (query: string) => void;
   clearAllFilters: (projectId: string, state?: keyof TCycleFiltersByState) => void;
@@ -70,7 +74,7 @@ export class CycleFilterStore implements ICycleFilterStore {
         if (!projectId) return;
         this.initProjectCycleFilters(projectId);
         this.searchQuery = "";
-      }
+      },
     );
   }
 
@@ -117,7 +121,9 @@ export class CycleFilterStore implements ICycleFilterStore {
    * @description get archived filters of a project by projectId
    * @param {string} projectId
    */
-  getArchivedFiltersByProjectId = computedFn((projectId: string) => this.filters[projectId].archived);
+  getArchivedFiltersByProjectId = computedFn(
+    (projectId: string) => this.filters[projectId].archived,
+  );
 
   /**
    * @description initialize display filters and filters of a project
@@ -145,7 +151,11 @@ export class CycleFilterStore implements ICycleFilterStore {
   updateDisplayFilters = (projectId: string, displayFilters: TCycleDisplayFilters) => {
     runInAction(() => {
       Object.keys(displayFilters).forEach((key) => {
-        set(this.displayFilters, [projectId, key], displayFilters[key as keyof TCycleDisplayFilters]);
+        set(
+          this.displayFilters,
+          [projectId, key],
+          displayFilters[key as keyof TCycleDisplayFilters],
+        );
       });
     });
   };
@@ -155,7 +165,11 @@ export class CycleFilterStore implements ICycleFilterStore {
    * @param {string} projectId
    * @param {TCycleFilters} filters
    */
-  updateFilters = (projectId: string, filters: TCycleFilters, state: keyof TCycleFiltersByState = "default") => {
+  updateFilters = (
+    projectId: string,
+    filters: TCycleFilters,
+    state: keyof TCycleFiltersByState = "default",
+  ) => {
     runInAction(() => {
       Object.keys(filters).forEach((key) => {
         set(this.filters, [projectId, state, key], filters[key as keyof TCycleFilters]);

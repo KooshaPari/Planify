@@ -25,7 +25,7 @@ export const CalendarLayout = observer(function CalendarLayout() {
       [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
       EUserPermissionsLevel.PROJECT,
       workspaceSlug?.toString(),
-      projectId
+      projectId,
     );
 
   return (

@@ -40,7 +40,9 @@ interface IssueDetailsBlockProps {
   displayProperties: IIssueDisplayProperties | undefined;
 }
 
-const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props: IssueDetailsBlockProps) {
+const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(
+  props: IssueDetailsBlockProps,
+) {
   const { issue, displayProperties } = props;
   const { anchor } = useParams();
   // hooks
@@ -48,7 +50,10 @@ const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props:
 
   return (
     <div className="space-y-2 px-3 py-2">
-      <WithDisplayPropertiesHOC displayProperties={displayProperties || {}} displayPropertyKey="key">
+      <WithDisplayPropertiesHOC
+        displayProperties={displayProperties || {}}
+        displayPropertyKey="key"
+      >
         <div className="relative">
           <div className="line-clamp-1 text-11 text-tertiary">
             {project_details?.identifier}-{issue.sequence_id}
@@ -83,7 +88,9 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
     setPeekId(issueId);
   };
 
-  const { queryParam } = queryParamGenerator(board ? { board, peekId: issueId } : { peekId: issueId });
+  const { queryParam } = queryParamGenerator(
+    board ? { board, peekId: issueId } : { peekId: issueId },
+  );
 
   const issue = getIssueById(issueId);
 
@@ -96,7 +103,7 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
           "relative block w-full rounded-lg border border-subtle bg-layer-2 text-13 transition-all hover:bg-layer-2-hover",
           {
             "border-accent-strong hover:border-accent-strong": getIsIssuePeeked(issue.id),
-          }
+          },
         )}
       >
         <Link

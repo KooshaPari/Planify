@@ -56,8 +56,16 @@ export const defaultIssueData: Partial<TIssue> = {
   target_date: "",
 };
 
-export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props: TInboxIssueCreateRoot) {
-  const { workspaceSlug, projectId, handleModalClose, isDuplicateModalOpen, handleDuplicateIssueModal } = props;
+export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(
+  props: TInboxIssueCreateRoot,
+) {
+  const {
+    workspaceSlug,
+    projectId,
+    handleModalClose,
+    isDuplicateModalOpen,
+    handleDuplicateIssueModal,
+  } = props;
   // states
   const [uploadedAssetIds, setUploadedAssetIds] = useState<string[]>([]);
   // router
@@ -85,7 +93,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
         [issueKey]: issueValue,
       });
     },
-    [formData]
+    [formData],
   );
 
   // derived values
@@ -101,7 +109,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
     {
       name: formData?.name,
       description_html: formData?.description_html,
-    }
+    },
   );
 
   const handleEscKeyDown = (event: KeyboardEvent) => {
@@ -162,13 +170,20 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
     await createInboxIssue(workspaceSlug, projectId, payload)
       .then(async (res) => {
         if (uploadedAssetIds.length > 0) {
-          await fileService.updateBulkProjectAssetsUploadStatus(workspaceSlug, projectId, res?.issue.id ?? "", {
-            asset_ids: uploadedAssetIds,
-          });
+          await fileService.updateBulkProjectAssetsUploadStatus(
+            workspaceSlug,
+            projectId,
+            res?.issue.id ?? "",
+            {
+              asset_ids: uploadedAssetIds,
+            },
+          );
           setUploadedAssetIds([]);
         }
         if (!createMore) {
-          router.push(`/${workspaceSlug}/projects/${projectId}/intake/?currentTab=open&inboxIssueId=${res?.issue?.id}`);
+          router.push(
+            `/${workspaceSlug}/projects/${projectId}/intake/?currentTab=open&inboxIssueId=${res?.issue?.id}`,
+          );
           handleModalClose();
         } else {
           descriptionEditorRef?.current?.clearEditor();
@@ -229,7 +244,11 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
                 onEnterKeyPress={() => submitBtnRef?.current?.click()}
                 onAssetUpload={(assetId) => setUploadedAssetIds((prev) => [...prev, assetId])}
               />
-              <InboxIssueProperties projectId={projectId} data={formData} handleData={handleFormData} />
+              <InboxIssueProperties
+                projectId={projectId}
+                data={formData}
+                handleData={handleFormData}
+              />
             </div>
           </div>
           <div className="flex items-center justify-between gap-2 rounded-b-lg border-t-[0.5px] border-subtle bg-surface-1 px-5 py-4">
@@ -281,7 +300,11 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
         <div
           ref={modalContainerRef}
           className="shadow-xl bg-pi-50 relative flex flex-col gap-2.5 rounded-lg px-3 py-4"
-          style={{ maxHeight: formRef?.current?.offsetHeight ? `${formRef.current.offsetHeight}px` : "436px" }}
+          style={{
+            maxHeight: formRef?.current?.offsetHeight
+              ? `${formRef.current.offsetHeight}px`
+              : "436px",
+          }}
         >
           <DuplicateModalRoot
             workspaceSlug={workspaceSlug.toString()}

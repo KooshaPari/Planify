@@ -59,7 +59,9 @@ export const DescriptionVersionsModal = observer(function DescriptionVersionsMod
   // derived values
   const activeVersionId = activeVersionDetails?.id;
   const workspaceId = getWorkspaceBySlug(workspaceSlug)?.id;
-  const versionCreator = activeVersionDetails?.owned_by ? getUserDetails(activeVersionDetails.owned_by) : null;
+  const versionCreator = activeVersionDetails?.owned_by
+    ? getUserDetails(activeVersionDetails.owned_by)
+    : null;
   // translation
   const { t } = useTranslation();
 
@@ -76,7 +78,12 @@ export const DescriptionVersionsModal = observer(function DescriptionVersionsMod
   if (!workspaceId) return null;
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.TOP} width={EModalWidth.XXXXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.TOP}
+      width={EModalWidth.XXXXL}
+    >
       <div className="p-4" data-prevent-outside-click>
         {/* Header */}
         <div className="flex items-center justify-between gap-2 py-0.5">
@@ -99,10 +106,13 @@ export const DescriptionVersionsModal = observer(function DescriptionVersionsMod
             <button
               type="button"
               onClick={() => handleNavigation("prev")}
-              className={cn("grid size-6 place-items-center rounded-sm text-secondary transition-colors outline-none", {
-                "hover:bg-layer-1": !isPrevDisabled,
-                "opacity-50": isPrevDisabled,
-              })}
+              className={cn(
+                "grid size-6 place-items-center rounded-sm text-secondary transition-colors outline-none",
+                {
+                  "hover:bg-layer-1": !isPrevDisabled,
+                  "opacity-50": isPrevDisabled,
+                },
+              )}
               disabled={isPrevDisabled}
             >
               <ChevronLeftIcon className="size-4" />
@@ -110,10 +120,13 @@ export const DescriptionVersionsModal = observer(function DescriptionVersionsMod
             <button
               type="button"
               onClick={() => handleNavigation("next")}
-              className={cn("grid size-6 place-items-center rounded-sm text-secondary transition-colors outline-none", {
-                "hover:bg-layer-1": !isNextDisabled,
-                "opacity-50": isNextDisabled,
-              })}
+              className={cn(
+                "grid size-6 place-items-center rounded-sm text-secondary transition-colors outline-none",
+                {
+                  "hover:bg-layer-1": !isNextDisabled,
+                  "opacity-50": isNextDisabled,
+                },
+              )}
               disabled={isNextDisabled}
             >
               <ChevronRightIcon className="size-4" />
@@ -157,7 +170,13 @@ export const DescriptionVersionsModal = observer(function DescriptionVersionsMod
         {/* Footer */}
         <div className="flex items-center justify-between gap-2 border-t-[0.5px] border-subtle pt-4">
           <Tooltip tooltipContent={t("common.actions.copy_markdown")}>
-            <IconButton type="button" variant="ghost" size="base" onClick={handleCopyMarkdown} icon={CopyIcon} />
+            <IconButton
+              type="button"
+              variant="ghost"
+              size="base"
+              onClick={handleCopyMarkdown}
+              icon={CopyIcon}
+            />
           </Tooltip>
           <div className="flex items-center gap-2">
             <Button variant="secondary" size="lg" onClick={handleClose} tabIndex={1}>

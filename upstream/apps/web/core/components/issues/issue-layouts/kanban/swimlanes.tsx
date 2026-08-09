@@ -38,7 +38,7 @@ interface ISubGroupSwimlaneHeader {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
   handleCollapsedGroups: (toggle: "group_by" | "sub_group_by", value: string) => void;
   isEpic?: boolean;
@@ -47,7 +47,10 @@ interface ISubGroupSwimlaneHeader {
   sub_group_by: TIssueGroupByOptions | undefined;
 }
 
-const visibilitySubGroupByGroupCount = (subGroupIssueCount: number, showEmptyGroup: boolean): boolean => {
+const visibilitySubGroupByGroupCount = (
+  subGroupIssueCount: number,
+  showEmptyGroup: boolean,
+): boolean => {
   let subGroupHeaderVisibility = true;
 
   if (showEmptyGroup) subGroupHeaderVisibility = true;
@@ -78,12 +81,18 @@ const SubGroupSwimlaneHeader = observer(function SubGroupSwimlaneHeader({
         list.map((_list: IGroupByColumn) => {
           const groupCount = getGroupIssueCount(_list?.id, undefined, false) ?? 0;
 
-          const subGroupByVisibilityToggle = visibilitySubGroupByGroupCount(groupCount, showEmptyGroup);
+          const subGroupByVisibilityToggle = visibilitySubGroupByGroupCount(
+            groupCount,
+            showEmptyGroup,
+          );
 
           if (subGroupByVisibilityToggle === false) return <></>;
 
           return (
-            <div key={`${sub_group_by}_${_list.id}`} className="flex w-[350px] flex-shrink-0 flex-col">
+            <div
+              key={`${sub_group_by}_${_list.id}`}
+              className="flex w-[350px] flex-shrink-0 flex-col"
+            >
               <HeaderGroupByCard
                 sub_group_by={sub_group_by}
                 group_by={group_by}
@@ -114,7 +123,7 @@ interface ISubGroupSwimlane extends ISubGroupSwimlaneHeader {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
   groupedIssueIds: TGroupedIssues | TSubGroupedIssues;
   handleCollapsedGroups: (toggle: "group_by" | "sub_group_by", value: string) => void;
@@ -124,10 +133,15 @@ interface ISubGroupSwimlane extends ISubGroupSwimlaneHeader {
   loadMoreIssues: (groupId?: string, subGroupId?: string) => void;
   orderBy: TIssueOrderByOptions | undefined;
   quickActions: TRenderQuickActions;
-  quickAddCallback?: (projectId: string | null | undefined, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddCallback?: (
+    projectId: string | null | undefined,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   scrollableContainerRef?: MutableRefObject<HTMLDivElement | null>;
   showEmptyGroup: boolean;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
 }
 
 const SubGroupSwimlane = observer(function SubGroupSwimlane(props: ISubGroupSwimlane) {
@@ -158,7 +172,7 @@ const SubGroupSwimlane = observer(function SubGroupSwimlane(props: ISubGroupSwim
 
   const visibilitySubGroupBy = (
     _list: IGroupByColumn,
-    subGroupCount: number
+    subGroupCount: number,
   ): { showGroup: boolean; showIssues: boolean } => {
     const subGroupVisibility = {
       showGroup: true,
@@ -245,7 +259,7 @@ export interface IKanBanSwimLanes {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
   group_by: TIssueGroupByOptions | undefined;
   groupedIssueIds: TGroupedIssues | TSubGroupedIssues;
@@ -256,11 +270,16 @@ export interface IKanBanSwimLanes {
   loadMoreIssues: (groupId?: string, subGroupId?: string) => void;
   orderBy: TIssueOrderByOptions | undefined;
   quickActions: TRenderQuickActions;
-  quickAddCallback?: (projectId: string | null | undefined, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddCallback?: (
+    projectId: string | null | undefined,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   scrollableContainerRef?: MutableRefObject<HTMLDivElement | null>;
   showEmptyGroup: boolean;
   sub_group_by: TIssueGroupByOptions | undefined;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
 }
 
 export const KanBanSwimLanes = observer(function KanBanSwimLanes(props: IKanBanSwimLanes) {

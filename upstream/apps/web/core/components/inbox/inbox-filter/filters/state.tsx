@@ -32,7 +32,9 @@ export const FilterState = observer(function FilterState(props: Props) {
 
   const appliedFiltersCount = filterValue?.length ?? 0;
 
-  const filteredOptions = states?.filter((state) => state.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredOptions = states?.filter((state) =>
+    state.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   const handleViewToggle = () => {
     if (!filteredOptions) return;

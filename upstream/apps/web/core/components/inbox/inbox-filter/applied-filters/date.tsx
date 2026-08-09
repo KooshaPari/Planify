@@ -21,7 +21,7 @@ type InboxIssueAppliedFiltersDate = {
 };
 
 export const InboxIssueAppliedFiltersDate = observer(function InboxIssueAppliedFiltersDate(
-  props: InboxIssueAppliedFiltersDate
+  props: InboxIssueAppliedFiltersDate,
 ) {
   const { filterKey, label } = props;
   // hooks
@@ -39,7 +39,9 @@ export const InboxIssueAppliedFiltersDate = observer(function InboxIssueAppliedF
   };
 
   const handleFilterValue = (value: string): string[] =>
-    filteredValues?.includes(value) ? filteredValues.filter((v) => v !== value) : [...filteredValues, value];
+    filteredValues?.includes(value)
+      ? filteredValues.filter((v) => v !== value)
+      : [...filteredValues, value];
 
   const clearFilter = () => handleInboxIssueFilters(filterKey, undefined);
 
@@ -51,11 +53,16 @@ export const InboxIssueAppliedFiltersDate = observer(function InboxIssueAppliedF
         const optionDetail = currentOptionDetail(value);
         if (!optionDetail) return <></>;
         return (
-          <div key={value} className="relative flex items-center gap-1 rounded-sm bg-layer-1 p-1 text-11">
+          <div
+            key={value}
+            className="relative flex items-center gap-1 rounded-sm bg-layer-1 p-1 text-11"
+          >
             <div className="truncate text-11">{optionDetail?.name}</div>
             <div
               className="relative flex h-3 w-3 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden text-tertiary transition-all hover:text-secondary"
-              onClick={() => handleInboxIssueFilters(filterKey, handleFilterValue(optionDetail?.value))}
+              onClick={() =>
+                handleInboxIssueFilters(filterKey, handleFilterValue(optionDetail?.value))
+              }
             >
               <CloseIcon className={`h-3 w-3`} />
             </div>

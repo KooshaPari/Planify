@@ -44,7 +44,11 @@ import {
 } from "../marker-utils";
 import { showCellContent } from "../utils";
 import { ColumnOptionsDropdown } from "./dropdown";
-import { calculateColumnDropIndex, constructColumnDragPreview, getTableColumnNodesInfo } from "./utils";
+import {
+  calculateColumnDropIndex,
+  constructColumnDragPreview,
+  getTableColumnNodesInfo,
+} from "./utils";
 
 export type ColumnDragHandleProps = {
   col: number;
@@ -145,7 +149,8 @@ export function ColumnDragHandle(props: ColumnDragHandleProps) {
       const tableElement = editor.view.nodeDOM(table.pos);
 
       const dropMarker = tableElement instanceof HTMLElement ? getDropMarker(tableElement) : null;
-      const dragMarker = tableElement instanceof HTMLElement ? getColDragMarker(tableElement) : null;
+      const dragMarker =
+        tableElement instanceof HTMLElement ? getColDragMarker(tableElement) : null;
 
       const handleFinish = () => {
         if (!dropMarker || !dragMarker) return;
@@ -191,9 +196,14 @@ export function ColumnDragHandle(props: ColumnDragHandleProps) {
         }
 
         const dragMarkerWidthPx = columns[col].width;
-        const dragMarkerLeftPx = Math.max(0, Math.min(currentLeft, tableWidthPx - dragMarkerWidthPx));
+        const dragMarkerLeftPx = Math.max(
+          0,
+          Math.min(currentLeft, tableWidthPx - dragMarkerWidthPx),
+        );
         const dropMarkerLeftPx =
-          dropIndex <= col ? columns[dropIndex].left : columns[dropIndex].left + columns[dropIndex].width;
+          dropIndex <= col
+            ? columns[dropIndex].left
+            : columns[dropIndex].left + columns[dropIndex].width;
 
         updateColDropMarker({
           element: dropMarker,
@@ -219,7 +229,7 @@ export function ColumnDragHandle(props: ColumnDragHandleProps) {
         handleFinish();
       }
     },
-    [col, editor]
+    [col, editor],
   );
 
   return (
@@ -230,10 +240,13 @@ export function ColumnDragHandle(props: ColumnDragHandleProps) {
           {...getReferenceProps()}
           type="button"
           onMouseDown={handleMouseDown}
-          className={cn("rounded-sm border border-strong-1 bg-layer-1 px-1 transition-all duration-200 outline-none", {
-            "border-accent-strong bg-accent-primary !opacity-100": isDropdownOpen,
-            "hover:bg-layer-1-hover": !isDropdownOpen,
-          })}
+          className={cn(
+            "rounded-sm border border-strong-1 bg-layer-1 px-1 transition-all duration-200 outline-none",
+            {
+              "border-accent-strong bg-accent-primary !opacity-100": isDropdownOpen,
+              "hover:bg-layer-1-hover": !isDropdownOpen,
+            },
+          )}
         >
           <Ellipsis className="size-4 text-primary" />
         </button>

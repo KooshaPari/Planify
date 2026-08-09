@@ -160,8 +160,12 @@ export const WithActionItems: Story = {
               message: "Your file has been uploaded successfully.",
               actionItems: (
                 <>
-                  <button className="text-13 font-medium text-primary hover:text-secondary">Button</button>
-                  <button className="text-13 font-medium text-primary hover:text-secondary">Button</button>
+                  <button className="text-13 font-medium text-primary hover:text-secondary">
+                    Button
+                  </button>
+                  <button className="text-13 font-medium text-primary hover:text-secondary">
+                    Button
+                  </button>
                 </>
               ),
             })
@@ -403,10 +407,26 @@ export const StaticVariants: Story = {
           <p className="mb-2 text-13 font-medium text-secondary">All toast variants (static):</p>
         </div>
         <div className="flex flex-col gap-3">
-          <ToastStatic type={TOAST_TYPE.SUCCESS} title="Success" message="Your changes have been saved successfully." />
-          <ToastStatic type={TOAST_TYPE.ERROR} title="Error" message="Something went wrong. Please try again." />
-          <ToastStatic type={TOAST_TYPE.WARNING} title="Warning" message="This action cannot be undone." />
-          <ToastStatic type={TOAST_TYPE.INFO} title="Information" message="Here's some helpful information for you." />
+          <ToastStatic
+            type={TOAST_TYPE.SUCCESS}
+            title="Success"
+            message="Your changes have been saved successfully."
+          />
+          <ToastStatic
+            type={TOAST_TYPE.ERROR}
+            title="Error"
+            message="Something went wrong. Please try again."
+          />
+          <ToastStatic
+            type={TOAST_TYPE.WARNING}
+            title="Warning"
+            message="This action cannot be undone."
+          />
+          <ToastStatic
+            type={TOAST_TYPE.INFO}
+            title="Information"
+            message="Here's some helpful information for you."
+          />
           <ToastStatic type={TOAST_TYPE.LOADING} title="Loading..." />
         </div>
       </div>
@@ -428,7 +448,13 @@ export const StaticSuccess: Story = {
 
 export const StaticError: Story = {
   render() {
-    return <ToastStatic type={TOAST_TYPE.ERROR} title="Upload failed" message="Failed to upload file. Try again." />;
+    return (
+      <ToastStatic
+        type={TOAST_TYPE.ERROR}
+        title="Upload failed"
+        message="Failed to upload file. Try again."
+      />
+    );
   },
 };
 
@@ -471,8 +497,12 @@ export const StaticWithActions: Story = {
         message="Your file has been uploaded successfully."
         actionItems={
           <>
-            <button className="text-13 font-medium text-primary hover:text-secondary">Button</button>
-            <button className="text-13 font-medium text-primary hover:text-secondary">Button</button>
+            <button className="text-13 font-medium text-primary hover:text-secondary">
+              Button
+            </button>
+            <button className="text-13 font-medium text-primary hover:text-secondary">
+              Button
+            </button>
           </>
         }
       />
@@ -491,9 +521,24 @@ export const StaticDarkMode: Story = {
           message="Operation completed successfully."
           theme="dark"
         />
-        <ToastStatic type={TOAST_TYPE.ERROR} title="Error" message="An error occurred." theme="dark" />
-        <ToastStatic type={TOAST_TYPE.WARNING} title="Warning" message="Please proceed with caution." theme="dark" />
-        <ToastStatic type={TOAST_TYPE.INFO} title="Information" message="Here's some useful info." theme="dark" />
+        <ToastStatic
+          type={TOAST_TYPE.ERROR}
+          title="Error"
+          message="An error occurred."
+          theme="dark"
+        />
+        <ToastStatic
+          type={TOAST_TYPE.WARNING}
+          title="Warning"
+          message="Please proceed with caution."
+          theme="dark"
+        />
+        <ToastStatic
+          type={TOAST_TYPE.INFO}
+          title="Information"
+          message="Here's some useful info."
+          theme="dark"
+        />
         <ToastStatic type={TOAST_TYPE.LOADING} title="Loading..." theme="dark" />
       </div>
     );
@@ -519,11 +564,21 @@ export const DesignTokens: Story = {
             <table className="w-full rounded-lg border border-subtle text-11">
               <thead>
                 <tr className="bg-layer-1">
-                  <th className="border-b border-subtle px-3 py-2 text-left font-semibold text-primary">Variant</th>
-                  <th className="border-b border-subtle px-3 py-2 text-left font-semibold text-primary">Title Text</th>
-                  <th className="border-b border-subtle px-3 py-2 text-left font-semibold text-primary">Icon BG</th>
-                  <th className="border-b border-subtle px-3 py-2 text-left font-semibold text-primary">Toast BG</th>
-                  <th className="border-b border-subtle px-3 py-2 text-left font-semibold text-primary">Border</th>
+                  <th className="border-b border-subtle px-3 py-2 text-left font-semibold text-primary">
+                    Variant
+                  </th>
+                  <th className="border-b border-subtle px-3 py-2 text-left font-semibold text-primary">
+                    Title Text
+                  </th>
+                  <th className="border-b border-subtle px-3 py-2 text-left font-semibold text-primary">
+                    Icon BG
+                  </th>
+                  <th className="border-b border-subtle px-3 py-2 text-left font-semibold text-primary">
+                    Toast BG
+                  </th>
+                  <th className="border-b border-subtle px-3 py-2 text-left font-semibold text-primary">
+                    Border
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -533,7 +588,9 @@ export const DesignTokens: Story = {
                     <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">text-primary</code>
                   </td>
                   <td className="px-3 py-2">
-                    <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">bg-success-primary</code>
+                    <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">
+                      bg-success-primary
+                    </code>
                   </td>
                   <td className="px-3 py-2">
                     <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">bg-surface-1</code>
@@ -548,7 +605,9 @@ export const DesignTokens: Story = {
                     <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">text-primary</code>
                   </td>
                   <td className="px-3 py-2">
-                    <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">bg-danger-primary</code>
+                    <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">
+                      bg-danger-primary
+                    </code>
                   </td>
                   <td className="px-3 py-2">
                     <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">bg-surface-1</code>
@@ -563,7 +622,9 @@ export const DesignTokens: Story = {
                     <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">text-primary</code>
                   </td>
                   <td className="px-3 py-2">
-                    <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">bg-warning-primary</code>
+                    <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">
+                      bg-warning-primary
+                    </code>
                   </td>
                   <td className="px-3 py-2">
                     <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">bg-surface-1</code>
@@ -578,7 +639,9 @@ export const DesignTokens: Story = {
                     <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">text-primary</code>
                   </td>
                   <td className="px-3 py-2">
-                    <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">bg-accent-primary</code>
+                    <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">
+                      bg-accent-primary
+                    </code>
                   </td>
                   <td className="px-3 py-2">
                     <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">bg-surface-1</code>
@@ -613,7 +676,9 @@ export const DesignTokens: Story = {
             <ul className="space-y-2 text-12 text-secondary">
               <li>
                 <span className="font-medium text-primary">Title:</span>{" "}
-                <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">text-14 font-semibold</code>
+                <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">
+                  text-14 font-semibold
+                </code>
               </li>
               <li>
                 <span className="font-medium text-primary">Message:</span>{" "}
@@ -625,7 +690,9 @@ export const DesignTokens: Story = {
               </li>
               <li>
                 <span className="font-medium text-primary">Action Button:</span>{" "}
-                <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">text-13 font-medium</code>
+                <code className="rounded bg-layer-1 px-1.5 py-0.5 text-10">
+                  text-13 font-medium
+                </code>
               </li>
             </ul>
           </div>
@@ -663,8 +730,8 @@ export const DesignTokens: Story = {
               <span className="font-medium text-primary">Icon Stroke Width:</span> 2px
             </li>
             <li>
-              <span className="font-medium text-primary">Icon Container:</span> 40x40px circular (w-10 h-10
-              rounded-full)
+              <span className="font-medium text-primary">Icon Container:</span> 40x40px circular
+              (w-10 h-10 rounded-full)
             </li>
             <li>
               <span className="font-medium text-primary">Icon Color:</span>{" "}
@@ -690,16 +757,30 @@ export const DesignTokens: Story = {
 
         <div className="rounded-lg bg-layer-1 p-4">
           <h3 className="mb-2 text-14 font-semibold text-primary">Visual Examples</h3>
-          <p className="mb-4 text-12 text-secondary">See how the tokens are applied across all toast variants:</p>
+          <p className="mb-4 text-12 text-secondary">
+            See how the tokens are applied across all toast variants:
+          </p>
           <div className="flex flex-col gap-3">
             <ToastStatic
               type={TOAST_TYPE.SUCCESS}
               title="Success"
               message="Your changes have been saved successfully."
             />
-            <ToastStatic type={TOAST_TYPE.ERROR} title="Error" message="Something went wrong. Please try again." />
-            <ToastStatic type={TOAST_TYPE.WARNING} title="Warning" message="This action cannot be undone." />
-            <ToastStatic type={TOAST_TYPE.INFO} title="Information" message="Here's some helpful information." />
+            <ToastStatic
+              type={TOAST_TYPE.ERROR}
+              title="Error"
+              message="Something went wrong. Please try again."
+            />
+            <ToastStatic
+              type={TOAST_TYPE.WARNING}
+              title="Warning"
+              message="This action cannot be undone."
+            />
+            <ToastStatic
+              type={TOAST_TYPE.INFO}
+              title="Information"
+              message="Here's some helpful information."
+            />
             <ToastStatic type={TOAST_TYPE.LOADING} title="Loading..." />
           </div>
         </div>

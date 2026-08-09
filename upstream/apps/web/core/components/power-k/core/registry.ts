@@ -67,19 +67,20 @@ export class PowerKCommandRegistry implements IPowerKCommandRegistry {
 
   getCommand: IPowerKCommandRegistry["getCommand"] = (id) => this.commands.get(id);
 
-  getAllCommands: IPowerKCommandRegistry["getAllCommands"] = () => Array.from(this.commands.values());
+  getAllCommands: IPowerKCommandRegistry["getAllCommands"] = () =>
+    Array.from(this.commands.values());
 
   getAllCommandsWithShortcuts: IPowerKCommandRegistry["getAllCommandsWithShortcuts"] = () =>
     Array.from(this.commands.values()).filter(
-      (command) => command.shortcut || command.keySequence || command.modifierShortcut
+      (command) => command.shortcut || command.keySequence || command.modifierShortcut,
     );
 
   getVisibleCommands: IPowerKCommandRegistry["getVisibleCommands"] = computedFn((ctx) =>
-    Array.from(this.commands.values()).filter((command) => this.isCommandVisible(command, ctx))
+    Array.from(this.commands.values()).filter((command) => this.isCommandVisible(command, ctx)),
   );
 
   getCommandsByGroup: IPowerKCommandRegistry["getCommandsByGroup"] = computedFn((group, ctx) =>
-    this.getVisibleCommands(ctx).filter((command) => command.group === group)
+    this.getVisibleCommands(ctx).filter((command) => command.group === group),
   );
 
   // ============================================================================
@@ -126,10 +127,12 @@ export class PowerKCommandRegistry implements IPowerKCommandRegistry {
     return commandId ? this.commands.get(commandId) : undefined;
   });
 
-  findByModifierShortcut: IPowerKCommandRegistry["findByModifierShortcut"] = computedFn((ctx, shortcut) => {
-    const commandId = this.getModifierShortcutMap(ctx).get(shortcut.toLowerCase());
-    return commandId ? this.commands.get(commandId) : undefined;
-  });
+  findByModifierShortcut: IPowerKCommandRegistry["findByModifierShortcut"] = computedFn(
+    (ctx, shortcut) => {
+      const commandId = this.getModifierShortcutMap(ctx).get(shortcut.toLowerCase());
+      return commandId ? this.commands.get(commandId) : undefined;
+    },
+  );
 
   // ============================================================================
   // Utility

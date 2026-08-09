@@ -62,7 +62,7 @@ export class SitesFileService extends FileService {
     entityId: string,
     data: {
       asset_ids: string[];
-    }
+    },
   ): Promise<void> {
     return this.post(`/api/public/assets/v2/anchor/${anchor}/${entityId}/bulk/`, data)
       .then((response) => response?.data)
@@ -79,7 +79,11 @@ export class SitesFileService extends FileService {
    * @returns {Promise<TFileSignedURLResponse>} Promise resolving to the signed URL response
    * @throws {Error} If the request fails
    */
-  async uploadAsset(anchor: string, data: TFileEntityInfo, file: File): Promise<TFileSignedURLResponse> {
+  async uploadAsset(
+    anchor: string,
+    data: TFileEntityInfo,
+    file: File,
+  ): Promise<TFileSignedURLResponse> {
     const fileMetaData = await getFileMetaDataForUpload(file);
     return this.post(`/api/public/assets/v2/anchor/${anchor}/`, {
       ...data,
@@ -88,7 +92,10 @@ export class SitesFileService extends FileService {
       .then(async (response) => {
         const signedURLResponse: TFileSignedURLResponse = response?.data;
         const fileUploadPayload = generateFileUploadPayload(signedURLResponse, file);
-        await this.fileUploadService.uploadFile(signedURLResponse.upload_data.url, fileUploadPayload);
+        await this.fileUploadService.uploadFile(
+          signedURLResponse.upload_data.url,
+          fileUploadPayload,
+        );
         await this.updateAssetUploadStatus(anchor, signedURLResponse.asset_id);
         return signedURLResponse;
       })

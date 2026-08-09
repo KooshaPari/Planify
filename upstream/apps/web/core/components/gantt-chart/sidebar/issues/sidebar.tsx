@@ -65,15 +65,22 @@ export const IssueGanttSidebar = observer(function IssueGanttSidebar(props: Prop
     ganttContainerRef,
     isPaginating ? null : intersectionElement,
     loadMoreBlocks,
-    "100% 0% 100% 0%"
+    "100% 0% 100% 0%",
   );
 
   const handleOnDrop = (
     draggingBlockId: string | undefined,
     droppedBlockId: string | undefined,
-    dropAtEndOfList: boolean
+    dropAtEndOfList: boolean,
   ) => {
-    handleOrderChange(draggingBlockId, droppedBlockId, dropAtEndOfList, blockIds, getBlockById, blockUpdateHandler);
+    handleOrderChange(
+      draggingBlockId,
+      droppedBlockId,
+      dropAtEndOfList,
+      blockIds,
+      getBlockById,
+      blockUpdateHandler,
+    );
   };
 
   return (

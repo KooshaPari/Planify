@@ -53,7 +53,7 @@ export const BasePaidPlanCard = observer(function BasePaidPlanCard(props: TBaseP
                     "w-full rounded-sm py-1 text-caption-md-medium leading-5",
                     selected
                       ? "border border-subtle-1 bg-layer-2 text-primary shadow-raised-100"
-                      : "text-tertiary hover:text-secondary"
+                      : "text-tertiary hover:text-secondary",
                   )
                 }
                 onClick={() => setSelectedPlan(price.recurring)}

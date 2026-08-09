@@ -18,7 +18,9 @@ const meta = {
     children: (
       <>
         <h3 className="text-16 font-semibold">Card Title</h3>
-        <p className="text-gray-600 text-13">This is a default card with shadow and large spacing.</p>
+        <p className="text-gray-600 text-13">
+          This is a default card with shadow and large spacing.
+        </p>
       </>
     ),
   },
@@ -119,7 +121,9 @@ export const ProductCard: Story = {
         <p className="text-gray-600 text-13">A brief description of the product goes here.</p>
         <div className="flex items-center justify-between">
           <span className="text-16 font-semibold">$99.99</span>
-          <button className="bg-blue-500 hover:bg-blue-600 rounded-sm px-4 py-2 text-on-color">Add to Cart</button>
+          <button className="bg-blue-500 hover:bg-blue-600 rounded-sm px-4 py-2 text-on-color">
+            Add to Cart
+          </button>
         </div>
       </>
     ),

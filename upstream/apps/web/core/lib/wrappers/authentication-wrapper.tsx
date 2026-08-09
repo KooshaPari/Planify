@@ -29,7 +29,9 @@ const isValidURL = (url: string): boolean => {
   return !disallowedSchemes.test(url);
 };
 
-export const AuthenticationWrapper = observer(function AuthenticationWrapper(props: TAuthenticationWrapper) {
+export const AuthenticationWrapper = observer(function AuthenticationWrapper(
+  props: TAuthenticationWrapper,
+) {
   const pathname = usePathname();
   const router = useAppRouter();
   const searchParams = useSearchParams();
@@ -42,10 +44,14 @@ export const AuthenticationWrapper = observer(function AuthenticationWrapper(pro
   const { data: currentUserSettings } = useUserSettings();
   const { loader: workspacesLoader, workspaces } = useWorkspace();
 
-  const { isLoading: isUserSWRLoading } = useSWR("USER_INFORMATION", async () => await fetchCurrentUser(), {
-    revalidateOnFocus: false,
-    shouldRetryOnError: false,
-  });
+  const { isLoading: isUserSWRLoading } = useSWR(
+    "USER_INFORMATION",
+    async () => await fetchCurrentUser(),
+    {
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
+    },
+  );
 
   const isUserOnboard =
     currentUserProfile?.is_onboarded ||
@@ -66,11 +72,12 @@ export const AuthenticationWrapper = observer(function AuthenticationWrapper(pro
 
     // validate the last and fallback workspace_slug
     const currentWorkspaceSlug =
-      currentUserSettings?.workspace?.last_workspace_slug || currentUserSettings?.workspace?.fallback_workspace_slug;
+      currentUserSettings?.workspace?.last_workspace_slug ||
+      currentUserSettings?.workspace?.fallback_workspace_slug;
 
     // validate the current workspace_slug is available in the user's workspace list
     const isCurrentWorkspaceValid = Object.values(workspaces || {}).findIndex(
-      (workspace) => workspace.slug === currentWorkspaceSlug
+      (workspace) => workspace.slug === currentWorkspaceSlug,
     );
 
     if (isCurrentWorkspaceValid >= 0) redirectionRoute = `/${currentWorkspaceSlug}`;
@@ -119,7 +126,12 @@ export const AuthenticationWrapper = observer(function AuthenticationWrapper(pro
       router.push(`/${pathname ? `?next_path=${pathname}` : ``}`);
       return <></>;
     } else {
-      if (currentUser && !currentUser?.is_password_autoset && currentUserProfile?.id && isUserOnboard) {
+      if (
+        currentUser &&
+        !currentUser?.is_password_autoset &&
+        currentUserProfile?.id &&
+        isUserOnboard
+      ) {
         const currentRedirectRoute = getWorkspaceRedirectionUrl();
         router.push(currentRedirectRoute);
         return <></>;

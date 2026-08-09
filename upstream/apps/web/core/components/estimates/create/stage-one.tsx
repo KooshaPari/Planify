@@ -73,53 +73,59 @@ export function EstimateCreateStageOne(props: TEstimateCreateStageOne) {
           onChange={(value) => handleEstimateSystem(value as TEstimateSystemKeys)}
         />
       </div>
-      {ESTIMATE_SYSTEMS[estimateSystem]?.is_available && !ESTIMATE_SYSTEMS[estimateSystem]?.is_ee && (
-        <>
-          <div className="space-y-1.5">
-            <div className="text-13 font-medium text-secondary">
-              {t("project_settings.estimates.create.start_from_scratch")}
+      {ESTIMATE_SYSTEMS[estimateSystem]?.is_available &&
+        !ESTIMATE_SYSTEMS[estimateSystem]?.is_ee && (
+          <>
+            <div className="space-y-1.5">
+              <div className="text-13 font-medium text-secondary">
+                {t("project_settings.estimates.create.start_from_scratch")}
+              </div>
+              <button
+                className="block w-full space-y-1 rounded-md border border-subtle p-3 py-2.5 text-left hover:bg-layer-transparent-hover"
+                onClick={() => handleEstimatePoints("custom")}
+              >
+                <p className="text-14 font-medium">
+                  {t("project_settings.estimates.create.custom")}
+                </p>
+                <p className="text-11 text-tertiary">
+                  {/* TODO: Translate here */}
+                  Add your own <span className="lowercase">{currentEstimateSystem.name}</span> from
+                  scratch.
+                </p>
+              </button>
             </div>
-            <button
-              className="block w-full space-y-1 rounded-md border border-subtle p-3 py-2.5 text-left hover:bg-layer-transparent-hover"
-              onClick={() => handleEstimatePoints("custom")}
-            >
-              <p className="text-14 font-medium">{t("project_settings.estimates.create.custom")}</p>
-              <p className="text-11 text-tertiary">
-                {/* TODO: Translate here */}
-                Add your own <span className="lowercase">{currentEstimateSystem.name}</span> from scratch.
-              </p>
-            </button>
-          </div>
 
-          <div className="space-y-1.5">
-            <div className="text-13 font-medium text-secondary">
-              {t("project_settings.estimates.create.choose_template")}
+            <div className="space-y-1.5">
+              <div className="text-13 font-medium text-secondary">
+                {t("project_settings.estimates.create.choose_template")}
+              </div>
+              <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                {Object.keys(currentEstimateSystem.templates).map((name) =>
+                  currentEstimateSystem.templates[name]?.hide ? null : (
+                    <button
+                      key={name}
+                      className="space-y-1 rounded-md border border-subtle p-3 py-2.5 text-left hover:bg-surface-2"
+                      onClick={() => handleEstimatePoints(name)}
+                    >
+                      <p className="text-14 font-medium">
+                        {currentEstimateSystem.templates[name]?.title}
+                      </p>
+                      <p className="text-11 text-tertiary">
+                        {currentEstimateSystem.templates[name]?.values
+                          ?.map((template) =>
+                            estimateSystem === (EEstimateSystem.TIME as TEstimateSystemKeys)
+                              ? convertMinutesToHoursMinutesString(Number(template.value)).trim()
+                              : template.value,
+                          )
+                          ?.join(", ")}
+                      </p>
+                    </button>
+                  ),
+                )}
+              </div>
             </div>
-            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              {Object.keys(currentEstimateSystem.templates).map((name) =>
-                currentEstimateSystem.templates[name]?.hide ? null : (
-                  <button
-                    key={name}
-                    className="space-y-1 rounded-md border border-subtle p-3 py-2.5 text-left hover:bg-surface-2"
-                    onClick={() => handleEstimatePoints(name)}
-                  >
-                    <p className="text-14 font-medium">{currentEstimateSystem.templates[name]?.title}</p>
-                    <p className="text-11 text-tertiary">
-                      {currentEstimateSystem.templates[name]?.values
-                        ?.map((template) =>
-                          estimateSystem === (EEstimateSystem.TIME as TEstimateSystemKeys)
-                            ? convertMinutesToHoursMinutesString(Number(template.value)).trim()
-                            : template.value
-                        )
-                        ?.join(", ")}
-                    </p>
-                  </button>
-                )
-              )}
-            </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
     </div>
   );
 }

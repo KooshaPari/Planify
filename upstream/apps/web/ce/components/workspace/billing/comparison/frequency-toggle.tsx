@@ -17,7 +17,9 @@ type TPlanFrequencyToggleProps = {
   setSelectedFrequency: (frequency: TBillingFrequency) => void;
 };
 
-export const PlanFrequencyToggle = observer(function PlanFrequencyToggle(props: TPlanFrequencyToggleProps) {
+export const PlanFrequencyToggle = observer(function PlanFrequencyToggle(
+  props: TPlanFrequencyToggleProps,
+) {
   const { monthlyPrice, yearlyPrice, selectedFrequency, setSelectedFrequency } = props;
   // derived values
   const yearlyDiscount = calculateYearlyDiscount(monthlyPrice, yearlyPrice);
@@ -32,7 +34,7 @@ export const PlanFrequencyToggle = observer(function PlanFrequencyToggle(props: 
             "w-full rounded-sm px-1 py-0.5 text-center text-caption-sm-medium leading-5",
             selectedFrequency === "month"
               ? "border border-subtle-1 bg-layer-2 text-primary shadow-raised-100"
-              : "text-tertiary hover:text-secondary"
+              : "text-tertiary hover:text-secondary",
           )}
         >
           Monthly
@@ -44,7 +46,7 @@ export const PlanFrequencyToggle = observer(function PlanFrequencyToggle(props: 
             "w-full rounded-sm px-1 py-0.5 text-center text-caption-sm-medium leading-5",
             selectedFrequency === "year"
               ? "border border-subtle-1 bg-layer-2 text-primary shadow-raised-100"
-              : "text-tertiary hover:text-secondary"
+              : "text-tertiary hover:text-secondary",
           )}
         >
           Yearly

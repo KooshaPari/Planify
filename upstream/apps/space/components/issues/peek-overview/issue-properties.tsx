@@ -105,7 +105,9 @@ export const PeekOverviewIssueProperties = observer(function PeekOverviewIssuePr
                         : "border-priority-none text-priority-none"
               }`}
             >
-              {priority && <PriorityIcon priority={priority?.key} size={12} className="flex-shrink-0" />}
+              {priority && (
+                <PriorityIcon priority={priority?.key} size={12} className="flex-shrink-0" />
+              )}
               <span>{t(priority?.titleTranslationKey || "common.none")}</span>
             </div>
           </div>
@@ -120,7 +122,10 @@ export const PeekOverviewIssueProperties = observer(function PeekOverviewIssuePr
             {issueDetails.target_date ? (
               <div
                 className={cn("flex items-center gap-1.5 rounded-sm py-0.5 text-11 text-primary", {
-                  "text-danger-primary": shouldHighlightIssueDueDate(issueDetails.target_date, state?.group),
+                  "text-danger-primary": shouldHighlightIssueDueDate(
+                    issueDetails.target_date,
+                    state?.group,
+                  ),
                 })}
               >
                 <DueDatePropertyIcon className="size-3" />

@@ -22,7 +22,7 @@ export function DropIndicator(props: Props) {
         {
           "bg-accent-primary before:bg-accent-primary after:bg-accent-primary": isVisible,
         },
-        classNames
+        classNames,
       )}
     />
   );

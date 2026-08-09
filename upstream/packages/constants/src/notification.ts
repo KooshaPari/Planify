@@ -37,7 +37,8 @@ export const NOTIFICATION_TABS = [
   {
     i18n_label: "notification.tabs.all",
     value: ENotificationTab.ALL,
-    count: (unReadNotification: TUnreadNotificationsCount) => unReadNotification?.total_unread_notifications_count || 0,
+    count: (unReadNotification: TUnreadNotificationsCount) =>
+      unReadNotification?.total_unread_notifications_count || 0,
   },
   {
     i18n_label: "notification.tabs.mentions",

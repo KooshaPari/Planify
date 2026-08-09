@@ -50,7 +50,7 @@ export const PageVersionsMainContent = observer(function PageVersionsMainContent
     mutate: mutateVersionDetails,
   } = useSWR(
     pageId && activeVersion ? `PAGE_VERSION_${activeVersion}` : null,
-    pageId && activeVersion ? () => fetchVersionDetails(pageId, activeVersion) : null
+    pageId && activeVersion ? () => fetchVersionDetails(pageId, activeVersion) : null,
   );
 
   const handleRestoreVersion = async () => {
@@ -68,7 +68,7 @@ export const PageVersionsMainContent = observer(function PageVersionsMainContent
         setToast({
           type: TOAST_TYPE.ERROR,
           title: "Failed to restore page version.",
-        })
+        }),
       )
       .finally(() => setIsRestoring(false));
   };
@@ -91,7 +91,9 @@ export const PageVersionsMainContent = observer(function PageVersionsMainContent
             </span>
             <div>
               <h6 className="text-16 font-semibold">Something went wrong!</h6>
-              <p className="text-13 text-tertiary">The version could not be loaded, please try again.</p>
+              <p className="text-13 text-tertiary">
+                The version could not be loaded, please try again.
+              </p>
             </div>
             <Button variant="link" onClick={handleRetry} loading={isRetrying}>
               Try again
@@ -113,13 +115,22 @@ export const PageVersionsMainContent = observer(function PageVersionsMainContent
               </span>
             </div>
             {restoreEnabled && (
-              <Button variant="primary" className="flex-shrink-0" onClick={handleRestoreVersion} loading={isRestoring}>
+              <Button
+                variant="primary"
+                className="flex-shrink-0"
+                onClick={handleRestoreVersion}
+                loading={isRestoring}
+              >
                 {isRestoring ? "Restoring" : "Restore"}
               </Button>
             )}
           </div>
           <div className="vertical-scrollbar scrollbar-sm h-full overflow-y-scroll pt-8">
-            <VersionEditor activeVersion={activeVersion} storeType={storeType} versionDetails={versionDetails} />
+            <VersionEditor
+              activeVersion={activeVersion}
+              storeType={storeType}
+              versionDetails={versionDetails}
+            />
           </div>
         </>
       )}

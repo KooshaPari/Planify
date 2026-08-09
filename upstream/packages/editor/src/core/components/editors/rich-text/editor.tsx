@@ -43,7 +43,14 @@ function RichTextEditor(props: IRichTextEditorProps) {
     ];
 
     return extensions;
-  }, [dragDropEnabled, disabledExtensions, externalExtensions, fileHandler, flaggedExtensions, extendedEditorProps]);
+  }, [
+    dragDropEnabled,
+    disabledExtensions,
+    externalExtensions,
+    fileHandler,
+    flaggedExtensions,
+    extendedEditorProps,
+  ]);
 
   return (
     <EditorWrapper {...props} extensions={getExtensions()}>
@@ -71,9 +78,11 @@ function RichTextEditor(props: IRichTextEditorProps) {
 
 const RichTextEditorWithRef = forwardRef(function RichTextEditorWithRef(
   props: IRichTextEditorProps,
-  ref: React.ForwardedRef<EditorRefApi>
+  ref: React.ForwardedRef<EditorRefApi>,
 ) {
-  return <RichTextEditor {...props} forwardedRef={ref as React.MutableRefObject<EditorRefApi | null>} />;
+  return (
+    <RichTextEditor {...props} forwardedRef={ref as React.MutableRefObject<EditorRefApi | null>} />
+  );
 });
 
 RichTextEditorWithRef.displayName = "RichTextEditorWithRef";

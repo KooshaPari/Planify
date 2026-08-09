@@ -61,7 +61,7 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
         ...payload,
         project_id: projectId,
       }),
-    [projectId, workspaceSlug]
+    [projectId, workspaceSlug],
   );
   // editor config
   const { getEditorFileHandlers } = useEditorConfig();
@@ -73,7 +73,7 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
       revalidateIfStale: true,
       revalidateOnFocus: true,
       revalidateOnReconnect: true,
-    }
+    },
   );
   // page root handlers
   const pageRootHandlers: TPageRootHandlers = useMemo(
@@ -87,7 +87,12 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
       },
       fetchEntity: fetchEntityCallback,
       fetchVersionDetails: async (pageId, versionId) =>
-        await projectPageVersionService.fetchVersionById(workspaceSlug, projectId, pageId, versionId),
+        await projectPageVersionService.fetchVersionById(
+          workspaceSlug,
+          projectId,
+          pageId,
+          versionId,
+        ),
       restoreVersion: async (pageId, versionId) =>
         await projectPageVersionService.restoreVersion(workspaceSlug, projectId, pageId, versionId),
       getRedirectionLink: (pageId) => {
@@ -99,7 +104,7 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
       },
       updateDescription: updateDescription ?? (async () => {}),
     }),
-    [createPage, fetchEntityCallback, id, updateDescription, workspaceSlug, projectId]
+    [createPage, fetchEntityCallback, id, updateDescription, workspaceSlug, projectId],
   );
   // page root config
   const pageRootConfig: TPageRootConfig = useMemo(
@@ -133,7 +138,15 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
         workspaceSlug,
       }),
     }),
-    [getEditorFileHandlers, projectId, workspaceId, workspaceSlug, uploadEditorAsset, id, duplicateEditorAsset]
+    [
+      getEditorFileHandlers,
+      projectId,
+      workspaceId,
+      workspaceSlug,
+      uploadEditorAsset,
+      id,
+      duplicateEditorAsset,
+    ],
   );
 
   const webhookConnectionParams: TWebhookConnectionQueryParams = useMemo(
@@ -142,7 +155,7 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
       projectId,
       workspaceSlug,
     }),
-    [projectId, workspaceSlug]
+    [projectId, workspaceSlug],
   );
 
   useEffect(() => {
@@ -163,7 +176,8 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
       <div className="flex h-full w-full flex-col items-center justify-center">
         <h3 className="text-center text-16 font-semibold">Page not found</h3>
         <p className="mt-3 text-center text-13 text-secondary">
-          The page you are trying to access doesn{"'"}t exist or you don{"'"}t have permission to view it.
+          The page you are trying to access doesn{"'"}t exist or you don{"'"}t have permission to
+          view it.
         </p>
         <Link
           href={`/${workspaceSlug}/projects/${projectId}/pages`}

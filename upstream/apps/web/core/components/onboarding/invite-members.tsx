@@ -105,7 +105,9 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
 
   const emailOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === "") {
-      const validEmail = fields.map((_, i) => emailRegex.test(getValues(`emails.${i}.email`))).includes(true);
+      const validEmail = fields
+        .map((_, i) => emailRegex.test(getValues(`emails.${i}.email`)))
+        .includes(true);
       if (validEmail) {
         setIsInvitationDisabled(false);
       } else {
@@ -193,7 +195,9 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
                 >
                   <span
                     className={`text-13 ${
-                      !getValues(`emails.${index}.role_active`) ? "text-placeholder" : "text-primary"
+                      !getValues(`emails.${index}.role_active`)
+                        ? "text-placeholder"
+                        : "text-primary"
                     } sm:text-13`}
                   >
                     {ROLE[value]}
@@ -201,7 +205,9 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
 
                   <ChevronDownIcon
                     className={`size-3 ${
-                      !getValues(`emails.${index}.role_active`) ? "stroke-placeholder" : "stroke-primary"
+                      !getValues(`emails.${index}.role_active`)
+                        ? "stroke-placeholder"
+                        : "stroke-primary"
                     }`}
                   />
                 </Listbox.Button>
@@ -228,7 +234,9 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
                           <div className="flex items-center gap-2 p-1 text-wrap">
                             <div className="flex flex-col">
                               <div className="text-13 font-medium">{t(value.i18n_title)}</div>
-                              <div className="flex text-11 text-tertiary">{t(value.i18n_description)}</div>
+                              <div className="flex text-11 text-tertiary">
+                                {t(value.i18n_description)}
+                              </div>
                             </div>
                             {selected && <CheckIcon className="h-4 w-4 shrink-0" />}
                           </div>
@@ -254,7 +262,9 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
       {email && !emailRegex.test(email) && (
         <div className="mx-8 my-1">
           <span className="text-13">🤥</span>{" "}
-          <span className="mt-1 text-11 text-danger-primary">That doesn{"'"}t look like an email address.</span>
+          <span className="mt-1 text-11 text-danger-primary">
+            That doesn{"'"}t look like an email address.
+          </span>
         </div>
       )}
     </div>
@@ -328,7 +338,7 @@ export function InviteMembers(props: Props) {
         ],
         {
           focusIndex: 0,
-        }
+        },
       );
     }
   }, [fields, append]);
@@ -340,7 +350,8 @@ export function InviteMembers(props: Props) {
           <div className="mx-auto w-4/5 space-y-1 py-4 text-center">
             <h3 className="text-24 font-bold text-primary">Invite your teammates</h3>
             <p className="font-medium text-placeholder">
-              Work in plane happens best with your team. Invite them now to use Plane to its potential.
+              Work in plane happens best with your team. Invite them now to use Plane to its
+              potential.
             </p>
           </div>
           <form

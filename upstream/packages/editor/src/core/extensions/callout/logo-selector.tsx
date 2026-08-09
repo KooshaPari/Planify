@@ -43,9 +43,12 @@ export function CalloutBlockLogoSelector(props: Props) {
         isOpen={isOpen}
         handleToggle={handleOpen}
         className="grid flex-shrink-0 place-items-center"
-        buttonClassName={cn("grid size-8 flex-shrink-0 place-items-center rounded-lg text-primary", {
-          "hover:bg-layer-1-hover": !disabled,
-        })}
+        buttonClassName={cn(
+          "grid size-8 flex-shrink-0 place-items-center rounded-lg text-primary",
+          {
+            "hover:bg-layer-1-hover": !disabled,
+          },
+        )}
         label={<Logo logo={logoValue} size={18} type="lucide" />}
         onChange={(val) => {
           // construct the new logo value based on the type of value
@@ -94,8 +97,12 @@ export function CalloutBlockLogoSelector(props: Props) {
           updateStoredLogo(newLogoValueToStoreInLocalStorage);
           handleOpen(false);
         }}
-        defaultIconColor={logoValue?.in_use && logoValue.in_use === "icon" ? logoValue?.icon?.color : undefined}
-        defaultOpen={logoValue.in_use === "emoji" ? EmojiIconPickerTypes.EMOJI : EmojiIconPickerTypes.ICON}
+        defaultIconColor={
+          logoValue?.in_use && logoValue.in_use === "icon" ? logoValue?.icon?.color : undefined
+        }
+        defaultOpen={
+          logoValue.in_use === "emoji" ? EmojiIconPickerTypes.EMOJI : EmojiIconPickerTypes.ICON
+        }
         disabled={disabled}
         searchDisabled
       />

@@ -30,7 +30,10 @@ export const FavoriteItemQuickAction = observer(function FavoriteItemQuickAction
   return (
     <CustomMenu
       customButton={
-        <span ref={ref} className="grid place-items-center rounded-sm p-0.5 text-placeholder hover:bg-layer-1">
+        <span
+          ref={ref}
+          className="grid place-items-center rounded-sm p-0.5 text-placeholder hover:bg-layer-1"
+        >
           <MoreHorizontal className="size-4" />
         </span>
       }
@@ -39,7 +42,7 @@ export const FavoriteItemQuickAction = observer(function FavoriteItemQuickAction
         "pointer-events-none flex-shrink-0 opacity-0 group-hover/project-item:pointer-events-auto group-hover/project-item:opacity-100",
         {
           "pointer-events-auto opacity-100": isMenuActive,
-        }
+        },
       )}
       customButtonClassName="grid place-items-center"
       placement="bottom-start"

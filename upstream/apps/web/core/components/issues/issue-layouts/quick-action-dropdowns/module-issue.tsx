@@ -29,7 +29,9 @@ import type { IQuickActionProps } from "../list/list-view-types";
 import type { MenuItemFactoryProps } from "./helper";
 import { useModuleIssueMenuItems } from "./helper";
 
-export const ModuleIssueQuickActions = observer(function ModuleIssueQuickActions(props: IQuickActionProps) {
+export const ModuleIssueQuickActions = observer(function ModuleIssueQuickActions(
+  props: IQuickActionProps,
+) {
   const {
     issue,
     handleDelete,
@@ -60,9 +62,13 @@ export const ModuleIssueQuickActions = observer(function ModuleIssueQuickActions
   const projectIdentifier = getProjectIdentifierById(issue?.project_id);
   // auth
   const isEditingAllowed =
-    allowPermissions([EUserPermissions.ADMIN, EUserPermissions.MEMBER], EUserPermissionsLevel.PROJECT) && !readOnly;
+    allowPermissions(
+      [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+      EUserPermissionsLevel.PROJECT,
+    ) && !readOnly;
   const isArchivingAllowed = handleArchive && isEditingAllowed;
-  const isInArchivableGroup = !!stateDetails && ARCHIVABLE_STATE_GROUPS.includes(stateDetails?.group);
+  const isInArchivableGroup =
+    !!stateDetails && ARCHIVABLE_STATE_GROUPS.includes(stateDetails?.group);
   const isDeletingAllowed = isEditingAllowed;
 
   const activeLayout = `${issuesFilter.issueFilters?.displayFilters?.layout} layout`;
@@ -73,7 +79,7 @@ export const ModuleIssueQuickActions = observer(function ModuleIssueQuickActions
       name: `${issue.name} (copy)`,
       sourceIssueId: issue.id,
     },
-    ["id"]
+    ["id"],
   );
 
   // Menu items and modals using helper
@@ -187,7 +193,7 @@ export const ModuleIssueQuickActions = observer(function ModuleIssueQuickActions
                   {
                     "text-placeholder": item.disabled,
                   },
-                  item.className
+                  item.className,
                 )}
               >
                 {item.nestedMenuItems.map((nestedItem) => (
@@ -201,11 +207,13 @@ export const ModuleIssueQuickActions = observer(function ModuleIssueQuickActions
                       {
                         "text-placeholder": nestedItem.disabled,
                       },
-                      nestedItem.className
+                      nestedItem.className,
                     )}
                     disabled={nestedItem.disabled}
                   >
-                    {nestedItem.icon && <nestedItem.icon className={cn("h-3 w-3", nestedItem.iconClassName)} />}
+                    {nestedItem.icon && (
+                      <nestedItem.icon className={cn("h-3 w-3", nestedItem.iconClassName)} />
+                    )}
                     <div>
                       <h5>{nestedItem.title}</h5>
                       {nestedItem.description && (
@@ -236,7 +244,7 @@ export const ModuleIssueQuickActions = observer(function ModuleIssueQuickActions
                 {
                   "text-placeholder": item.disabled,
                 },
-                item.className
+                item.className,
               )}
               disabled={item.disabled}
             >

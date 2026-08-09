@@ -96,8 +96,10 @@ function CollaborativeDocumentEditorInner(props: ICollaborativeDocumentEditorPro
   });
 
   // Show loader ONLY when cache is known empty and server hasn't synced yet
-  const shouldShowSyncLoader = state.isCacheReady && !state.hasCachedContent && !state.isServerSynced;
-  const shouldWaitForFallbackBinary = isFetchingFallbackBinary && !state.hasCachedContent && state.isServerDisconnected;
+  const shouldShowSyncLoader =
+    state.isCacheReady && !state.hasCachedContent && !state.isServerSynced;
+  const shouldWaitForFallbackBinary =
+    isFetchingFallbackBinary && !state.hasCachedContent && state.isServerDisconnected;
   const isLoading = shouldShowSyncLoader || shouldWaitForFallbackBinary;
 
   // Gate content rendering on isDocReady to prevent empty editor flash
@@ -110,7 +112,7 @@ function CollaborativeDocumentEditorInner(props: ICollaborativeDocumentEditorPro
       <div
         className={cn(
           "transition-opacity duration-200",
-          showContentSkeleton && !isLoading && "pointer-events-none opacity-0"
+          showContentSkeleton && !isLoading && "pointer-events-none opacity-0",
         )}
       >
         <PageRenderer
@@ -155,14 +157,20 @@ function CollaborativeDocumentEditor(props: ICollaborativeDocumentEditorProps) {
   );
 }
 
-const CollaborativeDocumentEditorWithRef = React.forwardRef(function CollaborativeDocumentEditorWithRef(
-  props: ICollaborativeDocumentEditorProps,
-  ref: React.ForwardedRef<EditorRefApi>
-) {
-  return (
-    <CollaborativeDocumentEditor key={props.id} {...props} forwardedRef={ref as React.MutableRefObject<EditorRefApi>} />
-  );
-});
+const CollaborativeDocumentEditorWithRef = React.forwardRef(
+  function CollaborativeDocumentEditorWithRef(
+    props: ICollaborativeDocumentEditorProps,
+    ref: React.ForwardedRef<EditorRefApi>,
+  ) {
+    return (
+      <CollaborativeDocumentEditor
+        key={props.id}
+        {...props}
+        forwardedRef={ref as React.MutableRefObject<EditorRefApi>}
+      />
+    );
+  },
+);
 
 CollaborativeDocumentEditorWithRef.displayName = "CollaborativeDocumentEditorWithRef";
 

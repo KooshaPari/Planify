@@ -33,8 +33,12 @@ export const PagesListMainContent = observer(function PagesListMainContent(props
   const { t } = useTranslation();
   // store hooks
   const { currentProjectDetails } = useProject();
-  const { isAnyPageAvailable, getCurrentProjectFilteredPageIdsByTab, getCurrentProjectPageIdsByTab, loader } =
-    usePageStore(storeType);
+  const {
+    isAnyPageAvailable,
+    getCurrentProjectFilteredPageIdsByTab,
+    getCurrentProjectPageIdsByTab,
+    loader,
+  } = usePageStore(storeType);
   const { allowPermissions } = useUserPermissions();
   const { createPage } = usePageStore(EPageStoreType.PROJECT);
   // states
@@ -47,7 +51,7 @@ export const PagesListMainContent = observer(function PagesListMainContent(props
   const filteredPageIds = getCurrentProjectFilteredPageIdsByTab(pageType);
   const canPerformEmptyStateActions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   // handle page create

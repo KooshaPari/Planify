@@ -66,7 +66,8 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
   const [hasErroredOnFirstLoad, setHasErroredOnFirstLoad] = useState(false);
   const [hasTriedRestoringImageOnce, setHasTriedRestoringImageOnce] = useState(false);
   // extension options
-  const isTouchDevice = !!(editor.storage.utility as { isTouchDevice?: boolean } | undefined)?.isTouchDevice;
+  const isTouchDevice = !!(editor.storage.utility as { isTouchDevice?: boolean } | undefined)
+    ?.isTouchDevice;
 
   const updateAttributesSafely = useCallback(
     (attributes: Partial<TCustomImageAttributes>, errorMessage: string) => {
@@ -76,7 +77,7 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
         console.error(`${errorMessage}:`, error);
       }
     },
-    [updateAttributes]
+    [updateAttributes],
   );
 
   const handleImageLoad = useCallback(() => {
@@ -114,7 +115,7 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
       setSize(initialComputedSize);
       updateAttributesSafely(
         initialComputedSize,
-        "Failed to update attributes while initializing an image for the first time:"
+        "Failed to update attributes while initializing an image for the first time:",
       );
     } else {
       // as the aspect ratio in not stored for old images, we need to update the attrs
@@ -124,7 +125,7 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
           const newSize = { ...prevSize, aspectRatio: aspectRatioCalculated };
           updateAttributesSafely(
             newSize,
-            "Failed to update attributes while initializing images with width but no aspect ratio:"
+            "Failed to update attributes while initializing images with width but no aspect ratio:",
           );
           return newSize;
         });
@@ -159,7 +160,7 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
         setSize((prevSize) => ({ ...prevSize, width: `${newWidth}px`, height: `${newHeight}px` }));
       }
     },
-    [nodeAlignment, size.aspectRatio]
+    [nodeAlignment, size.aspectRatio],
   );
 
   const handleResizeEnd = useCallback(() => {
@@ -207,19 +208,24 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
       const nodeSelection = NodeSelection.create(editor.state.doc, pos);
       editor.view.dispatch(editor.state.tr.setSelection(nodeSelection));
     },
-    [editor, getPos, isTouchDevice]
+    [editor, getPos, isTouchDevice],
   );
 
   const isDuplicating = isImageDuplicating(status);
   // show the image loader if the remote image's src or preview image from filesystem is not set yet (while loading the image post upload) (or)
   // if the initial resize (from 35% width and "auto" height attrs to the actual size in px) is not complete
   const showImageLoader =
-    (!resolvedImageSrc && !isDuplicating) || !initialResizeComplete || hasErroredOnFirstLoad || isDuplicating; // show the image upload status only when the resolvedImageSrc is not ready
+    (!resolvedImageSrc && !isDuplicating) ||
+    !initialResizeComplete ||
+    hasErroredOnFirstLoad ||
+    isDuplicating; // show the image upload status only when the resolvedImageSrc is not ready
   const showUploadStatus = !resolvedImageSrc && !isDuplicating;
   // show the image utils only if the remote image's (post upload) src is set and the initial resize is complete (but not while we're showing the preview imageFromFileSystem)
-  const showImageToolbar = resolvedImageSrc && resolvedDownloadSrc && initialResizeComplete && !isDuplicating;
+  const showImageToolbar =
+    resolvedImageSrc && resolvedDownloadSrc && initialResizeComplete && !isDuplicating;
   // show the image resizer only if the editor is editable, the remote image's (post upload) src is set and the initial resize is complete (but not while we're showing the preview imageFromFileSystem)
-  const showImageResizer = editor.isEditable && resolvedImageSrc && initialResizeComplete && !isDuplicating;
+  const showImageResizer =
+    editor.isEditable && resolvedImageSrc && initialResizeComplete && !isDuplicating;
   // show the preview image from the file system if the remote image's src is not set
   const displayedImageSrc = resolvedImageSrc || imageFromFileSystem;
 
@@ -245,7 +251,10 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
         }}
       >
         {showImageLoader && (
-          <div className="animate-pulse rounded-md bg-layer-1" style={{ width: size.width, height: size.height }} />
+          <div
+            className="animate-pulse rounded-md bg-layer-1"
+            style={{ width: size.width, height: size.height }}
+          />
         )}
         <img
           ref={imageRef}
@@ -311,7 +320,10 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
             aspectRatio={size.aspectRatio === null ? 1 : size.aspectRatio}
             downloadSrc={resolvedDownloadSrc}
             handleAlignmentChange={(alignment) =>
-              updateAttributesSafely({ alignment }, "Failed to update attributes while changing alignment:")
+              updateAttributesSafely(
+                { alignment },
+                "Failed to update attributes while changing alignment:",
+              )
             }
             height={size.height}
             isTouchDevice={isTouchDevice}
@@ -330,7 +342,7 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
                 {
                   "opacity-100": isResizing,
                   "opacity-0 group-hover/image-component:opacity-100": !isResizing,
-                }
+                },
               )}
             />
             <div
@@ -342,7 +354,7 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
                     !isResizing,
                   "left-0 -translate-x-1/2 cursor-nesw-resize": nodeAlignment === "right",
                   "right-0 translate-x-1/2 cursor-nwse-resize": nodeAlignment !== "right",
-                }
+                },
               )}
               onMouseDown={handleResizeStart}
               onTouchStart={handleResizeStart}

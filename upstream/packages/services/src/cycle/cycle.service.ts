@@ -5,7 +5,12 @@
  */
 
 import { API_BASE_URL } from "@plane/constants";
-import type { CycleDateCheckData, ICycle, TIssuesResponse, IWorkspaceActiveCyclesResponse } from "@plane/types";
+import type {
+  CycleDateCheckData,
+  ICycle,
+  TIssuesResponse,
+  IWorkspaceActiveCyclesResponse,
+} from "@plane/types";
 import { APIService } from "../api.service";
 
 /**
@@ -29,7 +34,7 @@ export class CycleService extends APIService {
   async workspaceActiveCycles(
     workspaceSlug: string,
     cursor: string,
-    per_page: number
+    per_page: number,
   ): Promise<IWorkspaceActiveCyclesResponse> {
     return this.get(`/api/workspaces/${workspaceSlug}/active-cycles/`, {
       params: {
@@ -81,7 +86,11 @@ export class CycleService extends APIService {
    * @returns {Promise<ICycle[]>} Array of filtered cycle objects
    * @throws {Error} If the request fails
    */
-  async getWithParams(workspaceSlug: string, projectId: string, cycleType?: "current"): Promise<ICycle[]> {
+  async getWithParams(
+    workspaceSlug: string,
+    projectId: string,
+    cycleType?: "current",
+  ): Promise<ICycle[]> {
     return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/`, {
       params: {
         cycle_view: cycleType,
@@ -124,14 +133,14 @@ export class CycleService extends APIService {
     projectId: string,
     cycleId: string,
     queries?: any,
-    config = {}
+    config = {},
   ): Promise<TIssuesResponse> {
     return this.get(
       `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/cycle-issues/`,
       {
         params: queries,
       },
-      config
+      config,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -148,8 +157,16 @@ export class CycleService extends APIService {
    * @returns {Promise<any>} The update response
    * @throws {Error} If the request fails
    */
-  async update(workspaceSlug: string, projectId: string, cycleId: string, data: Partial<ICycle>): Promise<any> {
-    return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/`, data)
+  async update(
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    data: Partial<ICycle>,
+  ): Promise<any> {
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -180,8 +197,15 @@ export class CycleService extends APIService {
    * @returns {Promise<any>} The validation response
    * @throws {Error} If the request fails
    */
-  async validateDates(workspaceSlug: string, projectId: string, data: CycleDateCheckData): Promise<any> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/date-check/`, data)
+  async validateDates(
+    workspaceSlug: string,
+    projectId: string,
+    data: CycleDateCheckData,
+  ): Promise<any> {
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/date-check/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

@@ -10,7 +10,11 @@ import useSWR from "swr";
 import { useTranslation } from "@plane/i18n";
 // plane types
 import { PageIcon, ProjectIcon, WorkItemsIcon } from "@plane/propel/icons";
-import type { TActivityEntityData, THomeWidgetProps, TRecentActivityFilterKeys } from "@plane/types";
+import type {
+  TActivityEntityData,
+  THomeWidgetProps,
+  TRecentActivityFilterKeys,
+} from "@plane/types";
 // plane ui
 // components
 import { ContentOverflowWrapper } from "@/components/core/content-overflow-HOC";
@@ -27,9 +31,21 @@ const WIDGET_KEY = EWidgetKeys.RECENT_ACTIVITY;
 const workspaceService = new WorkspaceService();
 const filters: { name: TRecentActivityFilterKeys; icon?: React.ReactNode; i18n_key: string }[] = [
   { name: "all item", i18n_key: "home.recents.filters.all" },
-  { name: "issue", icon: <WorkItemsIcon className="h-4 w-4" />, i18n_key: "home.recents.filters.issues" },
-  { name: "page", icon: <PageIcon height={16} width={16} />, i18n_key: "home.recents.filters.pages" },
-  { name: "project", icon: <ProjectIcon height={16} width={16} />, i18n_key: "home.recents.filters.projects" },
+  {
+    name: "issue",
+    icon: <WorkItemsIcon className="h-4 w-4" />,
+    i18n_key: "home.recents.filters.issues",
+  },
+  {
+    name: "page",
+    icon: <PageIcon height={16} width={16} />,
+    i18n_key: "home.recents.filters.pages",
+  },
+  {
+    name: "project",
+    icon: <ProjectIcon height={16} width={16} />,
+    i18n_key: "home.recents.filters.projects",
+  },
 ];
 
 type TRecentWidgetProps = THomeWidgetProps & {
@@ -37,7 +53,9 @@ type TRecentWidgetProps = THomeWidgetProps & {
   showFilterSelect?: boolean;
 };
 
-export const RecentActivityWidget = observer(function RecentActivityWidget(props: TRecentWidgetProps) {
+export const RecentActivityWidget = observer(function RecentActivityWidget(
+  props: TRecentWidgetProps,
+) {
   const { presetFilter, showFilterSelect = true, workspaceSlug } = props;
   // states
   const [filter, setFilter] = useState<TRecentActivityFilterKeys>(presetFilter ?? filters[0].name);
@@ -51,14 +69,14 @@ export const RecentActivityWidget = observer(function RecentActivityWidget(props
       ? () =>
           workspaceService.fetchWorkspaceRecents(
             workspaceSlug.toString(),
-            filter === filters[0].name ? undefined : filter
+            filter === filters[0].name ? undefined : filter,
           )
       : null,
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 
   const resolveRecent = (activity: TActivityEntityData) => {
@@ -80,7 +98,9 @@ export const RecentActivityWidget = observer(function RecentActivityWidget(props
       <div ref={ref} className="max-h-[500px] overflow-y-scroll">
         <div className="mb-4 flex items-center justify-between">
           <div className="text-14 font-semibold text-tertiary">{t("home.recents.title")}</div>
-          {showFilterSelect && <FiltersDropdown filters={filters} activeFilter={filter} setActiveFilter={setFilter} />}
+          {showFilterSelect && (
+            <FiltersDropdown filters={filters} activeFilter={filter} setActiveFilter={setFilter} />
+          )}
         </div>
         <div className="flex flex-col items-center justify-center">
           <RecentsEmptyState type={filter} />
@@ -97,7 +117,9 @@ export const RecentActivityWidget = observer(function RecentActivityWidget(props
     >
       <div className="mb-2 flex items-center justify-between">
         <div className="text-14 font-semibold text-tertiary">{t("home.recents.title")}</div>
-        {showFilterSelect && <FiltersDropdown filters={filters} activeFilter={filter} setActiveFilter={setFilter} />}
+        {showFilterSelect && (
+          <FiltersDropdown filters={filters} activeFilter={filter} setActiveFilter={setFilter} />
+        )}
       </div>
       <div className="flex min-h-[250px] flex-col">
         {isLoading && <WidgetLoader widgetKey={WIDGET_KEY} />}

@@ -38,7 +38,9 @@ const meta: Meta<typeof Popover> = {
         </Popover.Button>
         <Popover.Panel className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4">
           <h3 className="text-13 font-semibold">Popover Title</h3>
-          <p className="text-gray-600 mt-2 text-13">This is the popover content. You can put any content here.</p>
+          <p className="text-gray-600 mt-2 text-13">
+            This is the popover content. You can put any content here.
+          </p>
         </Popover.Panel>
       </Popover>
     );
@@ -61,10 +63,16 @@ export const Controlled: Story = {
     return (
       <div className="space-y-4">
         <div className="flex gap-2">
-          <button onClick={() => setOpen(true)} className="bg-blue-500 rounded-sm px-3 py-1.5 text-13 text-on-color">
+          <button
+            onClick={() => setOpen(true)}
+            className="bg-blue-500 rounded-sm px-3 py-1.5 text-13 text-on-color"
+          >
             Open
           </button>
-          <button onClick={() => setOpen(false)} className="bg-gray-500 rounded-sm px-3 py-1.5 text-13 text-on-color">
+          <button
+            onClick={() => setOpen(false)}
+            className="bg-gray-500 rounded-sm px-3 py-1.5 text-13 text-on-color"
+          >
             Close
           </button>
         </div>
@@ -95,7 +103,10 @@ export const SideTop: Story = {
         <Popover.Button className="bg-blue-500 hover:bg-blue-600 rounded-sm px-4 py-2 text-on-color">
           Open Above
         </Popover.Button>
-        <Popover.Panel side="top" className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4">
+        <Popover.Panel
+          side="top"
+          className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4"
+        >
           <h3 className="text-13 font-semibold">Top Positioned</h3>
           <p className="text-gray-600 mt-2 text-13">This popover appears above the button.</p>
         </Popover.Panel>
@@ -112,7 +123,10 @@ export const SideBottom: Story = {
         <Popover.Button className="bg-blue-500 hover:bg-blue-600 rounded-sm px-4 py-2 text-on-color">
           Open Below
         </Popover.Button>
-        <Popover.Panel side="bottom" className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4">
+        <Popover.Panel
+          side="bottom"
+          className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4"
+        >
           <h3 className="text-13 font-semibold">Bottom Positioned</h3>
           <p className="text-gray-600 mt-2 text-13">This popover appears below the button.</p>
         </Popover.Panel>
@@ -129,9 +143,14 @@ export const SideLeft: Story = {
         <Popover.Button className="bg-blue-500 hover:bg-blue-600 rounded-sm px-4 py-2 text-on-color">
           Open Left
         </Popover.Button>
-        <Popover.Panel side="left" className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4">
+        <Popover.Panel
+          side="left"
+          className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4"
+        >
           <h3 className="text-13 font-semibold">Left Positioned</h3>
-          <p className="text-gray-600 mt-2 text-13">This popover appears to the left of the button.</p>
+          <p className="text-gray-600 mt-2 text-13">
+            This popover appears to the left of the button.
+          </p>
         </Popover.Panel>
       </Popover>
     );
@@ -146,9 +165,14 @@ export const SideRight: Story = {
         <Popover.Button className="bg-blue-500 hover:bg-blue-600 rounded-sm px-4 py-2 text-on-color">
           Open Right
         </Popover.Button>
-        <Popover.Panel side="right" className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4">
+        <Popover.Panel
+          side="right"
+          className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4"
+        >
           <h3 className="text-13 font-semibold">Right Positioned</h3>
-          <p className="text-gray-600 mt-2 text-13">This popover appears to the right of the button.</p>
+          <p className="text-gray-600 mt-2 text-13">
+            This popover appears to the right of the button.
+          </p>
         </Popover.Panel>
       </Popover>
     );
@@ -163,7 +187,10 @@ export const AlignStart: Story = {
         <Popover.Button className="bg-blue-500 hover:bg-blue-600 rounded-sm px-4 py-2 text-on-color">
           Align Start
         </Popover.Button>
-        <Popover.Panel align="start" className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4">
+        <Popover.Panel
+          align="start"
+          className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4"
+        >
           <h3 className="text-13 font-semibold">Start Aligned</h3>
           <p className="text-gray-600 mt-2 text-13">This popover is aligned to the start.</p>
         </Popover.Panel>
@@ -180,7 +207,10 @@ export const AlignEnd: Story = {
         <Popover.Button className="bg-blue-500 hover:bg-blue-600 rounded-sm px-4 py-2 text-on-color">
           Align End
         </Popover.Button>
-        <Popover.Panel align="end" className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4">
+        <Popover.Panel
+          align="end"
+          className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4"
+        >
           <h3 className="text-13 font-semibold">End Aligned</h3>
           <p className="text-gray-600 mt-2 text-13">This popover is aligned to the end.</p>
         </Popover.Panel>
@@ -197,9 +227,14 @@ export const CustomOffset: Story = {
         <Popover.Button className="bg-blue-500 hover:bg-blue-600 rounded-sm px-4 py-2 text-on-color">
           Custom Offset
         </Popover.Button>
-        <Popover.Panel sideOffset={20} className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4">
+        <Popover.Panel
+          sideOffset={20}
+          className="border-gray-200 shadow-lg w-64 rounded-lg border bg-white p-4"
+        >
           <h3 className="text-13 font-semibold">Custom Side Offset</h3>
-          <p className="text-gray-600 mt-2 text-13">This popover has a custom side offset of 20px.</p>
+          <p className="text-gray-600 mt-2 text-13">
+            This popover has a custom side offset of 20px.
+          </p>
         </Popover.Panel>
       </Popover>
     );
@@ -277,9 +312,15 @@ export const WithList: Story = {
         <Popover.Panel className="border-gray-200 shadow-lg w-56 rounded-lg border bg-white">
           <div className="p-2">
             <h3 className="text-gray-500 px-2 py-1.5 text-11 font-semibold">Options</h3>
-            <button className="hover:bg-gray-100 w-full rounded-sm px-2 py-1.5 text-left text-13">Option 1</button>
-            <button className="hover:bg-gray-100 w-full rounded-sm px-2 py-1.5 text-left text-13">Option 2</button>
-            <button className="hover:bg-gray-100 w-full rounded-sm px-2 py-1.5 text-left text-13">Option 3</button>
+            <button className="hover:bg-gray-100 w-full rounded-sm px-2 py-1.5 text-left text-13">
+              Option 1
+            </button>
+            <button className="hover:bg-gray-100 w-full rounded-sm px-2 py-1.5 text-left text-13">
+              Option 2
+            </button>
+            <button className="hover:bg-gray-100 w-full rounded-sm px-2 py-1.5 text-left text-13">
+              Option 3
+            </button>
           </div>
         </Popover.Panel>
       </Popover>
@@ -290,7 +331,17 @@ export const WithList: Story = {
 export const ColorPicker: Story = {
   render() {
     const [selectedColor, setSelectedColor] = useState("#3b82f6");
-    const colors = ["#ef4444", "#f59e0b", "#10b981", "#3b82f6", "#8b5cf6", "#ec4899", "#6b7280", "#000000", "#ffffff"];
+    const colors = [
+      "#ef4444",
+      "#f59e0b",
+      "#10b981",
+      "#3b82f6",
+      "#8b5cf6",
+      "#ec4899",
+      "#6b7280",
+      "#000000",
+      "#ffffff",
+    ];
 
     return (
       <Popover>

@@ -67,7 +67,11 @@ export const PeekOverviewHeader = observer(function PeekOverviewHeader(props: Pr
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           {peekMode === "side" && (
-            <button type="button" onClick={handleClose} className="text-tertiary hover:text-secondary">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="text-tertiary hover:text-secondary"
+            >
               <MoveRight className="size-4" />
             </button>
           )}

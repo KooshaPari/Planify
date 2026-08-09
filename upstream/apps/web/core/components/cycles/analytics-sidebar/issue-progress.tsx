@@ -50,14 +50,17 @@ export const validateCycleSnapshot = (cycleDetails: ICycle | null): ICycle | nul
     Object.keys(cycleDetails.progress_snapshot || {}).forEach((key) => {
       const currentKey = key as keyof TProgressSnapshot;
       if (!isEmpty(cycleDetails.progress_snapshot) && !isEmpty(updatedCycleDetails)) {
-        updatedCycleDetails[currentKey as keyof ICycle] = cycleDetails?.progress_snapshot?.[currentKey];
+        updatedCycleDetails[currentKey as keyof ICycle] =
+          cycleDetails?.progress_snapshot?.[currentKey];
       }
     });
   }
   return updatedCycleDetails;
 };
 
-export const CycleAnalyticsProgress = observer(function CycleAnalyticsProgress(props: TCycleAnalyticsProgress) {
+export const CycleAnalyticsProgress = observer(function CycleAnalyticsProgress(
+  props: TCycleAnalyticsProgress,
+) {
   // props
   const { workspaceSlug, projectId, cycleId } = props;
   // router
@@ -70,30 +73,48 @@ export const CycleAnalyticsProgress = observer(function CycleAnalyticsProgress(p
   const { getFilter, updateFilterValueFromSidebar } = useWorkItemFilters();
   // derived values
   const cycleFilter = getFilter(EIssuesStoreType.CYCLE, cycleId);
-  const selectedAssignees = cycleFilter?.findFirstConditionByPropertyAndOperator("assignee_id", "in");
+  const selectedAssignees = cycleFilter?.findFirstConditionByPropertyAndOperator(
+    "assignee_id",
+    "in",
+  );
   const selectedLabels = cycleFilter?.findFirstConditionByPropertyAndOperator("label_id", "in");
-  const selectedStateGroups = cycleFilter?.findFirstConditionByPropertyAndOperator("state_group", "in");
+  const selectedStateGroups = cycleFilter?.findFirstConditionByPropertyAndOperator(
+    "state_group",
+    "in",
+  );
   const cycleDetails = validateCycleSnapshot(getCycleById(cycleId));
   const plotType: TCyclePlotType = getPlotTypeByCycleId(cycleId);
   const estimateType = getEstimateTypeByCycleId(cycleId);
   const totalIssues = cycleDetails?.total_issues || 0;
   const totalEstimatePoints = cycleDetails?.total_estimate_points || 0;
   const chartDistributionData =
-    estimateType === "points" ? cycleDetails?.estimate_distribution : cycleDetails?.distribution || undefined;
+    estimateType === "points"
+      ? cycleDetails?.estimate_distribution
+      : cycleDetails?.distribution || undefined;
   const groupedIssues = useMemo(
     () => ({
       backlog:
-        estimateType === "points" ? cycleDetails?.backlog_estimate_points || 0 : cycleDetails?.backlog_issues || 0,
+        estimateType === "points"
+          ? cycleDetails?.backlog_estimate_points || 0
+          : cycleDetails?.backlog_issues || 0,
       unstarted:
-        estimateType === "points" ? cycleDetails?.unstarted_estimate_points || 0 : cycleDetails?.unstarted_issues || 0,
+        estimateType === "points"
+          ? cycleDetails?.unstarted_estimate_points || 0
+          : cycleDetails?.unstarted_issues || 0,
       started:
-        estimateType === "points" ? cycleDetails?.started_estimate_points || 0 : cycleDetails?.started_issues || 0,
+        estimateType === "points"
+          ? cycleDetails?.started_estimate_points || 0
+          : cycleDetails?.started_issues || 0,
       completed:
-        estimateType === "points" ? cycleDetails?.completed_estimate_points || 0 : cycleDetails?.completed_issues || 0,
+        estimateType === "points"
+          ? cycleDetails?.completed_estimate_points || 0
+          : cycleDetails?.completed_issues || 0,
       cancelled:
-        estimateType === "points" ? cycleDetails?.cancelled_estimate_points || 0 : cycleDetails?.cancelled_issues || 0,
+        estimateType === "points"
+          ? cycleDetails?.cancelled_estimate_points || 0
+          : cycleDetails?.cancelled_issues || 0,
     }),
-    [estimateType, cycleDetails]
+    [estimateType, cycleDetails],
   );
   const cycleStartDate = getDate(cycleDetails?.start_date);
   const cycleEndDate = getDate(cycleDetails?.end_date);
@@ -111,7 +132,9 @@ export const CycleAnalyticsProgress = observer(function CycleAnalyticsProgress(p
             {isCycleDateValid ? (
               <div className="relative flex w-full items-center justify-between gap-2">
                 <Disclosure.Button className="relative flex w-full items-center gap-2">
-                  <div className="text-13 font-medium text-secondary">{t("project_cycles.active_cycle.progress")}</div>
+                  <div className="text-13 font-medium text-secondary">
+                    {t("project_cycles.active_cycle.progress")}
+                  </div>
                 </Disclosure.Button>
                 <Disclosure.Button className="ml-auto">
                   {open ? (
@@ -123,7 +146,9 @@ export const CycleAnalyticsProgress = observer(function CycleAnalyticsProgress(p
               </div>
             ) : (
               <div className="relative flex w-full items-center justify-between gap-2">
-                <div className="text-13 font-medium text-secondary">{t("project_cycles.active_cycle.progress")}</div>
+                <div className="text-13 font-medium text-secondary">
+                  {t("project_cycles.active_cycle.progress")}
+                </div>
               </div>
             )}
             <Transition show={open}>
@@ -131,7 +156,11 @@ export const CycleAnalyticsProgress = observer(function CycleAnalyticsProgress(p
                 {cycleStartDate && cycleEndDate ? (
                   <>
                     {isCycleDateValid && (
-                      <SidebarChartRoot workspaceSlug={workspaceSlug} projectId={projectId} cycleId={cycleId} />
+                      <SidebarChartRoot
+                        workspaceSlug={workspaceSlug}
+                        projectId={projectId}
+                        cycleId={cycleId}
+                      />
                     )}
                     {/* progress detailed view */}
                     {chartDistributionData && (
@@ -143,7 +172,7 @@ export const CycleAnalyticsProgress = observer(function CycleAnalyticsProgress(p
                           handleFiltersUpdate={updateFilterValueFromSidebar.bind(
                             updateFilterValueFromSidebar,
                             EIssuesStoreType.CYCLE,
-                            cycleId
+                            cycleId,
                           )}
                           isEditable={Boolean(!peekCycle) && cycleFilter !== undefined}
                           noBackground={false}
@@ -155,7 +184,9 @@ export const CycleAnalyticsProgress = observer(function CycleAnalyticsProgress(p
                             stateGroups: selectedStateGroups,
                           }}
                           size="xs"
-                          totalIssuesCount={estimateType === "points" ? totalEstimatePoints || 0 : totalIssues || 0}
+                          totalIssuesCount={
+                            estimateType === "points" ? totalEstimatePoints || 0 : totalIssues || 0
+                          }
                         />
                       </div>
                     )}

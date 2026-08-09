@@ -37,7 +37,7 @@ export const FavoriteItemDragHandle = observer(function FavoriteItemDragHandle(p
           {
             "cursor-not-allowed opacity-60": sort_order === null,
             "cursor-grabbing": isDragging,
-          }
+          },
         )}
       >
         <DragHandle className="bg-transparent" />

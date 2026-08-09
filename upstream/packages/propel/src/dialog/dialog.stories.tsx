@@ -44,7 +44,9 @@ const meta = {
               <div className="p-6">
                 <Dialog.Title>Dialog Title</Dialog.Title>
                 <div className="mt-4">
-                  <p className="text-gray-600 text-13">This is the dialog content. You can put any content here.</p>
+                  <p className="text-gray-600 text-13">
+                    This is the dialog content. You can put any content here.
+                  </p>
                 </div>
                 <div className="mt-6 flex justify-end gap-2">
                   <button
@@ -207,12 +209,17 @@ export const WithCloseButton: Story = {
               <div className="p-6">
                 <div className="flex items-start justify-between">
                   <Dialog.Title>Dialog with Close Button</Dialog.Title>
-                  <button onClick={() => setOpen(false)} className="hover:bg-gray-100 rounded-full p-1">
+                  <button
+                    onClick={() => setOpen(false)}
+                    className="hover:bg-gray-100 rounded-full p-1"
+                  >
                     <CloseIcon className="h-4 w-4" />
                   </button>
                 </div>
                 <div className="mt-4">
-                  <p className="text-gray-600 text-13">This dialog has a close button in the header.</p>
+                  <p className="text-gray-600 text-13">
+                    This dialog has a close button in the header.
+                  </p>
                 </div>
               </div>
             </Dialog.Panel>
@@ -305,7 +312,10 @@ export const FormDialog: Story = {
                     />
                   </div>
                   <div>
-                    <label htmlFor="description" className="text-gray-700 block text-13 font-medium">
+                    <label
+                      htmlFor="description"
+                      className="text-gray-700 block text-13 font-medium"
+                    >
                       Description
                     </label>
                     <textarea
@@ -359,8 +369,8 @@ export const ScrollableContent: Story = {
                 <div className="mt-4 max-h-96 overflow-y-auto">
                   {Array.from({ length: 20 }, (_, i) => (
                     <p key={i} className="text-gray-600 mb-2 text-13">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                      incididunt ut labore et dolore magna aliqua.
                     </p>
                   ))}
                 </div>
@@ -412,7 +422,9 @@ export const AllWidths: Story = {
               <div className="p-6">
                 <Dialog.Title>{label} Dialog</Dialog.Title>
                 <div className="mt-4">
-                  <p className="text-gray-600 text-13">This dialog uses the {label} width variant.</p>
+                  <p className="text-gray-600 text-13">
+                    This dialog uses the {label} width variant.
+                  </p>
                 </div>
                 <div className="mt-6 flex justify-end">
                   <button

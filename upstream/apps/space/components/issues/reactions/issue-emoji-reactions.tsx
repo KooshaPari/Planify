@@ -23,7 +23,9 @@ type IssueEmojiReactionsProps = {
   issueIdFromProps?: string;
 };
 
-export const IssueEmojiReactions = observer(function IssueEmojiReactions(props: IssueEmojiReactionsProps) {
+export const IssueEmojiReactions = observer(function IssueEmojiReactions(
+  props: IssueEmojiReactionsProps,
+) {
   const { anchor, issueIdFromProps } = props;
   // state
   const [isPickerOpen, setIsPickerOpen] = useState(false);
@@ -58,7 +60,9 @@ export const IssueEmojiReactions = observer(function IssueEmojiReactions(props: 
   };
 
   const handleReactionClick = (reactionHex: string) => {
-    const userReaction = userReactions?.find((r) => r.actor_details?.id === user?.id && r.reaction === reactionHex);
+    const userReaction = userReactions?.find(
+      (r) => r.actor_details?.id === user?.id && r.reaction === reactionHex,
+    );
     if (userReaction) handleRemoveReaction(reactionHex);
     else handleAddReaction(reactionHex);
   };
@@ -82,7 +86,9 @@ export const IssueEmojiReactions = observer(function IssueEmojiReactions(props: 
         return {
           emoji: stringToEmoji(reaction),
           count: reactionList.length,
-          reacted: reactionList.some((r) => r?.actor_details?.id === user?.id && r.reaction === reaction),
+          reacted: reactionList.some(
+            (r) => r?.actor_details?.id === user?.id && r.reaction === reaction,
+          ),
           users: userNames,
         };
       });

@@ -8,7 +8,12 @@ import React from "react";
 
 import type { Props } from "../types";
 
-export function SettingIcon({ width = "24", height = "24", color = "var(--text-color-secondary)", className }: Props) {
+export function SettingIcon({
+  width = "24",
+  height = "24",
+  color = "var(--text-color-secondary)",
+  className,
+}: Props) {
   return (
     <svg
       width={width}

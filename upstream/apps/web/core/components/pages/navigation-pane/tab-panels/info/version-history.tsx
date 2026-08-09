@@ -74,75 +74,81 @@ const VersionHistoryItem = observer(function VersionHistoryItem(props: VersionHi
   );
 });
 
-export const PageNavigationPaneInfoTabVersionHistory = observer(function PageNavigationPaneInfoTabVersionHistory(
-  props: Props
-) {
-  const { page, versionHistory } = props;
-  // navigation
-  const searchParams = useSearchParams();
-  const activeVersion = searchParams.get(PAGE_NAVIGATION_PANE_VERSION_QUERY_PARAM);
-  // derived values
-  const { id } = page;
-  // translation
-  const { t } = useTranslation();
-  // query params
-  const { updateQueryParams } = useQueryParams();
-  // fetch all versions
-  const { data: versionsList } = useSWR(
-    id ? `PAGE_VERSIONS_LIST_${id}` : null,
-    id ? () => versionHistory.fetchAllVersions(id) : null
-  );
+export const PageNavigationPaneInfoTabVersionHistory = observer(
+  function PageNavigationPaneInfoTabVersionHistory(props: Props) {
+    const { page, versionHistory } = props;
+    // navigation
+    const searchParams = useSearchParams();
+    const activeVersion = searchParams.get(PAGE_NAVIGATION_PANE_VERSION_QUERY_PARAM);
+    // derived values
+    const { id } = page;
+    // translation
+    const { t } = useTranslation();
+    // query params
+    const { updateQueryParams } = useQueryParams();
+    // fetch all versions
+    const { data: versionsList } = useSWR(
+      id ? `PAGE_VERSIONS_LIST_${id}` : null,
+      id ? () => versionHistory.fetchAllVersions(id) : null,
+    );
 
-  const getVersionLink = useCallback(
-    (versionID?: string) => {
-      if (versionID) {
-        return updateQueryParams({
-          paramsToAdd: { [PAGE_NAVIGATION_PANE_VERSION_QUERY_PARAM]: versionID },
-        });
-      } else {
-        return updateQueryParams({
-          paramsToRemove: [PAGE_NAVIGATION_PANE_VERSION_QUERY_PARAM],
-        });
-      }
-    },
-    [updateQueryParams]
-  );
+    const getVersionLink = useCallback(
+      (versionID?: string) => {
+        if (versionID) {
+          return updateQueryParams({
+            paramsToAdd: { [PAGE_NAVIGATION_PANE_VERSION_QUERY_PARAM]: versionID },
+          });
+        } else {
+          return updateQueryParams({
+            paramsToRemove: [PAGE_NAVIGATION_PANE_VERSION_QUERY_PARAM],
+          });
+        }
+      },
+      [updateQueryParams],
+    );
 
-  return (
-    <div>
-      <p className="text-11 font-medium text-secondary">{t("page_navigation_pane.tabs.info.version_history.label")}</p>
-      <div className="mt-3">
-        <ul className="relative">
-          {/* timeline line */}
-          <div className={cn("absolute top-0 left-0 flex h-full w-6 justify-center")}>
-            <div className="w-px bg-layer-3" />
-          </div>
-          {/* end timeline line */}
-          <li className="relative flex items-center gap-x-4 text-11 font-medium">
-            {/* timeline icon */}
-            <div className="relative grid size-6 flex-none place-items-center rounded-full bg-accent-primary/20">
-              <div className="size-2.5 rounded-full bg-accent-primary/40" />
+    return (
+      <div>
+        <p className="text-11 font-medium text-secondary">
+          {t("page_navigation_pane.tabs.info.version_history.label")}
+        </p>
+        <div className="mt-3">
+          <ul className="relative">
+            {/* timeline line */}
+            <div className={cn("absolute top-0 left-0 flex h-full w-6 justify-center")}>
+              <div className="w-px bg-layer-3" />
             </div>
-            {/* end timeline icon */}
-            <Link
-              href={getVersionLink()}
-              className={cn("flex-1 rounded-md bg-layer-transparent px-1 py-2 hover:bg-layer-transparent-hover", {
-                "bg-layer-transparent-selected hover:bg-layer-transparent-selected": !activeVersion,
-              })}
-            >
-              {t("page_navigation_pane.tabs.info.version_history.current_version")}
-            </Link>
-          </li>
-          {versionsList?.map((version) => (
-            <VersionHistoryItem
-              key={version.id}
-              getVersionLink={getVersionLink}
-              isVersionActive={activeVersion === version.id}
-              version={version}
-            />
-          ))}
-        </ul>
+            {/* end timeline line */}
+            <li className="relative flex items-center gap-x-4 text-11 font-medium">
+              {/* timeline icon */}
+              <div className="relative grid size-6 flex-none place-items-center rounded-full bg-accent-primary/20">
+                <div className="size-2.5 rounded-full bg-accent-primary/40" />
+              </div>
+              {/* end timeline icon */}
+              <Link
+                href={getVersionLink()}
+                className={cn(
+                  "flex-1 rounded-md bg-layer-transparent px-1 py-2 hover:bg-layer-transparent-hover",
+                  {
+                    "bg-layer-transparent-selected hover:bg-layer-transparent-selected":
+                      !activeVersion,
+                  },
+                )}
+              >
+                {t("page_navigation_pane.tabs.info.version_history.current_version")}
+              </Link>
+            </li>
+            {versionsList?.map((version) => (
+              <VersionHistoryItem
+                key={version.id}
+                getVersionLink={getVersionLink}
+                isVersionActive={activeVersion === version.id}
+                version={version}
+              />
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);

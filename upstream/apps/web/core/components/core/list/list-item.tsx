@@ -70,11 +70,19 @@ export function ListItem(props: IListItemProps) {
       <Row
         className={cn(
           "group flex min-h-[52px] w-full flex-col items-center justify-between gap-3 border-b border-subtle bg-layer-transparent py-4 text-13 hover:bg-layer-transparent-hover",
-          { "xl:flex-row xl:gap-5 xl:py-0": isSidebarOpen, "lg:flex-row lg:gap-5 lg:py-0": !isSidebarOpen },
-          className
+          {
+            "xl:flex-row xl:gap-5 xl:py-0": isSidebarOpen,
+            "lg:flex-row lg:gap-5 lg:py-0": !isSidebarOpen,
+          },
+          className,
         )}
       >
-        <div className={cn("relative flex w-full items-center justify-between gap-3 truncate", itemClassName)}>
+        <div
+          className={cn(
+            "relative flex w-full items-center justify-between gap-3 truncate",
+            itemClassName,
+          )}
+        >
           <ControlLink
             id={id}
             className="relative flex w-full items-center gap-3 overflow-hidden"
@@ -85,13 +93,17 @@ export function ListItem(props: IListItemProps) {
             data-prevent-progress={preventDefaultProgress}
           >
             <div className={cn("flex items-center gap-4 truncate", leftElementClassName)}>
-              {prependTitleElement && <span className="flex flex-shrink-0 items-center">{prependTitleElement}</span>}
+              {prependTitleElement && (
+                <span className="flex flex-shrink-0 items-center">{prependTitleElement}</span>
+              )}
               <Tooltip tooltipContent={title} position="top" isMobile={isMobile}>
                 <span className="truncate text-13">{title}</span>
               </Tooltip>
             </div>
             {appendTitleElement && (
-              <span className={cn("flex flex-shrink-0 items-center", rightElementClassName)}>{appendTitleElement}</span>
+              <span className={cn("flex flex-shrink-0 items-center", rightElementClassName)}>
+                {appendTitleElement}
+              </span>
             )}
           </ControlLink>
           {quickActionElement && quickActionElement}
@@ -104,7 +116,7 @@ export function ListItem(props: IListItemProps) {
                 "xl:w-auto xl:flex-shrink-0 xl:flex-nowrap": isSidebarOpen,
                 "lg:w-auto lg:flex-shrink-0 lg:flex-nowrap": !isSidebarOpen,
               },
-              actionItemContainerClassName
+              actionItemContainerClassName,
             )}
           >
             {actionableItems}

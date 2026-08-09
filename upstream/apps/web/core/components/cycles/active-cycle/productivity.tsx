@@ -28,7 +28,9 @@ export type ActiveCycleProductivityProps = {
   cycle: ICycle | null;
 };
 
-export const ActiveCycleProductivity = observer(function ActiveCycleProductivity(props: ActiveCycleProductivityProps) {
+export const ActiveCycleProductivity = observer(function ActiveCycleProductivity(
+  props: ActiveCycleProductivityProps,
+) {
   const { workspaceSlug, projectId, cycle } = props;
   // theme hook
   const { resolvedTheme } = useTheme();
@@ -37,7 +39,8 @@ export const ActiveCycleProductivity = observer(function ActiveCycleProductivity
   // hooks
   const { getEstimateTypeByCycleId, setEstimateType } = useCycle();
   // derived values
-  const estimateType: TCycleEstimateType = (cycle && getEstimateTypeByCycleId(cycle.id)) || "issues";
+  const estimateType: TCycleEstimateType =
+    (cycle && getEstimateTypeByCycleId(cycle.id)) || "issues";
   const resolvedPath = resolvedTheme === "light" ? lightChartAsset : darkChartAsset;
 
   const onChange = async (value: TCycleEstimateType) => {
@@ -46,16 +49,25 @@ export const ActiveCycleProductivity = observer(function ActiveCycleProductivity
   };
 
   const chartDistributionData =
-    cycle && estimateType === "points" ? cycle?.estimate_distribution : cycle?.distribution || undefined;
+    cycle && estimateType === "points"
+      ? cycle?.estimate_distribution
+      : cycle?.distribution || undefined;
   const completionChartDistributionData = chartDistributionData?.completion_chart || undefined;
 
   return cycle && completionChartDistributionData ? (
     <div className="flex min-h-[17rem] flex-col gap-5 rounded-lg border border-subtle bg-surface-1 px-3.5 py-4">
       <div className="relative flex items-center justify-between gap-4">
         <Link href={`/${workspaceSlug}/projects/${projectId}/cycles/${cycle?.id}`}>
-          <h3 className="text-14 font-semibold text-tertiary">{t("project_cycles.active_cycle.issue_burndown")}</h3>
+          <h3 className="text-14 font-semibold text-tertiary">
+            {t("project_cycles.active_cycle.issue_burndown")}
+          </h3>
         </Link>
-        <EstimateTypeDropdown value={estimateType} onChange={onChange} cycleId={cycle.id} projectId={projectId} />
+        <EstimateTypeDropdown
+          value={estimateType}
+          onChange={onChange}
+          cycleId={cycle.id}
+          projectId={projectId}
+        />
       </div>
 
       <Link href={`/${workspaceSlug}/projects/${projectId}/cycles/${cycle?.id}`}>
@@ -94,7 +106,10 @@ export const ActiveCycleProductivity = observer(function ActiveCycleProductivity
         ) : (
           <>
             <div className="flex h-full w-full items-center justify-center">
-              <SimpleEmptyState title={t("active_cycle.empty_state.chart.title")} assetPath={resolvedPath} />
+              <SimpleEmptyState
+                title={t("active_cycle.empty_state.chart.title")}
+                assetPath={resolvedPath}
+              />
             </div>
           </>
         )}

@@ -21,7 +21,9 @@ import type { IQuickActionProps } from "../list/list-view-types";
 import type { MenuItemFactoryProps } from "./helper";
 import { useArchivedIssueMenuItems } from "./helper";
 
-export const ArchivedIssueQuickActions = observer(function ArchivedIssueQuickActions(props: IQuickActionProps) {
+export const ArchivedIssueQuickActions = observer(function ArchivedIssueQuickActions(
+  props: IQuickActionProps,
+) {
   const {
     issue,
     handleDelete,
@@ -44,9 +46,16 @@ export const ArchivedIssueQuickActions = observer(function ArchivedIssueQuickAct
   const activeLayout = `${issuesFilter.issueFilters?.displayFilters?.layout} layout`;
   // auth
   const isEditingAllowed =
-    allowPermissions([EUserPermissions.ADMIN, EUserPermissions.MEMBER], EUserPermissionsLevel.PROJECT) && !readOnly;
+    allowPermissions(
+      [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+      EUserPermissionsLevel.PROJECT,
+    ) && !readOnly;
   const isRestoringAllowed =
-    handleRestore && allowPermissions([EUserPermissions.ADMIN, EUserPermissions.MEMBER], EUserPermissionsLevel.PROJECT);
+    handleRestore &&
+    allowPermissions(
+      [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+      EUserPermissionsLevel.PROJECT,
+    );
 
   // Menu items and modals using helper
   const menuItemProps: MenuItemFactoryProps = {
@@ -108,7 +117,7 @@ export const ArchivedIssueQuickActions = observer(function ArchivedIssueQuickAct
                 {
                   "text-placeholder": item.disabled,
                 },
-                item.className
+                item.className,
               )}
               disabled={item.disabled}
             >

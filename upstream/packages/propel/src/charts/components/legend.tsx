@@ -41,7 +41,7 @@ const CustomLegend = React.forwardRef(function CustomLegend(
   props: React.ComponentProps<"div"> &
     Pick<LegendProps, "payload" | "formatter" | "onClick" | "onMouseEnter" | "onMouseLeave"> &
     TChartLegend,
-  ref: React.ForwardedRef<HTMLDivElement>
+  ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   const { formatter, layout, onClick, onMouseEnter, onMouseLeave, payload } = props;
 
@@ -57,13 +57,16 @@ const CustomLegend = React.forwardRef(function CustomLegend(
       {payload.map((item, index) => (
         <div
           key={item.value}
-          className={cn("flex items-center gap-1.5 text-13 font-medium whitespace-nowrap text-tertiary", {
-            "px-2": layout === "horizontal",
-            "py-2": layout === "vertical",
-            "pt-0 pl-0": index === 0,
-            "pr-0 pb-0": index === payload.length - 1,
-            "cursor-pointer": !!props.onClick,
-          })}
+          className={cn(
+            "flex items-center gap-1.5 text-13 font-medium whitespace-nowrap text-tertiary",
+            {
+              "px-2": layout === "horizontal",
+              "py-2": layout === "vertical",
+              "pt-0 pl-0": index === 0,
+              "pr-0 pb-0": index === payload.length - 1,
+              "cursor-pointer": !!props.onClick,
+            },
+          )}
           onClick={(e) => onClick?.(item, index, e)}
           onMouseEnter={(e) => onMouseEnter?.(item, index, e)}
           onMouseLeave={(e) => onMouseLeave?.(item, index, e)}

@@ -27,7 +27,15 @@ type Props = {
 };
 
 function ImageFullScreenModalWithoutPortal(props: Props) {
-  const { aspectRatio, isFullScreenEnabled, isTouchDevice, downloadSrc, src, toggleFullScreenMode, width } = props;
+  const {
+    aspectRatio,
+    isFullScreenEnabled,
+    isTouchDevice,
+    downloadSrc,
+    src,
+    toggleFullScreenMode,
+    width,
+  } = props;
   // refs
   const dragStart = useRef({ x: 0, y: 0 });
   const dragOffset = useRef({ x: 0, y: 0 });
@@ -64,7 +72,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
       node.style.left = "0px";
       node.style.top = "0px";
     },
-    [isFullScreenEnabled, widthInNumber, aspectRatio]
+    [isFullScreenEnabled, widthInNumber, aspectRatio],
   );
 
   const handleClose = useCallback(() => {
@@ -106,7 +114,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
         if (e.key === "-") handleMagnification("decrease");
       }
     },
-    [handleClose, handleMagnification]
+    [handleClose, handleMagnification],
   );
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -143,7 +151,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
       imgRef.current.style.left = `${dragOffset.current.x + scaledDx}px`;
       imgRef.current.style.top = `${dragOffset.current.y + scaledDy}px`;
     },
-    [isDragging, magnification]
+    [isDragging, magnification],
   );
 
   const handleMouseUp = useCallback(() => {
@@ -175,7 +183,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
         return;
       }
     },
-    [isFullScreenEnabled]
+    [isFullScreenEnabled],
   );
 
   // Event listeners
@@ -199,11 +207,14 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
 
   return (
     <div
-      className={cn("pointer-events-none fixed inset-0 z-50 size-full bg-black/90 opacity-0 transition-opacity", {
-        "editor-image-full-screen-modal pointer-events-auto opacity-100": isFullScreenEnabled,
-        "cursor-default": !isDragging,
-        "cursor-grabbing": isDragging,
-      })}
+      className={cn(
+        "pointer-events-none fixed inset-0 z-50 size-full bg-black/90 opacity-0 transition-opacity",
+        {
+          "editor-image-full-screen-modal pointer-events-auto opacity-100": isFullScreenEnabled,
+          "cursor-default": !isDragging,
+          "cursor-grabbing": isDragging,
+        },
+      )}
       role="dialog"
       aria-modal="true"
       aria-label="Fullscreen image viewer"
@@ -254,7 +265,9 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
             >
               <Minus className="size-4" />
             </button>
-            <span className="w-12 text-center text-13 text-white">{Math.round(100 * magnification)}%</span>
+            <span className="w-12 text-center text-13 text-white">
+              {Math.round(100 * magnification)}%
+            </span>
             <button
               type="button"
               onClick={(e) => {

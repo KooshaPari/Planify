@@ -9,7 +9,10 @@ import { useTranslation } from "@plane/i18n";
 import { substringMatch } from "@plane/utils";
 // components
 import type { TPowerKCommandConfig, TPowerKCommandGroup } from "@/components/power-k/core/types";
-import { KeySequenceBadge, ShortcutBadge } from "@/components/power-k/ui/modal/command-item-shortcut-badge";
+import {
+  KeySequenceBadge,
+  ShortcutBadge,
+} from "@/components/power-k/ui/modal/command-item-shortcut-badge";
 // types
 import { CONTEXT_ENTITY_MAP } from "@/components/power-k/ui/pages/context-based";
 // local imports
@@ -26,7 +29,9 @@ export function ShortcutRenderer(props: Props) {
   const { t } = useTranslation();
 
   // Apply search filter
-  const filteredCommands = commands.filter((command) => substringMatch(t(command.i18n_title), searchQuery));
+  const filteredCommands = commands.filter((command) =>
+    substringMatch(t(command.i18n_title), searchQuery),
+  );
 
   // Group commands - separate contextual by context type, others by group
   type GroupedCommands = {

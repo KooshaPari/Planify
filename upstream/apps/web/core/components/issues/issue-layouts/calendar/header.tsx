@@ -21,11 +21,15 @@ import type { IProjectViewIssuesFilter } from "@/store/issue/project-views";
 import { CalendarMonthsDropdown, CalendarOptionsDropdown } from "./dropdowns";
 
 interface ICalendarHeader {
-  issuesFilterStore: IProjectIssuesFilter | IModuleIssuesFilter | ICycleIssuesFilter | IProjectViewIssuesFilter;
+  issuesFilterStore:
+    | IProjectIssuesFilter
+    | IModuleIssuesFilter
+    | ICycleIssuesFilter
+    | IProjectViewIssuesFilter;
   updateFilters?: (
     projectId: string,
     filterType: TSupportedFilterTypeForUpdate,
-    filters: TSupportedFilterForUpdate
+    filters: TSupportedFilterForUpdate,
   ) => Promise<void>;
   setSelectedDate: (date: Date) => void;
 }
@@ -37,15 +41,19 @@ export const CalendarHeader = observer(function CalendarHeader(props: ICalendarH
 
   const issueCalendarView = useCalendarView();
 
-  const calendarLayout = issuesFilterStore.issueFilters?.displayFilters?.calendar?.layout ?? "month";
+  const calendarLayout =
+    issuesFilterStore.issueFilters?.displayFilters?.calendar?.layout ?? "month";
 
   const { activeMonthDate, activeWeekDate } = issueCalendarView.calendarFilters;
 
   const handlePrevious = () => {
     if (calendarLayout === "month") {
       const previousMonthYear =
-        activeMonthDate.getMonth() === 0 ? activeMonthDate.getFullYear() - 1 : activeMonthDate.getFullYear();
-      const previousMonthMonth = activeMonthDate.getMonth() === 0 ? 11 : activeMonthDate.getMonth() - 1;
+        activeMonthDate.getMonth() === 0
+          ? activeMonthDate.getFullYear() - 1
+          : activeMonthDate.getFullYear();
+      const previousMonthMonth =
+        activeMonthDate.getMonth() === 0 ? 11 : activeMonthDate.getMonth() - 1;
 
       const previousMonthFirstDate = new Date(previousMonthYear, previousMonthMonth, 1);
 
@@ -56,7 +64,7 @@ export const CalendarHeader = observer(function CalendarHeader(props: ICalendarH
       const previousWeekDate = new Date(
         activeWeekDate.getFullYear(),
         activeWeekDate.getMonth(),
-        activeWeekDate.getDate() - 7
+        activeWeekDate.getDate() - 7,
       );
 
       issueCalendarView.updateCalendarFilters({
@@ -68,7 +76,9 @@ export const CalendarHeader = observer(function CalendarHeader(props: ICalendarH
   const handleNext = () => {
     if (calendarLayout === "month") {
       const nextMonthYear =
-        activeMonthDate.getMonth() === 11 ? activeMonthDate.getFullYear() + 1 : activeMonthDate.getFullYear();
+        activeMonthDate.getMonth() === 11
+          ? activeMonthDate.getFullYear() + 1
+          : activeMonthDate.getFullYear();
       const nextMonthMonth = (activeMonthDate.getMonth() + 1) % 12;
 
       const nextMonthFirstDate = new Date(nextMonthYear, nextMonthMonth, 1);
@@ -80,7 +90,7 @@ export const CalendarHeader = observer(function CalendarHeader(props: ICalendarH
       const nextWeekDate = new Date(
         activeWeekDate.getFullYear(),
         activeWeekDate.getMonth(),
-        activeWeekDate.getDate() + 7
+        activeWeekDate.getDate() + 7,
       );
 
       issueCalendarView.updateCalendarFilters({
@@ -119,7 +129,10 @@ export const CalendarHeader = observer(function CalendarHeader(props: ICalendarH
         >
           {t("common.today")}
         </button>
-        <CalendarOptionsDropdown issuesFilterStore={issuesFilterStore} updateFilters={updateFilters} />
+        <CalendarOptionsDropdown
+          issuesFilterStore={issuesFilterStore}
+          updateFilters={updateFilters}
+        />
       </div>
     </Row>
   );

@@ -48,10 +48,20 @@ export const getDistributionPathsPostUpdate = (
   prevIssueState: TIssue | undefined,
   nextIssueState: TIssue | undefined,
   stateMap: Record<string, IState>,
-  estimatePointById?: (estimatePointId: string) => IEstimatePoint | undefined
+  estimatePointById?: (estimatePointId: string) => IEstimatePoint | undefined,
 ): DistributionUpdates => {
-  const prevIssueDistribution = getDistributionDataOfIssue(prevIssueState, -1, stateMap, estimatePointById);
-  const nextIssueDistribution = getDistributionDataOfIssue(nextIssueState, 1, stateMap, estimatePointById);
+  const prevIssueDistribution = getDistributionDataOfIssue(
+    prevIssueState,
+    -1,
+    stateMap,
+    estimatePointById,
+  );
+  const nextIssueDistribution = getDistributionDataOfIssue(
+    nextIssueState,
+    1,
+    stateMap,
+    estimatePointById,
+  );
 
   const prevChartDistribution = prevIssueDistribution.chartUpdates;
   const nextChartDistribution = nextIssueDistribution.chartUpdates;
@@ -71,8 +81,15 @@ export const getDistributionPathsPostUpdate = (
 
   // merge the updates from both issue states into a single object
   return {
-    pathUpdates: [...prevIssueDistribution.pathUpdates, ...nextIssueDistribution.pathUpdates, ...chartUpdates],
-    assigneeUpdates: [...prevIssueDistribution.assigneeUpdates, ...nextIssueDistribution.assigneeUpdates],
+    pathUpdates: [
+      ...prevIssueDistribution.pathUpdates,
+      ...nextIssueDistribution.pathUpdates,
+      ...chartUpdates,
+    ],
+    assigneeUpdates: [
+      ...prevIssueDistribution.assigneeUpdates,
+      ...nextIssueDistribution.assigneeUpdates,
+    ],
     labelUpdates: [...prevIssueDistribution.labelUpdates, ...nextIssueDistribution.labelUpdates],
   };
 };
@@ -89,12 +106,13 @@ const getDistributionDataOfIssue = (
   issue: TIssue | undefined,
   multiplier: -1 | 1,
   stateMap: Record<string, IState>,
-  estimatePointById?: (estimatePointId: string) => IEstimatePoint | undefined
+  estimatePointById?: (estimatePointId: string) => IEstimatePoint | undefined,
 ): DistributionUpdates & { chartUpdates: ChartUpdates } => {
   const pathUpdates: { path: string[]; value: number }[] = [];
 
   // If issue does not exist, send a default object
-  if (!issue) return { pathUpdates, assigneeUpdates: [], labelUpdates: [], chartUpdates: { updates: [] } };
+  if (!issue)
+    return { pathUpdates, assigneeUpdates: [], labelUpdates: [], chartUpdates: { updates: [] } };
 
   const state = stateMap[issue.state_id ?? ""];
   const stateGroup = state.group;
@@ -115,8 +133,18 @@ const getDistributionDataOfIssue = (
   pathUpdates.push({ path: [stateDistribution.points], value: multiplier * estimatePoint });
 
   // get assignee and label distribution updates
-  const assigneeUpdates = getObjectDistributionArray(issue.assignee_ids, isCompleted, estimatePoint, multiplier);
-  const labelUpdates = getObjectDistributionArray(issue.label_ids, isCompleted, estimatePoint, multiplier);
+  const assigneeUpdates = getObjectDistributionArray(
+    issue.assignee_ids,
+    isCompleted,
+    estimatePoint,
+    multiplier,
+  );
+  const labelUpdates = getObjectDistributionArray(
+    issue.label_ids,
+    isCompleted,
+    estimatePoint,
+    multiplier,
+  );
 
   // chart updates based on date of completed or not completed
   const chartUpdates = getChartUpdates(isCompleted, issue.completed_at, estimatePoint, multiplier);
@@ -136,7 +164,12 @@ const getDistributionDataOfIssue = (
  * @param multiplier
  * @returns
  */
-const getObjectDistributionArray = (ids: string[], isCompleted: boolean, estimatePoint: number, multiplier: -1 | 1) => {
+const getObjectDistributionArray = (
+  ids: string[],
+  isCompleted: boolean,
+  estimatePoint: number,
+  multiplier: -1 | 1,
+) => {
   const objectDistributionArray: DistributionObjectUpdate[] = [];
 
   // iterate over each id
@@ -174,7 +207,7 @@ const getChartUpdates = (
   isCompleted: boolean,
   completedAt: string | null,
   estimatePoint: number,
-  multiplier: -1 | 1
+  multiplier: -1 | 1,
 ) => {
   // if completed At date does not exist use current date
   let dateToUpdate = format(new Date(), "yyyy-MM-dd");
@@ -188,7 +221,10 @@ const getChartUpdates = (
 
   return {
     updates: [
-      { path: ["distribution", "completion_chart", dateToUpdate], value: multiplier * completedAtMultiplier },
+      {
+        path: ["distribution", "completion_chart", dateToUpdate],
+        value: multiplier * completedAtMultiplier,
+      },
       {
         path: ["estimate_distribution", "completion_chart", dateToUpdate],
         value: multiplier * completedAtMultiplier * estimatePoint,
@@ -203,7 +239,10 @@ const getChartUpdates = (
  * @param distributionObject
  * @param distributionUpdates
  */
-export const updateDistribution = (distributionObject: ICycle | IModule, distributionUpdates: DistributionUpdates) => {
+export const updateDistribution = (
+  distributionObject: ICycle | IModule,
+  distributionUpdates: DistributionUpdates,
+) => {
   const { pathUpdates, assigneeUpdates, labelUpdates } = distributionUpdates;
 
   // iterate over path updates and directly apply changes on the distribution object
@@ -220,7 +259,7 @@ export const updateDistribution = (distributionObject: ICycle | IModule, distrib
     // find and update the assignee issue counts
     if (Array.isArray(distributionObject.distribution?.assignees)) {
       const issuesAssignee = distributionObject.distribution?.assignees?.find(
-        (assignee) => assignee.assignee_id === id
+        (assignee) => assignee.assignee_id === id,
       );
       if (issuesAssignee) {
         issuesAssignee.completed_issues += assigneeUpdate.completed_issues ?? 0;
@@ -232,7 +271,7 @@ export const updateDistribution = (distributionObject: ICycle | IModule, distrib
     // find and update the assignee points
     if (Array.isArray(distributionObject.estimate_distribution?.assignees)) {
       const pointsAssignee = distributionObject.estimate_distribution?.assignees?.find(
-        (assignee) => assignee.assignee_id === id
+        (assignee) => assignee.assignee_id === id,
       );
       if (pointsAssignee) {
         pointsAssignee.completed_estimates += assigneeUpdate.completed_estimates ?? 0;
@@ -247,7 +286,9 @@ export const updateDistribution = (distributionObject: ICycle | IModule, distrib
 
     // find and update the label issue counts
     if (Array.isArray(distributionObject.distribution?.labels)) {
-      const issuesLabel = distributionObject.distribution?.labels?.find((label) => label.label_id === id);
+      const issuesLabel = distributionObject.distribution?.labels?.find(
+        (label) => label.label_id === id,
+      );
       if (issuesLabel) {
         issuesLabel.completed_issues += labelUpdate.completed_issues ?? 0;
         issuesLabel.pending_issues += labelUpdate.pending_issues ?? 0;
@@ -257,7 +298,9 @@ export const updateDistribution = (distributionObject: ICycle | IModule, distrib
 
     // find and update the label points
     if (Array.isArray(distributionObject.estimate_distribution?.labels)) {
-      const pointsLabel = distributionObject.estimate_distribution?.labels?.find((label) => label.label_id === id);
+      const pointsLabel = distributionObject.estimate_distribution?.labels?.find(
+        (label) => label.label_id === id,
+      );
       if (pointsLabel) {
         pointsLabel.completed_estimates += labelUpdate.completed_estimates ?? 0;
         pointsLabel.pending_estimates += labelUpdate.pending_estimates ?? 0;

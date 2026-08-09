@@ -126,7 +126,10 @@ export const CreateWorkspace = observer(function CreateWorkspace(props: Props) {
         <h3 className="text-24 font-bold text-primary">{t("workspace_creation.heading")}</h3>
         <p className="font-medium text-placeholder">{t("workspace_creation.subheading")}</p>
       </div>
-      <form className="mx-auto mt-2 w-full space-y-4" onSubmit={handleSubmit(handleCreateWorkspace)}>
+      <form
+        className="mx-auto mt-2 w-full space-y-4"
+        onSubmit={handleSubmit(handleCreateWorkspace)}
+      >
         <div className="space-y-1">
           <label
             className="text-13 font-medium text-tertiary after:ml-0.5 after:text-danger-primary after:content-['*']"
@@ -155,9 +158,13 @@ export const CreateWorkspace = observer(function CreateWorkspace(props: Props) {
                   onChange={(event) => {
                     onChange(event.target.value);
                     setValue("name", event.target.value);
-                    setValue("slug", event.target.value.toLocaleLowerCase().trim().replace(/ /g, "-"), {
-                      shouldValidate: true,
-                    });
+                    setValue(
+                      "slug",
+                      event.target.value.toLocaleLowerCase().trim().replace(/ /g, "-"),
+                      {
+                        shouldValidate: true,
+                      },
+                    );
                   }}
                   placeholder={t("workspace_creation.form.name.placeholder")}
                   ref={ref}
@@ -168,7 +175,9 @@ export const CreateWorkspace = observer(function CreateWorkspace(props: Props) {
               </div>
             )}
           />
-          {errors.name && <span className="text-13 text-danger-primary">{errors.name.message}</span>}
+          {errors.name && (
+            <span className="text-13 text-danger-primary">{errors.name.message}</span>
+          )}
         </div>
         <div className="space-y-1">
           <label
@@ -220,9 +229,13 @@ export const CreateWorkspace = observer(function CreateWorkspace(props: Props) {
             </p>
           )}
           {invalidSlug && (
-            <p className="text-13 text-danger-primary">{t("workspace_creation.errors.validation.url_alphanumeric")}</p>
+            <p className="text-13 text-danger-primary">
+              {t("workspace_creation.errors.validation.url_alphanumeric")}
+            </p>
           )}
-          {errors.slug && <span className="text-13 text-danger-primary">{errors.slug.message}</span>}
+          {errors.slug && (
+            <span className="text-13 text-danger-primary">{errors.slug.message}</span>
+          )}
         </div>
         <hr className="w-full border-strong" />
         <div className="space-y-1">
@@ -260,12 +273,24 @@ export const CreateWorkspace = observer(function CreateWorkspace(props: Props) {
               )}
             />
             {errors.organization_size && (
-              <span className="text-13 text-danger-primary">{errors.organization_size.message}</span>
+              <span className="text-13 text-danger-primary">
+                {errors.organization_size.message}
+              </span>
             )}
           </div>
         </div>
-        <Button variant="primary" type="submit" size="xl" className="w-full" disabled={isButtonDisabled}>
-          {isSubmitting ? <Spinner height="20px" width="20px" /> : t("workspace_creation.button.default")}
+        <Button
+          variant="primary"
+          type="submit"
+          size="xl"
+          className="w-full"
+          disabled={isButtonDisabled}
+        >
+          {isSubmitting ? (
+            <Spinner height="20px" width="20px" />
+          ) : (
+            t("workspace_creation.button.default")
+          )}
         </Button>
       </form>
     </div>

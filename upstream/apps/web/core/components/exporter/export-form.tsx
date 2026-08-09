@@ -77,7 +77,10 @@ export const ExportForm = observer(function ExportForm(props: Props) {
 
   // derived values
   const hasProjects = workspaceProjectIds && workspaceProjectIds.length > 0;
-  const isMember = allowPermissions([EUserPermissions.ADMIN, EUserPermissions.MEMBER], EUserPermissionsLevel.WORKSPACE);
+  const isMember = allowPermissions(
+    [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+    EUserPermissionsLevel.WORKSPACE,
+  );
   const wsProjectIdsWithCreatePermisisons = projectsWithCreatePermissions
     ? intersection(workspaceProjectIds, Object.keys(projectsWithCreatePermissions))
     : [];
@@ -198,7 +201,11 @@ export const ExportForm = observer(function ExportForm(props: Props) {
                   buttonClassName="py-2 text-13"
                 >
                   {EXPORTERS_LIST.map((service) => (
-                    <CustomSelect.Option key={service.provider} className="flex items-center gap-2" value={service}>
+                    <CustomSelect.Option
+                      key={service.provider}
+                      className="flex items-center gap-2"
+                      value={service}
+                    >
                       <span className="truncate">{t(service.i18n_title)}</span>
                     </CustomSelect.Option>
                   ))}
@@ -209,7 +216,9 @@ export const ExportForm = observer(function ExportForm(props: Props) {
         />
         <div className="px-4 py-3">
           <Button variant="primary" size="lg" type="submit" loading={exportLoading}>
-            {exportLoading ? `${t("workspace_settings.settings.exports.exporting")}...` : t("export")}
+            {exportLoading
+              ? `${t("workspace_settings.settings.exports.exporting")}...`
+              : t("export")}
           </Button>
         </div>
       </div>

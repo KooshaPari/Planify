@@ -74,7 +74,7 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
     fetchPageContent: (
       pageService: ReturnType<typeof getPageService>,
       pageId: string,
-      requestId: string
+      requestId: string,
     ): Effect.Effect<PageContent, PdfContentFetchError | PdfTimeoutError> =>
       Effect.gen(function* () {
         yield* Effect.logDebug("PDF_EXPORT: Fetching page content", { requestId, pageId });
@@ -85,24 +85,27 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
             new PdfContentFetchError({
               message: "Failed to fetch page content",
               cause,
-            })
+            }),
         ).pipe(
           withTimeoutAndRetry("fetch page content", {
             timeoutMs: CONTENT_FETCH_TIMEOUT_MS,
             maxRetries: 3,
-          })
+          }),
         );
 
         if (!descriptionBinary) {
           return yield* Effect.fail(
             new PdfContentFetchError({
               message: "Page content not found",
-            })
+            }),
           );
         }
 
         const binaryData = new Uint8Array(descriptionBinary);
-        const { contentJSON, titleHTML } = getAllDocumentFormatsFromDocumentEditorBinaryData(binaryData, true);
+        const { contentJSON, titleHTML } = getAllDocumentFormatsFromDocumentEditorBinaryData(
+          binaryData,
+          true,
+        );
 
         return {
           contentJSON: contentJSON as TipTapDocument,
@@ -117,7 +120,7 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
     fetchUserMentions: (
       pageService: ReturnType<typeof getPageService>,
       pageId: string,
-      requestId: string
+      requestId: string,
     ): Effect.Effect<MetadataResult> =>
       Effect.gen(function* () {
         yield* Effect.logDebug("PDF_EXPORT: Fetching user mentions", { requestId });
@@ -129,8 +132,12 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
             }
             return [];
           },
-          () => []
-        ).pipe(recoverWithDefault([] as Array<{ id: string; display_name: string; avatar_url?: string }>));
+          () => [],
+        ).pipe(
+          recoverWithDefault(
+            [] as Array<{ id: string; display_name: string; avatar_url?: string }>,
+          ),
+        );
 
         return {
           userMentions: userMentionsRaw.map((u) => ({
@@ -149,7 +156,7 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
       workspaceSlug: string,
       projectId: string | undefined,
       assetIds: string[],
-      requestId: string
+      requestId: string,
     ): Effect.Effect<Record<string, string>> =>
       Effect.gen(function* () {
         if (assetIds.length === 0) {
@@ -166,12 +173,16 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
           async () => {
             const urlMap = new Map<string, string>();
             for (const assetId of assetIds) {
-              const url = await pageService.resolveImageAssetUrl?.(workspaceSlug, assetId, projectId);
+              const url = await pageService.resolveImageAssetUrl?.(
+                workspaceSlug,
+                assetId,
+                projectId,
+              );
               if (url) urlMap.set(assetId, url);
             }
             return urlMap;
           },
-          () => new Map<string, string>()
+          () => new Map<string, string>(),
         ).pipe(recoverWithDefault(new Map<string, string>()));
 
         if (resolvedUrlMap.size === 0) {
@@ -188,7 +199,7 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
                   message: "Failed to fetch image",
                   assetId,
                   cause,
-                })
+                }),
             );
 
             if (!response.ok) {
@@ -196,7 +207,7 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
                 new PdfImageProcessingError({
                   message: `Image fetch returned ${response.status}`,
                   assetId,
-                })
+                }),
               );
             }
 
@@ -207,7 +218,7 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
                   message: "Failed to read image body",
                   assetId,
                   cause,
-                })
+                }),
             );
 
             const processedBuffer = yield* tryAsync(
@@ -215,7 +226,10 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
                 sharp(Buffer.from(arrayBuffer))
                   .rotate()
                   .flatten({ background: { r: 255, g: 255, b: 255 } })
-                  .resize(IMAGE_MAX_DIMENSION, IMAGE_MAX_DIMENSION, { fit: "inside", withoutEnlargement: true })
+                  .resize(IMAGE_MAX_DIMENSION, IMAGE_MAX_DIMENSION, {
+                    fit: "inside",
+                    withoutEnlargement: true,
+                  })
                   .jpeg({ quality: 85 })
                   .toBuffer(),
               (cause) =>
@@ -223,7 +237,7 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
                   message: "Failed to process image",
                   assetId,
                   cause,
-                })
+                }),
             );
 
             const base64 = processedBuffer.toString("base64");
@@ -238,9 +252,9 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
                 requestId,
                 assetId,
                 error,
-              })
+              }),
             ),
-            Effect.catchAll(() => Effect.succeed(null as readonly [string, string] | null))
+            Effect.catchAll(() => Effect.succeed(null as readonly [string, string] | null)),
           );
 
         const entries = Array.from(resolvedUrlMap.entries());
@@ -266,7 +280,7 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
         pageOrientation?: "portrait" | "landscape";
         noAssets?: boolean;
       },
-      requestId: string
+      requestId: string,
     ): Effect.Effect<Buffer, PdfGenerationError | PdfTimeoutError> =>
       Effect.gen(function* () {
         yield* Effect.logDebug("PDF_EXPORT: Rendering PDF", { requestId });
@@ -286,8 +300,10 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
             new PdfGenerationError({
               message: "Failed to render PDF",
               cause,
-            })
-        ).pipe(withTimeoutAndRetry("render PDF", { timeoutMs: PDF_RENDER_TIMEOUT_MS, maxRetries: 0 }));
+            }),
+        ).pipe(
+          withTimeoutAndRetry("render PDF", { timeoutMs: PDF_RENDER_TIMEOUT_MS, maxRetries: 0 }),
+        );
 
         yield* Effect.logInfo("PDF_EXPORT: PDF rendered successfully", {
           requestId,
@@ -304,8 +320,12 @@ export class PdfExportService extends Effect.Service<PdfExportService>()("PdfExp
  * Separate function to avoid circular dependency in service definition
  */
 export const exportToPdf = (
-  input: PdfExportInput
-): Effect.Effect<PdfExportResult, PdfContentFetchError | PdfGenerationError | PdfTimeoutError, PdfExportService> =>
+  input: PdfExportInput,
+): Effect.Effect<
+  PdfExportResult,
+  PdfContentFetchError | PdfGenerationError | PdfTimeoutError,
+  PdfExportService
+> =>
   Effect.gen(function* () {
     const service = yield* PdfExportService;
     const { requestId, pageId, workspaceSlug, projectId, noAssets } = input;
@@ -338,7 +358,7 @@ export const exportToPdf = (
         workspaceSlug,
         projectId,
         imageAssetIds,
-        requestId
+        requestId,
       );
       metadata = { ...metadata, resolvedImageUrls: resolvedImages };
     }
@@ -362,7 +382,7 @@ export const exportToPdf = (
         pageOrientation: input.pageOrientation,
         noAssets,
       },
-      requestId
+      requestId,
     );
 
     yield* Effect.logInfo("PDF_EXPORT: Export complete", {

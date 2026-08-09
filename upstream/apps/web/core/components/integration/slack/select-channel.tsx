@@ -30,7 +30,8 @@ export const SelectChannel = observer(function SelectChannel({ integration }: Pr
   // store hooks
   const { config } = useInstance();
   // states
-  const [slackChannelAvailabilityToggle, setSlackChannelAvailabilityToggle] = useState<boolean>(false);
+  const [slackChannelAvailabilityToggle, setSlackChannelAvailabilityToggle] =
+    useState<boolean>(false);
   const [slackChannel, setSlackChannel] = useState<ISlackIntegration | null>(null);
 
   const { workspaceSlug, projectId } = useParams();
@@ -44,17 +45,19 @@ export const SelectChannel = observer(function SelectChannel({ integration }: Pr
   });
 
   const { data: projectIntegration } = useSWR(
-    workspaceSlug && projectId && integration.id ? SLACK_CHANNEL_INFO(workspaceSlug, projectId) : null,
+    workspaceSlug && projectId && integration.id
+      ? SLACK_CHANNEL_INFO(workspaceSlug, projectId)
+      : null,
     () =>
       workspaceSlug && projectId && integration.id
         ? appInstallationService.getSlackChannelDetail(workspaceSlug, projectId, integration.id)
-        : null
+        : null,
   );
 
   useEffect(() => {
     if (projectId && projectIntegration && projectIntegration.length > 0) {
       const projectSlackIntegrationCheck: ISlackIntegration | undefined = projectIntegration.find(
-        (_slack: ISlackIntegration) => _slack.project === projectId
+        (_slack: ISlackIntegration) => _slack.project === projectId,
       );
       if (projectSlackIntegrationCheck) {
         setSlackChannel(() => projectSlackIntegrationCheck);
@@ -66,10 +69,13 @@ export const SelectChannel = observer(function SelectChannel({ integration }: Pr
   const handleDelete = async () => {
     if (!workspaceSlug || !projectId) return;
     if (projectIntegration.length === 0) return;
-    mutate(SLACK_CHANNEL_INFO(workspaceSlug?.toString(), projectId?.toString()), (prevData: any) => {
-      if (!prevData) return;
-      return prevData.id !== integration.id;
-    }).then(() => {
+    mutate(
+      SLACK_CHANNEL_INFO(workspaceSlug?.toString(), projectId?.toString()),
+      (prevData: any) => {
+        if (!prevData) return;
+        return prevData.id !== integration.id;
+      },
+    ).then(() => {
       setSlackChannelAvailabilityToggle(false);
       setSlackChannel(null);
     });

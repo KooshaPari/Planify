@@ -166,7 +166,7 @@ export const DateRangeDropdown = observer(function DateRangeDropdown(props: Prop
           "cursor-not-allowed text-secondary": disabled,
           "cursor-pointer": !disabled,
         },
-        buttonContainerClassName
+        buttonContainerClassName,
       )}
       onClick={handleOnClick}
       disabled={disabled}
@@ -228,21 +228,29 @@ export const DateRangeDropdown = observer(function DateRangeDropdown(props: Prop
             <span
               className={cn(
                 "flex h-full flex-grow items-center justify-center gap-1 rounded-xs",
-                buttonFromDateClassName
+                buttonFromDateClassName,
               )}
             >
               {!hideIcon.from && <CalendarDays className="h-3 w-3 flex-shrink-0" />}
-              {dateRange.from ? renderFormattedDate(dateRange.from) : renderPlaceholder ? placeholder.from : ""}
+              {dateRange.from
+                ? renderFormattedDate(dateRange.from)
+                : renderPlaceholder
+                  ? placeholder.from
+                  : ""}
             </span>
             <ArrowRight className="h-3 w-3 flex-shrink-0" />
             <span
               className={cn(
                 "flex h-full flex-grow items-center justify-center gap-1 rounded-xs",
-                buttonToDateClassName
+                buttonToDateClassName,
               )}
             >
               {!hideIcon.to && <DueDatePropertyIcon className="h-3 w-3 flex-shrink-0" />}
-              {dateRange.to ? renderFormattedDate(dateRange.to) : renderPlaceholder ? placeholder.to : ""}
+              {dateRange.to
+                ? renderFormattedDate(dateRange.to)
+                : renderPlaceholder
+                  ? placeholder.to
+                  : ""}
             </span>
             {isClearable && !disabled && hasDisplayedDates && (
               <CloseIcon

@@ -8,7 +8,11 @@ import { set } from "lodash-es";
 import { action, computed, observable, makeObservable, runInAction, reaction } from "mobx";
 import { computedFn } from "mobx-utils";
 // types
-import type { TProjectDisplayFilters, TProjectFilters, TProjectAppliedDisplayFilterKeys } from "@plane/types";
+import type {
+  TProjectDisplayFilters,
+  TProjectFilters,
+  TProjectAppliedDisplayFilterKeys,
+} from "@plane/types";
 // store
 import type { CoreRootStore } from "../root.store";
 
@@ -66,7 +70,7 @@ export class ProjectFilterStore implements IProjectFilterStore {
         if (!workspaceSlug) return;
         this.initWorkspaceFilters(workspaceSlug);
         this.searchQuery = "";
-      }
+      },
     );
   }
 
@@ -90,7 +94,8 @@ export class ProjectFilterStore implements IProjectFilterStore {
     const displayFilters = this.displayFilters[workspaceSlug];
     return Object.keys(displayFilters).filter(
       (key): key is TProjectAppliedDisplayFilterKeys =>
-        ["my_projects", "archived_projects"].includes(key) && !!displayFilters[key as keyof TProjectDisplayFilters]
+        ["my_projects", "archived_projects"].includes(key) &&
+        !!displayFilters[key as keyof TProjectDisplayFilters],
     );
   }
 
@@ -107,7 +112,9 @@ export class ProjectFilterStore implements IProjectFilterStore {
    * @description get display filters of a workspace by workspaceSlug
    * @param {string} workspaceSlug
    */
-  getDisplayFiltersByWorkspaceSlug = computedFn((workspaceSlug: string) => this.displayFilters[workspaceSlug]);
+  getDisplayFiltersByWorkspaceSlug = computedFn(
+    (workspaceSlug: string) => this.displayFilters[workspaceSlug],
+  );
 
   /**
    * @description get filters of a workspace by workspaceSlug
@@ -137,7 +144,11 @@ export class ProjectFilterStore implements IProjectFilterStore {
   updateDisplayFilters = (workspaceSlug: string, displayFilters: TProjectDisplayFilters) => {
     runInAction(() => {
       Object.keys(displayFilters).forEach((key) => {
-        set(this.displayFilters, [workspaceSlug, key], displayFilters[key as keyof TProjectDisplayFilters]);
+        set(
+          this.displayFilters,
+          [workspaceSlug, key],
+          displayFilters[key as keyof TProjectDisplayFilters],
+        );
       });
     });
   };

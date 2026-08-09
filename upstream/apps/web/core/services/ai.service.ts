@@ -36,7 +36,7 @@ export class AIService extends APIService {
 
   async performEditorTask(
     workspaceSlug: string,
-    data: TTaskPayload
+    data: TTaskPayload,
   ): Promise<{
     response: string;
   }> {

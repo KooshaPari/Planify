@@ -67,10 +67,11 @@ export const StickiesList = observer(function StickiesList(props: TProps) {
   const isStickiesPage = pathname?.includes("stickies");
   const hasGuestLevelPermissions = allowPermissions(
     [EUserWorkspaceRoles.ADMIN, EUserWorkspaceRoles.MEMBER, EUserWorkspaceRoles.GUEST],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
   const stickiesResolvedPath = resolvedTheme === "light" ? lightStickiesAsset : darkStickiesAsset;
-  const stickiesSearchResolvedPath = resolvedTheme === "light" ? lightStickiesSearchAsset : darkStickiesSearchAsset;
+  const stickiesSearchResolvedPath =
+    resolvedTheme === "light" ? lightStickiesSearchAsset : darkStickiesSearchAsset;
   const masonryRef = useRef<any>(null);
 
   const handleLayout = () => {
@@ -89,7 +90,11 @@ export const StickiesList = observer(function StickiesList(props: TProps) {
     };
   };
 
-  const handleDrop = (self: DropTargetRecord, source: ElementDragPayload, location: DragLocationHistory) => {
+  const handleDrop = (
+    self: DropTargetRecord,
+    source: ElementDragPayload,
+    location: DragLocationHistory,
+  ) => {
     const dropTargets = location?.current?.dropTargets ?? [];
     if (!dropTargets || dropTargets.length <= 0) return;
 
@@ -102,7 +107,12 @@ export const StickiesList = observer(function StickiesList(props: TProps) {
 
     try {
       if (!instruction || !droppedId || !sourceId) return;
-      stickyOperations.updatePosition(workspaceSlug, sourceId as string, droppedId as string, instruction);
+      stickyOperations.updatePosition(
+        workspaceSlug,
+        sourceId as string,
+        droppedId as string,
+        instruction,
+      );
     } catch (error) {
       console.error("Error reordering sticky:", error);
     }

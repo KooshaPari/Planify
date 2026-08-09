@@ -29,11 +29,13 @@ function StatesSettingsPage({ params }: Route.ComponentProps) {
   const { t } = useTranslation();
 
   // derived values
-  const pageTitle = currentProjectDetails?.name ? `${currentProjectDetails?.name} - States` : undefined;
+  const pageTitle = currentProjectDetails?.name
+    ? `${currentProjectDetails?.name} - States`
+    : undefined;
   // derived values
   const canPerformProjectMemberActions = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   if (workspaceUserInfo && !canPerformProjectMemberActions) {

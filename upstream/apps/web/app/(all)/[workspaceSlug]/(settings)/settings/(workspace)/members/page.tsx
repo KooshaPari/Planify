@@ -26,13 +26,18 @@ import { useWorkspace } from "@/hooks/store/use-workspace";
 import { useUserPermissions } from "@/hooks/store/user";
 // plane web components
 import { BillingActionsButton } from "@/plane-web/components/workspace/billing/billing-actions-button";
-import { SendWorkspaceInvitationModal, MembersActivityButton } from "@/plane-web/components/workspace/members";
+import {
+  SendWorkspaceInvitationModal,
+  MembersActivityButton,
+} from "@/plane-web/components/workspace/members";
 import { SettingsContentWrapper } from "@/components/settings/content-wrapper";
 // local imports
 import type { Route } from "./+types/page";
 import { MembersWorkspaceSettingsHeader } from "./header";
 
-const WorkspaceMembersSettingsPage = observer(function WorkspaceMembersSettingsPage({ params }: Route.ComponentProps) {
+const WorkspaceMembersSettingsPage = observer(function WorkspaceMembersSettingsPage({
+  params,
+}: Route.ComponentProps) {
   // states
   const [inviteModal, setInviteModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -47,10 +52,13 @@ const WorkspaceMembersSettingsPage = observer(function WorkspaceMembersSettingsP
   const { t } = useTranslation();
 
   // derived values
-  const canPerformWorkspaceAdminActions = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.WORKSPACE);
+  const canPerformWorkspaceAdminActions = allowPermissions(
+    [EUserPermissions.ADMIN],
+    EUserPermissionsLevel.WORKSPACE,
+  );
   const canPerformWorkspaceMemberActions = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   const handleWorkspaceInvite = async (data: IWorkspaceBulkInviteFormData) => {
@@ -84,7 +92,9 @@ const WorkspaceMembersSettingsPage = observer(function WorkspaceMembersSettingsP
   const handleRoleFilterUpdate = (role: string) => {
     const currentFilters = filtersStore.filters;
     const currentRoles = currentFilters?.roles || [];
-    const updatedRoles = currentRoles.includes(role) ? currentRoles.filter((r) => r !== role) : [...currentRoles, role];
+    const updatedRoles = currentRoles.includes(role)
+      ? currentRoles.filter((r) => r !== role)
+      : [...currentRoles, role];
 
     filtersStore.updateFilters({
       roles: updatedRoles.length > 0 ? updatedRoles : undefined,
@@ -143,7 +153,9 @@ const WorkspaceMembersSettingsPage = observer(function WorkspaceMembersSettingsP
                 {t("workspace_settings.settings.members.add_member")}
               </Button>
             )}
-            <BillingActionsButton canPerformWorkspaceAdminActions={canPerformWorkspaceAdminActions} />
+            <BillingActionsButton
+              canPerformWorkspaceAdminActions={canPerformWorkspaceAdminActions}
+            />
           </div>
         </div>
         <WorkspaceMembersList searchQuery={searchQuery} isAdmin={canPerformWorkspaceAdminActions} />

@@ -33,7 +33,13 @@ type Props = {
 };
 
 export const ProjectMultiSelectModal = observer(function ProjectMultiSelectModal(props: Props) {
-  const { isOpen, onClose, selectedProjectIds: selectedProjectIdsProp, projectIds, onSubmit } = props;
+  const {
+    isOpen,
+    onClose,
+    selectedProjectIds: selectedProjectIdsProp,
+    projectIds,
+    onSubmit,
+  } = props;
   // states
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
@@ -49,7 +55,7 @@ export const ProjectMultiSelectModal = observer(function ProjectMultiSelectModal
   // derived values
   const projectDetailsMap = useMemo(
     () => new Map(projectIds.map((id) => [id, getProjectById(id)])),
-    [projectIds, getProjectById]
+    [projectIds, getProjectById],
   );
   const areSelectedProjectsChanged = xor(selectedProjectIds, selectedProjectIdsProp).length > 0;
   const filteredProjectIds = projectIds.filter((id) => {
@@ -57,7 +63,8 @@ export const ProjectMultiSelectModal = observer(function ProjectMultiSelectModal
     const projectQuery = `${project?.identifier} ${project?.name}`.toLowerCase();
     return projectQuery.includes(searchTerm.toLowerCase());
   });
-  const filteredProjectResolvedPath = resolvedTheme === "light" ? lightProjectAsset : darkProjectAsset;
+  const filteredProjectResolvedPath =
+    resolvedTheme === "light" ? lightProjectAsset : darkProjectAsset;
 
   useEffect(() => {
     if (isOpen) setSelectedProjectIds(selectedProjectIdsProp);
@@ -87,7 +94,12 @@ export const ProjectMultiSelectModal = observer(function ProjectMultiSelectModal
   if (!isOpen) return null;
 
   return (
-    <ModalCore isOpen={isOpen} width={EModalWidth.LG} position={EModalPosition.TOP} handleClose={handleClose}>
+    <ModalCore
+      isOpen={isOpen}
+      width={EModalWidth.LG}
+      position={EModalPosition.TOP}
+      handleClose={handleClose}
+    >
       <Combobox as="div" multiple value={selectedProjectIds} onChange={handleSelectedProjectChange}>
         <div className="flex items-center gap-2 border-b border-subtle px-4">
           <SearchIcon className="size-4 flex-shrink-0 text-placeholder" aria-hidden="true" />
@@ -109,7 +121,9 @@ export const ProjectMultiSelectModal = observer(function ProjectMultiSelectModal
                   key={projectDetails.id}
                   className="group flex cursor-pointer items-center gap-1.5 rounded-sm bg-surface-2 px-2 py-1"
                   onClick={() => {
-                    handleSelectedProjectChange(selectedProjectIds.filter((id) => id !== projectDetails.id));
+                    handleSelectedProjectChange(
+                      selectedProjectIds.filter((id) => id !== projectDetails.id),
+                    );
                   }}
                 >
                   <Logo logo={projectDetails.logo_props} size={14} />
@@ -154,7 +168,7 @@ export const ProjectMultiSelectModal = observer(function ProjectMultiSelectModal
                         {
                           "bg-layer-1": active,
                           "text-primary": isProjectSelected,
-                        }
+                        },
                       )
                     }
                   >

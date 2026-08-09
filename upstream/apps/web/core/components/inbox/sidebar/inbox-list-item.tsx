@@ -33,7 +33,9 @@ type InboxIssueListItemProps = {
   setIsMobileSidebar: (value: boolean) => void;
 };
 
-export const InboxIssueListItem = observer(function InboxIssueListItem(props: InboxIssueListItemProps) {
+export const InboxIssueListItem = observer(function InboxIssueListItem(
+  props: InboxIssueListItemProps,
+) {
   const { workspaceSlug, projectId, inboxIssueId, projectIdentifier, setIsMobileSidebar } = props;
   // router
   const searchParams = useSearchParams();
@@ -66,7 +68,7 @@ export const InboxIssueListItem = observer(function InboxIssueListItem(props: In
         <Row
           className={cn(
             `relative flex cursor-pointer flex-col gap-2 border border-t-transparent border-r-transparent border-b-subtle-1 border-l-transparent py-4 transition-all hover:bg-accent-primary/5`,
-            { "border border-accent-strong": selectedInboxIssueId === issue.id }
+            { "border border-accent-strong": selectedInboxIssueId === issue.id },
           )}
         >
           <div className="space-y-1">
@@ -76,7 +78,9 @@ export const InboxIssueListItem = observer(function InboxIssueListItem(props: In
               </div>
               <div className="flex items-center gap-2">
                 {inboxIssue.source && <InboxSourcePill source={inboxIssue.source} />}
-                {inboxIssue.status !== -2 && <InboxIssueStatus inboxIssue={inboxIssue} iconSize={12} />}
+                {inboxIssue.status !== -2 && (
+                  <InboxIssueStatus inboxIssue={inboxIssue} iconSize={12} />
+                )}
               </div>
             </div>
             <h3 className="w-full truncate text-13">{issue.name}</h3>
@@ -89,7 +93,9 @@ export const InboxIssueListItem = observer(function InboxIssueListItem(props: In
                 tooltipContent={`${renderFormattedDate(issue.created_at ?? "")}`}
                 isMobile={isMobile}
               >
-                <div className="text-11 text-secondary">{renderFormattedDate(issue.created_at ?? "")}</div>
+                <div className="text-11 text-secondary">
+                  {renderFormattedDate(issue.created_at ?? "")}
+                </div>
               </Tooltip>
 
               <div className="rounded-full border-2 border-strong-1" />

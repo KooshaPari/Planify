@@ -31,7 +31,9 @@ export function EstimateInputRoot(props: TEstimateInputRootProps) {
         />
       );
     case EEstimateSystem.CATEGORIES:
-      return <EstimateTextInput value={value} handleEstimateInputValue={handleEstimateInputValue} />;
+      return (
+        <EstimateTextInput value={value} handleEstimateInputValue={handleEstimateInputValue} />
+      );
     case EEstimateSystem.TIME:
       return (
         <EstimateTimeInput

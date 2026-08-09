@@ -25,7 +25,13 @@ export const SpreadsheetPriorityColumn = observer(function SpreadsheetPriorityCo
     <div className="h-11 border-b-[0.5px] border-subtle">
       <PriorityDropdown
         value={issue.priority}
-        onChange={(data) => onChange(issue, { priority: data }, { changed_property: "priority", change_details: data })}
+        onChange={(data) =>
+          onChange(
+            issue,
+            { priority: data },
+            { changed_property: "priority", change_details: data },
+          )
+        }
         disabled={disabled}
         buttonVariant="transparent-with-text"
         buttonClassName="text-left rounded-none group-[.selected-issue-row]:bg-accent-primary/5 group-[.selected-issue-row]:hover:bg-accent-primary/10 px-page-x"

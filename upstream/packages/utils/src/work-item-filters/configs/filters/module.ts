@@ -8,8 +8,16 @@
 import type { IModule, TFilterProperty } from "@plane/types";
 import { EQUALITY_OPERATOR, COLLECTION_OPERATOR } from "@plane/types";
 // local imports
-import type { TCreateFilterConfigParams, IFilterIconConfig, TCreateFilterConfig } from "../../../rich-filters";
-import { createFilterConfig, getMultiSelectConfig, createOperatorConfigEntry } from "../../../rich-filters";
+import type {
+  TCreateFilterConfigParams,
+  IFilterIconConfig,
+  TCreateFilterConfig,
+} from "../../../rich-filters";
+import {
+  createFilterConfig,
+  getMultiSelectConfig,
+  createOperatorConfigEntry,
+} from "../../../rich-filters";
 
 /**
  * Module filter specific params
@@ -39,7 +47,7 @@ export const getModuleMultiSelectConfig = (params: TCreateModuleFilterParams) =>
     },
     {
       ...params,
-    }
+    },
   );
 
 /**
@@ -58,7 +66,7 @@ export const getModuleFilterConfig =
       icon: params.filterIcon,
       supportedOperatorConfigsMap: new Map([
         createOperatorConfigEntry(COLLECTION_OPERATOR.IN, params, (updatedParams) =>
-          getModuleMultiSelectConfig(updatedParams)
+          getModuleMultiSelectConfig(updatedParams),
         ),
       ]),
     });

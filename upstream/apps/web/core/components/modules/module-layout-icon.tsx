@@ -18,7 +18,13 @@ interface ILayoutIcon {
 }
 
 export function ModuleLayoutIcon(props: ILayoutIcon) {
-  const { layoutType, className = "", containerClassName = "", size = 14, withContainer = false } = props;
+  const {
+    layoutType,
+    className = "",
+    containerClassName = "",
+    size = 14,
+    withContainer = false,
+  } = props;
 
   // get Layout icon
   const icons = {
@@ -34,7 +40,10 @@ export function ModuleLayoutIcon(props: ILayoutIcon) {
     <>
       {withContainer ? (
         <div
-          className={cn("flex flex-shrink-0 items-center justify-center rounded-sm border p-0.5", containerClassName)}
+          className={cn(
+            "flex flex-shrink-0 items-center justify-center rounded-sm border p-0.5",
+            containerClassName,
+          )}
         >
           <Icon width={size} height={size} className={cn(className)} />
         </div>

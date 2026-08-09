@@ -8,8 +8,16 @@
 import type { ICycle, TCycleGroups, TFilterProperty, TSupportedOperators } from "@plane/types";
 import { EQUALITY_OPERATOR, COLLECTION_OPERATOR } from "@plane/types";
 // local imports
-import type { TCreateFilterConfigParams, IFilterIconConfig, TCreateFilterConfig } from "../../../rich-filters";
-import { createFilterConfig, getMultiSelectConfig, createOperatorConfigEntry } from "../../../rich-filters";
+import type {
+  TCreateFilterConfigParams,
+  IFilterIconConfig,
+  TCreateFilterConfig,
+} from "../../../rich-filters";
+import {
+  createFilterConfig,
+  getMultiSelectConfig,
+  createOperatorConfigEntry,
+} from "../../../rich-filters";
 
 /**
  * Cycle filter specific params
@@ -24,7 +32,10 @@ export type TCreateCycleFilterParams = TCreateFilterConfigParams &
  * @param params - The filter params
  * @returns The cycle multi select config
  */
-export const getCycleMultiSelectConfig = (params: TCreateCycleFilterParams, singleValueOperator: TSupportedOperators) =>
+export const getCycleMultiSelectConfig = (
+  params: TCreateCycleFilterParams,
+  singleValueOperator: TSupportedOperators,
+) =>
   getMultiSelectConfig<ICycle, string, TCycleGroups>(
     {
       items: params.cycles,
@@ -39,7 +50,7 @@ export const getCycleMultiSelectConfig = (params: TCreateCycleFilterParams, sing
     },
     {
       ...params,
-    }
+    },
   );
 
 /**
@@ -58,7 +69,7 @@ export const getCycleFilterConfig =
       icon: params.filterIcon,
       supportedOperatorConfigsMap: new Map([
         createOperatorConfigEntry(COLLECTION_OPERATOR.IN, params, (updatedParams) =>
-          getCycleMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT)
+          getCycleMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT),
         ),
       ]),
     });

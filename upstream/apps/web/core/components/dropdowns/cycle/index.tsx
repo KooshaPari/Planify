@@ -89,7 +89,10 @@ export const CycleDropdown = observer(function CycleDropdown(props: Props) {
         <button
           ref={setReferenceElement}
           type="button"
-          className={cn("clickable block h-full w-full outline-none hover:bg-layer-1", buttonContainerClassName)}
+          className={cn(
+            "clickable block h-full w-full outline-none hover:bg-layer-1",
+            buttonContainerClassName,
+          )}
           onClick={handleOnClick}
           disabled={disabled}
           tabIndex={tabIndex}
@@ -106,7 +109,7 @@ export const CycleDropdown = observer(function CycleDropdown(props: Props) {
               "cursor-not-allowed text-secondary": disabled,
               "cursor-pointer": !disabled,
             },
-            buttonContainerClassName
+            buttonContainerClassName,
           )}
           onClick={handleOnClick}
           disabled={disabled}
@@ -122,11 +125,15 @@ export const CycleDropdown = observer(function CycleDropdown(props: Props) {
             renderToolTipByDefault={renderByDefault}
           >
             {!hideIcon && <CycleIcon className="h-3 w-3 flex-shrink-0" />}
-            {BUTTON_VARIANTS_WITH_TEXT.includes(buttonVariant) && (!!selectedName || !!placeholder) && (
-              <span className="max-w-40 truncate">{selectedName ?? placeholder}</span>
-            )}
+            {BUTTON_VARIANTS_WITH_TEXT.includes(buttonVariant) &&
+              (!!selectedName || !!placeholder) && (
+                <span className="max-w-40 truncate">{selectedName ?? placeholder}</span>
+              )}
             {dropdownArrow && (
-              <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
+              <ChevronDownIcon
+                className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)}
+                aria-hidden="true"
+              />
             )}
           </DropdownButton>
         </button>

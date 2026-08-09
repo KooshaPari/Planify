@@ -29,18 +29,25 @@ import { usePlatformOS } from "@/hooks/use-platform-os";
 type TInboxIssueProperties = {
   projectId: string;
   data: Partial<TIssue>;
-  handleData: (issueKey: keyof Partial<TIssue>, issueValue: Partial<TIssue>[keyof Partial<TIssue>]) => void;
+  handleData: (
+    issueKey: keyof Partial<TIssue>,
+    issueValue: Partial<TIssue>[keyof Partial<TIssue>],
+  ) => void;
   isVisible?: boolean;
 };
 
-export const InboxIssueProperties = observer(function InboxIssueProperties(props: TInboxIssueProperties) {
+export const InboxIssueProperties = observer(function InboxIssueProperties(
+  props: TInboxIssueProperties,
+) {
   const { projectId, data, handleData, isVisible = false } = props;
   // hooks
   const { areEstimateEnabledByProjectId } = useProjectEstimates();
   const { isMobile } = usePlatformOS();
   // states
   const [parentIssueModalOpen, setParentIssueModalOpen] = useState(false);
-  const [selectedParentIssue, setSelectedParentIssue] = useState<ISearchIssueResponse | undefined>(undefined);
+  const [selectedParentIssue, setSelectedParentIssue] = useState<ISearchIssueResponse | undefined>(
+    undefined,
+  );
 
   const { getIndex } = getTabIndex(ETabIndices.INTAKE_ISSUE_FORM, isMobile);
 
@@ -83,7 +90,9 @@ export const InboxIssueProperties = observer(function InboxIssueProperties(props
           projectId={projectId}
           value={data?.assignee_ids || []}
           onChange={(assigneeIds) => handleData("assignee_ids", assigneeIds)}
-          buttonVariant={(data?.assignee_ids || [])?.length > 0 ? "transparent-without-text" : "border-with-text"}
+          buttonVariant={
+            (data?.assignee_ids || [])?.length > 0 ? "transparent-without-text" : "border-with-text"
+          }
           buttonClassName={(data?.assignee_ids || [])?.length > 0 ? "hover:bg-transparent" : ""}
           placeholder="Assignees"
           multiple
@@ -106,7 +115,9 @@ export const InboxIssueProperties = observer(function InboxIssueProperties(props
         <div className="h-7">
           <DateDropdown
             value={data?.start_date || null}
-            onChange={(date) => handleData("start_date", date ? renderFormattedPayloadDate(date) : "")}
+            onChange={(date) =>
+              handleData("start_date", date ? renderFormattedPayloadDate(date) : "")
+            }
             buttonVariant="border-with-text"
             minDate={minDate ?? undefined}
             placeholder="Start date"
@@ -119,7 +130,9 @@ export const InboxIssueProperties = observer(function InboxIssueProperties(props
       <div className="h-7">
         <DateDropdown
           value={data?.target_date || null}
-          onChange={(date) => handleData("target_date", date ? renderFormattedPayloadDate(date) : "")}
+          onChange={(date) =>
+            handleData("target_date", date ? renderFormattedPayloadDate(date) : "")
+          }
           buttonVariant="border-with-text"
           minDate={minDate ?? undefined}
           placeholder="Due date"

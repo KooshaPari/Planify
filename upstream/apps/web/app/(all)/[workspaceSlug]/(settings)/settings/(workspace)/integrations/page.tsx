@@ -32,7 +32,7 @@ function WorkspaceIntegrationsPage() {
   const isAdmin = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.WORKSPACE);
   const pageTitle = currentWorkspace?.name ? `${currentWorkspace.name} - Integrations` : undefined;
   const { data: appIntegrations } = useSWR(isAdmin ? APP_INTEGRATIONS : null, () =>
-    isAdmin ? integrationService.getAppIntegrationsList() : null
+    isAdmin ? integrationService.getAppIntegrationsList() : null,
   );
 
   if (!isAdmin) return <NotAuthorizedView section="settings" className="h-auto" />;

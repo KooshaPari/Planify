@@ -25,10 +25,22 @@ type Props = {
   issueServiceType?: TIssueServiceType;
 };
 
-type TIssueCrudState = { toggle: boolean; parentIssueId: string | undefined; issue: TIssue | undefined };
+type TIssueCrudState = {
+  toggle: boolean;
+  parentIssueId: string | undefined;
+  issue: TIssue | undefined;
+};
 
-export const SubIssuesCollapsibleContent = observer(function SubIssuesCollapsibleContent(props: Props) {
-  const { workspaceSlug, projectId, parentIssueId, disabled, issueServiceType = EIssueServiceType.ISSUES } = props;
+export const SubIssuesCollapsibleContent = observer(function SubIssuesCollapsibleContent(
+  props: Props,
+) {
+  const {
+    workspaceSlug,
+    projectId,
+    parentIssueId,
+    disabled,
+    issueServiceType = EIssueServiceType.ISSUES,
+  } = props;
   // state
   const [issueCrudState, setIssueCrudState] = useState<{
     create: TIssueCrudState;
@@ -70,7 +82,11 @@ export const SubIssuesCollapsibleContent = observer(function SubIssuesCollapsibl
 
   // handler
   const handleIssueCrudState = useCallback(
-    (key: "create" | "existing" | "update" | "delete", _parentIssueId: string | null, issue: TIssue | null = null) => {
+    (
+      key: "create" | "existing" | "update" | "delete",
+      _parentIssueId: string | null,
+      issue: TIssue | null = null,
+    ) => {
       setIssueCrudState({
         ...issueCrudState,
         [key]: {
@@ -80,7 +96,7 @@ export const SubIssuesCollapsibleContent = observer(function SubIssuesCollapsibl
         },
       });
     },
-    [issueCrudState]
+    [issueCrudState],
   );
 
   const handleFetchSubIssues = useCallback(async () => {
@@ -96,7 +112,14 @@ export const SubIssuesCollapsibleContent = observer(function SubIssuesCollapsibl
         setSubIssueHelpers(`${parentIssueId}_root`, "preview_loader", "");
       }
     }
-  }, [parentIssueId, projectId, setSubIssueHelpers, subIssueHelpersByIssueId, subIssueOperations, workspaceSlug]);
+  }, [
+    parentIssueId,
+    projectId,
+    setSubIssueHelpers,
+    subIssueHelpersByIssueId,
+    subIssueOperations,
+    workspaceSlug,
+  ]);
 
   useEffect(() => {
     handleFetchSubIssues();
@@ -110,7 +133,8 @@ export const SubIssuesCollapsibleContent = observer(function SubIssuesCollapsibl
     issueCrudState.delete.parentIssueId &&
     issueCrudState.delete.issue.id;
 
-  const shouldRenderUpdateIssueModal = issueCrudState?.update?.toggle && issueCrudState?.update?.issue;
+  const shouldRenderUpdateIssueModal =
+    issueCrudState?.update?.toggle && issueCrudState?.update?.issue;
 
   return (
     <>
@@ -142,7 +166,7 @@ export const SubIssuesCollapsibleContent = observer(function SubIssuesCollapsibl
               workspaceSlug,
               projectId,
               issueCrudState?.delete?.parentIssueId as string,
-              issueCrudState?.delete?.issue?.id as string
+              issueCrudState?.delete?.issue?.id as string,
             )
           }
           isSubIssue
@@ -165,7 +189,7 @@ export const SubIssuesCollapsibleContent = observer(function SubIssuesCollapsibl
               _issue.id,
               _issue,
               issueCrudState?.update?.issue,
-              true
+              true,
             );
           }}
         />

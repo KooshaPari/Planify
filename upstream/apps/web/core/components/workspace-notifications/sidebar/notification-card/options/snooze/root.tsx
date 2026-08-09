@@ -32,9 +32,15 @@ type TNotificationItemSnoozeOption = {
 };
 
 export const NotificationItemSnoozeOption = observer(function NotificationItemSnoozeOption(
-  props: TNotificationItemSnoozeOption
+  props: TNotificationItemSnoozeOption,
 ) {
-  const { workspaceSlug, notification, setIsSnoozeStateModalOpen, customSnoozeModal, setCustomSnoozeModal } = props;
+  const {
+    workspaceSlug,
+    notification,
+    setIsSnoozeStateModalOpen,
+    customSnoozeModal,
+    setCustomSnoozeModal,
+  } = props;
   // hooks
   const { isMobile } = usePlatformOS();
   const {} = useWorkspaceNotifications();
@@ -98,14 +104,16 @@ export const NotificationItemSnoozeOption = observer(function NotificationItemSn
             <>
               <Tooltip
                 tooltipContent={
-                  data.snoozed_till ? t("notification.options.mark_unsnooze") : t("notification.options.mark_snooze")
+                  data.snoozed_till
+                    ? t("notification.options.mark_unsnooze")
+                    : t("notification.options.mark_snooze")
                 }
                 isMobile={isMobile}
               >
                 <Popover.Button
                   className={cn(
                     "relative flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-xs bg-layer-1 outline-none hover:bg-surface-2",
-                    open ? "bg-layer-1" : ""
+                    open ? "bg-layer-1" : "",
                   )}
                 >
                   <Clock className="h-3 w-3 text-tertiary" />
@@ -143,7 +151,9 @@ export const NotificationItemSnoozeOption = observer(function NotificationItemSn
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          handleDropdownSelect(option.value != undefined ? option.value() : option.value);
+                          handleDropdownSelect(
+                            option.value != undefined ? option.value() : option.value,
+                          );
                         }}
                       >
                         <div>{t(option?.i18n_label)}</div>

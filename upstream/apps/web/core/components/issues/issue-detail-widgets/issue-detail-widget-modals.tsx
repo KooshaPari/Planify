@@ -7,7 +7,12 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { ISearchIssueResponse, TIssue, TIssueServiceType, TWorkItemWidgets } from "@plane/types";
+import type {
+  ISearchIssueResponse,
+  TIssue,
+  TIssueServiceType,
+  TWorkItemWidgets,
+} from "@plane/types";
 // components
 import { ExistingIssuesListModal } from "@/components/core/modals/existing-issues-list-modal";
 // hooks
@@ -52,13 +57,18 @@ export const IssueDetailWidgetModals = observer(function IssueDetailWidgetModals
 
   // helper hooks
   const subIssueOperations = useSubIssueOperations(issueServiceType);
-  const handleLinkOperations = useLinkOperations(workspaceSlug, projectId, issueId, issueServiceType);
+  const handleLinkOperations = useLinkOperations(
+    workspaceSlug,
+    projectId,
+    issueId,
+    issueServiceType,
+  );
 
   // handlers
   const handleIssueCrudState = (
     key: "create" | "existing",
     _parentIssueId: string | null,
-    issue: TIssue | null = null
+    issue: TIssue | null = null,
   ) => {
     setIssueCrudOperationState({
       ...issueCrudOperationState,
@@ -81,7 +91,7 @@ export const IssueDetailWidgetModals = observer(function IssueDetailWidgetModals
       workspaceSlug,
       projectId,
       issueId,
-      _issue.map((issue) => issue.id)
+      _issue.map((issue) => issue.id),
     );
 
   const handleCreateUpdateModalClose = () => {
@@ -124,7 +134,7 @@ export const IssueDetailWidgetModals = observer(function IssueDetailWidgetModals
       projectId,
       issueId,
       relationKey,
-      data.map((i) => i.id)
+      data.map((i) => i.id),
     );
 
     toggleRelationModal(null, null);
@@ -190,7 +200,10 @@ export const IssueDetailWidgetModals = observer(function IssueDetailWidgetModals
         <ExistingIssuesListModal
           workspaceSlug={workspaceSlug}
           projectId={projectId}
-          isOpen={isRelationModalOpen?.issueId === issueId && isRelationModalOpen?.relationType === relationKey}
+          isOpen={
+            isRelationModalOpen?.issueId === issueId &&
+            isRelationModalOpen?.relationType === relationKey
+          }
           handleClose={handleRelationOnClose}
           searchParams={{ issue_relation: true, issue_id: issueId }}
           handleOnSubmit={handleExistingIssueModalOnSubmit}

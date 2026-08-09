@@ -46,7 +46,7 @@ export class PublishStore implements IPublishStore {
 
   constructor(
     private store: RootStore,
-    publishSettings: TProjectPublishSettings
+    publishSettings: TProjectPublishSettings,
   ) {
     this.anchor = publishSettings.anchor;
     this.is_comments_enabled = publishSettings.is_comments_enabled;

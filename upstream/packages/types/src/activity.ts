@@ -22,14 +22,17 @@ export type TBaseActivity<TFieldKey extends string = string, TVerbKey extends st
   updated_at: string;
 };
 
-export type TWorkspaceBaseActivity<K extends string = string, V extends string = string> = TBaseActivity<K, V> & {
+export type TWorkspaceBaseActivity<
+  K extends string = string,
+  V extends string = string,
+> = TBaseActivity<K, V> & {
   workspace: string;
 };
 
-export type TProjectBaseActivity<K extends string = string, V extends string = string> = TWorkspaceBaseActivity<
-  K,
-  V
-> & {
+export type TProjectBaseActivity<
+  K extends string = string,
+  V extends string = string,
+> = TWorkspaceBaseActivity<K, V> & {
   project: string;
 };
 

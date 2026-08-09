@@ -24,7 +24,11 @@ import { useWorkItemFilterInstance } from "@/hooks/store/work-item-filters/use-w
 
 export const ModuleEmptyState = observer(function ModuleEmptyState() {
   // router
-  const { workspaceSlug: routerWorkspaceSlug, projectId: routerProjectId, moduleId: routerModuleId } = useParams();
+  const {
+    workspaceSlug: routerWorkspaceSlug,
+    projectId: routerProjectId,
+    moduleId: routerModuleId,
+  } = useParams();
   const workspaceSlug = routerWorkspaceSlug ? routerWorkspaceSlug.toString() : undefined;
   const projectId = routerProjectId ? routerProjectId.toString() : undefined;
   const moduleId = routerModuleId ? routerModuleId.toString() : undefined;
@@ -40,7 +44,7 @@ export const ModuleEmptyState = observer(function ModuleEmptyState() {
   const moduleWorkItemFilter = useWorkItemFilterInstance(EIssuesStoreType.MODULE, moduleId);
   const canPerformEmptyStateActions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   const handleAddIssuesToModule = async (data: ISearchIssueResponse[]) => {
@@ -48,20 +52,25 @@ export const ModuleEmptyState = observer(function ModuleEmptyState() {
 
     const issueIds = data.map((i) => i.id);
     await issues
-      .addIssuesToModule(workspaceSlug.toString(), projectId?.toString(), moduleId.toString(), issueIds)
+      .addIssuesToModule(
+        workspaceSlug.toString(),
+        projectId?.toString(),
+        moduleId.toString(),
+        issueIds,
+      )
       .then(() =>
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: "Success!",
           message: "Work items added to the module successfully.",
-        })
+        }),
       )
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
           title: "Error!",
           message: "Selected work items could not be added to the module. Please try again.",
-        })
+        }),
       );
   };
 

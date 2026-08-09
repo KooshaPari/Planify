@@ -28,7 +28,8 @@ type TCommentCard = {
 };
 
 export const CommentQuickActions = observer(function CommentQuickActions(props: TCommentCard) {
-  const { activityOperations, comment, setEditMode, showAccessSpecifier, showCopyLinkOption } = props;
+  const { activityOperations, comment, setEditMode, showAccessSpecifier, showCopyLinkOption } =
+    props;
   // store hooks
   const { data: currentUser } = useUser();
   // derived values
@@ -80,13 +81,25 @@ export const CommentQuickActions = observer(function CommentQuickActions(props: 
         },
       ].filter((item) => item.shouldRender !== false);
     },
-    [t, setEditMode, canEdit, showCopyLinkOption, activityOperations, comment, showAccessSpecifier, canDelete]
+    [
+      t,
+      setEditMode,
+      canEdit,
+      showCopyLinkOption,
+      activityOperations,
+      comment,
+      showAccessSpecifier,
+      canDelete,
+    ],
   );
 
   if (MENU_ITEMS.length === 0) return null;
 
   return (
-    <CustomMenu customButton={<IconButton icon={MoreHorizontal} variant="ghost" size="sm" />} closeOnSelect>
+    <CustomMenu
+      customButton={<IconButton icon={MoreHorizontal} variant="ghost" size="sm" />}
+      closeOnSelect
+    >
       {MENU_ITEMS.map((item) => (
         <CustomMenu.MenuItem
           key={item.key}
@@ -96,7 +109,7 @@ export const CommentQuickActions = observer(function CommentQuickActions(props: 
             {
               "text-placeholder": item.disabled,
             },
-            item.className
+            item.className,
           )}
           disabled={item.disabled}
         >

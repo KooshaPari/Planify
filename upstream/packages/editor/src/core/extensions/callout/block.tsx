@@ -31,7 +31,9 @@ export function CustomCalloutBlock(props: CustomCalloutNodeViewProps) {
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   // derived values
-  const activeBackgroundColor = COLORS_LIST.find((c) => node.attrs["data-background"] === c.key)?.backgroundColor;
+  const activeBackgroundColor = COLORS_LIST.find(
+    (c) => node.attrs["data-background"] === c.key,
+  )?.backgroundColor;
 
   return (
     <NodeViewWrapper

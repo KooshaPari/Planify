@@ -21,7 +21,11 @@ import type { TFileHandler } from "@/types";
 export const restorePublicImages = (editor: Editor, restoreImageFn: TFileHandler["restore"]) => {
   const imageSources = new Set<string>();
   editor.state.doc.descendants((node) => {
-    if ([CORE_EXTENSIONS.IMAGE, CORE_EXTENSIONS.CUSTOM_IMAGE].includes(node.type.name as CORE_EXTENSIONS)) {
+    if (
+      [CORE_EXTENSIONS.IMAGE, CORE_EXTENSIONS.CUSTOM_IMAGE].includes(
+        node.type.name as CORE_EXTENSIONS,
+      )
+    ) {
       if (!node.attrs.src?.startsWith("http")) return;
 
       imageSources.add(node.attrs.src);

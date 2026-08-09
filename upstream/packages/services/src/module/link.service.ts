@@ -32,9 +32,12 @@ export class ModuleLinkService extends APIService {
     workspaceSlug: string,
     projectId: string,
     moduleId: string,
-    data: Partial<ModuleLink>
+    data: Partial<ModuleLink>,
   ): Promise<ILinkDetails> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/module-links/`, data)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/module-links/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response;
@@ -56,11 +59,11 @@ export class ModuleLinkService extends APIService {
     projectId: string,
     moduleId: string,
     linkId: string,
-    data: Partial<ModuleLink>
+    data: Partial<ModuleLink>,
   ): Promise<ILinkDetails> {
     return this.patch(
       `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/module-links/${linkId}/`,
-      data
+      data,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -77,9 +80,14 @@ export class ModuleLinkService extends APIService {
    * @returns {Promise<any>} Response data from the server
    * @throws {Error} When the API request fails
    */
-  async destroy(workspaceSlug: string, projectId: string, moduleId: string, linkId: string): Promise<any> {
+  async destroy(
+    workspaceSlug: string,
+    projectId: string,
+    moduleId: string,
+    linkId: string,
+  ): Promise<any> {
     return this.delete(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/module-links/${linkId}/`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/module-links/${linkId}/`,
     )
       .then((response) => response?.data)
       .catch((error) => {

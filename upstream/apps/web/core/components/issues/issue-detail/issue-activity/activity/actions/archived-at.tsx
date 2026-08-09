@@ -15,7 +15,9 @@ import { IssueActivityBlockComponent } from "./";
 
 type TIssueArchivedAtActivity = { activityId: string; ends: "top" | "bottom" | undefined };
 
-export const IssueArchivedAtActivity = observer(function IssueArchivedAtActivity(props: TIssueArchivedAtActivity) {
+export const IssueArchivedAtActivity = observer(function IssueArchivedAtActivity(
+  props: TIssueArchivedAtActivity,
+) {
   const { activityId, ends } = props;
   // hooks
   const {

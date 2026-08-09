@@ -21,7 +21,14 @@ type Props = {
   disabled?: boolean;
 };
 
-export function EmptyState({ title, description, image, primaryButton, secondaryButton, disabled = false }: Props) {
+export function EmptyState({
+  title,
+  description,
+  image,
+  primaryButton,
+  secondaryButton,
+  disabled = false,
+}: Props) {
   return (
     <div className="flex h-full w-full items-center justify-center px-5 md:px-10 lg:p-20">
       <div className="relative h-full w-full max-w-6xl">

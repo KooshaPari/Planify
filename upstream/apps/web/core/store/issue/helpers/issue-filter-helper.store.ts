@@ -53,16 +53,16 @@ export interface IIssueFilterHelperStore {
   computedFilteredParams(
     richFilters: TWorkItemFilterExpression,
     displayFilters: IIssueDisplayFilterOptions | undefined,
-    acceptableParamsByLayout: TIssueParams[]
+    acceptableParamsByLayout: TIssueParams[],
   ): Partial<Record<TIssueParams, string | boolean>>;
   computedFilters(filters: IIssueFilterOptions): IIssueFilterOptions;
   getFilterConditionBasedOnViews: (
     currentUserId: string | undefined,
-    type: TStaticViewTypes
+    type: TStaticViewTypes,
   ) => Partial<Record<TIssueParams, string>> | undefined;
   computedDisplayFilters(
     displayFilters: IIssueDisplayFilterOptions,
-    defaultValues?: IIssueDisplayFilterOptions
+    defaultValues?: IIssueDisplayFilterOptions,
   ): IIssueDisplayFilterOptions;
   computedDisplayProperties(filters: IIssueDisplayProperties): IIssueDisplayProperties;
 }
@@ -92,10 +92,14 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
   computedFilteredParams = (
     richFilters: TWorkItemFilterExpression,
     displayFilters: IIssueDisplayFilterOptions | undefined,
-    acceptableParamsByLayout: TIssueParams[]
+    acceptableParamsByLayout: TIssueParams[],
   ): Partial<Record<TIssueParams, string | boolean>> => {
-    const computedDisplayFilters: Partial<Record<TIssueParams, undefined | string[] | boolean | string>> = {
-      group_by: displayFilters?.group_by ? EIssueGroupByToServerOptions[displayFilters.group_by] : undefined,
+    const computedDisplayFilters: Partial<
+      Record<TIssueParams, undefined | string[] | boolean | string>
+    > = {
+      group_by: displayFilters?.group_by
+        ? EIssueGroupByToServerOptions[displayFilters.group_by]
+        : undefined,
       sub_group_by: displayFilters?.sub_group_by
         ? EIssueGroupByToServerOptions[displayFilters.sub_group_by]
         : undefined,
@@ -154,7 +158,10 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
    * @param type
    * @returns
    */
-  getFilterConditionBasedOnViews: IIssueFilterHelperStore["getFilterConditionBasedOnViews"] = (currentUserId, type) => {
+  getFilterConditionBasedOnViews: IIssueFilterHelperStore["getFilterConditionBasedOnViews"] = (
+    currentUserId,
+    type,
+  ) => {
     if (!currentUserId) return undefined;
     switch (type) {
       case "assigned":
@@ -182,7 +189,7 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
    */
   computedDisplayFilters = (
     displayFilters: IIssueDisplayFilterOptions,
-    defaultValues?: IIssueDisplayFilterOptions
+    defaultValues?: IIssueDisplayFilterOptions,
   ): IIssueDisplayFilterOptions => {
     const computedFilters = getComputedDisplayFilters(displayFilters, defaultValues);
     return getEnabledDisplayFilters(computedFilters);
@@ -193,8 +200,9 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
    * @param {IIssueDisplayProperties} displayProperties
    * @returns {IIssueDisplayProperties}
    */
-  computedDisplayProperties = (displayProperties: IIssueDisplayProperties): IIssueDisplayProperties =>
-    getComputedDisplayProperties(displayProperties);
+  computedDisplayProperties = (
+    displayProperties: IIssueDisplayProperties,
+  ): IIssueDisplayProperties => getComputedDisplayProperties(displayProperties);
 
   handleIssuesLocalFilters = {
     fetchFiltersFromStorage: () => {
@@ -206,7 +214,7 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
       currentView: EIssuesStoreType,
       workspaceSlug: string,
       viewId: string | undefined, // It can be projectId, moduleId, cycleId, projectViewId
-      userId: string | undefined
+      userId: string | undefined,
     ) => {
       const storageFilters = this.handleIssuesLocalFilters.fetchFiltersFromStorage();
       const currentFilterIndex = storageFilters.findIndex(
@@ -214,7 +222,7 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
           filter.key === currentView &&
           filter.workspaceSlug === workspaceSlug &&
           filter.viewId === viewId &&
-          filter.userId === userId
+          filter.userId === userId,
       );
       if (!currentFilterIndex && currentFilterIndex.length < 0) return undefined;
 
@@ -227,7 +235,7 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
       workspaceSlug: string,
       viewId: string | undefined, // It can be projectId, moduleId, cycleId, projectViewId
       userId: string | undefined,
-      filters: Partial<IIssueFiltersResponse & { kanban_filters: TIssueKanbanFilters }>
+      filters: Partial<IIssueFiltersResponse & { kanban_filters: TIssueKanbanFilters }>,
     ) => {
       const storageFilters = this.handleIssuesLocalFilters.fetchFiltersFromStorage();
       const currentFilterIndex = storageFilters.findIndex(
@@ -235,7 +243,7 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
           filter.key === currentView &&
           filter.workspaceSlug === workspaceSlug &&
           filter.viewId === viewId &&
-          filter.userId === userId
+          filter.userId === userId,
       );
 
       if (currentFilterIndex < 0)
@@ -269,7 +277,7 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
     const displayFilterKeys = Object.keys(displayFilters);
 
     return NON_SERVER_DISPLAY_FILTERS.some((serverDisplayfilter: string) =>
-      displayFilterKeys.includes(serverDisplayfilter)
+      displayFilterKeys.includes(serverDisplayfilter),
     );
   };
 
@@ -283,7 +291,7 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
     const displayFilterKeys = Object.keys(displayFilters);
 
     return NON_SERVER_DISPLAY_FILTERS.some((serverDisplayfilter: string) =>
-      displayFilterKeys.includes(serverDisplayfilter)
+      displayFilterKeys.includes(serverDisplayfilter),
     );
   };
 
@@ -301,10 +309,14 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
     options: IssuePaginationOptions,
     cursor: string | undefined,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) {
     // if cursor exists, use the cursor. If it doesn't exist construct the cursor based on per page count
-    const pageCursor = cursor ? cursor : groupId ? `${options.perPageCount}:1:0` : `${options.perPageCount}:0:0`;
+    const pageCursor = cursor
+      ? cursor
+      : groupId
+        ? `${options.perPageCount}:1:0`
+        : `${options.perPageCount}:0:0`;
 
     // pagination params
     const paginationParams: Partial<Record<TIssueParams, string | boolean>> = {
@@ -336,7 +348,9 @@ export class IssueFilterHelperStore implements IIssueFilterHelperStore {
 
     // If subGroupId is passed down, add a filter param for that subGroup Id
     if (subGroupId) {
-      const subGroupBy = paginationParams["sub_group_by"] as EIssueGroupByToServerOptions | undefined;
+      const subGroupBy = paginationParams["sub_group_by"] as
+        | EIssueGroupByToServerOptions
+        | undefined;
       delete paginationParams["sub_group_by"];
 
       if (subGroupBy) {

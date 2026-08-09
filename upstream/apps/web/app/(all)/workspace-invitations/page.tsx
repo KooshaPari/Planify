@@ -42,7 +42,7 @@ function WorkspaceInvitationPage() {
     invitation_id && slug && WORKSPACE_INVITATION(invitation_id.toString()),
     invitation_id && slug
       ? () => workspaceService.getWorkspaceInvitation(slug.toString(), invitation_id.toString())
-      : null
+      : null,
   );
 
   const handleAccept = () => {
@@ -111,7 +111,11 @@ function WorkspaceInvitationPage() {
               ) : (
                 <EmptySpaceItem Icon={Boxes} title="Continue to home" href="/" />
               )}
-              <EmptySpaceItem Icon={Star} title="Star us on GitHub" href="https://github.com/makeplane" />
+              <EmptySpaceItem
+                Icon={Star}
+                title="Star us on GitHub"
+                href="https://github.com/makeplane"
+              />
               <EmptySpaceItem
                 Icon={Share2}
                 title="Join our community of active creators"

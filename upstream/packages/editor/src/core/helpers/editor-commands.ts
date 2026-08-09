@@ -20,7 +20,8 @@ export const setText = (editor: Editor, range?: Range) => {
 };
 
 export const toggleHeading = (editor: Editor, level: 1 | 2 | 3 | 4 | 5 | 6, range?: Range) => {
-  if (range) editor.chain().focus().deleteRange(range).setNode(CORE_EXTENSIONS.HEADING, { level }).run();
+  if (range)
+    editor.chain().focus().deleteRange(range).setNode(CORE_EXTENSIONS.HEADING, { level }).run();
   else editor.chain().focus().toggleHeading({ level }).run();
 };
 
@@ -57,7 +58,12 @@ export const toggleCodeBlock = (editor: Editor, range?: Range) => {
     } else if (isMultiline) {
       // if the selection is multiline, then also replace the text content with
       // a codeBlock
-      editor.chain().focus().deleteRange({ from, to }).insertContentAt(from, `\`\`\`\n${text}\n\`\`\``).run();
+      editor
+        .chain()
+        .focus()
+        .deleteRange({ from, to })
+        .insertContentAt(from, `\`\`\`\n${text}\n\`\`\``)
+        .run();
     } else {
       // if the selection is single line, then simply convert it into inline
       // code
@@ -105,7 +111,8 @@ export const insertTableCommand = (editor: Editor, range?: Range) => {
       }
     }
   }
-  if (range) editor.chain().focus().deleteRange(range).clearNodes().insertTable({ rows: 3, cols: 3 }).run();
+  if (range)
+    editor.chain().focus().deleteRange(range).clearNodes().insertTable({ rows: 3, cols: 3 }).run();
   else editor.chain().focus().clearNodes().insertTable({ rows: 3, cols: 3 }).run();
 };
 

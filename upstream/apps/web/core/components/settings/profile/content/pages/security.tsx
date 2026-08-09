@@ -18,7 +18,11 @@ import { getPasswordStrength } from "@plane/utils";
 // components
 import { ProfileSettingsHeading } from "@/components/settings/profile/heading";
 // helpers
-import { authErrorHandler, EAuthenticationErrorCodes, passwordErrors } from "@/helpers/authentication.helper";
+import {
+  authErrorHandler,
+  EAuthenticationErrorCodes,
+  passwordErrors,
+} from "@/helpers/authentication.helper";
 // hooks
 import { useUser } from "@/hooks/store/user";
 // services
@@ -69,7 +73,8 @@ export const SecurityProfileSettings = observer(function SecurityProfileSettings
   // i18n
   const { t } = useTranslation();
 
-  const isNewPasswordSameAsOldPassword = oldPassword !== "" && password !== "" && password === oldPassword;
+  const isNewPasswordSameAsOldPassword =
+    oldPassword !== "" && password !== "" && password === oldPassword;
 
   const handleShowPassword = (key: keyof typeof showPassword) =>
     setShowPassword((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -109,7 +114,9 @@ export const SecurityProfileSettings = observer(function SecurityProfileSettings
       if (code && passwordErrors.includes(code as EAuthenticationErrorCodes)) {
         setError("new_password", {
           type: "manual",
-          message: errorInfo?.message?.toString() || t("auth.common.password.toast.change_password.error.message"),
+          message:
+            errorInfo?.message?.toString() ||
+            t("auth.common.password.toast.change_password.error.message"),
         });
       }
     }
@@ -128,7 +135,8 @@ export const SecurityProfileSettings = observer(function SecurityProfileSettings
       <PasswordStrengthIndicator password={password} isFocused={isPasswordInputFocused} />
     );
 
-  const renderPasswordMatchError = !isRetryPasswordInputFocused || confirmPassword.length >= password.length;
+  const renderPasswordMatchError =
+    !isRetryPasswordInputFocused || confirmPassword.length >= password.length;
 
   return (
     <div className="size-full">
@@ -259,12 +267,20 @@ export const SecurityProfileSettings = observer(function SecurityProfileSettings
                 )}
               </div>
               {!!confirmPassword && password !== confirmPassword && renderPasswordMatchError && (
-                <span className="text-13 text-danger-primary">{t("auth.common.password.errors.match")}</span>
+                <span className="text-13 text-danger-primary">
+                  {t("auth.common.password.errors.match")}
+                </span>
               )}
             </div>
           </div>
           <div>
-            <Button variant="primary" size="xl" type="submit" loading={isSubmitting} disabled={isButtonDisabled}>
+            <Button
+              variant="primary"
+              size="xl"
+              type="submit"
+              loading={isSubmitting}
+              disabled={isButtonDisabled}
+            >
               {isSubmitting
                 ? `${t("auth.common.password.change_password.label.submitting")}`
                 : t("auth.common.password.change_password.label.default")}

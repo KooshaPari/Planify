@@ -88,7 +88,7 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
       name: issue?.name,
       description_html: getTextContent(issue?.description_html),
       issueId: issue?.id,
-    }
+    },
   );
 
   const issueOperations: TIssueOperations = useMemo(
@@ -114,7 +114,12 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
           });
         }
       },
-      update: async (_workspaceSlug: string, _projectId: string, _issueId: string, data: Partial<TIssue>) => {
+      update: async (
+        _workspaceSlug: string,
+        _projectId: string,
+        _issueId: string,
+        data: Partial<TIssue>,
+      ) => {
         try {
           await inboxIssue.updateIssue(data);
         } catch (_error) {
@@ -133,7 +138,7 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
         }
       },
     }),
-    [inboxIssue]
+    [inboxIssue],
   );
 
   if (!issue) return <></>;
@@ -213,11 +218,22 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
               }}
               fetchHandlers={{
                 listDescriptionVersions: (issueId) =>
-                  intakeWorkItemVersionService.listDescriptionVersions(workspaceSlug, projectId, issueId),
+                  intakeWorkItemVersionService.listDescriptionVersions(
+                    workspaceSlug,
+                    projectId,
+                    issueId,
+                  ),
                 retrieveDescriptionVersion: (issueId, versionId) =>
-                  intakeWorkItemVersionService.retrieveDescriptionVersion(workspaceSlug, projectId, issueId, versionId),
+                  intakeWorkItemVersionService.retrieveDescriptionVersion(
+                    workspaceSlug,
+                    projectId,
+                    issueId,
+                    versionId,
+                  ),
               }}
-              handleRestore={(descriptionHTML) => editorRef.current?.setEditorValue(descriptionHTML, true)}
+              handleRestore={(descriptionHTML) =>
+                editorRef.current?.setEditorValue(descriptionHTML, true)
+              }
               projectId={projectId}
               workspaceSlug={workspaceSlug}
             />
@@ -247,7 +263,12 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
       </div>
 
       <div className="pt-4">
-        <IssueActivity workspaceSlug={workspaceSlug} projectId={projectId} issueId={issue.id} isIntakeIssue />
+        <IssueActivity
+          workspaceSlug={workspaceSlug}
+          projectId={projectId}
+          issueId={issue.id}
+          isIntakeIssue
+        />
       </div>
     </>
   );

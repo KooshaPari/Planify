@@ -26,7 +26,9 @@ type Props = {
   displayFilters: IIssueDisplayFilterOptions | undefined;
   displayProperties: IIssueDisplayProperties;
   handleDisplayFiltersUpdate: (updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>) => void;
-  handleDisplayPropertiesUpdate: (updatedDisplayProperties: Partial<IIssueDisplayProperties>) => void;
+  handleDisplayPropertiesUpdate: (
+    updatedDisplayProperties: Partial<IIssueDisplayProperties>,
+  ) => void;
   layoutDisplayFiltersOptions: ILayoutDisplayFiltersOptions | undefined;
   ignoreGroupedFilters?: Partial<TIssueGroupByOptions>[];
   cycleViewDisabled?: boolean;
@@ -61,18 +63,19 @@ export const DisplayFiltersSelection = observer(function DisplayFiltersSelection
   return (
     <div className="vertical-scrollbar relative scrollbar-sm h-full w-full divide-y divide-subtle-1 overflow-hidden overflow-y-auto px-2.5">
       {/* display properties */}
-      {layoutDisplayFiltersOptions?.display_properties && layoutDisplayFiltersOptions.display_properties.length > 0 && (
-        <div className="py-2">
-          <FilterDisplayProperties
-            displayProperties={displayProperties}
-            displayPropertiesToRender={layoutDisplayFiltersOptions.display_properties}
-            handleUpdate={handleDisplayPropertiesUpdate}
-            cycleViewDisabled={cycleViewDisabled}
-            moduleViewDisabled={moduleViewDisabled}
-            isEpic={isEpic}
-          />
-        </div>
-      )}
+      {layoutDisplayFiltersOptions?.display_properties &&
+        layoutDisplayFiltersOptions.display_properties.length > 0 && (
+          <div className="py-2">
+            <FilterDisplayProperties
+              displayProperties={displayProperties}
+              displayPropertiesToRender={layoutDisplayFiltersOptions.display_properties}
+              handleUpdate={handleDisplayPropertiesUpdate}
+              cycleViewDisabled={cycleViewDisabled}
+              moduleViewDisabled={moduleViewDisabled}
+              isEpic={isEpic}
+            />
+          </div>
+        )}
 
       {/* group by */}
       {isDisplayFilterEnabled("group_by") && (
@@ -109,19 +112,20 @@ export const DisplayFiltersSelection = observer(function DisplayFiltersSelection
         )}
 
       {/* order by */}
-      {isDisplayFilterEnabled("order_by") && !isEmpty(layoutDisplayFiltersOptions?.display_filters?.order_by) && (
-        <div className="py-2">
-          <FilterOrderBy
-            selectedOrderBy={displayFilters?.order_by}
-            handleUpdate={(val) =>
-              handleDisplayFiltersUpdate({
-                order_by: val,
-              })
-            }
-            orderByOptions={layoutDisplayFiltersOptions?.display_filters.order_by ?? []}
-          />
-        </div>
-      )}
+      {isDisplayFilterEnabled("order_by") &&
+        !isEmpty(layoutDisplayFiltersOptions?.display_filters?.order_by) && (
+          <div className="py-2">
+            <FilterOrderBy
+              selectedOrderBy={displayFilters?.order_by}
+              handleUpdate={(val) =>
+                handleDisplayFiltersUpdate({
+                  order_by: val,
+                })
+              }
+              orderByOptions={layoutDisplayFiltersOptions?.display_filters.order_by ?? []}
+            />
+          </div>
+        )}
 
       {/* Options */}
       {layoutDisplayFiltersOptions?.extra_options.access && (

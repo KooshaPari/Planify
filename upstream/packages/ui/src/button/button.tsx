@@ -21,7 +21,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   children: React.ReactNode;
 }
 
-const Button = React.forwardRef(function Button(props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) {
+const Button = React.forwardRef(function Button(
+  props: ButtonProps,
+  ref: React.ForwardedRef<HTMLButtonElement>,
+) {
   const {
     variant = "primary",
     size = "md",
@@ -39,10 +42,20 @@ const Button = React.forwardRef(function Button(props: ButtonProps, ref: React.F
   const buttonIconStyle = getIconStyling(size);
 
   return (
-    <button ref={ref} type={type} className={cn(buttonStyle, className)} disabled={disabled || loading} {...rest}>
-      {prependIcon && <div className={buttonIconStyle}>{React.cloneElement(prependIcon, { strokeWidth: 2 })}</div>}
+    <button
+      ref={ref}
+      type={type}
+      className={cn(buttonStyle, className)}
+      disabled={disabled || loading}
+      {...rest}
+    >
+      {prependIcon && (
+        <div className={buttonIconStyle}>{React.cloneElement(prependIcon, { strokeWidth: 2 })}</div>
+      )}
       {children}
-      {appendIcon && <div className={buttonIconStyle}>{React.cloneElement(appendIcon, { strokeWidth: 2 })}</div>}
+      {appendIcon && (
+        <div className={buttonIconStyle}>{React.cloneElement(appendIcon, { strokeWidth: 2 })}</div>
+      )}
     </button>
   );
 });

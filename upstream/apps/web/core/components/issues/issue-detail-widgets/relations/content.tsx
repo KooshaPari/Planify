@@ -40,15 +40,25 @@ export type TRelationObject = {
   placeholder: string;
 };
 
-export const RelationsCollapsibleContent = observer(function RelationsCollapsibleContent(props: Props) {
-  const { workspaceSlug, issueId, disabled = false, issueServiceType = EIssueServiceType.ISSUES } = props;
+export const RelationsCollapsibleContent = observer(function RelationsCollapsibleContent(
+  props: Props,
+) {
+  const {
+    workspaceSlug,
+    issueId,
+    disabled = false,
+    issueServiceType = EIssueServiceType.ISSUES,
+  } = props;
   // plane hooks
   const { t } = useTranslation();
   // state
   const [issueCrudState, setIssueCrudState] = useState<{
     update: TIssueCrudState;
     delete: TIssueCrudState;
-    removeRelation: TIssueCrudState & { relationKey: string | undefined; relationIssueId: string | undefined };
+    removeRelation: TIssueCrudState & {
+      relationKey: string | undefined;
+      relationIssueId: string | undefined;
+    };
   }>({
     update: {
       toggle: false,
@@ -89,7 +99,7 @@ export const RelationsCollapsibleContent = observer(function RelationsCollapsibl
     _issueId: string | null,
     issue: TIssue | null = null,
     relationKey?: TIssueRelationTypes | null,
-    relationIssueId?: string | null
+    relationIssueId?: string | null,
   ) => {
     setIssueCrudState((prevState) => ({
       ...prevState,
@@ -130,7 +140,8 @@ export const RelationsCollapsibleContent = observer(function RelationsCollapsibl
     issueCrudState.delete.issueId &&
     issueCrudState.delete.issue.id;
 
-  const shouldRenderIssueUpdateModal = issueCrudState?.update?.toggle && issueCrudState?.update?.issue;
+  const shouldRenderIssueUpdateModal =
+    issueCrudState?.update?.toggle && issueCrudState?.update?.issue;
 
   return (
     <>
@@ -140,7 +151,9 @@ export const RelationsCollapsibleContent = observer(function RelationsCollapsibl
             <Collapsible
               buttonClassName="w-full"
               title={
-                <div className={`flex h-9 w-full items-center gap-1 px-2.5 py-1 ${relation.className}`}>
+                <div
+                  className={`flex h-9 w-full items-center gap-1 px-2.5 py-1 ${relation.className}`}
+                >
                   <span>{relation.icon ? relation.icon(14) : null}</span>
                   <span className="text-13 leading-5 font-medium">{relation.label}</span>
                 </div>
@@ -182,7 +195,7 @@ export const RelationsCollapsibleContent = observer(function RelationsCollapsibl
                 issueCrudState.removeRelation.issueId,
                 issueCrudState.removeRelation.relationKey as TIssueRelationTypes,
                 issueCrudState.removeRelation.relationIssueId,
-                true
+                true,
               );
             }
             if (
@@ -196,7 +209,7 @@ export const RelationsCollapsibleContent = observer(function RelationsCollapsibl
               await deleteOperation(
                 workspaceSlug,
                 issueCrudState.delete.issue?.project_id,
-                issueCrudState?.delete?.issue?.id
+                issueCrudState?.delete?.issue?.id,
               );
             }
           }}

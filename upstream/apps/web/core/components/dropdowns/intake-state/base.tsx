@@ -45,7 +45,7 @@ export type TWorkItemStateDropdownBaseProps = TDropdownProps & {
 };
 
 export const WorkItemStateDropdownBase = observer(function WorkItemStateDropdownBase(
-  props: TWorkItemStateDropdownBaseProps
+  props: TWorkItemStateDropdownBaseProps,
 ) {
   const {
     button,
@@ -126,7 +126,9 @@ export const WorkItemStateDropdownBase = observer(function WorkItemStateDropdown
   }));
 
   const filteredOptions =
-    query === "" ? options : options?.filter((o) => o.query.toLowerCase().includes(query.toLowerCase()));
+    query === ""
+      ? options
+      : options?.filter((o) => o.query.toLowerCase().includes(query.toLowerCase()));
 
   const selectedState = stateValue ? getStateById(stateValue) : undefined;
 
@@ -159,7 +161,7 @@ export const WorkItemStateDropdownBase = observer(function WorkItemStateDropdown
               "cursor-not-allowed text-secondary": disabled,
               "cursor-pointer": !disabled,
             },
-            buttonContainerClassName
+            buttonContainerClassName,
           )}
           onClick={handleOnClick}
           disabled={disabled}
@@ -185,7 +187,9 @@ export const WorkItemStateDropdownBase = observer(function WorkItemStateDropdown
                   />
                 )}
                 {BUTTON_VARIANTS_WITH_TEXT.includes(buttonVariant) && (
-                  <span className="flex-grow truncate text-left">{selectedState?.name ?? t("state")}</span>
+                  <span className="flex-grow truncate text-left">
+                    {selectedState?.name ?? t("state")}
+                  </span>
                 )}
                 {dropdownArrow && (
                   <ChevronDownIcon

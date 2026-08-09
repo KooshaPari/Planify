@@ -27,7 +27,10 @@ export type TTabPreferencesHook = {
  * @param projectId - The project ID
  * @returns Tab preferences state and handlers
  */
-export const useTabPreferences = (workspaceSlug: string, projectId: string): TTabPreferencesHook => {
+export const useTabPreferences = (
+  workspaceSlug: string,
+  projectId: string,
+): TTabPreferencesHook => {
   const {
     project: { getProjectUserProperties, updateProjectUserProperties },
   } = useMember();

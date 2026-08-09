@@ -35,7 +35,8 @@ export const EstimateRoot = observer(function EstimateRoot(props: TEstimateRoot)
   const { workspaceSlug, projectId, isAdmin } = props;
   // hooks
   const { currentProjectDetails } = useProject();
-  const { loader, currentActiveEstimateId, archivedEstimateIds, getProjectEstimates } = useProjectEstimates();
+  const { loader, currentActiveEstimateId, archivedEstimateIds, getProjectEstimates } =
+    useProjectEstimates();
   // states
   const [isEstimateCreateModalOpen, setIsEstimateCreateModalOpen] = useState(false);
   const [estimateToUpdate, setEstimateToUpdate] = useState<string | undefined>();
@@ -45,7 +46,7 @@ export const EstimateRoot = observer(function EstimateRoot(props: TEstimateRoot)
 
   const { isLoading: isSWRLoading } = useSWR(
     workspaceSlug && projectId ? `PROJECT_ESTIMATES_${workspaceSlug}_${projectId}` : null,
-    async () => workspaceSlug && projectId && getProjectEstimates(workspaceSlug, projectId)
+    async () => workspaceSlug && projectId && getProjectEstimates(workspaceSlug, projectId),
   );
 
   if (loader === "init-loader" || isSWRLoading) {
@@ -69,7 +70,11 @@ export const EstimateRoot = observer(function EstimateRoot(props: TEstimateRoot)
                 title={t("project_settings.estimates.title")}
                 description={t("project_settings.estimates.enable_description")}
                 control={
-                  <EstimateDisableSwitch workspaceSlug={workspaceSlug} projectId={projectId} isAdmin={isAdmin} />
+                  <EstimateDisableSwitch
+                    workspaceSlug={workspaceSlug}
+                    projectId={projectId}
+                    isAdmin={isAdmin}
+                  />
                 }
               />
               {/* active estimates section */}
@@ -108,8 +113,8 @@ export const EstimateRoot = observer(function EstimateRoot(props: TEstimateRoot)
                 title="Archived estimates"
                 description={
                   <>
-                    Estimates have gone through a change, these are the estimates you had in your older versions which
-                    were not in use. Read more about them&nbsp;
+                    Estimates have gone through a change, these are the estimates you had in your
+                    older versions which were not in use. Read more about them&nbsp;
                     <a
                       href={"https://docs.plane.so/core-concepts/projects/run-project#estimate"}
                       target="_blank"

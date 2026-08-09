@@ -31,8 +31,17 @@ export type TIssueSubIssuesIdMap = {
 
 export type TSubIssueOperations = {
   copyLink: (path: string) => void;
-  fetchSubIssues: (workspaceSlug: string, projectId: string, parentIssueId: string) => Promise<void>;
-  addSubIssue: (workspaceSlug: string, projectId: string, parentIssueId: string, issueIds: string[]) => Promise<void>;
+  fetchSubIssues: (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+  ) => Promise<void>;
+  addSubIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    issueIds: string[],
+  ) => Promise<void>;
   updateSubIssue: (
     workspaceSlug: string,
     projectId: string,
@@ -40,8 +49,18 @@ export type TSubIssueOperations = {
     issueId: string,
     issueData: Partial<TIssue>,
     oldIssue?: Partial<TIssue>,
-    fromModal?: boolean
+    fromModal?: boolean,
   ) => Promise<void>;
-  removeSubIssue: (workspaceSlug: string, projectId: string, parentIssueId: string, issueId: string) => Promise<void>;
-  deleteSubIssue: (workspaceSlug: string, projectId: string, parentIssueId: string, issueId: string) => Promise<void>;
+  removeSubIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    issueId: string,
+  ) => Promise<void>;
+  deleteSubIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    issueId: string,
+  ) => Promise<void>;
 };

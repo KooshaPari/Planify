@@ -32,7 +32,7 @@ export class AccountStore implements IAccountStore {
   userService: UserService;
   constructor(
     private store: CoreRootStore,
-    private _account: IUserAccount
+    private _account: IUserAccount,
   ) {
     makeObservable(this, {
       // observables

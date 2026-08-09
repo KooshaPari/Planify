@@ -9,7 +9,12 @@ import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import { computedFn } from "mobx-utils";
 import { v4 as uuidv4 } from "uuid";
 // types
-import type { TIssueAttachment, TIssueAttachmentMap, TIssueAttachmentIdMap, TIssueServiceType } from "@plane/types";
+import type {
+  TIssueAttachment,
+  TIssueAttachmentMap,
+  TIssueAttachmentIdMap,
+  TIssueServiceType,
+} from "@plane/types";
 // services
 import { IssueAttachmentService } from "@/services/issue";
 import type { IIssueRootStore } from "../root.store";
@@ -26,18 +31,22 @@ export type TAttachmentUploadStatus = {
 export interface IIssueAttachmentStoreActions {
   // actions
   addAttachments: (issueId: string, attachments: TIssueAttachment[]) => void;
-  fetchAttachments: (workspaceSlug: string, projectId: string, issueId: string) => Promise<TIssueAttachment[]>;
+  fetchAttachments: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+  ) => Promise<TIssueAttachment[]>;
   createAttachment: (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    file: File
+    file: File,
   ) => Promise<TIssueAttachment>;
   removeAttachment: (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    attachmentId: string
+    attachmentId: string,
   ) => Promise<TIssueAttachment>;
 }
 
@@ -121,25 +130,39 @@ export class IssueAttachmentStore implements IIssueAttachmentStore {
     if (attachments && attachments.length > 0) {
       const newAttachmentIds = attachments.map((attachment) => attachment.id);
       runInAction(() => {
-        update(this.attachments, [issueId], (attachmentIds = []) => uniq(concat(attachmentIds, newAttachmentIds)));
+        update(this.attachments, [issueId], (attachmentIds = []) =>
+          uniq(concat(attachmentIds, newAttachmentIds)),
+        );
         attachments.forEach((attachment) => set(this.attachmentMap, attachment.id, attachment));
       });
     }
   };
 
   fetchAttachments = async (workspaceSlug: string, projectId: string, issueId: string) => {
-    const response = await this.issueAttachmentService.getIssueAttachments(workspaceSlug, projectId, issueId);
+    const response = await this.issueAttachmentService.getIssueAttachments(
+      workspaceSlug,
+      projectId,
+      issueId,
+    );
     this.addAttachments(issueId, response);
     return response;
   };
 
-  private debouncedUpdateProgress = debounce((issueId: string, tempId: string, progress: number) => {
-    runInAction(() => {
-      set(this.attachmentsUploadStatusMap, [issueId, tempId, "progress"], progress);
-    });
-  }, 16);
+  private debouncedUpdateProgress = debounce(
+    (issueId: string, tempId: string, progress: number) => {
+      runInAction(() => {
+        set(this.attachmentsUploadStatusMap, [issueId, tempId, "progress"], progress);
+      });
+    },
+    16,
+  );
 
-  createAttachment = async (workspaceSlug: string, projectId: string, issueId: string, file: File) => {
+  createAttachment = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    file: File,
+  ) => {
     const tempId = uuidv4();
     try {
       // update attachment upload status
@@ -160,12 +183,14 @@ export class IssueAttachmentStore implements IIssueAttachmentStore {
         (progressEvent) => {
           const progressPercentage = Math.round((progressEvent.progress ?? 0) * 100);
           this.debouncedUpdateProgress(issueId, tempId, progressPercentage);
-        }
+        },
       );
 
       if (response && response.id) {
         runInAction(() => {
-          update(this.attachments, [issueId], (attachmentIds = []) => uniq(concat(attachmentIds, [response.id])));
+          update(this.attachments, [issueId], (attachmentIds = []) =>
+            uniq(concat(attachmentIds, [response.id])),
+          );
           set(this.attachmentMap, response.id, response);
           this.rootIssueStore.issues.updateIssue(issueId, {
             attachment_count: this.getAttachmentsCountByIssueId(issueId),
@@ -184,12 +209,17 @@ export class IssueAttachmentStore implements IIssueAttachmentStore {
     }
   };
 
-  removeAttachment = async (workspaceSlug: string, projectId: string, issueId: string, attachmentId: string) => {
+  removeAttachment = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    attachmentId: string,
+  ) => {
     const response = await this.issueAttachmentService.deleteIssueAttachment(
       workspaceSlug,
       projectId,
       issueId,
-      attachmentId
+      attachmentId,
     );
 
     runInAction(() => {

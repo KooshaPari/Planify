@@ -90,25 +90,32 @@ export const AllIssueLayoutRoot = observer(function AllIssueLayoutRoot(props: Pr
         await fetchAllGlobalViews(workspaceSlug);
       }
     },
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   // Fetch issues
   const { isLoading: issuesLoading } = useSWR(
-    workspaceSlug && globalViewId ? `WORKSPACE_GLOBAL_VIEW_ISSUES_${workspaceSlug}_${globalViewId}` : null,
+    workspaceSlug && globalViewId
+      ? `WORKSPACE_GLOBAL_VIEW_ISSUES_${workspaceSlug}_${globalViewId}`
+      : null,
     async () => {
       if (workspaceSlug && globalViewId) {
         clear();
         toggleLoading(true);
         await fetchFilters(workspaceSlug, globalViewId);
-        await fetchIssues(workspaceSlug, globalViewId, groupedIssueIds ? "mutation" : "init-loader", {
-          canGroup: false,
-          perPageCount: 100,
-        });
+        await fetchIssues(
+          workspaceSlug,
+          globalViewId,
+          groupedIssueIds ? "mutation" : "init-loader",
+          {
+            canGroup: false,
+            perPageCount: 100,
+          },
+        );
         toggleLoading(false);
       }
     },
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   // Empty state
@@ -142,7 +149,11 @@ export const AllIssueLayoutRoot = observer(function AllIssueLayoutRoot(props: Pr
         entityType={EIssuesStoreType.GLOBAL}
         filtersToShowByLayout={ISSUE_DISPLAY_FILTERS_BY_PAGE.my_issues.filters}
         initialWorkItemFilters={initialWorkItemFilters}
-        updateFilters={updateFilterExpression.bind(updateFilterExpression, workspaceSlug, globalViewId)}
+        updateFilters={updateFilterExpression.bind(
+          updateFilterExpression,
+          workspaceSlug,
+          globalViewId,
+        )}
         workspaceSlug={workspaceSlug}
       >
         {({ filter: globalWorkItemsFilter }) => (

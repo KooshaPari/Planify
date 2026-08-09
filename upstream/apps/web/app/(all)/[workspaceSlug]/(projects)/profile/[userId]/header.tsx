@@ -8,7 +8,12 @@
 import { observer } from "mobx-react";
 import { useParams, useRouter } from "next/navigation";
 import { PanelRight } from "lucide-react";
-import { PROFILE_VIEWER_TAB, PROFILE_ADMINS_TAB, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import {
+  PROFILE_VIEWER_TAB,
+  PROFILE_ADMINS_TAB,
+  EUserPermissions,
+  EUserPermissionsLevel,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { YourWorkIcon, ChevronDownIcon } from "@plane/propel/icons";
 import type { IUserProfileProjectSegregation } from "@plane/types";
@@ -40,18 +45,22 @@ export const UserProfileHeader = observer(function UserProfileHeader(props: TUse
   // derived values
   const isAuthorized = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   if (!workspaceUserInfo) return null;
 
-  const tabsList = isAuthorized ? [...PROFILE_VIEWER_TAB, ...PROFILE_ADMINS_TAB] : PROFILE_VIEWER_TAB;
+  const tabsList = isAuthorized
+    ? [...PROFILE_VIEWER_TAB, ...PROFILE_ADMINS_TAB]
+    : PROFILE_VIEWER_TAB;
 
   const userName = `${userProjectsData?.user_data?.first_name} ${userProjectsData?.user_data?.last_name}`;
 
   const isCurrentUser = currentUser?.id === userId;
 
-  const breadcrumbLabel = isCurrentUser ? t("profile.page_label") : `${userName} ${t("profile.work")}`;
+  const breadcrumbLabel = isCurrentUser
+    ? t("profile.page_label")
+    : `${userName} ${t("profile.work")}`;
 
   return (
     <Header>
@@ -69,7 +78,9 @@ export const UserProfileHeader = observer(function UserProfileHeader(props: TUse
         </Breadcrumbs>
       </Header.LeftItem>
       <Header.RightItem>
-        <div className="hidden md:flex md:items-center">{showProfileIssuesFilter && <ProfileIssuesFilter />}</div>
+        <div className="hidden md:flex md:items-center">
+          {showProfileIssuesFilter && <ProfileIssuesFilter />}
+        </div>
         <div className="flex gap-4 md:hidden">
           <CustomMenu
             maxHeight={"md"}
@@ -103,7 +114,9 @@ export const UserProfileHeader = observer(function UserProfileHeader(props: TUse
                 toggleProfileSidebar();
               }}
               appendIcon={
-                <PanelRight className={!profileSidebarCollapsed ? "text-accent-primary" : "text-secondary"} />
+                <PanelRight
+                  className={!profileSidebarCollapsed ? "text-accent-primary" : "text-secondary"}
+                />
               }
             ></Button>
           </div>

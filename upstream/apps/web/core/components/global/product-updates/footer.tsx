@@ -65,7 +65,7 @@ export function ProductUpdatesFooter() {
         target="_blank"
         className={cn(
           getButtonStyling("secondary", "base"),
-          "flex items-center gap-1.5 text-center font-medium underline-offset-2 outline-none hover:underline"
+          "flex items-center gap-1.5 text-center font-medium underline-offset-2 outline-none hover:underline",
         )}
         rel="noreferrer"
       >

@@ -24,8 +24,16 @@ type Props = {
   onClose: () => void;
 };
 
-export const ProjectsAppPowerKModalWrapper = observer(function ProjectsAppPowerKModalWrapper(props: Props) {
-  const { commandsListComponent: CommandsListComponent, context, hideFooter = false, isOpen, onClose } = props;
+export const ProjectsAppPowerKModalWrapper = observer(function ProjectsAppPowerKModalWrapper(
+  props: Props,
+) {
+  const {
+    commandsListComponent: CommandsListComponent,
+    context,
+    hideFooter = false,
+    isOpen,
+    onClose,
+  } = props;
   // states
   const [searchTerm, setSearchTerm] = useState("");
   const [isWorkspaceLevel, setIsWorkspaceLevel] = useState(false);
@@ -48,7 +56,7 @@ export const ProjectsAppPowerKModalWrapper = observer(function ProjectsAppPowerK
         setSearchTerm("");
       }
     },
-    [context, setActivePage]
+    [context, setActivePage],
   );
 
   // Handle selection page item selection
@@ -62,7 +70,7 @@ export const ProjectsAppPowerKModalWrapper = observer(function ProjectsAppPowerK
         context.closePalette();
       }
     },
-    [context]
+    [context],
   );
 
   // Handle keyboard navigation
@@ -100,7 +108,7 @@ export const ProjectsAppPowerKModalWrapper = observer(function ProjectsAppPowerK
         return;
       }
     },
-    [searchTerm, activePage, onClose, setActivePage, context]
+    [searchTerm, activePage, onClose, setActivePage, context],
   );
 
   // Reset state when modal closes

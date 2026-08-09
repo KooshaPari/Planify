@@ -307,7 +307,10 @@ const errorCodeMessages: {
 };
 
 // Error handler
-export const authErrorHandler = (errorCode: EAuthErrorCodes, email?: string): TAuthErrorInfo | undefined => {
+export const authErrorHandler = (
+  errorCode: EAuthErrorCodes,
+  email?: string,
+): TAuthErrorInfo | undefined => {
   const bannerAlertErrorCodes = [
     EAuthErrorCodes.INSTANCE_NOT_CONFIGURED,
     EAuthErrorCodes.INVALID_EMAIL,
@@ -362,7 +365,8 @@ export const authErrorHandler = (errorCode: EAuthErrorCodes, email?: string): TA
       type: EErrorAlertType.BANNER_ALERT,
       code: errorCode,
       title: errorCodeMessages[errorCode]?.title || "Error",
-      message: errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.",
+      message:
+        errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.",
     };
 
   return undefined;

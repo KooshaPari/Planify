@@ -61,7 +61,12 @@ function UnorderedList({ children }: { children: React.ReactNode }) {
 
 function Link({ href, children }: CustomComponentProps) {
   return (
-    <a href={href} className="underline hover:no-underline" target="_blank" rel="noopener noreferrer">
+    <a
+      href={href}
+      className="underline hover:no-underline"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       {children}
     </a>
   );

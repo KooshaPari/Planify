@@ -41,7 +41,12 @@ const PopoverContent = memo(function PopoverContent({
 
   return (
     <PopoverPortal container={containerRef?.current}>
-      <PopoverPositioner side={finalSide} sideOffset={sideOffset} align={finalAlign} className={positionerClassName}>
+      <PopoverPositioner
+        side={finalSide}
+        sideOffset={sideOffset}
+        align={finalAlign}
+        className={positionerClassName}
+      >
         <BasePopover.Popup data-slot="popover-content" className={className} {...props}>
           {children}
         </BasePopover.Popup>
@@ -51,15 +56,21 @@ const PopoverContent = memo(function PopoverContent({
 });
 
 // wrapper components
-const PopoverTrigger = memo(function PopoverTrigger(props: React.ComponentProps<typeof BasePopover.Trigger>) {
+const PopoverTrigger = memo(function PopoverTrigger(
+  props: React.ComponentProps<typeof BasePopover.Trigger>,
+) {
   return <BasePopover.Trigger data-slot="popover-trigger" {...props} />;
 });
 
-const PopoverPortal = memo(function PopoverPortal(props: React.ComponentProps<typeof BasePopover.Portal>) {
+const PopoverPortal = memo(function PopoverPortal(
+  props: React.ComponentProps<typeof BasePopover.Portal>,
+) {
   return <BasePopover.Portal data-slot="popover-portal" {...props} />;
 });
 
-const PopoverPositioner = memo(function PopoverPositioner(props: React.ComponentProps<typeof BasePopover.Positioner>) {
+const PopoverPositioner = memo(function PopoverPositioner(
+  props: React.ComponentProps<typeof BasePopover.Positioner>,
+) {
   return <BasePopover.Positioner data-slot="popover-positioner" {...props} />;
 });
 
@@ -71,7 +82,7 @@ const Popover = Object.assign(
   {
     Button: PopoverTrigger,
     Panel: PopoverContent,
-  }
+  },
 );
 
 // display names

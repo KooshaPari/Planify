@@ -68,7 +68,8 @@ export function CreatePageModal(props: Props) {
       const pageData = await createPage(pageFormData);
       if (pageData) {
         handleStateClear();
-        if (redirectionEnabled) router.push(`/${workspaceSlug}/projects/${projectId}/pages/${pageData.id}`);
+        if (redirectionEnabled)
+          router.push(`/${workspaceSlug}/projects/${projectId}/pages/${pageData.id}`);
       }
     } catch (error) {
       console.error(error);

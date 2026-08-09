@@ -30,7 +30,9 @@ function OnboardingStepContent({ currentStep, invitations, handleStepChange }: P
     case EOnboardingSteps.USE_CASE_SETUP:
       return <UseCaseSetupStep handleStepChange={handleStepChange} />;
     case EOnboardingSteps.WORKSPACE_CREATE_OR_JOIN:
-      return <WorkspaceSetupStep invitations={invitations ?? []} handleStepChange={handleStepChange} />;
+      return (
+        <WorkspaceSetupStep invitations={invitations ?? []} handleStepChange={handleStepChange} />
+      );
     case EOnboardingSteps.INVITE_MEMBERS:
       return <InviteTeamStep handleStepChange={handleStepChange} />;
     default:

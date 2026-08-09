@@ -11,7 +11,8 @@ import type { TPowerKNavigationCommandKeys } from "./commands";
 import { usePowerKNavigationCommandsRecord } from "./commands";
 
 export const usePowerKNavigationCommands = (): TPowerKCommandConfig[] => {
-  const optionsList: Record<TPowerKNavigationCommandKeys, TPowerKCommandConfig> = usePowerKNavigationCommandsRecord();
+  const optionsList: Record<TPowerKNavigationCommandKeys, TPowerKCommandConfig> =
+    usePowerKNavigationCommandsRecord();
 
   return [
     // Open actions from lowest to highest scope

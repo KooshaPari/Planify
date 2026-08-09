@@ -8,7 +8,12 @@ import * as React from "react";
 
 import type { ISvgIcons } from "./type";
 
-export function AiIcon({ width = "16", height = "16", className, color = "currentColor" }: ISvgIcons) {
+export function AiIcon({
+  width = "16",
+  height = "16",
+  className,
+  color = "currentColor",
+}: ISvgIcons) {
   return (
     <svg
       width={width}

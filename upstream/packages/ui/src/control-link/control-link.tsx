@@ -18,13 +18,23 @@ export type TControlLink = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 
 export const ControlLink = React.forwardRef(function ControlLink(
   props: TControlLink,
-  ref: React.ForwardedRef<HTMLAnchorElement>
+  ref: React.ForwardedRef<HTMLAnchorElement>,
 ) {
-  const { href, onClick, children, target = "_blank", disabled = false, className, draggable = false, ...rest } = props;
+  const {
+    href,
+    onClick,
+    children,
+    target = "_blank",
+    disabled = false,
+    className,
+    draggable = false,
+    ...rest
+  } = props;
   const LEFT_CLICK_EVENT_CODE = 0;
 
   const handleOnClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    const clickCondition = (event.metaKey || event.ctrlKey) && event.button === LEFT_CLICK_EVENT_CODE;
+    const clickCondition =
+      (event.metaKey || event.ctrlKey) && event.button === LEFT_CLICK_EVENT_CODE;
     if (!clickCondition) {
       event.preventDefault();
       onClick(event);

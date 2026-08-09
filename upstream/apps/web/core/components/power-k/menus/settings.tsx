@@ -21,7 +21,10 @@ type Props = {
   onSelect: (setting: TSettingItem) => void;
 };
 
-export const PowerKSettingsMenu = observer(function PowerKSettingsMenu({ settings, onSelect }: Props) {
+export const PowerKSettingsMenu = observer(function PowerKSettingsMenu({
+  settings,
+  onSelect,
+}: Props) {
   return (
     <PowerKMenuBuilder
       items={settings}

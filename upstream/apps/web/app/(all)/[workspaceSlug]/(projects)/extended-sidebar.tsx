@@ -8,7 +8,10 @@ import { useCallback, useMemo, useRef } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // plane imports
-import { WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS_LINKS, EUserPermissionsLevel } from "@plane/constants";
+import {
+  WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS_LINKS,
+  EUserPermissionsLevel,
+} from "@plane/constants";
 import type { EUserWorkspaceRoles } from "@plane/types";
 // hooks
 import { useAppTheme } from "@/hooks/store/use-app-theme";
@@ -26,7 +29,8 @@ export const ExtendedAppSidebar = observer(function ExtendedAppSidebar() {
   // store hooks
   const { isExtendedSidebarOpened, toggleExtendedSidebar } = useAppTheme();
   const { allowPermissions } = useUserPermissions();
-  const { preferences: workspacePreferences, updateWorkspaceItemSortOrder } = useWorkspaceNavigationPreferences();
+  const { preferences: workspacePreferences, updateWorkspaceItemSortOrder } =
+    useWorkspaceNavigationPreferences();
 
   // derived values
   const currentWorkspaceNavigationPreferences = workspacePreferences.items;
@@ -69,7 +73,7 @@ export const ExtendedAppSidebar = observer(function ExtendedAppSidebar() {
       labelTranslationKey: string;
       href: string;
       access: EUserWorkspaceRoles[];
-    }[]
+    }[],
   ): number | undefined => {
     if (sourceIndex < 0 || destinationIndex < 0 || navigationList.length <= 0) return undefined;
 
@@ -98,7 +102,7 @@ export const ExtendedAppSidebar = observer(function ExtendedAppSidebar() {
   const handleOnNavigationItemDrop = (
     sourceId: string | undefined,
     destinationId: string | undefined,
-    shouldDropAtEnd: boolean
+    shouldDropAtEnd: boolean,
   ) => {
     if (!sourceId || !destinationId || !workspaceSlug) return;
     if (sourceId === destinationId) return;
@@ -108,7 +112,11 @@ export const ExtendedAppSidebar = observer(function ExtendedAppSidebar() {
       ? sortedNavigationItemsKeys.length
       : sortedNavigationItemsKeys.indexOf(destinationId);
 
-    const updatedSortOrder = orderNavigationItem(sourceIndex, destinationIndex, sortedNavigationItems);
+    const updatedSortOrder = orderNavigationItem(
+      sourceIndex,
+      destinationIndex,
+      sortedNavigationItems,
+    );
 
     if (updatedSortOrder != undefined) updateWorkspaceItemSortOrder(sourceId, updatedSortOrder);
   };

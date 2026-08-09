@@ -30,7 +30,9 @@ export interface SidebarUserMenuItemProps {
   draftIssueCount: number;
 }
 
-export const SidebarUserMenuItem = observer(function SidebarUserMenuItem(props: SidebarUserMenuItemProps) {
+export const SidebarUserMenuItem = observer(function SidebarUserMenuItem(
+  props: SidebarUserMenuItemProps,
+) {
   const { item, draftIssueCount } = props;
   // nextjs hooks
   const { workspaceSlug } = useParams();
@@ -46,7 +48,10 @@ export const SidebarUserMenuItem = observer(function SidebarUserMenuItem(props: 
   if (item.key === "drafts" && draftIssueCount === 0) return null;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (!allowPermissions(item.access as any, EUserPermissionsLevel.WORKSPACE, workspaceSlug.toString())) return null;
+  if (
+    !allowPermissions(item.access as any, EUserPermissionsLevel.WORKSPACE, workspaceSlug.toString())
+  )
+    return null;
 
   const handleLinkClick = () => {
     if (window.innerWidth < 768) {
@@ -61,7 +66,9 @@ export const SidebarUserMenuItem = observer(function SidebarUserMenuItem(props: 
           <item.Icon className="size-4 flex-shrink-0" />
           <p className="text-13 leading-5 font-medium">{t(item.labelTranslationKey)}</p>
         </div>
-        {item.key === "notifications" && <NotificationAppSidebarOption workspaceSlug={workspaceSlug.toString()} />}
+        {item.key === "notifications" && (
+          <NotificationAppSidebarOption workspaceSlug={workspaceSlug.toString()} />
+        )}
       </SidebarNavItem>
     </Link>
   );

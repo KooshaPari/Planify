@@ -92,7 +92,12 @@ export function ParentIssuesListModal({
   }, [debouncedSearchTerm, isOpen, issueId, projectId, workspaceSlug]);
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <Combobox
         value={value}
         onChange={(val) => {
@@ -114,7 +119,10 @@ export function ParentIssuesListModal({
             tabIndex={baseTabIndex}
           />
         </div>
-        <Combobox.Options static className="vertical-scrollbar scrollbar-md max-h-80 scroll-py-2 overflow-y-auto">
+        <Combobox.Options
+          static
+          className="vertical-scrollbar scrollbar-md max-h-80 scroll-py-2 overflow-y-auto"
+        >
           {searchTerm !== "" && (
             <h5 className="mx-2 text-13 text-secondary">
               Search results for{" "}

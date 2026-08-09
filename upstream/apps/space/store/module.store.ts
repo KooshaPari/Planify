@@ -45,7 +45,8 @@ export class ModuleStore implements IIssueModuleStore {
     return Object.values(this.moduleMap);
   }
 
-  getModuleById = (moduleId: string | undefined) => (moduleId ? this.moduleMap[moduleId] : undefined);
+  getModuleById = (moduleId: string | undefined) =>
+    moduleId ? this.moduleMap[moduleId] : undefined;
 
   getModulesByIds = (moduleIds: string[]) => {
     const currModules = [];

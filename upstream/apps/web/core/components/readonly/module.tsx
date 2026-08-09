@@ -59,7 +59,9 @@ export const ReadonlyModule = observer(function ReadonlyModule(props: TReadonlyM
 
   if (multiple) {
     const displayText =
-      showCount && modules.length > 1 ? `${modules[0]?.name} +${modules.length - 1}` : modules[0]?.name;
+      showCount && modules.length > 1
+        ? `${modules[0]?.name} +${modules.length - 1}`
+        : modules[0]?.name;
 
     return (
       <div className={cn("flex items-center gap-1 text-body-xs-regular", className)}>

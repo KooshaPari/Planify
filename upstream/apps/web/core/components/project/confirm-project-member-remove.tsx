@@ -24,7 +24,9 @@ type Props = {
   onClose: () => void;
 };
 
-export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMemberRemove(props: Props) {
+export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMemberRemove(
+  props: Props,
+) {
   const { data, onSubmit, isOpen, onClose } = props;
   // router
   const { projectId } = useParams();
@@ -53,7 +55,12 @@ export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMember
   const currentProjectDetails = getProjectById(projectId.toString());
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <div className="bg-surface-1 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div className="sm:flex sm:items-start">
           <div className="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-danger-subtle sm:mx-0 sm:h-10 sm:w-10">
@@ -67,13 +74,15 @@ export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMember
               <p className="text-13 text-secondary">
                 {isCurrentUser ? (
                   <>
-                    Are you sure you want to leave the <span className="font-bold">{currentProjectDetails?.name}</span>{" "}
-                    project? You will be able to join the project if invited again or if it{"'"}s public.
+                    Are you sure you want to leave the{" "}
+                    <span className="font-bold">{currentProjectDetails?.name}</span> project? You
+                    will be able to join the project if invited again or if it{"'"}s public.
                   </>
                 ) : (
                   <>
-                    Are you sure you want to remove member- <span className="font-bold">{data?.display_name}</span>?
-                    They will no longer have access to this project. This action cannot be undone.
+                    Are you sure you want to remove member-{" "}
+                    <span className="font-bold">{data?.display_name}</span>? They will no longer
+                    have access to this project. This action cannot be undone.
                   </>
                 )}
               </p>
@@ -85,8 +94,20 @@ export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMember
         <Button variant="secondary" size="lg" onClick={handleClose}>
           Cancel
         </Button>
-        <Button variant="error-fill" size="lg" tabIndex={1} onClick={handleDeletion} loading={isDeleteLoading}>
-          {isCurrentUser ? (isDeleteLoading ? "Leaving..." : "Leave") : isDeleteLoading ? "Removing..." : "Remove"}
+        <Button
+          variant="error-fill"
+          size="lg"
+          tabIndex={1}
+          onClick={handleDeletion}
+          loading={isDeleteLoading}
+        >
+          {isCurrentUser
+            ? isDeleteLoading
+              ? "Leaving..."
+              : "Leave"
+            : isDeleteLoading
+              ? "Removing..."
+              : "Remove"}
         </Button>
       </div>
     </ModalCore>

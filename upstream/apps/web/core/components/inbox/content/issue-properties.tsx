@@ -39,9 +39,18 @@ type Props = {
   isIntakeAccepted: boolean;
 };
 
-export const InboxIssueContentProperties = observer(function InboxIssueContentProperties(props: Props) {
-  const { workspaceSlug, projectId, issue, issueOperations, isEditable, duplicateIssueDetails, isIntakeAccepted } =
-    props;
+export const InboxIssueContentProperties = observer(function InboxIssueContentProperties(
+  props: Props,
+) {
+  const {
+    workspaceSlug,
+    projectId,
+    issue,
+    issueOperations,
+    isEditable,
+    duplicateIssueDetails,
+    isIntakeAccepted,
+  } = props;
 
   const router = useAppRouter();
   // store hooks
@@ -96,14 +105,17 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
               <MemberDropdown
                 value={issue?.assignee_ids ?? []}
                 onChange={(val) =>
-                  issue?.id && issueOperations.update(workspaceSlug, projectId, issue?.id, { assignee_ids: val })
+                  issue?.id &&
+                  issueOperations.update(workspaceSlug, projectId, issue?.id, { assignee_ids: val })
                 }
                 disabled={!isEditable}
                 projectId={projectId?.toString() ?? ""}
                 placeholder="Add assignees"
                 multiple
                 buttonVariant={
-                  (issue?.assignee_ids || [])?.length > 0 ? "transparent-without-text" : "transparent-with-text"
+                  (issue?.assignee_ids || [])?.length > 0
+                    ? "transparent-without-text"
+                    : "transparent-with-text"
                 }
                 className="group w-3/5 flex-grow"
                 buttonContainerClassName="w-full text-left"
@@ -124,7 +136,8 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
               <PriorityDropdown
                 value={issue?.priority}
                 onChange={(val) =>
-                  issue?.id && issueOperations.update(workspaceSlug, projectId, issue?.id, { priority: val })
+                  issue?.id &&
+                  issueOperations.update(workspaceSlug, projectId, issue?.id, { priority: val })
                 }
                 disabled={!isEditable}
                 buttonVariant="border-with-text"
@@ -177,7 +190,10 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
                     disabled={!isEditable}
                     isInboxIssue
                     onLabelUpdate={(val: string[]) =>
-                      issue?.id && issueOperations.update(workspaceSlug, projectId, issue?.id, { label_ids: val })
+                      issue?.id &&
+                      issueOperations.update(workspaceSlug, projectId, issue?.id, {
+                        label_ids: val,
+                      })
                     }
                   />
                 )}

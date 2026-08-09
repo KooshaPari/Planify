@@ -12,7 +12,8 @@ import type { IWorkspaceNotificationStore } from "@/store/notifications/workspac
 
 export const useWorkspaceNotifications = (): IWorkspaceNotificationStore => {
   const context = useContext(StoreContext);
-  if (context === undefined) throw new Error("useWorkspaceNotifications must be used within StoreProvider");
+  if (context === undefined)
+    throw new Error("useWorkspaceNotifications must be used within StoreProvider");
 
   return context.workspaceNotification;
 };

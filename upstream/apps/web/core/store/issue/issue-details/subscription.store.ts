@@ -13,7 +13,11 @@ import { IssueService } from "@/services/issue/issue.service";
 import type { IIssueDetail } from "./root.store";
 export interface IIssueSubscriptionStoreActions {
   addSubscription: (issueId: string, isSubscribed: boolean | undefined | null) => void;
-  fetchSubscriptions: (workspaceSlug: string, projectId: string, issueId: string) => Promise<boolean>;
+  fetchSubscriptions: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+  ) => Promise<boolean>;
   createSubscription: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
   removeSubscription: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
 }
@@ -70,7 +74,7 @@ export class IssueSubscriptionStore implements IIssueSubscriptionStore {
     const subscription = await this.issueService.getIssueNotificationSubscriptionStatus(
       workspaceSlug,
       projectId,
-      issueId
+      issueId,
     );
     this.addSubscription(issueId, subscription?.subscribed);
     return subscription?.subscribed;

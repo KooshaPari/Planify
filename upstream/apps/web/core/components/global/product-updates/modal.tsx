@@ -18,11 +18,18 @@ export type ProductUpdatesModalProps = {
   handleClose: () => void;
 };
 
-export const ProductUpdatesModal = observer(function ProductUpdatesModal(props: ProductUpdatesModalProps) {
+export const ProductUpdatesModal = observer(function ProductUpdatesModal(
+  props: ProductUpdatesModalProps,
+) {
   const { isOpen, handleClose } = props;
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXXXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXXXL}
+    >
       <ProductUpdatesHeader />
       <ProductUpdatesChangelog />
       <ProductUpdatesFooter />

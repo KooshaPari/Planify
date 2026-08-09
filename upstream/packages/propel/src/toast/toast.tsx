@@ -151,7 +151,7 @@ function ToastRender({ id, toast }: { id: React.Key; toast: BaseToast.Root.Toast
         "data-[ending-style]:[&:not([data-limited])]:[transform:translateY(150%)]",
 
         data.backgroundColorClassName,
-        data.borderColorClassName
+        data.borderColorClassName,
       )}
       style={{
         ["--gap" as string]: "1rem",
@@ -170,7 +170,10 @@ function ToastRender({ id, toast }: { id: React.Key; toast: BaseToast.Root.Toast
         <div className="py-1">
           {data.icon && (
             <div
-              className={cn("flex size-4 flex-shrink-0 items-center justify-center rounded-full", data.iconBgClassName)}
+              className={cn(
+                "flex size-4 flex-shrink-0 items-center justify-center rounded-full",
+                data.iconBgClassName,
+              )}
             >
               {data.icon}
             </div>
@@ -178,7 +181,9 @@ function ToastRender({ id, toast }: { id: React.Key; toast: BaseToast.Root.Toast
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <BaseToast.Title className="text-h6-medium text-primary">
-            {toastData.type === TOAST_TYPE.LOADING ? (toastData.title ?? "Loading...") : toastData.title}
+            {toastData.type === TOAST_TYPE.LOADING
+              ? (toastData.title ?? "Loading...")
+              : toastData.title}
           </BaseToast.Title>
           {toastData.type !== TOAST_TYPE.LOADING && toastData.message && (
             <BaseToast.Description className="text-body-xs-regular text-tertiary">
@@ -203,7 +208,13 @@ export type ToastStaticProps = {
   theme?: "light" | "dark";
 };
 
-export function ToastStatic({ type, title, message, actionItems, theme = "light" }: ToastStaticProps) {
+export function ToastStatic({
+  type,
+  title,
+  message,
+  actionItems,
+  theme = "light",
+}: ToastStaticProps) {
   const data = TOAST_DATA[type];
 
   return (
@@ -214,7 +225,7 @@ export function ToastStatic({ type, title, message, actionItems, theme = "light"
           "group flex w-[350px] items-start rounded-lg border border-subtle-1 shadow-overlay-100",
           "relative",
           data.backgroundColorClassName,
-          data.borderColorClassName
+          data.borderColorClassName,
         )}
       >
         <div className="absolute top-1 right-1 cursor-default text-icon-tertiary">
@@ -226,7 +237,7 @@ export function ToastStatic({ type, title, message, actionItems, theme = "light"
               <div
                 className={cn(
                   "flex size-4 flex-shrink-0 items-center justify-center rounded-full",
-                  data.iconBgClassName
+                  data.iconBgClassName,
                 )}
               >
                 {data.icon}
@@ -240,7 +251,9 @@ export function ToastStatic({ type, title, message, actionItems, theme = "light"
             {type !== TOAST_TYPE.LOADING && message && (
               <div className="text-body-xs-regular text-tertiary">{message}</div>
             )}
-            {type !== TOAST_TYPE.LOADING && actionItems && <div className="flex items-center gap-2">{actionItems}</div>}
+            {type !== TOAST_TYPE.LOADING && actionItems && (
+              <div className="flex items-center gap-2">{actionItems}</div>
+            )}
           </div>
         </div>
       </div>
@@ -289,7 +302,7 @@ export const updateToast = (id: string, props: SetToastProps) => {
 
 export const setPromiseToast = <ToastData,>(
   promise: Promise<ToastData>,
-  options: PromiseToastOptions<ToastData>
+  options: PromiseToastOptions<ToastData>,
 ): void => {
   toastManager.promise(promise, {
     loading: {

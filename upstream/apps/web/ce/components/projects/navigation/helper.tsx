@@ -6,7 +6,14 @@
 
 // plane imports
 import { EUserPermissions, EProjectFeatureKey } from "@plane/constants";
-import { CycleIcon, IntakeIcon, ModuleIcon, PageIcon, ViewsIcon, WorkItemsIcon } from "@plane/propel/icons";
+import {
+  CycleIcon,
+  IntakeIcon,
+  ModuleIcon,
+  PageIcon,
+  ViewsIcon,
+  WorkItemsIcon,
+} from "@plane/propel/icons";
 // components
 import type { TNavigationItem } from "@/components/workspace/sidebar/project-navigation";
 
@@ -19,7 +26,7 @@ export const getProjectFeatureNavigation = (
     issue_views_view: boolean;
     page_view: boolean;
     inbox_view: boolean;
-  }
+  },
 ): TNavigationItem[] => [
   {
     i18n_key: "sidebar.work_items",

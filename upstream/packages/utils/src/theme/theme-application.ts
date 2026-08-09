@@ -9,7 +9,12 @@
  * Applies generated palettes to CSS variables for Plane's theme system
  */
 
-import { hexToOKLCH, oklchToCSS, getRelativeLuminance, getPerceptualBrightness } from "./color-conversion";
+import {
+  hexToOKLCH,
+  oklchToCSS,
+  getRelativeLuminance,
+  getPerceptualBrightness,
+} from "./color-conversion";
 import type { OKLCH } from "./color-conversion";
 import { ALPHA_MAPPING, EDITOR_COLORS_LIGHT, EDITOR_COLORS_DARK } from "./constants";
 import { generateThemePalettes } from "./palette-generator";
@@ -67,7 +72,7 @@ export function isColorDark(brandColor: string, method: DarknessDetectionMethod 
  */
 export function getOnColorTextColors(
   brandColor: string,
-  method: DarknessDetectionMethod = "wcag"
+  method: DarknessDetectionMethod = "wcag",
 ): {
   textColor: OKLCH;
   iconColor: OKLCH;
@@ -91,7 +96,11 @@ export function getOnColorTextColors(
  * @param neutralColor - Neutral/background color (hex with or without #)
  * @param mode - 'light' or 'dark' theme mode
  */
-export function applyCustomTheme(brandColor: string, neutralColor: string, mode: "light" | "dark"): void {
+export function applyCustomTheme(
+  brandColor: string,
+  neutralColor: string,
+  mode: "light" | "dark",
+): void {
   if (!brandColor || !neutralColor) {
     console.warn("applyCustomTheme: brandColor and neutralColor are required");
     return;
@@ -173,7 +182,21 @@ export function clearCustomTheme(): void {
   });
 
   // Clear brand base palette colors
-  const brandKeys = ["100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "1100", "1200", "default"];
+  const brandKeys = [
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+    "1000",
+    "1100",
+    "1200",
+    "default",
+  ];
   brandKeys.forEach((key) => {
     themeElement.style.removeProperty(`--brand-${key}`);
   });

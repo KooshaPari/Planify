@@ -6,7 +6,14 @@
 
 // ui
 import { observer } from "mobx-react";
-import { ArrowDownWideNarrow, ArrowUpNarrowWide, CheckIcon, ChevronDownIcon, Eraser, MoveRight } from "lucide-react";
+import {
+  ArrowDownWideNarrow,
+  ArrowUpNarrowWide,
+  CheckIcon,
+  ChevronDownIcon,
+  Eraser,
+  MoveRight,
+} from "lucide-react";
 // constants
 import type { IProjectMemberDisplayProperties, TMemberOrderByOptions } from "@plane/constants";
 import { MEMBER_PROPERTY_DETAILS } from "@plane/constants";
@@ -31,7 +38,10 @@ export const MemberHeaderColumn = observer(function MemberHeaderColumn(props: Pr
 
   const activeSortingProperty = displayFilters?.order_by;
 
-  const handleOrderBy = (order: TMemberOrderByOptions, _itemKey: keyof IProjectMemberDisplayProperties) => {
+  const handleOrderBy = (
+    order: TMemberOrderByOptions,
+    _itemKey: keyof IProjectMemberDisplayProperties,
+  ) => {
     handleDisplayFilterUpdate({ order_by: order });
   };
 
@@ -69,7 +79,9 @@ export const MemberHeaderColumn = observer(function MemberHeaderColumn(props: Pr
     >
       {propertyDetails.isSortingAllowed && (
         <>
-          <CustomMenu.MenuItem onClick={() => handleOrderBy(propertyDetails.ascendingOrderKey, property)}>
+          <CustomMenu.MenuItem
+            onClick={() => handleOrderBy(propertyDetails.ascendingOrderKey, property)}
+          >
             <div
               className={`flex items-center justify-between gap-1.5 px-1 ${
                 activeSortingProperty === propertyDetails.ascendingOrderKey
@@ -83,11 +95,15 @@ export const MemberHeaderColumn = observer(function MemberHeaderColumn(props: Pr
                 <MoveRight className="h-3 w-3" />
                 <span>{propertyDetails.descendingOrderTitle}</span>
               </div>
-              {activeSortingProperty === propertyDetails.ascendingOrderKey && <CheckIcon className="h-3 w-3" />}
+              {activeSortingProperty === propertyDetails.ascendingOrderKey && (
+                <CheckIcon className="h-3 w-3" />
+              )}
             </div>
           </CustomMenu.MenuItem>
 
-          <CustomMenu.MenuItem onClick={() => handleOrderBy(propertyDetails.descendingOrderKey, property)}>
+          <CustomMenu.MenuItem
+            onClick={() => handleOrderBy(propertyDetails.descendingOrderKey, property)}
+          >
             <div
               className={`flex items-center justify-between gap-1.5 px-1 ${
                 activeSortingProperty === propertyDetails.descendingOrderKey
@@ -101,7 +117,9 @@ export const MemberHeaderColumn = observer(function MemberHeaderColumn(props: Pr
                 <MoveRight className="h-3 w-3" />
                 <span>{propertyDetails.ascendingOrderTitle}</span>
               </div>
-              {activeSortingProperty === propertyDetails.descendingOrderKey && <CheckIcon className="h-3 w-3" />}
+              {activeSortingProperty === propertyDetails.descendingOrderKey && (
+                <CheckIcon className="h-3 w-3" />
+              )}
             </div>
           </CustomMenu.MenuItem>
 

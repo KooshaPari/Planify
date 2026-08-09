@@ -57,7 +57,14 @@ enum EProfileSetupSteps {
   USER_PERSONALIZATION = "USER_PERSONALIZATION",
 }
 
-const USER_ROLE = ["Individual contributor", "Senior Leader", "Manager", "Executive", "Freelancer", "Student"];
+const USER_ROLE = [
+  "Individual contributor",
+  "Senior Leader",
+  "Manager",
+  "Executive",
+  "Freelancer",
+  "Student",
+];
 
 const USER_DOMAIN = [
   "Engineering",
@@ -78,7 +85,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
   const { user, totalSteps, stepChange, finishOnboarding } = props;
   // states
   const [profileSetupStep, setProfileSetupStep] = useState<EProfileSetupSteps>(
-    user?.is_password_autoset ? EProfileSetupSteps.USER_DETAILS : EProfileSetupSteps.ALL
+    user?.is_password_autoset ? EProfileSetupSteps.USER_DETAILS : EProfileSetupSteps.ALL,
   );
   const [isImageUploadModalOpen, setIsImageUploadModalOpen] = useState(false);
   const [isPasswordInputFocused, setIsPasswordInputFocused] = useState(false);
@@ -126,7 +133,10 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
       avatar_url: formData.avatar_url ?? undefined,
     };
     const profileUpdatePayload: Partial<TUserProfile> = {
-      use_case: formData.use_case && formData.use_case.length > 0 ? formData.use_case.join(". ") : undefined,
+      use_case:
+        formData.use_case && formData.use_case.length > 0
+          ? formData.use_case.join(". ")
+          : undefined,
       role: formData.role,
     };
     try {
@@ -180,7 +190,10 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
 
   const handleSubmitUserPersonalization = async (formData: TProfileSetupFormValues) => {
     const profileUpdatePayload: Partial<TUserProfile> = {
-      use_case: formData.use_case && formData.use_case.length > 0 ? formData.use_case.join(". ") : undefined,
+      use_case:
+        formData.use_case && formData.use_case.length > 0
+          ? formData.use_case.join(". ")
+          : undefined,
       role: formData.role,
     };
     try {
@@ -209,8 +222,10 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
   const onSubmit = async (formData: TProfileSetupFormValues) => {
     if (!user) return;
     if (profileSetupStep === EProfileSetupSteps.ALL) await handleSubmitProfileSetup(formData);
-    if (profileSetupStep === EProfileSetupSteps.USER_DETAILS) await handleSubmitUserDetail(formData);
-    if (profileSetupStep === EProfileSetupSteps.USER_PERSONALIZATION) await handleSubmitUserPersonalization(formData);
+    if (profileSetupStep === EProfileSetupSteps.USER_DETAILS)
+      await handleSubmitUserDetail(formData);
+    if (profileSetupStep === EProfileSetupSteps.USER_PERSONALIZATION)
+      await handleSubmitUserPersonalization(formData);
   };
 
   const handleDelete = (url: string | null | undefined) => {
@@ -241,7 +256,13 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
   // Check for all available fields validation and if password field is available, then checks for password validation (strength + confirmation).
   // Also handles the condition for optional password i.e if password field is optional it only checks for above validation if it's not empty.
   const isButtonDisabled =
-    !isSubmitting && isValid ? (isPasswordAlreadySetup ? false : isValidPassword ? false : true) : true;
+    !isSubmitting && isValid
+      ? isPasswordAlreadySetup
+        ? false
+        : isValidPassword
+          ? false
+          : true
+      : true;
 
   return (
     <div className="flex h-full w-full">
@@ -362,7 +383,9 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                       />
                     )}
                   />
-                  {errors.last_name && <span className="text-13 text-danger-primary">{errors.last_name.message}</span>}
+                  {errors.last_name && (
+                    <span className="text-13 text-danger-primary">{errors.last_name.message}</span>
+                  )}
                 </div>
               </div>
 
@@ -408,7 +431,10 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                         </div>
                       )}
                     />
-                    <PasswordStrengthIndicator password={watch("password") ?? ""} isFocused={isPasswordInputFocused} />
+                    <PasswordStrengthIndicator
+                      password={watch("password") ?? ""}
+                      isFocused={isPasswordInputFocused}
+                    />
                   </div>
                   <div className="space-y-1">
                     <label className="text-13 font-medium text-tertiary" htmlFor="confirm_password">
@@ -420,7 +446,11 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                       rules={{
                         required: watch("password") ? true : false,
                         validate: (value) =>
-                          watch("password") ? (value === watch("password") ? true : "Passwords don't match") : true,
+                          watch("password")
+                            ? value === watch("password")
+                              ? true
+                              : "Passwords don't match"
+                            : true,
                       }}
                       render={({ field: { value, onChange, ref } }) => (
                         <div className="relative flex items-center rounded-md">
@@ -450,7 +480,9 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                       )}
                     />
                     {errors.confirm_password && (
-                      <span className="text-13 text-danger-primary">{errors.confirm_password.message}</span>
+                      <span className="text-13 text-danger-primary">
+                        {errors.confirm_password.message}
+                      </span>
                     )}
                   </div>
                 </>
@@ -484,7 +516,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                             {
                               "border-accent-strong": value === userRole,
                               "border-strong": value !== userRole,
-                            }
+                            },
                           )}
                           onClick={() => onChange(userRole)}
                         >
@@ -494,7 +526,9 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                     </div>
                   )}
                 />
-                {errors.role && <span className="text-13 text-danger-primary">{errors.role.message}</span>}
+                {errors.role && (
+                  <span className="text-13 text-danger-primary">{errors.role.message}</span>
+                )}
               </div>
               <div className="space-y-1">
                 <label
@@ -508,7 +542,8 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                   name="use_case"
                   rules={{
                     required: "Please select at least one option",
-                    validate: (value) => (value && value.length > 0) || "Please select at least one option",
+                    validate: (value) =>
+                      (value && value.length > 0) || "Please select at least one option",
                   }}
                   render={({ field: { value, onChange } }) => (
                     <div className="flex flex-wrap gap-2 overflow-auto py-2 break-all">
@@ -536,11 +571,19 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                     </div>
                   )}
                 />
-                {errors.use_case && <span className="text-13 text-danger-primary">{errors.use_case.message}</span>}
+                {errors.use_case && (
+                  <span className="text-13 text-danger-primary">{errors.use_case.message}</span>
+                )}
               </div>
             </>
           )}
-          <Button variant="primary" type="submit" size="xl" className="w-full" disabled={isButtonDisabled}>
+          <Button
+            variant="primary"
+            type="submit"
+            size="xl"
+            className="w-full"
+            disabled={isButtonDisabled}
+          >
             {isSubmitting ? <Spinner height="20px" width="20px" /> : "Continue"}
           </Button>
         </form>

@@ -21,7 +21,9 @@ type TDeDupeIssuePopoverRootProps = {
   isIntakeIssue?: boolean;
 };
 
-export const DeDupeIssuePopoverRoot = observer(function DeDupeIssuePopoverRoot(props: TDeDupeIssuePopoverRootProps) {
+export const DeDupeIssuePopoverRoot = observer(function DeDupeIssuePopoverRoot(
+  props: TDeDupeIssuePopoverRootProps,
+) {
   const {} = props;
   return <></>;
 });

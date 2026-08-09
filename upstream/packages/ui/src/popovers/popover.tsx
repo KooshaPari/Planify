@@ -45,7 +45,9 @@ export function Popover(props: TPopover) {
   });
 
   return (
-    <HeadlessReactPopover className={cn("relative flex h-full w-full items-center justify-center", popoverClassName)}>
+    <HeadlessReactPopover
+      className={cn("relative flex h-full w-full items-center justify-center", popoverClassName)}
+    >
       <div ref={setReferenceElement} className={cn("w-full", buttonRefClassName)}>
         <HeadlessReactPopover.Button
           ref={popoverButtonRef as Ref<HTMLButtonElement>}
@@ -54,7 +56,7 @@ export function Popover(props: TPopover) {
               "flex h-6 w-6 items-center justify-center rounded-sm bg-surface-2 text-14 transition-all hover:bg-layer-1":
                 !button,
             },
-            buttonClassName
+            buttonClassName,
           )}
           disabled={disabled}
         >

@@ -42,7 +42,9 @@ export const ArchivedModulesHeader = observer(function ArchivedModulesHeader() {
     workspace: { workspaceMemberIds },
   } = useMember();
   // states
-  const [isSearchOpen, setIsSearchOpen] = useState(archivedModulesSearchQuery !== "" ? true : false);
+  const [isSearchOpen, setIsSearchOpen] = useState(
+    archivedModulesSearchQuery !== "" ? true : false,
+  );
   // outside click detector hook
   useOutsideClickDetector(inputRef, () => {
     if (isSearchOpen && archivedModulesSearchQuery.trim() === "") setIsSearchOpen(false);
@@ -59,18 +61,20 @@ export const ArchivedModulesHeader = observer(function ArchivedModulesHeader() {
           else newValues.splice(newValues.indexOf(val), 1);
         });
       else {
-        if (currentProjectArchivedFilters?.[key]?.includes(value)) newValues.splice(newValues.indexOf(value), 1);
+        if (currentProjectArchivedFilters?.[key]?.includes(value))
+          newValues.splice(newValues.indexOf(value), 1);
         else newValues.push(value);
       }
 
       updateFilters(projectId.toString(), { [key]: newValues }, "archived");
     },
-    [currentProjectArchivedFilters, projectId, updateFilters]
+    [currentProjectArchivedFilters, projectId, updateFilters],
   );
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
-      if (archivedModulesSearchQuery && archivedModulesSearchQuery.trim() !== "") updateArchivedModulesSearchQuery("");
+      if (archivedModulesSearchQuery && archivedModulesSearchQuery.trim() !== "")
+        updateArchivedModulesSearchQuery("");
       else {
         setIsSearchOpen(false);
         inputRef.current?.blur();
@@ -104,7 +108,7 @@ export const ArchivedModulesHeader = observer(function ArchivedModulesHeader() {
             "ml-auto flex w-0 items-center justify-start gap-1 overflow-hidden rounded-md border border-transparent bg-surface-1 text-placeholder opacity-0 transition-[width] ease-linear",
             {
               "w-64 border-subtle px-2.5 py-1.5 opacity-100": isSearchOpen,
-            }
+            },
           )}
         >
           <SearchIcon className="h-3.5 w-3.5" />

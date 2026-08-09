@@ -24,7 +24,10 @@ import { EViewAccess, EIssuesStoreType } from "@plane/types";
 import { Input, TextArea } from "@plane/ui";
 import { getComputedDisplayFilters, getComputedDisplayProperties, getTabIndex } from "@plane/utils";
 // components
-import { DisplayFiltersSelection, FiltersDropdown } from "@/components/issues/issue-layouts/filters";
+import {
+  DisplayFiltersSelection,
+  FiltersDropdown,
+} from "@/components/issues/issue-layouts/filters";
 import { WorkItemFiltersRow } from "@/components/work-item-filters/filters-row";
 // hooks
 import { useProject } from "@/hooks/store/use-project";
@@ -108,7 +111,9 @@ export const ProjectViewForm = observer(function ProjectViewForm(props: Props) {
   return (
     <form onSubmit={handleSubmit(handleCreateUpdateView)}>
       <div className="space-y-5 p-5">
-        <h3 className="text-18 font-medium text-secondary">{data ? t("view.update.label") : t("view.create.label")}</h3>
+        <h3 className="text-18 font-medium text-secondary">
+          {data ? t("view.update.label") : t("view.create.label")}
+        </h3>
         <div className="space-y-3">
           <div className="flex w-full items-start gap-2">
             <EmojiPicker
@@ -144,7 +149,11 @@ export const ProjectViewForm = observer(function ProjectViewForm(props: Props) {
                 });
                 setIsOpen(false);
               }}
-              defaultIconColor={logoValue?.in_use && logoValue?.in_use === "icon" ? logoValue?.icon?.color : undefined}
+              defaultIconColor={
+                logoValue?.in_use && logoValue?.in_use === "icon"
+                  ? logoValue?.icon?.color
+                  : undefined
+              }
               defaultOpen={
                 logoValue?.in_use && logoValue?.in_use === "emoji"
                   ? EmojiIconPickerTypes.EMOJI
@@ -177,7 +186,9 @@ export const ProjectViewForm = observer(function ProjectViewForm(props: Props) {
                   />
                 )}
               />
-              <span className="text-11 text-danger-primary">{errors?.name?.message?.toString()}</span>
+              <span className="text-11 text-danger-primary">
+                {errors?.name?.message?.toString()}
+              </span>
             </div>
           </div>
           <div>
@@ -219,14 +230,20 @@ export const ProjectViewForm = observer(function ProjectViewForm(props: Props) {
                   <Controller
                     control={control}
                     name="display_properties"
-                    render={({ field: { onChange: onDisplayPropertiesChange, value: displayProperties } }) => (
+                    render={({
+                      field: { onChange: onDisplayPropertiesChange, value: displayProperties },
+                    }) => (
                       <FiltersDropdown title={t("common.display")}>
                         <DisplayFiltersSelection
                           layoutDisplayFiltersOptions={
-                            ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[displayFilters.layout]
+                            ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[
+                              displayFilters.layout
+                            ]
                           }
                           displayFilters={displayFilters ?? {}}
-                          handleDisplayFiltersUpdate={(updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>) => {
+                          handleDisplayFiltersUpdate={(
+                            updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>,
+                          ) => {
                             onDisplayFiltersChange({
                               ...displayFilters,
                               ...updatedDisplayFilter,
@@ -234,7 +251,7 @@ export const ProjectViewForm = observer(function ProjectViewForm(props: Props) {
                           }}
                           displayProperties={displayProperties ?? {}}
                           handleDisplayPropertiesUpdate={(
-                            updatedDisplayProperties: Partial<IIssueDisplayProperties>
+                            updatedDisplayProperties: Partial<IIssueDisplayProperties>,
                           ) => {
                             onDisplayPropertiesChange({
                               ...displayProperties,
@@ -283,7 +300,13 @@ export const ProjectViewForm = observer(function ProjectViewForm(props: Props) {
         <Button variant="secondary" size="lg" onClick={handleClose} tabIndex={getIndex("cancel")}>
           {t("common.cancel")}
         </Button>
-        <Button variant="primary" size="lg" type="submit" tabIndex={getIndex("submit")} loading={isSubmitting}>
+        <Button
+          variant="primary"
+          size="lg"
+          type="submit"
+          tabIndex={getIndex("submit")}
+          loading={isSubmitting}
+        >
           {data
             ? isSubmitting
               ? t("common.updating")

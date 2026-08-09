@@ -14,7 +14,13 @@ type TSingleProgressStatsProps = {
   selected?: boolean;
 };
 
-export function SingleProgressStats({ title, completed, total, onClick, selected = false }: TSingleProgressStatsProps) {
+export function SingleProgressStats({
+  title,
+  completed,
+  total,
+  onClick,
+  selected = false,
+}: TSingleProgressStatsProps) {
   return (
     <div
       className={`flex w-full items-center justify-between gap-4 rounded-xs p-1 text-11 ${
@@ -26,7 +32,10 @@ export function SingleProgressStats({ title, completed, total, onClick, selected
       <div className="flex w-2/6 items-center justify-end gap-1 px-2">
         <div className="flex h-5 items-center justify-center gap-1">
           <span className="w-8 text-right">
-            {isNaN(Math.round((completed / total) * 100)) ? "0" : Math.round((completed / total) * 100)}%
+            {isNaN(Math.round((completed / total) * 100))
+              ? "0"
+              : Math.round((completed / total) * 100)}
+            %
           </span>
         </div>
         <span>of {total}</span>

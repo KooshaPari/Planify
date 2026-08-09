@@ -19,7 +19,7 @@ export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 
 const TextArea = React.forwardRef(function TextArea(
   props: TextAreaProps,
-  ref: React.ForwardedRef<HTMLTextAreaElement>
+  ref: React.ForwardedRef<HTMLTextAreaElement>,
 ) {
   const {
     id,
@@ -55,7 +55,7 @@ const TextArea = React.forwardRef(function TextArea(
           "border-danger-strong": hasError,
           "bg-danger-subtle": hasError && mode === "primary",
         },
-        className
+        className,
       )}
       {...rest}
     />

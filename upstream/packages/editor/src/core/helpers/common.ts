@@ -17,20 +17,24 @@ type EditorClassNameArgs = {
   containerClassName?: string;
 };
 
-export const getEditorClassNames = ({ noBorder, borderOnFocus, containerClassName }: EditorClassNameArgs) =>
+export const getEditorClassNames = ({
+  noBorder,
+  borderOnFocus,
+  containerClassName,
+}: EditorClassNameArgs) =>
   cn(
     "w-full max-w-full focus:border-0 focus:outline-none sm:rounded-lg",
     {
       "border border-subtle-1": !noBorder,
       "border-strong focus:border": borderOnFocus,
     },
-    containerClassName
+    containerClassName,
   );
 
 // Helper function to find the parent node of a specific type
 export const findParentNodeOfType = (
   selection: Selection,
-  typeName: string[]
+  typeName: string[],
 ): {
   node: ProseMirrorNode;
   pos: number;

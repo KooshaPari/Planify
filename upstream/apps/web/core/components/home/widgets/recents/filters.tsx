@@ -36,7 +36,9 @@ export const FiltersDropdown = observer(function FiltersDropdown(props: TFilters
     ));
   }
 
-  const title = activeFilter ? filters?.find((filter) => filter.name === activeFilter)?.i18n_key : "";
+  const title = activeFilter
+    ? filters?.find((filter) => filter.name === activeFilter)?.i18n_key
+    : "";
   return (
     <CustomMenu
       maxHeight={"md"}
@@ -45,7 +47,9 @@ export const FiltersDropdown = observer(function FiltersDropdown(props: TFilters
       customButton={
         <button className="flex gap-1 rounded-sm border border-subtle px-2 py-1 capitalize hover:bg-layer-transparent-hover">
           <span className="my-auto text-13 font-medium">{t(title || "")}</span>
-          <ChevronDownIcon className={cn("my-auto size-3 text-tertiary duration-300 hover:text-secondary")} />
+          <ChevronDownIcon
+            className={cn("my-auto size-3 text-tertiary duration-300 hover:text-secondary")}
+          />
         </button>
       }
       customButtonClassName="flex justify-center"

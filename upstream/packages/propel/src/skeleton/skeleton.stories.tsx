@@ -120,7 +120,12 @@ export const AvatarGroup: Story = {
     return (
       <Skeleton className="flex -space-x-2">
         {[...Array(4)].map((_, i) => (
-          <Skeleton.Item key={i} height="40px" width="40px" className="rounded-full border-2 border-white" />
+          <Skeleton.Item
+            key={i}
+            height="40px"
+            width="40px"
+            className="rounded-full border-2 border-white"
+          />
         ))}
       </Skeleton>
     );

@@ -47,7 +47,7 @@ export interface IUserStore {
   deactivateAccount: () => Promise<void>;
   changePassword: (
     csrfToken: string,
-    payload: { old_password?: string; new_password: string }
+    payload: { old_password?: string; new_password: string },
   ) => Promise<IUser | undefined>;
   reset: () => void;
   signOut: () => Promise<void>;
@@ -185,7 +185,10 @@ export class UserStore implements IUserStore {
    * @param data
    * @returns {Promise<IUser>}
    */
-  handleSetPassword = async (csrfToken: string, data: { password: string }): Promise<IUser | undefined> => {
+  handleSetPassword = async (
+    csrfToken: string,
+    data: { password: string },
+  ): Promise<IUser | undefined> => {
     const currentUserData = cloneDeep(this.data);
     try {
       if (currentUserData && currentUserData.is_password_autoset && this.data) {
@@ -211,7 +214,7 @@ export class UserStore implements IUserStore {
     payload: {
       old_password?: string;
       new_password: string;
-    }
+    },
   ): Promise<IUser | undefined> => {
     try {
       const user = await this.userService.changePassword(csrfToken, payload);
@@ -265,15 +268,19 @@ export class UserStore implements IUserStore {
   fetchProjectsWithCreatePermissions = (): { [key: string]: TUserPermissions } => {
     const { workspaceSlug } = this.store.router;
 
-    const allWorkspaceProjectRoles = this.permission.getProjectRolesByWorkspaceSlug(workspaceSlug || "");
+    const allWorkspaceProjectRoles = this.permission.getProjectRolesByWorkspaceSlug(
+      workspaceSlug || "",
+    );
 
     const userPermissions =
       (allWorkspaceProjectRoles &&
         Object.keys(allWorkspaceProjectRoles)
           .filter((key) => allWorkspaceProjectRoles[key] >= EUserPermissions.MEMBER)
           .reduce(
-            (res: { [projectId: string]: number }, key: string) => ((res[key] = allWorkspaceProjectRoles[key]), res),
-            {}
+            (res: { [projectId: string]: number }, key: string) => (
+              (res[key] = allWorkspaceProjectRoles[key]), res
+            ),
+            {},
           )) ||
       null;
 

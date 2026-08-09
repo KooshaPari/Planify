@@ -70,7 +70,7 @@ export class ProjectService extends APIService {
 
   async getProjectAnalyticsCount(
     workspaceSlug: string,
-    params?: TProjectAnalyticsCountParams
+    params?: TProjectAnalyticsCountParams,
   ): Promise<TProjectAnalyticsCount[]> {
     return this.get(`/api/workspaces/${workspaceSlug}/project-stats/`, {
       params,
@@ -81,7 +81,11 @@ export class ProjectService extends APIService {
       });
   }
 
-  async updateProject(workspaceSlug: string, projectId: string, data: Partial<TProject>): Promise<TProject> {
+  async updateProject(
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<TProject>,
+  ): Promise<TProject> {
     return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/`, data)
       .then((response) => response?.data)
       .catch((error) => {
@@ -98,7 +102,10 @@ export class ProjectService extends APIService {
   }
 
   // User Properties
-  async getProjectUserProperties(workspaceSlug: string, projectId: string): Promise<IProjectUserPropertiesResponse> {
+  async getProjectUserProperties(
+    workspaceSlug: string,
+    projectId: string,
+  ): Promise<IProjectUserPropertiesResponse> {
     return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/user-properties/`)
       .then((response) => response?.data)
       .catch((error) => {
@@ -109,9 +116,12 @@ export class ProjectService extends APIService {
   async updateProjectUserProperties(
     workspaceSlug: string,
     projectId: string,
-    data: Partial<IProjectUserPropertiesResponse>
+    data: Partial<IProjectUserPropertiesResponse>,
   ): Promise<IProjectUserPropertiesResponse> {
-    return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/user-properties/`, data)
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/user-properties/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -138,11 +148,11 @@ export class ProjectService extends APIService {
       owner: string;
       repository_id: string;
       url: string;
-    }
+    },
   ): Promise<any> {
     return this.post(
       `/api/workspaces/${workspaceSlug}/projects/${projectId}/workspace-integrations/${workspaceIntegrationId}/github-repository-sync/`,
-      data
+      data,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -150,9 +160,13 @@ export class ProjectService extends APIService {
       });
   }
 
-  async getProjectGithubRepository(workspaceSlug: string, projectId: string, integrationId: string): Promise<any> {
+  async getProjectGithubRepository(
+    workspaceSlug: string,
+    projectId: string,
+    integrationId: string,
+  ): Promise<any> {
     return this.get(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/workspace-integrations/${integrationId}/github-repository-sync/`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/workspace-integrations/${integrationId}/github-repository-sync/`,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -187,7 +201,7 @@ export class ProjectService extends APIService {
   async projectIssuesSearch(
     workspaceSlug: string,
     projectId: string,
-    params: TProjectIssuesSearchParams
+    params: TProjectIssuesSearchParams,
   ): Promise<ISearchIssueResponse[]> {
     return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/search-issues/`, {
       params,

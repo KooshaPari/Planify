@@ -5,7 +5,12 @@
  */
 
 // plane imports
-import type { TBuildFilterExpressionParams, TExternalFilter, TFilterProperty, TFilterValue } from "@plane/types";
+import type {
+  TBuildFilterExpressionParams,
+  TExternalFilter,
+  TFilterProperty,
+  TFilterValue,
+} from "@plane/types";
 import { LOGICAL_OPERATOR } from "@plane/types";
 import { getOperatorForPayload } from "@plane/utils";
 // local imports
@@ -22,7 +27,7 @@ export const buildTempFilterExpressionFromConditions = <
   V extends TFilterValue,
   E extends TExternalFilter,
 >(
-  params: TBuildFilterExpressionParams<P, V, E>
+  params: TBuildFilterExpressionParams<P, V, E>,
 ): E | undefined => {
   const { conditions, adapter } = params;
   let tempExpression: E | undefined = undefined;
@@ -41,7 +46,7 @@ export const buildTempFilterExpressionFromConditions = <
         operator,
         value: condition.value,
       },
-      isNegation
+      isNegation,
     );
   }
   return tempExpression;

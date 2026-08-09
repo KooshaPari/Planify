@@ -54,7 +54,7 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: IWor
     peekIssue?.projectId,
     peekIssue?.workspaceSlug,
     peekIssue?.issueId,
-    storeType === EIssuesStoreType.EPIC ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES
+    storeType === EIssuesStoreType.EPIC ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES,
   );
   // state
   const [error, setError] = useState(false);
@@ -75,7 +75,12 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: IWor
           console.error("Error fetching the parent issue", error);
         }
       },
-      update: async (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => {
+      update: async (
+        workspaceSlug: string,
+        projectId: string,
+        issueId: string,
+        data: Partial<TIssue>,
+      ) => {
         if (issues?.updateIssue) {
           await issues
             .updateIssue(workspaceSlug, projectId, issueId, data)
@@ -130,7 +135,12 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: IWor
           });
         }
       },
-      addCycleToIssue: async (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => {
+      addCycleToIssue: async (
+        workspaceSlug: string,
+        projectId: string,
+        cycleId: string,
+        issueId: string,
+      ) => {
         try {
           await issues.addCycleToIssue(workspaceSlug, projectId, cycleId, issueId);
           fetchActivities(workspaceSlug, projectId, issueId);
@@ -142,7 +152,12 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: IWor
           });
         }
       },
-      addIssueToCycle: async (workspaceSlug: string, projectId: string, cycleId: string, issueIds: string[]) => {
+      addIssueToCycle: async (
+        workspaceSlug: string,
+        projectId: string,
+        cycleId: string,
+        issueIds: string[],
+      ) => {
         try {
           await issues.addIssueToCycle(workspaceSlug, projectId, cycleId, issueIds);
         } catch (_error) {
@@ -153,9 +168,19 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: IWor
           });
         }
       },
-      removeIssueFromCycle: async (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => {
+      removeIssueFromCycle: async (
+        workspaceSlug: string,
+        projectId: string,
+        cycleId: string,
+        issueId: string,
+      ) => {
         try {
-          const removeFromCyclePromise = issues.removeIssueFromCycle(workspaceSlug, projectId, cycleId, issueId);
+          const removeFromCyclePromise = issues.removeIssueFromCycle(
+            workspaceSlug,
+            projectId,
+            cycleId,
+            issueId,
+          );
           setPromiseToast(removeFromCyclePromise, {
             loading: t("issue.remove.cycle.loading"),
             success: {
@@ -178,21 +203,31 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: IWor
         projectId: string,
         issueId: string,
         addModuleIds: string[],
-        removeModuleIds: string[]
+        removeModuleIds: string[],
       ) => {
         const promise = await issues.changeModulesInIssue(
           workspaceSlug,
           projectId,
           issueId,
           addModuleIds,
-          removeModuleIds
+          removeModuleIds,
         );
         fetchActivities(workspaceSlug, projectId, issueId);
         return promise;
       },
-      removeIssueFromModule: async (workspaceSlug: string, projectId: string, moduleId: string, issueId: string) => {
+      removeIssueFromModule: async (
+        workspaceSlug: string,
+        projectId: string,
+        moduleId: string,
+        issueId: string,
+      ) => {
         try {
-          const removeFromModulePromise = issues.removeIssuesFromModule(workspaceSlug, projectId, moduleId, [issueId]);
+          const removeFromModulePromise = issues.removeIssuesFromModule(
+            workspaceSlug,
+            projectId,
+            moduleId,
+            [issueId],
+          );
           setPromiseToast(removeFromModulePromise, {
             loading: t("issue.remove.module.loading"),
             success: {
@@ -212,17 +247,19 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: IWor
       },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fetchIssue, is_draft, issues, fetchActivities, pathname, removeRoutePeekId, restoreIssue]
+    [fetchIssue, is_draft, issues, fetchActivities, pathname, removeRoutePeekId, restoreIssue],
   );
 
   const { isLoading } = useSWR(
     ["peek-issue", peekIssue?.workspaceSlug, peekIssue?.projectId, peekIssue?.issueId],
-    () => peekIssue && issueOperations.fetch(peekIssue.workspaceSlug, peekIssue.projectId, peekIssue.issueId),
+    () =>
+      peekIssue &&
+      issueOperations.fetch(peekIssue.workspaceSlug, peekIssue.projectId, peekIssue.issueId),
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 
   if (!peekIssue?.workspaceSlug || !peekIssue?.projectId || !peekIssue?.issueId) return <></>;
@@ -232,7 +269,7 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: IWor
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
     peekIssue?.workspaceSlug,
-    peekIssue?.projectId
+    peekIssue?.projectId,
   );
 
   return (

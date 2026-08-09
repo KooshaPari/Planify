@@ -41,7 +41,7 @@ export const useQuickActionsFactory = () => {
 
     createArchiveMenuItem: (
       handler: () => void,
-      opts: { shouldRender?: boolean; disabled?: boolean; description?: string }
+      opts: { shouldRender?: boolean; disabled?: boolean; description?: string },
     ): TContextMenuItem => ({
       key: "archive",
       title: t("archive"),
@@ -54,7 +54,10 @@ export const useQuickActionsFactory = () => {
       shouldRender: opts.shouldRender,
     }),
 
-    createRestoreMenuItem: (handler: () => void, shouldRender: boolean = true): TContextMenuItem => ({
+    createRestoreMenuItem: (
+      handler: () => void,
+      shouldRender: boolean = true,
+    ): TContextMenuItem => ({
       key: "restore",
       title: t("restore"),
       icon: ArchiveRestoreIcon,
@@ -62,7 +65,10 @@ export const useQuickActionsFactory = () => {
       shouldRender,
     }),
 
-    createDeleteMenuItem: (handler: () => void, shouldRender: boolean = true): TContextMenuItem => ({
+    createDeleteMenuItem: (
+      handler: () => void,
+      shouldRender: boolean = true,
+    ): TContextMenuItem => ({
       key: "delete",
       title: t("delete"),
       icon: Trash2,

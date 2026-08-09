@@ -14,29 +14,31 @@ import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
 import { SettingsPageHeader } from "@/components/settings/page-header";
 import { PROJECT_SETTINGS_ICONS } from "@/components/settings/project/sidebar/item-icon";
 
-export const FeaturesIntakeProjectSettingsHeader = observer(function FeaturesIntakeProjectSettingsHeader() {
-  // translation
-  const { t } = useTranslation();
-  // derived values
-  const settingsDetails = PROJECT_SETTINGS.features_intake;
-  const Icon = PROJECT_SETTINGS_ICONS.features_intake;
+export const FeaturesIntakeProjectSettingsHeader = observer(
+  function FeaturesIntakeProjectSettingsHeader() {
+    // translation
+    const { t } = useTranslation();
+    // derived values
+    const settingsDetails = PROJECT_SETTINGS.features_intake;
+    const Icon = PROJECT_SETTINGS_ICONS.features_intake;
 
-  return (
-    <SettingsPageHeader
-      leftItem={
-        <div className="flex items-center gap-2">
-          <Breadcrumbs>
-            <Breadcrumbs.Item
-              component={
-                <BreadcrumbLink
-                  label={t(settingsDetails.i18n_label)}
-                  icon={<Icon className="size-4 text-tertiary" />}
-                />
-              }
-            />
-          </Breadcrumbs>
-        </div>
-      }
-    />
-  );
-});
+    return (
+      <SettingsPageHeader
+        leftItem={
+          <div className="flex items-center gap-2">
+            <Breadcrumbs>
+              <Breadcrumbs.Item
+                component={
+                  <BreadcrumbLink
+                    label={t(settingsDetails.i18n_label)}
+                    icon={<Icon className="size-4 text-tertiary" />}
+                  />
+                }
+              />
+            </Breadcrumbs>
+          </div>
+        }
+      />
+    );
+  },
+);

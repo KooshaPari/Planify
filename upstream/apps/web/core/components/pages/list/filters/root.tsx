@@ -16,7 +16,10 @@ import { usePlatformOS } from "@/hooks/use-platform-os";
 
 type Props = {
   filters: TPageFilters;
-  handleFiltersUpdate: <T extends keyof TPageFilters>(filterKey: T, filterValue: TPageFilters[T]) => void;
+  handleFiltersUpdate: <T extends keyof TPageFilters>(
+    filterKey: T,
+    filterValue: TPageFilters[T],
+  ) => void;
   memberIds?: string[] | undefined;
 };
 
@@ -70,7 +73,11 @@ export const PageFiltersSelection = observer(function PageFiltersSelection(props
             onChange={(e) => setFiltersSearchQuery(e.target.value)}
           />
           {filtersSearchQuery !== "" && (
-            <button type="button" className="grid place-items-center" onClick={() => setFiltersSearchQuery("")}>
+            <button
+              type="button"
+              className="grid place-items-center"
+              onClick={() => setFiltersSearchQuery("")}
+            >
               <CloseIcon className="text-tertiary" height={12} width={12} strokeWidth={2} />
             </button>
           )}

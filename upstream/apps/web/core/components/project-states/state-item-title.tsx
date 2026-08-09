@@ -53,7 +53,12 @@ export const StateItemTitle = observer(function StateItemTitle(props: TStateItem
         )}
         {/* state icon */}
         <div className="flex-shrink-0">
-          <StateGroupIcon stateGroup={state.group} color={state.color} size={EIconSize.XL} percentage={percentage} />
+          <StateGroupIcon
+            stateGroup={state.group}
+            color={state.color}
+            size={EIconSize.XL}
+            percentage={percentage}
+          />
         </div>
         {/* state title and description */}
         <div className="min-h-5 px-2 text-13">

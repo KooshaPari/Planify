@@ -53,11 +53,18 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
         "flex h-14 w-full flex-shrink-0 items-center justify-between gap-1 self-baseline border-t border-subtle bg-surface-1 px-4",
         {
           "h-auto flex-col py-1.5": isSidebarCollapsed,
-        }
+        },
       )}
     >
-      <div className={`flex items-center gap-1 ${isSidebarCollapsed ? "flex-col justify-center" : "w-full"}`}>
-        <Tooltip tooltipContent="Redirect to Plane" position="right" className="ml-4" disabled={!isSidebarCollapsed}>
+      <div
+        className={`flex items-center gap-1 ${isSidebarCollapsed ? "flex-col justify-center" : "w-full"}`}
+      >
+        <Tooltip
+          tooltipContent="Redirect to Plane"
+          position="right"
+          className="ml-4"
+          disabled={!isSidebarCollapsed}
+        >
           <a
             href={redirectionLink}
             className={`relative flex items-center gap-1 rounded-sm bg-layer-1 px-2 py-1 text-body-xs-medium whitespace-nowrap text-secondary`}
@@ -66,7 +73,11 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
             {!isSidebarCollapsed && "Redirect to Plane"}
           </a>
         </Tooltip>
-        <Tooltip tooltipContent="Help" position={isSidebarCollapsed ? "right" : "top"} className="ml-4">
+        <Tooltip
+          tooltipContent="Help"
+          position={isSidebarCollapsed ? "right" : "top"}
+          className="ml-4"
+        >
           <button
             type="button"
             className={`ml-auto grid place-items-center rounded-md p-1.5 text-secondary outline-none hover:bg-layer-1-hover hover:text-primary ${
@@ -77,7 +88,11 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
             <HelpCircle className="size-4" />
           </button>
         </Tooltip>
-        <Tooltip tooltipContent="Toggle sidebar" position={isSidebarCollapsed ? "right" : "top"} className="ml-4">
+        <Tooltip
+          tooltipContent="Toggle sidebar"
+          position={isSidebarCollapsed ? "right" : "top"}
+          className="ml-4"
+        >
           <button
             type="button"
             className={`grid place-items-center rounded-md p-1.5 text-secondary outline-none hover:bg-layer-1-hover hover:text-primary ${

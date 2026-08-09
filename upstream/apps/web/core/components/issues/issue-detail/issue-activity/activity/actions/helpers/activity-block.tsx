@@ -56,7 +56,10 @@ export function IssueActivityBlockComponent(props: TIssueActivityBlockComponent)
             isMobile={isMobile}
             tooltipContent={`${renderFormattedDate(activity.created_at)}, ${renderFormattedTime(activity.created_at)}`}
           >
-            <span className="whitespace-nowrap text-tertiary"> {calculateTimeAgo(activity.created_at)}</span>
+            <span className="whitespace-nowrap text-tertiary">
+              {" "}
+              {calculateTimeAgo(activity.created_at)}
+            </span>
           </Tooltip>
         </span>
       </div>

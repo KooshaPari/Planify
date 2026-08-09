@@ -36,16 +36,28 @@ export const GlobalViewListItem = observer(function GlobalViewListItem(props: Pr
 
   return (
     <>
-      <CreateUpdateWorkspaceViewModal data={view} isOpen={updateViewModal} onClose={() => setUpdateViewModal(false)} />
-      <DeleteGlobalViewModal data={view} isOpen={deleteViewModal} onClose={() => setDeleteViewModal(false)} />
+      <CreateUpdateWorkspaceViewModal
+        data={view}
+        isOpen={updateViewModal}
+        onClose={() => setUpdateViewModal(false)}
+      />
+      <DeleteGlobalViewModal
+        data={view}
+        isOpen={deleteViewModal}
+        onClose={() => setDeleteViewModal(false)}
+      />
       <div className="group border-b border-subtle hover:bg-surface-2">
         <Link href={`/${workspaceSlug}/workspace-views/${view.id}`}>
           <div className="relative flex h-[52px] w-full items-center justify-between rounded-sm p-4">
             <div className="flex w-full items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="flex flex-col">
-                  <p className="truncate text-13 leading-4 font-medium">{truncateText(view.name, 75)}</p>
-                  {view?.description && <p className="text-11 text-secondary">{view.description}</p>}
+                  <p className="truncate text-13 leading-4 font-medium">
+                    {truncateText(view.name, 75)}
+                  </p>
+                  {view?.description && (
+                    <p className="text-11 text-secondary">{view.description}</p>
+                  )}
                 </div>
               </div>
               <div className="ml-2 flex flex-shrink-0">

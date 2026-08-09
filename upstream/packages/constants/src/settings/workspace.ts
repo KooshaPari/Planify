@@ -65,10 +65,13 @@ export const WORKSPACE_SETTINGS: Record<TWorkspaceSettingsTabs, TWorkspaceSettin
 };
 
 export const WORKSPACE_SETTINGS_ACCESS = Object.fromEntries(
-  Object.entries(WORKSPACE_SETTINGS).map(([_, { href, access }]) => [href, access])
+  Object.entries(WORKSPACE_SETTINGS).map(([_, { href, access }]) => [href, access]),
 );
 
-export const GROUPED_WORKSPACE_SETTINGS: Record<WORKSPACE_SETTINGS_CATEGORY, TWorkspaceSettingsItem[]> = {
+export const GROUPED_WORKSPACE_SETTINGS: Record<
+  WORKSPACE_SETTINGS_CATEGORY,
+  TWorkspaceSettingsItem[]
+> = {
   [WORKSPACE_SETTINGS_CATEGORY.ADMINISTRATION]: [
     WORKSPACE_SETTINGS["general"],
     WORKSPACE_SETTINGS["members"],

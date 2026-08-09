@@ -7,7 +7,11 @@
 import { pull, find, concat, update, set } from "lodash-es";
 import { action, makeObservable, observable, runInAction } from "mobx";
 // Plane Imports
-import type { TIssueCommentReaction, TIssueCommentReactionIdMap, TIssueCommentReactionMap } from "@plane/types";
+import type {
+  TIssueCommentReaction,
+  TIssueCommentReactionIdMap,
+  TIssueCommentReactionMap,
+} from "@plane/types";
 import { groupReactions } from "@plane/utils";
 // services
 import { IssueReactionService } from "@/services/issue";
@@ -19,21 +23,21 @@ export interface IIssueCommentReactionStoreActions {
   fetchCommentReactions: (
     workspaceSlug: string,
     projectId: string,
-    commentId: string
+    commentId: string,
   ) => Promise<TIssueCommentReaction[]>;
   applyCommentReactions: (commentId: string, commentReactions: TIssueCommentReaction[]) => void;
   createCommentReaction: (
     workspaceSlug: string,
     projectId: string,
     commentId: string,
-    reaction: string
+    reaction: string,
   ) => Promise<any>;
   removeCommentReaction: (
     workspaceSlug: string,
     projectId: string,
     commentId: string,
     reaction: string,
-    userId: string
+    userId: string,
   ) => Promise<any>;
 }
 
@@ -42,7 +46,9 @@ export interface IIssueCommentReactionStore extends IIssueCommentReactionStoreAc
   commentReactions: TIssueCommentReactionIdMap;
   commentReactionMap: TIssueCommentReactionMap;
   // helper methods
-  getCommentReactionsByCommentId: (commentId: string) => { [reaction_id: string]: string[] } | undefined;
+  getCommentReactionsByCommentId: (
+    commentId: string,
+  ) => { [reaction_id: string]: string[] } | undefined;
   getCommentReactionById: (reactionId: string) => TIssueCommentReaction | undefined;
   commentReactionsByUser: (commentId: string, userId: string) => TIssueCommentReaction[];
 }
@@ -95,7 +101,8 @@ export class IssueCommentReactionStore implements IIssueCommentReactionStore {
       if (reactions?.[reaction])
         reactions?.[reaction].map((reactionId) => {
           const currentReaction = this.getCommentReactionById(reactionId);
-          if (currentReaction && currentReaction.actor === userId) _userReactions.push(currentReaction);
+          if (currentReaction && currentReaction.actor === userId)
+            _userReactions.push(currentReaction);
         });
     });
 
@@ -105,7 +112,11 @@ export class IssueCommentReactionStore implements IIssueCommentReactionStore {
   // actions
   fetchCommentReactions = async (workspaceSlug: string, projectId: string, commentId: string) => {
     try {
-      const response = await this.issueReactionService.listIssueCommentReactions(workspaceSlug, projectId, commentId);
+      const response = await this.issueReactionService.listIssueCommentReactions(
+        workspaceSlug,
+        projectId,
+        commentId,
+      );
 
       const groupedReactions = groupReactions(response || [], "reaction");
 
@@ -146,11 +157,21 @@ export class IssueCommentReactionStore implements IIssueCommentReactionStore {
     return;
   };
 
-  createCommentReaction = async (workspaceSlug: string, projectId: string, commentId: string, reaction: string) => {
+  createCommentReaction = async (
+    workspaceSlug: string,
+    projectId: string,
+    commentId: string,
+    reaction: string,
+  ) => {
     try {
-      const response = await this.issueReactionService.createIssueCommentReaction(workspaceSlug, projectId, commentId, {
-        reaction,
-      });
+      const response = await this.issueReactionService.createIssueCommentReaction(
+        workspaceSlug,
+        projectId,
+        commentId,
+        {
+          reaction,
+        },
+      );
 
       if (!this.commentReactions[commentId]) this.commentReactions[commentId] = {};
       runInAction(() => {
@@ -173,7 +194,7 @@ export class IssueCommentReactionStore implements IIssueCommentReactionStore {
     projectId: string,
     commentId: string,
     reaction: string,
-    userId: string
+    userId: string,
   ) => {
     try {
       const userReactions = this.commentReactionsByUser(commentId, userId);
@@ -190,7 +211,7 @@ export class IssueCommentReactionStore implements IIssueCommentReactionStore {
         workspaceSlug,
         projectId,
         commentId,
-        reaction
+        reaction,
       );
 
       return response;

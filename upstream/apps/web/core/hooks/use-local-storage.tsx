@@ -29,7 +29,9 @@ export const setValueIntoLocalStorage = (key: string, value: any) => {
 
 // TODO: Remove this once we migrate to the new hooks from plane/helpers
 const useLocalStorage = <T,>(key: string, initialValue: T) => {
-  const [storedValue, setStoredValue] = useState<T | null>(() => getValueFromLocalStorage(key, initialValue));
+  const [storedValue, setStoredValue] = useState<T | null>(() =>
+    getValueFromLocalStorage(key, initialValue),
+  );
 
   const setValue = useCallback(
     (value: T) => {
@@ -37,7 +39,7 @@ const useLocalStorage = <T,>(key: string, initialValue: T) => {
       setStoredValue(value);
       window.dispatchEvent(new Event(`local-storage:${key}`));
     },
-    [key]
+    [key],
   );
 
   const clearValue = useCallback(() => {

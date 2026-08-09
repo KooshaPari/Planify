@@ -49,7 +49,7 @@ export const StickySearch = observer(function StickySearch() {
     debounce(async () => {
       await fetchStickies();
     }, 500),
-    [fetchWorkspaceStickies]
+    [fetchWorkspaceStickies],
   );
 
   return (
@@ -71,7 +71,7 @@ export const StickySearch = observer(function StickySearch() {
           "ml-auto flex w-0 items-center justify-start gap-1 overflow-hidden rounded-md border border-transparent text-placeholder opacity-0 transition-[width] ease-linear",
           {
             "w-30 border-subtle px-2.5 py-1.5 opacity-100 md:w-64": isSearchOpen,
-          }
+          },
         )}
       >
         <SearchIcon className="size-3.5 shrink-0" />

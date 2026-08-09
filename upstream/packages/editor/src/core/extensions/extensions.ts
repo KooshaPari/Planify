@@ -148,7 +148,7 @@ export const CoreEditorExtensions = (args: TArguments): Extensions => {
       CustomImageExtension({
         fileHandler,
         isEditable: editable,
-      })
+      }),
     );
   }
 

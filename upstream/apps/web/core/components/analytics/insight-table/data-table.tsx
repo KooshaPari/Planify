@@ -37,7 +37,12 @@ interface DataTableProps<TData, TValue> {
   actions?: (table: TanstackTable<TData>) => React.ReactNode;
 }
 
-export function DataTable<TData, TValue>({ columns, data, searchPlaceholder, actions }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  searchPlaceholder,
+  actions,
+}: DataTableProps<TData, TValue>) {
   const [rowSelection, _setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -90,7 +95,7 @@ export function DataTable<TData, TValue>({ columns, data, searchPlaceholder, act
               "mr-auto flex w-0 items-center justify-start gap-1 overflow-hidden rounded-md border border-transparent bg-surface-1 text-placeholder opacity-0 transition-[width] ease-linear",
               {
                 "w-64 border-subtle px-2.5 py-1.5 opacity-100": isSearchOpen,
-              }
+              },
             )}
           >
             <SearchIcon className="h-3.5 w-3.5" />
@@ -98,7 +103,11 @@ export function DataTable<TData, TValue>({ columns, data, searchPlaceholder, act
               ref={inputRef}
               className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none"
               placeholder="Search"
-              value={table.getColumn(table.getHeaderGroups()?.[0]?.headers?.[0]?.id)?.getFilterValue() as string}
+              value={
+                table
+                  .getColumn(table.getHeaderGroups()?.[0]?.headers?.[0]?.id)
+                  ?.getFilterValue() as string
+              }
               onChange={(e) => {
                 const columnId = table.getHeaderGroups()?.[0]?.headers?.[0]?.id;
                 if (columnId) table.getColumn(columnId)?.setFilterValue(e.target.value);

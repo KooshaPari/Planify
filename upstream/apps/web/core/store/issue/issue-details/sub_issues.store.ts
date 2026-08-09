@@ -25,12 +25,16 @@ import type { IWorkItemSubIssueFiltersStore } from "./sub_issues_filter.store";
 import { WorkItemSubIssueFiltersStore } from "./sub_issues_filter.store";
 
 export interface IIssueSubIssuesStoreActions {
-  fetchSubIssues: (workspaceSlug: string, projectId: string, parentIssueId: string) => Promise<TIssueSubIssues>;
+  fetchSubIssues: (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+  ) => Promise<TIssueSubIssues>;
   createSubIssues: (
     workspaceSlug: string,
     projectId: string,
     parentIssueId: string,
-    issueIds: string[]
+    issueIds: string[],
   ) => Promise<void>;
   updateSubIssue: (
     workspaceSlug: string,
@@ -39,10 +43,20 @@ export interface IIssueSubIssuesStoreActions {
     issueId: string,
     issueData: Partial<TIssue>,
     oldIssue?: Partial<TIssue>,
-    fromModal?: boolean
+    fromModal?: boolean,
   ) => Promise<void>;
-  removeSubIssue: (workspaceSlug: string, projectId: string, parentIssueId: string, issueId: string) => Promise<void>;
-  deleteSubIssue: (workspaceSlug: string, projectId: string, parentIssueId: string, issueId: string) => Promise<void>;
+  removeSubIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    issueId: string,
+  ) => Promise<void>;
+  deleteSubIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    issueId: string,
+  ) => Promise<void>;
 }
 
 type TSubIssueHelpersKeys = "issue_visibility" | "preview_loader" | "issue_loader";
@@ -138,7 +152,7 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
     // fetch other issues states and members when sub-issues are from different project
     if (issueList && issueList.length > 0) {
       const otherProjectIds = uniq(
-        issueList.map((issue) => issue.project_id).filter((id) => !!id && id !== projectId)
+        issueList.map((issue) => issue.project_id).filter((id) => !!id && id !== projectId),
       ) as string[];
       this.fetchOtherProjectProperties(workspaceSlug, otherProjectIds);
     }
@@ -153,7 +167,7 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
       set(
         this.subIssues,
         parentIssueId,
-        issueList.map((issue) => issue.id)
+        issueList.map((issue) => issue.id),
       );
     });
 
@@ -161,7 +175,12 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
     return response;
   };
 
-  createSubIssues = async (workspaceSlug: string, projectId: string, parentIssueId: string, issueIds: string[]) => {
+  createSubIssues = async (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    issueIds: string[],
+  ) => {
     const response = await this.issueService.addSubIssues(workspaceSlug, projectId, parentIssueId, {
       sub_issue_ids: issueIds,
     });
@@ -172,7 +191,7 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
     // fetch other issues states and members when sub-issues are from different project
     if (subIssues && subIssues.length > 0) {
       const otherProjectIds = uniq(
-        subIssues.map((issue) => issue.project_id).filter((id) => !!id && id !== projectId)
+        subIssues.map((issue) => issue.project_id).filter((id) => !!id && id !== projectId),
       ) as string[];
       this.fetchOtherProjectProperties(workspaceSlug, otherProjectIds);
     }
@@ -180,10 +199,14 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
     runInAction(() => {
       Object.keys(subIssuesStateDistribution).forEach((key) => {
         const stateGroup = key as keyof TSubIssuesStateDistribution;
-        update(this.subIssuesStateDistribution, [parentIssueId, stateGroup], (stateDistribution) => {
-          if (!stateDistribution) return subIssuesStateDistribution[stateGroup];
-          return concat(stateDistribution, subIssuesStateDistribution[stateGroup]);
-        });
+        update(
+          this.subIssuesStateDistribution,
+          [parentIssueId, stateGroup],
+          (stateDistribution) => {
+            if (!stateDistribution) return subIssuesStateDistribution[stateGroup];
+            return concat(stateDistribution, subIssuesStateDistribution[stateGroup]);
+          },
+        );
       });
 
       const issueIds = subIssues.map((issue) => issue.id);
@@ -199,7 +222,7 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
     set(
       this.rootIssueDetailStore.rootIssueStore.issues.issuesMap,
       [parentIssueId, "sub_issues_count"],
-      this.subIssues[parentIssueId].length
+      this.subIssues[parentIssueId].length,
     );
 
     return;
@@ -212,14 +235,14 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
     issueId: string,
     issueData: Partial<TIssue>,
     oldIssue: Partial<TIssue> = {},
-    fromModal: boolean = false
+    fromModal: boolean = false,
   ) => {
     if (!fromModal)
       await this.rootIssueDetailStore.rootIssueStore.projectIssues.updateIssue(
         workspaceSlug,
         projectId,
         issueId,
-        issueData
+        issueData,
       );
 
     // parent update
@@ -227,7 +250,11 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
       runInAction(() => {
         if (oldIssue.parent_id) pull(this.subIssues[oldIssue.parent_id], issueId);
         if (issueData.parent_id)
-          set(this.subIssues, [issueData.parent_id], concat(this.subIssues[issueData.parent_id], issueId));
+          set(
+            this.subIssues,
+            [issueData.parent_id],
+            concat(this.subIssues[issueData.parent_id], issueId),
+          );
       });
     }
 
@@ -237,28 +264,40 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
       let issueStateGroup: string | undefined = undefined;
 
       if (oldIssue.state_id) {
-        const state = this.rootIssueDetailStore.rootIssueStore.rootStore.state.getStateById(oldIssue.state_id);
+        const state = this.rootIssueDetailStore.rootIssueStore.rootStore.state.getStateById(
+          oldIssue.state_id,
+        );
         if (state?.group) oldIssueStateGroup = state.group;
       }
 
       if (issueData.state_id) {
-        const state = this.rootIssueDetailStore.rootIssueStore.rootStore.state.getStateById(issueData.state_id);
+        const state = this.rootIssueDetailStore.rootIssueStore.rootStore.state.getStateById(
+          issueData.state_id,
+        );
         if (state?.group) issueStateGroup = state.group;
       }
 
       if (oldIssueStateGroup && issueStateGroup && issueStateGroup !== oldIssueStateGroup) {
         runInAction(() => {
           if (oldIssueStateGroup)
-            update(this.subIssuesStateDistribution, [parentIssueId, oldIssueStateGroup], (stateDistribution) => {
-              if (!stateDistribution) return;
-              return pull(stateDistribution, issueId);
-            });
+            update(
+              this.subIssuesStateDistribution,
+              [parentIssueId, oldIssueStateGroup],
+              (stateDistribution) => {
+                if (!stateDistribution) return;
+                return pull(stateDistribution, issueId);
+              },
+            );
 
           if (issueStateGroup)
-            update(this.subIssuesStateDistribution, [parentIssueId, issueStateGroup], (stateDistribution) => {
-              if (!stateDistribution) return [issueId];
-              return concat(stateDistribution, issueId);
-            });
+            update(
+              this.subIssuesStateDistribution,
+              [parentIssueId, issueStateGroup],
+              (stateDistribution) => {
+                if (!stateDistribution) return [issueId];
+                return concat(stateDistribution, issueId);
+              },
+            );
         });
       }
     }
@@ -266,24 +305,40 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
     return;
   };
 
-  removeSubIssue = async (workspaceSlug: string, projectId: string, parentIssueId: string, issueId: string) => {
-    await this.rootIssueDetailStore.rootIssueStore.projectIssues.updateIssue(workspaceSlug, projectId, issueId, {
-      parent_id: null,
-    });
+  removeSubIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    issueId: string,
+  ) => {
+    await this.rootIssueDetailStore.rootIssueStore.projectIssues.updateIssue(
+      workspaceSlug,
+      projectId,
+      issueId,
+      {
+        parent_id: null,
+      },
+    );
 
     const issue = this.rootIssueDetailStore.issue.getIssueById(issueId);
     if (issue && issue.state_id) {
       let issueStateGroup: string | undefined = undefined;
-      const state = this.rootIssueDetailStore.rootIssueStore.rootStore.state.getStateById(issue.state_id);
+      const state = this.rootIssueDetailStore.rootIssueStore.rootStore.state.getStateById(
+        issue.state_id,
+      );
       if (state?.group) issueStateGroup = state.group;
 
       if (issueStateGroup) {
         runInAction(() => {
           if (issueStateGroup)
-            update(this.subIssuesStateDistribution, [parentIssueId, issueStateGroup], (stateDistribution) => {
-              if (!stateDistribution) return;
-              return pull(stateDistribution, issueId);
-            });
+            update(
+              this.subIssuesStateDistribution,
+              [parentIssueId, issueStateGroup],
+              (stateDistribution) => {
+                if (!stateDistribution) return;
+                return pull(stateDistribution, issueId);
+              },
+            );
         });
       }
     }
@@ -294,29 +349,44 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
       set(
         this.rootIssueDetailStore.rootIssueStore.issues.issuesMap,
         [parentIssueId, "sub_issues_count"],
-        this.subIssues[parentIssueId]?.length
+        this.subIssues[parentIssueId]?.length,
       );
     });
 
     return;
   };
 
-  deleteSubIssue = async (workspaceSlug: string, projectId: string, parentIssueId: string, issueId: string) => {
-    await this.rootIssueDetailStore.rootIssueStore.projectIssues.removeIssue(workspaceSlug, projectId, issueId);
+  deleteSubIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    issueId: string,
+  ) => {
+    await this.rootIssueDetailStore.rootIssueStore.projectIssues.removeIssue(
+      workspaceSlug,
+      projectId,
+      issueId,
+    );
 
     const issue = this.rootIssueDetailStore.issue.getIssueById(issueId);
     if (issue && issue.state_id) {
       let issueStateGroup: string | undefined = undefined;
-      const state = this.rootIssueDetailStore.rootIssueStore.rootStore.state.getStateById(issue.state_id);
+      const state = this.rootIssueDetailStore.rootIssueStore.rootStore.state.getStateById(
+        issue.state_id,
+      );
       if (state?.group) issueStateGroup = state.group;
 
       if (issueStateGroup) {
         runInAction(() => {
           if (issueStateGroup)
-            update(this.subIssuesStateDistribution, [parentIssueId, issueStateGroup], (stateDistribution) => {
-              if (!stateDistribution) return;
-              return pull(stateDistribution, issueId);
-            });
+            update(
+              this.subIssuesStateDistribution,
+              [parentIssueId, issueStateGroup],
+              (stateDistribution) => {
+                if (!stateDistribution) return;
+                return pull(stateDistribution, issueId);
+              },
+            );
         });
       }
     }
@@ -327,7 +397,7 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
       set(
         this.rootIssueDetailStore.rootIssueStore.issues.issuesMap,
         [parentIssueId, "sub_issues_count"],
-        this.subIssues[parentIssueId]?.length
+        this.subIssues[parentIssueId]?.length,
       );
     });
 
@@ -338,22 +408,34 @@ export class IssueSubIssuesStore implements IIssueSubIssuesStore {
     if (projectIds.length > 0) {
       for (const projectId of projectIds) {
         // fetching other project states
-        this.rootIssueDetailStore.rootIssueStore.rootStore.state.fetchProjectStates(workspaceSlug, projectId);
+        this.rootIssueDetailStore.rootIssueStore.rootStore.state.fetchProjectStates(
+          workspaceSlug,
+          projectId,
+        );
         // fetching other project members
         this.rootIssueDetailStore.rootIssueStore.rootStore.memberRoot.project.fetchProjectMembers(
           workspaceSlug,
-          projectId
+          projectId,
         );
         // fetching other project labels
-        this.rootIssueDetailStore.rootIssueStore.rootStore.label.fetchProjectLabels(workspaceSlug, projectId);
+        this.rootIssueDetailStore.rootIssueStore.rootStore.label.fetchProjectLabels(
+          workspaceSlug,
+          projectId,
+        );
         // fetching other project cycles
-        this.rootIssueDetailStore.rootIssueStore.rootStore.cycle.fetchAllCycles(workspaceSlug, projectId);
+        this.rootIssueDetailStore.rootIssueStore.rootStore.cycle.fetchAllCycles(
+          workspaceSlug,
+          projectId,
+        );
         // fetching other project modules
-        this.rootIssueDetailStore.rootIssueStore.rootStore.module.fetchModules(workspaceSlug, projectId);
+        this.rootIssueDetailStore.rootIssueStore.rootStore.module.fetchModules(
+          workspaceSlug,
+          projectId,
+        );
         // fetching other project estimates
         this.rootIssueDetailStore.rootIssueStore.rootStore.projectEstimate.getProjectEstimates(
           workspaceSlug,
-          projectId
+          projectId,
         );
       }
     }

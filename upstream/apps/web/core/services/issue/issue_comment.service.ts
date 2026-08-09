@@ -31,14 +31,17 @@ export class IssueCommentService extends APIService {
       | {
           created_at__gt: string;
         }
-      | object = {}
+      | object = {},
   ): Promise<TIssueComment[]> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/history/`, {
-      params: {
-        activity_type: `${this.serviceType === EIssueServiceType.EPICS ? "epic-comment" : "issue-comment"}`,
-        ...params,
+    return this.get(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/history/`,
+      {
+        params: {
+          activity_type: `${this.serviceType === EIssueServiceType.EPICS ? "epic-comment" : "issue-comment"}`,
+          ...params,
+        },
       },
-    })
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -49,11 +52,11 @@ export class IssueCommentService extends APIService {
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    data: Partial<TIssueComment>
+    data: Partial<TIssueComment>,
   ): Promise<TIssueComment> {
     return this.post(
       `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/comments/`,
-      data
+      data,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -66,11 +69,11 @@ export class IssueCommentService extends APIService {
     projectId: string,
     issueId: string,
     commentId: string,
-    data: Partial<TIssueComment>
+    data: Partial<TIssueComment>,
   ): Promise<TIssueComment> {
     return this.patch(
       `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/comments/${commentId}/`,
-      data
+      data,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -82,10 +85,10 @@ export class IssueCommentService extends APIService {
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    commentId: string
+    commentId: string,
   ): Promise<void> {
     return this.delete(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/comments/${commentId}/`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/comments/${commentId}/`,
     )
       .then((response) => response?.data)
       .catch((error) => {

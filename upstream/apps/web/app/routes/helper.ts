@@ -12,7 +12,10 @@ import type { RouteConfigEntry } from "@react-router/dev/routes";
  * - Deduplicates routes by file property, preferring extended over core
  * - Maintains order: core routes first, then extended routes at each level
  */
-export function mergeRoutes(core: RouteConfigEntry[], extended: RouteConfigEntry[]): RouteConfigEntry[] {
+export function mergeRoutes(
+  core: RouteConfigEntry[],
+  extended: RouteConfigEntry[],
+): RouteConfigEntry[] {
   // Step 1: Create a Map to track routes by file path
   const routeMap = new Map<string, RouteConfigEntry>();
 
@@ -35,7 +38,7 @@ export function mergeRoutes(core: RouteConfigEntry[], extended: RouteConfigEntry
         // Deep merge: recursively merge children
         const mergedChildren = mergeRoutes(
           Array.isArray(coreRoute.children) ? coreRoute.children : [],
-          Array.isArray(extendedRoute.children) ? extendedRoute.children : []
+          Array.isArray(extendedRoute.children) ? extendedRoute.children : [],
         );
         routeMap.set(fileKey, {
           ...extendedRoute,

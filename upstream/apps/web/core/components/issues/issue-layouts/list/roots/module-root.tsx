@@ -25,7 +25,12 @@ export const ModuleListLayout = observer(function ModuleListLayout() {
       QuickActions={ModuleIssueQuickActions}
       addIssuesToView={(issueIds: string[]) => {
         if (!workspaceSlug || !projectId || !moduleId) throw new Error();
-        return issues.addIssuesToModule(workspaceSlug.toString(), projectId.toString(), moduleId.toString(), issueIds);
+        return issues.addIssuesToModule(
+          workspaceSlug.toString(),
+          projectId.toString(),
+          moduleId.toString(),
+          issueIds,
+        );
       }}
       viewId={moduleId?.toString()}
     />

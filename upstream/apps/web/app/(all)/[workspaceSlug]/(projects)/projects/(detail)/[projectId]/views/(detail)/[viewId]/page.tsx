@@ -28,9 +28,12 @@ function ProjectViewIssuesPage({ params }: Route.ComponentProps) {
   // derived values
   const projectView = getViewById(viewId);
   const project = getProjectById(projectId);
-  const pageTitle = project?.name && projectView?.name ? `${project?.name} - ${projectView?.name}` : undefined;
+  const pageTitle =
+    project?.name && projectView?.name ? `${project?.name} - ${projectView?.name}` : undefined;
 
-  const { error } = useSWR(`VIEW_DETAILS_${viewId}`, () => fetchViewDetails(workspaceSlug, projectId, viewId));
+  const { error } = useSWR(`VIEW_DETAILS_${viewId}`, () =>
+    fetchViewDetails(workspaceSlug, projectId, viewId),
+  );
 
   if (error) {
     return (

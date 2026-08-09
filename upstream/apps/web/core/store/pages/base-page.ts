@@ -116,7 +116,7 @@ export class BasePage extends ExtendedBasePage implements TBasePage {
   constructor(
     private store: RootStore,
     page: TPage,
-    services: TBasePageServices
+    services: TBasePageServices,
   ) {
     super(store, page, services);
 
@@ -205,15 +205,15 @@ export class BasePage extends ExtendedBasePage implements TBasePage {
           .catch(() =>
             runInAction(() => {
               this.name = this.oldName;
-            })
+            }),
           )
           .finally(() =>
             runInAction(() => {
               this.isSubmitting = "submitted";
-            })
+            }),
           );
       },
-      { delay: 2000 }
+      { delay: 2000 },
     );
     this.disposers.push(titleDisposer);
   }
@@ -404,7 +404,13 @@ export class BasePage extends ExtendedBasePage implements TBasePage {
   /**
    * @description archive the page
    */
-  archive = async ({ shouldSync = true, archived_at }: { shouldSync?: boolean; archived_at?: string | null }) => {
+  archive = async ({
+    shouldSync = true,
+    archived_at,
+  }: {
+    shouldSync?: boolean;
+    archived_at?: string | null;
+  }) => {
     if (!this.id) return undefined;
 
     try {
@@ -412,7 +418,8 @@ export class BasePage extends ExtendedBasePage implements TBasePage {
         this.archived_at = archived_at ?? new Date().toISOString();
       });
 
-      if (this.rootStore.favorite.entityMap[this.id]) this.rootStore.favorite.removeFavoriteFromStore(this.id);
+      if (this.rootStore.favorite.entityMap[this.id])
+        this.rootStore.favorite.removeFavoriteFromStore(this.id);
 
       if (shouldSync) {
         const response = await this.services.archive();

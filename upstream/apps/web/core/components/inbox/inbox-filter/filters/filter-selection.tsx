@@ -42,7 +42,11 @@ export const InboxIssueFilterSelection = observer(function InboxIssueFilterSelec
             autoFocus={!isMobile}
           />
           {filtersSearchQuery !== "" && (
-            <button type="button" className="grid place-items-center" onClick={() => setFiltersSearchQuery("")}>
+            <button
+              type="button"
+              className="grid place-items-center"
+              onClick={() => setFiltersSearchQuery("")}
+            >
               <CloseIcon className="text-tertiary" height={12} width={12} strokeWidth={2} />
             </button>
           )}
@@ -82,11 +86,19 @@ export const InboxIssueFilterSelection = observer(function InboxIssueFilterSelec
         </div>
         {/* Created at */}
         <div className="py-2">
-          <FilterDate filterKey="created_at" label="Created date" searchQuery={filtersSearchQuery} />
+          <FilterDate
+            filterKey="created_at"
+            label="Created date"
+            searchQuery={filtersSearchQuery}
+          />
         </div>
         {/* Updated at */}
         <div className="py-2">
-          <FilterDate filterKey="updated_at" label="Last updated date" searchQuery={filtersSearchQuery} />
+          <FilterDate
+            filterKey="updated_at"
+            label="Last updated date"
+            searchQuery={filtersSearchQuery}
+          />
         </div>
       </div>
     </div>

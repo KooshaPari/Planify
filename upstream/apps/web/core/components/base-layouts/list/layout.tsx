@@ -11,7 +11,7 @@ import { useLayoutState } from "../hooks/use-layout-state";
 import { BaseListGroup } from "./group";
 
 export const BaseListLayout = observer(function BaseListLayout<T extends IBaseLayoutsListItem>(
-  props: IBaseLayoutsListProps<T>
+  props: IBaseLayoutsListProps<T>,
 ) {
   const {
     items,
@@ -29,7 +29,8 @@ export const BaseListLayout = observer(function BaseListLayout<T extends IBaseLa
     className,
   } = props;
 
-  const useExternalMode = externalCollapsedGroups !== undefined && externalOnToggleGroup !== undefined;
+  const useExternalMode =
+    externalCollapsedGroups !== undefined && externalOnToggleGroup !== undefined;
   const { containerRef, collapsedGroups, onToggleGroup } = useLayoutState(
     useExternalMode
       ? {
@@ -39,11 +40,14 @@ export const BaseListLayout = observer(function BaseListLayout<T extends IBaseLa
         }
       : {
           mode: "internal",
-        }
+        },
   );
 
   return (
-    <div ref={containerRef} className={cn("relative size-full overflow-auto bg-surface-1", className)}>
+    <div
+      ref={containerRef}
+      className={cn("relative size-full overflow-auto bg-surface-1", className)}
+    >
       <div className="relative flex size-full flex-col">
         {groups.map((group) => {
           const itemIds = groupedItemIds[group.id] || [];

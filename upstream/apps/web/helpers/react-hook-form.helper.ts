@@ -12,7 +12,10 @@ import type { FieldError, FieldValues } from "react-hook-form";
  * @param path - The path to the error
  * @returns The error or undefined if not found
  */
-export const getNestedError = <T extends FieldValues>(errors: T, path: string): FieldError | undefined => {
+export const getNestedError = <T extends FieldValues>(
+  errors: T,
+  path: string,
+): FieldError | undefined => {
   const keys = path.split(".");
   let current: unknown = errors;
 

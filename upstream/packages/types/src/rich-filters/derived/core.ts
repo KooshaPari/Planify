@@ -79,5 +79,6 @@ export type TCoreSupportedSelectFilterOperators<V extends TFilterValue = TFilter
   | TCoreSupportedSingleSelectFilterOperators<V>
   | TCoreSupportedMultiSelectFilterOperators<V>;
 
-export type TCoreAllAvailableSelectFilterOperatorsForDisplay<V extends TFilterValue = TFilterValue> =
-  TCoreSupportedSelectFilterOperators<V>;
+export type TCoreAllAvailableSelectFilterOperatorsForDisplay<
+  V extends TFilterValue = TFilterValue,
+> = TCoreSupportedSelectFilterOperators<V>;

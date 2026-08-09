@@ -16,7 +16,11 @@ import { ContextMenu, CustomMenu } from "@plane/ui";
 import { copyUrlToClipboard, cn } from "@plane/utils";
 // components
 import { useModuleMenuItems } from "@/components/common/quick-actions-helper";
-import { ArchiveModuleModal, CreateUpdateModuleModal, DeleteModuleModal } from "@/components/modules";
+import {
+  ArchiveModuleModal,
+  CreateUpdateModuleModal,
+  DeleteModuleModal,
+} from "@/components/modules";
 // hooks
 import { useModule } from "@/hooks/store/use-module";
 import { useUserPermissions } from "@/hooks/store/user";
@@ -50,7 +54,7 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug,
-    projectId
+    projectId,
   );
 
   const moduleLink = `${workspaceSlug}/projects/${projectId}/modules/${moduleId}`;
@@ -129,7 +133,11 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
             isOpen={archiveModuleModal}
             handleClose={() => setArchiveModuleModal(false)}
           />
-          <DeleteModuleModal data={moduleDetails} isOpen={deleteModal} onClose={() => setDeleteModal(false)} />
+          <DeleteModuleModal
+            data={moduleDetails}
+            isOpen={deleteModal}
+            onClose={() => setDeleteModal(false)}
+          />
           {additionalModals}
         </div>
       )}
@@ -153,11 +161,13 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
                 {
                   "text-placeholder": item.disabled,
                 },
-                item.className
+                item.className,
               )}
               disabled={item.disabled}
             >
-              {item.icon && <item.icon className={cn("h-3 w-3 flex-shrink-0", item.iconClassName)} />}
+              {item.icon && (
+                <item.icon className={cn("h-3 w-3 flex-shrink-0", item.iconClassName)} />
+              )}
               <div>
                 <h5>{item.title}</h5>
                 {item.description && (

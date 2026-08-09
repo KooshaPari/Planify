@@ -34,12 +34,15 @@ export interface IFilterItemProps<P extends TFilterProperty, E extends TExternal
   showTransition?: boolean;
 }
 
-export const FilterItem = observer(function FilterItem<P extends TFilterProperty, E extends TExternalFilter>(
-  props: IFilterItemProps<P, E>
-) {
+export const FilterItem = observer(function FilterItem<
+  P extends TFilterProperty,
+  E extends TExternalFilter,
+>(props: IFilterItemProps<P, E>) {
   const { condition, filter, isDisabled = false, showTransition = true } = props;
   // derived values
-  const filterConfig = condition?.property ? filter.configManager.getConfigByProperty(condition.property) : undefined;
+  const filterConfig = condition?.property
+    ? filter.configManager.getConfigByProperty(condition.property)
+    : undefined;
   const operatorOptions = filterConfig
     ?.getAllDisplayOperatorOptionsByValue(condition.value as TFilterValue)
     .map((option) => ({
@@ -50,12 +53,14 @@ export const FilterItem = observer(function FilterItem<P extends TFilterProperty
   const selectedOperatorFieldConfig = filterConfig?.getOperatorConfig(condition.operator);
   const selectedOperatorOption = filterConfig?.getDisplayOperatorByValue(
     condition.operator,
-    condition.value as TFilterValue
+    condition.value as TFilterValue,
   );
   // Disable operator selection when filter is disabled or only one operator option is available and selected
   const isOperatorSelectionDisabled =
     isDisabled ||
-    (condition.operator && operatorOptions?.length === 1 && operatorOptions[0]?.value === condition.operator);
+    (condition.operator &&
+      operatorOptions?.length === 1 &&
+      operatorOptions[0]?.value === condition.operator);
 
   const handleOperatorChange = (operator: TAllAvailableOperatorsForDisplay) => {
     if (operator) {
@@ -103,7 +108,7 @@ export const FilterItem = observer(function FilterItem<P extends TFilterProperty
         className={COMMON_FILTER_ITEM_BORDER_CLASSNAME}
         customButtonClassName={cn(
           "h-full px-2 text-13 font-regular",
-          isOperatorSelectionDisabled && "hover:bg-layer-2-hover"
+          isOperatorSelectionDisabled && "hover:bg-layer-2-hover",
         )}
         optionsClassName="w-48"
         maxHeight="2xl"

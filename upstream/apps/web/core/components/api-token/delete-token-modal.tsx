@@ -51,7 +51,7 @@ export function DeleteApiTokenModal(props: Props) {
         mutate<IApiToken[]>(
           API_TOKENS_LIST,
           (prevData) => (prevData ?? []).filter((token) => token.id !== tokenId),
-          false
+          false,
         );
 
         handleClose();

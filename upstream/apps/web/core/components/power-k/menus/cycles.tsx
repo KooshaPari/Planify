@@ -18,7 +18,11 @@ type Props = {
   value?: string | null;
 };
 
-export const PowerKCyclesMenu = observer(function PowerKCyclesMenu({ cycles, onSelect, value }: Props) {
+export const PowerKCyclesMenu = observer(function PowerKCyclesMenu({
+  cycles,
+  onSelect,
+  value,
+}: Props) {
   return (
     <PowerKMenuBuilder
       items={cycles}

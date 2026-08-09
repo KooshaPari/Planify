@@ -61,7 +61,7 @@ export class AIService extends APIService {
    */
   async rephraseGrammar(
     workspaceSlug: string,
-    data: TTaskPayload
+    data: TTaskPayload,
   ): Promise<{
     response: string;
   }> {

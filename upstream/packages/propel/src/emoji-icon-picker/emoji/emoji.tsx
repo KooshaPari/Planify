@@ -50,7 +50,10 @@ export function EmojiRoot(props: EmojiRootProps) {
           className="hover:bg-accent mx-2 mb-1.5 size-8 flex-shrink-0 rounded-md bg-surface-1 text-16"
         />
       </div>
-      <EmojiPicker.Viewport data-slot="emoji-picker-content" className={cn("relative flex-1 outline-none")}>
+      <EmojiPicker.Viewport
+        data-slot="emoji-picker-content"
+        className={cn("relative flex-1 outline-none")}
+      >
         <EmojiPicker.List
           data-slot="emoji-picker-list"
           className={cn("pb-2 select-none")}

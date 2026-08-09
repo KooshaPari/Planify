@@ -34,12 +34,18 @@ import { IssuePropertyLabels } from "../issue-layouts/properties";
 export interface IIssueProperties {
   issue: TWorkspaceDraftIssue;
   updateIssue:
-    | ((projectId: string | null, issueId: string, data: Partial<TWorkspaceDraftIssue>) => Promise<void>)
+    | ((
+        projectId: string | null,
+        issueId: string,
+        data: Partial<TWorkspaceDraftIssue>,
+      ) => Promise<void>)
     | undefined;
   className: string;
 }
 
-export const DraftIssueProperties = observer(function DraftIssueProperties(props: IIssueProperties) {
+export const DraftIssueProperties = observer(function DraftIssueProperties(
+  props: IIssueProperties,
+) {
   const { issue, updateIssue, className } = props;
   // store hooks
   const { getProjectById } = useProject();
@@ -71,27 +77,33 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
         await addCycleToIssue(workspaceSlug.toString(), issue.id, "");
       },
     }),
-    [workspaceSlug, issue, addCycleToIssue, addModulesToIssue]
+    [workspaceSlug, issue, addCycleToIssue, addModulesToIssue],
   );
 
   const handleState = (stateId: string) =>
-    issue?.project_id && updateIssue && updateIssue(issue.project_id, issue.id, { state_id: stateId });
+    issue?.project_id &&
+    updateIssue &&
+    updateIssue(issue.project_id, issue.id, { state_id: stateId });
 
   const handlePriority = (value: TIssuePriorities) =>
-    issue?.project_id && updateIssue && updateIssue(issue.project_id, issue.id, { priority: value });
+    issue?.project_id &&
+    updateIssue &&
+    updateIssue(issue.project_id, issue.id, { priority: value });
 
   const handleLabel = (ids: string[]) =>
     issue?.project_id && updateIssue && updateIssue(issue.project_id, issue.id, { label_ids: ids });
 
   const handleAssignee = (ids: string[]) =>
-    issue?.project_id && updateIssue && updateIssue(issue.project_id, issue.id, { assignee_ids: ids });
+    issue?.project_id &&
+    updateIssue &&
+    updateIssue(issue.project_id, issue.id, { assignee_ids: ids });
 
   const handleModule = useCallback(
     (moduleIds: string[] | null) => {
       if (!issue || !issue.module_ids || !moduleIds) return;
       issueOperations.updateIssueModules(moduleIds);
     },
-    [issueOperations, issue]
+    [issueOperations, issue],
   );
 
   const handleCycle = useCallback(
@@ -100,7 +112,7 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
       if (cycleId) issueOperations.addIssueToCycle?.(cycleId);
       else issueOperations.removeIssueFromCycle?.();
     },
-    [issue, issueOperations]
+    [issue, issueOperations],
   );
 
   const handleStartDate = (date: Date | null) =>
@@ -118,7 +130,9 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
     });
 
   const handleEstimate = (value: string | undefined) =>
-    issue?.project_id && updateIssue && updateIssue(issue.project_id, issue.id, { estimate_point: value });
+    issue?.project_id &&
+    updateIssue &&
+    updateIssue(issue.project_id, issue.id, { estimate_point: value });
 
   if (!issue.project_id) return null;
 
@@ -199,7 +213,9 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
           icon={<DueDatePropertyIcon className="h-3 w-3 flex-shrink-0" />}
           buttonVariant={issue.target_date ? "border-with-text" : "border-without-text"}
           buttonClassName={
-            shouldHighlightIssueDueDate(issue?.target_date || null, stateDetails?.group) ? "text-danger-primary" : ""
+            shouldHighlightIssueDueDate(issue?.target_date || null, stateDetails?.group)
+              ? "text-danger-primary"
+              : ""
           }
           clearIconClassName="!text-primary"
           optionsClassName="z-10"
@@ -215,7 +231,9 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
           value={issue?.assignee_ids}
           onChange={handleAssignee}
           multiple
-          buttonVariant={issue.assignee_ids?.length > 0 ? "transparent-without-text" : "border-without-text"}
+          buttonVariant={
+            issue.assignee_ids?.length > 0 ? "transparent-without-text" : "border-without-text"
+          }
           buttonClassName={issue.assignee_ids?.length > 0 ? "hover:bg-transparent px-0" : ""}
           showTooltip={issue?.assignee_ids?.length === 0}
           placeholder="Assignees"

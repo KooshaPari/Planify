@@ -22,7 +22,10 @@ import type { TProjectSettingsTabs } from "@plane/types";
 // components
 import { SettingIcon } from "@/components/icons/attachment";
 
-export const PROJECT_SETTINGS_ICONS: Record<TProjectSettingsTabs, LucideIcon | React.FC<ISvgIcons>> = {
+export const PROJECT_SETTINGS_ICONS: Record<
+  TProjectSettingsTabs,
+  LucideIcon | React.FC<ISvgIcons>
+> = {
   general: SettingIcon,
   members: Users,
   features_cycles: CycleIcon,

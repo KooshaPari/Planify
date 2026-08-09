@@ -26,7 +26,7 @@ export function UpgradeBadge(props: TUpgradeBadge) {
           "px-3 text-13": size === "md",
           "px-2 text-11": size === "sm",
         },
-        className
+        className,
       )}
     >
       {t("sidebar.pro")}

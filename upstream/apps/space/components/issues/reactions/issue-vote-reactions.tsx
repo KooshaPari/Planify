@@ -59,7 +59,9 @@ export const IssueVotes = observer(function IssueVotes(props: TIssueVotes) {
 
     setIsSubmitting(true);
 
-    const actionPerformed = votes?.find((vote) => vote.actor_details?.id === user?.id && vote.vote === voteValue);
+    const actionPerformed = votes?.find(
+      (vote) => vote.actor_details?.id === user?.id && vote.vote === voteValue,
+    );
 
     if (actionPerformed) await issueDetailsStore.removeIssueVote(anchor, issueId);
     else {
@@ -89,7 +91,8 @@ export const IssueVotes = observer(function IssueVotes(props: TIssueVotes) {
                   .map((r) => r.actor_details?.display_name)
                   .splice(0, VOTES_LIMIT)
                   .join(", ")}
-                {allUpVotes.length > VOTES_LIMIT && " and " + (allUpVotes.length - VOTES_LIMIT) + " more"}
+                {allUpVotes.length > VOTES_LIMIT &&
+                  " and " + (allUpVotes.length - VOTES_LIMIT) + " more"}
               </>
             ) : (
               "No upvotes yet"
@@ -112,11 +115,13 @@ export const IssueVotes = observer(function IssueVotes(props: TIssueVotes) {
               "border-accent-strong-200 text-accent-secondary": isUpVotedByUser,
               "border-strong": !isUpVotedByUser,
               "cursor-default": isInIframe,
-            }
+            },
           )}
         >
           <ArrowUp className="size-3.5 shrink-0" />
-          <span className="text-13 font-regular transition-opacity ease-in-out">{allUpVotes.length}</span>
+          <span className="text-13 font-regular transition-opacity ease-in-out">
+            {allUpVotes.length}
+          </span>
         </button>
       </Tooltip>
 
@@ -130,7 +135,8 @@ export const IssueVotes = observer(function IssueVotes(props: TIssueVotes) {
                   .map((r) => r.actor_details.display_name)
                   .splice(0, VOTES_LIMIT)
                   .join(", ")}
-                {allDownVotes.length > VOTES_LIMIT && " and " + (allDownVotes.length - VOTES_LIMIT) + " more"}
+                {allDownVotes.length > VOTES_LIMIT &&
+                  " and " + (allDownVotes.length - VOTES_LIMIT) + " more"}
               </>
             ) : (
               "No downvotes yet"
@@ -153,11 +159,13 @@ export const IssueVotes = observer(function IssueVotes(props: TIssueVotes) {
               "border-danger-strong text-danger-primary": isDownVotedByUser,
               "border-strong": !isDownVotedByUser,
               "cursor-default": isInIframe,
-            }
+            },
           )}
         >
           <ArrowDown className="size-3.5 shrink-0" />
-          <span className="text-13 font-regular transition-opacity ease-in-out">{allDownVotes.length}</span>
+          <span className="text-13 font-regular transition-opacity ease-in-out">
+            {allDownVotes.length}
+          </span>
         </button>
       </Tooltip>
     </div>

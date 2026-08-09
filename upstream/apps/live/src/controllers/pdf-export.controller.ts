@@ -9,7 +9,11 @@ import { Effect, Schema, Cause } from "effect";
 import { Controller, Post } from "@plane/decorators";
 import { logger } from "@plane/logger";
 import { AppError } from "@/lib/errors";
-import { PdfExportRequestBody, PdfValidationError, PdfAuthenticationError } from "@/schema/pdf-export";
+import {
+  PdfExportRequestBody,
+  PdfValidationError,
+  PdfAuthenticationError,
+} from "@/schema/pdf-export";
 import { PdfExportService, exportToPdf } from "@/services/pdf-export";
 import type { PdfExportInput } from "@/services/pdf-export";
 
@@ -20,7 +24,7 @@ export class PdfExportController {
    */
   private parseRequest(
     req: Request,
-    requestId: string
+    requestId: string,
   ): Effect.Effect<PdfExportInput, PdfValidationError | PdfAuthenticationError> {
     return Effect.gen(function* () {
       const cookie = req.headers.cookie || "";
@@ -28,7 +32,7 @@ export class PdfExportController {
         return yield* Effect.fail(
           new PdfAuthenticationError({
             message: "Authentication required",
-          })
+          }),
         );
       }
 
@@ -38,8 +42,8 @@ export class PdfExportController {
             new PdfValidationError({
               message: "Invalid request body",
               cause,
-            })
-        )
+            }),
+        ),
       );
 
       return {
@@ -103,7 +107,9 @@ export class PdfExportController {
       return yield* exportToPdf(input);
     }).pipe(
       // Log errors before catching them
-      Effect.tapError((error) => Effect.logError("PDF_EXPORT: Export failed", { requestId, error })),
+      Effect.tapError((error) =>
+        Effect.logError("PDF_EXPORT: Export failed", { requestId, error }),
+      ),
       // Map all tagged errors to HTTP responses
       Effect.catchAll((error) => Effect.succeed(this.mapErrorToHttpResponse(error))),
       // Handle unexpected defects
@@ -113,7 +119,7 @@ export class PdfExportController {
         });
         logger.error("PDF_EXPORT: Unexpected failure", appError);
         return Effect.succeed({ status: 500, error: "Failed to generate PDF" });
-      })
+      }),
     );
 
     const result = await Effect.runPromise(Effect.provide(effect, PdfExportService.Default));
@@ -134,7 +140,7 @@ export class PdfExportController {
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
-      `attachment; filename="${sanitizedFileName}"; filename*=UTF-8''${encodeURIComponent(outputFileName)}`
+      `attachment; filename="${sanitizedFileName}"; filename*=UTF-8''${encodeURIComponent(outputFileName)}`,
     );
     res.setHeader("Content-Length", pdfBuffer.length);
     return res.send(pdfBuffer);

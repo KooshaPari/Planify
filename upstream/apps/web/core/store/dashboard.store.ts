@@ -32,7 +32,9 @@ export interface IDashboardStore {
   //    dashboardId: TWidget[]
   //   }
   // }
-  widgetStats: { [workspaceSlug: string]: Record<string, Record<TWidgetKeys, TWidgetStatsResponse>> };
+  widgetStats: {
+    [workspaceSlug: string]: Record<string, Record<TWidgetKeys, TWidgetStatsResponse>>;
+  };
   //  {
   //    workspaceSlug: {
   //      dashboardId: {
@@ -43,27 +45,39 @@ export interface IDashboardStore {
   // computed
   homeDashboardWidgets: TWidget[] | undefined;
   // computed actions
-  getWidgetDetails: (workspaceSlug: string, dashboardId: string, widgetKey: TWidgetKeys) => TWidget | undefined;
-  getWidgetStats: <T>(workspaceSlug: string, dashboardId: string, widgetKey: TWidgetKeys) => T | undefined;
-  getWidgetStatsError: (workspaceSlug: string, dashboardId: string, widgetKey: TWidgetKeys) => any | null;
+  getWidgetDetails: (
+    workspaceSlug: string,
+    dashboardId: string,
+    widgetKey: TWidgetKeys,
+  ) => TWidget | undefined;
+  getWidgetStats: <T>(
+    workspaceSlug: string,
+    dashboardId: string,
+    widgetKey: TWidgetKeys,
+  ) => T | undefined;
+  getWidgetStatsError: (
+    workspaceSlug: string,
+    dashboardId: string,
+    widgetKey: TWidgetKeys,
+  ) => any | null;
   // actions
   fetchHomeDashboardWidgets: (workspaceSlug: string) => Promise<THomeDashboardResponse>;
   fetchWidgetStats: (
     workspaceSlug: string,
     dashboardId: string,
-    params: TWidgetStatsRequestParams
+    params: TWidgetStatsRequestParams,
   ) => Promise<TWidgetStatsResponse>;
   updateDashboardWidget: (
     workspaceSlug: string,
     dashboardId: string,
     widgetId: string,
-    data: Partial<TWidget>
+    data: Partial<TWidget>,
   ) => Promise<any>;
   updateDashboardWidgetFilters: (
     workspaceSlug: string,
     dashboardId: string,
     widgetId: string,
-    data: TWidgetFiltersFormData
+    data: TWidgetFiltersFormData,
   ) => Promise<any>;
 }
 
@@ -73,7 +87,9 @@ export class DashboardStore implements IDashboardStore {
   // observables
   homeDashboardId: string | null = null;
   widgetDetails: { [workspaceSlug: string]: Record<string, TWidget[]> } = {};
-  widgetStats: { [workspaceSlug: string]: Record<string, Record<TWidgetKeys, TWidgetStatsResponse>> } = {};
+  widgetStats: {
+    [workspaceSlug: string]: Record<string, Record<TWidgetKeys, TWidgetStatsResponse>>;
+  } = {};
   // stores
   routerStore;
   issueStore;
@@ -123,11 +139,13 @@ export class DashboardStore implements IDashboardStore {
    * @param {TWidgetKeys} widgetKey
    * @returns {TWidget | undefined}
    */
-  getWidgetDetails = computedFn((workspaceSlug: string, dashboardId: string, widgetKey: TWidgetKeys) => {
-    const widgets = this.widgetDetails?.[workspaceSlug]?.[dashboardId];
-    if (!widgets) return undefined;
-    return widgets.find((widget) => widget.key === widgetKey);
-  });
+  getWidgetDetails = computedFn(
+    (workspaceSlug: string, dashboardId: string, widgetKey: TWidgetKeys) => {
+      const widgets = this.widgetDetails?.[workspaceSlug]?.[dashboardId];
+      if (!widgets) return undefined;
+      return widgets.find((widget) => widget.key === widgetKey);
+    },
+  );
 
   /**
    * @description get widget stats
@@ -136,7 +154,11 @@ export class DashboardStore implements IDashboardStore {
    * @param {TWidgetKeys} widgetKey
    * @returns {T | undefined}
    */
-  getWidgetStats = <T>(workspaceSlug: string, dashboardId: string, widgetKey: TWidgetKeys): T | undefined =>
+  getWidgetStats = <T>(
+    workspaceSlug: string,
+    dashboardId: string,
+    widgetKey: TWidgetKeys,
+  ): T | undefined =>
     (this.widgetStats?.[workspaceSlug]?.[dashboardId]?.[widgetKey] as unknown as T) ?? undefined;
 
   /**
@@ -180,7 +202,11 @@ export class DashboardStore implements IDashboardStore {
    * @param {TWidgetStatsRequestParams} widgetKey
    * @returns widget stats
    */
-  fetchWidgetStats = async (workspaceSlug: string, dashboardId: string, params: TWidgetStatsRequestParams) =>
+  fetchWidgetStats = async (
+    workspaceSlug: string,
+    dashboardId: string,
+    params: TWidgetStatsRequestParams,
+  ) =>
     this.dashboardService
       .getWidgetStats(workspaceSlug, dashboardId, params)
       .then((res: any) => {
@@ -210,7 +236,7 @@ export class DashboardStore implements IDashboardStore {
     workspaceSlug: string,
     dashboardId: string,
     widgetId: string,
-    data: Partial<TWidget>
+    data: Partial<TWidget>,
   ): Promise<any> => {
     // find all widgets in dashboard
     const widgets = this.widgetDetails?.[workspaceSlug]?.[dashboardId];
@@ -228,7 +254,11 @@ export class DashboardStore implements IDashboardStore {
           ...data,
         };
       });
-      const response = await this.dashboardService.updateDashboardWidget(dashboardId, widgetId, data);
+      const response = await this.dashboardService.updateDashboardWidget(
+        dashboardId,
+        widgetId,
+        data,
+      );
       return response;
     } catch (error) {
       // revert changes
@@ -250,7 +280,7 @@ export class DashboardStore implements IDashboardStore {
     workspaceSlug: string,
     dashboardId: string,
     widgetId: string,
-    data: TWidgetFiltersFormData
+    data: TWidgetFiltersFormData,
   ): Promise<TWidget> => {
     const widgetDetails = this.getWidgetDetails(workspaceSlug, dashboardId, data.widgetKey);
     if (!widgetDetails) throw new Error("Widget not found");
@@ -267,7 +297,9 @@ export class DashboardStore implements IDashboardStore {
         set(
           this.widgetDetails,
           [workspaceSlug, dashboardId],
-          this.widgetDetails?.[workspaceSlug]?.[dashboardId]?.map((w) => (w.id === widgetId ? updatedWidget : w))
+          this.widgetDetails?.[workspaceSlug]?.[dashboardId]?.map((w) =>
+            w.id === widgetId ? updatedWidget : w,
+          ),
         );
       });
       const response = await this.updateDashboardWidget(workspaceSlug, dashboardId, widgetId, {
@@ -281,9 +313,9 @@ export class DashboardStore implements IDashboardStore {
     } catch (error) {
       // revert changes
       runInAction(() => {
-        this.widgetDetails[workspaceSlug][dashboardId] = this.widgetDetails?.[workspaceSlug]?.[dashboardId]?.map((w) =>
-          w.id === widgetId ? widgetDetails : w
-        );
+        this.widgetDetails[workspaceSlug][dashboardId] = this.widgetDetails?.[workspaceSlug]?.[
+          dashboardId
+        ]?.map((w) => (w.id === widgetId ? widgetDetails : w));
       });
       throw error;
     }

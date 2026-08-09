@@ -32,7 +32,7 @@ export interface IHomeStore {
     workspaceSlug: string,
     widgetKey: string,
     destinationId: string,
-    edge: string | undefined
+    edge: string | undefined,
   ) => Promise<void>;
   toggleWidget: (workspaceSlug: string, widgetKey: string, is_enabled: boolean) => void;
 }
@@ -76,7 +76,9 @@ export class HomeStore implements IHomeStore {
   }
 
   get orderedWidgets() {
-    return orderBy(Object.values(this.widgetsMap), "sort_order", "desc").map((widget) => widget.key);
+    return orderBy(Object.values(this.widgetsMap), "sort_order", "desc").map(
+      (widget) => widget.key,
+    );
   }
 
   toggleWidgetSettings = (value?: boolean) => {
@@ -88,7 +90,9 @@ export class HomeStore implements IHomeStore {
       this.loading = true;
       const widgets = await this.workspaceService.fetchWorkspaceWidgets(workspaceSlug);
       runInAction(() => {
-        this.widgets = orderBy(Object.values(widgets), "sort_order", "desc").map((widget) => widget.key);
+        this.widgets = orderBy(Object.values(widgets), "sort_order", "desc").map(
+          (widget) => widget.key,
+        );
         widgets.forEach((widget) => {
           this.widgetsMap[widget.key] = widget;
         });
@@ -115,17 +119,25 @@ export class HomeStore implements IHomeStore {
     }
   };
 
-  reorderWidget = async (workspaceSlug: string, widgetKey: string, destinationId: string, edge: string | undefined) => {
+  reorderWidget = async (
+    workspaceSlug: string,
+    widgetKey: string,
+    destinationId: string,
+    edge: string | undefined,
+  ) => {
     const sortOrderBeforeUpdate = clone(this.widgetsMap[widgetKey]?.sort_order);
     try {
       let resultSequence = 10000;
       if (edge) {
-        const sortedIds = orderBy(Object.values(this.widgetsMap), "sort_order", "desc").map((widget) => widget.key);
+        const sortedIds = orderBy(Object.values(this.widgetsMap), "sort_order", "desc").map(
+          (widget) => widget.key,
+        );
         const destinationSequence = this.widgetsMap[destinationId]?.sort_order || undefined;
         if (destinationSequence) {
           const destinationIndex = sortedIds.findIndex((id) => id === destinationId);
           if (edge === "reorder-above") {
-            const prevSequence = this.widgetsMap[sortedIds[destinationIndex - 1]]?.sort_order || undefined;
+            const prevSequence =
+              this.widgetsMap[sortedIds[destinationIndex - 1]]?.sort_order || undefined;
             if (prevSequence) {
               resultSequence = (destinationSequence + prevSequence) / 2;
             } else {

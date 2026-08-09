@@ -29,7 +29,9 @@ type Props = {
     slug: string;
     organization_size: string;
   };
-  setDefaultValues: Dispatch<SetStateAction<Pick<IWorkspace, "name" | "slug" | "organization_size">>>;
+  setDefaultValues: Dispatch<
+    SetStateAction<Pick<IWorkspace, "name" | "slug" | "organization_size">>
+  >;
   secondaryButton?: React.ReactNode;
   primaryButtonText?: {
     loading: string;
@@ -105,7 +107,7 @@ export const CreateWorkspaceForm = observer(function CreateWorkspaceForm(props: 
       // when the component unmounts set the default values to whatever user typed in
       setDefaultValues(getValues());
     },
-    [getValues, setDefaultValues]
+    [getValues, setDefaultValues],
   );
 
   return (
@@ -161,7 +163,9 @@ export const CreateWorkspaceForm = observer(function CreateWorkspaceForm(props: 
             <span className="ml-0.5 text-danger-primary">*</span>
           </label>
           <div className="flex w-full items-center rounded-md border border-subtle bg-layer-2 px-3">
-            <span className="text-12 whitespace-nowrap text-secondary">{window && window.location.host}/</span>
+            <span className="text-12 whitespace-nowrap text-secondary">
+              {window && window.location.host}/
+            </span>
             <Controller
               control={control}
               name="slug"
@@ -197,9 +201,13 @@ export const CreateWorkspaceForm = observer(function CreateWorkspaceForm(props: 
             </p>
           )}
           {invalidSlug && (
-            <p className="text-13 text-danger-primary">{t("workspace_creation.errors.validation.url_alphanumeric")}</p>
+            <p className="text-13 text-danger-primary">
+              {t("workspace_creation.errors.validation.url_alphanumeric")}
+            </p>
           )}
-          {errors.slug && <span className="text-11 text-danger-primary">{errors.slug.message}</span>}
+          {errors.slug && (
+            <span className="text-11 text-danger-primary">{errors.slug.message}</span>
+          )}
         </div>
         <div className="flex flex-col gap-2 text-13">
           <span>
@@ -234,14 +242,22 @@ export const CreateWorkspaceForm = observer(function CreateWorkspaceForm(props: 
               )}
             />
             {errors.organization_size && (
-              <span className="text-13 text-danger-primary">{errors.organization_size.message}</span>
+              <span className="text-13 text-danger-primary">
+                {errors.organization_size.message}
+              </span>
             )}
           </div>
         </div>
       </div>
       <div className="flex items-center gap-4">
         {secondaryButton}
-        <Button variant="primary" type="submit" size="xl" disabled={!isValid} loading={isSubmitting}>
+        <Button
+          variant="primary"
+          type="submit"
+          size="xl"
+          disabled={!isValid}
+          loading={isSubmitting}
+        >
           {isSubmitting ? t(primaryButtonText.loading) : t(primaryButtonText.default)}
         </Button>
         {!secondaryButton && (

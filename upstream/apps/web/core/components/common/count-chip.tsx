@@ -19,7 +19,7 @@ export function CountChip(props: TCountChip) {
     <div
       className={cn(
         "relative flex flex-shrink-0 items-center justify-center rounded-xl bg-accent-primary/20 px-2.5 py-0.5 text-caption-sm-semibold text-accent-primary",
-        className
+        className,
       )}
     >
       {count}

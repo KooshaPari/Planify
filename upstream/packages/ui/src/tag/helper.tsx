@@ -27,4 +27,5 @@ export const sizes = {
   [ETagSize.LG]: "p-6",
 };
 
-export const getTagStyle = (variant: TTagVariant, size: TTagSize) => containerStyle[variant] + " " + sizes[size];
+export const getTagStyle = (variant: TTagVariant, size: TTagSize) =>
+  containerStyle[variant] + " " + sizes[size];

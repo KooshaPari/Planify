@@ -34,17 +34,24 @@ export const StickyActionBar = observer(function StickyActionBar() {
   // refs
   const ref = useRef(null);
   // store hooks
-  const { stickies, activeStickyId, recentStickyId, updateActiveStickyId, fetchRecentSticky, toggleShowNewSticky } =
-    useSticky();
+  const {
+    stickies,
+    activeStickyId,
+    recentStickyId,
+    updateActiveStickyId,
+    fetchRecentSticky,
+    toggleShowNewSticky,
+  } = useSticky();
   const { toggleAllStickiesModal, allStickiesModal } = useCommandPalette();
   // derived values
   const recentStickyBackgroundColor = recentStickyId
-    ? STICKY_COLORS_LIST.find((c) => c.key === stickies[recentStickyId].background_color)?.backgroundColor
+    ? STICKY_COLORS_LIST.find((c) => c.key === stickies[recentStickyId].background_color)
+        ?.backgroundColor
     : STICKY_COLORS_LIST[0].backgroundColor;
 
   useSWR(
     workspaceSlug ? `WORKSPACE_STICKIES_RECENT_${workspaceSlug}` : null,
-    workspaceSlug ? () => fetchRecentSticky(workspaceSlug.toString()) : null
+    workspaceSlug ? () => fetchRecentSticky(workspaceSlug.toString()) : null,
   );
 
   useOutsideClickDetector(ref, () => {
@@ -96,7 +103,10 @@ export const StickyActionBar = observer(function StickyActionBar() {
               onClick={() => setShowRecentSticky(true)}
               style={{ color: recentStickyBackgroundColor }}
             >
-              <StickyNoteIcon className={cn("size-5 rotate-90")} color={recentStickyBackgroundColor} />
+              <StickyNoteIcon
+                className={cn("size-5 rotate-90")}
+                color={recentStickyBackgroundColor}
+              />
             </button>
           </Tooltip>
         )}
@@ -129,7 +139,9 @@ export const StickyActionBar = observer(function StickyActionBar() {
         className={cn(
           "absolute right-0 bottom-16 z-[20]",
           "transform transition-all duration-300 ease-in-out",
-          newSticky || showRecentSticky ? "min-h-[300px] translate-y-[0%]" : "h-0 translate-y-[100%]"
+          newSticky || showRecentSticky
+            ? "min-h-[300px] translate-y-[0%]"
+            : "h-0 translate-y-[100%]",
         )}
       >
         {(newSticky || (showRecentSticky && recentStickyId)) && (
@@ -142,7 +154,10 @@ export const StickyActionBar = observer(function StickyActionBar() {
         )}
       </div>
 
-      <AllStickiesModal isOpen={allStickiesModal} handleClose={() => toggleAllStickiesModal(false)} />
+      <AllStickiesModal
+        isOpen={allStickiesModal}
+        handleClose={() => toggleAllStickiesModal(false)}
+      />
     </div>
   );
 });

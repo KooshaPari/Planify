@@ -45,7 +45,9 @@ export const ModuleListItem = observer(function ModuleListItem(props: Props) {
   if (!moduleDetails) return null;
 
   const completionPercentage =
-    ((moduleDetails.completed_issues + moduleDetails.cancelled_issues) / moduleDetails.total_issues) * 100;
+    ((moduleDetails.completed_issues + moduleDetails.cancelled_issues) /
+      moduleDetails.total_issues) *
+    100;
 
   const progress = isNaN(completionPercentage) ? 0 : Math.floor(completionPercentage);
 
@@ -64,7 +66,9 @@ export const ModuleListItem = observer(function ModuleListItem(props: Props) {
     }
   };
 
-  const handleArchivedModuleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+  const handleArchivedModuleClick = (
+    e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
+  ) => {
     openModuleOverview(e);
   };
 
@@ -98,7 +102,13 @@ export const ModuleListItem = observer(function ModuleListItem(props: Props) {
           <Info className="h-4 w-4 text-placeholder" />
         </button>
       }
-      actionableItems={<ModuleListItemAction moduleId={moduleId} moduleDetails={moduleDetails} parentRef={parentRef} />}
+      actionableItems={
+        <ModuleListItemAction
+          moduleId={moduleId}
+          moduleDetails={moduleDetails}
+          parentRef={parentRef}
+        />
+      }
       quickActionElement={
         <div className="block md:hidden">
           <ModuleQuickActions

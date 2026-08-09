@@ -19,7 +19,9 @@ type TIssueAttachmentsList = {
   disabled?: boolean;
 };
 
-export const IssueAttachmentsList = observer(function IssueAttachmentsList(props: TIssueAttachmentsList) {
+export const IssueAttachmentsList = observer(function IssueAttachmentsList(
+  props: TIssueAttachmentsList,
+) {
   const { issueId, attachmentHelpers, disabled } = props;
   // store hooks
   const {

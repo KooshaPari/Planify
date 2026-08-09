@@ -22,7 +22,13 @@ type TBreadcrumbNavigationDropdownProps = {
 };
 
 export function BreadcrumbNavigationDropdown(props: TBreadcrumbNavigationDropdownProps) {
-  const { selectedItemKey, navigationItems, navigationDisabled = false, handleOnClick, isLast = false } = props;
+  const {
+    selectedItemKey,
+    navigationItems,
+    navigationDisabled = false,
+    handleOnClick,
+    isLast = false,
+  } = props;
   const [isOpen, setIsOpen] = React.useState(false);
   // derived values
   const selectedItem = navigationItems.find((item) => item.key === selectedItemKey);
@@ -48,7 +54,7 @@ export function BreadcrumbNavigationDropdown(props: TBreadcrumbNavigationDropdow
             "group flex h-full cursor-pointer items-center gap-2 rounded-sm rounded-r-none px-1.5 py-1 text-13 font-medium text-tertiary",
             {
               "hover:bg-layer-1 hover:text-primary": !isLast,
-            }
+            },
           )}
         >
           <div className="flex text-tertiary @4xl:hidden">...</div>
@@ -90,7 +96,7 @@ export function BreadcrumbNavigationDropdown(props: TBreadcrumbNavigationDropdow
         "group flex h-full cursor-pointer items-center gap-0.5 rounded-sm outline-none hover:bg-surface-2",
         {
           "bg-surface-2": isOpen,
-        }
+        },
       )}
       closeOnSelect
       menuButtonOnClick={() => {
@@ -116,7 +122,7 @@ export function BreadcrumbNavigationDropdown(props: TBreadcrumbNavigationDropdow
               {
                 "text-placeholder": item.disabled,
               },
-              item.className
+              item.className,
             )}
             disabled={item.disabled}
           >

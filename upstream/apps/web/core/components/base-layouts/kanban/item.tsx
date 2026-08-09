@@ -6,12 +6,15 @@
 
 import { useEffect, useRef } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
-import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { observer } from "mobx-react";
 import type { IBaseLayoutsKanbanItem, IBaseLayoutsKanbanItemProps } from "@plane/types";
 
 export const BaseKanbanItem = observer(function BaseKanbanItem<T extends IBaseLayoutsKanbanItem>(
-  props: IBaseLayoutsKanbanItemProps<T>
+  props: IBaseLayoutsKanbanItemProps<T>,
 ) {
   const { item, groupId, renderItem, enableDragDrop, canDrag } = props;
 
@@ -34,7 +37,7 @@ export const BaseKanbanItem = observer(function BaseKanbanItem<T extends IBaseLa
         element,
         getData: () => ({ id: item.id, groupId, type: "ITEM" }),
         canDrop: ({ source }) => source?.data?.id !== item.id,
-      })
+      }),
     );
   }, [enableDragDrop, isDragAllowed, item.id, groupId]);
 

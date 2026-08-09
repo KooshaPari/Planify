@@ -19,11 +19,15 @@ import { useUser } from "@/hooks/store/user";
 export const useWorkItemCommentOperations = (
   workspaceSlug: string | undefined,
   projectId: string | undefined,
-  issueId: string | undefined
+  issueId: string | undefined,
 ): TCommentsOperations => {
   // store hooks
   const {
-    commentReaction: { getCommentReactionsByCommentId, commentReactionsByUser, getCommentReactionById },
+    commentReaction: {
+      getCommentReactionsByCommentId,
+      commentReactionsByUser,
+      getCommentReactionById,
+    },
     createComment,
     updateComment,
     removeComment,
@@ -176,7 +180,8 @@ export const useWorkItemCommentOperations = (
       },
       deleteCommentReaction: async (commentId, reaction) => {
         try {
-          if (!workspaceSlug || !projectId || !commentId || !currentUser?.id) throw new Error("Missing fields");
+          if (!workspaceSlug || !projectId || !commentId || !currentUser?.id)
+            throw new Error("Missing fields");
           removeCommentReaction(workspaceSlug, projectId, commentId, reaction, currentUser.id);
           setToast({
             title: "Success!",
@@ -192,12 +197,15 @@ export const useWorkItemCommentOperations = (
         }
       },
       react: async (commentId, reactionEmoji, userReactions) => {
-        if (userReactions.includes(reactionEmoji)) await ops.deleteCommentReaction(commentId, reactionEmoji);
+        if (userReactions.includes(reactionEmoji))
+          await ops.deleteCommentReaction(commentId, reactionEmoji);
         else await ops.addCommentReaction(commentId, reactionEmoji);
       },
       reactionIds: (commentId) => getCommentReactionsByCommentId(commentId),
       userReactions: (commentId) =>
-        currentUser ? commentReactionsByUser(commentId, currentUser?.id).map((r) => r.reaction) : [],
+        currentUser
+          ? commentReactionsByUser(commentId, currentUser?.id).map((r) => r.reaction)
+          : [],
       getReactionUsers: (reaction, reactionIds) => {
         const reactionUsers = (reactionIds?.[reaction] || [])
           .map((reactionId) => {
@@ -210,7 +218,15 @@ export const useWorkItemCommentOperations = (
       },
     };
     return ops;
-  }, [workspaceSlug, projectId, issueId, createComment, updateComment, uploadEditorAsset, removeComment]);
+  }, [
+    workspaceSlug,
+    projectId,
+    issueId,
+    createComment,
+    updateComment,
+    uploadEditorAsset,
+    removeComment,
+  ]);
 
   return operations;
 };

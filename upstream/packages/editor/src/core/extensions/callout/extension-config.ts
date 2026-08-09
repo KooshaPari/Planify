@@ -38,7 +38,10 @@ export const CustomCalloutExtensionConfig: CustomCalloutExtensionType = Node.cre
           };
           return acc;
         },
-        {} as Record<ECalloutAttributeNames, { default: TCalloutBlockAttributes[ECalloutAttributeNames] }>
+        {} as Record<
+          ECalloutAttributeNames,
+          { default: TCalloutBlockAttributes[ECalloutAttributeNames] }
+        >,
       ),
     };
 
@@ -54,7 +57,7 @@ export const CustomCalloutExtensionConfig: CustomCalloutExtensionType = Node.cre
           // add callout logo
           if (logoInUse === "emoji") {
             state.write(
-              `> <img src="${attrs["data-emoji-url"]}" alt="${attrs["data-emoji-unicode"]}" width="30px" />\n`
+              `> <img src="${attrs["data-emoji-url"]}" alt="${attrs["data-emoji-unicode"]}" width="30px" />\n`,
             );
           } else {
             state.write(`> <icon>${attrs["data-icon-name"]} icon</icon>\n`);

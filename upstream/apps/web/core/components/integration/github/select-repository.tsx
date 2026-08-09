@@ -45,7 +45,12 @@ export function SelectRepository(props: Props) {
     return data;
   };
 
-  const { data: paginatedData, size, setSize, isValidating } = useSWRInfinite(getKey, fetchGithubRepos);
+  const {
+    data: paginatedData,
+    size,
+    setSize,
+    isValidating,
+  } = useSWRInfinite(getKey, fetchGithubRepos);
 
   let userRepositories = (paginatedData ?? []).map((data) => data.repositories).flat();
   userRepositories = userRepositories.filter((data) => data?.id);

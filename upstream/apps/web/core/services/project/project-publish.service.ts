@@ -16,7 +16,10 @@ export class ProjectPublishService extends APIService {
     super(API_BASE_URL);
   }
 
-  async fetchPublishSettings(workspaceSlug: string, projectID: string): Promise<TProjectPublishSettings> {
+  async fetchPublishSettings(
+    workspaceSlug: string,
+    projectID: string,
+  ): Promise<TProjectPublishSettings> {
     return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectID}/project-deploy-boards/`)
       .then((response) => response?.data)
       .catch((error) => {
@@ -27,9 +30,12 @@ export class ProjectPublishService extends APIService {
   async publishProject(
     workspaceSlug: string,
     projectID: string,
-    data: Partial<TProjectPublishSettings>
+    data: Partial<TProjectPublishSettings>,
   ): Promise<TProjectPublishSettings> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectID}/project-deploy-boards/`, data)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectID}/project-deploy-boards/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response;
@@ -40,11 +46,11 @@ export class ProjectPublishService extends APIService {
     workspaceSlug: string,
     projectID: string,
     project_publish_id: string,
-    data: Partial<TProjectPublishSettings>
+    data: Partial<TProjectPublishSettings>,
   ): Promise<TProjectPublishSettings> {
     return this.patch(
       `/api/workspaces/${workspaceSlug}/projects/${projectID}/project-deploy-boards/${project_publish_id}/`,
-      data
+      data,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -52,9 +58,13 @@ export class ProjectPublishService extends APIService {
       });
   }
 
-  async unpublishProject(workspaceSlug: string, projectID: string, project_publish_id: string): Promise<any> {
+  async unpublishProject(
+    workspaceSlug: string,
+    projectID: string,
+    project_publish_id: string,
+  ): Promise<any> {
     return this.delete(
-      `/api/workspaces/${workspaceSlug}/projects/${projectID}/project-deploy-boards/${project_publish_id}/`
+      `/api/workspaces/${workspaceSlug}/projects/${projectID}/project-deploy-boards/${project_publish_id}/`,
     )
       .then((response) => response?.data)
       .catch((error) => {

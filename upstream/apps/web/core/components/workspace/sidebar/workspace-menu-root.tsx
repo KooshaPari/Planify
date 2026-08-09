@@ -33,7 +33,9 @@ type WorkspaceMenuRootProps = {
   variant: "sidebar" | "top-navigation";
 };
 
-export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(props: WorkspaceMenuRootProps) {
+export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(
+  props: WorkspaceMenuRootProps,
+) {
   const { variant } = props;
   // store hooks
   const { toggleSidebar, toggleAnySidebarDropdown } = useAppTheme();
@@ -49,7 +51,8 @@ export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(props: Work
   // local state
   const [isWorkspaceMenuOpen, setIsWorkspaceMenuOpen] = useState(false);
 
-  const handleWorkspaceNavigation = (workspace: IWorkspace) => updateUserProfile({ last_workspace_id: workspace?.id });
+  const handleWorkspaceNavigation = (workspace: IWorkspace) =>
+    updateUserProfile({ last_workspace_id: workspace?.id });
 
   const handleSignOut = async () => {
     await signOut().catch(() =>
@@ -57,7 +60,7 @@ export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(props: Work
         type: TOAST_TYPE.ERROR,
         title: t("auth.sign_out.toast.error.title"),
         message: t("auth.sign_out.toast.error.message"),
-      })
+      }),
     );
   };
 
@@ -116,7 +119,7 @@ export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(props: Work
                   "group/menu-button flex flex-grow items-center justify-between gap-1 truncate rounded-sm p-1 text-13 font-medium text-secondary hover:bg-layer-1 focus:outline-none",
                   {
                     "bg-layer-1": open,
-                  }
+                  },
                 )}
                 aria-label={t("aria_labels.projects_sidebar.open_workspace_switcher")}
               >
@@ -126,7 +129,9 @@ export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(props: Work
                     name={activeWorkspace?.name}
                     classNames="border border-subtle rounded-md size-7"
                   />
-                  <h4 className="truncate text-14 font-medium text-primary">{activeWorkspace?.name ?? t("loading")}</h4>
+                  <h4 className="truncate text-14 font-medium text-primary">
+                    {activeWorkspace?.name ?? t("loading")}
+                  </h4>
                 </div>
                 <ChevronDownIcon
                   className={cn("size-4 flex-shrink-0 text-placeholder duration-300", {
@@ -151,7 +156,7 @@ export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(props: Work
                     {
                       "top-11 left-14": variant === "sidebar",
                       "top-10 left-4": variant === "top-navigation",
-                    }
+                    },
                   )}
                 >
                   <div className="vertical-scrollbar flex scrollbar-sm max-h-96 flex-col items-start justify-start overflow-x-hidden overflow-y-scroll">
@@ -163,7 +168,9 @@ export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(props: Work
                         {(activeWorkspace
                           ? [
                               activeWorkspace,
-                              ...workspacesList.filter((workspace) => workspace.id !== activeWorkspace?.id),
+                              ...workspacesList.filter(
+                                (workspace) => workspace.id !== activeWorkspace?.id,
+                              ),
                             ]
                           : workspacesList
                         ).map((workspace) => (

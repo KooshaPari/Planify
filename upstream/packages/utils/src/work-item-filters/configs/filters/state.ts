@@ -9,15 +9,24 @@ import { STATE_GROUPS } from "@plane/constants";
 import type { IState, TFilterProperty, TStateGroups, TSupportedOperators } from "@plane/types";
 import { COLLECTION_OPERATOR, EQUALITY_OPERATOR } from "@plane/types";
 // local imports
-import type { IFilterIconConfig, TCreateFilterConfig, TCreateFilterConfigParams } from "../../../rich-filters";
-import { createFilterConfig, getMultiSelectConfig, createOperatorConfigEntry } from "../../../rich-filters";
+import type {
+  IFilterIconConfig,
+  TCreateFilterConfig,
+  TCreateFilterConfigParams,
+} from "../../../rich-filters";
+import {
+  createFilterConfig,
+  getMultiSelectConfig,
+  createOperatorConfigEntry,
+} from "../../../rich-filters";
 
 // ------------ State group filter ------------
 
 /**
  * State group filter specific params
  */
-export type TCreateStateGroupFilterParams = TCreateFilterConfigParams & IFilterIconConfig<TStateGroups>;
+export type TCreateStateGroupFilterParams = TCreateFilterConfigParams &
+  IFilterIconConfig<TStateGroups>;
 
 /**
  * Helper to get the state group multi select config
@@ -26,7 +35,7 @@ export type TCreateStateGroupFilterParams = TCreateFilterConfigParams & IFilterI
  */
 export const getStateGroupMultiSelectConfig = (
   params: TCreateStateGroupFilterParams,
-  singleValueOperator: TSupportedOperators
+  singleValueOperator: TSupportedOperators,
 ) =>
   getMultiSelectConfig<{ key: TStateGroups; label: string }, TStateGroups, TStateGroups>(
     {
@@ -42,7 +51,7 @@ export const getStateGroupMultiSelectConfig = (
     },
     {
       ...params,
-    }
+    },
   );
 
 /**
@@ -61,7 +70,7 @@ export const getStateGroupFilterConfig =
       icon: params.filterIcon,
       supportedOperatorConfigsMap: new Map([
         createOperatorConfigEntry(COLLECTION_OPERATOR.IN, params, (updatedParams) =>
-          getStateGroupMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT)
+          getStateGroupMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT),
         ),
       ]),
     });
@@ -81,7 +90,10 @@ export type TCreateStateFilterParams = TCreateFilterConfigParams &
  * @param params - The filter params
  * @returns The state multi select config
  */
-export const getStateMultiSelectConfig = (params: TCreateStateFilterParams, singleValueOperator: TSupportedOperators) =>
+export const getStateMultiSelectConfig = (
+  params: TCreateStateFilterParams,
+  singleValueOperator: TSupportedOperators,
+) =>
   getMultiSelectConfig<IState, string, IState>(
     {
       items: params.states,
@@ -96,7 +108,7 @@ export const getStateMultiSelectConfig = (params: TCreateStateFilterParams, sing
     },
     {
       ...params,
-    }
+    },
   );
 
 /**
@@ -115,7 +127,7 @@ export const getStateFilterConfig =
       icon: params.filterIcon,
       supportedOperatorConfigsMap: new Map([
         createOperatorConfigEntry(COLLECTION_OPERATOR.IN, params, (updatedParams) =>
-          getStateMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT)
+          getStateMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT),
         ),
       ]),
     });

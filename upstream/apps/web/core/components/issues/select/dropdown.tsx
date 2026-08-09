@@ -17,11 +17,16 @@ import { useUserPermissions } from "@/hooks/store/user";
 import type { TWorkItemLabelSelectBaseProps } from "./base";
 import { WorkItemLabelSelectBase } from "./base";
 
-type TWorkItemLabelSelectProps = Omit<TWorkItemLabelSelectBaseProps, "labelIds" | "getLabelById" | "onDropdownOpen"> & {
+type TWorkItemLabelSelectProps = Omit<
+  TWorkItemLabelSelectBaseProps,
+  "labelIds" | "getLabelById" | "onDropdownOpen"
+> & {
   projectId: string | undefined;
 };
 
-export const IssueLabelSelect = observer(function IssueLabelSelect(props: TWorkItemLabelSelectProps) {
+export const IssueLabelSelect = observer(function IssueLabelSelect(
+  props: TWorkItemLabelSelectProps,
+) {
   const { projectId } = props;
   // router
   const { workspaceSlug } = useParams();
@@ -33,7 +38,12 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: TWorkI
 
   const canCreateLabel =
     projectId &&
-    allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT, workspaceSlug?.toString(), projectId);
+    allowPermissions(
+      [EUserPermissions.ADMIN],
+      EUserPermissionsLevel.PROJECT,
+      workspaceSlug?.toString(),
+      projectId,
+    );
 
   const onDropdownOpen = () => {
     if (projectLabelIds === undefined && workspaceSlug && projectId)

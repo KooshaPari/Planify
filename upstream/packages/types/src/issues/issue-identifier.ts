@@ -8,7 +8,13 @@ import type { IIssueDisplayProperties } from "../view-props";
 
 export type TIssueIdentifierSize = "xs" | "sm" | "md" | "lg";
 
-export type TIdentifierTextVariant = "default" | "secondary" | "tertiary" | "primary" | "primary-subtle" | "success";
+export type TIdentifierTextVariant =
+  | "default"
+  | "secondary"
+  | "tertiary"
+  | "primary"
+  | "primary-subtle"
+  | "success";
 
 export type TIssueIdentifierBaseProps = {
   projectId: string;

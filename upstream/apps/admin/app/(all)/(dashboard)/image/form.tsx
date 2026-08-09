@@ -7,7 +7,10 @@
 import { useForm } from "react-hook-form";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { IFormattedInstanceConfiguration, TInstanceImageConfigurationKeys } from "@plane/types";
+import type {
+  IFormattedInstanceConfiguration,
+  TInstanceImageConfigurationKeys,
+} from "@plane/types";
 // components
 import { ControllerInput } from "@/components/common/controller-input";
 // hooks
@@ -43,7 +46,7 @@ export function InstanceImageConfigForm(props: IInstanceImageConfigForm) {
           type: TOAST_TYPE.SUCCESS,
           title: "Success",
           message: "Image Configuration Settings updated successfully",
-        })
+        }),
       )
       .catch((err) => console.error(err));
   };

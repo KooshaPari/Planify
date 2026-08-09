@@ -63,7 +63,7 @@ export function ResizableSidebar({
     (value: boolean) => {
       togglePeek(value);
     },
-    [togglePeek]
+    [togglePeek],
   );
 
   const handleResize = useCallback(
@@ -74,7 +74,7 @@ export function ResizableSidebar({
       const newWidth = Math.min(Math.max(initialWidthRef.current + deltaX, minWidth), maxWidth);
       setWidth(newWidth);
     },
-    [isResizing, minWidth, maxWidth, setWidth]
+    [isResizing, minWidth, maxWidth, setWidth],
   );
 
   const startResizing = useCallback(
@@ -83,7 +83,7 @@ export function ResizableSidebar({
       initialWidthRef.current = width;
       initialMouseXRef.current = e.clientX;
     },
-    [width]
+    [width],
   );
 
   const stopResizing = useCallback(() => {
@@ -113,7 +113,13 @@ export function ResizableSidebar({
         setShowPeek(false);
       }, peekDuration);
     }
-  }, [isCollapsed, peekDuration, setShowPeek, isAnyExtendedSidebarExpanded, isAnySidebarDropdownOpen]);
+  }, [
+    isCollapsed,
+    peekDuration,
+    setShowPeek,
+    isAnyExtendedSidebarExpanded,
+    isAnySidebarDropdownOpen,
+  ]);
 
   // Set up event listeners for resizing
   useEffect(() => {
@@ -139,7 +145,7 @@ export function ResizableSidebar({
         clearTimeout(peekTimeoutRef.current);
       }
     },
-    []
+    [],
   );
 
   useEffect(() => {
@@ -184,7 +190,7 @@ export function ResizableSidebar({
           !isResizing && "transition-all duration-300 ease-in-out",
           isCollapsed ? "w-0 translate-x-[-100%] opacity-0" : "translate-x-0 opacity-100",
           isMobile && "absolute",
-          className
+          className,
         )}
         style={{
           width: `${isCollapsed ? 0 : width}px`,
@@ -198,7 +204,7 @@ export function ResizableSidebar({
         <aside
           className={cn(
             "group/sidebar relative flex h-full w-full flex-col overflow-hidden bg-surface-1 pt-3",
-            isAnyExtendedSidebarExpanded && "rounded-none"
+            isAnyExtendedSidebarExpanded && "rounded-none",
           )}
         >
           {children}
@@ -209,7 +215,7 @@ export function ResizableSidebar({
               "absolute z-[20] h-full w-1 cursor-ew-resize transition-all duration-200",
               !isResizing && "hover:bg-surface-2",
               isResizing && "w-1.5 bg-layer-1",
-              "top-0 right-0"
+              "top-0 right-0",
             )}
             // onDoubleClick toggle sidebar
             onDoubleClick={() => toggleCollapsed()}
@@ -227,7 +233,7 @@ export function ResizableSidebar({
           isCollapsed && showPeek ? "translate-x-0 opacity-100" : "translate-x-[-100%] opacity-0",
           "pointer-events-none",
           isCollapsed && showPeek && "pointer-events-auto",
-          !showPeek ? "w-0" : "w-full"
+          !showPeek ? "w-0" : "w-full",
         )}
         style={{
           width: `${width}px`,
@@ -241,7 +247,7 @@ export function ResizableSidebar({
           className={cn(
             "group/sidebar relative z-20 flex h-full w-full flex-col overflow-hidden bg-surface-1 pt-4",
             "self-center rounded-md rounded-tl-none rounded-bl-none border-r border-subtle",
-            isAnyExtendedSidebarExpanded && "rounded-none"
+            isAnyExtendedSidebarExpanded && "rounded-none",
           )}
         >
           {children}
@@ -251,7 +257,7 @@ export function ResizableSidebar({
               "absolute z-[20] h-full w-1 cursor-ew-resize transition-all duration-200",
               !isResizing && "hover:bg-surface-2",
               isResizing && "bg-layer-1",
-              "top-0 right-0"
+              "top-0 right-0",
             )}
             // onDoubleClick toggle sidebar
             onDoubleClick={() => toggleCollapsed()}

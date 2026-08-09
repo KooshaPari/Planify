@@ -18,7 +18,10 @@ type Props = {
   shouldShowBorder?: boolean;
 };
 
-export const IssueBlockModules = observer(function IssueBlockModules({ moduleIds, shouldShowBorder = true }: Props) {
+export const IssueBlockModules = observer(function IssueBlockModules({
+  moduleIds,
+  shouldShowBorder = true,
+}: Props) {
   const { getModulesByIds } = useModule();
 
   const modules = getModulesByIds(moduleIds ?? []);
@@ -31,9 +34,12 @@ export const IssueBlockModules = observer(function IssueBlockModules({ moduleIds
         {modules.length <= 1 ? (
           <div
             key={modules?.[0]?.id}
-            className={cn("flex h-full flex-shrink-0 cursor-default items-center rounded-md px-2.5 py-1 text-11", {
-              "border-[0.5px] border-strong": shouldShowBorder,
-            })}
+            className={cn(
+              "flex h-full flex-shrink-0 cursor-default items-center rounded-md px-2.5 py-1 text-11",
+              {
+                "border-[0.5px] border-strong": shouldShowBorder,
+              },
+            )}
           >
             <div className="flex items-center gap-1.5 text-secondary">
               <ModuleIcon className="h-3 w-3 flex-shrink-0" />

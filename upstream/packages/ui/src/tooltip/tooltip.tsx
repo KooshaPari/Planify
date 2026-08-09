@@ -93,7 +93,7 @@ export function Tooltip({
             {
               hidden: isMobile,
             },
-            className
+            className,
           )}
         >
           {tooltipHeading && <h5 className="font-medium text-primary">{tooltipHeading}</h5>}

@@ -23,7 +23,16 @@ type Props = {
 export function ProjectFeatureToggle(props: Props) {
   const { workspaceSlug, projectId, featureItem, value, handleSubmit, disabled } = props;
   return featureItem?.href ? (
-    <Link href={joinUrlPath(workspaceSlug, "settings", "projects", projectId, "features", featureItem?.href)}>
+    <Link
+      href={joinUrlPath(
+        workspaceSlug,
+        "settings",
+        "projects",
+        projectId,
+        "features",
+        featureItem?.href,
+      )}
+    >
       <div className="flex items-center gap-2">
         <Pill
           variant={value ? EPillVariant.PRIMARY : EPillVariant.DEFAULT}

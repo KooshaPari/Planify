@@ -39,7 +39,9 @@ type Props = {
   workspaceLevelToggle?: boolean;
   shouldHideIssue?: (issue: ISearchIssueResponse) => boolean;
   selectedWorkItemIds?: string[];
-  workItemSearchServiceCallback?: (params: TProjectIssuesSearchParams) => Promise<ISearchIssueResponse[]>;
+  workItemSearchServiceCallback?: (
+    params: TProjectIssuesSearchParams,
+  ) => Promise<ISearchIssueResponse[]>;
 };
 
 const projectService = new ProjectService();
@@ -104,7 +106,11 @@ export function ExistingIssuesListModal(props: Props) {
     const searchService =
       workItemSearchServiceCallback ??
       (projectId
-        ? projectService.projectIssuesSearch.bind(projectService, workspaceSlug?.toString(), projectId?.toString())
+        ? projectService.projectIssuesSearch.bind(
+            projectService,
+            workspaceSlug?.toString(),
+            projectId?.toString(),
+          )
         : undefined);
     if (!searchService) return;
     searchService({
@@ -120,7 +126,9 @@ export function ExistingIssuesListModal(props: Props) {
   };
 
   const handleSelectIssues = () => {
-    setSelectedIssues((prevData) => (prevData.length === filteredIssues.length ? [] : [...filteredIssues]));
+    setSelectedIssues((prevData) =>
+      prevData.length === filteredIssues.length ? [] : [...filteredIssues],
+    );
   };
 
   useEffect(() => {
@@ -137,7 +145,12 @@ export function ExistingIssuesListModal(props: Props) {
   const filteredIssues = issues.filter((issue) => !shouldHideIssue?.(issue));
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <Combobox
         as="div"
         onChange={(val: ISearchIssueResponse) => {
@@ -179,7 +192,9 @@ export function ExistingIssuesListModal(props: Props) {
                   <button
                     type="button"
                     className="group p-1"
-                    onClick={() => setSelectedIssues((prevData) => prevData.filter((i) => i.id !== issue.id))}
+                    onClick={() =>
+                      setSelectedIssues((prevData) => prevData.filter((i) => i.id !== issue.id))
+                    }
                   >
                     <CloseIcon className="h-3 w-3 text-secondary group-hover:text-primary" />
                   </button>
@@ -198,7 +213,10 @@ export function ExistingIssuesListModal(props: Props) {
                   isWorkspaceLevel ? "text-primary" : "text-secondary"
                 }`}
               >
-                <ToggleSwitch value={isWorkspaceLevel} onChange={() => setIsWorkspaceLevel((prevData) => !prevData)} />
+                <ToggleSwitch
+                  value={isWorkspaceLevel}
+                  onChange={() => setIsWorkspaceLevel((prevData) => !prevData)}
+                />
                 <button
                   type="button"
                   onClick={() => setIsWorkspaceLevel((prevData) => !prevData)}
@@ -211,7 +229,10 @@ export function ExistingIssuesListModal(props: Props) {
           )}
         </div>
 
-        <Combobox.Options static className="vertical-scrollbar scrollbar-md max-h-80 scroll-py-2 overflow-y-auto">
+        <Combobox.Options
+          static
+          className="vertical-scrollbar scrollbar-md max-h-80 scroll-py-2 overflow-y-auto"
+        >
           {/* TODO: Translate here */}
           {searchTerm !== "" && (
             <h5 className="mx-2 text-13 text-secondary">
@@ -309,7 +330,9 @@ export function ExistingIssuesListModal(props: Props) {
           disabled={filteredIssues.length === 0}
           className={filteredIssues.length === 0 ? "p-0" : ""}
         >
-          {selectedIssues.length === issues.length ? t("issue.select.deselect_all") : t("issue.select.select_all")}
+          {selectedIssues.length === issues.length
+            ? t("issue.select.deselect_all")
+            : t("issue.select.select_all")}
         </Button>
         <div className="flex items-center justify-end gap-2">
           <Button variant="secondary" size="lg" onClick={handleClose}>

@@ -10,9 +10,9 @@ import { cn } from "@plane/utils";
 import { useLayoutState } from "../hooks/use-layout-state";
 import { BaseKanbanGroup } from "./group";
 
-export const BaseKanbanLayout = observer(function BaseKanbanLayout<T extends IBaseLayoutsKanbanItem>(
-  props: IBaseLayoutsKanbanProps<T>
-) {
+export const BaseKanbanLayout = observer(function BaseKanbanLayout<
+  T extends IBaseLayoutsKanbanItem,
+>(props: IBaseLayoutsKanbanProps<T>) {
   const {
     items,
     groups,
@@ -30,7 +30,8 @@ export const BaseKanbanLayout = observer(function BaseKanbanLayout<T extends IBa
     onToggleGroup: externalOnToggleGroup,
   } = props;
 
-  const useExternalMode = externalCollapsedGroups !== undefined && externalOnToggleGroup !== undefined;
+  const useExternalMode =
+    externalCollapsedGroups !== undefined && externalOnToggleGroup !== undefined;
   const { containerRef, collapsedGroups, onToggleGroup } = useLayoutState(
     useExternalMode
       ? {
@@ -40,11 +41,14 @@ export const BaseKanbanLayout = observer(function BaseKanbanLayout<T extends IBa
         }
       : {
           mode: "internal",
-        }
+        },
   );
 
   return (
-    <div ref={containerRef} className={cn("relative flex h-full w-full gap-2 overflow-x-auto p-3", className)}>
+    <div
+      ref={containerRef}
+      className={cn("relative flex h-full w-full gap-2 overflow-x-auto p-3", className)}
+    >
       {groups.map((group) => {
         const itemIds = groupedItemIds[group.id] || [];
         const isCollapsed = collapsedGroups.includes(group.id);

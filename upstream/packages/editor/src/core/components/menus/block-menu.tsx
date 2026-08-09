@@ -103,7 +103,7 @@ export function BlockMenu(props: Props) {
         closeBlockMenu();
       }
     },
-    [refs, openBlockMenu, closeBlockMenu]
+    [refs, openBlockMenu, closeBlockMenu],
   );
 
   // Set up event listeners
@@ -224,7 +224,7 @@ export function BlockMenu(props: Props) {
         className={cn(
           "max-h-60 min-w-[7rem] overflow-y-scroll rounded-lg border border-subtle bg-surface-1 p-1.5 shadow-raised-200",
           "origin-top-right transform transition-all duration-300",
-          isAnimatedIn ? "scale-100 opacity-100" : "scale-75 opacity-0"
+          isAnimatedIn ? "scale-100 opacity-100" : "scale-75 opacity-0",
         )}
         {...getFloatingProps()}
       >

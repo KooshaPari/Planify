@@ -20,7 +20,7 @@ export type TPowerKProjectStatesMenuItemsProps = {
 };
 
 export const PowerKProjectStatesMenuItems = observer(function PowerKProjectStatesMenuItems(
-  props: TPowerKProjectStatesMenuItemsProps
+  props: TPowerKProjectStatesMenuItemsProps,
 ) {
   const { handleSelect, selectedStateId, states } = props;
 
@@ -29,7 +29,13 @@ export const PowerKProjectStatesMenuItems = observer(function PowerKProjectState
       {states.map((state) => (
         <PowerKModalCommandItem
           key={state.id}
-          iconNode={<StateGroupIcon stateGroup={state.group} color={state.color} className="size-3.5 shrink-0" />}
+          iconNode={
+            <StateGroupIcon
+              stateGroup={state.group}
+              color={state.color}
+              className="size-3.5 shrink-0"
+            />
+          }
           label={state.name}
           isSelected={state.id === selectedStateId}
           onSelect={() => handleSelect(state.id)}

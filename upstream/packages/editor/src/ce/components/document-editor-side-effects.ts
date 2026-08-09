@@ -15,4 +15,6 @@ export type DocumentEditorSideEffectsProps = {
   extendedEditorProps?: IEditorPropsExtended;
 };
 
-export const DocumentEditorSideEffects = (_props: DocumentEditorSideEffectsProps): ReactElement | null => null;
+export const DocumentEditorSideEffects = (
+  _props: DocumentEditorSideEffectsProps,
+): ReactElement | null => null;

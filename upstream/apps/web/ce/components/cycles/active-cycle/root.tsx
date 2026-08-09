@@ -82,7 +82,11 @@ const ActiveCyclesComponent = observer(function ActiveCyclesComponent({
             workspaceSlug={workspaceSlug}
             cycle={activeCycle}
           />
-          <ActiveCycleProductivity workspaceSlug={workspaceSlug} projectId={projectId} cycle={activeCycle} />
+          <ActiveCycleProductivity
+            workspaceSlug={workspaceSlug}
+            projectId={projectId}
+            cycle={activeCycle}
+          />
           <ActiveCycleStats
             workspaceSlug={workspaceSlug}
             projectId={projectId}
@@ -107,7 +111,8 @@ export const ActiveCycleRoot = observer(function ActiveCycleRoot(props: IActiveC
   const { currentProjectActiveCycleId } = useCycle();
   // derived values
   const cycleId = propsCycleId ?? currentProjectActiveCycleId;
-  const activeCycleResolvedPath = resolvedTheme === "light" ? lightActiveCycleAsset : darkActiveCycleAsset;
+  const activeCycleResolvedPath =
+    resolvedTheme === "light" ? lightActiveCycleAsset : darkActiveCycleAsset;
   // fetch cycle details
   const {
     handleFiltersUpdate,
@@ -122,7 +127,11 @@ export const ActiveCycleRoot = observer(function ActiveCycleRoot(props: IActiveC
           {({ open }) => (
             <>
               <Disclosure.Button className="sticky top-0 z-[2] w-full flex-shrink-0 cursor-pointer border-b border-subtle bg-layer-1">
-                <CycleListGroupHeader title={t("project_cycles.active_cycle.label")} type="current" isExpanded={open} />
+                <CycleListGroupHeader
+                  title={t("project_cycles.active_cycle.label")}
+                  type="current"
+                  isExpanded={open}
+                />
               </Disclosure.Button>
               <Disclosure.Panel>
                 <ActiveCyclesComponent

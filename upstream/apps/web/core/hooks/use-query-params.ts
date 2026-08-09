@@ -17,7 +17,13 @@ export const useQueryParams = () => {
   const pathname = usePathname();
 
   const updateQueryParams = useCallback(
-    ({ paramsToAdd = {}, paramsToRemove = [] }: { paramsToAdd?: TParamsToAdd; paramsToRemove?: string[] }) => {
+    ({
+      paramsToAdd = {},
+      paramsToRemove = [],
+    }: {
+      paramsToAdd?: TParamsToAdd;
+      paramsToRemove?: string[];
+    }) => {
       const currentParams = new URLSearchParams(searchParams.toString());
 
       // add or update query parameters
@@ -35,7 +41,7 @@ export const useQueryParams = () => {
       const newRoute = query ? `${pathname}?${query}` : pathname;
       return newRoute;
     },
-    [pathname, searchParams]
+    [pathname, searchParams],
   );
 
   return {

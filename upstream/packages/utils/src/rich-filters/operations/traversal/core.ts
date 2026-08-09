@@ -25,7 +25,7 @@ import { getDisplayOperator } from "./shared";
 export type TreeVisitorFn<P extends TFilterProperty, T> = (
   expression: TFilterExpression<P>,
   parent?: TFilterGroupNode<P>,
-  depth?: number
+  depth?: number,
 ) => T | null;
 
 /**
@@ -56,7 +56,7 @@ export const traverseExpressionTree = <P extends TFilterProperty, T>(
   visitor: TreeVisitorFn<P, T>,
   mode: TreeTraversalMode = TreeTraversalMode.ALL,
   parent?: TFilterGroupNode<P>,
-  depth: number = 0
+  depth: number = 0,
 ): T[] => {
   if (!expression) return [];
 
@@ -96,12 +96,12 @@ export const traverseExpressionTree = <P extends TFilterProperty, T>(
  */
 export const findNodeById = <P extends TFilterProperty>(
   expression: TFilterExpression<P>,
-  targetId: string
+  targetId: string,
 ): TFilterExpression<P> | null => {
   const results = traverseExpressionTree(
     expression,
     (node) => (node.id === targetId ? node : null),
-    TreeTraversalMode.ALL
+    TreeTraversalMode.ALL,
   );
 
   // Return the first match (there should only be one with unique IDs)
@@ -118,7 +118,7 @@ export const findNodeById = <P extends TFilterProperty>(
 export const findParentChain = <P extends TFilterProperty>(
   expression: TFilterExpression<P>,
   targetId: string,
-  currentPath: TFilterGroupNode<P>[] = []
+  currentPath: TFilterGroupNode<P>[] = [],
 ): TFilterGroupNode<P>[] | null => {
   // if the expression is a group, search in the children
   if (isGroupNode(expression)) {
@@ -151,7 +151,7 @@ export const findParentChain = <P extends TFilterProperty>(
  */
 export const findImmediateParent = <P extends TFilterProperty>(
   expression: TFilterExpression<P>,
-  targetId: string
+  targetId: string,
 ): TFilterGroupNode<P> | null => {
   // if the expression is null, return null
   if (!expression) return null;
@@ -170,9 +170,13 @@ export const findImmediateParent = <P extends TFilterProperty>(
  * @returns An array of filter conditions
  */
 export const extractConditions = <P extends TFilterProperty>(
-  expression: TFilterExpression<P>
+  expression: TFilterExpression<P>,
 ): TFilterConditionNode<P, TFilterValue>[] =>
-  traverseExpressionTree(expression, (node) => (isConditionNode(node) ? node : null), TreeTraversalMode.CONDITIONS);
+  traverseExpressionTree(
+    expression,
+    (node) => (isConditionNode(node) ? node : null),
+    TreeTraversalMode.CONDITIONS,
+  );
 
 /**
  * Extracts all conditions from a filter expression, including their display operators.
@@ -180,7 +184,7 @@ export const extractConditions = <P extends TFilterProperty>(
  * @returns An array of filter conditions with their display operators
  */
 export const extractConditionsWithDisplayOperators = <P extends TFilterProperty>(
-  expression: TFilterExpression<P>
+  expression: TFilterExpression<P>,
 ): TFilterConditionNodeForDisplay<P, TFilterValue>[] => {
   // First extract all raw conditions
   const rawConditions = extractConditions(expression);
@@ -205,8 +209,10 @@ export const extractConditionsWithDisplayOperators = <P extends TFilterProperty>
 export const findConditionsByPropertyAndOperator = <P extends TFilterProperty>(
   expression: TFilterExpression<P>,
   property: P,
-  operator: TAllAvailableOperatorsForDisplay
+  operator: TAllAvailableOperatorsForDisplay,
 ): TFilterConditionNodeForDisplay<P, TFilterValue>[] => {
   const conditions = extractConditionsWithDisplayOperators(expression);
-  return conditions.filter((condition) => condition.property === property && condition.operator === operator);
+  return conditions.filter(
+    (condition) => condition.property === property && condition.operator === operator,
+  );
 };

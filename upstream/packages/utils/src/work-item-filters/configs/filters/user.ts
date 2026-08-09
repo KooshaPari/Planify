@@ -9,7 +9,11 @@ import type { TFilterProperty } from "@plane/types";
 import { EQUALITY_OPERATOR, COLLECTION_OPERATOR } from "@plane/types";
 // local imports
 import type { TCreateFilterConfig, TCreateUserFilterParams } from "../../../rich-filters";
-import { createFilterConfig, createOperatorConfigEntry, getMemberMultiSelectConfig } from "../../../rich-filters";
+import {
+  createFilterConfig,
+  createOperatorConfigEntry,
+  getMemberMultiSelectConfig,
+} from "../../../rich-filters";
 
 // ------------ Assignee filter ------------
 
@@ -34,7 +38,7 @@ export const getAssigneeFilterConfig =
       icon: params.filterIcon,
       supportedOperatorConfigsMap: new Map([
         createOperatorConfigEntry(COLLECTION_OPERATOR.IN, params, (updatedParams) =>
-          getMemberMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT)
+          getMemberMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT),
         ),
       ]),
     });
@@ -62,7 +66,7 @@ export const getMentionFilterConfig =
       icon: params.filterIcon,
       supportedOperatorConfigsMap: new Map([
         createOperatorConfigEntry(COLLECTION_OPERATOR.IN, params, (updatedParams) =>
-          getMemberMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT)
+          getMemberMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT),
         ),
       ]),
     });
@@ -90,7 +94,7 @@ export const getCreatedByFilterConfig =
       icon: params.filterIcon,
       supportedOperatorConfigsMap: new Map([
         createOperatorConfigEntry(COLLECTION_OPERATOR.IN, params, (updatedParams) =>
-          getMemberMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT)
+          getMemberMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT),
         ),
       ]),
     });
@@ -118,7 +122,7 @@ export const getSubscriberFilterConfig =
       icon: params.filterIcon,
       supportedOperatorConfigsMap: new Map([
         createOperatorConfigEntry(COLLECTION_OPERATOR.IN, params, (updatedParams) =>
-          getMemberMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT)
+          getMemberMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT),
         ),
       ]),
     });

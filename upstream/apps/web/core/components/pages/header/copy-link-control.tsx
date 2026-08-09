@@ -37,7 +37,7 @@ export const PageCopyLinkControl = observer(function PageCopyLinkControl({ page 
         clearTimeout(timerRef.current);
       }
     },
-    []
+    [],
   );
 
   const handleCopy = useCallback(() => {

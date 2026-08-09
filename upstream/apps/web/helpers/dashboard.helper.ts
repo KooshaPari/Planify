@@ -70,7 +70,10 @@ export const getRedirectionFilters = (type: TIssuesListTypes): string => {
  * @param duration
  * @param tab
  */
-export const getTabKey = (duration: EDurationFilters, tab: TIssuesListTypes | undefined): TIssuesListTypes => {
+export const getTabKey = (
+  duration: EDurationFilters,
+  tab: TIssuesListTypes | undefined,
+): TIssuesListTypes => {
   if (!tab) return "completed";
 
   if (tab === "completed") return tab;
@@ -87,13 +90,18 @@ export const getTabKey = (duration: EDurationFilters, tab: TIssuesListTypes | un
  * @param duration
  * @param customDates
  */
-export const getDurationFilterDropdownLabel = (duration: EDurationFilters, customDates: string[]): string => {
-  if (duration !== "custom") return DURATION_FILTER_OPTIONS.find((option) => option.key === duration)?.label ?? "";
+export const getDurationFilterDropdownLabel = (
+  duration: EDurationFilters,
+  customDates: string[],
+): string => {
+  if (duration !== "custom")
+    return DURATION_FILTER_OPTIONS.find((option) => option.key === duration)?.label ?? "";
   else {
     const afterDate = customDates.find((date) => date.includes("after"))?.split(";")[0];
     const beforeDate = customDates.find((date) => date.includes("before"))?.split(";")[0];
 
-    if (afterDate && beforeDate) return `${renderFormattedDate(afterDate)} - ${renderFormattedDate(beforeDate)}`;
+    if (afterDate && beforeDate)
+      return `${renderFormattedDate(afterDate)} - ${renderFormattedDate(beforeDate)}`;
     else if (afterDate) return `After ${renderFormattedDate(afterDate)}`;
     else if (beforeDate) return `Before ${renderFormattedDate(beforeDate)}`;
     else return "";

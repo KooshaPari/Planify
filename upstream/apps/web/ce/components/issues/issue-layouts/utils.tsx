@@ -53,7 +53,10 @@ export type TGetScopeMemberIdsResult = {
   includeNone: boolean;
 };
 
-export const getScopeMemberIds = ({ isWorkspaceLevel, projectId }: TGetColumns): TGetScopeMemberIdsResult => {
+export const getScopeMemberIds = ({
+  isWorkspaceLevel,
+  projectId,
+}: TGetColumns): TGetScopeMemberIdsResult => {
   // store values
   const { workspaceMemberIds } = store.memberRoot.workspace;
   const { projectMemberIds } = store.memberRoot.project;
@@ -112,7 +115,7 @@ export const SPREADSHEET_COLUMNS: { [key in keyof IIssueDisplayProperties]: TSpr
 };
 
 export const useGroupByOptions = (
-  options: TIssueGroupByOptions[]
+  options: TIssueGroupByOptions[],
 ): {
   key: TIssueGroupByOptions;
   titleTranslationKey: string;

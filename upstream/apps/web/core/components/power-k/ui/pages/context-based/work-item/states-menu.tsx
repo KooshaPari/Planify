@@ -27,9 +27,15 @@ export const PowerKProjectStatesMenu = observer(function PowerKProjectStatesMenu
   // store hooks
   const { getProjectStateIds, getStateById } = useProjectState();
   // derived values
-  const projectStateIds = workItemDetails.project_id ? getProjectStateIds(workItemDetails.project_id) : undefined;
-  const projectStates = projectStateIds ? projectStateIds.map((stateId) => getStateById(stateId)) : undefined;
-  const filteredProjectStates = projectStates ? projectStates.filter((state) => !!state) : undefined;
+  const projectStateIds = workItemDetails.project_id
+    ? getProjectStateIds(workItemDetails.project_id)
+    : undefined;
+  const projectStates = projectStateIds
+    ? projectStateIds.map((stateId) => getStateById(stateId))
+    : undefined;
+  const filteredProjectStates = projectStates
+    ? projectStates.filter((state) => !!state)
+    : undefined;
 
   if (!filteredProjectStates) return <Spinner />;
 

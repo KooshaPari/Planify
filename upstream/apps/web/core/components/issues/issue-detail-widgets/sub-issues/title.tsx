@@ -24,7 +24,13 @@ type Props = {
 };
 
 export const SubIssuesCollapsibleTitle = observer(function SubIssuesCollapsibleTitle(props: Props) {
-  const { isOpen, parentIssueId, disabled, issueServiceType = EIssueServiceType.ISSUES, projectId } = props;
+  const {
+    isOpen,
+    parentIssueId,
+    disabled,
+    issueServiceType = EIssueServiceType.ISSUES,
+    projectId,
+  } = props;
   // translation
   const { t } = useTranslation();
   // store hooks

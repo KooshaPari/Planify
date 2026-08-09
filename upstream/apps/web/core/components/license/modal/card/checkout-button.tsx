@@ -26,7 +26,10 @@ type Props = {
   price: TSubscriptionPrice;
   upgradeCTA?: string;
   upgradeLoaderType: Omit<EProductSubscriptionEnum, "FREE"> | undefined;
-  renderTrialButton?: (props: { productId: string | undefined; priceId: string | undefined }) => React.ReactNode;
+  renderTrialButton?: (props: {
+    productId: string | undefined;
+    priceId: string | undefined;
+  }) => React.ReactNode;
   handleCheckout: (params: TCheckoutParams) => void;
   isSelfHosted: boolean;
   isTrialAllowed: boolean;
@@ -88,7 +91,9 @@ export const PlanCheckoutButton = observer(function PlanCheckoutButton(props: Pr
             }}
             disabled={!!upgradeLoaderType}
           >
-            {upgradeLoaderType === planVariant ? "Redirecting to Stripe" : (upgradeCTA ?? `Upgrade to ${planeName}`)}
+            {upgradeLoaderType === planVariant
+              ? "Redirecting to Stripe"
+              : (upgradeCTA ?? `Upgrade to ${planeName}`)}
           </Button>
           {isTrialAllowed && !isSelfHosted && (
             <div className="mt-1 h-3">

@@ -54,7 +54,7 @@ const EmojiReaction = React.forwardRef(function EmojiReaction(
     showCount = true,
     ...props
   }: EmojiReactionProps,
-  ref: React.ForwardedRef<HTMLButtonElement>
+  ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
   const handleClick = () => {
     onReactionClick?.(emoji);
@@ -86,12 +86,14 @@ const EmojiReaction = React.forwardRef(function EmojiReaction(
         reacted
           ? "border-accent-strong bg-accent-primary/10 text-accent-primary"
           : "border-subtle bg-surface-1 text-tertiary hover:border-strong hover:bg-surface-2",
-        className
+        className,
       )}
       {...props}
     >
       <span className="leading-unset text-14">{emoji}</span>
-      {showCount && count > 0 && <AnimatedCounter count={count} size="sm" className="text-11 leading-normal" />}
+      {showCount && count > 0 && (
+        <AnimatedCounter count={count} size="sm" className="text-11 leading-normal" />
+      )}
     </button>
   );
 
@@ -104,7 +106,7 @@ const EmojiReaction = React.forwardRef(function EmojiReaction(
 
 const EmojiReactionButton = React.forwardRef(function EmojiReactionButton(
   { onAddReaction, className, ...props }: EmojiReactionButtonProps,
-  ref: React.ForwardedRef<HTMLButtonElement>
+  ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
   return (
     <Tooltip tooltipContent="Add reaction">
@@ -131,7 +133,7 @@ const EmojiReactionGroup = React.forwardRef(function EmojiReactionGroup(
     maxDisplayUsers = 5,
     ...props
   }: EmojiReactionGroupProps,
-  ref: React.ForwardedRef<HTMLDivElement>
+  ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   return (
     <div ref={ref} className={cn("flex flex-wrap items-center gap-2", className)} {...props}>

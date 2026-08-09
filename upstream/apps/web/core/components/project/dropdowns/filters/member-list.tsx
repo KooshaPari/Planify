@@ -86,7 +86,11 @@ export const MemberListFilters = observer(function MemberListFilters(props: Prop
   return (
     <div className="space-y-4">
       {/* Role Filter Group */}
-      <RoleFilterGroup appliedFilters={appliedFilters} handleUpdate={handleUpdate} memberType={memberType} />
+      <RoleFilterGroup
+        appliedFilters={appliedFilters}
+        handleUpdate={handleUpdate}
+        memberType={memberType}
+      />
     </div>
   );
 });
@@ -112,7 +116,11 @@ export const MemberListFiltersDropdown = observer(function MemberListFiltersDrop
       }
       placement="bottom-start"
     >
-      <MemberListFilters appliedFilters={appliedFilters} handleUpdate={handleUpdate} memberType={memberType} />
+      <MemberListFilters
+        appliedFilters={appliedFilters}
+        handleUpdate={handleUpdate}
+        memberType={memberType}
+      />
     </CustomMenu>
   );
 });

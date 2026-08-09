@@ -53,7 +53,7 @@ export const PagesListHeaderRoot = observer(function PagesListHeaderRoot(props: 
 
       updateFilters("filters", { [key]: newValues });
     },
-    [filters.filters, updateFilters]
+    [filters.filters, updateFilters],
   );
 
   const isFiltersApplied = calculateTotalFilters(filters?.filters ?? {}) !== 0;
@@ -62,7 +62,11 @@ export const PagesListHeaderRoot = observer(function PagesListHeaderRoot(props: 
     <>
       <Header variant={EHeaderVariant.SECONDARY}>
         <Header.LeftItem>
-          <PageTabNavigation workspaceSlug={workspaceSlug} projectId={projectId} pageType={pageType} />
+          <PageTabNavigation
+            workspaceSlug={workspaceSlug}
+            projectId={projectId}
+            pageType={pageType}
+          />
         </Header.LeftItem>
         <Header.RightItem className="items-center">
           <PageSearchInput

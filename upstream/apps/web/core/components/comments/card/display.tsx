@@ -14,7 +14,13 @@ import { useHashScroll } from "@plane/hooks";
 import { GlobeIcon, LockIcon } from "@plane/propel/icons";
 import { EIssueCommentAccessSpecifier } from "@plane/types";
 import type { TCommentsOperations, TIssueComment } from "@plane/types";
-import { calculateTimeAgo, cn, getFileURL, renderFormattedDate, renderFormattedTime } from "@plane/utils";
+import {
+  calculateTimeAgo,
+  cn,
+  getFileURL,
+  renderFormattedDate,
+  renderFormattedTime,
+} from "@plane/utils";
 // components
 import { LiteTextEditor } from "@/components/editor/lite-text";
 // local imports
@@ -40,7 +46,9 @@ export type TCommentCardDisplayProps = {
   renderQuickActions?: () => ReactNode;
 };
 
-export const CommentCardDisplay = observer(function CommentCardDisplay(props: TCommentCardDisplayProps) {
+export const CommentCardDisplay = observer(function CommentCardDisplay(
+  props: TCommentCardDisplayProps,
+) {
   const {
     activityOperations,
     comment,
@@ -76,7 +84,8 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
   const commentBlockId = `comment-${comment?.id}`;
   // Check if there are any reactions to determine if we should render the footer
   const reactionIds = activityOperations.reactionIds(comment.id);
-  const hasReactions = reactionIds && Object.keys(reactionIds).some((key) => reactionIds[key]?.length > 0);
+  const hasReactions =
+    reactionIds && Object.keys(reactionIds).some((key) => reactionIds[key]?.length > 0);
 
   // scroll to comment
   const { isHashMatch } = useHashScroll({
@@ -100,7 +109,7 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
       // emoji is already in decimal string format from EmojiReactionPicker
       void activityOperations.react(comment.id, emoji, userReactions);
     },
-    [activityOperations, comment.id, userReactions]
+    [activityOperations, comment.id, userReactions],
   );
 
   const shouldRenderReactions = hasReactions && !disabled;
@@ -167,7 +176,10 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
             initialValue={comment.comment_html ?? ""}
             workspaceId={workspaceId}
             workspaceSlug={workspaceSlug}
-            containerClassName={cn("!py-1 transition-[border-color] duration-500", highlightClassName)}
+            containerClassName={cn(
+              "!py-1 transition-[border-color] duration-500",
+              highlightClassName,
+            )}
             projectId={projectId?.toString()}
             displayConfig={{
               fontSize: "small-font",
@@ -177,10 +189,18 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
           {shouldRenderReactions &&
             (renderFooter ? (
               renderFooter(
-                <CommentReactions comment={comment} disabled={disabled} activityOperations={activityOperations} />
+                <CommentReactions
+                  comment={comment}
+                  disabled={disabled}
+                  activityOperations={activityOperations}
+                />,
               )
             ) : (
-              <CommentReactions comment={comment} disabled={disabled} activityOperations={activityOperations} />
+              <CommentReactions
+                comment={comment}
+                disabled={disabled}
+                activityOperations={activityOperations}
+              />
             ))}
         </>
       )}

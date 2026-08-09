@@ -142,12 +142,21 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
   // Check for all available fields validation and if password field is available, then checks for password validation (strength + confirmation).
   // Also handles the condition for optional password i.e if password field is optional it only checks for above validation if it's not empty.
   const isButtonDisabled =
-    !isSubmitting && isValid ? (isPasswordAlreadySetup ? false : isValidPassword ? false : true) : true;
+    !isSubmitting && isValid
+      ? isPasswordAlreadySetup
+        ? false
+        : isValidPassword
+          ? false
+          : true
+      : true;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
       {/* Header */}
-      <CommonOnboardingHeader title="Create your profile." description="This is how you will appear in Plane." />
+      <CommonOnboardingHeader
+        title="Create your profile."
+        description="This is how you will appear in Plane."
+      />
 
       {/* Profile Picture Section */}
       <Controller
@@ -228,26 +237,36 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
                   {
                     "border-strong": !errors.first_name,
                     "border-danger-strong": errors.first_name,
-                  }
+                  },
                 )}
                 placeholder="Enter your full name"
                 autoComplete="on"
               />
             )}
           />
-          {errors.first_name && <span className="text-13 text-danger-primary">{errors.first_name.message}</span>}
+          {errors.first_name && (
+            <span className="text-13 text-danger-primary">{errors.first_name.message}</span>
+          )}
         </div>
 
         {/* setting up password for the first time */}
         {!isPasswordAlreadySetup && (
           <SetPasswordRoot
             onPasswordChange={(password) => setValue("password", password)}
-            onConfirmPasswordChange={(confirm_password) => setValue("confirm_password", confirm_password)}
+            onConfirmPasswordChange={(confirm_password) =>
+              setValue("confirm_password", confirm_password)
+            }
           />
         )}
       </div>
       {/* Continue Button */}
-      <Button variant="primary" type="submit" className="w-full" size="xl" disabled={isButtonDisabled}>
+      <Button
+        variant="primary"
+        type="submit"
+        className="w-full"
+        size="xl"
+        disabled={isButtonDisabled}
+      >
         Continue
       </Button>
 

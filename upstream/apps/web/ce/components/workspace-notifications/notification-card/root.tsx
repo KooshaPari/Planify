@@ -18,16 +18,23 @@ type TNotificationCardListRoot = {
   workspaceId: string;
 };
 
-export const NotificationCardListRoot = observer(function NotificationCardListRoot(props: TNotificationCardListRoot) {
+export const NotificationCardListRoot = observer(function NotificationCardListRoot(
+  props: TNotificationCardListRoot,
+) {
   const { workspaceSlug, workspaceId } = props;
   // hooks
-  const { loader, paginationInfo, getNotifications, notificationIdsByWorkspaceId } = useWorkspaceNotifications();
+  const { loader, paginationInfo, getNotifications, notificationIdsByWorkspaceId } =
+    useWorkspaceNotifications();
   const notificationIds = notificationIdsByWorkspaceId(workspaceId);
   const { t } = useTranslation();
 
   const getNextNotifications = async () => {
     try {
-      await getNotifications(workspaceSlug, ENotificationLoader.PAGINATION_LOADER, ENotificationQueryParamType.NEXT);
+      await getNotifications(
+        workspaceSlug,
+        ENotificationLoader.PAGINATION_LOADER,
+        ENotificationQueryParamType.NEXT,
+      );
     } catch (error) {
       console.error(error);
     }
@@ -37,7 +44,11 @@ export const NotificationCardListRoot = observer(function NotificationCardListRo
   return (
     <div>
       {notificationIds.map((notificationId: string) => (
-        <NotificationItem key={notificationId} workspaceSlug={workspaceSlug} notificationId={notificationId} />
+        <NotificationItem
+          key={notificationId}
+          workspaceSlug={workspaceSlug}
+          notificationId={notificationId}
+        />
       ))}
 
       {/* fetch next page notifications */}
@@ -48,7 +59,10 @@ export const NotificationCardListRoot = observer(function NotificationCardListRo
               <div className="text-accent-secondary">{t("loading")}...</div>
             </div>
           ) : (
-            <div className="flex items-center justify-center py-4 text-13 font-medium" onClick={getNextNotifications}>
+            <div
+              className="flex items-center justify-center py-4 text-13 font-medium"
+              onClick={getNextNotifications}
+            >
               <div className="cursor-pointer text-accent-secondary transition-all hover:text-accent-primary">
                 {t("load_more")}
               </div>

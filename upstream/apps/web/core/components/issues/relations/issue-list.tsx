@@ -24,7 +24,7 @@ type Props = {
     issueId: string,
     issue?: TIssue | null,
     relationKey?: TIssueRelationTypes | null,
-    relationIssueId?: string | null
+    relationIssueId?: string | null,
   ) => void;
   disabled?: boolean;
   issueServiceType?: TIssueServiceType;

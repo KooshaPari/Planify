@@ -37,7 +37,13 @@ export function SingleExport({ service, refreshing }: Props) {
           <span>
             Export to{" "}
             <span className="font-medium">
-              {provider === "csv" ? "CSV" : provider === "xlsx" ? "Excel" : provider === "json" ? "JSON" : ""}
+              {provider === "csv"
+                ? "CSV"
+                : provider === "xlsx"
+                  ? "Excel"
+                  : provider === "json"
+                    ? "JSON"
+                    : ""}
             </span>{" "}
           </span>
           <span

@@ -63,7 +63,9 @@ export function IssueLinkDetail(props: TIssueLinkDetail) {
               <Icon className="size-3 flex-shrink-0 stroke-2 text-tertiary group-hover:text-primary" />
             </span>
             <Tooltip
-              tooltipContent={linkDetail.title && linkDetail.title !== "" ? linkDetail.title : linkDetail.url}
+              tooltipContent={
+                linkDetail.title && linkDetail.title !== "" ? linkDetail.title : linkDetail.url
+              }
               isMobile={isMobile}
             >
               <span className="truncate text-11">
@@ -114,7 +116,10 @@ export function IssueLinkDetail(props: TIssueLinkDetail) {
             <br />
             {createdByDetails && (
               <>
-                by {createdByDetails?.is_bot ? createdByDetails?.first_name + " Bot" : createdByDetails?.display_name}
+                by{" "}
+                {createdByDetails?.is_bot
+                  ? createdByDetails?.first_name + " Bot"
+                  : createdByDetails?.display_name}
               </>
             )}
           </p>

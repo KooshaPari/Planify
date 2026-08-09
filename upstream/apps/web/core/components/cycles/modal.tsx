@@ -123,7 +123,8 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
         // Update existing cycle - only check dates if they've changed
         const originalStartDate = renderFormattedPayloadDate(data.start_date) ?? null;
         const originalEndDate = renderFormattedPayloadDate(data.end_date) ?? null;
-        const hasDateChanged = payload.start_date !== originalStartDate || payload.end_date !== originalEndDate;
+        const hasDateChanged =
+          payload.start_date !== originalStartDate || payload.end_date !== originalEndDate;
 
         if (hasDateChanged) {
           isDateValid = await dateChecker(projectId, {
@@ -153,7 +154,8 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: "Error!",
-        message: "You already have a cycle on the given dates, if you want to create a draft cycle, remove the dates.",
+        message:
+          "You already have a cycle on the given dates, if you want to create a draft cycle, remove the dates.",
       });
   };
 

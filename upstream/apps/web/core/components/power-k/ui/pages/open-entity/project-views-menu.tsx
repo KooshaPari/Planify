@@ -19,7 +19,9 @@ type Props = {
   handleSelect: (view: IProjectView) => void;
 };
 
-export const PowerKOpenProjectViewsMenu = observer(function PowerKOpenProjectViewsMenu(props: Props) {
+export const PowerKOpenProjectViewsMenu = observer(function PowerKOpenProjectViewsMenu(
+  props: Props,
+) {
   const { context, handleSelect } = props;
   // store hooks
   const { fetchedMap, getProjectViews } = useProjectView();

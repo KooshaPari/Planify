@@ -6,7 +6,11 @@
 
 import { setToast, TOAST_TYPE } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
-import type { TIdentifierTextProps, TIdentifierTextVariant, TIssueIdentifierSize } from "@plane/types";
+import type {
+  TIdentifierTextProps,
+  TIdentifierTextVariant,
+  TIssueIdentifierSize,
+} from "@plane/types";
 import { cn } from "@plane/utils";
 
 const SIZE_MAP: Record<TIssueIdentifierSize, string> = {
@@ -26,7 +30,12 @@ const VARIANT_MAP: Record<TIdentifierTextVariant, string> = {
 };
 
 export function IdentifierText(props: TIdentifierTextProps) {
-  const { identifier, enableClickToCopyIdentifier = false, size = "lg", variant = "default" } = props;
+  const {
+    identifier,
+    enableClickToCopyIdentifier = false,
+    size = "lg",
+    variant = "default",
+  } = props;
   // handlers
   const handleCopyIssueIdentifier = () => {
     if (enableClickToCopyIdentifier) {
@@ -52,9 +61,14 @@ export function IdentifierText(props: TIdentifierTextProps) {
     <Tooltip tooltipContent="Click to copy" disabled={!enableClickToCopyIdentifier} position="top">
       <button
         type="button"
-        className={cn("text-12 font-medium whitespace-nowrap text-tertiary", textSizeClassName, variantClassName, {
-          "cursor-pointer": enableClickToCopyIdentifier,
-        })}
+        className={cn(
+          "text-12 font-medium whitespace-nowrap text-tertiary",
+          textSizeClassName,
+          variantClassName,
+          {
+            "cursor-pointer": enableClickToCopyIdentifier,
+          },
+        )}
         onClick={handleCopyIssueIdentifier}
         disabled={!enableClickToCopyIdentifier}
       >

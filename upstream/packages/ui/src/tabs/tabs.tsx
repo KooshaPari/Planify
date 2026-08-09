@@ -50,7 +50,7 @@ export function Tabs(props: TTabsProps) {
   // local storage
   const { storedValue, setValue } = useLocalStorage(
     storeInLocalStorage && storageKey ? `tab-${storageKey}` : `tab-${tabs[0]?.key}`,
-    defaultTab
+    defaultTab,
   );
   // state
   const [selectedTab, setSelectedTab] = useState(storedValue ?? defaultTab);
@@ -83,7 +83,11 @@ export function Tabs(props: TTabsProps) {
           </div>
           <Tab.Panels as={Fragment}>
             {tabs.map((tab) => (
-              <Tab.Panel key={tab.key} as="div" className={cn("relative outline-none", tabPanelClassName)}>
+              <Tab.Panel
+                key={tab.key}
+                as="div"
+                className={cn("relative outline-none", tabPanelClassName)}
+              >
                 {tab.content}
               </Tab.Panel>
             ))}

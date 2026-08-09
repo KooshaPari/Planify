@@ -19,7 +19,9 @@ type Props = {
   versionHistory: Pick<TPageRootHandlers, "fetchAllVersions" | "fetchVersionDetails">;
 };
 
-export const PageNavigationPaneInfoTabPanel = observer(function PageNavigationPaneInfoTabPanel(props: Props) {
+export const PageNavigationPaneInfoTabPanel = observer(function PageNavigationPaneInfoTabPanel(
+  props: Props,
+) {
   const { page, versionHistory } = props;
   return (
     <div className="flex h-full flex-col px-4">

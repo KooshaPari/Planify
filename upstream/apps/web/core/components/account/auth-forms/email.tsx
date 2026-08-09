@@ -29,8 +29,11 @@ export const AuthEmailForm = observer(function AuthEmailForm(props: TAuthEmailFo
   // plane hooks
   const { t } = useTranslation();
   const emailError = useMemo(
-    () => (email && !checkEmailValidity(email) ? { email: "auth.common.email.errors.invalid" } : undefined),
-    [email]
+    () =>
+      email && !checkEmailValidity(email)
+        ? { email: "auth.common.email.errors.invalid" }
+        : undefined,
+    [email],
   );
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -57,7 +60,7 @@ export const AuthEmailForm = observer(function AuthEmailForm(props: TAuthEmailFo
         <div
           className={cn(
             `relative flex items-center rounded-md border bg-surface-1`,
-            !isFocused && Boolean(emailError?.email) ? `border-danger-strong` : `border-strong`
+            !isFocused && Boolean(emailError?.email) ? `border-danger-strong` : `border-strong`,
           )}
           onFocus={() => {
             setIsFocused(true);
@@ -100,7 +103,13 @@ export const AuthEmailForm = observer(function AuthEmailForm(props: TAuthEmailFo
           </p>
         )}
       </div>
-      <Button type="submit" variant="primary" className="w-full" size="xl" disabled={isButtonDisabled}>
+      <Button
+        type="submit"
+        variant="primary"
+        className="w-full"
+        size="xl"
+        disabled={isButtonDisabled}
+      >
         {isSubmitting ? <Spinner height="20px" width="20px" /> : t("common.continue")}
       </Button>
     </form>

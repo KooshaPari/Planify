@@ -41,13 +41,18 @@ export interface IList {
   issuesMap: TIssueMap;
   group_by: TIssueGroupByOptions | null;
   orderBy: TIssueOrderByOptions | undefined;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   quickActions: TRenderQuickActions;
   displayProperties: IIssueDisplayProperties | undefined;
   enableIssueQuickAdd: boolean;
   showEmptyGroup?: boolean;
   canEditProperties: (projectId: string | undefined) => boolean;
-  quickAddCallback?: (projectId: string | null | undefined, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddCallback?: (
+    projectId: string | null | undefined,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   disableIssueCreation?: boolean;
   handleOnDrop: (source: GroupDropLocation, destination: GroupDropLocation) => Promise<void>;
   addIssuesToView?: (issueIds: string[]) => Promise<TIssue>;
@@ -103,13 +108,14 @@ export const List = observer(function List(props: IList) {
     return combine(
       autoScrollForElements({
         element,
-      })
+      }),
     );
   }, [containerRef]);
 
   if (!groups) return null;
 
-  const getGroupIndex = (groupId: string | undefined) => groups.findIndex(({ id }) => id === groupId);
+  const getGroupIndex = (groupId: string | undefined) =>
+    groups.findIndex(({ id }) => id === groupId);
 
   const is_list = group_by === null ? true : false;
 

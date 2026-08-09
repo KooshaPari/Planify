@@ -28,7 +28,7 @@ export const AppSidebar = observer(function AppSidebar() {
   // derived values
   const canPerformWorkspaceMemberActions = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   const isFavoriteEmpty = isEmpty(groupedFavorites);

@@ -24,7 +24,7 @@ export const ProfileIssuesListLayout = observer(function ProfileIssuesListLayout
       [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
       EUserPermissionsLevel.PROJECT,
       workspaceSlug.toString(),
-      projectId
+      projectId,
     );
 
   return (

@@ -20,53 +20,67 @@ type Props = {
   page: TPageInstance;
 };
 
-export const PageNavigationPaneInfoTabActorsInfo = observer(function PageNavigationPaneInfoTabActorsInfo(props: Props) {
-  const { page } = props;
-  // navigation
-  const { workspaceSlug } = useParams();
-  // store hooks
-  const { getUserDetails } = useMember();
-  // derived values
-  const { owned_by, updated_by } = page;
-  const editorInformation = updated_by ? getUserDetails(updated_by) : undefined;
-  const creatorInformation = owned_by ? getUserDetails(owned_by) : undefined;
-  // translation
-  const { t } = useTranslation();
+export const PageNavigationPaneInfoTabActorsInfo = observer(
+  function PageNavigationPaneInfoTabActorsInfo(props: Props) {
+    const { page } = props;
+    // navigation
+    const { workspaceSlug } = useParams();
+    // store hooks
+    const { getUserDetails } = useMember();
+    // derived values
+    const { owned_by, updated_by } = page;
+    const editorInformation = updated_by ? getUserDetails(updated_by) : undefined;
+    const creatorInformation = owned_by ? getUserDetails(owned_by) : undefined;
+    // translation
+    const { t } = useTranslation();
 
-  return (
-    <div className="mt-4 space-y-3">
-      <div>
-        <p className="text-11 font-medium text-tertiary">{t("page_navigation_pane.tabs.info.actors_info.edited_by")}</p>
-        <div className="mt-2 flex items-center justify-between gap-2 text-13 font-medium">
-          <Link href={`/${workspaceSlug?.toString()}/profile/${page.updated_by}`} className="flex items-center gap-1">
-            <Avatar
-              src={getFileURL(editorInformation?.avatar_url ?? "")}
-              name={editorInformation?.display_name}
-              className="flex-shrink-0"
-              size="sm"
-            />
-            <span>{editorInformation?.display_name ?? t("common.deactivated_user")}</span>
-          </Link>
-          <span className="flex-shrink-0 text-tertiary">{calculateTimeAgoShort(page.updated_at ?? "")} ago</span>
+    return (
+      <div className="mt-4 space-y-3">
+        <div>
+          <p className="text-11 font-medium text-tertiary">
+            {t("page_navigation_pane.tabs.info.actors_info.edited_by")}
+          </p>
+          <div className="mt-2 flex items-center justify-between gap-2 text-13 font-medium">
+            <Link
+              href={`/${workspaceSlug?.toString()}/profile/${page.updated_by}`}
+              className="flex items-center gap-1"
+            >
+              <Avatar
+                src={getFileURL(editorInformation?.avatar_url ?? "")}
+                name={editorInformation?.display_name}
+                className="flex-shrink-0"
+                size="sm"
+              />
+              <span>{editorInformation?.display_name ?? t("common.deactivated_user")}</span>
+            </Link>
+            <span className="flex-shrink-0 text-tertiary">
+              {calculateTimeAgoShort(page.updated_at ?? "")} ago
+            </span>
+          </div>
+        </div>
+        <div>
+          <p className="text-11 font-medium text-tertiary">
+            {t("page_navigation_pane.tabs.info.actors_info.created_by")}
+          </p>
+          <div className="mt-2 flex items-center justify-between gap-2 text-13 font-medium">
+            <Link
+              href={`/${workspaceSlug?.toString()}/profile/${page.created_by}`}
+              className="flex items-center gap-1"
+            >
+              <Avatar
+                src={getFileURL(creatorInformation?.avatar_url ?? "")}
+                name={creatorInformation?.display_name}
+                className="flex-shrink-0"
+                size="sm"
+              />
+              <span>{creatorInformation?.display_name ?? t("common.deactivated_user")}</span>
+            </Link>
+            <span className="flex-shrink-0 text-tertiary">
+              {renderFormattedDate(page.created_at)}
+            </span>
+          </div>
         </div>
       </div>
-      <div>
-        <p className="text-11 font-medium text-tertiary">
-          {t("page_navigation_pane.tabs.info.actors_info.created_by")}
-        </p>
-        <div className="mt-2 flex items-center justify-between gap-2 text-13 font-medium">
-          <Link href={`/${workspaceSlug?.toString()}/profile/${page.created_by}`} className="flex items-center gap-1">
-            <Avatar
-              src={getFileURL(creatorInformation?.avatar_url ?? "")}
-              name={creatorInformation?.display_name}
-              className="flex-shrink-0"
-              size="sm"
-            />
-            <span>{creatorInformation?.display_name ?? t("common.deactivated_user")}</span>
-          </Link>
-          <span className="flex-shrink-0 text-tertiary">{renderFormattedDate(page.created_at)}</span>
-        </div>
-      </div>
-    </div>
-  );
-});
+    );
+  },
+);

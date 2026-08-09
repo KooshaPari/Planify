@@ -49,7 +49,7 @@ function LeftItem(props: HeaderProps) {
     <div
       className={cn(
         "flex max-w-[80%] flex-grow flex-wrap items-center gap-2 overflow-ellipsis whitespace-nowrap",
-        props.className
+        props.className,
       )}
     >
       {props.children}
@@ -67,7 +67,7 @@ function RightItem(props: HeaderProps) {
         {
           "items-baseline": variant === EHeaderVariant.TERNARY,
         },
-        props.className
+        props.className,
       )}
     >
       {props.children}

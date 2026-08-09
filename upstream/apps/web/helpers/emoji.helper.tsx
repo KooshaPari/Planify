@@ -15,7 +15,7 @@ export const renderEmoji = (
     | {
         name: string;
         color: string;
-      }
+      },
 ): React.ReactNode => {
   if (!emoji) return;
 

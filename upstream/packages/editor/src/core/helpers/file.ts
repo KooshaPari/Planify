@@ -33,7 +33,7 @@ export const isFileValid = (args: TArgs): boolean => {
   if (file.size > maxFileSize) {
     onError(
       EFileError.FILE_SIZE_TOO_LARGE,
-      `File size too large. Please select a file smaller than ${maxFileSize / 1024 / 1024}MB.`
+      `File size too large. Please select a file smaller than ${maxFileSize / 1024 / 1024}MB.`,
     );
     return false;
   }

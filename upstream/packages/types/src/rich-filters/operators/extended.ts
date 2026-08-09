@@ -40,4 +40,5 @@ export const EXTENDED_OPERATORS = {
 /**
  * All extended operators that can be used in filter conditions
  */
-export type TExtendedSupportedOperators = (typeof EXTENDED_OPERATORS)[keyof typeof EXTENDED_OPERATORS];
+export type TExtendedSupportedOperators =
+  (typeof EXTENDED_OPERATORS)[keyof typeof EXTENDED_OPERATORS];

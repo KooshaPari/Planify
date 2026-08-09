@@ -40,14 +40,14 @@ export const IssuesListLayoutRoot = observer(function IssuesListLayoutRoot(props
       priority: true,
       due_date: true,
     }),
-    []
+    [],
   );
 
   const loadMoreIssues = useCallback(
     (groupId?: string) => {
       fetchNextPublicIssues(anchor, groupId);
     },
-    [anchor, fetchNextPublicIssues]
+    [anchor, fetchNextPublicIssues],
   );
 
   return (

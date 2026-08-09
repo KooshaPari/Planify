@@ -26,10 +26,10 @@ export class CycleService extends APIService {
     workspaceSlug: string,
     projectId: string,
     cycleId: string,
-    analytic_type: string = "points"
+    analytic_type: string = "points",
   ): Promise<TCycleDistribution | TCycleEstimateDistribution> {
     return this.get(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/analytics?type=${analytic_type}`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/analytics?type=${analytic_type}`,
     )
       .then((res) => res?.data)
       .catch((err) => {
@@ -40,9 +40,11 @@ export class CycleService extends APIService {
   async workspaceActiveCyclesProgress(
     workspaceSlug: string,
     projectId: string,
-    cycleId: string
+    cycleId: string,
   ): Promise<TProgressSnapshot> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/progress/`)
+    return this.get(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/progress/`,
+    )
       .then((res) => res?.data)
       .catch((err) => {
         throw err?.response?.data;
@@ -52,9 +54,11 @@ export class CycleService extends APIService {
   async workspaceActiveCyclesProgressPro(
     workspaceSlug: string,
     projectId: string,
-    cycleId: string
+    cycleId: string,
   ): Promise<TProgressSnapshot> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/cycle-progress/`)
+    return this.get(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/cycle-progress/`,
+    )
       .then((res) => res?.data)
       .catch((err) => {
         throw err?.response?.data;
@@ -64,7 +68,7 @@ export class CycleService extends APIService {
   async workspaceActiveCycles(
     workspaceSlug: string,
     cursor: string,
-    per_page: number
+    per_page: number,
   ): Promise<IWorkspaceActiveCyclesResponse> {
     return this.get(`/api/workspaces/${workspaceSlug}/active-cycles/`, {
       params: {
@@ -94,7 +98,11 @@ export class CycleService extends APIService {
       });
   }
 
-  async getCyclesWithParams(workspaceSlug: string, projectId: string, cycleType?: "current"): Promise<ICycle[]> {
+  async getCyclesWithParams(
+    workspaceSlug: string,
+    projectId: string,
+    cycleType?: "current",
+  ): Promise<ICycle[]> {
     return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/`, {
       params: {
         cycle_view: cycleType,
@@ -106,7 +114,11 @@ export class CycleService extends APIService {
       });
   }
 
-  async getCycleDetails(workspaceSlug: string, projectId: string, cycleId: string): Promise<ICycle> {
+  async getCycleDetails(
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+  ): Promise<ICycle> {
     return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/`)
       .then((res) => res?.data)
       .catch((err) => {
@@ -119,14 +131,14 @@ export class CycleService extends APIService {
     projectId: string,
     cycleId: string,
     queries?: any,
-    config = {}
+    config = {},
   ): Promise<TIssuesResponse> {
     return this.get(
       `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/cycle-issues/`,
       {
         params: queries,
       },
-      config
+      config,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -134,8 +146,16 @@ export class CycleService extends APIService {
       });
   }
 
-  async patchCycle(workspaceSlug: string, projectId: string, cycleId: string, data: Partial<ICycle>): Promise<any> {
-    return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/`, data)
+  async patchCycle(
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    data: Partial<ICycle>,
+  ): Promise<any> {
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -150,8 +170,15 @@ export class CycleService extends APIService {
       });
   }
 
-  async cycleDateCheck(workspaceSlug: string, projectId: string, data: CycleDateCheckData): Promise<any> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/date-check/`, data)
+  async cycleDateCheck(
+    workspaceSlug: string,
+    projectId: string,
+    data: CycleDateCheckData,
+  ): Promise<any> {
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/date-check/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -163,9 +190,12 @@ export class CycleService extends APIService {
     projectId: string,
     data: {
       cycle: string;
-    }
+    },
   ): Promise<any> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-cycles/`, data)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-cycles/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -178,17 +208,26 @@ export class CycleService extends APIService {
     cycleId: string,
     data: {
       new_cycle_id: string;
-    }
+    },
   ): Promise<any> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/transfer-issues/`, data)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/transfer-issues/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
       });
   }
 
-  async removeCycleFromFavorites(workspaceSlug: string, projectId: string, cycleId: string): Promise<any> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-cycles/${cycleId}/`)
+  async removeCycleFromFavorites(
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+  ): Promise<any> {
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-cycles/${cycleId}/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

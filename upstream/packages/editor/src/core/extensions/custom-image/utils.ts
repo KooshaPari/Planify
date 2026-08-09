@@ -21,11 +21,12 @@ export const DEFAULT_CUSTOM_IMAGE_ATTRIBUTES: TCustomImageAttributes = {
   [ECustomImageAttributeNames.STATUS]: ECustomImageStatus.PENDING,
 };
 
-export const getImageComponentImageFileMap = (editor: Editor) => editor.storage.imageComponent?.fileMap;
+export const getImageComponentImageFileMap = (editor: Editor) =>
+  editor.storage.imageComponent?.fileMap;
 
 export const ensurePixelString = <TDefault>(
   value: Pixel | TDefault | number | undefined | null,
-  defaultValue?: TDefault
+  defaultValue?: TDefault,
 ) => {
   if (!value || value === defaultValue) {
     return defaultValue;
@@ -61,7 +62,8 @@ export const IMAGE_ALIGNMENT_OPTIONS: {
 ];
 export const getImageBlockId = (id: string) => `editor-image-block-${id}`;
 
-export const isImageDuplicating = (status: ECustomImageStatus) => status === ECustomImageStatus.DUPLICATING;
+export const isImageDuplicating = (status: ECustomImageStatus) =>
+  status === ECustomImageStatus.DUPLICATING;
 
 export const isImageDuplicationComplete = (status: ECustomImageStatus) =>
   status === ECustomImageStatus.UPLOADED || status === ECustomImageStatus.DUPLICATION_FAILED;

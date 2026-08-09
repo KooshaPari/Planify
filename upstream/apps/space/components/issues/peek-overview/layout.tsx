@@ -109,10 +109,18 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: TIss
                 }`}
               >
                 {peekMode === "modal" && (
-                  <SidePeekView anchor={anchor} handleClose={handleClose} issueDetails={issueDetails} />
+                  <SidePeekView
+                    anchor={anchor}
+                    handleClose={handleClose}
+                    issueDetails={issueDetails}
+                  />
                 )}
                 {peekMode === "full" && (
-                  <FullScreenPeekView anchor={anchor} handleClose={handleClose} issueDetails={issueDetails} />
+                  <FullScreenPeekView
+                    anchor={anchor}
+                    handleClose={handleClose}
+                    issueDetails={issueDetails}
+                  />
                 )}
               </div>
             </Dialog.Panel>

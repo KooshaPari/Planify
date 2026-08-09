@@ -11,7 +11,12 @@ import { TableMap } from "@tiptap/pm/tables";
 import { getSelectedRect, isCellSelection } from "@/extensions/table/table/utilities/helpers";
 import type { TableNodeLocation } from "@/extensions/table/table/utilities/helpers";
 // local imports
-import { cloneTableCell, constructDragPreviewTable, getSelectedCellPositions, hideCellContent } from "../utils";
+import {
+  cloneTableCell,
+  constructDragPreviewTable,
+  getSelectedCellPositions,
+  hideCellContent,
+} from "../utils";
 
 type TableRow = {
   top: number;
@@ -61,7 +66,9 @@ export const calculateRowDropIndex = (row: number, rows: TableRow[], top: number
       const nextRow = rows[index + 1] as TableRow | undefined;
       const nextRowCenter = nextRow ? nextRow.height / 2 : 0;
 
-      return draggedRowBottom >= currentRowCenter && draggedRowBottom < currentRowEdge + nextRowCenter;
+      return (
+        draggedRowBottom >= currentRowCenter && draggedRowBottom < currentRowEdge + nextRowCenter
+      );
     });
     if (findHoveredRow) {
       dropRowIndex = rows.indexOf(findHoveredRow);
@@ -127,7 +134,7 @@ export const getTableRowNodesInfo = (table: TableNodeLocation, editor: Editor): 
 export const constructRowDragPreview = (
   editor: Editor,
   selection: Selection,
-  table: TableNodeLocation
+  table: TableNodeLocation,
 ): HTMLElement | undefined => {
   if (!isCellSelection(selection)) return;
 

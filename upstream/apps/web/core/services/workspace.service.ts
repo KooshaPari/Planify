@@ -125,7 +125,10 @@ export class WorkspaceService extends APIService {
       });
   }
 
-  async updateWorkspaceView(workspaceSlug: string, data: { view_props: IWorkspaceViewProps }): Promise<any> {
+  async updateWorkspaceView(
+    workspaceSlug: string,
+    data: { view_props: IWorkspaceViewProps },
+  ): Promise<any> {
     return this.post(`/api/workspaces/${workspaceSlug}/workspace-views/`, data)
       .then((response) => response?.data)
       .catch((error) => {
@@ -144,7 +147,7 @@ export class WorkspaceService extends APIService {
   async updateWorkspaceMember(
     workspaceSlug: string,
     memberId: string,
-    data: Partial<IWorkspaceMember>
+    data: Partial<IWorkspaceMember>,
   ): Promise<IWorkspaceMember> {
     return this.patch(`/api/workspaces/${workspaceSlug}/members/${memberId}/`, data)
       .then((response) => response?.data)
@@ -169,8 +172,13 @@ export class WorkspaceService extends APIService {
       });
   }
 
-  async getWorkspaceInvitation(workspaceSlug: string, invitationId: string): Promise<IWorkspaceMemberInvitation> {
-    return this.get(`/api/workspaces/${workspaceSlug}/invitations/${invitationId}/join/`, { headers: {} })
+  async getWorkspaceInvitation(
+    workspaceSlug: string,
+    invitationId: string,
+  ): Promise<IWorkspaceMemberInvitation> {
+    return this.get(`/api/workspaces/${workspaceSlug}/invitations/${invitationId}/join/`, {
+      headers: {},
+    })
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -180,7 +188,7 @@ export class WorkspaceService extends APIService {
   async updateWorkspaceInvitation(
     workspaceSlug: string,
     invitationId: string,
-    data: Partial<IWorkspaceMember>
+    data: Partial<IWorkspaceMember>,
   ): Promise<any> {
     return this.patch(`/api/workspaces/${workspaceSlug}/invitations/${invitationId}/`, data)
       .then((response) => response?.data)
@@ -211,7 +219,7 @@ export class WorkspaceService extends APIService {
       project_id?: string;
       search: string;
       workspace_search: boolean;
-    }
+    },
   ): Promise<IWorkspaceSearchResults> {
     return this.get(`/api/workspaces/${workspaceSlug}/search/`, {
       params,
@@ -237,7 +245,11 @@ export class WorkspaceService extends APIService {
       });
   }
 
-  async updateView(workspaceSlug: string, viewId: string, data: Partial<IWorkspaceView>): Promise<IWorkspaceView> {
+  async updateView(
+    workspaceSlug: string,
+    viewId: string,
+    data: Partial<IWorkspaceView>,
+  ): Promise<IWorkspaceView> {
     return this.patch(`/api/workspaces/${workspaceSlug}/views/${viewId}/`, data)
       .then((response) => response?.data)
       .catch((error) => {
@@ -278,7 +290,7 @@ export class WorkspaceService extends APIService {
       {
         params,
       },
-      config
+      config,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -311,7 +323,11 @@ export class WorkspaceService extends APIService {
       });
   }
 
-  async updateWorkspaceLink(workspaceSlug: string, linkId: string, data: Partial<TLink>): Promise<TLink> {
+  async updateWorkspaceLink(
+    workspaceSlug: string,
+    linkId: string,
+    data: Partial<TLink>,
+  ): Promise<TLink> {
     return this.patch(`/api/workspaces/${workspaceSlug}/quick-links/${linkId}/`, data)
       .then((response) => response?.data)
       .catch((error) => {
@@ -327,7 +343,10 @@ export class WorkspaceService extends APIService {
       });
   }
 
-  async searchEntity(workspaceSlug: string, params: TSearchEntityRequestPayload): Promise<TSearchResponse> {
+  async searchEntity(
+    workspaceSlug: string,
+    params: TSearchEntityRequestPayload,
+  ): Promise<TSearchResponse> {
     return this.get(`/api/workspaces/${workspaceSlug}/entity-search/`, {
       params: {
         ...params,
@@ -341,7 +360,10 @@ export class WorkspaceService extends APIService {
   }
 
   // recents
-  async fetchWorkspaceRecents(workspaceSlug: string, entity_name?: string): Promise<TActivityEntityData[]> {
+  async fetchWorkspaceRecents(
+    workspaceSlug: string,
+    entity_name?: string,
+  ): Promise<TActivityEntityData[]> {
     return this.get(`/api/workspaces/${workspaceSlug}/recent-visits/`, {
       params: {
         entity_name,
@@ -365,7 +387,7 @@ export class WorkspaceService extends APIService {
   async updateWorkspaceWidget(
     workspaceSlug: string,
     widgetKey: string,
-    data: Partial<TWidgetEntityData>
+    data: Partial<TWidgetEntityData>,
   ): Promise<TWidgetEntityData> {
     return this.patch(`/api/workspaces/${workspaceSlug}/home-preferences/${widgetKey}/`, data)
       .then((response) => response?.data)
@@ -374,7 +396,9 @@ export class WorkspaceService extends APIService {
       });
   }
 
-  async fetchSidebarNavigationPreferences(workspaceSlug: string): Promise<IWorkspaceSidebarNavigation> {
+  async fetchSidebarNavigationPreferences(
+    workspaceSlug: string,
+  ): Promise<IWorkspaceSidebarNavigation> {
     return this.get(`/api/workspaces/${workspaceSlug}/sidebar-preferences/`)
       .then((response) => response?.data)
       .catch((error) => {
@@ -385,7 +409,7 @@ export class WorkspaceService extends APIService {
   async updateSidebarPreference(
     workspaceSlug: string,
     key: string,
-    data: Partial<IWorkspaceSidebarNavigationItem>
+    data: Partial<IWorkspaceSidebarNavigationItem>,
   ): Promise<IWorkspaceSidebarNavigationItem> {
     return this.patch(`/api/workspaces/${workspaceSlug}/sidebar-preferences/${key}/`, data)
       .then((response) => response?.data)
@@ -396,7 +420,7 @@ export class WorkspaceService extends APIService {
 
   async updateBulkSidebarPreferences(
     workspaceSlug: string,
-    data: Array<{ key: string; is_pinned: boolean; sort_order: number }>
+    data: Array<{ key: string; is_pinned: boolean; sort_order: number }>,
   ): Promise<IWorkspaceSidebarNavigation> {
     return this.patch(`/api/workspaces/${workspaceSlug}/sidebar-preferences/`, data)
       .then((response) => response?.data)
@@ -415,7 +439,7 @@ export class WorkspaceService extends APIService {
 
   async patchWorkspaceFilters(
     workspaceSlug: string,
-    data: Partial<IWorkspaceUserPropertiesResponse>
+    data: Partial<IWorkspaceUserPropertiesResponse>,
   ): Promise<IWorkspaceUserPropertiesResponse> {
     return this.patch(`/api/workspaces/${workspaceSlug}/user-properties/`, data)
       .then((response) => response?.data)

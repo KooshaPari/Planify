@@ -44,7 +44,7 @@ export function PasswordInput({
             "border-strong": !error,
             "border-danger-strong": error,
           },
-          className
+          className,
         )}
         placeholder={placeholder}
         autoComplete={autoComplete}
@@ -60,13 +60,13 @@ export function PasswordInput({
               <Eye
                 className={cn(
                   "absolute inset-0 h-4 w-4 transition-all duration-300 ease-in-out",
-                  showPassword ? "scale-75 rotate-12 opacity-0" : "scale-100 rotate-0 opacity-100"
+                  showPassword ? "scale-75 rotate-12 opacity-0" : "scale-100 rotate-0 opacity-100",
                 )}
               />
               <EyeClosed
                 className={cn(
                   "absolute inset-0 h-4 w-4 transition-all duration-300 ease-in-out",
-                  showPassword ? "scale-100 rotate-0 opacity-100" : "scale-75 -rotate-12 opacity-0"
+                  showPassword ? "scale-100 rotate-0 opacity-100" : "scale-75 -rotate-12 opacity-0",
                 )}
               />
             </div>

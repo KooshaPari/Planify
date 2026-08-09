@@ -47,7 +47,9 @@ type TTabNavigationRootProps = {
   projectId: string;
 };
 
-export const TabNavigationRoot = observer(function TabNavigationRoot(props: TTabNavigationRootProps) {
+export const TabNavigationRoot = observer(function TabNavigationRoot(
+  props: TTabNavigationRootProps,
+) {
   const { workspaceSlug, projectId } = props;
   const { workItem: workItemIdentifierFromRoute } = useParams();
   const location = useLocation();
@@ -63,10 +65,8 @@ export const TabNavigationRoot = observer(function TabNavigationRoot(props: TTab
   } = useIssueDetail();
 
   // Tab preferences hook
-  const { tabPreferences, handleToggleDefaultTab, handleHideTab, handleShowTab } = useTabPreferences(
-    workspaceSlug,
-    projectId
-  );
+  const { tabPreferences, handleToggleDefaultTab, handleHideTab, handleShowTab } =
+    useTabPreferences(workspaceSlug, projectId);
 
   // Derived values
   const workItemId = workItemIdentifierFromRoute
@@ -114,15 +114,20 @@ export const TabNavigationRoot = observer(function TabNavigationRoot(props: TTab
   // Split items into two categories:
   // 1. visibleNavigationItems: Items NOT user-hidden (may still overflow due to space)
   // 2. hiddenNavigationItems: Items user explicitly hid (always in overflow with "Show" icon)
-  const visibleNavigationItems = allNavigationItems.filter((item) => !tabPreferences.hiddenTabs.includes(item.key));
-  const hiddenNavigationItems = allNavigationItems.filter((item) => tabPreferences.hiddenTabs.includes(item.key));
+  const visibleNavigationItems = allNavigationItems.filter(
+    (item) => !tabPreferences.hiddenTabs.includes(item.key),
+  );
+  const hiddenNavigationItems = allNavigationItems.filter((item) =>
+    tabPreferences.hiddenTabs.includes(item.key),
+  );
 
   // Responsive tab layout hook
-  const { visibleItems, overflowItems, hasOverflow, itemRefs, containerRef } = useResponsiveTabLayout({
-    visibleNavigationItems,
-    hiddenNavigationItems,
-    isActive,
-  });
+  const { visibleItems, overflowItems, hasOverflow, itemRefs, containerRef } =
+    useResponsiveTabLayout({
+      visibleNavigationItems,
+      hiddenNavigationItems,
+      isActive,
+    });
 
   // Redirect to default tab when navigating to project root
   useEffect(() => {
@@ -131,10 +136,13 @@ export const TabNavigationRoot = observer(function TabNavigationRoot(props: TTab
 
     if (isProjectRoot && allNavigationItems.length > 0) {
       // Find the default tab in available items
-      const defaultTabItem = allNavigationItems.find((item) => item.key === tabPreferences.defaultTab);
+      const defaultTabItem = allNavigationItems.find(
+        (item) => item.key === tabPreferences.defaultTab,
+      );
 
       // If default tab exists and is enabled, use it; otherwise fall back to work_items
-      const targetItem = defaultTabItem || allNavigationItems.find((item) => item.key === DEFAULT_TAB_KEY);
+      const targetItem =
+        defaultTabItem || allNavigationItems.find((item) => item.key === DEFAULT_TAB_KEY);
 
       if (targetItem) {
         navigate(targetItem.href, { replace: true });
@@ -150,19 +158,23 @@ export const TabNavigationRoot = observer(function TabNavigationRoot(props: TTab
     [EUserPermissions.ADMIN],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug.toString(),
-    project?.id
+    project?.id,
   );
 
   const isAuthorized = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug.toString(),
-    project?.id
+    project?.id,
   );
 
   return (
     <>
-      <PublishProjectModal isOpen={publishModalOpen} projectId={projectId} onClose={() => handlePublishModal(false)} />
+      <PublishProjectModal
+        isOpen={publishModalOpen}
+        projectId={projectId}
+        onClose={() => handlePublishModal(false)}
+      />
       <LeaveProjectModal
         project={project}
         isOpen={leaveProjectModalOpen}

@@ -42,7 +42,7 @@ export const AdminSidebarDropdown = observer(function AdminSidebarDropdown() {
         "shadow-lg absolute left-0 z-20 mt-1.5 flex w-52 flex-col divide-y divide-subtle rounded-md border border-subtle bg-surface-1 px-1 py-2 text-11 outline-none",
         {
           "left-4": isSidebarCollapsed,
-        }
+        },
       )}
     >
       <div className="flex flex-col gap-2.5 pb-2">
@@ -60,7 +60,11 @@ export const AdminSidebarDropdown = observer(function AdminSidebarDropdown() {
         </Menu.Item>
       </div>
       <div className="py-2">
-        <form method="POST" action={`${API_BASE_URL}/api/instances/admins/sign-out/`} onSubmit={handleSignOut}>
+        <form
+          method="POST"
+          action={`${API_BASE_URL}/api/instances/admins/sign-out/`}
+          onSubmit={handleSignOut}
+        >
           <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
           <Menu.Item
             as="button"
@@ -77,7 +81,9 @@ export const AdminSidebarDropdown = observer(function AdminSidebarDropdown() {
 
   useEffect(() => {
     if (csrfToken === undefined)
-      void authService.requestCSRFToken().then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
+      void authService
+        .requestCSRFToken()
+        .then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
   }, [csrfToken]);
 
   return (

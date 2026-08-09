@@ -41,7 +41,11 @@ export class UserFavoriteService extends APIService {
    * @returns {Promise<IFavorite>} Promise resolving to the updated favorite item
    * @throws {Error} If the API request fails
    */
-  async update(workspaceSlug: string, favoriteId: string, data: Partial<IFavorite>): Promise<IFavorite> {
+  async update(
+    workspaceSlug: string,
+    favoriteId: string,
+    data: Partial<IFavorite>,
+  ): Promise<IFavorite> {
     return this.patch(`/api/workspaces/${workspaceSlug}/user-favorites/${favoriteId}/`, data)
       .then((response) => response?.data)
       .catch((error) => {

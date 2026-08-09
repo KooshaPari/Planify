@@ -8,7 +8,10 @@ import type { TButtonVariant } from "../button/helper";
 import type { TAlign } from "../utils/placement";
 import type { CompactAssetType, DetailedAssetType } from "./assets/asset-types";
 
-export interface ActionButton extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
+export interface ActionButton extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "children"
+> {
   label: string;
   variant?: TButtonVariant;
   [key: `data-${string}`]: string | undefined;

@@ -27,14 +27,16 @@ interface TSubIssuesListGroupProps {
   handleIssueCrudState: (
     key: "create" | "existing" | "update" | "delete",
     issueId: string,
-    issue?: TIssue | null
+    issue?: TIssue | null,
   ) => void;
   subIssueOperations: TSubIssueOperations;
   storeType?: EIssuesStoreType;
   spacingLeft?: number;
 }
 
-export const SubIssuesListGroup = observer(function SubIssuesListGroup(props: TSubIssuesListGroupProps) {
+export const SubIssuesListGroup = observer(function SubIssuesListGroup(
+  props: TSubIssuesListGroupProps,
+) {
   const {
     group,
     serviceType,

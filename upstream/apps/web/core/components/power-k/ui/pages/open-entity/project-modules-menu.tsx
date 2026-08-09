@@ -19,7 +19,9 @@ type Props = {
   handleSelect: (module: IModule) => void;
 };
 
-export const PowerKOpenProjectModulesMenu = observer(function PowerKOpenProjectModulesMenu(props: Props) {
+export const PowerKOpenProjectModulesMenu = observer(function PowerKOpenProjectModulesMenu(
+  props: Props,
+) {
   const { context, handleSelect } = props;
   // store hooks
   const { fetchedMap, getProjectModuleIds, getModuleById } = useModule();

@@ -34,7 +34,7 @@ export const ProjectViewsList = observer(function ProjectViewsList() {
   const filteredProjectViews = getFilteredProjectViews(projectId?.toString());
   const canPerformEmptyStateActions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER, EUserProjectRoles.GUEST],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   if (loader || !projectViews || !filteredProjectViews) return <ViewListLoader />;

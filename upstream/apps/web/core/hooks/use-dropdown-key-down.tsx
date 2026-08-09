@@ -10,11 +10,15 @@ type TUseDropdownKeyDown = {
   (
     onEnterKeyDown: () => void,
     onEscKeyDown: () => void,
-    stopPropagation?: boolean
+    stopPropagation?: boolean,
   ): (event: React.KeyboardEvent<HTMLElement>) => void;
 };
 
-export const useDropdownKeyDown: TUseDropdownKeyDown = (onEnterKeyDown, onEscKeyDown, stopPropagation = true) => {
+export const useDropdownKeyDown: TUseDropdownKeyDown = (
+  onEnterKeyDown,
+  onEscKeyDown,
+  stopPropagation = true,
+) => {
   const stopEventPropagation = useCallback(
     (event: React.KeyboardEvent<HTMLElement>) => {
       if (stopPropagation) {
@@ -22,7 +26,7 @@ export const useDropdownKeyDown: TUseDropdownKeyDown = (onEnterKeyDown, onEscKey
         event.preventDefault();
       }
     },
-    [stopPropagation]
+    [stopPropagation],
   );
 
   const handleKeyDown = useCallback(
@@ -35,7 +39,7 @@ export const useDropdownKeyDown: TUseDropdownKeyDown = (onEnterKeyDown, onEscKey
         onEscKeyDown();
       } else if (event.key === "Tab") onEscKeyDown();
     },
-    [onEnterKeyDown, onEscKeyDown, stopEventPropagation]
+    [onEnterKeyDown, onEscKeyDown, stopEventPropagation],
   );
 
   return handleKeyDown;

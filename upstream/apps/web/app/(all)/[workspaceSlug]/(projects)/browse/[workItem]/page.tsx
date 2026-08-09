@@ -32,7 +32,9 @@ import { WorkItemDetailRoot } from "@/plane-web/components/browse/workItem-detai
 
 import type { Route } from "./+types/page";
 
-export const IssueDetailsPage = observer(function IssueDetailsPage({ params }: Route.ComponentProps) {
+export const IssueDetailsPage = observer(function IssueDetailsPage({
+  params,
+}: Route.ComponentProps) {
   // router
   const router = useAppRouter();
   const { workspaceSlug, workItem } = params;
@@ -52,7 +54,7 @@ export const IssueDetailsPage = observer(function IssueDetailsPage({ params }: R
   // fetching issue details
   const { data, isLoading, error } = useSWR<TIssue, Error>(
     `ISSUE_DETAIL_${workspaceSlug}_${projectIdentifier}_${sequence_id}`,
-    () => fetchIssueWithIdentifier(workspaceSlug.toString(), projectIdentifier, sequence_id)
+    () => fetchIssueWithIdentifier(workspaceSlug.toString(), projectIdentifier, sequence_id),
   );
 
   // derived values
@@ -62,13 +64,14 @@ export const IssueDetailsPage = observer(function IssueDetailsPage({ params }: R
   const issue = getIssueById(issueId?.toString() || "") || undefined;
   const project = (issue?.project_id && getProjectById(issue?.project_id)) || undefined;
   const issueLoader = !issue || isLoading;
-  const pageTitle = project && issue ? `${project?.identifier}-${issue?.sequence_id} ${issue?.name}` : undefined;
+  const pageTitle =
+    project && issue ? `${project?.identifier}-${issue?.sequence_id} ${issue?.name}` : undefined;
 
   useWorkItemProperties(
     projectId,
     workspaceSlug.toString(),
     issueId,
-    issue?.is_epic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES
+    issue?.is_epic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES,
   );
 
   useEffect(() => {
@@ -87,7 +90,9 @@ export const IssueDetailsPage = observer(function IssueDetailsPage({ params }: R
 
   useEffect(() => {
     if (data?.is_intake) {
-      router.push(`/${workspaceSlug}/projects/${data.project_id}/intake/?currentTab=open&inboxIssueId=${data?.id}`);
+      router.push(
+        `/${workspaceSlug}/projects/${data.project_id}/intake/?currentTab=open&inboxIssueId=${data?.id}`,
+      );
     }
   }, [workspaceSlug, data, router]);
 

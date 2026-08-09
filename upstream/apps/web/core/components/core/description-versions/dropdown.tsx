@@ -24,7 +24,9 @@ type Props = {
   versions: TDescriptionVersion[] | undefined;
 };
 
-export const DescriptionVersionsDropdown = observer(function DescriptionVersionsDropdown(props: Props) {
+export const DescriptionVersionsDropdown = observer(function DescriptionVersionsDropdown(
+  props: Props,
+) {
   const { disabled, entityInformation, onVersionClick, versions } = props;
   // store hooks
   const { getUserDetails } = useMember();
@@ -46,7 +48,9 @@ export const DescriptionVersionsDropdown = observer(function DescriptionVersions
           </span>
           <p className="text-11">
             {t("description_versions.last_edited_by")}{" "}
-            <span className="font-medium">{lastUpdatedByUserDisplayName ?? t("common.deactivated_user")}</span>{" "}
+            <span className="font-medium">
+              {lastUpdatedByUserDisplayName ?? t("common.deactivated_user")}
+            </span>{" "}
             {calculateTimeAgo(lastUpdatedAt)}
           </p>
         </div>
@@ -58,9 +62,15 @@ export const DescriptionVersionsDropdown = observer(function DescriptionVersions
       disabled={disabled}
       closeOnSelect
     >
-      <p className="mb-1 text-11 font-medium text-tertiary">{t("description_versions.previously_edited_by")}</p>
+      <p className="mb-1 text-11 font-medium text-tertiary">
+        {t("description_versions.previously_edited_by")}
+      </p>
       {versions?.map((version) => (
-        <DescriptionVersionsDropdownItem key={version.id} onClick={onVersionClick} version={version} />
+        <DescriptionVersionsDropdownItem
+          key={version.id}
+          onClick={onVersionClick}
+          version={version}
+        />
       ))}
     </CustomMenu>
   );

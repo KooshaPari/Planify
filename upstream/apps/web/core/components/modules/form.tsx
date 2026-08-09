@@ -41,7 +41,15 @@ const defaultValues: Partial<IModule> = {
 };
 
 export function ModuleForm(props: Props) {
-  const { handleFormSubmit, handleClose, status, projectId, setActiveProject, data, isMobile = false } = props;
+  const {
+    handleFormSubmit,
+    handleClose,
+    status,
+    projectId,
+    setActiveProject,
+    data,
+    isMobile = false,
+  } = props;
   // store hooks
   const { projectsWithCreatePermissions } = useUser();
   // form info
@@ -192,7 +200,11 @@ export function ModuleForm(props: Props) {
               )}
             />
             <div className="h-7">
-              <ModuleStatusSelect control={control} error={errors.status} tabIndex={getIndex("status")} />
+              <ModuleStatusSelect
+                control={control}
+                error={errors.status}
+                tabIndex={getIndex("status")}
+              />
             </div>
             <Controller
               control={control}
@@ -221,7 +233,9 @@ export function ModuleForm(props: Props) {
                     onChange={onChange}
                     projectId={projectId}
                     multiple
-                    buttonVariant={value && value.length > 0 ? "transparent-without-text" : "border-with-text"}
+                    buttonVariant={
+                      value && value.length > 0 ? "transparent-without-text" : "border-with-text"
+                    }
                     buttonClassName={value && value.length > 0 ? "hover:bg-transparent px-0" : ""}
                     placeholder={t("members")}
                     tabIndex={getIndex("member_ids")}
@@ -236,7 +250,13 @@ export function ModuleForm(props: Props) {
         <Button variant="secondary" size="lg" onClick={handleClose} tabIndex={getIndex("cancel")}>
           {t("cancel")}
         </Button>
-        <Button variant="primary" size="lg" type="submit" loading={isSubmitting} tabIndex={getIndex("submit")}>
+        <Button
+          variant="primary"
+          size="lg"
+          type="submit"
+          loading={isSubmitting}
+          tabIndex={getIndex("submit")}
+        >
           {status
             ? isSubmitting
               ? t("updating")

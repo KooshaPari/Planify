@@ -50,18 +50,20 @@ export interface IWorkspaceRootStore {
   updateSidebarPreference: (
     workspaceSlug: string,
     key: string,
-    data: Partial<IWorkspaceSidebarNavigationItem>
+    data: Partial<IWorkspaceSidebarNavigationItem>,
   ) => Promise<IWorkspaceSidebarNavigationItem | undefined>;
   updateBulkSidebarPreferences: (
     workspaceSlug: string,
-    data: Array<{ key: string; is_pinned: boolean; sort_order: number }>
+    data: Array<{ key: string; is_pinned: boolean; sort_order: number }>,
   ) => Promise<void>;
   getNavigationPreferences: (workspaceSlug: string) => IWorkspaceSidebarNavigation | undefined;
-  getProjectNavigationPreferences: (workspaceSlug: string) => IWorkspaceUserPropertiesResponse | undefined;
+  getProjectNavigationPreferences: (
+    workspaceSlug: string,
+  ) => IWorkspaceUserPropertiesResponse | undefined;
   fetchProjectNavigationPreferences: (workspaceSlug: string) => Promise<void>;
   updateProjectNavigationPreferences: (
     workspaceSlug: string,
-    data: Partial<IWorkspaceUserPropertiesResponse>
+    data: Partial<IWorkspaceUserPropertiesResponse>,
   ) => Promise<void>;
   mutateWorkspaceMembersActivity: (workspaceSlug: string) => Promise<void>;
   // sub-stores
@@ -135,7 +137,7 @@ export abstract class BaseWorkspaceRootStore implements IWorkspaceRootStore {
 
     // validate the current workspace_slug is available in the user's workspace list
     const isCurrentWorkspaceValid = Object.values(this.workspaces || {}).findIndex(
-      (workspace) => workspace.slug === currentWorkspaceSlug
+      (workspace) => workspace.slug === currentWorkspaceSlug,
     );
 
     if (isCurrentWorkspaceValid >= 0) redirectionRoute = `/${currentWorkspaceSlug}`;
@@ -148,7 +150,9 @@ export abstract class BaseWorkspaceRootStore implements IWorkspaceRootStore {
   get currentWorkspace() {
     const workspaceSlug = this.router.workspaceSlug;
     if (!workspaceSlug) return null;
-    const workspaceDetails = Object.values(this.workspaces ?? {})?.find((w) => w.slug === workspaceSlug);
+    const workspaceDetails = Object.values(this.workspaces ?? {})?.find(
+      (w) => w.slug === workspaceSlug,
+    );
     return workspaceDetails || null;
   }
 
@@ -159,7 +163,9 @@ export abstract class BaseWorkspaceRootStore implements IWorkspaceRootStore {
     if (!this.workspaces) return null;
     const user = this.user.data;
     if (!user) return null;
-    const userWorkspaces = Object.values(this.workspaces ?? {})?.filter((w) => w.created_by === user?.id);
+    const userWorkspaces = Object.values(this.workspaces ?? {})?.filter(
+      (w) => w.created_by === user?.id,
+    );
     return userWorkspaces || null;
   }
 
@@ -271,7 +277,7 @@ export abstract class BaseWorkspaceRootStore implements IWorkspaceRootStore {
   updateSidebarPreference = async (
     workspaceSlug: string,
     key: string,
-    data: Partial<IWorkspaceSidebarNavigationItem>
+    data: Partial<IWorkspaceSidebarNavigationItem>,
   ) => {
     // Store the data before update to use for reverting if needed
     const beforeUpdateData = clone(this.navigationPreferencesMap[workspaceSlug]?.[key]);
@@ -287,7 +293,11 @@ export abstract class BaseWorkspaceRootStore implements IWorkspaceRootStore {
         };
       });
 
-      const response = await this.workspaceService.updateSidebarPreference(workspaceSlug, key, data);
+      const response = await this.workspaceService.updateSidebarPreference(
+        workspaceSlug,
+        key,
+        data,
+      );
       return response;
     } catch (error) {
       // Revert to original data if API call fails
@@ -302,12 +312,13 @@ export abstract class BaseWorkspaceRootStore implements IWorkspaceRootStore {
   };
 
   getNavigationPreferences = computedFn(
-    (workspaceSlug: string): IWorkspaceSidebarNavigation | undefined => this.navigationPreferencesMap[workspaceSlug]
+    (workspaceSlug: string): IWorkspaceSidebarNavigation | undefined =>
+      this.navigationPreferencesMap[workspaceSlug],
   );
 
   updateBulkSidebarPreferences = async (
     workspaceSlug: string,
-    data: Array<{ key: string; is_pinned: boolean; sort_order: number }>
+    data: Array<{ key: string; is_pinned: boolean; sort_order: number }>,
   ) => {
     const beforeUpdateData = clone(this.navigationPreferencesMap[workspaceSlug]);
 
@@ -339,7 +350,7 @@ export abstract class BaseWorkspaceRootStore implements IWorkspaceRootStore {
 
   getProjectNavigationPreferences = computedFn(
     (workspaceSlug: string): IWorkspaceUserPropertiesResponse | undefined =>
-      this.projectNavigationPreferencesMap[workspaceSlug]
+      this.projectNavigationPreferencesMap[workspaceSlug],
   );
 
   fetchProjectNavigationPreferences = async (workspaceSlug: string) => {
@@ -357,7 +368,7 @@ export abstract class BaseWorkspaceRootStore implements IWorkspaceRootStore {
 
   updateProjectNavigationPreferences = async (
     workspaceSlug: string,
-    data: Partial<IWorkspaceUserPropertiesResponse>
+    data: Partial<IWorkspaceUserPropertiesResponse>,
   ) => {
     const beforeUpdateData = clone(this.projectNavigationPreferencesMap[workspaceSlug]);
 

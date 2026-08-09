@@ -92,14 +92,19 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
   // router
   const { workspaceSlug } = useParams();
   // store hooks
-  const { currentActiveEstimateIdByProjectId, getProjectEstimates, getEstimateById } = useProjectEstimates();
+  const { currentActiveEstimateIdByProjectId, getProjectEstimates, getEstimateById } =
+    useProjectEstimates();
   const { estimatePointIds, estimatePointById } = useEstimate(
-    projectId ? currentActiveEstimateIdByProjectId(projectId) : undefined
+    projectId ? currentActiveEstimateIdByProjectId(projectId) : undefined,
   );
 
-  const currentActiveEstimateId = projectId ? currentActiveEstimateIdByProjectId(projectId) : undefined;
+  const currentActiveEstimateId = projectId
+    ? currentActiveEstimateIdByProjectId(projectId)
+    : undefined;
 
-  const currentActiveEstimate = currentActiveEstimateId ? getEstimateById(currentActiveEstimateId) : undefined;
+  const currentActiveEstimate = currentActiveEstimateId
+    ? getEstimateById(currentActiveEstimateId)
+    : undefined;
 
   const options: DropdownOptions = (estimatePointIds ?? [])
     ?.map((estimatePoint) => {
@@ -121,7 +126,9 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
         };
       else undefined;
     })
-    .filter((estimatePointDropdownOption) => estimatePointDropdownOption != undefined) as DropdownOptions;
+    .filter(
+      (estimatePointDropdownOption) => estimatePointDropdownOption != undefined,
+    ) as DropdownOptions;
   options?.unshift({
     value: null,
     query: t("project_settings.estimates.no_estimate"),
@@ -134,7 +141,9 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
   });
 
   const filteredOptions =
-    query === "" ? options : options?.filter((o) => o.query.toLowerCase().includes(query.toLowerCase()));
+    query === ""
+      ? options
+      : options?.filter((o) => o.query.toLowerCase().includes(query.toLowerCase()));
 
   const selectedEstimate = value && estimatePointById ? estimatePointById(value) : undefined;
 
@@ -181,7 +190,7 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
               "cursor-not-allowed text-secondary": disabled,
               "cursor-pointer": !disabled,
             },
-            buttonContainerClassName
+            buttonContainerClassName,
           )}
           onClick={handleOnClick}
           disabled={disabled}
@@ -196,21 +205,25 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
             renderToolTipByDefault={renderByDefault}
           >
             {!hideIcon && <EstimatePropertyIcon className="h-3 w-3 flex-shrink-0" />}
-            {(selectedEstimate || placeholder) && BUTTON_VARIANTS_WITH_TEXT.includes(buttonVariant) && (
-              <span className="truncate">
-                {selectedEstimate ? (
-                  currentActiveEstimate?.type === EEstimateSystem.TIME ? (
-                    convertMinutesToHoursMinutesString(Number(selectedEstimate.value))
+            {(selectedEstimate || placeholder) &&
+              BUTTON_VARIANTS_WITH_TEXT.includes(buttonVariant) && (
+                <span className="truncate">
+                  {selectedEstimate ? (
+                    currentActiveEstimate?.type === EEstimateSystem.TIME ? (
+                      convertMinutesToHoursMinutesString(Number(selectedEstimate.value))
+                    ) : (
+                      selectedEstimate.value
+                    )
                   ) : (
-                    selectedEstimate.value
-                  )
-                ) : (
-                  <span className="text-placeholder">{placeholder}</span>
-                )}
-              </span>
-            )}
+                    <span className="text-placeholder">{placeholder}</span>
+                  )}
+                </span>
+              )}
             {dropdownArrow && (
-              <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
+              <ChevronDownIcon
+                className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)}
+                aria-hidden="true"
+              />
             )}
           </DropdownButton>
         </button>
@@ -260,7 +273,9 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
                   {/* NOTE: This condition renders when estimates are not enabled for the project */}
                   <div className="flex flex-grow items-center gap-2">
                     <EstimatePropertyIcon className="h-3 w-3 flex-shrink-0" />
-                    <span className="flex-grow truncate">{t("project_settings.estimates.no_estimate")}</span>
+                    <span className="flex-grow truncate">
+                      {t("project_settings.estimates.no_estimate")}
+                    </span>
                   </div>
                 </div>
               ) : (
@@ -277,7 +292,7 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
                                   "bg-layer-transparent-hover": active,
                                   "text-primary": selected,
                                   "text-secondary": !selected,
-                                }
+                                },
                               )}
                             >
                               <span className="flex-grow truncate">{option.content}</span>
@@ -287,7 +302,9 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
                         </Combobox.Option>
                       ))
                     ) : (
-                      <p className="px-1.5 py-1 text-placeholder italic">{t("common.search.no_matching_results")}</p>
+                      <p className="px-1.5 py-1 text-placeholder italic">
+                        {t("common.search.no_matching_results")}
+                      </p>
                     )
                   ) : (
                     <p className="px-1.5 py-1 text-placeholder italic">{t("common.loading")}</p>

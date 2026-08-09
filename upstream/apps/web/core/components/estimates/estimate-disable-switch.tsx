@@ -18,7 +18,9 @@ type TEstimateDisableSwitch = {
   isAdmin: boolean;
 };
 
-export const EstimateDisableSwitch = observer(function EstimateDisableSwitch(props: TEstimateDisableSwitch) {
+export const EstimateDisableSwitch = observer(function EstimateDisableSwitch(
+  props: TEstimateDisableSwitch,
+) {
   const { workspaceSlug, projectId, isAdmin } = props;
   // i18n
   const { t } = useTranslation();

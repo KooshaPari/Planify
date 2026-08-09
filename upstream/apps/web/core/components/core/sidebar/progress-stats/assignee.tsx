@@ -30,7 +30,9 @@ type TAssigneeStatComponent = {
   isEditable?: boolean;
 };
 
-export const AssigneeStatComponent = observer(function AssigneeStatComponent(props: TAssigneeStatComponent) {
+export const AssigneeStatComponent = observer(function AssigneeStatComponent(
+  props: TAssigneeStatComponent,
+) {
   const { distribution, isEditable, selectedAssigneeIds, handleAssigneeFiltersUpdate } = props;
   const { t } = useTranslation();
   return (
@@ -43,7 +45,10 @@ export const AssigneeStatComponent = observer(function AssigneeStatComponent(pro
                 key={assignee?.id}
                 title={
                   <div className="flex items-center gap-2">
-                    <Avatar name={assignee?.title ?? undefined} src={getFileURL(assignee?.avatar_url ?? "")} />
+                    <Avatar
+                      name={assignee?.title ?? undefined}
+                      src={getFileURL(assignee?.avatar_url ?? "")}
+                    />
                     <span>{assignee?.title ?? ""}</span>
                   </div>
                 }
@@ -62,7 +67,11 @@ export const AssigneeStatComponent = observer(function AssigneeStatComponent(pro
                 title={
                   <div className="flex items-center gap-2">
                     <div className="h-4 w-4 rounded-full border-2 border-subtle bg-layer-1">
-                      <img src={userImage} className="h-full w-full rounded-full object-cover" alt="User" />
+                      <img
+                        src={userImage}
+                        className="h-full w-full rounded-full object-cover"
+                        alt="User"
+                      />
                     </div>
                     <span>{t("no_assignee")}</span>
                   </div>

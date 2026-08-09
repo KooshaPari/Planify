@@ -30,17 +30,20 @@ export const useCollaborativePageActions = (props: Props) => {
   const editorRef = page.editor.editorRef;
   // currentUserAction local state to track if the current action is being processed, a
   // local action is basically the action performed by the current user to avoid double operations
-  const [currentActionBeingProcessed, setCurrentActionBeingProcessed] = useState<TDocumentEventsClient | null>(null);
+  const [currentActionBeingProcessed, setCurrentActionBeingProcessed] =
+    useState<TDocumentEventsClient | null>(null);
 
   // @ts-expect-error - TODO: fix this
   const actionHandlerMap: Record<TDocumentEventsClient, CollaborativeAction> = useMemo(
     () => ({
       [DocumentCollaborativeEvents.lock.client]: {
-        execute: (shouldSync?: boolean, recursive?: boolean) => page.lock({ shouldSync, recursive }),
+        execute: (shouldSync?: boolean, recursive?: boolean) =>
+          page.lock({ shouldSync, recursive }),
         errorMessage: "Page could not be locked. Please try again later.",
       },
       [DocumentCollaborativeEvents.unlock.client]: {
-        execute: (shouldSync?: boolean, recursive?: boolean) => page.unlock({ shouldSync, recursive }),
+        execute: (shouldSync?: boolean, recursive?: boolean) =>
+          page.unlock({ shouldSync, recursive }),
         errorMessage: "Page could not be unlocked. Please try again later.",
       },
       [DocumentCollaborativeEvents.archive.client]: {
@@ -60,16 +63,21 @@ export const useCollaborativePageActions = (props: Props) => {
         errorMessage: "Page could not be made private. Please try again later.",
       },
     }),
-    [page]
+    [page],
   );
 
   const executeCollaborativeAction = useCallback(
     async (event: CollaborativeActionEvent) => {
       const isPerformedByCurrentUser = event.type === "sendMessageToServer";
-      const clientAction = isPerformedByCurrentUser ? DocumentCollaborativeEvents[event.message].client : event.message;
+      const clientAction = isPerformedByCurrentUser
+        ? DocumentCollaborativeEvents[event.message].client
+        : event.message;
       const actionDetails = actionHandlerMap[clientAction];
       try {
-        await actionDetails.execute(isPerformedByCurrentUser, isPerformedByCurrentUser ? event?.recursive : undefined);
+        await actionDetails.execute(
+          isPerformedByCurrentUser,
+          isPerformedByCurrentUser ? event?.recursive : undefined,
+        );
         if (isPerformedByCurrentUser) {
           const serverEventName = getServerEventName(clientAction);
           if (serverEventName) {
@@ -86,7 +94,7 @@ export const useCollaborativePageActions = (props: Props) => {
         }
       }
     },
-    [actionHandlerMap, editorRef]
+    [actionHandlerMap, editorRef],
   );
 
   useEffect(() => {

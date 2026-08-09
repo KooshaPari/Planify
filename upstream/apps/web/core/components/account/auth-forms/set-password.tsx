@@ -66,7 +66,9 @@ export const SetPasswordForm = observer(function SetPasswordForm() {
 
   useEffect(() => {
     if (csrfToken === undefined)
-      authService.requestCSRFToken().then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
+      authService
+        .requestCSRFToken()
+        .then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
   }, [csrfToken]);
 
   const handleShowPassword = (key: keyof typeof showPassword) =>
@@ -82,7 +84,7 @@ export const SetPasswordForm = observer(function SetPasswordForm() {
       passwordFormData.password === passwordFormData.confirm_password
         ? false
         : true,
-    [passwordFormData]
+    [passwordFormData],
   );
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -107,7 +109,8 @@ export const SetPasswordForm = observer(function SetPasswordForm() {
 
   const password = passwordFormData?.password ?? "";
   const confirmPassword = passwordFormData?.confirm_password ?? "";
-  const renderPasswordMatchError = !isRetryPasswordInputFocused || confirmPassword.length >= password.length;
+  const renderPasswordMatchError =
+    !isRetryPasswordInputFocused || confirmPassword.length >= password.length;
 
   return (
     <FormContainer>
@@ -162,7 +165,10 @@ export const SetPasswordForm = observer(function SetPasswordForm() {
               />
             )}
           </div>
-          <PasswordStrengthIndicator password={passwordFormData.password} isFocused={isPasswordInputFocused} />
+          <PasswordStrengthIndicator
+            password={passwordFormData.password}
+            isFocused={isPasswordInputFocused}
+          />
         </div>
         <div className="space-y-1">
           <label className="text-13 font-medium text-tertiary" htmlFor="confirm_password">
@@ -195,10 +201,18 @@ export const SetPasswordForm = observer(function SetPasswordForm() {
           {!!passwordFormData.confirm_password &&
             passwordFormData.password !== passwordFormData.confirm_password &&
             renderPasswordMatchError && (
-              <span className="text-13 text-danger-primary">{t("auth.common.password.errors.match")}</span>
+              <span className="text-13 text-danger-primary">
+                {t("auth.common.password.errors.match")}
+              </span>
             )}
         </div>
-        <Button type="submit" variant="primary" className="w-full" size="xl" disabled={isButtonDisabled}>
+        <Button
+          type="submit"
+          variant="primary"
+          className="w-full"
+          size="xl"
+          disabled={isButtonDisabled}
+        >
           {t("common.continue")}
         </Button>
       </form>

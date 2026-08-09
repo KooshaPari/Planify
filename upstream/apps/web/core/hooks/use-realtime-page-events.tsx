@@ -21,11 +21,8 @@ import { usePageStore } from "@/hooks/store";
 import type { TPageInstance } from "@/store/pages/base-page";
 
 // Type for page update handlers with proper typing for action data
-export type PageUpdateHandler<T extends keyof EventToPayloadMap = keyof EventToPayloadMap> = (params: {
-  pageIds: string[];
-  data: EventToPayloadMap[T];
-  performAction: boolean;
-}) => void;
+export type PageUpdateHandler<T extends keyof EventToPayloadMap = keyof EventToPayloadMap> =
+  (params: { pageIds: string[]; data: EventToPayloadMap[T]; performAction: boolean }) => void;
 
 // Type for custom event handlers that can be provided to override default behavior
 export type TCustomEventHandlers = {
@@ -63,13 +60,19 @@ export const useRealtimePageEvents = ({
         return "";
       }
     },
-    [getUserDetails]
+    [getUserDetails],
   );
 
   const ACTION_HANDLERS = useMemo(
     function ACTION_HANDLERS() {
       return {
-        archived: ({ pageIds, data }: { pageIds: string[]; data: EventToPayloadMap["archived"] }) => {
+        archived: ({
+          pageIds,
+          data,
+        }: {
+          pageIds: string[];
+          data: EventToPayloadMap["archived"];
+        }) => {
           pageIds.forEach((pageId) => {
             const pageItem = getPageById(pageId);
             if (pageItem) pageItem.archive({ archived_at: data.archived_at, shouldSync: false });
@@ -130,7 +133,13 @@ export const useRealtimePageEvents = ({
           });
         },
 
-        property_updated: ({ pageIds, data }: { pageIds: string[]; data: EventToPayloadMap["property_updated"] }) => {
+        property_updated: ({
+          pageIds,
+          data,
+        }: {
+          pageIds: string[];
+          data: EventToPayloadMap["property_updated"];
+        }) => {
           pageIds.forEach((pageId) => {
             const pageInstance = getPageById(pageId);
             const { name: updatedName, ...rest } = data;
@@ -173,7 +182,16 @@ export const useRealtimePageEvents = ({
         ...customRealtimeEventHandlers,
       };
     },
-    [getPageById, removePage, page, currentUser, getUserDisplayText, router, handlers, customRealtimeEventHandlers]
+    [
+      getPageById,
+      removePage,
+      page,
+      currentUser,
+      getUserDisplayText,
+      router,
+      handlers,
+      customRealtimeEventHandlers,
+    ],
   );
 
   // The main function that will be returned from this hook
@@ -182,7 +200,7 @@ export const useRealtimePageEvents = ({
       pageIds: string | string[],
       actionType: T,
       data: EventToPayloadMap[T],
-      performAction = false
+      performAction = false,
     ) => {
       // Convert to array if single string is passed
       const normalizedPageIds = Array.isArray(pageIds) ? pageIds : [pageIds];
@@ -199,7 +217,7 @@ export const useRealtimePageEvents = ({
         console.warn(`No handler for message type: ${actionType.toString()}`);
       }
     },
-    [ACTION_HANDLERS]
+    [ACTION_HANDLERS],
   );
 
   return { updatePageProperties };

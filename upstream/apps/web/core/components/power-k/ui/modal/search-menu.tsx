@@ -32,7 +32,14 @@ type Props = {
 };
 
 export function PowerKModalSearchMenu(props: Props) {
-  const { activePage, context, isWorkspaceLevel, searchTerm, updateSearchTerm, handleSearchMenuClose } = props;
+  const {
+    activePage,
+    context,
+    isWorkspaceLevel,
+    searchTerm,
+    updateSearchTerm,
+    handleSearchMenuClose,
+  } = props;
   // states
   const [resultsCount, setResultsCount] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
@@ -57,8 +64,9 @@ export function PowerKModalSearchMenu(props: Props) {
         .then((results) => {
           setResults(results);
           const count = Object.keys(results.results).reduce(
-            (accumulator, key) => results.results[key as keyof typeof results.results]?.length + accumulator,
-            0
+            (accumulator, key) =>
+              results.results[key as keyof typeof results.results]?.length + accumulator,
+            0,
           );
           setResultsCount(count);
         })
@@ -101,15 +109,20 @@ export function PowerKModalSearchMenu(props: Props) {
       )}
 
       {/* Show empty state only when not loading and no results */}
-      {!isSearching && resultsCount === 0 && searchTerm.trim() !== "" && debouncedSearchTerm.trim() !== "" && (
-        <PowerKModalNoSearchResultsCommand
-          context={context}
-          searchTerm={searchTerm}
-          updateSearchTerm={updateSearchTerm}
-        />
-      )}
+      {!isSearching &&
+        resultsCount === 0 &&
+        searchTerm.trim() !== "" &&
+        debouncedSearchTerm.trim() !== "" && (
+          <PowerKModalNoSearchResultsCommand
+            context={context}
+            searchTerm={searchTerm}
+            updateSearchTerm={updateSearchTerm}
+          />
+        )}
 
-      {searchTerm.trim() !== "" && <PowerKModalSearchResults closePalette={handleClosePalette} results={results} />}
+      {searchTerm.trim() !== "" && (
+        <PowerKModalSearchResults closePalette={handleClosePalette} results={results} />
+      )}
     </>
   );
 }

@@ -50,7 +50,8 @@ const twMerge = extendTailwindMerge<"custom-typography" | "custom-text-color">({
       "font-size": [
         {
           text: [
-            (value: string) => isCustomFontSize(value) || (!isCustomTypography(value) && !isCustomTextColor(value)),
+            (value: string) =>
+              isCustomFontSize(value) || (!isCustomTypography(value) && !isCustomTextColor(value)),
           ],
         },
       ],
@@ -71,12 +72,14 @@ export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 /**
  * Extracts IDs from an array of objects with ID property
  */
-export const extractIds = <T extends { id: string }>(items: T[]): string[] => items.map((item) => item.id);
+export const extractIds = <T extends { id: string }>(items: T[]): string[] =>
+  items.map((item) => item.id);
 
 /**
  * Checks if an ID exists and is valid within the provided list
  */
-export const isValidId = (id: string | null | undefined, validIds: string[]): boolean => !!id && validIds.includes(id);
+export const isValidId = (id: string | null | undefined, validIds: string[]): boolean =>
+  !!id && validIds.includes(id);
 
 /**
  * Filters an array to only include valid IDs
@@ -87,7 +90,10 @@ export const filterValidIds = (ids: string[], validIds: string[]): string[] =>
 /**
  * Filters an array to include only valid IDs, returning both valid and invalid IDs
  */
-export const partitionValidIds = (ids: string[], validIds: string[]): { valid: string[]; invalid: string[] } => {
+export const partitionValidIds = (
+  ids: string[],
+  validIds: string[],
+): { valid: string[]; invalid: string[] } => {
   const valid: string[] = [];
   const invalid: string[] = [];
 

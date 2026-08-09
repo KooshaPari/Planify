@@ -24,7 +24,9 @@ export type TChangeHandlerProps =
       };
     };
 
-export type TEmojiIconPickerTypes = typeof EmojiIconPickerTypes.EMOJI | typeof EmojiIconPickerTypes.ICON;
+export type TEmojiIconPickerTypes =
+  | typeof EmojiIconPickerTypes.EMOJI
+  | typeof EmojiIconPickerTypes.ICON;
 
 export type TCustomEmojiPicker = {
   isOpen: boolean;
@@ -97,7 +99,16 @@ export const adjustColorForContrast = (hex: string): string => {
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 };
 
-export const DEFAULT_COLORS = ["#95999f", "#6d7b8a", "#5e6ad2", "#02b5ed", "#02b55c", "#f2be02", "#e57a00", "#f38e82"];
+export const DEFAULT_COLORS = [
+  "#95999f",
+  "#6d7b8a",
+  "#5e6ad2",
+  "#02b5ed",
+  "#02b55c",
+  "#f2be02",
+  "#e57a00",
+  "#f38e82",
+];
 
 /**
  * Enhanced emoji to decimal conversion that preserves emoji sequences

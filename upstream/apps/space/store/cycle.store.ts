@@ -36,7 +36,8 @@ export class CycleStore implements ICycleStore {
     this.rootStore = _rootStore;
   }
 
-  getCycleById = (cycleId: string | undefined) => this.cycles?.find((cycle) => cycle.id === cycleId);
+  getCycleById = (cycleId: string | undefined) =>
+    this.cycles?.find((cycle) => cycle.id === cycleId);
 
   fetchCycles = async (anchor: string) => {
     const cyclesResponse = await this.cycleService.list(anchor);

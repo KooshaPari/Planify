@@ -63,7 +63,9 @@ export class IssueStore implements IIssueStore {
     runInAction(() => {
       issues.forEach((issue) => {
         // add issue identifier to the issuesIdentifierMap
-        const projectIdentifier = rootStore.projectRoot.project.getProjectIdentifierById(issue?.project_id);
+        const projectIdentifier = rootStore.projectRoot.project.getProjectIdentifierById(
+          issue?.project_id,
+        );
         const workItemSequenceId = issue?.sequence_id;
         const issueIdentifier = `${projectIdentifier}-${workItemSequenceId}`;
         set(this.issuesIdentifierMap, issueIdentifier, issue.id);
@@ -161,7 +163,11 @@ export class IssueStore implements IIssueStore {
       // if type is archived then check archived_at is not null
       // if type is un-archived then check archived_at is null
       const issue = this.issuesMap[issueId];
-      if (issue && ((type === "archived" && issue.archived_at) || (type === "un-archived" && !issue?.archived_at))) {
+      if (
+        issue &&
+        ((type === "archived" && issue.archived_at) ||
+          (type === "un-archived" && !issue?.archived_at))
+      ) {
         filteredIssues.push(issue);
       }
     });

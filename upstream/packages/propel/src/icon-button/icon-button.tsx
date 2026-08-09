@@ -11,7 +11,7 @@ import { iconButtonVariants } from "./helper";
 
 const IconButton = React.forwardRef(function IconButton(
   props: IconButtonProps,
-  ref: React.ForwardedRef<HTMLButtonElement>
+  ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
   const {
     variant = "primary",
@@ -40,7 +40,7 @@ const IconButton = React.forwardRef(function IconButton(
             "size-4": size === "base" || size === "lg",
             "size-5": size === "xl",
           },
-          iconClassName
+          iconClassName,
         )}
       />
     </button>

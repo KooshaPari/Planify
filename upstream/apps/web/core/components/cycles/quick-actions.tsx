@@ -52,7 +52,7 @@ export const CycleQuickActions = observer(function CycleQuickActions(props: Prop
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug,
-    projectId
+    projectId,
   );
 
   const cycleLink = `${workspaceSlug}/projects/${projectId}/cycles/${cycleId}`;
@@ -159,11 +159,13 @@ export const CycleQuickActions = observer(function CycleQuickActions(props: Prop
                 {
                   "text-placeholder": item.disabled,
                 },
-                item.className
+                item.className,
               )}
               disabled={item.disabled}
             >
-              {item.icon && <item.icon className={cn("h-3 w-3 flex-shrink-0", item.iconClassName)} />}
+              {item.icon && (
+                <item.icon className={cn("h-3 w-3 flex-shrink-0", item.iconClassName)} />
+              )}
               <div>
                 <h5>{item.title}</h5>
                 {item.description && (

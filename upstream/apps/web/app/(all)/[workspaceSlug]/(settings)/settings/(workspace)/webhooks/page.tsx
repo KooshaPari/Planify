@@ -39,11 +39,14 @@ function WebhooksListPage({ params }: Route.ComponentProps) {
   const { fetchWebhooks, webhooks, clearSecretKey, webhookSecretKey, createWebhook } = useWebhook();
   const { currentWorkspace } = useWorkspace();
   // derived values
-  const canPerformWorkspaceAdminActions = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.WORKSPACE);
+  const canPerformWorkspaceAdminActions = allowPermissions(
+    [EUserPermissions.ADMIN],
+    EUserPermissionsLevel.WORKSPACE,
+  );
 
   useSWR(
     canPerformWorkspaceAdminActions ? `WEBHOOKS_LIST_${workspaceSlug}` : null,
-    canPerformWorkspaceAdminActions ? () => fetchWebhooks(workspaceSlug) : null
+    canPerformWorkspaceAdminActions ? () => fetchWebhooks(workspaceSlug) : null,
   );
 
   const pageTitle = currentWorkspace?.name

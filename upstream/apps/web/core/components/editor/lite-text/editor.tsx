@@ -58,7 +58,7 @@ type LiteTextEditorWrapperProps = MakeOptional<
 
 export const LiteTextEditor = React.forwardRef(function LiteTextEditor(
   props: LiteTextEditorWrapperProps,
-  ref: React.ForwardedRef<EditorRefApi>
+  ref: React.ForwardedRef<EditorRefApi>,
 ) {
   const { t } = useTranslation();
   const {
@@ -111,7 +111,9 @@ export const LiteTextEditor = React.forwardRef(function LiteTextEditor(
   });
   // editor config
   const { getEditorFileHandlers } = useEditorConfig();
-  function isMutableRefObject<T>(ref: React.ForwardedRef<T>): ref is React.MutableRefObject<T | null> {
+  function isMutableRefObject<T>(
+    ref: React.ForwardedRef<T>,
+  ): ref is React.MutableRefObject<T | null> {
     return !!ref && typeof ref === "object" && "current" in ref;
   }
   // derived values
@@ -124,7 +126,7 @@ export const LiteTextEditor = React.forwardRef(function LiteTextEditor(
         {
           "p-3": editable && !isLiteVariant,
         },
-        parentClassName
+        parentClassName,
       )}
       onFocus={() => isFullVariant && !showToolbarInitially && setIsFocused(true)}
       onBlur={() => isFullVariant && !showToolbarInitially && setIsFocused(false)}
@@ -135,7 +137,10 @@ export const LiteTextEditor = React.forwardRef(function LiteTextEditor(
         <div className={cn(isLiteVariant && editable ? "min-w-0 flex-1" : "")}>
           <LiteTextEditorWithRef
             ref={ref}
-            disabledExtensions={[...liteTextEditorExtensions.disabled, ...additionalDisabledExtensions]}
+            disabledExtensions={[
+              ...liteTextEditorExtensions.disabled,
+              ...additionalDisabledExtensions,
+            ]}
             editable={editable}
             flaggedExtensions={liteTextEditorExtensions.flagged}
             fileHandler={getEditorFileHandlers({
@@ -196,7 +201,9 @@ export const LiteTextEditor = React.forwardRef(function LiteTextEditor(
         <div
           className={cn(
             "origin-top overflow-hidden transition-all duration-300 ease-out",
-            isFocused ? "mt-3 max-h-[200px] scale-y-100 opacity-100" : "invisible max-h-0 scale-y-0 opacity-0"
+            isFocused
+              ? "mt-3 max-h-[200px] scale-y-100 opacity-100"
+              : "invisible max-h-0 scale-y-0 opacity-0",
           )}
         >
           <IssueCommentToolbar

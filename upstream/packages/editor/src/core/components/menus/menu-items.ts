@@ -83,7 +83,7 @@ const HeadingItem = <T extends SupportedHeadingLevels>(
   level: 1 | 2 | 3 | 4 | 5 | 6,
   key: T,
   name: string,
-  icon: LucideIcon
+  icon: LucideIcon,
 ): EditorMenuItem<T> => ({
   key,
   name,
@@ -177,7 +177,8 @@ export const QuoteItem = (editor: Editor): EditorMenuItem<"quote"> => ({
 export const CodeItem = (editor: Editor): EditorMenuItem<"code"> => ({
   key: "code",
   name: "Code",
-  isActive: () => editor?.isActive(CORE_EXTENSIONS.CODE_INLINE) || editor?.isActive(CORE_EXTENSIONS.CODE_BLOCK),
+  isActive: () =>
+    editor?.isActive(CORE_EXTENSIONS.CODE_INLINE) || editor?.isActive(CORE_EXTENSIONS.CODE_BLOCK),
   command: () => toggleCodeBlock(editor),
   icon: CodeIcon,
 });
@@ -193,7 +194,8 @@ export const TableItem = (editor: Editor): EditorMenuItem<"table"> => ({
 export const ImageItem = (editor: Editor): EditorMenuItem<"image"> => ({
   key: "image",
   name: "Image",
-  isActive: () => editor?.isActive(CORE_EXTENSIONS.IMAGE) || editor?.isActive(CORE_EXTENSIONS.CUSTOM_IMAGE),
+  isActive: () =>
+    editor?.isActive(CORE_EXTENSIONS.IMAGE) || editor?.isActive(CORE_EXTENSIONS.CUSTOM_IMAGE),
   command: () => insertImage({ editor, event: "insert", pos: editor.state.selection.from }),
   icon: ImageIcon,
 });
@@ -236,7 +238,8 @@ export const TextColorItem = (editor: Editor): EditorMenuItem<"text-color"> => (
 export const BackgroundColorItem = (editor: Editor): EditorMenuItem<"background-color"> => ({
   key: "background-color",
   name: "Background color",
-  isActive: (props) => editor.isActive(CORE_EXTENSIONS.CUSTOM_COLOR, { backgroundColor: props?.color }),
+  isActive: (props) =>
+    editor.isActive(CORE_EXTENSIONS.CUSTOM_COLOR, { backgroundColor: props?.color }),
   command: (props) => {
     if (!props) return;
     toggleBackgroundColor(props.color, editor);

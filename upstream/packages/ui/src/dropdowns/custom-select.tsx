@@ -87,7 +87,9 @@ function CustomSelect(props: ICustomSelectProps) {
                 ref={setReferenceElement}
                 type="button"
                 className={`flex items-center justify-between gap-1 rounded text-11 ${
-                  disabled ? "cursor-not-allowed text-secondary" : "cursor-pointer hover:bg-layer-transparent-hover"
+                  disabled
+                    ? "cursor-not-allowed text-secondary"
+                    : "cursor-pointer hover:bg-layer-transparent-hover"
                 } ${customButtonClassName}`}
                 onClick={toggleDropdown}
               >
@@ -107,12 +109,14 @@ function CustomSelect(props: ICustomSelectProps) {
                     "cursor-not-allowed text-secondary": disabled,
                     "cursor-pointer hover:bg-layer-transparent-hover": !disabled,
                   },
-                  buttonClassName
+                  buttonClassName,
                 )}
                 onClick={toggleDropdown}
               >
                 {label}
-                {!noChevron && !disabled && <ChevronDownIcon className="h-3 w-3" aria-hidden="true" />}
+                {!noChevron && !disabled && (
+                  <ChevronDownIcon className="h-3 w-3" aria-hidden="true" />
+                )}
               </button>
             </Combobox.Button>
           )}
@@ -123,7 +127,7 @@ function CustomSelect(props: ICustomSelectProps) {
               <div
                 className={cn(
                   "z-30 my-1 min-w-48 overflow-y-scroll rounded-md border-[0.5px] border-subtle-1 bg-surface-1 px-2 py-2.5 text-11 whitespace-nowrap focus:outline-none",
-                  optionsClassName
+                  optionsClassName,
                 )}
                 ref={setPopperElement}
                 style={styles.popper}
@@ -141,7 +145,7 @@ function CustomSelect(props: ICustomSelectProps) {
                 </div>
               </div>
             </Combobox.Options>,
-            document.body
+            document.body,
           )}
       </Combobox>
     </DropdownContext.Provider>
@@ -170,7 +174,7 @@ function Option(props: ICustomSelectItemProps) {
           {
             "bg-layer-transparent-hover": active,
           },
-          className
+          className,
         )
       }
       onClick={handleClick}

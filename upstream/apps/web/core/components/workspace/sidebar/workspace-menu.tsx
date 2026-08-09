@@ -21,7 +21,10 @@ export const SidebarWorkspaceMenu = observer(function SidebarWorkspaceMenu() {
   // router params
   const { workspaceSlug } = useParams();
   // local storage
-  const { setValue: toggleWorkspaceMenu, storedValue } = useLocalStorage<boolean>("is_workspace_menu_open", true);
+  const { setValue: toggleWorkspaceMenu, storedValue } = useLocalStorage<boolean>(
+    "is_workspace_menu_open",
+    true,
+  );
   // derived values
   const isWorkspaceMenuOpen = !!storedValue;
 
@@ -58,7 +61,10 @@ export const SidebarWorkspaceMenu = observer(function SidebarWorkspaceMenu() {
 
   return (
     <Disclosure as="div" defaultOpen>
-      <SidebarWorkspaceMenuHeader isWorkspaceMenuOpen={isWorkspaceMenuOpen} toggleWorkspaceMenu={toggleWorkspaceMenu} />
+      <SidebarWorkspaceMenuHeader
+        isWorkspaceMenuOpen={isWorkspaceMenuOpen}
+        toggleWorkspaceMenu={toggleWorkspaceMenu}
+      />
       <Transition
         show={isWorkspaceMenuOpen}
         enter="transition duration-100 ease-out"

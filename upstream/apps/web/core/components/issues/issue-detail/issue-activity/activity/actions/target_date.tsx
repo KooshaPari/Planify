@@ -13,9 +13,15 @@ import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { IssueActivityBlockComponent, IssueLink } from "./";
 // helpers
 
-type TIssueTargetDateActivity = { activityId: string; showIssue?: boolean; ends: "top" | "bottom" | undefined };
+type TIssueTargetDateActivity = {
+  activityId: string;
+  showIssue?: boolean;
+  ends: "top" | "bottom" | undefined;
+};
 
-export const IssueTargetDateActivity = observer(function IssueTargetDateActivity(props: TIssueTargetDateActivity) {
+export const IssueTargetDateActivity = observer(function IssueTargetDateActivity(
+  props: TIssueTargetDateActivity,
+) {
   const { activityId, showIssue = true, ends } = props;
   // hooks
   const {
@@ -35,7 +41,9 @@ export const IssueTargetDateActivity = observer(function IssueTargetDateActivity
         {activity.new_value ? `set the due date to ` : `removed the due date `}
         {activity.new_value && (
           <>
-            <span className="font-medium text-primary">{renderFormattedDate(activity.new_value)}</span>
+            <span className="font-medium text-primary">
+              {renderFormattedDate(activity.new_value)}
+            </span>
           </>
         )}
         {showIssue && (activity.new_value ? ` for ` : ` from `)}

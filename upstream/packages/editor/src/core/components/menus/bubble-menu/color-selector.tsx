@@ -28,7 +28,10 @@ export function BubbleMenuColorSelector(props: Props) {
   const { options, getReferenceProps, getFloatingProps } = useFloatingMenu({});
 
   const activeTextColor = useMemo(() => editorState.color, [editorState.color]);
-  const activeBackgroundColor = useMemo(() => editorState.backgroundColor, [editorState.backgroundColor]);
+  const activeBackgroundColor = useMemo(
+    () => editorState.backgroundColor,
+    [editorState.backgroundColor],
+  );
 
   return (
     <FloatingMenuRoot
@@ -41,11 +44,16 @@ export function BubbleMenuColorSelector(props: Props) {
         <>
           <span>Color</span>
           <span
-            className={cn("grid size-6 flex-shrink-0 place-items-center rounded-sm border-[0.5px] border-strong", {
-              "bg-surface-1": !activeBackgroundColor,
-            })}
+            className={cn(
+              "grid size-6 flex-shrink-0 place-items-center rounded-sm border-[0.5px] border-strong",
+              {
+                "bg-surface-1": !activeBackgroundColor,
+              },
+            )}
             style={{
-              backgroundColor: activeBackgroundColor ? activeBackgroundColor.backgroundColor : "transparent",
+              backgroundColor: activeBackgroundColor
+                ? activeBackgroundColor.backgroundColor
+                : "transparent",
             }}
           >
             <ALargeSmall

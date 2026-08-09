@@ -17,7 +17,8 @@ export function MaintenanceView() {
   // hooks
   const { resolvedTheme } = useTheme();
   // derived values
-  const maintenanceModeImage = resolvedTheme === "dark" ? maintenanceModeDarkModeImage : maintenanceModeLightModeImage;
+  const maintenanceModeImage =
+    resolvedTheme === "dark" ? maintenanceModeDarkModeImage : maintenanceModeLightModeImage;
   return (
     <DefaultLayout>
       <div className="relative container mx-auto flex h-full w-full max-w-xl flex-col items-center justify-center gap-2 gap-y-6 bg-surface-1 text-center">

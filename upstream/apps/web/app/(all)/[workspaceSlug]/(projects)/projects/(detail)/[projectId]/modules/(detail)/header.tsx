@@ -20,7 +20,11 @@ import {
 import { Button } from "@plane/propel/button";
 import { ModuleIcon } from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
-import type { ICustomSearchSelectOption, IIssueDisplayFilterOptions, IIssueDisplayProperties } from "@plane/types";
+import type {
+  ICustomSearchSelectOption,
+  IIssueDisplayFilterOptions,
+  IIssueDisplayProperties,
+} from "@plane/types";
 import { EIssuesStoreType, EIssueLayoutTypes } from "@plane/types";
 import { Breadcrumbs, Header, BreadcrumbNavigationSearchDropdown } from "@plane/ui";
 import { cn } from "@plane/utils";
@@ -79,7 +83,7 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
   const moduleDetails = moduleId ? getModuleById(moduleId) : undefined;
   const canUserCreateIssue = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
   const workItemsCount = getGroupIssueCount(undefined, undefined, false);
 
@@ -92,7 +96,7 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
       if (!projectId) return;
       updateFilters(projectId.toString(), EIssueFilterType.DISPLAY_FILTERS, { layout: layout });
     },
-    [projectId, updateFilters]
+    [projectId, updateFilters],
   );
 
   const handleDisplayFilters = useCallback(
@@ -100,7 +104,7 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
       if (!projectId) return;
       updateFilters(projectId.toString(), EIssueFilterType.DISPLAY_FILTERS, updatedDisplayFilter);
     },
-    [projectId, updateFilters]
+    [projectId, updateFilters],
   );
 
   const handleDisplayProperties = useCallback(
@@ -108,7 +112,7 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
       if (!projectId) return;
       updateFilters(projectId.toString(), EIssueFilterType.DISPLAY_PROPERTIES, property);
     },
-    [projectId, updateFilters]
+    [projectId, updateFilters],
   );
 
   const switcherOptions = projectModuleIds
@@ -135,7 +139,10 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
         <Header.LeftItem>
           <div className="flex items-center gap-2">
             <Breadcrumbs onBack={router.back} isLoading={loader === "init-loader"}>
-              <CommonProjectBreadcrumbs workspaceSlug={workspaceSlug?.toString()} projectId={projectId?.toString()} />
+              <CommonProjectBreadcrumbs
+                workspaceSlug={workspaceSlug?.toString()}
+                projectId={projectId?.toString()}
+              />
               <Breadcrumbs.Item
                 component={
                   <BreadcrumbLink
@@ -205,7 +212,9 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
                 activeLayout={activeLayout}
               />
             </div>
-            {moduleId && <WorkItemFiltersToggle entityType={EIssuesStoreType.MODULE} entityId={moduleId} />}
+            {moduleId && (
+              <WorkItemFiltersToggle entityType={EIssuesStoreType.MODULE} entityId={moduleId} />
+            )}
             <FiltersDropdown
               title="Display"
               placement="bottom-end"
@@ -213,7 +222,9 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
             >
               <DisplayFiltersSelection
                 layoutDisplayFiltersOptions={
-                  activeLayout ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout] : undefined
+                  activeLayout
+                    ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout]
+                    : undefined
                 }
                 displayFilters={issueFilters?.displayFilters ?? {}}
                 handleDisplayFiltersUpdate={handleDisplayFilters}
@@ -228,7 +239,12 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
 
           {canUserCreateIssue ? (
             <>
-              <Button className="hidden md:block" onClick={() => setAnalyticsModal(true)} variant="secondary" size="lg">
+              <Button
+                className="hidden md:block"
+                onClick={() => setAnalyticsModal(true)}
+                variant="secondary"
+                size="lg"
+              >
                 <span className="hidden @4xl:flex">Analytics</span>
                 <span className="@4xl:hidden">
                   <ChartNoAxesColumn className="size-3.5" />

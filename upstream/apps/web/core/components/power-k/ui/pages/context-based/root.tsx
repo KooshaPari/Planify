@@ -5,7 +5,11 @@
  */
 
 // components
-import type { TPowerKCommandConfig, TPowerKContextType, TPowerKPageType } from "@/components/power-k/core/types";
+import type {
+  TPowerKCommandConfig,
+  TPowerKContextType,
+  TPowerKPageType,
+} from "@/components/power-k/core/types";
 // plane web imports
 import {
   PowerKContextBasedActionsExtended,
@@ -31,7 +35,10 @@ export function PowerKContextBasedPagesList(props: ContextBasedActionsProps) {
   return (
     <>
       {activeContext === "work-item" && (
-        <PowerKWorkItemContextBasedPages activePage={activePage} handleSelection={handleSelection} />
+        <PowerKWorkItemContextBasedPages
+          activePage={activePage}
+          handleSelection={handleSelection}
+        />
       )}
       {activeContext === "module" && (
         <PowerKModuleContextBasedPages activePage={activePage} handleSelection={handleSelection} />
@@ -48,5 +55,11 @@ export const usePowerKContextBasedActions = (): TPowerKCommandConfig[] => {
   const pageCommands = usePowerKPageContextBasedActions();
   const extendedCommands = usePowerKContextBasedExtendedActions();
 
-  return [...workItemCommands, ...cycleCommands, ...moduleCommands, ...pageCommands, ...extendedCommands];
+  return [
+    ...workItemCommands,
+    ...cycleCommands,
+    ...moduleCommands,
+    ...pageCommands,
+    ...extendedCommands,
+  ];
 };

@@ -32,7 +32,7 @@ type Props = {
 };
 
 export const usePageOperations = (
-  props: Props
+  props: Props,
 ): {
   pageOperations: TPageOperations;
 } => {
@@ -51,10 +51,8 @@ export const usePageOperations = (
   // collaborative actions
   const { executeCollaborativeAction } = useCollaborativePageActions(props);
   // local storage
-  const { setValue: toggleFavoriteMenu, storedValue: isFavoriteMenuOpen } = useLocalStorage<boolean>(
-    IS_FAVORITE_MENU_OPEN,
-    false
-  );
+  const { setValue: toggleFavoriteMenu, storedValue: isFavoriteMenuOpen } =
+    useLocalStorage<boolean>(IS_FAVORITE_MENU_OPEN, false);
   // page operations
   const pageOperations: TPageOperations = useMemo(() => {
     const pageLink = getRedirectionLink();
@@ -90,8 +88,15 @@ export const usePageOperations = (
         const changedPageType = access === EPageAccess.PUBLIC ? "private" : "public";
         try {
           if (access === EPageAccess.PUBLIC)
-            await executeCollaborativeAction({ type: "sendMessageToServer", message: "make-private" });
-          else await executeCollaborativeAction({ type: "sendMessageToServer", message: "make-public" });
+            await executeCollaborativeAction({
+              type: "sendMessageToServer",
+              message: "make-private",
+            });
+          else
+            await executeCollaborativeAction({
+              type: "sendMessageToServer",
+              message: "make-public",
+            });
           setToast({
             type: TOAST_TYPE.SUCCESS,
             title: "Success!",

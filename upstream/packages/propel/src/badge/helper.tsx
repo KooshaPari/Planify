@@ -7,26 +7,29 @@
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 
-export const badgeVariants = cva("inline-flex items-center justify-center gap-1 whitespace-nowrap transition-colors", {
-  variants: {
-    variant: {
-      neutral: "bg-layer-3 text-tertiary",
-      brand: "bg-accent-subtle-hover text-accent-primary",
-      warning: "bg-warning-subtle text-warning-primary",
-      success: "bg-success-subtle-1 text-success-primary",
-      danger: "bg-danger-subtle text-danger-primary",
+export const badgeVariants = cva(
+  "inline-flex items-center justify-center gap-1 whitespace-nowrap transition-colors",
+  {
+    variants: {
+      variant: {
+        neutral: "bg-layer-3 text-tertiary",
+        brand: "bg-accent-subtle-hover text-accent-primary",
+        warning: "bg-warning-subtle text-warning-primary",
+        success: "bg-success-subtle-1 text-success-primary",
+        danger: "bg-danger-subtle text-danger-primary",
+      },
+      size: {
+        sm: "h-4 rounded-sm px-1 text-caption-sm-medium",
+        base: "h-5 rounded-md px-1.5 text-caption-sm-medium",
+        lg: "h-6 rounded-md px-2 text-caption-md-medium",
+      },
     },
-    size: {
-      sm: "h-4 rounded-sm px-1 text-caption-sm-medium",
-      base: "h-5 rounded-md px-1.5 text-caption-sm-medium",
-      lg: "h-6 rounded-md px-2 text-caption-md-medium",
+    defaultVariants: {
+      variant: "neutral",
+      size: "base",
     },
   },
-  defaultVariants: {
-    variant: "neutral",
-    size: "base",
-  },
-});
+);
 
 export type BadgeProps = Omit<React.HTMLAttributes<HTMLSpanElement>, "className"> &
   VariantProps<typeof badgeVariants> & {

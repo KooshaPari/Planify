@@ -52,7 +52,7 @@ export const useEditorConfig = () => {
                 assetId: src,
                 projectId,
                 workspaceSlug,
-              }) ?? ""
+              }) ?? "",
             );
           }
         },
@@ -99,7 +99,7 @@ export const useEditorConfig = () => {
         ...getExtendedEditorFileHandlers({ projectId, workspaceSlug }),
       };
     },
-    [assetsUploadPercentage, getExtendedEditorFileHandlers, maxFileSize]
+    [assetsUploadPercentage, getExtendedEditorFileHandlers, maxFileSize],
   );
 
   return {

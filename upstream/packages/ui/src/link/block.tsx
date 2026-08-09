@@ -34,11 +34,18 @@ export function LinkItemBlock(props: TLinkItemBlockProps) {
       </div>
       <div className="flex-1 truncate">
         <div className="truncate text-13 font-medium">{title}</div>
-        {createdAt && <div className="text-11 font-medium text-placeholder">{calculateTimeAgo(createdAt)}</div>}
+        {createdAt && (
+          <div className="text-11 font-medium text-placeholder">{calculateTimeAgo(createdAt)}</div>
+        )}
       </div>
       {menuItems && (
         <div className="hidden group-hover:block">
-          <CustomMenu placement="bottom-end" menuItemsClassName="z-20" closeOnSelect verticalEllipsis>
+          <CustomMenu
+            placement="bottom-end"
+            menuItemsClassName="z-20"
+            closeOnSelect
+            verticalEllipsis
+          >
             {menuItems.map((item) => (
               <CustomMenu.MenuItem
                 key={item.key}

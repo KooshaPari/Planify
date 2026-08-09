@@ -52,7 +52,9 @@ export function WorkItemSelectionPage(props: Props) {
     workspaceService
       .fetchWorkspaceRecents(workspaceSlug.toString(), "issue")
       .then((res) =>
-        setRecentIssues(res.map((r: TActivityEntityData) => r.entity_data as TIssueEntityData).slice(0, 10))
+        setRecentIssues(
+          res.map((r: TActivityEntityData) => r.entity_data as TIssueEntityData).slice(0, 10),
+        ),
       )
       .catch(() => setRecentIssues([]));
   }, [workspaceSlug]);

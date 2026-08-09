@@ -33,13 +33,15 @@ export const ArchivedModuleLayoutRoot = observer(function ArchivedModuleLayoutRo
   const totalArchivedModules = projectArchivedModuleIds?.length ?? 0;
 
   useSWR(
-    workspaceSlug && projectId ? `ARCHIVED_MODULES_${workspaceSlug.toString()}_${projectId.toString()}` : null,
+    workspaceSlug && projectId
+      ? `ARCHIVED_MODULES_${workspaceSlug.toString()}_${projectId.toString()}`
+      : null,
     async () => {
       if (workspaceSlug && projectId) {
         await fetchArchivedModules(workspaceSlug.toString(), projectId.toString());
       }
     },
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   const handleRemoveFilter = useCallback(
@@ -52,7 +54,7 @@ export const ArchivedModuleLayoutRoot = observer(function ArchivedModuleLayoutRo
 
       updateFilters(projectId.toString(), { [key]: newValues }, "archived");
     },
-    [currentProjectArchivedFilters, projectId, updateFilters]
+    [currentProjectArchivedFilters, projectId, updateFilters],
   );
 
   if (!workspaceSlug || !projectId) return <></>;
@@ -84,7 +86,10 @@ export const ArchivedModuleLayoutRoot = observer(function ArchivedModuleLayoutRo
         </div>
       ) : (
         <div className="relative h-full w-full overflow-auto">
-          <ArchivedModulesView workspaceSlug={workspaceSlug.toString()} projectId={projectId.toString()} />
+          <ArchivedModulesView
+            workspaceSlug={workspaceSlug.toString()}
+            projectId={projectId.toString()}
+          />
         </div>
       )}
     </>

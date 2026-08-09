@@ -13,7 +13,14 @@ import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { PlusIcon, CloseIcon, ChevronDownIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import { Avatar, CustomSelect, CustomSearchSelect, EModalPosition, EModalWidth, ModalCore } from "@plane/ui";
+import {
+  Avatar,
+  CustomSelect,
+  CustomSearchSelect,
+  EModalPosition,
+  EModalWidth,
+  ModalCore,
+} from "@plane/ui";
 // helpers
 import { getFileURL } from "@plane/utils";
 // hooks
@@ -46,7 +53,9 @@ const defaultValues: FormValues = {
   ],
 };
 
-export const SendProjectInvitationModal = observer(function SendProjectInvitationModal(props: Props) {
+export const SendProjectInvitationModal = observer(function SendProjectInvitationModal(
+  props: Props,
+) {
   const { isOpen, onClose, onSuccess, projectId, workspaceSlug } = props;
   // plane hooks
   const { t } = useTranslation();
@@ -140,7 +149,10 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
         content: (
           <div className="flex w-full items-center gap-2">
             <div className="shrink-0 pt-0.5">
-              <Avatar name={memberDetails?.member.display_name} src={getFileURL(memberDetails?.member.avatar_url)} />
+              <Avatar
+                name={memberDetails?.member.display_name}
+                src={getFileURL(memberDetails?.member.avatar_url)}
+              />
             </div>
             <div className="truncate">
               {memberDetails?.member.display_name} (
@@ -163,28 +175,40 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
     if (!value || !currentMemberWorkspaceRole) return ROLE;
 
     const isGuestOROwner = [EUserPermissions.ADMIN, EUserPermissions.GUEST].includes(
-      currentMemberWorkspaceRole as EUserPermissions
+      currentMemberWorkspaceRole as EUserPermissions,
     );
 
     return Object.fromEntries(
-      Object.entries(ROLE).filter(([key]) => !isGuestOROwner || [currentMemberWorkspaceRole].includes(parseInt(key)))
+      Object.entries(ROLE).filter(
+        ([key]) => !isGuestOROwner || [currentMemberWorkspaceRole].includes(parseInt(key)),
+      ),
     );
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <form onSubmit={handleSubmit(onSubmit)} className="p-5">
         <div className="space-y-5">
           <h3 className="text-16 leading-6 font-medium text-primary">
             {t("project_settings.members.invite_members.title")}
           </h3>
           <div className="mt-2">
-            <p className="text-13 text-secondary">{t("project_settings.members.invite_members.sub_heading")}</p>
+            <p className="text-13 text-secondary">
+              {t("project_settings.members.invite_members.sub_heading")}
+            </p>
           </div>
 
           <div className="mb-3 space-y-4">
             {fields.map((field, index) => (
-              <div key={field.id} className="group mb-1 flex w-full items-start justify-between gap-x-4 text-13">
+              <div
+                key={field.id}
+                className="group mb-1 flex w-full items-start justify-between gap-x-4 text-13"
+              >
                 <div className="flex w-full grow flex-col gap-1">
                   <Controller
                     control={control}
@@ -206,7 +230,9 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                                   {selectedMember?.member.display_name}
                                 </div>
                               ) : (
-                                <div className="flex items-center gap-2 py-0.5">Select co-worker</div>
+                                <div className="flex items-center gap-2 py-0.5">
+                                  Select co-worker
+                                </div>
                               )}
                               <ChevronDownIcon className="h-3 w-3" aria-hidden="true" />
                             </button>
@@ -219,7 +245,7 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                             const newValue = ROLE[workspaceRole].toUpperCase();
                             setValue(
                               `members.${index}.role`,
-                              EUserPermissions[newValue as keyof typeof EUserPermissions]
+                              EUserPermissions[newValue as keyof typeof EUserPermissions],
                             );
                           }}
                           options={options}
@@ -246,28 +272,33 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                           {...field}
                           customButton={
                             <div className="shadow-sm flex w-24 items-center justify-between gap-1 rounded-md border border-subtle px-3 py-2.5 text-left text-13 text-secondary duration-300 hover:bg-layer-1 hover:text-primary focus:outline-none">
-                              <span className="capitalize">{field.value ? ROLE[field.value] : "Select role"}</span>
+                              <span className="capitalize">
+                                {field.value ? ROLE[field.value] : "Select role"}
+                              </span>
                               <ChevronDownIcon className="h-3 w-3" aria-hidden="true" />
                             </div>
                           }
                           input
                         >
-                          {Object.entries(checkCurrentOptionWorkspaceRole(watch(`members.${index}.member_id`))).map(
-                            ([key, label]) => {
-                              if (parseInt(key) > (currentProjectRole ?? EUserPermissions.GUEST)) return null;
+                          {Object.entries(
+                            checkCurrentOptionWorkspaceRole(watch(`members.${index}.member_id`)),
+                          ).map(([key, label]) => {
+                            if (parseInt(key) > (currentProjectRole ?? EUserPermissions.GUEST))
+                              return null;
 
-                              return (
-                                <CustomSelect.Option key={key} value={key}>
-                                  {label}
-                                </CustomSelect.Option>
-                              );
-                            }
-                          )}
+                            return (
+                              <CustomSelect.Option key={key} value={key}>
+                                {label}
+                              </CustomSelect.Option>
+                            );
+                          })}
                         </CustomSelect>
                       )}
                     />
                     {errors.members && errors.members[index]?.role && (
-                      <span className="px-1 text-13 text-danger-primary">{errors.members[index]?.role?.message}</span>
+                      <span className="px-1 text-13 text-danger-primary">
+                        {errors.members[index]?.role?.message}
+                      </span>
                     )}
                   </div>
 

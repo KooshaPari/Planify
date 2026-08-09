@@ -5,7 +5,13 @@
  */
 
 import type { Editor } from "@tiptap/core";
-import { getNodeType, getNodeAtPosition, isAtEndOfNode, isAtStartOfNode, isNodeActive } from "@tiptap/core";
+import {
+  getNodeType,
+  getNodeAtPosition,
+  isAtEndOfNode,
+  isAtStartOfNode,
+  isNodeActive,
+} from "@tiptap/core";
 import type { Node, NodeType } from "@tiptap/pm/model";
 import type { EditorState } from "@tiptap/pm/state";
 // constants
@@ -82,9 +88,11 @@ const getPrevListDepth = (typeOrName: string, state: EditorState) => {
   for (let d = resolvedPos.depth; d > 0; d--) {
     const node = resolvedPos.node(d);
     if (
-      [CORE_EXTENSIONS.BULLET_LIST, CORE_EXTENSIONS.ORDERED_LIST, CORE_EXTENSIONS.TASK_LIST].includes(
-        node.type.name as CORE_EXTENSIONS
-      )
+      [
+        CORE_EXTENSIONS.BULLET_LIST,
+        CORE_EXTENSIONS.ORDERED_LIST,
+        CORE_EXTENSIONS.TASK_LIST,
+      ].includes(node.type.name as CORE_EXTENSIONS)
     ) {
       // Increment depth for each list ancestor found
       depth++;
@@ -145,7 +153,11 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
       return false; // Invalid position, abort operation
     }
 
-    return editor.chain().cut({ from: startPos, to: endPos }, $lastItemPos.end()).joinForward().run();
+    return editor
+      .chain()
+      .cut({ from: startPos, to: endPos }, $lastItemPos.end())
+      .joinForward()
+      .run();
   }
 
   // if the cursor is not inside the current node type
@@ -323,7 +335,9 @@ const isCurrentParagraphASibling = (state: EditorState): boolean => {
   // Ensure we're in a paragraph and the parent is a list item.
   if (
     currentParagraphNode.type.name === CORE_EXTENSIONS.PARAGRAPH &&
-    [CORE_EXTENSIONS.LIST_ITEM, CORE_EXTENSIONS.TASK_ITEM].includes(listItemNode.type.name as CORE_EXTENSIONS)
+    [CORE_EXTENSIONS.LIST_ITEM, CORE_EXTENSIONS.TASK_ITEM].includes(
+      listItemNode.type.name as CORE_EXTENSIONS,
+    )
   ) {
     let paragraphNodesCount = 0;
     listItemNode.forEach((child) => {

@@ -77,7 +77,7 @@ const Pill = React.forwardRef(function Pill(
     children,
     ...props
   }: PillProps,
-  ref: React.ForwardedRef<HTMLSpanElement>
+  ref: React.ForwardedRef<HTMLSpanElement>,
 ) {
   return (
     <span
@@ -91,7 +91,7 @@ const Pill = React.forwardRef(function Pill(
         pillSizes[size],
         // Radius styles
         pillRadius[radius],
-        className
+        className,
       )}
       {...props}
     >

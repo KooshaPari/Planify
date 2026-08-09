@@ -8,7 +8,11 @@ import { unset, orderBy, set } from "lodash-es";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { computedFn } from "mobx-utils";
 // types
-import type { IEstimate as IEstimateType, IEstimateFormData, TEstimateSystemKeys } from "@plane/types";
+import type {
+  IEstimate as IEstimateType,
+  IEstimateFormData,
+  TEstimateSystemKeys,
+} from "@plane/types";
 // plane web services
 import estimateService from "@/services/estimate.service";
 // plane web store
@@ -38,17 +42,20 @@ export interface IProjectEstimateStore {
   currentActiveEstimateIdByProjectId: (projectId: string) => string | undefined;
   estimateById: (estimateId: string) => IEstimate | undefined;
   // actions
-  getWorkspaceEstimates: (workspaceSlug: string, loader?: TEstimateLoader) => Promise<IEstimateType[] | undefined>;
+  getWorkspaceEstimates: (
+    workspaceSlug: string,
+    loader?: TEstimateLoader,
+  ) => Promise<IEstimateType[] | undefined>;
   getProjectEstimates: (
     workspaceSlug: string,
     projectId: string,
-    loader?: TEstimateLoader
+    loader?: TEstimateLoader,
   ) => Promise<IEstimateType[] | undefined>;
   getEstimateById: (estimateId: string) => IEstimate | undefined;
   createEstimate: (
     workspaceSlug: string,
     projectId: string,
-    data: IEstimateFormData
+    data: IEstimateFormData,
   ) => Promise<IEstimateType | undefined>;
   deleteEstimate: (workspaceSlug: string, projectId: string, estimateId: string) => Promise<void>;
 }
@@ -82,7 +89,9 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
   // computed
 
   get currentProjectEstimateType(): TEstimateSystemKeys | undefined {
-    return this.currentActiveEstimateId ? this.estimates[this.currentActiveEstimateId]?.type : undefined;
+    return this.currentActiveEstimateId
+      ? this.estimates[this.currentActiveEstimateId]?.type
+      : undefined;
   }
 
   /**
@@ -93,7 +102,7 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
     const { projectId } = this.store.router;
     if (!projectId) return undefined;
     const currentActiveEstimateId = Object.values(this.estimates || {}).find(
-      (p) => p.project === projectId && p.last_used
+      (p) => p.project === projectId && p.last_used,
     );
     return currentActiveEstimateId?.id ?? undefined;
   }
@@ -107,7 +116,7 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
     const { projectId } = this.store.router;
     if (!projectId) return undefined;
     const currentActiveEstimate = Object.values(this.estimates || {}).find(
-      (p) => p.project === projectId && p.last_used
+      (p) => p.project === projectId && p.last_used,
     );
     return currentActiveEstimate ?? undefined;
   }
@@ -122,7 +131,7 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
     const archivedEstimates = orderBy(
       Object.values(this.estimates || {}).filter((p) => p.project === projectId && !p.last_used),
       ["created_at"],
-      "desc"
+      "desc",
     );
     const archivedEstimateIds = archivedEstimates.map((p) => p.id) as string[];
     return archivedEstimateIds ?? undefined;
@@ -158,7 +167,7 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
   currentActiveEstimateIdByProjectId = computedFn((projectId: string): string | undefined => {
     if (!projectId) return undefined;
     const currentActiveEstimateId = Object.values(this.estimates || {}).find(
-      (p) => p.project === projectId && p.last_used
+      (p) => p.project === projectId && p.last_used,
     );
     return currentActiveEstimateId?.id ?? undefined;
   });
@@ -180,11 +189,12 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
    */
   getWorkspaceEstimates = async (
     workspaceSlug: string,
-    loader: TEstimateLoader = "mutation-loader"
+    loader: TEstimateLoader = "mutation-loader",
   ): Promise<IEstimateType[] | undefined> => {
     try {
       this.error = undefined;
-      if (Object.keys(this.estimates || {}).length <= 0) this.loader = loader ? loader : "init-loader";
+      if (Object.keys(this.estimates || {}).length <= 0)
+        this.loader = loader ? loader : "init-loader";
 
       const estimates = await estimateService.fetchWorkspaceEstimates(workspaceSlug);
       if (estimates && estimates.length > 0) {
@@ -194,7 +204,10 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
               set(
                 this.estimates,
                 [estimate.id],
-                new Estimate(this.store, { ...estimate, type: estimate.type?.toLowerCase() as TEstimateSystemKeys })
+                new Estimate(this.store, {
+                  ...estimate,
+                  type: estimate.type?.toLowerCase() as TEstimateSystemKeys,
+                }),
               );
           });
         });
@@ -220,7 +233,7 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
   getProjectEstimates = async (
     workspaceSlug: string,
     projectId: string,
-    loader: TEstimateLoader = "mutation-loader"
+    loader: TEstimateLoader = "mutation-loader",
   ): Promise<IEstimateType[] | undefined> => {
     try {
       this.error = undefined;
@@ -234,7 +247,10 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
               set(
                 this.estimates,
                 [estimate.id],
-                new Estimate(this.store, { ...estimate, type: estimate.type?.toLowerCase() as TEstimateSystemKeys })
+                new Estimate(this.store, {
+                  ...estimate,
+                  type: estimate.type?.toLowerCase() as TEstimateSystemKeys,
+                }),
               );
           });
         });
@@ -267,7 +283,7 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
   createEstimate = async (
     workspaceSlug: string,
     projectId: string,
-    payload: IEstimateFormData
+    payload: IEstimateFormData,
   ): Promise<IEstimateType | undefined> => {
     try {
       this.error = undefined;
@@ -283,7 +299,10 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
             set(
               this.estimates,
               [estimate.id],
-              new Estimate(this.store, { ...estimate, type: estimate.type?.toLowerCase() as TEstimateSystemKeys })
+              new Estimate(this.store, {
+                ...estimate,
+                type: estimate.type?.toLowerCase() as TEstimateSystemKeys,
+              }),
             );
         });
       }

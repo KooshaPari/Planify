@@ -10,7 +10,13 @@ import type { ISvgIcons } from "./type";
 
 export function DisplayPropertiesIcon({ className = "text-current", ...rest }: ISvgIcons) {
   return (
-    <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest} className={className}>
+    <svg
+      viewBox="0 0 12 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...rest}
+      className={className}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"

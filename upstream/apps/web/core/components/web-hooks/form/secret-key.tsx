@@ -52,14 +52,14 @@ export const WebhookSecretKey = observer(function WebhookSecretKey(props: Props)
           type: TOAST_TYPE.SUCCESS,
           title: `${t("success")}`,
           message: t("workspace_settings.settings.webhooks.toasts.secret_key_copied.message"),
-        })
+        }),
       )
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
           title: `${t("error")}!`,
           message: t("workspace_settings.settings.webhooks.toasts.secret_key_not_copied.message"),
-        })
+        }),
       );
   };
 
@@ -86,7 +86,7 @@ export const WebhookSecretKey = observer(function WebhookSecretKey(props: Props)
           type: TOAST_TYPE.ERROR,
           title: `${t("error")}!`,
           message: err?.error ?? t("something_went_wrong_please_try_again"),
-        })
+        }),
       )
       .finally(() => setIsRegenerating(false));
   };
@@ -94,7 +94,12 @@ export const WebhookSecretKey = observer(function WebhookSecretKey(props: Props)
   const toggleShowKey = () => setShouldShowKey((prevState) => !prevState);
 
   const SECRET_KEY_OPTIONS = [
-    { label: "View secret key", Icon: shouldShowKey ? EyeOff : Eye, onClick: toggleShowKey, key: "eye" },
+    {
+      label: "View secret key",
+      Icon: shouldShowKey ? EyeOff : Eye,
+      onClick: toggleShowKey,
+      key: "eye",
+    },
     { label: "Copy secret key", Icon: CopyIcon, onClick: handleCopySecretKey, key: "copy" },
   ];
 
@@ -103,9 +108,13 @@ export const WebhookSecretKey = observer(function WebhookSecretKey(props: Props)
       {(data || webhookSecretKey) && (
         <div className="space-y-2">
           {webhookId && (
-            <div className="text-13 font-medium">{t("workspace_settings.settings.webhooks.secret_key.title")}</div>
+            <div className="text-13 font-medium">
+              {t("workspace_settings.settings.webhooks.secret_key.title")}
+            </div>
           )}
-          <div className="text-11 text-placeholder">{t("workspace_settings.settings.webhooks.secret_key.message")}</div>
+          <div className="text-11 text-placeholder">
+            {t("workspace_settings.settings.webhooks.secret_key.message")}
+          </div>
           <div className="flex flex-col gap-4 md:flex-row md:items-center">
             <div className="flex h-8 max-w-lg flex-grow items-center justify-between self-stretch rounded-sm border border-subtle px-2">
               <div className="overflow-hidden font-medium select-none">
@@ -114,7 +123,10 @@ export const WebhookSecretKey = observer(function WebhookSecretKey(props: Props)
                 ) : (
                   <div className="mr-2 flex items-center gap-1.5 overflow-hidden">
                     {range(30).map((index) => (
-                      <div key={index} className="h-1 w-1 flex-shrink-0 rounded-full bg-(--text-color-disabled)" />
+                      <div
+                        key={index}
+                        className="h-1 w-1 flex-shrink-0 rounded-full bg-(--text-color-disabled)"
+                      />
                     ))}
                   </div>
                 )}
@@ -123,7 +135,11 @@ export const WebhookSecretKey = observer(function WebhookSecretKey(props: Props)
                 <div className="flex items-center gap-2">
                   {SECRET_KEY_OPTIONS.map((option) => (
                     <Tooltip key={option.key} tooltipContent={option.label} isMobile={isMobile}>
-                      <button type="button" className="grid flex-shrink-0 place-items-center" onClick={option.onClick}>
+                      <button
+                        type="button"
+                        className="grid flex-shrink-0 place-items-center"
+                        onClick={option.onClick}
+                      >
                         <option.Icon className="h-3 w-3 text-placeholder" />
                       </button>
                     </Tooltip>

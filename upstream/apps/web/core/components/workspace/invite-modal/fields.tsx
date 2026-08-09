@@ -91,7 +91,11 @@ export const InvitationFields = observer(function InvitationFields(props: TInvit
                 render={({ field: { value, onChange } }) => (
                   <CustomSelect
                     value={value}
-                    label={<span className="text-caption-sm-regular sm:text-body-xs-regular">{ROLE[value]}</span>}
+                    label={
+                      <span className="text-caption-sm-regular sm:text-body-xs-regular">
+                        {ROLE[value]}
+                      </span>
+                    }
                     onChange={onChange}
                     className="w-24 flex-grow"
                     input

@@ -49,8 +49,8 @@ const CreatedVsResolved = observer(function CreatedVsResolved() {
           ...(selectedModule ? { module_id: selectedModule } : {}),
           ...(isEpic ? { epic: true } : {}),
         },
-        isPeekView
-      )
+        isPeekView,
+      ),
   );
   const parsedData: TChartData<string, string>[] = useMemo(() => {
     if (!createdVsResolvedData?.data) return [];
@@ -86,7 +86,7 @@ const CreatedVsResolved = observer(function CreatedVsResolved() {
         strokeOpacity: 1,
       },
     ],
-    []
+    [],
   );
 
   return (

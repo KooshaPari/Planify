@@ -31,7 +31,7 @@ export type SidebarWorkspaceMenuItemProps = {
 };
 
 export const SidebarWorkspaceMenuItem = observer(function SidebarWorkspaceMenuItem(
-  props: SidebarWorkspaceMenuItemProps
+  props: SidebarWorkspaceMenuItemProps,
 ) {
   const { item } = props;
 
@@ -49,7 +49,9 @@ export const SidebarWorkspaceMenuItem = observer(function SidebarWorkspaceMenuIt
     }
   };
 
-  if (!allowPermissions(item.access as any, EUserPermissionsLevel.WORKSPACE, workspaceSlug.toString())) {
+  if (
+    !allowPermissions(item.access as any, EUserPermissionsLevel.WORKSPACE, workspaceSlug.toString())
+  ) {
     return null;
   }
 

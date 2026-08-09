@@ -42,7 +42,7 @@ export const FilterMember = observer(function FilterMember(props: Props) {
 
   const sortedOptions = useMemo(() => {
     const filteredOptions = (memberIds || []).filter((memberId) =>
-      getUserDetails(memberId)?.display_name.toLowerCase().includes(searchQuery.toLowerCase())
+      getUserDetails(memberId)?.display_name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
     return sortBy(filteredOptions, [
@@ -83,7 +83,9 @@ export const FilterMember = observer(function FilterMember(props: Props) {
                     <FilterOption
                       key={`members-${member.id}`}
                       isChecked={filterValue?.includes(member.id) ? true : false}
-                      onClick={() => handleInboxIssueFilters(filterKey, handleFilterValue(member.id))}
+                      onClick={() =>
+                        handleInboxIssueFilters(filterKey, handleFilterValue(member.id))
+                      }
                       icon={
                         <Avatar
                           name={member.display_name}

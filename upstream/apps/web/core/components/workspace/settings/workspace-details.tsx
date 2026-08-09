@@ -148,7 +148,11 @@ export const WorkspaceDetails = observer(function WorkspaceDetails() {
       <div className={cn("flex w-full flex-col gap-y-7", { "opacity-60": !isAdmin })}>
         <div className="flex items-center gap-5">
           <div className="flex shrink-0 flex-col gap-1">
-            <button type="button" onClick={() => setIsImageUploadModalOpen(true)} disabled={!isAdmin}>
+            <button
+              type="button"
+              onClick={() => setIsImageUploadModalOpen(true)}
+              disabled={!isAdmin}
+            >
               {workspaceLogo && workspaceLogo !== "" ? (
                 <div className="relative flex size-14">
                   <img
@@ -166,8 +170,13 @@ export const WorkspaceDetails = observer(function WorkspaceDetails() {
           </div>
           <div className="flex flex-col gap-1">
             <div className="mb:-my-5 text-h5-semibold leading-6">{watch("name")}</div>
-            <button type="button" onClick={handleCopyUrl} className="text-left text-body-xs-regular tracking-tight">{`${
-              typeof window !== "undefined" && window.location.origin.replace("http://", "").replace("https://", "")
+            <button
+              type="button"
+              onClick={handleCopyUrl}
+              className="text-left text-body-xs-regular tracking-tight"
+            >{`${
+              typeof window !== "undefined" &&
+              window.location.origin.replace("http://", "").replace("https://", "")
             }/${currentWorkspace.slug}`}</button>
             {isAdmin && (
               <button
@@ -190,7 +199,9 @@ export const WorkspaceDetails = observer(function WorkspaceDetails() {
         <div className="flex flex-col gap-7">
           <div className="grid-col grid w-full grid-cols-1 items-center justify-between gap-10 xl:grid-cols-2 2xl:grid-cols-3">
             <div className="flex flex-col gap-2">
-              <h4 className="text-body-sm-medium text-tertiary">{t("workspace_settings.settings.general.name")}</h4>
+              <h4 className="text-body-sm-medium text-tertiary">
+                {t("workspace_settings.settings.general.name")}
+              </h4>
               <Controller
                 control={control}
                 name="name"
@@ -212,7 +223,9 @@ export const WorkspaceDetails = observer(function WorkspaceDetails() {
                   />
                 )}
               />
-              {errors.name && <p className="text-caption-sm-regular text-danger-primary">{errors.name.message}</p>}
+              {errors.name && (
+                <p className="text-caption-sm-regular text-danger-primary">{errors.name.message}</p>
+              )}
             </div>
             <div className="flex flex-col gap-2">
               <h4 className="text-body-sm-medium text-tertiary">
@@ -243,7 +256,9 @@ export const WorkspaceDetails = observer(function WorkspaceDetails() {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <h4 className="text-body-sm-medium text-tertiary">{t("workspace_settings.settings.general.url")}</h4>
+              <h4 className="text-body-sm-medium text-tertiary">
+                {t("workspace_settings.settings.general.url")}
+              </h4>
               <Controller
                 control={control}
                 name="url"
@@ -291,7 +306,9 @@ export const WorkspaceDetails = observer(function WorkspaceDetails() {
               }}
               loading={isLoading}
             >
-              {isLoading ? t("updating") : t("workspace_settings.settings.general.update_workspace")}
+              {isLoading
+                ? t("updating")
+                : t("workspace_settings.settings.general.update_workspace")}
             </Button>
           </div>
         )}

@@ -19,7 +19,7 @@ const DEFAULT_STYLE = "flex flex-col vertical-scrollbar scrollbar-lg h-full w-fu
 
 const ContentWrapper = React.forwardRef(function ContentWrapper(
   props: ContentWrapperProps,
-  ref: React.ForwardedRef<HTMLDivElement>
+  ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   const { variant = ERowVariant.REGULAR, className = "", children, ...rest } = props;
 
@@ -32,7 +32,7 @@ const ContentWrapper = React.forwardRef(function ContentWrapper(
         {
           "py-page-y": variant === ERowVariant.REGULAR,
         },
-        className
+        className,
       )}
       {...rest}
     >

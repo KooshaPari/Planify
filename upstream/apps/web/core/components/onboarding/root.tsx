@@ -8,7 +8,12 @@ import { useCallback, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 // plane imports
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { IWorkspaceMemberInvitation, TOnboardingStep, TOnboardingSteps, TUserProfile } from "@plane/types";
+import type {
+  IWorkspaceMemberInvitation,
+  TOnboardingStep,
+  TOnboardingSteps,
+  TUserProfile,
+} from "@plane/types";
 import { EOnboardingSteps } from "@plane/types";
 // hooks
 import { useInstance } from "@/hooks/store/use-instance";
@@ -64,7 +69,7 @@ export const OnboardingRoot = observer(function OnboardingRoot({ invitations = [
 
       await updateUserProfile(payload);
     },
-    [user, userProfile, updateUserProfile]
+    [user, userProfile, updateUserProfile],
   );
 
   const handleStepChange = useCallback(
@@ -101,7 +106,7 @@ export const OnboardingRoot = observer(function OnboardingRoot({ invitations = [
           break;
       }
     },
-    [stepChange, finishOnboarding, workspacesList, isSelfManaged]
+    [stepChange, finishOnboarding, workspacesList, isSelfManaged],
   );
 
   const updateCurrentStep = (step: EOnboardingSteps) => setCurrentStep(step);
@@ -138,7 +143,11 @@ export const OnboardingRoot = observer(function OnboardingRoot({ invitations = [
       />
 
       {/* Main content area */}
-      <OnboardingStepRoot currentStep={currentStep} invitations={invitations} handleStepChange={handleStepChange} />
+      <OnboardingStepRoot
+        currentStep={currentStep}
+        invitations={invitations}
+        handleStepChange={handleStepChange}
+      />
     </div>
   );
 });

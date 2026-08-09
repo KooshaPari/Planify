@@ -34,9 +34,12 @@ export interface IList {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
-  getPaginationData: (groupId: string | undefined, subGroupId: string | undefined) => TPaginationData | undefined;
+  getPaginationData: (
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ) => TPaginationData | undefined;
   getIssueLoader: (groupId?: string, subGroupId?: string) => TLoader;
 }
 
@@ -60,7 +63,15 @@ export const List = observer(function List(props: IList) {
   const modules = useModule();
   const state = useStates();
 
-  const groupList = getGroupByColumns(groupBy as GroupByColumnTypes, cycle, modules, label, state, member, true);
+  const groupList = getGroupByColumns(
+    groupBy as GroupByColumnTypes,
+    cycle,
+    modules,
+    label,
+    state,
+    member,
+    true,
+  );
 
   if (!groupList) return null;
 

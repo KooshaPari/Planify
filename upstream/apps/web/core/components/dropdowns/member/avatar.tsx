@@ -35,7 +35,13 @@ export const ButtonAvatars = observer(function ButtonAvatars(props: AvatarProps)
             const userDetails = getUserDetails(userId);
 
             if (!userDetails) return;
-            return <Avatar key={userId} src={getFileURL(userDetails.avatar_url)} name={userDetails.display_name} />;
+            return (
+              <Avatar
+                key={userId}
+                src={getFileURL(userDetails.avatar_url)}
+                name={userDetails.display_name}
+              />
+            );
           })}
         </AvatarGroup>
       );

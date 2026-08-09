@@ -36,7 +36,7 @@ export const FilterModule = observer(function FilterModule(props: Props) {
 
   const sortedOptions = useMemo(() => {
     const filteredOptions = (modules || []).filter((module) =>
-      module.name.toLowerCase().includes(searchQuery.toLowerCase())
+      module.name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
     return sortBy(filteredOptions, [

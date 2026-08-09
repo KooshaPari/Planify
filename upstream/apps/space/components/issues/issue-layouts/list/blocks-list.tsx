@@ -22,7 +22,12 @@ export function IssueBlocksList(props: Props) {
   return (
     <div className="relative size-full">
       {issueIds?.map((issueId) => (
-        <IssueBlock key={issueId} issueId={issueId} displayProperties={displayProperties} groupId={groupId} />
+        <IssueBlock
+          key={issueId}
+          issueId={issueId}
+          displayProperties={displayProperties}
+          groupId={groupId}
+        />
       ))}
     </div>
   );

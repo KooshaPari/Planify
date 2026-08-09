@@ -71,10 +71,8 @@ export const CycleListItemAction = observer(function CycleListItemAction(props: 
   const { allowPermissions } = useUserPermissions();
 
   // local storage
-  const { setValue: toggleFavoriteMenu, storedValue: isFavoriteMenuOpen } = useLocalStorage<boolean>(
-    IS_FAVORITE_MENU_OPEN,
-    false
-  );
+  const { setValue: toggleFavoriteMenu, storedValue: isFavoriteMenuOpen } =
+    useLocalStorage<boolean>(IS_FAVORITE_MENU_OPEN, false);
 
   const { getUserDetails } = useMember();
 
@@ -84,15 +82,21 @@ export const CycleListItemAction = observer(function CycleListItemAction(props: 
   });
 
   // derived values
-  const cycleStatus = cycleDetails.status ? (cycleDetails.status.toLocaleLowerCase() as TCycleGroups) : "draft";
+  const cycleStatus = cycleDetails.status
+    ? (cycleDetails.status.toLocaleLowerCase() as TCycleGroups)
+    : "draft";
 
-  const showIssueCount = useMemo(() => cycleStatus === "draft" || cycleStatus === "upcoming", [cycleStatus]);
+  const showIssueCount = useMemo(
+    () => cycleStatus === "draft" || cycleStatus === "upcoming",
+    [cycleStatus],
+  );
 
   const transferableIssuesCount = cycleDetails
     ? cycleDetails.total_issues - (cycleDetails.cancelled_issues + cycleDetails.completed_issues)
     : 0;
 
-  const showTransferIssues = routerProjectId && transferableIssuesCount > 0 && cycleStatus === "completed";
+  const showTransferIssues =
+    routerProjectId && transferableIssuesCount > 0 && cycleStatus === "completed";
 
   const projectUTCOffset = getProjectUTCOffset();
 
@@ -100,7 +104,7 @@ export const CycleListItemAction = observer(function CycleListItemAction(props: 
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug,
-    projectId
+    projectId,
   );
 
   // handlers
@@ -108,11 +112,13 @@ export const CycleListItemAction = observer(function CycleListItemAction(props: 
     e.preventDefault();
     if (!workspaceSlug || !projectId) return;
 
-    const addToFavoritePromise = addCycleToFavorites(workspaceSlug?.toString(), projectId.toString(), cycleId).then(
-      () => {
-        if (!isFavoriteMenuOpen) toggleFavoriteMenu(true);
-      }
-    );
+    const addToFavoritePromise = addCycleToFavorites(
+      workspaceSlug?.toString(),
+      projectId.toString(),
+      cycleId,
+    ).then(() => {
+      if (!isFavoriteMenuOpen) toggleFavoriteMenu(true);
+    });
 
     setPromiseToast(addToFavoritePromise, {
       loading: t("project_cycles.action.favorite.loading"),
@@ -134,7 +140,7 @@ export const CycleListItemAction = observer(function CycleListItemAction(props: 
     const removeFromFavoritePromise = removeCycleFromFavorites(
       workspaceSlug?.toString(),
       projectId.toString(),
-      cycleId
+      cycleId,
     );
 
     setPromiseToast(removeFromFavoritePromise, {
@@ -150,7 +156,9 @@ export const CycleListItemAction = observer(function CycleListItemAction(props: 
     });
   };
 
-  const createdByDetails = cycleDetails.created_by ? getUserDetails(cycleDetails.created_by) : undefined;
+  const createdByDetails = cycleDetails.created_by
+    ? getUserDetails(cycleDetails.created_by)
+    : undefined;
 
   useEffect(() => {
     if (cycleDetails)
@@ -221,7 +229,10 @@ export const CycleListItemAction = observer(function CycleListItemAction(props: 
             >
               <div className="flex items-center gap-1 text-11 font-medium text-tertiary">
                 <CalendarDays className="my-auto h-3 w-3 flex-shrink-0" />
-                <MergedDateDisplay startDate={cycleDetails.start_date} endDate={cycleDetails.end_date} />
+                <MergedDateDisplay
+                  startDate={cycleDetails.start_date}
+                  endDate={cycleDetails.end_date}
+                />
               </div>
             </Tooltip>
             {projectUTCOffset && (
@@ -230,7 +241,9 @@ export const CycleListItemAction = observer(function CycleListItemAction(props: 
               </span>
             )}
             {/* created by */}
-            {createdByDetails && <ButtonAvatars showTooltip={false} userIds={createdByDetails?.id} />}
+            {createdByDetails && (
+              <ButtonAvatars showTooltip={false} userIds={createdByDetails?.id} />
+            )}
           </div>
         </>
       ) : (
@@ -270,16 +283,25 @@ export const CycleListItemAction = observer(function CycleListItemAction(props: 
         )
       )}
       {/* created by */}
-      {createdByDetails && !isActive && <ButtonAvatars showTooltip={false} userIds={createdByDetails?.id} />}
+      {createdByDetails && !isActive && (
+        <ButtonAvatars showTooltip={false} userIds={createdByDetails?.id} />
+      )}
       {!isActive && (
-        <Tooltip tooltipContent={`${cycleDetails.assignee_ids?.length} Members`} isMobile={isMobile}>
+        <Tooltip
+          tooltipContent={`${cycleDetails.assignee_ids?.length} Members`}
+          isMobile={isMobile}
+        >
           <div className="flex w-min cursor-default items-center justify-center">
             {cycleDetails.assignee_ids && cycleDetails.assignee_ids?.length > 0 ? (
               <AvatarGroup showTooltip={false}>
                 {cycleDetails.assignee_ids?.map((assignee_id) => {
                   const member = getUserDetails(assignee_id);
                   return (
-                    <Avatar key={member?.id} name={member?.display_name} src={getFileURL(member?.avatar_url ?? "")} />
+                    <Avatar
+                      key={member?.id}
+                      name={member?.display_name}
+                      src={getFileURL(member?.avatar_url ?? "")}
+                    />
                   );
                 })}
               </AvatarGroup>

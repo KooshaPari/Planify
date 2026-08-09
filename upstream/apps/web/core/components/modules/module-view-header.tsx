@@ -74,7 +74,7 @@ export const ModuleViewHeader = observer(function ModuleViewHeader() {
 
       updateFilters(projectId.toString(), { [key]: newValues });
     },
-    [filters, projectId, updateFilters]
+    [filters, projectId, updateFilters],
   );
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -118,7 +118,7 @@ export const ModuleViewHeader = observer(function ModuleViewHeader() {
             "ml-auto flex w-0 items-center justify-start gap-1 overflow-hidden rounded-md border border-transparent bg-surface-1 text-placeholder opacity-0 transition-[width] ease-linear",
             {
               "w-64 border-subtle px-2.5 py-1.5 opacity-100": isSearchOpen,
-            }
+            },
           )}
         >
           <SearchIcon className="h-3.5 w-3.5" />
@@ -180,7 +180,7 @@ export const ModuleViewHeader = observer(function ModuleViewHeader() {
                 {
                   "bg-layer-transparent-active hover:bg-layer-transparent-active":
                     displayFilters?.layout === layout.key,
-                }
+                },
               )}
               onClick={() => {
                 if (!projectId) return;

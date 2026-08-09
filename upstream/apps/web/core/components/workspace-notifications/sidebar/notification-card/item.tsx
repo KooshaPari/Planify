@@ -9,7 +9,13 @@ import { observer } from "mobx-react";
 import { Clock } from "lucide-react";
 // plane imports
 import { Avatar, Row } from "@plane/ui";
-import { cn, calculateTimeAgo, renderFormattedDate, renderFormattedTime, getFileURL } from "@plane/utils";
+import {
+  cn,
+  calculateTimeAgo,
+  renderFormattedDate,
+  renderFormattedTime,
+  getFileURL,
+} from "@plane/utils";
 // hooks
 import { useWorkspaceNotifications } from "@/hooks/store/notifications";
 import { useNotification } from "@/hooks/store/notifications/use-notification";
@@ -27,7 +33,8 @@ type TNotificationItem = {
 export const NotificationItem = observer(function NotificationItem(props: TNotificationItem) {
   const { workspaceSlug, notificationId } = props;
   // hooks
-  const { currentSelectedNotificationId, setCurrentSelectedNotificationId } = useWorkspaceNotifications();
+  const { currentSelectedNotificationId, setCurrentSelectedNotificationId } =
+    useWorkspaceNotifications();
   const { asJson: notification, markNotificationAsRead } = useNotification(notificationId);
   const { getIsIssuePeeked, setPeekIssue } = useIssueDetail();
   const { getWorkspaceBySlug } = useWorkspace();
@@ -65,7 +72,14 @@ export const NotificationItem = observer(function NotificationItem(props: TNotif
     }
   };
 
-  if (!workspaceSlug || !notificationId || !notification?.id || !notificationField || !workspace?.id || !projectId)
+  if (
+    !workspaceSlug ||
+    !notificationId ||
+    !notification?.id ||
+    !notificationField ||
+    !workspace?.id ||
+    !projectId
+  )
     return <></>;
 
   return (
@@ -75,7 +89,7 @@ export const NotificationItem = observer(function NotificationItem(props: TNotif
         {
           "bg-layer-1/30": currentSelectedNotificationId === notification?.id,
           "bg-accent-primary/5": notification.read_at === null,
-        }
+        },
       )}
       onClick={handleNotificationIssuePeekOverview}
     >

@@ -36,11 +36,17 @@ export const CalendarWeekHeader = observer(function CalendarWeekHeader(props: Pr
         <div className="absolute h-[1.5px] w-3/4 animate-[bar-loader_2s_linear_infinite] bg-accent-primary" />
       )}
       {orderedDays.map((day) => {
-        if (!showWeekends && (day.value === EStartOfTheWeek.SUNDAY || day.value === EStartOfTheWeek.SATURDAY))
+        if (
+          !showWeekends &&
+          (day.value === EStartOfTheWeek.SUNDAY || day.value === EStartOfTheWeek.SATURDAY)
+        )
           return null;
 
         return (
-          <div key={day.shortTitle} className="flex h-11 items-center justify-center bg-layer-1 px-4 md:justify-end">
+          <div
+            key={day.shortTitle}
+            className="flex h-11 items-center justify-center bg-layer-1 px-4 md:justify-end"
+          >
             {day.shortTitle}
           </div>
         );

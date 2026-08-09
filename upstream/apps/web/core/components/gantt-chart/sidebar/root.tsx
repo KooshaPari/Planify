@@ -76,7 +76,7 @@ export const GanttChartSidebar = observer(function GanttChartSidebar(props: Prop
                   "pointer-events-none size-3.5 opacity-0 !outline-none group-hover/list-header:pointer-events-auto group-hover/list-header:opacity-100",
                   {
                     "pointer-events-auto opacity-100": !isGroupSelectionEmpty,
-                  }
+                  },
                 )}
                 groupID={GANTT_SELECT_GROUP}
                 selectionHelpers={selectionHelpers}

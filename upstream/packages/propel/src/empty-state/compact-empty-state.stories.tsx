@@ -66,7 +66,8 @@ const meta: Meta<BaseEmptyStateCommonProps> = {
     },
     asset: {
       control: false,
-      description: "Custom React node to display as the visual asset (use this for full control instead of assetKey)",
+      description:
+        "Custom React node to display as the visual asset (use this for full control instead of assetKey)",
     },
     actions: {
       control: false,

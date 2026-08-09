@@ -38,10 +38,11 @@ export const FilterDate = observer(function FilterDate(props: Props) {
   const filterValue: string[] = inboxFilters?.[filterKey] || [];
   const appliedFiltersCount = filterValue?.length ?? 0;
   const filteredOptions = PAST_DURATION_FILTER_OPTIONS.filter((d) =>
-    d.name.toLowerCase().includes(searchQuery.toLowerCase())
+    d.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const handleFilterValue = (value: string): string[] => (filterValue?.includes(value) ? [] : uniq(concat(value)));
+  const handleFilterValue = (value: string): string[] =>
+    filterValue?.includes(value) ? [] : uniq(concat(value));
 
   const isCustomDateSelected = () => {
     const isValidDateSelected = filterValue?.filter((f) => isDate(f.split(";")[0])) || [];
@@ -80,7 +81,9 @@ export const FilterDate = observer(function FilterDate(props: Props) {
                 <FilterOption
                   key={option.value}
                   isChecked={filterValue?.includes(option.value) ? true : false}
-                  onClick={() => handleInboxIssueFilters(filterKey, handleFilterValue(option.value))}
+                  onClick={() =>
+                    handleInboxIssueFilters(filterKey, handleFilterValue(option.value))
+                  }
                   title={option.name}
                   multiple={false}
                 />

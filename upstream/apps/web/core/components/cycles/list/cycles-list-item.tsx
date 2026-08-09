@@ -54,7 +54,9 @@ export const CyclesListItem = observer(function CyclesListItem(props: TCyclesLis
 
   // computed
   // TODO: change this logic once backend fix the response
-  const cycleStatus = cycleDetails.status ? (cycleDetails.status.toLocaleLowerCase() as TCycleGroups) : "draft";
+  const cycleStatus = cycleDetails.status
+    ? (cycleDetails.status.toLocaleLowerCase() as TCycleGroups)
+    : "draft";
   const isActive = cycleStatus === "current";
 
   // handlers

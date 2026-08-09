@@ -30,11 +30,13 @@ type TEstimatePointCreateRoot = {
     oldValue: string,
     newValue: string,
     message: string | undefined,
-    mode: "add" | "delete"
+    mode: "add" | "delete",
   ) => void;
 };
 
-export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot(props: TEstimatePointCreateRoot) {
+export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot(
+  props: TEstimatePointCreateRoot,
+) {
   // props
   const {
     workspaceSlug,
@@ -47,7 +49,9 @@ export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot
     handleEstimatePointError,
   } = props;
   // states
-  const [estimatePointCreate, setEstimatePointCreate] = useState<TEstimatePointsObject[] | undefined>(undefined);
+  const [estimatePointCreate, setEstimatePointCreate] = useState<
+    TEstimatePointsObject[] | undefined
+  >(undefined);
 
   const handleEstimatePoint = useCallback(
     (mode: "add" | "remove" | "update", value: TEstimatePointsObject) => {
@@ -61,7 +65,9 @@ export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot
         case "update":
           setEstimatePoints((prevValue) => {
             prevValue = prevValue ? [...prevValue] : [];
-            return prevValue.map((item) => (item.key === value.key ? { ...item, value: value.value } : item));
+            return prevValue.map((item) =>
+              item.key === value.key ? { ...item, value: value.value } : item,
+            );
           });
           break;
         case "remove":
@@ -74,7 +80,7 @@ export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot
           break;
       }
     },
-    [setEstimatePoints]
+    [setEstimatePoints],
   );
 
   const handleEstimatePointCreate = (mode: "add" | "remove", value: TEstimatePointsObject) => {
@@ -97,12 +103,18 @@ export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot
   };
 
   const handleDragEstimatePoints = (updatedEstimatedOrder: TEstimatePointsObject[]) => {
-    const updatedEstimateKeysOrder = updatedEstimatedOrder.map((item, index) => ({ ...item, key: index + 1 }));
+    const updatedEstimateKeysOrder = updatedEstimatedOrder.map((item, index) => ({
+      ...item,
+      key: index + 1,
+    }));
     setEstimatePoints(() => updatedEstimateKeysOrder);
   };
 
   const handleCreate = () => {
-    if (estimatePoints && estimatePoints.length + (estimatePointCreate?.length || 0) <= estimateCount.max - 1) {
+    if (
+      estimatePoints &&
+      estimatePoints.length + (estimatePointCreate?.length || 0) <= estimateCount.max - 1
+    ) {
       const currentKey = estimatePoints.length + (estimatePointCreate?.length || 0) + 1;
       handleEstimatePointCreate("add", {
         id: undefined,
@@ -138,14 +150,17 @@ export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot
               handleEstimatePointError={(
                 newValue: string,
                 message: string | undefined,
-                mode: "add" | "delete" = "add"
+                mode: "add" | "delete" = "add",
               ) =>
-                handleEstimatePointError && handleEstimatePointError(value.key, value.value, newValue, message, mode)
+                handleEstimatePointError &&
+                handleEstimatePointError(value.key, value.value, newValue, message, mode)
               }
             />
           )}
           onChange={(data: TEstimatePointsObject[]) => handleDragEstimatePoints(data)}
-          keyExtractor={(item: TEstimatePointsObject) => item?.id?.toString() || item.value.toString()}
+          keyExtractor={(item: TEstimatePointsObject) =>
+            item?.id?.toString() || item.value.toString()
+          }
         />
       </div>
 
@@ -164,17 +179,28 @@ export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot
             closeCallBack={() => handleEstimatePointCreate("remove", estimatePoint)}
             handleCreateCallback={() => estimatePointCreate.length === 1 && handleCreate()}
             estimatePointError={estimatePointError?.[estimatePoint.key] || undefined}
-            handleEstimatePointError={(newValue: string, message: string | undefined, mode: "add" | "delete" = "add") =>
+            handleEstimatePointError={(
+              newValue: string,
+              message: string | undefined,
+              mode: "add" | "delete" = "add",
+            ) =>
               handleEstimatePointError &&
-              handleEstimatePointError(estimatePoint.key, estimatePoint.value, newValue, message, mode)
+              handleEstimatePointError(
+                estimatePoint.key,
+                estimatePoint.value,
+                newValue,
+                message,
+                mode,
+              )
             }
           />
         ))}
-      {estimatePoints && estimatePoints.length + (estimatePointCreate?.length || 0) <= estimateCount.max - 1 && (
-        <Button variant="link" prependIcon={<PlusIcon />} onClick={handleCreate}>
-          Add {estimateType}
-        </Button>
-      )}
+      {estimatePoints &&
+        estimatePoints.length + (estimatePointCreate?.length || 0) <= estimateCount.max - 1 && (
+          <Button variant="link" prependIcon={<PlusIcon />} onClick={handleCreate}>
+            Add {estimateType}
+          </Button>
+        )}
     </div>
   );
 });

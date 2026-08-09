@@ -21,7 +21,10 @@ import { sanitizeHTML } from "@plane/utils";
 
 // editor extension configs
 const RICH_TEXT_EDITOR_EXTENSIONS = CoreEditorExtensionsWithoutProps;
-const DOCUMENT_EDITOR_EXTENSIONS = [...CoreEditorExtensionsWithoutProps, ...DocumentEditorExtensionsWithoutProps];
+const DOCUMENT_EDITOR_EXTENSIONS = [
+  ...CoreEditorExtensionsWithoutProps,
+  ...DocumentEditorExtensionsWithoutProps,
+];
 export const TITLE_EDITOR_EXTENSIONS: Extensions = TitleExtensions;
 // editor schemas
 const richTextEditorSchema = getSchema(RICH_TEXT_EDITOR_EXTENSIONS);
@@ -103,7 +106,10 @@ export const generateTitleProsemirrorJson = (text: string): JSONContent => {
  * @param {string} [title] - Optional title to append to the document
  * @returns {Uint8Array}
  */
-export const getBinaryDataFromDocumentEditorHTMLString = (descriptionHTML: string, title?: string): Uint8Array => {
+export const getBinaryDataFromDocumentEditorHTMLString = (
+  descriptionHTML: string,
+  title?: string,
+): Uint8Array => {
   // convert HTML to JSON
   const contentJSON = generateJSON(descriptionHTML ?? "<p></p>", DOCUMENT_EDITOR_EXTENSIONS);
   // convert JSON to Y.Doc format
@@ -129,7 +135,7 @@ export const getBinaryDataFromDocumentEditorHTMLString = (descriptionHTML: strin
  * @returns
  */
 export const getAllDocumentFormatsFromRichTextEditorBinaryData = (
-  description: Uint8Array
+  description: Uint8Array,
 ): {
   contentBinaryEncoded: string;
   contentJSON: object;
@@ -159,7 +165,7 @@ export const getAllDocumentFormatsFromRichTextEditorBinaryData = (
  */
 export const getAllDocumentFormatsFromDocumentEditorBinaryData = (
   description: Uint8Array,
-  updateTitle: boolean
+  updateTitle: boolean,
 ): {
   contentBinaryEncoded: string;
   contentJSON: object;
@@ -209,7 +215,9 @@ type TConvertHTMLDocumentToAllFormatsArgs = {
  * @returns {TDocumentPayload} Object containing the document in all supported formats
  * @throws {Error} If an invalid variant is provided
  */
-export const convertHTMLDocumentToAllFormats = (args: TConvertHTMLDocumentToAllFormatsArgs): TDocumentPayload => {
+export const convertHTMLDocumentToAllFormats = (
+  args: TConvertHTMLDocumentToAllFormatsArgs,
+): TDocumentPayload => {
   const { document_html, variant } = args;
 
   let allFormats: TDocumentPayload;
@@ -229,10 +237,8 @@ export const convertHTMLDocumentToAllFormats = (args: TConvertHTMLDocumentToAllF
     // Convert HTML to binary format for document editor
     const contentBinary = getBinaryDataFromDocumentEditorHTMLString(document_html);
     // Generate all document formats from the binary data
-    const { contentBinaryEncoded, contentHTML, contentJSON } = getAllDocumentFormatsFromDocumentEditorBinaryData(
-      contentBinary,
-      false
-    );
+    const { contentBinaryEncoded, contentHTML, contentJSON } =
+      getAllDocumentFormatsFromDocumentEditorBinaryData(contentBinary, false);
     allFormats = {
       description_json: contentJSON,
       description_html: contentHTML,

@@ -63,7 +63,7 @@ export function DropdownOptions(props: IMultiSelectDropdownOptions | ISingleSele
                         "text-primary": selected,
                         "text-secondary": !selected,
                       },
-                      option.className && option.className({ active, selected })
+                      option.className && option.className({ active, selected }),
                     )
                   }
                   onClick={handleClose}
@@ -71,7 +71,13 @@ export function DropdownOptions(props: IMultiSelectDropdownOptions | ISingleSele
                   {({ selected }) => (
                     <>
                       {renderItem ? (
-                        <>{renderItem({ value: keyExtractor(option), selected, disabled: option.disabled })}</>
+                        <>
+                          {renderItem({
+                            value: keyExtractor(option),
+                            selected,
+                            disabled: option.disabled,
+                          })}
+                        </>
                       ) : (
                         <>
                           <span className="flex-grow truncate">{option.value}</span>

@@ -84,7 +84,7 @@ export const useResponsiveTabLayout = ({
         resizeObserverRef.current = null;
       }
     },
-    []
+    [],
   );
 
   // Calculate how many items can fit
@@ -124,7 +124,7 @@ export const useResponsiveTabLayout = ({
   // Memoize active tab index to prevent unnecessary re-renders
   const activeTabIndex = useMemo(
     () => visibleNavigationItems.findIndex((item) => isActive(item)),
-    [visibleNavigationItems, isActive]
+    [visibleNavigationItems, isActive],
   );
 
   // Smart pinning logic: calculate visible and overflow items

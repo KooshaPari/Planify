@@ -9,7 +9,10 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { GripVertical, X } from "lucide-react";
 // plane imports
-import { WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS_LINKS, EUserPermissionsLevel } from "@plane/constants";
+import {
+  WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS_LINKS,
+  EUserPermissionsLevel,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { Checkbox, EModalPosition, EModalWidth, ModalCore, Sortable } from "@plane/ui";
 import { cn } from "@plane/utils";
@@ -44,7 +47,7 @@ const PERSONAL_ITEMS: Array<{ key: TPersonalNavigationItemKey; labelTranslationK
 ];
 
 export const CustomizeNavigationDialog = observer(function CustomizeNavigationDialog(
-  props: TCustomizeNavigationDialogProps
+  props: TCustomizeNavigationDialogProps,
 ) {
   const { isOpen, onClose } = props;
   const { t } = useTranslation();
@@ -72,7 +75,9 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
   } = useWorkspaceNavigationPreferences();
 
   // local state for limited projects count input
-  const [projectCountInput, setProjectCountInput] = useState(projectPreferences.limitedProjectsCount.toString());
+  const [projectCountInput, setProjectCountInput] = useState(
+    projectPreferences.limitedProjectsCount.toString(),
+  );
 
   // Filter personal items by feature flags
   const filteredPersonalItems = PERSONAL_ITEMS;
@@ -84,7 +89,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
       const hasPermission = allowPermissions(
         item.access,
         EUserPermissionsLevel.WORKSPACE,
-        workspaceSlug?.toString() || ""
+        workspaceSlug?.toString() || "",
       );
       return hasPermission;
     }).map((item) => {
@@ -109,7 +114,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
     (itemKey: string, checked: boolean) => {
       toggleWorkspaceItem(itemKey, checked);
     },
-    [toggleWorkspaceItem]
+    [toggleWorkspaceItem],
   );
 
   // Handle reorder of pinned workspace items
@@ -121,7 +126,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
       }));
       updateWorkspaceItemOrder(itemsWithOrder);
     },
-    [updateWorkspaceItemOrder]
+    [updateWorkspaceItemOrder],
   );
 
   // Handle reorder of enabled personal items
@@ -133,7 +138,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
       }));
       updatePersonalItemOrder(itemsWithOrder);
     },
-    [updatePersonalItemOrder]
+    [updatePersonalItemOrder],
   );
 
   // Separate personal items into enabled/disabled
@@ -178,15 +183,21 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={onClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={onClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <div className="flex max-h-[90vh] flex-col rounded-lg bg-surface-1">
         {/* Header */}
         <div className="flex justify-between px-6 pt-4">
           <div>
             <h2 className="text-18 font-semibold text-primary">{t("customize_navigation")}</h2>
             <p className="mt-1 text-13 text-tertiary">
-              Selected items will always stay visible in your sidebar. You can still find the others anytime from the
-              More menu. These changes are personal to you and won&apos;t affect anyone else on your workspace.
+              Selected items will always stay visible in your sidebar. You can still find the others
+              anytime from the More menu. These changes are personal to you and won&apos;t affect
+              anyone else on your workspace.
             </p>
           </div>
           <button
@@ -276,9 +287,12 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
                       className="mt-1 size-4 text-accent-primary focus:ring-accent-strong"
                     />
                     <div className="flex-1">
-                      <div className="text-13 text-primary">{t("accordion_navigation_control")}</div>
+                      <div className="text-13 text-primary">
+                        {t("accordion_navigation_control")}
+                      </div>
                       <div className="text-11 text-secondary">
-                        Feature tabs will appear as nested items under project and acts as accordion.
+                        Feature tabs will appear as nested items under project and acts as
+                        accordion.
                       </div>
                     </div>
                   </label>
@@ -308,14 +322,18 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
                       checked={projectPreferences.showLimitedProjects}
                       onChange={(e) => updateShowLimitedProjects(e.target.checked)}
                     />
-                    <span className="text-13 text-primary">{t("show_limited_projects_on_sidebar")}</span>
+                    <span className="text-13 text-primary">
+                      {t("show_limited_projects_on_sidebar")}
+                    </span>
                   </label>
 
                   {projectPreferences.showLimitedProjects && (
                     <div className="pl-8">
                       <div className="flex w-full flex-col gap-1">
                         <div className="flex w-full flex-col gap-2 pb-1.5">
-                          <label className="w-full text-11 text-secondary">{t("enter_number_of_projects")}</label>
+                          <label className="w-full text-11 text-secondary">
+                            {t("enter_number_of_projects")}
+                          </label>
                           <input
                             type="number"
                             min="1"
@@ -329,12 +347,14 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
                               "text-secondary",
                               parseInt(projectCountInput) >= 1
                                 ? "border-strong focus:border-accent-strong focus:ring-1 focus:ring-accent-strong"
-                                : "border-danger-strong focus:border-danger-strong focus:ring-1 focus:ring-danger-strong"
+                                : "border-danger-strong focus:border-danger-strong focus:ring-1 focus:ring-danger-strong",
                             )}
                           />
                         </div>
                         {parseInt(projectCountInput) < 1 && projectCountInput !== "" && (
-                          <span className="pl-0.5 text-11 text-danger-primary">Minimum value is 1</span>
+                          <span className="pl-0.5 text-11 text-danger-primary">
+                            Minimum value is 1
+                          </span>
                         )}
                       </div>
                     </div>

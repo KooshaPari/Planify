@@ -21,7 +21,7 @@ type TCreateIssueToastActionItems = {
 };
 
 export const CreateIssueToastActionItems = observer(function CreateIssueToastActionItems(
-  props: TCreateIssueToastActionItems
+  props: TCreateIssueToastActionItems,
 ) {
   const { workspaceSlug, issueId, isEpic = false } = props;
   // state

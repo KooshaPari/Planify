@@ -16,7 +16,7 @@ export const useAutoScroller = (
   containerRef: RefObject<HTMLDivElement>,
   shouldScroll = false,
   leftOffset = 0,
-  topOffset = 0
+  topOffset = 0,
 ) => {
   const containerDimensions = useRef<DOMRect | undefined>();
   const intervalId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);

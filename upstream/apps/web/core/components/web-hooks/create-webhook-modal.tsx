@@ -28,7 +28,7 @@ interface ICreateWebhookModal {
   clearSecretKey: () => void;
   createWebhook: (
     workspaceSlug: string,
-    data: Partial<IWebhook>
+    data: Partial<IWebhook>,
   ) => Promise<{
     webHook: IWebhook;
     secretKey: string | null;
@@ -87,7 +87,8 @@ export function CreateWebhookModal(props: ICreateWebhookModal) {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("workspace_settings.settings.webhooks.toasts.not_created.title"),
-          message: error?.error ?? t("workspace_settings.settings.webhooks.toasts.not_created.message"),
+          message:
+            error?.error ?? t("workspace_settings.settings.webhooks.toasts.not_created.message"),
         });
       });
   };
@@ -105,7 +106,12 @@ export function CreateWebhookModal(props: ICreateWebhookModal) {
   });
 
   return (
-    <ModalCore isOpen={isOpen} position={EModalPosition.TOP} width={EModalWidth.XXL} className="p-4 pb-0">
+    <ModalCore
+      isOpen={isOpen}
+      position={EModalPosition.TOP}
+      width={EModalWidth.XXL}
+      className="p-4 pb-0"
+    >
       {!generatedWebhook ? (
         <WebhookForm onSubmit={handleCreateWebhook} handleClose={handleClose} />
       ) : (

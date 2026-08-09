@@ -39,7 +39,7 @@ export interface IProjectViewIssuesFilter extends IBaseIssueFilterStore {
     viewId: string,
     cursor: string | undefined,
     groupId: string | undefined,
-    subGroupId: string | undefined
+    subGroupId: string | undefined,
   ) => Partial<Record<TIssueParams, string | boolean>>;
   getIssueFilters(viewId: string): IIssueFilters | undefined;
   // helper actions
@@ -50,19 +50,22 @@ export interface IProjectViewIssuesFilter extends IBaseIssueFilterStore {
     workspaceSlug: string,
     projectId: string,
     viewId: string,
-    filters: TWorkItemFilterExpression
+    filters: TWorkItemFilterExpression,
   ) => Promise<void>;
   updateFilters: (
     workspaceSlug: string,
     projectId: string,
     filterType: TSupportedFilterTypeForUpdate,
     filters: TSupportedFilterForUpdate,
-    viewId: string
+    viewId: string,
   ) => Promise<void>;
   resetFilters: (workspaceSlug: string, viewId: string) => void;
 }
 
-export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements IProjectViewIssuesFilter {
+export class ProjectViewIssuesFilter
+  extends IssueFilterHelperStore
+  implements IProjectViewIssuesFilter
+{
   // observables
   filters: { [viewId: string]: IIssueFilters } = {};
   // root store
@@ -116,14 +119,18 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
     const userFilters = this.getIssueFilters(viewId);
     if (!userFilters) return undefined;
 
-    const filteredParams = handleIssueQueryParamsByLayout(userFilters?.displayFilters?.layout, "issues");
+    const filteredParams = handleIssueQueryParamsByLayout(
+      userFilters?.displayFilters?.layout,
+      "issues",
+    );
     if (!filteredParams) return undefined;
 
-    const filteredRouteParams: Partial<Record<TIssueParams, string | boolean>> = this.computedFilteredParams(
-      userFilters?.richFilters,
-      userFilters?.displayFilters,
-      filteredParams
-    );
+    const filteredRouteParams: Partial<Record<TIssueParams, string | boolean>> =
+      this.computedFilteredParams(
+        userFilters?.richFilters,
+        userFilters?.displayFilters,
+        filteredParams,
+      );
 
     return filteredRouteParams;
   }
@@ -134,48 +141,64 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
       viewId: string,
       cursor: string | undefined,
       groupId: string | undefined,
-      subGroupId: string | undefined
+      subGroupId: string | undefined,
     ) => {
       const filterParams = this.getAppliedFilters(viewId);
 
-      const paginationParams = this.getPaginationParams(filterParams, options, cursor, groupId, subGroupId);
+      const paginationParams = this.getPaginationParams(
+        filterParams,
+        options,
+        cursor,
+        groupId,
+        subGroupId,
+      );
       return paginationParams;
-    }
+    },
   );
 
-  mutateFilters: IProjectViewIssuesFilter["mutateFilters"] = action((workspaceSlug, viewId, viewDetails) => {
-    const richFilters: TWorkItemFilterExpression = viewDetails?.rich_filters;
-    const displayFilters: IIssueDisplayFilterOptions = this.computedDisplayFilters(viewDetails?.display_filters);
-    const displayProperties: IIssueDisplayProperties = this.computedDisplayProperties(viewDetails?.display_properties);
-
-    // fetching the kanban toggle helpers in the local storage
-    const kanbanFilters = {
-      group_by: [],
-      sub_group_by: [],
-    };
-    const currentUserId = this.rootIssueStore.currentUserId;
-    if (currentUserId) {
-      const _kanbanFilters = this.handleIssuesLocalFilters.get(
-        EIssuesStoreType.PROJECT_VIEW,
-        workspaceSlug,
-        viewId,
-        currentUserId
+  mutateFilters: IProjectViewIssuesFilter["mutateFilters"] = action(
+    (workspaceSlug, viewId, viewDetails) => {
+      const richFilters: TWorkItemFilterExpression = viewDetails?.rich_filters;
+      const displayFilters: IIssueDisplayFilterOptions = this.computedDisplayFilters(
+        viewDetails?.display_filters,
       );
-      kanbanFilters.group_by = _kanbanFilters?.kanban_filters?.group_by || [];
-      kanbanFilters.sub_group_by = _kanbanFilters?.kanban_filters?.sub_group_by || [];
-    }
+      const displayProperties: IIssueDisplayProperties = this.computedDisplayProperties(
+        viewDetails?.display_properties,
+      );
 
-    runInAction(() => {
-      set(this.filters, [viewId, "richFilters"], richFilters);
-      set(this.filters, [viewId, "displayFilters"], displayFilters);
-      set(this.filters, [viewId, "displayProperties"], displayProperties);
-      set(this.filters, [viewId, "kanbanFilters"], kanbanFilters);
-    });
-  });
+      // fetching the kanban toggle helpers in the local storage
+      const kanbanFilters = {
+        group_by: [],
+        sub_group_by: [],
+      };
+      const currentUserId = this.rootIssueStore.currentUserId;
+      if (currentUserId) {
+        const _kanbanFilters = this.handleIssuesLocalFilters.get(
+          EIssuesStoreType.PROJECT_VIEW,
+          workspaceSlug,
+          viewId,
+          currentUserId,
+        );
+        kanbanFilters.group_by = _kanbanFilters?.kanban_filters?.group_by || [];
+        kanbanFilters.sub_group_by = _kanbanFilters?.kanban_filters?.sub_group_by || [];
+      }
+
+      runInAction(() => {
+        set(this.filters, [viewId, "richFilters"], richFilters);
+        set(this.filters, [viewId, "displayFilters"], displayFilters);
+        set(this.filters, [viewId, "displayProperties"], displayProperties);
+        set(this.filters, [viewId, "kanbanFilters"], kanbanFilters);
+      });
+    },
+  );
 
   fetchFilters = async (workspaceSlug: string, projectId: string, viewId: string) => {
     try {
-      const viewDetails = await this.issueFilterService.getViewDetails(workspaceSlug, projectId, viewId);
+      const viewDetails = await this.issueFilterService.getViewDetails(
+        workspaceSlug,
+        projectId,
+        viewId,
+      );
       this.mutateFilters(workspaceSlug, viewId, viewDetails);
     } catch (error) {
       console.log("error while fetching project view filters", error);
@@ -192,7 +215,7 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
     workspaceSlug,
     projectId,
     viewId,
-    filters
+    filters,
   ) => {
     try {
       runInAction(() => {
@@ -203,7 +226,7 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
         workspaceSlug,
         projectId,
         viewId,
-        "mutation"
+        "mutation",
       );
     } catch (error) {
       console.log("error while updating rich filters", error);
@@ -216,7 +239,7 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
     projectId,
     type,
     filters,
-    viewId
+    viewId,
   ) => {
     try {
       if (isEmpty(this.filters) || isEmpty(this.filters[viewId])) return;
@@ -247,7 +270,10 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
             updatedDisplayFilters.sub_group_by = null;
           }
           // set group_by to state if layout is switched to kanban and group_by is null
-          if (_filters.displayFilters.layout === "kanban" && _filters.displayFilters.group_by === null) {
+          if (
+            _filters.displayFilters.layout === "kanban" &&
+            _filters.displayFilters.group_by === null
+          ) {
             _filters.displayFilters.group_by = "state";
             updatedDisplayFilters.group_by = "state";
           }
@@ -257,7 +283,7 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
               set(
                 this.filters,
                 [viewId, "displayFilters", _key],
-                updatedDisplayFilters[_key as keyof IIssueDisplayFilterOptions]
+                updatedDisplayFilters[_key as keyof IIssueDisplayFilterOptions],
               );
             });
           });
@@ -271,7 +297,7 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
               workspaceSlug,
               projectId,
               viewId,
-              "mutation"
+              "mutation",
             );
           }
 
@@ -279,14 +305,17 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
         }
         case EIssueFilterType.DISPLAY_PROPERTIES: {
           const updatedDisplayProperties = filters as IIssueDisplayProperties;
-          _filters.displayProperties = { ..._filters.displayProperties, ...updatedDisplayProperties };
+          _filters.displayProperties = {
+            ..._filters.displayProperties,
+            ...updatedDisplayProperties,
+          };
 
           runInAction(() => {
             Object.keys(updatedDisplayProperties).forEach((_key) => {
               set(
                 this.filters,
                 [viewId, "displayProperties", _key],
-                updatedDisplayProperties[_key as keyof IIssueDisplayProperties]
+                updatedDisplayProperties[_key as keyof IIssueDisplayProperties],
               );
             });
           });
@@ -307,7 +336,7 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
               currentUserId,
               {
                 kanban_filters: _filters.kanbanFilters,
-              }
+              },
             );
 
           runInAction(() => {
@@ -315,7 +344,7 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
               set(
                 this.filters,
                 [viewId, "kanbanFilters", _key],
-                updatedKanbanFilters[_key as keyof TIssueKanbanFilters]
+                updatedKanbanFilters[_key as keyof TIssueKanbanFilters],
               );
             });
           });

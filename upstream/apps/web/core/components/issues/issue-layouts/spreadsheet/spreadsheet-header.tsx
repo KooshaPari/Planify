@@ -42,9 +42,11 @@ export const SpreadsheetHeader = observer(function SpreadsheetHeader(props: Prop
   // router
   const { projectId } = useParams();
   // derived values
-  const isGroupSelectionEmpty = selectionHelpers.isGroupSelected(SPREADSHEET_SELECT_GROUP) === "empty";
+  const isGroupSelectionEmpty =
+    selectionHelpers.isGroupSelected(SPREADSHEET_SELECT_GROUP) === "empty";
   // auth
-  const canSelectIssues = canEditProperties(projectId?.toString()) && !selectionHelpers.isSelectionDisabled;
+  const canSelectIssues =
+    canEditProperties(projectId?.toString()) && !selectionHelpers.isSelectionDisabled;
 
   return (
     <thead className="sticky top-0 left-0 z-[12] border-b-[0.5px] border-subtle">
@@ -64,7 +66,7 @@ export const SpreadsheetHeader = observer(function SpreadsheetHeader(props: Prop
                       "pointer-events-none size-3.5 opacity-0 !outline-none group-hover/list-header:pointer-events-auto group-hover/list-header:opacity-100",
                       {
                         "pointer-events-auto opacity-100": !isGroupSelectionEmpty,
-                      }
+                      },
                     )}
                     groupID={SPREADSHEET_SELECT_GROUP}
                     selectionHelpers={selectionHelpers}

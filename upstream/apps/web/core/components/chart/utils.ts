@@ -5,7 +5,11 @@
  */
 
 import { getWeekOfMonth, isValid } from "date-fns";
-import { CHART_X_AXIS_DATE_PROPERTIES, ChartXAxisDateGrouping, TO_CAPITALIZE_PROPERTIES } from "@plane/constants";
+import {
+  CHART_X_AXIS_DATE_PROPERTIES,
+  ChartXAxisDateGrouping,
+  TO_CAPITALIZE_PROPERTIES,
+} from "@plane/constants";
 import type { ChartXAxisProperty, TChart, TChartDatum } from "@plane/types";
 import {
   capitalizeFirstLetter,
@@ -59,7 +63,7 @@ export const parseChartData = (
   data: TChart | null | undefined,
   xAxisProperty: ChartXAxisProperty | null | undefined,
   groupByProperty: ChartXAxisProperty | null | undefined,
-  xAxisDateGrouping: ChartXAxisDateGrouping | null | undefined
+  xAxisDateGrouping: ChartXAxisDateGrouping | null | undefined,
 ): TChart => {
   if (!data) {
     return {
@@ -73,7 +77,9 @@ export const parseChartData = (
   const updatedWidgetData: TChartDatum[] = widgetData.map((datum) => {
     const keys = Object.keys(datum);
     const missingKeys = allKeys.filter((key) => !keys.includes(key));
-    const missingValues: Record<string, number> = Object.fromEntries(missingKeys.map((key) => [key, 0]));
+    const missingValues: Record<string, number> = Object.fromEntries(
+      missingKeys.map((key) => [key, 0]),
+    );
 
     if (xAxisProperty) {
       // capitalize first letter if xAxisProperty is in TO_CAPITALIZE_PROPERTIES and no groupByProperty is set
@@ -83,7 +89,10 @@ export const parseChartData = (
 
       // parse timestamp to visual date if xAxisProperty is in WIDGET_X_AXIS_DATE_PROPERTIES
       if (CHART_X_AXIS_DATE_PROPERTIES.includes(xAxisProperty)) {
-        datum.name = getDateGroupingName(datum.name, xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY);
+        datum.name = getDateGroupingName(
+          datum.name,
+          xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY,
+        );
       }
     }
 
@@ -104,7 +113,10 @@ export const parseChartData = (
 
     if (CHART_X_AXIS_DATE_PROPERTIES.includes(groupByProperty)) {
       Object.keys(updatedSchema).forEach((key) => {
-        updatedSchema[key] = getDateGroupingName(updatedSchema[key], xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY);
+        updatedSchema[key] = getDateGroupingName(
+          updatedSchema[key],
+          xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY,
+        );
       });
     }
   }
@@ -169,7 +181,7 @@ export const generateExtendedColors = (baseColorSet: string[], targetCount: numb
           h: newHue,
           s: finalSat,
           l: finalLight,
-        })
+        }),
       );
     }
   }

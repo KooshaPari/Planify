@@ -6,7 +6,14 @@
 
 import { observer } from "mobx-react";
 // plane imports
-import type { TGroupedIssues, TIssue, TIssueMap, TPaginationData, ICalendarDate, ICalendarWeek } from "@plane/types";
+import type {
+  TGroupedIssues,
+  TIssue,
+  TIssueMap,
+  TPaginationData,
+  ICalendarDate,
+  ICalendarWeek,
+} from "@plane/types";
 import { cn, getOrderedDays, renderFormattedPayloadDate } from "@plane/utils";
 // hooks
 import { useUserProfile } from "@/hooks/store/user";
@@ -19,7 +26,11 @@ import type { TRenderQuickActions } from "../list/list-view-types";
 import { CalendarDayTile } from "./day-tile";
 
 type Props = {
-  issuesFilterStore: IProjectIssuesFilter | IModuleIssuesFilter | ICycleIssuesFilter | IProjectViewIssuesFilter;
+  issuesFilterStore:
+    | IProjectIssuesFilter
+    | IModuleIssuesFilter
+    | ICycleIssuesFilter
+    | IProjectViewIssuesFilter;
   issues: TIssueMap | undefined;
   groupedIssueIds: TGroupedIssues;
   week: ICalendarWeek | undefined;
@@ -29,12 +40,15 @@ type Props = {
   getGroupIssueCount: (groupId: string | undefined) => number | undefined;
   enableQuickIssueCreate?: boolean;
   disableIssueCreation?: boolean;
-  quickAddCallback?: (projectId: string | null | undefined, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddCallback?: (
+    projectId: string | null | undefined,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   handleDragAndDrop: (
     issueId: string | undefined,
     issueProjectId: string | undefined,
     sourceDate: string | undefined,
-    destinationDate: string | undefined
+    destinationDate: string | undefined,
   ) => Promise<void>;
   addIssuesToView?: (issueIds: string[]) => Promise<any>;
   readOnly?: boolean;
@@ -69,8 +83,10 @@ export const CalendarWeekDays = observer(function CalendarWeekDays(props: Props)
   const { data } = useUserProfile();
   const startOfWeek = data?.start_of_the_week;
 
-  const calendarLayout = issuesFilterStore?.issueFilters?.displayFilters?.calendar?.layout ?? "month";
-  const showWeekends = issuesFilterStore?.issueFilters?.displayFilters?.calendar?.show_weekends ?? false;
+  const calendarLayout =
+    issuesFilterStore?.issueFilters?.displayFilters?.calendar?.layout ?? "month";
+  const showWeekends =
+    issuesFilterStore?.issueFilters?.displayFilters?.calendar?.show_weekends ?? false;
 
   if (!week) return null;
 
@@ -80,7 +96,11 @@ export const CalendarWeekDays = observer(function CalendarWeekDays(props: Props)
     return !(day === 0 || day === 6);
   };
 
-  const sortedWeekDays = getOrderedDays(Object.values(week), (item) => item.date.getDay(), startOfWeek);
+  const sortedWeekDays = getOrderedDays(
+    Object.values(week),
+    (item) => item.date.getDay(),
+    startOfWeek,
+  );
 
   return (
     <div

@@ -33,7 +33,16 @@ type Props = {
 };
 
 export function EditorContainer(props: Props) {
-  const { children, displayConfig, editor, editorContainerClassName, id, isTouchDevice, provider, state } = props;
+  const {
+    children,
+    displayConfig,
+    editor,
+    editorContainerClassName,
+    id,
+    isTouchDevice,
+    provider,
+    state,
+  } = props;
   // refs
   const containerRef = useRef<HTMLDivElement>(null);
   const hasScrolledOnce = useRef(false);
@@ -75,7 +84,7 @@ export function EditorContainer(props: Props) {
       return true;
     },
 
-    [editor]
+    [editor],
   );
 
   useEffect(() => {
@@ -149,7 +158,10 @@ export function EditorContainer(props: Props) {
         }
       }
     } catch (error) {
-      console.error("An error occurred while handling container click to insert new empty node at bottom:", error);
+      console.error(
+        "An error occurred while handling container click to insert new empty node at bottom:",
+        error,
+      );
     }
   };
 
@@ -174,7 +186,7 @@ export function EditorContainer(props: Props) {
           },
           displayConfig.fontSize ?? DEFAULT_DISPLAY_CONFIG.fontSize,
           displayConfig.fontStyle ?? DEFAULT_DISPLAY_CONFIG.fontStyle,
-          editorContainerClassName
+          editorContainerClassName,
         )}
       >
         {children}

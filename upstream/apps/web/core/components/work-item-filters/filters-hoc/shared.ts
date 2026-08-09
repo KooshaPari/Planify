@@ -7,7 +7,12 @@
 // plane imports
 import type { TSaveViewOptions, TUpdateViewOptions } from "@plane/constants";
 import type { IWorkItemFilterInstance } from "@plane/shared-state";
-import type { EIssuesStoreType, IIssueFilters, TWorkItemFilterExpression, TWorkItemFilterProperty } from "@plane/types";
+import type {
+  EIssuesStoreType,
+  IIssueFilters,
+  TWorkItemFilterExpression,
+  TWorkItemFilterProperty,
+} from "@plane/types";
 
 export type TSharedWorkItemFiltersProps = {
   entityType: EIssuesStoreType; // entity type (project, cycle, workspace, teamspace, etc)
@@ -18,7 +23,9 @@ export type TSharedWorkItemFiltersProps = {
 } & ({ isTemporary: true; entityId?: string } | { isTemporary?: false; entityId: string }); // entity id (project_id, cycle_id, workspace_id, etc)
 
 export type TSharedWorkItemFiltersHOCProps = TSharedWorkItemFiltersProps & {
-  children: React.ReactNode | ((props: { filter: IWorkItemFilterInstance | undefined }) => React.ReactNode);
+  children:
+    | React.ReactNode
+    | ((props: { filter: IWorkItemFilterInstance | undefined }) => React.ReactNode);
   initialWorkItemFilters: IIssueFilters | undefined;
 };
 

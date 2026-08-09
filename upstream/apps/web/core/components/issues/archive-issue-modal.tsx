@@ -62,13 +62,18 @@ export function ArchiveIssueModal(props: Props) {
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
           message: t("issue.archive.failed.message"),
-        })
+        }),
       )
       .finally(() => setIsArchiving(false));
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={onClose} position={EModalPosition.CENTER} width={EModalWidth.LG}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={onClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.LG}
+    >
       <div className="px-5 py-4">
         <h3 className="text-18 font-medium 2xl:text-20">
           {t("issue.archive.label")} {projectDetails?.identifier} {issue.sequence_id}
@@ -78,7 +83,13 @@ export function ArchiveIssueModal(props: Props) {
           <Button variant="secondary" size="lg" onClick={onClose}>
             {t("common.cancel")}
           </Button>
-          <Button variant="primary" size="lg" tabIndex={1} onClick={handleArchiveIssue} loading={isArchiving}>
+          <Button
+            variant="primary"
+            size="lg"
+            tabIndex={1}
+            onClick={handleArchiveIssue}
+            loading={isArchiving}
+          >
             {isArchiving ? t("common.archiving") : t("common.archive")}
           </Button>
         </div>

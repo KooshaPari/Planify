@@ -17,7 +17,11 @@ export class InboxIssueService extends APIService {
     super(API_BASE_URL);
   }
 
-  async list(workspaceSlug: string, projectId: string, params = {}): Promise<TInboxIssueWithPagination> {
+  async list(
+    workspaceSlug: string,
+    projectId: string,
+    params = {},
+  ): Promise<TInboxIssueWithPagination> {
     return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/`, {
       params,
     })
@@ -27,9 +31,13 @@ export class InboxIssueService extends APIService {
       });
   }
 
-  async retrieve(workspaceSlug: string, projectId: string, inboxIssueId: string): Promise<TInboxIssue> {
+  async retrieve(
+    workspaceSlug: string,
+    projectId: string,
+    inboxIssueId: string,
+  ): Promise<TInboxIssue> {
     return this.get(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/${inboxIssueId}/?expand=issue_inbox`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/${inboxIssueId}/?expand=issue_inbox`,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -37,7 +45,11 @@ export class InboxIssueService extends APIService {
       });
   }
 
-  async create(workspaceSlug: string, projectId: string, data: Partial<TIssue>): Promise<TInboxIssue> {
+  async create(
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<TIssue>,
+  ): Promise<TInboxIssue> {
     return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/`, {
       source: EInboxIssueSource.IN_APP,
       issue: data,
@@ -52,9 +64,12 @@ export class InboxIssueService extends APIService {
     workspaceSlug: string,
     projectId: string,
     inboxIssueId: string,
-    data: Partial<TInboxIssue>
+    data: Partial<TInboxIssue>,
   ): Promise<TInboxIssue> {
-    return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/${inboxIssueId}/`, data)
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/${inboxIssueId}/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -65,11 +80,14 @@ export class InboxIssueService extends APIService {
     workspaceSlug: string,
     projectId: string,
     inboxIssueId: string,
-    data: Partial<TIssue>
+    data: Partial<TIssue>,
   ): Promise<TInboxIssue> {
-    return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/${inboxIssueId}/`, {
-      issue: data,
-    })
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/${inboxIssueId}/`,
+      {
+        issue: data,
+      },
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -77,7 +95,9 @@ export class InboxIssueService extends APIService {
   }
 
   async destroy(workspaceSlug: string, projectId: string, inboxIssueId: string): Promise<void> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/${inboxIssueId}/`)
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/${inboxIssueId}/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

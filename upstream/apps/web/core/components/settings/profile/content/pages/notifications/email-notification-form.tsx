@@ -24,7 +24,9 @@ type Props = {
 // services
 const userService = new UserService();
 
-export const NotificationsProfileSettingsForm = observer(function NotificationsProfileSettingsForm(props: Props) {
+export const NotificationsProfileSettingsForm = observer(function NotificationsProfileSettingsForm(
+  props: Props,
+) {
   const { data } = props;
   // translation
   const { t } = useTranslation();

@@ -19,15 +19,23 @@ type Props = {
   handleSelection: (data: unknown) => void;
 };
 
-export const PowerKAccountPreferencesPages = observer(function PowerKAccountPreferencesPages(props: Props) {
+export const PowerKAccountPreferencesPages = observer(function PowerKAccountPreferencesPages(
+  props: Props,
+) {
   const { activePage, handleSelection } = props;
 
   return (
     <>
       {activePage === "update-theme" && <PowerKPreferencesThemesMenu onSelect={handleSelection} />}
-      {activePage === "update-timezone" && <PowerKPreferencesTimezonesMenu onSelect={handleSelection} />}
-      {activePage === "update-start-of-week" && <PowerKPreferencesStartOfWeekMenu onSelect={handleSelection} />}
-      {activePage === "update-language" && <PowerKPreferencesLanguagesMenu onSelect={handleSelection} />}
+      {activePage === "update-timezone" && (
+        <PowerKPreferencesTimezonesMenu onSelect={handleSelection} />
+      )}
+      {activePage === "update-start-of-week" && (
+        <PowerKPreferencesStartOfWeekMenu onSelect={handleSelection} />
+      )}
+      {activePage === "update-language" && (
+        <PowerKPreferencesLanguagesMenu onSelect={handleSelection} />
+      )}
     </>
   );
 });

@@ -23,7 +23,12 @@ import { StickyEditorToolbar } from "./toolbar";
 
 interface StickyEditorWrapperProps extends Omit<
   Omit<ILiteTextEditorProps, "extendedEditorProps">,
-  "disabledExtensions" | "editable" | "flaggedExtensions" | "fileHandler" | "mentionHandler" | "getEditorMetaData"
+  | "disabledExtensions"
+  | "editable"
+  | "flaggedExtensions"
+  | "fileHandler"
+  | "mentionHandler"
+  | "getEditorMetaData"
 > {
   workspaceSlug: string;
   workspaceId: string;
@@ -44,7 +49,7 @@ interface StickyEditorWrapperProps extends Omit<
 
 export const StickyEditor = React.forwardRef(function StickyEditor(
   props: StickyEditorWrapperProps,
-  ref: React.ForwardedRef<EditorRefApi>
+  ref: React.ForwardedRef<EditorRefApi>,
 ) {
   const {
     containerClassName,
@@ -74,7 +79,9 @@ export const StickyEditor = React.forwardRef(function StickyEditor(
   });
   // editor config
   const { getEditorFileHandlers } = useEditorConfig();
-  function isMutableRefObject<T>(ref: React.ForwardedRef<T>): ref is React.MutableRefObject<T | null> {
+  function isMutableRefObject<T>(
+    ref: React.ForwardedRef<T>,
+  ): ref is React.MutableRefObject<T | null> {
     return !!ref && typeof ref === "object" && "current" in ref;
   }
   // derived values

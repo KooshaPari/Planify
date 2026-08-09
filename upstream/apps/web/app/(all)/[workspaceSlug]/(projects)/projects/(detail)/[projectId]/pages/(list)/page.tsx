@@ -50,7 +50,10 @@ function ProjectPagesPage({ params }: Route.ComponentProps) {
   // derived values
   const project = getProjectById(projectId);
   const pageTitle = project?.name ? `${project?.name} - Pages` : undefined;
-  const canPerformEmptyStateActions = allowPermissions([EUserProjectRoles.ADMIN], EUserPermissionsLevel.PROJECT);
+  const canPerformEmptyStateActions = allowPermissions(
+    [EUserProjectRoles.ADMIN],
+    EUserPermissionsLevel.PROJECT,
+  );
   const resolvedPath = resolvedTheme === "light" ? lightPagesAsset : darkPagesAsset;
   const pageType = getPageType(type);
 

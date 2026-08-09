@@ -26,10 +26,11 @@ import type { Route } from "./+types/page";
 import { InstanceGithubConfigForm } from "./form";
 
 const InstanceGithubAuthenticationPage = observer(function InstanceGithubAuthenticationPage(
-  _props: Route.ComponentProps
+  _props: Route.ComponentProps,
 ) {
   // store
-  const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } = useInstance();
+  const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } =
+    useInstance();
   // state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   // theme
@@ -80,7 +81,11 @@ const InstanceGithubAuthenticationPage = observer(function InstanceGithubAuthent
           description="Allow members to login or sign up to plane with their GitHub accounts."
           icon={
             <img
-              src={resolveGeneralTheme(resolvedTheme) === "dark" ? githubDarkModeImage : githubLightModeImage}
+              src={
+                resolveGeneralTheme(resolvedTheme) === "dark"
+                  ? githubDarkModeImage
+                  : githubLightModeImage
+              }
               height={24}
               width={24}
               alt="GitHub Logo"

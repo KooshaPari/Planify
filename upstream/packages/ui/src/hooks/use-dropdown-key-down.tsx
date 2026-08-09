@@ -11,11 +11,16 @@ type TUseDropdownKeyDown = {
     onOpen: () => void,
     onClose: () => void,
     isOpen: boolean,
-    selectActiveItem?: () => void
+    selectActiveItem?: () => void,
   ): (event: React.KeyboardEvent<HTMLElement>) => void;
 };
 
-export const useDropdownKeyDown: TUseDropdownKeyDown = (onOpen, onClose, isOpen, selectActiveItem?) => {
+export const useDropdownKeyDown: TUseDropdownKeyDown = (
+  onOpen,
+  onClose,
+  isOpen,
+  selectActiveItem?,
+) => {
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLElement>) => {
       if (event.key === "Enter" && !event.nativeEvent.isComposing) {
@@ -30,7 +35,7 @@ export const useDropdownKeyDown: TUseDropdownKeyDown = (onOpen, onClose, isOpen,
         onClose();
       }
     },
-    [isOpen, onOpen, onClose]
+    [isOpen, onOpen, onClose],
   );
 
   return handleKeyDown;

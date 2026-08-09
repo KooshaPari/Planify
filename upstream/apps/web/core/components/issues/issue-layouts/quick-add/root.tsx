@@ -44,7 +44,10 @@ type TQuickAddIssueRoot = {
   customQuickAddButton?: React.ReactNode;
   containerClassName?: string;
   setIsQuickAddOpen?: (isOpen: boolean) => void;
-  quickAddCallback?: (projectId: string | null | undefined, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddCallback?: (
+    projectId: string | null | undefined,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   isEpic?: boolean;
 };
 
@@ -140,7 +143,9 @@ export const QuickAddIssueRoot = observer(function QuickAddIssueRoot(props: TQui
     <div
       className={cn(
         containerClassName,
-        errors && errors?.name && errors?.name?.message ? `border-danger-strong bg-danger-subtle` : ``
+        errors && errors?.name && errors?.name?.message
+          ? `border-danger-strong bg-danger-subtle`
+          : ``,
       )}
     >
       {isOpen ? (
@@ -166,7 +171,9 @@ export const QuickAddIssueRoot = observer(function QuickAddIssueRoot(props: TQui
               onClick={() => handleIsOpen(true)}
             >
               <PlusIcon className="h-3.5 w-3.5 stroke-2" />
-              <span className="text-13 font-medium">{t(`${isEpic ? "epic.new" : "issue.new"}`)}</span>
+              <span className="text-13 font-medium">
+                {t(`${isEpic ? "epic.new" : "issue.new"}`)}
+              </span>
             </button>
           )}
         </>

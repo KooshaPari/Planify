@@ -48,15 +48,22 @@ export type ToolbarMenuItem<T extends TEditorCommands = TEditorCommands> = {
   extraProps?: ExtraPropsForCommand<T>;
 };
 
-export const TYPOGRAPHY_ITEMS: ToolbarMenuItem<"text" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6">[] = [
-  { itemKey: "text", renderKey: "text", name: "Text", icon: CaseSensitive, editors: ["document"] },
-  { itemKey: "h1", renderKey: "h1", name: "Heading 1", icon: Heading1, editors: ["document"] },
-  { itemKey: "h2", renderKey: "h2", name: "Heading 2", icon: Heading2, editors: ["document"] },
-  { itemKey: "h3", renderKey: "h3", name: "Heading 3", icon: Heading3, editors: ["document"] },
-  { itemKey: "h4", renderKey: "h4", name: "Heading 4", icon: Heading4, editors: ["document"] },
-  { itemKey: "h5", renderKey: "h5", name: "Heading 5", icon: Heading5, editors: ["document"] },
-  { itemKey: "h6", renderKey: "h6", name: "Heading 6", icon: Heading6, editors: ["document"] },
-];
+export const TYPOGRAPHY_ITEMS: ToolbarMenuItem<"text" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6">[] =
+  [
+    {
+      itemKey: "text",
+      renderKey: "text",
+      name: "Text",
+      icon: CaseSensitive,
+      editors: ["document"],
+    },
+    { itemKey: "h1", renderKey: "h1", name: "Heading 1", icon: Heading1, editors: ["document"] },
+    { itemKey: "h2", renderKey: "h2", name: "Heading 2", icon: Heading2, editors: ["document"] },
+    { itemKey: "h3", renderKey: "h3", name: "Heading 3", icon: Heading3, editors: ["document"] },
+    { itemKey: "h4", renderKey: "h4", name: "Heading 4", icon: Heading4, editors: ["document"] },
+    { itemKey: "h5", renderKey: "h5", name: "Heading 5", icon: Heading5, editors: ["document"] },
+    { itemKey: "h6", renderKey: "h6", name: "Heading 6", icon: Heading6, editors: ["document"] },
+  ];
 
 export const TEXT_ALIGNMENT_ITEMS: ToolbarMenuItem<"text-align">[] = [
   {
@@ -157,16 +164,30 @@ const LIST_ITEMS: ToolbarMenuItem<"bulleted-list" | "numbered-list" | "to-do-lis
 ];
 
 export const USER_ACTION_ITEMS: ToolbarMenuItem<"quote" | "code">[] = [
-  { itemKey: "quote", renderKey: "quote", name: "Quote", icon: TextQuote, editors: ["lite", "document"] },
+  {
+    itemKey: "quote",
+    renderKey: "quote",
+    name: "Quote",
+    icon: TextQuote,
+    editors: ["lite", "document"],
+  },
   { itemKey: "code", renderKey: "code", name: "Code", icon: Code2, editors: ["lite", "document"] },
 ];
 
 export const COMPLEX_ITEMS: ToolbarMenuItem<"table" | "image">[] = [
   { itemKey: "table", renderKey: "table", name: "Table", icon: Table, editors: ["document"] },
-  { itemKey: "image", renderKey: "image", name: "Image", icon: Image, editors: ["lite", "document"] },
+  {
+    itemKey: "image",
+    renderKey: "image",
+    name: "Image",
+    icon: Image,
+    editors: ["lite", "document"],
+  },
 ];
 
-export const IMAGE_ITEM = COMPLEX_ITEMS.find((item): item is ToolbarMenuItem<"image"> => item.itemKey === "image")!;
+export const IMAGE_ITEM = COMPLEX_ITEMS.find(
+  (item): item is ToolbarMenuItem<"image"> => item.itemKey === "image",
+)!;
 
 export const TOOLBAR_ITEMS: {
   [editorType in TEditorTypes]: {

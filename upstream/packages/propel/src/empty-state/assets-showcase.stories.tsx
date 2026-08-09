@@ -109,7 +109,9 @@ export const IllustrationAssets: Story = {
     <div className="p-8">
       <div className="mb-6">
         <h2 className="text-18 font-semibold text-primary">Illustration Assets</h2>
-        <p className="text-13 text-tertiary">Available in both EmptyStateCompact and EmptyStateDetailed</p>
+        <p className="text-13 text-tertiary">
+          Available in both EmptyStateCompact and EmptyStateDetailed
+        </p>
       </div>
       <div className="grid w-full grid-cols-12 gap-6">
         {IllustrationMap.map((item) => (
@@ -119,7 +121,9 @@ export const IllustrationAssets: Story = {
           >
             <div className="flex h-24 w-24 items-center justify-center">{item.asset}</div>
             <p className="text-center text-11 font-medium text-secondary">{item.title}</p>
-            <code className="rounded-sm bg-layer-1 px-2 py-1 text-11 text-tertiary">{item.title.toLowerCase()}</code>
+            <code className="rounded-sm bg-layer-1 px-2 py-1 text-11 text-tertiary">
+              {item.title.toLowerCase()}
+            </code>
           </div>
         ))}
       </div>
@@ -141,7 +145,9 @@ export const AllAssets: Story = {
       <div>
         <div className="mb-6">
           <h2 className="text-18 font-semibold text-primary">Horizontal Stack Assets</h2>
-          <p className="text-13 text-tertiary">For EmptyStateCompact - {HorizontalStackAssetsMap.length} assets</p>
+          <p className="text-13 text-tertiary">
+            For EmptyStateCompact - {HorizontalStackAssetsMap.length} assets
+          </p>
         </div>
         <div className="grid w-full grid-cols-12 gap-4">
           {HorizontalStackAssetsMap.map((item) => (
@@ -150,7 +156,9 @@ export const AllAssets: Story = {
               className="col-span-6 flex flex-col items-center justify-center gap-2 rounded-sm border border-subtle bg-surface-1 p-4 sm:col-span-3 lg:col-span-2"
             >
               <div className="flex h-16 w-16 items-center justify-center">{item.asset}</div>
-              <code className="text-10 text-placeholder">{item.title.toLowerCase().replace(/\s+/g, "-")}</code>
+              <code className="text-10 text-placeholder">
+                {item.title.toLowerCase().replace(/\s+/g, "-")}
+              </code>
             </div>
           ))}
         </div>
@@ -160,7 +168,9 @@ export const AllAssets: Story = {
       <div>
         <div className="mb-6">
           <h2 className="text-18 font-semibold text-primary">Vertical Stack Assets</h2>
-          <p className="text-13 text-tertiary">For EmptyStateDetailed - {VerticalStackAssetsMap.length} assets</p>
+          <p className="text-13 text-tertiary">
+            For EmptyStateDetailed - {VerticalStackAssetsMap.length} assets
+          </p>
         </div>
         <div className="grid w-full grid-cols-12 gap-4">
           {VerticalStackAssetsMap.map((item) => (
@@ -185,7 +195,9 @@ export const AllAssets: Story = {
       <div>
         <div className="mb-6">
           <h2 className="text-18 font-semibold text-primary">Illustration Assets</h2>
-          <p className="text-13 text-tertiary">For both components - {IllustrationMap.length} assets</p>
+          <p className="text-13 text-tertiary">
+            For both components - {IllustrationMap.length} assets
+          </p>
         </div>
         <div className="grid w-full grid-cols-12 gap-4">
           {IllustrationMap.map((item) => (

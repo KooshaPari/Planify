@@ -43,12 +43,15 @@ export interface ToolbarSubmitButtonProps extends React.ButtonHTMLAttributes<HTM
 
 const ToolbarRoot = React.forwardRef(function ToolbarRoot(
   { className, children, ...props }: ToolbarProps,
-  ref: React.ForwardedRef<HTMLDivElement>
+  ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   return (
     <div
       ref={ref}
-      className={cn("flex h-9 w-full items-stretch gap-1.5 overflow-x-scroll bg-surface-2", className)}
+      className={cn(
+        "flex h-9 w-full items-stretch gap-1.5 overflow-x-scroll bg-surface-2",
+        className,
+      )}
       {...props}
     >
       {children}
@@ -58,7 +61,7 @@ const ToolbarRoot = React.forwardRef(function ToolbarRoot(
 
 const ToolbarGroup = React.forwardRef(function ToolbarGroup(
   { className, children, isFirst = false, ...props }: ToolbarGroupProps,
-  ref: React.ForwardedRef<HTMLDivElement>
+  ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   return (
     <div
@@ -68,7 +71,7 @@ const ToolbarGroup = React.forwardRef(function ToolbarGroup(
         {
           "pl-0": isFirst,
         },
-        className
+        className,
       )}
       {...props}
     >
@@ -78,8 +81,16 @@ const ToolbarGroup = React.forwardRef(function ToolbarGroup(
 });
 
 const ToolbarItem = React.forwardRef(function ToolbarItem(
-  { icon: Icon, isActive = false, tooltip, shortcut, className, children, ...props }: ToolbarItemProps,
-  ref: React.ForwardedRef<HTMLButtonElement>
+  {
+    icon: Icon,
+    isActive = false,
+    tooltip,
+    shortcut,
+    className,
+    children,
+    ...props
+  }: ToolbarItemProps,
+  ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
   const button = (
     <button
@@ -90,7 +101,7 @@ const ToolbarItem = React.forwardRef(function ToolbarItem(
         {
           "bg-layer-1 text-primary": isActive,
         },
-        className
+        className,
       )}
       {...props}
     >
@@ -124,23 +135,32 @@ const ToolbarItem = React.forwardRef(function ToolbarItem(
 
 const ToolbarSeparator = React.forwardRef(function ToolbarSeparator(
   { className, ...props }: ToolbarSeparatorProps,
-  ref: React.ForwardedRef<HTMLDivElement>
+  ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   return <div ref={ref} className={cn("bg-subtle-1 mx-1 h-full w-px", className)} {...props} />;
 });
 
 const buttonVariants = {
   primary: "bg-accent-primary text-on-color hover:bg-accent-primary/80 focus:bg-accent-primary/80",
-  secondary: "bg-surface-1 text-secondary border border-subtle hover:bg-surface-2 focus:bg-surface-2",
+  secondary:
+    "bg-surface-1 text-secondary border border-subtle hover:bg-surface-2 focus:bg-surface-2",
   outline:
     "border border-accent-strong text-accent-primary bg-transparent hover:bg-accent-primary/10 focus:bg-accent-primary/20",
   ghost: "text-secondary hover:bg-surface-2 focus:bg-surface-2",
-  destructive: "bg-danger-primary text-on-color hover:bg-danger-primary-hover focus:bg-danger-primary-selected",
+  destructive:
+    "bg-danger-primary text-on-color hover:bg-danger-primary-hover focus:bg-danger-primary-selected",
 };
 
 const ToolbarSubmitButton = React.forwardRef(function ToolbarSubmitButton(
-  { loading = false, variant = "primary", className, children, disabled, ...props }: ToolbarSubmitButtonProps,
-  ref: React.ForwardedRef<HTMLButtonElement>
+  {
+    loading = false,
+    variant = "primary",
+    className,
+    children,
+    disabled,
+    ...props
+  }: ToolbarSubmitButtonProps,
+  ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
   return (
     <div className="sticky right-1">
@@ -151,12 +171,14 @@ const ToolbarSubmitButton = React.forwardRef(function ToolbarSubmitButton(
           "focus:ring-2 focus:ring-accent-strong/20 focus:ring-offset-2 focus:outline-none",
           "disabled:pointer-events-none disabled:opacity-50",
           buttonVariants[variant],
-          className
+          className,
         )}
         disabled={disabled || loading}
         {...props}
       >
-        {loading && <div className="h-3 w-3 animate-spin rounded-full border border-current border-t-transparent" />}
+        {loading && (
+          <div className="h-3 w-3 animate-spin rounded-full border border-current border-t-transparent" />
+        )}
         {children}
       </button>
     </div>

@@ -27,9 +27,14 @@ export class EstimateService extends APIService {
     }
   }
 
-  async fetchProjectEstimates(workspaceSlug: string, projectId: string): Promise<IEstimate[] | undefined> {
+  async fetchProjectEstimates(
+    workspaceSlug: string,
+    projectId: string,
+  ): Promise<IEstimate[] | undefined> {
     try {
-      const { data } = await this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/estimates/`);
+      const { data } = await this.get(
+        `/api/workspaces/${workspaceSlug}/projects/${projectId}/estimates/`,
+      );
       return data || undefined;
     } catch (error) {
       throw error;
@@ -39,11 +44,11 @@ export class EstimateService extends APIService {
   async fetchEstimateById(
     workspaceSlug: string,
     projectId: string,
-    estimateId: string
+    estimateId: string,
   ): Promise<IEstimate | undefined> {
     try {
       const { data } = await this.get(
-        `/api/workspaces/${workspaceSlug}/projects/${projectId}/estimates/${estimateId}/`
+        `/api/workspaces/${workspaceSlug}/projects/${projectId}/estimates/${estimateId}/`,
       );
       return data || undefined;
     } catch (error) {
@@ -54,19 +59,28 @@ export class EstimateService extends APIService {
   async createEstimate(
     workspaceSlug: string,
     projectId: string,
-    payload: IEstimateFormData
+    payload: IEstimateFormData,
   ): Promise<IEstimate | undefined> {
     try {
-      const { data } = await this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/estimates/`, payload);
+      const { data } = await this.post(
+        `/api/workspaces/${workspaceSlug}/projects/${projectId}/estimates/`,
+        payload,
+      );
       return data || undefined;
     } catch (error) {
       throw error;
     }
   }
 
-  async deleteEstimate(workspaceSlug: string, projectId: string, estimateId: string): Promise<void> {
+  async deleteEstimate(
+    workspaceSlug: string,
+    projectId: string,
+    estimateId: string,
+  ): Promise<void> {
     try {
-      await this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/estimates/${estimateId}/`);
+      await this.delete(
+        `/api/workspaces/${workspaceSlug}/projects/${projectId}/estimates/${estimateId}/`,
+      );
     } catch (error) {
       throw error;
     }
@@ -76,12 +90,12 @@ export class EstimateService extends APIService {
     workspaceSlug: string,
     projectId: string,
     estimateId: string,
-    payload: Partial<IEstimatePoint>
+    payload: Partial<IEstimatePoint>,
   ): Promise<IEstimatePoint | undefined> {
     try {
       const { data } = await this.post(
         `/api/workspaces/${workspaceSlug}/projects/${projectId}/estimates/${estimateId}/estimate-points/`,
-        payload
+        payload,
       );
       return data || undefined;
     } catch (error) {
@@ -94,12 +108,12 @@ export class EstimateService extends APIService {
     projectId: string,
     estimateId: string,
     estimatePointId: string,
-    payload: Partial<IEstimatePoint>
+    payload: Partial<IEstimatePoint>,
   ): Promise<IEstimatePoint | undefined> {
     try {
       const { data } = await this.patch(
         `/api/workspaces/${workspaceSlug}/projects/${projectId}/estimates/${estimateId}/estimate-points/${estimatePointId}/`,
-        payload
+        payload,
       );
       return data || undefined;
     } catch (error) {

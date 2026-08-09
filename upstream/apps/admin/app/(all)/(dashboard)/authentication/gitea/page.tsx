@@ -24,7 +24,8 @@ import { InstanceGiteaConfigForm } from "./form";
 
 const InstanceGiteaAuthenticationPage = observer(function InstanceGiteaAuthenticationPage() {
   // store
-  const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } = useInstance();
+  const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } =
+    useInstance();
   // state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   // config

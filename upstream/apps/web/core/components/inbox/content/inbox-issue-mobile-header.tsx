@@ -55,7 +55,9 @@ type Props = {
   handleActionWithPermission: (isAdmin: boolean, action: () => void, errorMessage: string) => void;
 };
 
-export const InboxIssueActionsMobileHeader = observer(function InboxIssueActionsMobileHeader(props: Props) {
+export const InboxIssueActionsMobileHeader = observer(function InboxIssueActionsMobileHeader(
+  props: Props,
+) {
   const {
     inboxIssue,
     isSubmitting,
@@ -108,7 +110,10 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
       )}
       <PanelLeft
         onClick={() => setIsMobileSidebar(!isMobileSidebar)}
-        className={cn("my-auto mr-2 h-4 w-4 flex-shrink-0", isMobileSidebar ? "text-accent-primary" : "text-secondary")}
+        className={cn(
+          "my-auto mr-2 h-4 w-4 flex-shrink-0",
+          isMobileSidebar ? "text-accent-primary" : "text-secondary",
+        )}
       />
       <div className="z-[15] flex w-full items-center gap-2 bg-surface-1">
         <div className="flex items-center gap-x-2">
@@ -161,13 +166,15 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
                   handleActionWithPermission(
                     isProjectAdmin,
                     handleIssueSnoozeAction,
-                    "Only project admins can snooze/Un-snooze work items"
+                    "Only project admins can snooze/Un-snooze work items",
                   )
                 }
               >
                 <div className="flex items-center gap-2">
                   <Clock size={14} strokeWidth={2} />
-                  {inboxIssue?.snoozed_till && numberOfDaysLeft && numberOfDaysLeft > 0 ? "Un-snooze" : "Snooze"}
+                  {inboxIssue?.snoozed_till && numberOfDaysLeft && numberOfDaysLeft > 0
+                    ? "Un-snooze"
+                    : "Snooze"}
                 </div>
               </CustomMenu.MenuItem>
             )}
@@ -177,7 +184,7 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
                   handleActionWithPermission(
                     isProjectAdmin,
                     () => setSelectDuplicateIssue(true),
-                    "Only project admins can mark work items as duplicate"
+                    "Only project admins can mark work items as duplicate",
                   )
                 }
               >
@@ -193,7 +200,7 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
                   handleActionWithPermission(
                     isProjectAdmin,
                     () => setAcceptIssueModal(true),
-                    "Only project admins can accept work items"
+                    "Only project admins can accept work items",
                   )
                 }
               >
@@ -209,7 +216,7 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
                   handleActionWithPermission(
                     isProjectAdmin,
                     () => setDeclineIssueModal(true),
-                    "Only project admins can deny work items"
+                    "Only project admins can deny work items",
                   )
                 }
               >

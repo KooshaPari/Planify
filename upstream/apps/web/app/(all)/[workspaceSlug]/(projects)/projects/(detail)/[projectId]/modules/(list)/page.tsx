@@ -48,7 +48,10 @@ function ProjectModulesPage({ params }: Route.ComponentProps) {
   // derived values
   const project = getProjectById(projectId);
   const pageTitle = project?.name ? `${project?.name} - Modules` : undefined;
-  const canPerformEmptyStateActions = allowPermissions([EUserProjectRoles.ADMIN], EUserPermissionsLevel.PROJECT);
+  const canPerformEmptyStateActions = allowPermissions(
+    [EUserProjectRoles.ADMIN],
+    EUserPermissionsLevel.PROJECT,
+  );
   const resolvedPath = resolvedTheme === "light" ? lightModulesAsset : darkModulesAsset;
 
   const handleRemoveFilter = useCallback(
@@ -60,7 +63,7 @@ function ProjectModulesPage({ params }: Route.ComponentProps) {
 
       updateFilters(projectId, { [key]: newValues });
     },
-    [currentProjectFilters, projectId, updateFilters]
+    [currentProjectFilters, projectId, updateFilters],
   );
 
   // No access to
@@ -86,7 +89,8 @@ function ProjectModulesPage({ params }: Route.ComponentProps) {
     <>
       <PageHead title={pageTitle} />
       <div className="flex h-full w-full flex-col">
-        {(calculateTotalFilters(currentProjectFilters) !== 0 || currentProjectDisplayFilters?.favorites) && (
+        {(calculateTotalFilters(currentProjectFilters) !== 0 ||
+          currentProjectDisplayFilters?.favorites) && (
           <ModuleAppliedFiltersList
             appliedFilters={currentProjectFilters}
             isFavoriteFilterApplied={currentProjectDisplayFilters?.favorites ?? false}

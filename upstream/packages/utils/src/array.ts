@@ -35,7 +35,11 @@ export const groupBy = (array: any[], key: string) => {
  * const array = [{value: 2}, {value: 1}, {value: 3}];
  * orderArrayBy(array, 'value', 'ascending') // returns [{value: 1}, {value: 2}, {value: 3}]
  */
-export const orderArrayBy = (orgArray: any[], key: string, ordering: "ascending" | "descending" = "ascending") => {
+export const orderArrayBy = (
+  orgArray: any[],
+  key: string,
+  ordering: "ascending" | "descending" = "ascending",
+) => {
   if (!orgArray || !Array.isArray(orgArray) || orgArray.length === 0) return [];
 
   const array = [...orgArray];
@@ -81,7 +85,7 @@ export const findStringWithMostCharacters = (strings: string[]): string => {
   if (!strings || strings.length === 0) return "";
 
   return strings.reduce((longestString, currentString) =>
-    currentString.length > longestString.length ? currentString : longestString
+    currentString.length > longestString.length ? currentString : longestString,
   );
 };
 
@@ -138,7 +142,10 @@ export const sortByField = (array: any[], field: string): any[] =>
  * @param {keyof T} orderBy Field to order by
  * @returns {GroupedItems<T>} Ordered grouped data
  */
-export const orderGroupedDataByField = <T>(groupedData: GroupedItems<T>, orderBy: keyof T): GroupedItems<T> => {
+export const orderGroupedDataByField = <T>(
+  groupedData: GroupedItems<T>,
+  orderBy: keyof T,
+): GroupedItems<T> => {
   for (const key in groupedData) {
     if (groupedData.hasOwnProperty(key)) {
       groupedData[key] = groupedData[key].sort((a, b) => {
@@ -212,12 +219,14 @@ export const convertStringArrayToBooleanObject = (arrayStrings: string[]) => {
  */
 export const sortBySelectedFirst = <T extends { value: string | null }>(
   options: T[] | undefined,
-  selectedValues: string[] | string | null | undefined
+  selectedValues: string[] | string | null | undefined,
 ): T[] | undefined => {
   if (!options || options.length === 0) return options;
 
   // Normalize selectedValues to array for consistent handling
-  const selectedSet = new Set(Array.isArray(selectedValues) ? selectedValues : selectedValues ? [selectedValues] : []);
+  const selectedSet = new Set(
+    Array.isArray(selectedValues) ? selectedValues : selectedValues ? [selectedValues] : [],
+  );
 
   if (selectedSet.size === 0) return options;
 
@@ -248,12 +257,14 @@ export const sortBySelectedFirst = <T extends { value: string | null }>(
 export const sortByCurrentUserThenSelected = <T extends { value: string | null }>(
   options: T[] | undefined,
   selectedValues: string[] | string | null | undefined,
-  currentUserId: string | undefined
+  currentUserId: string | undefined,
 ): T[] | undefined => {
   if (!options || options.length === 0) return options;
 
   // Normalize selectedValues to array for consistent handling
-  const selectedSet = new Set(Array.isArray(selectedValues) ? selectedValues : selectedValues ? [selectedValues] : []);
+  const selectedSet = new Set(
+    Array.isArray(selectedValues) ? selectedValues : selectedValues ? [selectedValues] : [],
+  );
 
   // Create a shallow copy to avoid mutating the original array
   return [...options].sort((a, b) => {

@@ -40,7 +40,9 @@ export interface IFilterInstanceHelper<P extends TFilterProperty, E extends TExt
   isVisible: boolean;
   // initialization
   initializeExpression: (initialExpression?: E) => TFilterExpression<P> | null;
-  initializeExpressionOptions: (expressionOptions?: Partial<TExpressionOptions<E>>) => TExpressionOptions<E>;
+  initializeExpressionOptions: (
+    expressionOptions?: Partial<TExpressionOptions<E>>,
+  ) => TExpressionOptions<E>;
   // visibility
   setInitialVisibility: (visibilityOption: TAutoVisibilityOptions) => void;
   toggleVisibility: (isVisible?: boolean) => void;
@@ -49,14 +51,14 @@ export interface IFilterInstanceHelper<P extends TFilterProperty, E extends TExt
     expression: TFilterExpression<P> | null,
     groupOperator: TLogicalOperator,
     condition: TFilterConditionPayload<P, V>,
-    isNegation: boolean
+    isNegation: boolean,
   ) => TFilterExpression<P> | null;
   handleConditionPropertyUpdate: (
     expression: TFilterExpression<P>,
     conditionId: string,
     property: P,
     operator: TSupportedOperators,
-    isNegation: boolean
+    isNegation: boolean,
   ) => TFilterExpression<P> | null;
   // group operations
   restructureExpressionForOperatorChange: (
@@ -64,7 +66,7 @@ export interface IFilterInstanceHelper<P extends TFilterProperty, E extends TExt
     conditionId: string,
     newOperator: TSupportedOperators,
     isNegation: boolean,
-    shouldResetValue: boolean
+    shouldResetValue: boolean,
   ) => TFilterExpression<P> | null;
 }
 
@@ -111,7 +113,9 @@ export class FilterInstanceHelper<
    * @param initialExpression - The initial expression to initialize the filter with
    * @returns The initialized filter expression or null if no initial expression provided
    */
-  initializeExpression: IFilterInstanceHelper<P, E>["initializeExpression"] = (initialExpression) => {
+  initializeExpression: IFilterInstanceHelper<P, E>["initializeExpression"] = (
+    initialExpression,
+  ) => {
     if (!initialExpression) return null;
     return this.adapter.toInternal(toJS(cloneDeep(initialExpression)));
   };
@@ -121,7 +125,9 @@ export class FilterInstanceHelper<
    * @param expressionOptions - Optional expression options to override defaults
    * @returns The initialized filter expression options
    */
-  initializeExpressionOptions: IFilterInstanceHelper<P, E>["initializeExpressionOptions"] = (expressionOptions) => ({
+  initializeExpressionOptions: IFilterInstanceHelper<P, E>["initializeExpressionOptions"] = (
+    expressionOptions,
+  ) => ({
     ...DEFAULT_FILTER_EXPRESSION_OPTIONS,
     ...expressionOptions,
   });
@@ -131,23 +137,25 @@ export class FilterInstanceHelper<
    * @param visibilityOption - The visibility options for the filter instance.
    * @returns The initial visibility state
    */
-  setInitialVisibility: IFilterInstanceHelper<P, E>["setInitialVisibility"] = action((visibilityOption) => {
-    // If explicit initial visibility is provided, use it
-    if (visibilityOption.autoSetVisibility === false) {
-      this.isVisible = visibilityOption.isVisibleOnMount;
-      return;
-    }
+  setInitialVisibility: IFilterInstanceHelper<P, E>["setInitialVisibility"] = action(
+    (visibilityOption) => {
+      // If explicit initial visibility is provided, use it
+      if (visibilityOption.autoSetVisibility === false) {
+        this.isVisible = visibilityOption.isVisibleOnMount;
+        return;
+      }
 
-    // If filter has active filters, make it visible
-    if (this._filterInstance.hasActiveFilters) {
-      this.isVisible = true;
-      return;
-    }
+      // If filter has active filters, make it visible
+      if (this._filterInstance.hasActiveFilters) {
+        this.isVisible = true;
+        return;
+      }
 
-    // Default to hidden if no active filters
-    this.isVisible = false;
-    return;
-  });
+      // Default to hidden if no active filters
+      this.isVisible = false;
+      return;
+    },
+  );
 
   /**
    * Toggles the visibility of the filter.
@@ -175,8 +183,13 @@ export class FilterInstanceHelper<
     expression,
     groupOperator,
     condition,
-    isNegation
-  ) => this._addConditionByOperator(expression, groupOperator, this._getConditionPayloadToAdd(condition, isNegation));
+    isNegation,
+  ) =>
+    this._addConditionByOperator(
+      expression,
+      groupOperator,
+      this._getConditionPayloadToAdd(condition, isNegation),
+    );
 
   /**
    * Updates the property and operator of a condition in the filter expression.
@@ -193,7 +206,7 @@ export class FilterInstanceHelper<
     conditionId,
     property,
     operator,
-    isNegation
+    isNegation,
   ) => {
     const payload = { property, operator, value: undefined };
 
@@ -211,14 +224,19 @@ export class FilterInstanceHelper<
    * @param shouldResetValue - Whether to reset the condition value
    * @returns The restructured expression
    */
-  restructureExpressionForOperatorChange: IFilterInstanceHelper<P, E>["restructureExpressionForOperatorChange"] = (
+  restructureExpressionForOperatorChange: IFilterInstanceHelper<
+    P,
+    E
+  >["restructureExpressionForOperatorChange"] = (
     expression,
     conditionId,
     newOperator,
     isNegation,
-    shouldResetValue
+    shouldResetValue,
   ) => {
-    const payload = shouldResetValue ? { operator: newOperator, value: undefined } : { operator: newOperator };
+    const payload = shouldResetValue
+      ? { operator: newOperator, value: undefined }
+      : { operator: newOperator };
 
     return this._updateCondition(expression, conditionId, payload, isNegation);
   };
@@ -233,7 +251,7 @@ export class FilterInstanceHelper<
    */
   private _getConditionPayloadToAdd = (
     condition: TFilterConditionPayload<P, TFilterValue>,
-    _isNegation: boolean
+    _isNegation: boolean,
   ): TFilterExpression<P> => {
     const conditionNode = createConditionNode(condition);
 
@@ -250,7 +268,7 @@ export class FilterInstanceHelper<
   private _addConditionByOperator(
     expression: TFilterExpression<P> | null,
     groupOperator: TLogicalOperator,
-    conditionToAdd: TFilterExpression<P>
+    conditionToAdd: TFilterExpression<P>,
   ): TFilterExpression<P> | null {
     switch (groupOperator) {
       case LOGICAL_OPERATOR.AND:
@@ -273,7 +291,7 @@ export class FilterInstanceHelper<
     expression: TFilterExpression<P>,
     conditionId: string,
     payload: Partial<TFilterConditionNode<P, TFilterValue>>,
-    _isNegation: boolean
+    _isNegation: boolean,
   ): TFilterExpression<P> | null => {
     // Update the condition with the payload
     updateNodeInExpression(expression, conditionId, payload);

@@ -18,7 +18,10 @@ type NodeHighlightMeta = {
 
 export const nodeHighlightPluginKey = new PluginKey<NodeHighlightState>("nodeHighlight");
 
-const buildDecorations = (doc: Parameters<typeof DecorationSet.create>[0], highlightedNodeId: string | null) => {
+const buildDecorations = (
+  doc: Parameters<typeof DecorationSet.create>[0],
+  highlightedNodeId: string | null,
+) => {
   if (!highlightedNodeId) {
     return DecorationSet.empty;
   }
@@ -40,7 +43,7 @@ const buildDecorations = (doc: Parameters<typeof DecorationSet.create>[0], highl
           Decoration.inline(pos, pos + node.nodeSize, decorationAttrs, {
             inclusiveStart: true,
             inclusiveEnd: true,
-          })
+          }),
         );
       } else {
         // For block nodes, add a node decoration
@@ -73,7 +76,8 @@ export const NodeHighlightPlugin = () =>
 
         if (meta) {
           if (meta.nodeId !== undefined) {
-            highlightedNodeId = typeof meta.nodeId === "string" && meta.nodeId.length > 0 ? meta.nodeId : null;
+            highlightedNodeId =
+              typeof meta.nodeId === "string" && meta.nodeId.length > 0 ? meta.nodeId : null;
             shouldRecalculate = true;
           }
         }

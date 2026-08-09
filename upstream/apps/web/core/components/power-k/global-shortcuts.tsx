@@ -24,13 +24,20 @@ type GlobalShortcutsProps = {
  * Global shortcuts component - sets up keyboard listeners and context detection
  * Should be mounted once at the app root level
  */
-export const GlobalShortcutsProvider = observer(function GlobalShortcutsProvider(props: GlobalShortcutsProps) {
+export const GlobalShortcutsProvider = observer(function GlobalShortcutsProvider(
+  props: GlobalShortcutsProps,
+) {
   const { context, commands } = props;
   // router
   const params = useParams();
   // store hooks
-  const { commandRegistry, isShortcutsListModalOpen, setActiveContext, togglePowerKModal, toggleShortcutsListModal } =
-    usePowerK();
+  const {
+    commandRegistry,
+    isShortcutsListModalOpen,
+    setActiveContext,
+    togglePowerKModal,
+    toggleShortcutsListModal,
+  } = usePowerK();
 
   // Detect context from URL and update store
   useEffect(() => {
@@ -65,7 +72,7 @@ export const GlobalShortcutsProvider = observer(function GlobalShortcutsProvider
     handlerRef.current = new ShortcutHandler(
       commandRegistry,
       () => contextRef.current,
-      () => togglePowerKModal(true)
+      () => togglePowerKModal(true),
     );
 
     document.addEventListener("keydown", handlerRef.current.handleKeyDown);
@@ -79,5 +86,10 @@ export const GlobalShortcutsProvider = observer(function GlobalShortcutsProvider
     };
   }, [commandRegistry, togglePowerKModal]);
 
-  return <ShortcutsModal isOpen={isShortcutsListModalOpen} onClose={() => toggleShortcutsListModal(false)} />;
+  return (
+    <ShortcutsModal
+      isOpen={isShortcutsListModalOpen}
+      onClose={() => toggleShortcutsListModal(false)}
+    />
+  );
 });

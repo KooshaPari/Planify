@@ -8,7 +8,11 @@ import { useCallback, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // plane imports
-import { EUserPermissions, EUserPermissionsLevel, PROJECT_TRACKER_ELEMENTS } from "@plane/constants";
+import {
+  EUserPermissions,
+  EUserPermissionsLevel,
+  PROJECT_TRACKER_ELEMENTS,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { EmptyStateCompact } from "@plane/propel/empty-state";
 import { PlusIcon, SearchIcon } from "@plane/propel/icons";
@@ -36,13 +40,17 @@ export const ExtendedProjectSidebar = observer(function ExtendedProjectSidebar()
   // store hooks
   const { t } = useTranslation();
   const { isExtendedProjectSidebarOpened, toggleExtendedProjectSidebar } = useAppTheme();
-  const { getPartialProjectById, joinedProjectIds: joinedProjects, updateProjectView } = useProject();
+  const {
+    getPartialProjectById,
+    joinedProjectIds: joinedProjects,
+    updateProjectView,
+  } = useProject();
   const { allowPermissions } = useUserPermissions();
 
   const handleOnProjectDrop = (
     sourceId: string | undefined,
     destinationId: string | undefined,
-    shouldDropAtEnd: boolean
+    shouldDropAtEnd: boolean,
   ) => {
     if (!sourceId || !destinationId || !workspaceSlug) return;
     if (sourceId === destinationId) return;
@@ -54,35 +62,50 @@ export const ExtendedProjectSidebar = observer(function ExtendedProjectSidebar()
     });
 
     const sourceIndex = joinedProjects.indexOf(sourceId);
-    const destinationIndex = shouldDropAtEnd ? joinedProjects.length : joinedProjects.indexOf(destinationId);
+    const destinationIndex = shouldDropAtEnd
+      ? joinedProjects.length
+      : joinedProjects.indexOf(destinationId);
 
     if (joinedProjectsList.length <= 0) return;
 
-    const updatedSortOrder = orderJoinedProjects(sourceIndex, destinationIndex, sourceId, joinedProjectsList);
+    const updatedSortOrder = orderJoinedProjects(
+      sourceIndex,
+      destinationIndex,
+      sourceId,
+      joinedProjectsList,
+    );
     if (updatedSortOrder != undefined)
-      updateProjectView(workspaceSlug.toString(), sourceId, { sort_order: updatedSortOrder }).catch(() => {
-        setToast({
-          type: TOAST_TYPE.ERROR,
-          title: t("error"),
-          message: t("something_went_wrong"),
-        });
-      });
+      updateProjectView(workspaceSlug.toString(), sourceId, { sort_order: updatedSortOrder }).catch(
+        () => {
+          setToast({
+            type: TOAST_TYPE.ERROR,
+            title: t("error"),
+            message: t("something_went_wrong"),
+          });
+        },
+      );
   };
 
   // filter projects based on search query
   const filteredProjects = joinedProjects.filter((projectId) => {
     const project = getPartialProjectById(projectId);
     if (!project) return false;
-    return project.name.toLowerCase().includes(searchQuery.toLowerCase()) || project.identifier.includes(searchQuery);
+    return (
+      project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.identifier.includes(searchQuery)
+    );
   });
 
   // auth
   const isAuthorizedUser = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
-  const handleClose = useCallback(() => toggleExtendedProjectSidebar(false), [toggleExtendedProjectSidebar]);
+  const handleClose = useCallback(
+    () => toggleExtendedProjectSidebar(false),
+    [toggleExtendedProjectSidebar],
+  );
 
   const handleCopyText = (projectId: string) => {
     copyUrlToClipboard(`${workspaceSlug}/projects/${projectId}/issues`).then(() => {

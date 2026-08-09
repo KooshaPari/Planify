@@ -37,7 +37,7 @@ export interface IStickyStore {
     workspaceSlug: string,
     stickyId: string,
     destinationId: string,
-    edge: InstructionType
+    edge: InstructionType,
   ) => Promise<void>;
 }
 
@@ -85,8 +85,8 @@ export class StickyStore implements IStickyStore {
     orderBy(
       (this.workspaceStickies[workspaceSlug] || []).map((stickyId) => this.stickies[stickyId]),
       ["sort_order"],
-      ["desc"]
-    ).map((sticky) => sticky.id)
+      ["desc"],
+    ).map((sticky) => sticky.id),
   );
 
   toggleShowNewSticky = (value: boolean) => {
@@ -110,14 +110,18 @@ export class StickyStore implements IStickyStore {
   };
   fetchNextWorkspaceStickies = async (workspaceSlug: string) => {
     try {
-      if (!this.paginationInfo?.next_cursor || !this.paginationInfo.next_page_results || this.loader === "pagination") {
+      if (
+        !this.paginationInfo?.next_cursor ||
+        !this.paginationInfo.next_page_results ||
+        this.loader === "pagination"
+      ) {
         return;
       }
       this.loader = "pagination";
       const response = await this.stickyService.getStickies(
         workspaceSlug,
         this.paginationInfo.next_cursor,
-        this.searchQuery
+        this.searchQuery,
       );
 
       runInAction(() => {
@@ -126,7 +130,10 @@ export class StickyStore implements IStickyStore {
         // Add new stickies to store
         results.forEach((sticky) => {
           if (!this.workspaceStickies[workspaceSlug]?.includes(sticky.id)) {
-            this.workspaceStickies[workspaceSlug] = [...(this.workspaceStickies[workspaceSlug] || []), sticky.id];
+            this.workspaceStickies[workspaceSlug] = [
+              ...(this.workspaceStickies[workspaceSlug] || []),
+              sticky.id,
+            ];
           }
           this.stickies[sticky.id] = sticky;
         });
@@ -154,7 +161,7 @@ export class StickyStore implements IStickyStore {
       const response = await this.stickyService.getStickies(
         workspaceSlug,
         `${STICKIES_PER_PAGE}:0:0`,
-        this.searchQuery
+        this.searchQuery,
       );
 
       runInAction(() => {
@@ -214,7 +221,7 @@ export class StickyStore implements IStickyStore {
     if (!sticky) return;
     try {
       this.workspaceStickies[workspaceSlug] = this.workspaceStickies[workspaceSlug].filter(
-        (stickyId) => stickyId !== id
+        (stickyId) => stickyId !== id,
       );
       if (this.activeStickyId === id) this.activeStickyId = undefined;
       delete this.stickies[id];
@@ -230,7 +237,7 @@ export class StickyStore implements IStickyStore {
     workspaceSlug: string,
     stickyId: string,
     destinationId: string,
-    edge: InstructionType
+    edge: InstructionType,
   ) => {
     const previousSortOrder = this.stickies[stickyId].sort_order;
     try {
@@ -244,7 +251,8 @@ export class StickyStore implements IStickyStore {
         const destinationIndex = sortedStickies.findIndex((id) => id === destinationId);
 
         if (edge === "reorder-above") {
-          const prevSequence = this.stickies[sortedStickies[destinationIndex - 1]]?.sort_order || undefined;
+          const prevSequence =
+            this.stickies[sortedStickies[destinationIndex - 1]]?.sort_order || undefined;
           if (prevSequence) {
             resultSequence = (destinationSequence + prevSequence) / 2;
           } else {

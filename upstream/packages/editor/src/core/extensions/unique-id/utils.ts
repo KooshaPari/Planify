@@ -25,7 +25,7 @@ export const createIdsForView = (view: EditorView, options: UniqueIDOptions) => 
 
   const nodesWithoutId = findChildren(
     doc,
-    (node) => types.includes(node.type.name) && node.attrs[attributeName] === null
+    (node) => types.includes(node.type.name) && node.attrs[attributeName] === null,
   );
 
   nodesWithoutId.forEach(({ node, pos }) => {

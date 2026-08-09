@@ -26,11 +26,11 @@ export class AppInstallationService extends APIService {
     workspaceSlug: string,
     projectId: string,
     integrationId: string | null | undefined,
-    data: any
+    data: any,
   ): Promise<any> {
     return this.post(
       `/api/workspaces/${workspaceSlug}/projects/${projectId}/workspace-integrations/${integrationId}/project-slack-sync/`,
-      data
+      data,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -41,10 +41,10 @@ export class AppInstallationService extends APIService {
   async getSlackChannelDetail(
     workspaceSlug: string,
     projectId: string,
-    integrationId: string | null | undefined
+    integrationId: string | null | undefined,
   ): Promise<any> {
     return this.get(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/workspace-integrations/${integrationId}/project-slack-sync/`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/workspace-integrations/${integrationId}/project-slack-sync/`,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -56,10 +56,10 @@ export class AppInstallationService extends APIService {
     workspaceSlug: string,
     projectId: string,
     integrationId: string | null | undefined,
-    slackSyncId: string | undefined
+    slackSyncId: string | undefined,
   ): Promise<any> {
     return this.delete(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/workspace-integrations/${integrationId}/project-slack-sync/${slackSyncId}`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/workspace-integrations/${integrationId}/project-slack-sync/${slackSyncId}`,
     )
       .then((response) => response?.data)
       .catch((error) => {

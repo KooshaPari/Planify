@@ -20,7 +20,8 @@ import { useIssueFilter } from "@/hooks/store/use-issue-filter";
 import type { Route } from "./+types/layout";
 
 const DEFAULT_TITLE = "Plane";
-const DEFAULT_DESCRIPTION = "Made with Plane, an AI-powered work management platform with publishing capabilities.";
+const DEFAULT_DESCRIPTION =
+  "Made with Plane, an AI-powered work management platform with publishing capabilities.";
 
 interface IssueMetadata {
   name?: string;
@@ -39,7 +40,9 @@ export async function loader({ params }: Route.LoaderArgs) {
   }
 
   try {
-    const response = await fetch(`${process.env.VITE_API_BASE_URL}/api/public/anchor/${anchor}/meta/`);
+    const response = await fetch(
+      `${process.env.VITE_API_BASE_URL}/api/public/anchor/${anchor}/meta/`,
+    );
 
     if (!response.ok) {
       return { metadata: null };
@@ -81,7 +84,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
       { property: "og:image:width", content: "800" },
       { property: "og:image:height", content: "600" },
       { property: "og:image:alt", content: title },
-      { name: "twitter:image", content: coverImage }
+      { name: "twitter:image", content: coverImage },
     );
   }
 
@@ -115,7 +118,7 @@ function IssuesLayout(props: Route.ComponentProps) {
             });
           }
         }
-      : null
+      : null,
   );
 
   if (!publishSettings && !error) {

@@ -6,7 +6,11 @@
 
 import { describe, it, expect, assert } from "vitest";
 import { Effect, Duration, Either } from "effect";
-import { withTimeoutAndRetry, recoverWithDefault, tryAsync } from "@/services/pdf-export/effect-utils";
+import {
+  withTimeoutAndRetry,
+  recoverWithDefault,
+  tryAsync,
+} from "@/services/pdf-export/effect-utils";
 import { PdfTimeoutError } from "@/schema/pdf-export";
 
 describe("effect-utils", () => {
@@ -95,7 +99,7 @@ describe("effect-utils", () => {
 
       const effect = Effect.fail(new Error("test error")).pipe(
         recoverWithDefault("fallback"),
-        Effect.tap(() => Effect.sync(() => logs.push("after recovery")))
+        Effect.tap(() => Effect.sync(() => logs.push("after recovery"))),
       );
 
       const result = await Effect.runPromise(effect);
@@ -119,7 +123,7 @@ describe("effect-utils", () => {
     it("should wrap successful promise", async () => {
       const effect = tryAsync(
         () => Promise.resolve("success"),
-        (err) => new Error(`wrapped: ${err}`)
+        (err) => new Error(`wrapped: ${err}`),
       );
 
       const result = await Effect.runPromise(effect);
@@ -129,7 +133,7 @@ describe("effect-utils", () => {
     it("should wrap rejected promise with custom error", async () => {
       const effect = tryAsync(
         () => Promise.reject(new Error("original")),
-        (err) => new Error(`wrapped: ${(err as Error).message}`)
+        (err) => new Error(`wrapped: ${(err as Error).message}`),
       );
 
       const result = await Effect.runPromise(Effect.either(effect));
@@ -143,7 +147,7 @@ describe("effect-utils", () => {
         () => {
           throw new Error("sync error");
         },
-        (err) => new Error(`caught: ${(err as Error).message}`)
+        (err) => new Error(`caught: ${(err as Error).message}`),
       );
 
       const result = await Effect.runPromise(Effect.either(effect));

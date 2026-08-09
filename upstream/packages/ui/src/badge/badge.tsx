@@ -21,7 +21,10 @@ export interface BadgeProps extends React.ButtonHTMLAttributes<HTMLButtonElement
   children: React.ReactNode;
 }
 
-const Badge = React.forwardRef(function Badge(props: BadgeProps, ref: React.ForwardedRef<HTMLButtonElement>) {
+const Badge = React.forwardRef(function Badge(
+  props: BadgeProps,
+  ref: React.ForwardedRef<HTMLButtonElement>,
+) {
   const {
     variant = "primary",
     size = "md",
@@ -39,10 +42,20 @@ const Badge = React.forwardRef(function Badge(props: BadgeProps, ref: React.Forw
   const buttonIconStyle = getIconStyling(size);
 
   return (
-    <button ref={ref} type={type} className={cn(buttonStyle, className)} disabled={disabled || loading} {...rest}>
-      {prependIcon && <div className={buttonIconStyle}>{React.cloneElement(prependIcon, { strokeWidth: 2 })}</div>}
+    <button
+      ref={ref}
+      type={type}
+      className={cn(buttonStyle, className)}
+      disabled={disabled || loading}
+      {...rest}
+    >
+      {prependIcon && (
+        <div className={buttonIconStyle}>{React.cloneElement(prependIcon, { strokeWidth: 2 })}</div>
+      )}
       {children}
-      {appendIcon && <div className={buttonIconStyle}>{React.cloneElement(appendIcon, { strokeWidth: 2 })}</div>}
+      {appendIcon && (
+        <div className={buttonIconStyle}>{React.cloneElement(appendIcon, { strokeWidth: 2 })}</div>
+      )}
     </button>
   );
 });

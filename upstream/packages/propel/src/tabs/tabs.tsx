@@ -33,14 +33,21 @@ type TabsCompound = React.ForwardRefExoticComponent<
     } & React.RefAttributes<React.ElementRef<typeof TabsPrimitive.Tab>>
   >;
   Content: React.ForwardRefExoticComponent<
-    React.ComponentProps<typeof TabsPrimitive.Panel> & React.RefAttributes<React.ElementRef<typeof TabsPrimitive.Panel>>
+    React.ComponentProps<typeof TabsPrimitive.Panel> &
+      React.RefAttributes<React.ElementRef<typeof TabsPrimitive.Panel>>
   >;
-  Indicator: React.ForwardRefExoticComponent<React.ComponentProps<"div"> & React.RefAttributes<HTMLDivElement>>;
+  Indicator: React.ForwardRefExoticComponent<
+    React.ComponentProps<"div"> & React.RefAttributes<HTMLDivElement>
+  >;
 };
 
 const TabsRoot = React.forwardRef(function TabsRoot(
-  { className, variant, ...props }: React.ComponentProps<typeof TabsPrimitive.Root> & { variant?: TabsVariant },
-  ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.Root>>
+  {
+    className,
+    variant,
+    ...props
+  }: React.ComponentProps<typeof TabsPrimitive.Root> & { variant?: TabsVariant },
+  ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.Root>>,
 ) {
   return (
     <TabsContext.Provider value={{ variant }}>
@@ -62,7 +69,7 @@ const TabsList = React.forwardRef(function TabsList(
   }: React.ComponentProps<typeof TabsPrimitive.List> & {
     background?: TabsVariant;
   },
-  ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.List>>
+  ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.List>>,
 ) {
   return (
     <TabsPrimitive.List
@@ -72,7 +79,7 @@ const TabsList = React.forwardRef(function TabsList(
         {
           "bg-layer-3": background === "contained",
         },
-        className
+        className,
       )}
       {...props}
       ref={ref}
@@ -85,8 +92,11 @@ const TabsTrigger = React.forwardRef(function TabsTrigger(
     className,
     size = "md",
     ...props
-  }: React.ComponentProps<typeof TabsPrimitive.Tab> & { size?: "sm" | "md" | "lg"; variant?: TabsVariant },
-  ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.Tab>>
+  }: React.ComponentProps<typeof TabsPrimitive.Tab> & {
+    size?: "sm" | "md" | "lg";
+    variant?: TabsVariant;
+  },
+  ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.Tab>>,
 ) {
   return (
     <TabsPrimitive.Tab
@@ -101,7 +111,7 @@ const TabsTrigger = React.forwardRef(function TabsTrigger(
           "text-13": size === "md",
           "text-14": size === "lg",
         },
-        className
+        className,
       )}
       {...props}
       ref={ref}
@@ -111,7 +121,7 @@ const TabsTrigger = React.forwardRef(function TabsTrigger(
 
 const TabsContent = React.forwardRef(function TabsContent(
   { className, ...props }: React.ComponentProps<typeof TabsPrimitive.Panel>,
-  ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.Panel>>
+  ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.Panel>>,
 ) {
   return (
     <TabsPrimitive.Panel
@@ -124,13 +134,13 @@ const TabsContent = React.forwardRef(function TabsContent(
 });
 const TabsIndicator = React.forwardRef(function TabsIndicator(
   { className, ...props }: React.ComponentProps<"div">,
-  ref: React.ForwardedRef<HTMLDivElement>
+  ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   return (
     <div
       className={cn(
         "shadow-sm absolute top-[50%] left-0 z-[-1] h-6 w-[var(--active-tab-width)] translate-x-[var(--active-tab-left)] -translate-y-[50%] rounded-xs bg-surface-1 transition-[width,transform] duration-200 ease-in-out",
-        className
+        className,
       )}
       {...props}
       ref={ref}

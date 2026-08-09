@@ -83,7 +83,10 @@ export const IssueView = observer(function IssueView(props: IIssueView) {
   const toggleEditIssueModal = (value: boolean) => setIsEditIssueModalOpen(value);
 
   const isAnyLocalModalOpen =
-    isDeleteIssueModalOpen || isArchiveIssueModalOpen || isDuplicateIssueModalOpen || isEditIssueModalOpen;
+    isDeleteIssueModalOpen ||
+    isArchiveIssueModalOpen ||
+    isDuplicateIssueModalOpen ||
+    isEditIssueModalOpen;
 
   usePeekOverviewOutsideClickDetector(
     issuePeekOverviewRef,
@@ -96,14 +99,21 @@ export const IssueView = observer(function IssueView(props: IIssueView) {
       }
     },
     issueId,
-    ["main-sidebar"]
+    ["main-sidebar"],
   );
 
   const handleKeyDown = () => {
-    const editorImageFullScreenModalElement = document.querySelector(".editor-image-full-screen-modal");
+    const editorImageFullScreenModalElement = document.querySelector(
+      ".editor-image-full-screen-modal",
+    );
     const dropdownElement = document.activeElement?.tagName === "INPUT";
     const isAnyDropbarOpen = editorRef.current?.isAnyDropbarOpen();
-    if (!isAnyModalOpen && !dropdownElement && !isAnyDropbarOpen && !editorImageFullScreenModalElement) {
+    if (
+      !isAnyModalOpen &&
+      !dropdownElement &&
+      !isAnyDropbarOpen &&
+      !editorImageFullScreenModalElement
+    ) {
       removeRoutePeekId();
       const issueElement = document.getElementById(`issue-${issueId}`);
       if (issueElement) issueElement?.focus();
@@ -126,7 +136,7 @@ export const IssueView = observer(function IssueView(props: IIssueView) {
       "top-0 right-0 bottom-0 w-full border-0 border-l md:w-[50%]": peekMode === "side-peek",
       "top-[8.33%] left-[8.33%] size-5/6": peekMode === "modal",
       "absolute inset-0 m-4": peekMode === "full-screen",
-    }
+    },
   );
 
   const shouldUsePortal = !embedIssue;
@@ -269,5 +279,7 @@ export const IssueView = observer(function IssueView(props: IIssueView) {
     </div>
   );
 
-  return <>{shouldUsePortal && portalContainer ? createPortal(content, portalContainer) : content}</>;
+  return (
+    <>{shouldUsePortal && portalContainer ? createPortal(content, portalContainer) : content}</>
+  );
 });

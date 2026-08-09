@@ -5,7 +5,11 @@
  */
 
 import type { TWorkItemFilterCondition } from "@plane/shared-state";
-import type { TFilterConditionNodeForDisplay, TFilterValue, TWorkItemFilterProperty } from "@plane/types";
+import type {
+  TFilterConditionNodeForDisplay,
+  TFilterValue,
+  TWorkItemFilterProperty,
+} from "@plane/types";
 
 export const PROGRESS_STATS = [
   {
@@ -22,7 +26,10 @@ export const PROGRESS_STATS = [
   },
 ];
 
-type TSelectedFilterProgressStatsType = TFilterConditionNodeForDisplay<TWorkItemFilterProperty, TFilterValue>;
+type TSelectedFilterProgressStatsType = TFilterConditionNodeForDisplay<
+  TWorkItemFilterProperty,
+  TFilterValue
+>;
 
 export type TSelectedFilterProgressStats = {
   assignees: TSelectedFilterProgressStatsType | undefined;
@@ -34,7 +41,7 @@ export const createFilterUpdateHandler =
   <T extends string>(
     property: TWorkItemFilterProperty,
     selectedValues: T[],
-    handleFiltersUpdate: (condition: TWorkItemFilterCondition) => void
+    handleFiltersUpdate: (condition: TWorkItemFilterCondition) => void,
   ) =>
   (value: T | undefined) => {
     const updatedValues = value ? [...selectedValues] : [];

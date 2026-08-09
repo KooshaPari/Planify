@@ -73,7 +73,10 @@ export const useCycleMenuItems = (props: UseCycleMenuItemsProps): MenuResult => 
 
   // Assemble final menu items - order defined here
   const items = [
-    factory.createEditMenuItem(handlers.handleEdit, isEditingAllowed && !isCompleted && !isArchived),
+    factory.createEditMenuItem(
+      handlers.handleEdit,
+      isEditingAllowed && !isCompleted && !isArchived,
+    ),
     factory.createOpenInNewTabMenuItem(handlers.handleOpenInNewTab),
     factory.createCopyLinkMenuItem(handlers.handleCopyLink),
     factory.createArchiveMenuItem(handlers.handleArchive, {
@@ -82,7 +85,10 @@ export const useCycleMenuItems = (props: UseCycleMenuItemsProps): MenuResult => 
       description: isCompleted ? undefined : "Only completed cycles can be archived",
     }),
     factory.createRestoreMenuItem(handlers.handleRestore, isEditingAllowed && isArchived),
-    factory.createDeleteMenuItem(handlers.handleDelete, isEditingAllowed && !isCompleted && !isArchived),
+    factory.createDeleteMenuItem(
+      handlers.handleDelete,
+      isEditingAllowed && !isCompleted && !isArchived,
+    ),
   ].filter((item) => item.shouldRender !== false);
 
   return { items, modals: null };
@@ -104,7 +110,9 @@ export const useModuleMenuItems = (props: UseModuleMenuItemsProps): MenuResult =
     factory.createArchiveMenuItem(handlers.handleArchive, {
       shouldRender: isEditingAllowed && !isArchived,
       disabled: !isInArchivableGroup,
-      description: isInArchivableGroup ? undefined : "Only completed or cancelled modules can be archived",
+      description: isInArchivableGroup
+        ? undefined
+        : "Only completed or cancelled modules can be archived",
     }),
     factory.createRestoreMenuItem(handlers.handleRestore, isEditingAllowed && isArchived),
     factory.createDeleteMenuItem(handlers.handleDelete, isEditingAllowed && !isArchived),

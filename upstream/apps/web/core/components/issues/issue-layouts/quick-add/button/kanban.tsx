@@ -10,7 +10,9 @@ import { useTranslation } from "@plane/i18n";
 import { PlusIcon } from "@plane/propel/icons";
 import type { TQuickAddIssueButton } from "../root";
 
-export const KanbanQuickAddIssueButton = observer(function KanbanQuickAddIssueButton(props: TQuickAddIssueButton) {
+export const KanbanQuickAddIssueButton = observer(function KanbanQuickAddIssueButton(
+  props: TQuickAddIssueButton,
+) {
   const { onClick, isEpic = false } = props;
   const { t } = useTranslation();
   return (

@@ -79,13 +79,16 @@ function transformCodeBlockToParagraphs({
   // For each line, create a paragraph node and insert it
   lines.forEach((line) => {
     // if the line is empty, create a paragraph node with no content
-    const paragraphNode = line.length === 0 ? paragraph.create({}) : paragraph.create({}, schema.text(line));
+    const paragraphNode =
+      line.length === 0 ? paragraph.create({}) : paragraph.create({}, schema.text(line));
     tr.insert(insertPos, paragraphNode);
     insertPos += paragraphNode.nodeSize;
   });
 
   // Now persist the focus to the converted paragraph
-  const parentNodeOffset = findParentNode((node) => node.type === schema.nodes.codeBlock)(editor.state.selection)?.pos;
+  const parentNodeOffset = findParentNode((node) => node.type === schema.nodes.codeBlock)(
+    editor.state.selection,
+  )?.pos;
 
   if (parentNodeOffset === undefined) throw new Error("Invalid code block offset");
 
@@ -105,7 +108,11 @@ function transformCodeBlockToParagraphs({
  * @param {number} codeBlockNodePos - The starting position of the code block node in the document.
  * @returns {number} The 1-based line number where the cursor is located.
  */
-function getLineNumber(textContent: string, cursorPosition: number, codeBlockNodePos: number): number {
+function getLineNumber(
+  textContent: string,
+  cursorPosition: number,
+  codeBlockNodePos: number,
+): number {
   // Split the text content into lines, handling both Unix and Windows newlines
   const lines = textContent.split(/\r?\n/);
   const cursorPosInsideCodeblockRelative = cursorPosition - codeBlockNodePos;
@@ -118,7 +125,10 @@ function getLineNumber(textContent: string, cursorPosition: number, codeBlockNod
     const endPosition = startPosition + lines[i].length + 1; // +1 for the newline character
 
     // Check if the cursor position is within the current line
-    if (cursorPosInsideCodeblockRelative >= startPosition && cursorPosInsideCodeblockRelative <= endPosition) {
+    if (
+      cursorPosInsideCodeblockRelative >= startPosition &&
+      cursorPosInsideCodeblockRelative <= endPosition
+    ) {
       lineNumber = i + 1; // Line numbers are 1-based
       break;
     }

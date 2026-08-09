@@ -52,7 +52,7 @@ export const PageEditorToolbarRoot = observer(function PageEditorToolbarRoot(pro
             "page-toolbar-content relative hidden min-h-[52px] items-center px-page-x transition-all duration-200 ease-in-out md:flex",
             {
               "wide-layout": isFullWidth,
-            }
+            },
           )}
         >
           <div className="flex w-full max-w-full items-center justify-between">

@@ -10,7 +10,10 @@ export function IntegrationsSettingsLoader() {
   return (
     <div className="animate-pulse divide-y-[0.5px] divide-subtle">
       {range(2).map((i) => (
-        <div key={i} className="flex items-center justify-between gap-2 border-b border-subtle bg-surface-1 px-4 py-6">
+        <div
+          key={i}
+          className="flex items-center justify-between gap-2 border-b border-subtle bg-surface-1 px-4 py-6"
+        >
           <div className="flex items-start gap-4">
             <span className="h-10 w-10 rounded-full bg-layer-1" />
             <div className="flex flex-col gap-1">

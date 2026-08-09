@@ -16,7 +16,9 @@ type Props = {
   getValues: UseFormGetValues<IUserTheme>;
 };
 
-export const CustomThemeDownloadConfigButton = observer(function CustomThemeDownloadConfigButton(props: Props) {
+export const CustomThemeDownloadConfigButton = observer(function CustomThemeDownloadConfigButton(
+  props: Props,
+) {
   const { getValues } = props;
   // translation
   const { t } = useTranslation();

@@ -10,12 +10,20 @@ import { Controller, useForm } from "react-hook-form";
 import { ISSUE_DISPLAY_FILTERS_BY_PAGE } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
-import type { IIssueDisplayFilterOptions, IIssueDisplayProperties, IWorkspaceView, IIssueFilters } from "@plane/types";
+import type {
+  IIssueDisplayFilterOptions,
+  IIssueDisplayProperties,
+  IWorkspaceView,
+  IIssueFilters,
+} from "@plane/types";
 import { EViewAccess, EIssueLayoutTypes, EIssuesStoreType } from "@plane/types";
 import { Input, TextArea } from "@plane/ui";
 import { getComputedDisplayFilters, getComputedDisplayProperties } from "@plane/utils";
 // components
-import { DisplayFiltersSelection, FiltersDropdown } from "@/components/issues/issue-layouts/filters";
+import {
+  DisplayFiltersSelection,
+  FiltersDropdown,
+} from "@/components/issues/issue-layouts/filters";
 import { WorkspaceLevelWorkItemFiltersHOC } from "@/components/work-item-filters/filters-hoc/workspace-level";
 // plane web imports
 import { WorkItemFiltersRow } from "@/components/work-item-filters/filters-row";
@@ -77,7 +85,9 @@ export const WorkspaceViewForm = observer(function WorkspaceViewForm(props: Prop
   return (
     <form onSubmit={handleSubmit(handleCreateUpdateView)}>
       <div className="space-y-5 p-5">
-        <h3 className="text-18 font-medium text-secondary">{data ? t("view.update.label") : t("view.create.label")}</h3>
+        <h3 className="text-18 font-medium text-secondary">
+          {data ? t("view.update.label") : t("view.create.label")}
+        </h3>
         <div className="space-y-3">
           <div className="space-y-1">
             <Controller
@@ -133,19 +143,27 @@ export const WorkspaceViewForm = observer(function WorkspaceViewForm(props: Prop
                 <Controller
                   control={control}
                   name="display_properties"
-                  render={({ field: { onChange: onDisplayPropertiesChange, value: displayProperties } }) => (
+                  render={({
+                    field: { onChange: onDisplayPropertiesChange, value: displayProperties },
+                  }) => (
                     <FiltersDropdown title={t("common.display")}>
                       <DisplayFiltersSelection
-                        layoutDisplayFiltersOptions={ISSUE_DISPLAY_FILTERS_BY_PAGE.my_issues.layoutOptions.spreadsheet}
+                        layoutDisplayFiltersOptions={
+                          ISSUE_DISPLAY_FILTERS_BY_PAGE.my_issues.layoutOptions.spreadsheet
+                        }
                         displayFilters={displayFilters ?? {}}
-                        handleDisplayFiltersUpdate={(updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>) => {
+                        handleDisplayFiltersUpdate={(
+                          updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>,
+                        ) => {
                           onDisplayFiltersChange({
                             ...displayFilters,
                             ...updatedDisplayFilter,
                           });
                         }}
                         displayProperties={displayProperties ?? {}}
-                        handleDisplayPropertiesUpdate={(updatedDisplayProperties: Partial<IIssueDisplayProperties>) => {
+                        handleDisplayPropertiesUpdate={(
+                          updatedDisplayProperties: Partial<IIssueDisplayProperties>,
+                        ) => {
                           onDisplayPropertiesChange({
                             ...displayProperties,
                             ...updatedDisplayProperties,

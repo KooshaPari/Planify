@@ -23,7 +23,11 @@ import { cn } from "@plane/utils";
 import { useDropdown } from "@/hooks/use-dropdown";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 // constants
-import { BACKGROUND_BUTTON_VARIANTS, BORDER_BUTTON_VARIANTS, BUTTON_VARIANTS_WITHOUT_TEXT } from "./constants";
+import {
+  BACKGROUND_BUTTON_VARIANTS,
+  BORDER_BUTTON_VARIANTS,
+  BUTTON_VARIANTS_WITHOUT_TEXT,
+} from "./constants";
 // types
 import type { TDropdownProps } from "./types";
 
@@ -97,7 +101,7 @@ function BorderButton(props: ButtonProps) {
             // highlight the whole button if text is hidden and priority is urgent
             "border-priority-urgent": priority === "urgent" && hideText && highlightUrgent,
           },
-          className
+          className,
         )}
       >
         {!hideIcon &&
@@ -105,7 +109,8 @@ function BorderButton(props: ButtonProps) {
             <div
               className={cn({
                 // highlight just the icon if text is visible and priority is urgent
-                "rounded-sm border border-priority-urgent p-0.5": priority === "urgent" && !hideText && highlightUrgent,
+                "rounded-sm border border-priority-urgent p-0.5":
+                  priority === "urgent" && !hideText && highlightUrgent,
               })}
             >
               <PriorityIcon
@@ -136,7 +141,10 @@ function BorderButton(props: ButtonProps) {
           </span>
         )}
         {dropdownArrow && (
-          <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
+          <ChevronDownIcon
+            className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)}
+            aria-hidden="true"
+          />
         )}
       </div>
     </Tooltip>
@@ -188,7 +196,7 @@ function BackgroundButton(props: ButtonProps) {
             // highlight the whole button if text is hidden and priority is urgent
             "border-priority-urgent": priority === "urgent" && hideText && highlightUrgent,
           },
-          className
+          className,
         )}
       >
         {!hideIcon &&
@@ -196,7 +204,8 @@ function BackgroundButton(props: ButtonProps) {
             <div
               className={cn({
                 // highlight just the icon if text is visible and priority is urgent
-                "rounded-sm border border-priority-urgent p-0.5": priority === "urgent" && !hideText && highlightUrgent,
+                "rounded-sm border border-priority-urgent p-0.5":
+                  priority === "urgent" && !hideText && highlightUrgent,
               })}
             >
               <PriorityIcon
@@ -227,7 +236,10 @@ function BackgroundButton(props: ButtonProps) {
           </span>
         )}
         {dropdownArrow && (
-          <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
+          <ChevronDownIcon
+            className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)}
+            aria-hidden="true"
+          />
         )}
       </div>
     </Tooltip>
@@ -272,7 +284,7 @@ function TransparentButton(props: ButtonProps) {
             "border-priority-urgent": priority === "urgent" && hideText && highlightUrgent,
             "bg-layer-1": isActive,
           },
-          className
+          className,
         )}
       >
         {!hideIcon &&
@@ -280,7 +292,8 @@ function TransparentButton(props: ButtonProps) {
             <div
               className={cn({
                 // highlight just the icon if text is visible and priority is urgent
-                "rounded-sm border border-priority-urgent p-0.5": priority === "urgent" && !hideText && highlightUrgent,
+                "rounded-sm border border-priority-urgent p-0.5":
+                  priority === "urgent" && !hideText && highlightUrgent,
               })}
             >
               <PriorityIcon
@@ -311,7 +324,10 @@ function TransparentButton(props: ButtonProps) {
           </span>
         )}
         {dropdownArrow && (
-          <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
+          <ChevronDownIcon
+            className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)}
+            aria-hidden="true"
+          />
         )}
       </div>
     </Tooltip>
@@ -375,7 +391,9 @@ export function PriorityDropdown(props: Props) {
   }));
 
   const filteredOptions =
-    query === "" ? options : options.filter((o) => o.query.toLowerCase().includes(query.toLowerCase()));
+    query === ""
+      ? options
+      : options.filter((o) => o.query.toLowerCase().includes(query.toLowerCase()));
 
   const dropdownOnChange = (val: TIssuePriorities) => {
     onChange(val);
@@ -421,7 +439,7 @@ export function PriorityDropdown(props: Props) {
               "cursor-not-allowed text-secondary": disabled,
               "cursor-pointer": !disabled,
             },
-            buttonContainerClassName
+            buttonContainerClassName,
           )}
           onClick={handleOnClick}
           disabled={disabled}
@@ -453,7 +471,7 @@ export function PriorityDropdown(props: Props) {
         {
           "bg-layer-1": isOpen,
         },
-        className
+        className,
       )}
       value={value}
       onChange={dropdownOnChange}
@@ -493,7 +511,7 @@ export function PriorityDropdown(props: Props) {
                       cn(
                         `flex w-full cursor-pointer items-center justify-between gap-2 truncate rounded-sm px-1 py-1.5 select-none ${
                           active ? "bg-layer-transparent-hover" : ""
-                        } ${selected ? "text-primary" : "text-secondary"}`
+                        } ${selected ? "text-primary" : "text-secondary"}`,
                       )
                     }
                   >

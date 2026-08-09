@@ -41,7 +41,7 @@ type RichTextEditorWrapperProps = MakeOptional<
 
 export const RichTextEditor = forwardRef(function RichTextEditor(
   props: RichTextEditorWrapperProps,
-  ref: React.ForwardedRef<EditorRefApi>
+  ref: React.ForwardedRef<EditorRefApi>,
 ) {
   const {
     containerClassName,
@@ -61,7 +61,9 @@ export const RichTextEditor = forwardRef(function RichTextEditor(
   });
   // use editor mention
   const { fetchMentions } = useEditorMention({
-    searchEntity: editable ? async (payload) => await props.searchMentionCallback(payload) : async () => ({}),
+    searchEntity: editable
+      ? async (payload) => await props.searchMentionCallback(payload)
+      : async () => ({}),
   });
   // editor config
   const { getEditorFileHandlers } = useEditorConfig();
@@ -74,7 +76,10 @@ export const RichTextEditor = forwardRef(function RichTextEditor(
   return (
     <RichTextEditorWithRef
       ref={ref}
-      disabledExtensions={[...richTextEditorExtensions.disabled, ...(additionalDisabledExtensions ?? [])]}
+      disabledExtensions={[
+        ...richTextEditorExtensions.disabled,
+        ...(additionalDisabledExtensions ?? []),
+      ]}
       editable={editable}
       flaggedExtensions={richTextEditorExtensions.flagged}
       fileHandler={getEditorFileHandlers({

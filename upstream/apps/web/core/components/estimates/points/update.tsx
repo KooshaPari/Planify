@@ -13,7 +13,11 @@ import { useTranslation } from "@plane/i18n";
 import { CheckIcon, CloseIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
-import type { TEstimatePointsObject, TEstimateSystemKeys, TEstimateTypeErrorObject } from "@plane/types";
+import type {
+  TEstimatePointsObject,
+  TEstimateSystemKeys,
+  TEstimateTypeErrorObject,
+} from "@plane/types";
 import { Spinner } from "@plane/ui";
 import { cn, isEstimatePointValuesRepeated } from "@plane/utils";
 import { EstimateInputRoot } from "@/components/estimates/inputs/root";
@@ -33,10 +37,16 @@ type TEstimatePointUpdate = {
   handleEstimatePointValueUpdate: (estimateValue: string) => void;
   closeCallBack: () => void;
   estimatePointError?: TEstimateTypeErrorObject | undefined;
-  handleEstimatePointError?: (newValue: string, message: string | undefined, mode?: "add" | "delete") => void;
+  handleEstimatePointError?: (
+    newValue: string,
+    message: string | undefined,
+    mode?: "add" | "delete",
+  ) => void;
 };
 
-export const EstimatePointUpdate = observer(function EstimatePointUpdate(props: TEstimatePointUpdate) {
+export const EstimatePointUpdate = observer(function EstimatePointUpdate(
+  props: TEstimatePointUpdate,
+) {
   const {
     workspaceSlug,
     projectId,
@@ -59,7 +69,8 @@ export const EstimatePointUpdate = observer(function EstimatePointUpdate(props: 
   const [estimateInputValue, setEstimateInputValue] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (estimateInputValue === undefined && estimatePoint) setEstimateInputValue(estimatePoint?.value || "");
+    if (estimateInputValue === undefined && estimatePoint)
+      setEstimateInputValue(estimatePoint?.value || "");
   }, [estimateInputValue, estimatePoint]);
 
   const handleSuccess = (value: string) => {
@@ -85,7 +96,8 @@ export const EstimatePointUpdate = observer(function EstimatePointUpdate(props: 
 
     if (!workspaceSlug || !projectId) return;
 
-    handleEstimatePointError && handleEstimatePointError(estimateInputValue || "", undefined, "delete");
+    handleEstimatePointError &&
+      handleEstimatePointError(estimateInputValue || "", undefined, "delete");
 
     if (estimateInputValue) {
       const currentEstimateType: EEstimateSystem | undefined = estimateType;
@@ -95,22 +107,37 @@ export const EstimatePointUpdate = observer(function EstimatePointUpdate(props: 
         .map((point) => (point?.key != estimatePoint?.key ? point?.value : undefined))
         .filter((value) => value != undefined);
       const isRepeated =
-        (estimateType && isEstimatePointValuesRepeated(currentEstimatePointValues, estimateType, estimateInputValue)) ||
+        (estimateType &&
+          isEstimatePointValuesRepeated(
+            currentEstimatePointValues,
+            estimateType,
+            estimateInputValue,
+          )) ||
         false;
 
       if (!isRepeated) {
-        if (currentEstimateType && [EEstimateSystem.TIME, EEstimateSystem.POINTS].includes(currentEstimateType)) {
+        if (
+          currentEstimateType &&
+          [EEstimateSystem.TIME, EEstimateSystem.POINTS].includes(currentEstimateType)
+        ) {
           if (estimateInputValue && !isNaN(Number(estimateInputValue))) {
             if (Number(estimateInputValue) <= 0) {
               if (handleEstimatePointError)
-                handleEstimatePointError(estimateInputValue, t("project_settings.estimates.validation.min_length"));
+                handleEstimatePointError(
+                  estimateInputValue,
+                  t("project_settings.estimates.validation.min_length"),
+                );
               return;
             } else {
               isEstimateValid = true;
             }
           }
         } else if (currentEstimateType && currentEstimateType === EEstimateSystem.CATEGORIES) {
-          if (estimateInputValue && estimateInputValue.length > 0 && isNaN(Number(estimateInputValue))) {
+          if (
+            estimateInputValue &&
+            estimateInputValue.length > 0 &&
+            isNaN(Number(estimateInputValue))
+          ) {
             isEstimateValid = true;
           }
         }
@@ -132,7 +159,8 @@ export const EstimatePointUpdate = observer(function EstimatePointUpdate(props: 
                 await updateEstimatePoint(workspaceSlug, projectId, payload);
 
                 setLoader(false);
-                if (handleEstimatePointError) handleEstimatePointError(estimateInputValue, undefined, "delete");
+                if (handleEstimatePointError)
+                  handleEstimatePointError(estimateInputValue, undefined, "delete");
                 handleClose();
                 setToast({
                   type: TOAST_TYPE.SUCCESS,
@@ -144,7 +172,7 @@ export const EstimatePointUpdate = observer(function EstimatePointUpdate(props: 
                 if (handleEstimatePointError)
                   handleEstimatePointError(
                     estimateInputValue,
-                    t("project_settings.estimates.validation.unable_to_process")
+                    t("project_settings.estimates.validation.unable_to_process"),
                   );
                 setToast({
                   type: TOAST_TYPE.ERROR,
@@ -162,13 +190,19 @@ export const EstimatePointUpdate = observer(function EstimatePointUpdate(props: 
               estimateInputValue,
               [EEstimateSystem.POINTS, EEstimateSystem.TIME].includes(estimateType)
                 ? t("project_settings.estimates.validation.numeric")
-                : t("project_settings.estimates.validation.character")
+                : t("project_settings.estimates.validation.character"),
             );
         }
       } else if (handleEstimatePointError)
-        handleEstimatePointError(estimateInputValue, t("project_settings.estimates.validation.already_exists"));
+        handleEstimatePointError(
+          estimateInputValue,
+          t("project_settings.estimates.validation.already_exists"),
+        );
     } else if (handleEstimatePointError)
-      handleEstimatePointError(estimateInputValue || "", t("project_settings.estimates.validation.empty"));
+      handleEstimatePointError(
+        estimateInputValue || "",
+        t("project_settings.estimates.validation.empty"),
+      );
   };
 
   return (
@@ -176,7 +210,7 @@ export const EstimatePointUpdate = observer(function EstimatePointUpdate(props: 
       <div
         className={cn(
           "relative my-1 flex w-full items-center rounded-sm border",
-          estimatePointError?.message ? `border-danger-strong` : `border-subtle`
+          estimatePointError?.message ? `border-danger-strong` : `border-subtle`,
         )}
       >
         <EstimateInputRoot

@@ -13,7 +13,7 @@ import { AppError } from "@/lib/errors";
 export const broadcastMessageToPage = async (
   hocuspocusServerInstance: Hocuspocus,
   documentName: string,
-  eventData: BroadcastedEvent
+  eventData: BroadcastedEvent,
 ): Promise<boolean> => {
   if (!hocuspocusServerInstance || !hocuspocusServerInstance.documents) {
     const appError = new AppError("HocusPocus server not available or initialized", {
@@ -23,7 +23,9 @@ export const broadcastMessageToPage = async (
     return false;
   }
 
-  const redisExtension = hocuspocusServerInstance.configuration.extensions.find((ext) => ext instanceof Redis);
+  const redisExtension = hocuspocusServerInstance.configuration.extensions.find(
+    (ext) => ext instanceof Redis,
+  );
 
   if (!redisExtension) {
     logger.error("BROADCAST_MESSAGE_TO_PAGE: Redis extension not found");

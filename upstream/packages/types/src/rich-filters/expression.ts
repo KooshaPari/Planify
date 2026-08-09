@@ -6,7 +6,11 @@
 
 // local imports
 import type { SingleOrArray } from "../utils";
-import type { TSupportedOperators, LOGICAL_OPERATOR, TAllAvailableOperatorsForDisplay } from "./operators";
+import type {
+  TSupportedOperators,
+  LOGICAL_OPERATOR,
+  TAllAvailableOperatorsForDisplay,
+} from "./operators";
 
 /**
  * Filter node types for building hierarchical filter trees.
@@ -48,7 +52,10 @@ type TBaseFilterNode = {
  * @template P - Property key type
  * @template V - Value type
  */
-export type TFilterConditionNode<P extends TFilterProperty, V extends TFilterValue> = TBaseFilterNode & {
+export type TFilterConditionNode<
+  P extends TFilterProperty,
+  V extends TFilterValue,
+> = TBaseFilterNode & {
   type: typeof FILTER_NODE_TYPE.CONDITION;
   property: P;
   operator: TSupportedOperators;
@@ -58,10 +65,10 @@ export type TFilterConditionNode<P extends TFilterProperty, V extends TFilterVal
 /**
  * Filter condition node for display purposes.
  */
-export type TFilterConditionNodeForDisplay<P extends TFilterProperty, V extends TFilterValue> = Omit<
-  TFilterConditionNode<P, V>,
-  "operator"
-> & {
+export type TFilterConditionNodeForDisplay<
+  P extends TFilterProperty,
+  V extends TFilterValue,
+> = Omit<TFilterConditionNode<P, V>, "operator"> & {
   operator: TAllAvailableOperatorsForDisplay;
 };
 
@@ -107,7 +114,10 @@ export type TFilterConditionPayload<P extends TFilterProperty, V extends TFilter
  * Payload for creating/updating AND group nodes - excludes base node properties.
  * @template P - Property key type
  */
-export type TFilterAndGroupPayload<P extends TFilterProperty> = Omit<TFilterAndGroupNode<P>, keyof TBaseFilterNode>;
+export type TFilterAndGroupPayload<P extends TFilterProperty> = Omit<
+  TFilterAndGroupNode<P>,
+  keyof TBaseFilterNode
+>;
 
 /**
  * Union payload type for creating/updating any group node - excludes base node properties.

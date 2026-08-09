@@ -16,6 +16,8 @@ export type TWorkItemAdditionalWidgetActionButtonsProps = {
   workspaceSlug: string;
 };
 
-export function WorkItemAdditionalWidgetActionButtons(_props: TWorkItemAdditionalWidgetActionButtonsProps) {
+export function WorkItemAdditionalWidgetActionButtons(
+  _props: TWorkItemAdditionalWidgetActionButtonsProps,
+) {
   return null;
 }

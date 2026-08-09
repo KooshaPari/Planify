@@ -56,7 +56,7 @@ export const ProjectRoot = observer(function ProjectRoot() {
 
       updateFilters(workspaceSlug.toString(), { [key]: newValues });
     },
-    [currentWorkspaceFilters, updateFilters, workspaceSlug]
+    [currentWorkspaceFilters, updateFilters, workspaceSlug],
   );
 
   const handleRemoveDisplayFilter = useCallback(
@@ -64,7 +64,7 @@ export const ProjectRoot = observer(function ProjectRoot() {
       if (!workspaceSlug) return;
       updateDisplayFilters(workspaceSlug.toString(), { [key]: false });
     },
-    [updateDisplayFilters, workspaceSlug]
+    [updateDisplayFilters, workspaceSlug],
   );
 
   const handleClearAllFilters = useCallback(() => {
@@ -82,7 +82,8 @@ export const ProjectRoot = observer(function ProjectRoot() {
     <>
       <PageHead title={pageTitle} />
       <div className="flex h-full w-full flex-col">
-        {(calculateTotalFilters(currentWorkspaceFilters ?? {}) !== 0 || allowedDisplayFilters.length > 0) && (
+        {(calculateTotalFilters(currentWorkspaceFilters ?? {}) !== 0 ||
+          allowedDisplayFilters.length > 0) && (
           <ProjectAppliedFiltersList
             appliedFilters={currentWorkspaceFilters ?? {}}
             appliedDisplayFilters={allowedDisplayFilters}

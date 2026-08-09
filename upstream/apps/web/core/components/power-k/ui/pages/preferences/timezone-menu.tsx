@@ -16,7 +16,9 @@ type Props = {
   onSelect: (timezone: string) => void;
 };
 
-export const PowerKPreferencesTimezonesMenu = observer(function PowerKPreferencesTimezonesMenu(props: Props) {
+export const PowerKPreferencesTimezonesMenu = observer(function PowerKPreferencesTimezonesMenu(
+  props: Props,
+) {
   const { onSelect } = props;
   // timezones
   const { timezones } = useTimezone();

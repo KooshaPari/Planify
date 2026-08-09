@@ -44,12 +44,18 @@ export const Default: Story = {
           closeOnSelect
           label={
             <span className="flex size-8 items-center justify-center rounded-md px-2 text-18">
-              {selectedEmoji ? stringToEmoji(selectedEmoji) : <SmilePlus className="h-6 text-primary" />}
+              {selectedEmoji ? (
+                stringToEmoji(selectedEmoji)
+              ) : (
+                <SmilePlus className="h-6 text-primary" />
+              )}
             </span>
           }
         />
         {selectedEmoji && (
-          <div className="rounded-sm border border-subtle bg-layer-1 p-4 text-13">Selected: {selectedEmoji}</div>
+          <div className="rounded-sm border border-subtle bg-layer-1 p-4 text-13">
+            Selected: {selectedEmoji}
+          </div>
         )}
       </div>
     );
@@ -105,7 +111,9 @@ export const InlineReactions: Story = {
       setReactions((prev) => {
         const existing = prev.find((r) => r.emoji === emoji);
         if (existing) {
-          return prev.map((r) => (r.emoji === emoji ? { ...r, count: r.count + 1, reacted: true } : r));
+          return prev.map((r) =>
+            r.emoji === emoji ? { ...r, count: r.count + 1, reacted: true } : r,
+          );
         }
         return [...prev, { emoji, count: 1, reacted: true, users: ["You"] }];
       });
@@ -122,7 +130,7 @@ export const InlineReactions: Story = {
             };
           }
           return r;
-        })
+        }),
       );
     };
 
@@ -342,7 +350,9 @@ export const InMessageContext: Story = {
       setReactions((prev) => {
         const existing = prev.find((r) => r.emoji === emoji);
         if (existing) {
-          return prev.map((r) => (r.emoji === emoji ? { ...r, count: r.count + 1, reacted: true } : r));
+          return prev.map((r) =>
+            r.emoji === emoji ? { ...r, count: r.count + 1, reacted: true } : r,
+          );
         }
         return [...prev, { emoji, count: 1, reacted: true, users: ["You"] }];
       });
@@ -359,7 +369,7 @@ export const InMessageContext: Story = {
             };
           }
           return r;
-        })
+        }),
       );
     };
 
@@ -377,7 +387,11 @@ export const InMessageContext: Story = {
           </div>
         </div>
         <div className="flex gap-2">
-          <EmojiReactionGroup reactions={reactions} onReactionClick={handleReactionClick} showAddButton={false} />
+          <EmojiReactionGroup
+            reactions={reactions}
+            onReactionClick={handleReactionClick}
+            showAddButton={false}
+          />
           <EmojiReactionPicker
             isOpen={isOpen}
             handleToggle={setIsOpen}

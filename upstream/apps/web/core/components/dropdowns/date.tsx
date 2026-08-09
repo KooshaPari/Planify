@@ -129,7 +129,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
           "cursor-not-allowed text-secondary": disabled,
           "cursor-pointer": !disabled,
         },
-        buttonContainerClassName
+        buttonContainerClassName,
       )}
       ref={setReferenceElement}
       onClick={handleOnClick}
@@ -185,7 +185,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
             <div
               className={cn(
                 "z-30 my-1 overflow-hidden rounded-md border-[0.5px] border-strong bg-surface-1 shadow-raised-200",
-                optionsClassName
+                optionsClassName,
               )}
               ref={setPopperElement}
               style={styles.popper}
@@ -208,7 +208,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
               />
             </div>
           </Combobox.Options>,
-          document.body
+          document.body,
         )}
     </ComboDropDown>
   );

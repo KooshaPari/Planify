@@ -27,10 +27,15 @@ export const ReadonlyEstimate = observer(function ReadonlyEstimate(props: TReado
   const { className, hideIcon = false, value, placeholder, projectId, workspaceSlug } = props;
 
   const { t } = useTranslation();
-  const { currentActiveEstimateIdByProjectId, getEstimateById, getProjectEstimates } = useProjectEstimates();
+  const { currentActiveEstimateIdByProjectId, getEstimateById, getProjectEstimates } =
+    useProjectEstimates();
 
-  const currentActiveEstimateId = projectId ? currentActiveEstimateIdByProjectId(projectId) : undefined;
-  const currentActiveEstimate = currentActiveEstimateId ? getEstimateById(currentActiveEstimateId) : undefined;
+  const currentActiveEstimateId = projectId
+    ? currentActiveEstimateIdByProjectId(projectId)
+    : undefined;
+  const currentActiveEstimate = currentActiveEstimateId
+    ? getEstimateById(currentActiveEstimateId)
+    : undefined;
   const { estimatePointById } = useEstimate(currentActiveEstimateId);
 
   const estimatePoint = value ? estimatePointById(value) : null;

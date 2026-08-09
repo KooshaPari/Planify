@@ -16,14 +16,22 @@ type UseActiveTabProps = {
   projectId: string;
 };
 
-export const useActiveTab = ({ navigationItems, pathname, workItemId, workItem, projectId }: UseActiveTabProps) => {
+export const useActiveTab = ({
+  navigationItems,
+  pathname,
+  workItemId,
+  workItem,
+  projectId,
+}: UseActiveTabProps) => {
   // Check if a navigation item is active
   const isActive = useCallback(
     (item: TNavigationItem) => {
       // Work item condition
-      const workItemCondition = workItemId && workItem && !workItem?.is_epic && workItem?.project_id === projectId;
+      const workItemCondition =
+        workItemId && workItem && !workItem?.is_epic && workItem?.project_id === projectId;
       // Epic condition
-      const epicCondition = workItemId && workItem && workItem?.is_epic && workItem?.project_id === projectId;
+      const epicCondition =
+        workItemId && workItem && workItem?.is_epic && workItem?.project_id === projectId;
       // Is active
       const isWorkItemActive = item.key === "work_items" && workItemCondition;
       const isEpicActive = item.key === "epics" && epicCondition;
@@ -32,11 +40,14 @@ export const useActiveTab = ({ navigationItems, pathname, workItemId, workItem, 
       // Return
       return isWorkItemActive || isEpicActive || isPathnameActive;
     },
-    [pathname, workItem, workItemId, projectId]
+    [pathname, workItem, workItemId, projectId],
   );
 
   // Find active item
-  const activeItem = useMemo(() => navigationItems.find((item) => isActive(item)), [navigationItems, isActive]);
+  const activeItem = useMemo(
+    () => navigationItems.find((item) => isActive(item)),
+    [navigationItems, isActive],
+  );
 
   return { isActive, activeItem };
 };

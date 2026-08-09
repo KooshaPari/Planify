@@ -25,7 +25,14 @@ type Props = {
 };
 
 export const ExtendedSidebarWrapper = observer(function ExtendedSidebarWrapper(props: Props) {
-  const { className, children, extendedSidebarRef, isExtendedSidebarOpened, handleClose, excludedElementId } = props;
+  const {
+    className,
+    children,
+    extendedSidebarRef,
+    isExtendedSidebarOpened,
+    handleClose,
+    excludedElementId,
+  } = props;
   // store hooks
   const { sidebarCollapsed } = useAppTheme();
   // local storage
@@ -49,7 +56,7 @@ export const ExtendedSidebarWrapper = observer(function ExtendedSidebarWrapper(p
           "opacity-100": isExtendedSidebarOpened,
           "hidden opacity-0": !isExtendedSidebarOpened,
         },
-        className
+        className,
       )}
       style={{
         left: `${storedValue ?? SIDEBAR_WIDTH}px`,

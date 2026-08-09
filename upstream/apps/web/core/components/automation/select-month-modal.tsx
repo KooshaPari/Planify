@@ -21,7 +21,13 @@ type Props = {
   handleChange: (formData: Partial<IProject>) => Promise<void>;
 };
 
-export function SelectMonthModal({ type, initialValues, isOpen, handleClose, handleChange }: Props) {
+export function SelectMonthModal({
+  type,
+  initialValues,
+  isOpen,
+  handleClose,
+  handleChange,
+}: Props) {
   const { workspaceSlug, projectId } = useParams();
 
   const {
@@ -45,7 +51,12 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={onClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={onClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <h3 className="text-16 leading-6 font-medium text-primary">Customize time range</h3>
@@ -76,13 +87,17 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
                           min={1}
                           max={12}
                         />
-                        <span className="absolute top-2.5 right-8 text-13 text-secondary">Months</span>
+                        <span className="absolute top-2.5 right-8 text-13 text-secondary">
+                          Months
+                        </span>
                       </div>
                     )}
                   />
 
                   {errors.close_in && (
-                    <span className="px-1 text-13 text-danger-primary">Select a month between 1 and 12.</span>
+                    <span className="px-1 text-13 text-danger-primary">
+                      Select a month between 1 and 12.
+                    </span>
                   )}
                 </>
               ) : (
@@ -110,12 +125,16 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
                           min={1}
                           max={12}
                         />
-                        <span className="absolute top-2.5 right-8 text-13 text-secondary">Months</span>
+                        <span className="absolute top-2.5 right-8 text-13 text-secondary">
+                          Months
+                        </span>
                       </div>
                     )}
                   />
                   {errors.archive_in && (
-                    <span className="px-1 text-13 text-danger-primary">Select a month between 1 and 12.</span>
+                    <span className="px-1 text-13 text-danger-primary">
+                      Select a month between 1 and 12.
+                    </span>
                   )}
                 </>
               )}

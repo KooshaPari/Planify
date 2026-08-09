@@ -64,7 +64,8 @@ export function InstanceSetupForm() {
   const lastNameParam = searchParams?.get("last_name") || undefined;
   const companyParam = searchParams?.get("company") || undefined;
   const emailParam = searchParams?.get("email") || undefined;
-  const isTelemetryEnabledParam = (searchParams?.get("is_telemetry_enabled") === "True" ? true : false) || true;
+  const isTelemetryEnabledParam =
+    (searchParams?.get("is_telemetry_enabled") === "True" ? true : false) || true;
   const errorCode = searchParams?.get("error_code") || undefined;
   const errorMessage = searchParams?.get("error_message") || undefined;
   // state
@@ -86,7 +87,9 @@ export function InstanceSetupForm() {
 
   useEffect(() => {
     if (csrfToken === undefined)
-      authService.requestCSRFToken().then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
+      authService
+        .requestCSRFToken()
+        .then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
   }, [csrfToken]);
 
   useEffect(() => {
@@ -94,7 +97,8 @@ export function InstanceSetupForm() {
     if (lastNameParam) setFormData((prev) => ({ ...prev, last_name: lastNameParam }));
     if (companyParam) setFormData((prev) => ({ ...prev, company_name: companyParam }));
     if (emailParam) setFormData((prev) => ({ ...prev, email: emailParam }));
-    if (isTelemetryEnabledParam) setFormData((prev) => ({ ...prev, is_telemetry_enabled: isTelemetryEnabledParam }));
+    if (isTelemetryEnabledParam)
+      setFormData((prev) => ({ ...prev, is_telemetry_enabled: isTelemetryEnabledParam }));
   }, [firstNameParam, lastNameParam, companyParam, emailParam, isTelemetryEnabledParam]);
 
   // derived values
@@ -129,12 +133,19 @@ export function InstanceSetupForm() {
       formData.password === formData.confirm_password
         ? false
         : true,
-    [formData.confirm_password, formData.email, formData.first_name, formData.password, isSubmitting]
+    [
+      formData.confirm_password,
+      formData.email,
+      formData.first_name,
+      formData.password,
+      isSubmitting,
+    ],
   );
 
   const password = formData?.password ?? "";
   const confirmPassword = formData?.confirm_password ?? "";
-  const renderPasswordMatchError = !isRetryPasswordInputFocused || confirmPassword.length >= password.length;
+  const renderPasswordMatchError =
+    !isRetryPasswordInputFocused || confirmPassword.length >= password.length;
 
   return (
     <>
@@ -158,7 +169,11 @@ export function InstanceSetupForm() {
             onError={() => setIsSubmitting(false)}
           >
             <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
-            <input type="hidden" name="is_telemetry_enabled" value={formData.is_telemetry_enabled ? "True" : "False"} />
+            <input
+              type="hidden"
+              name="is_telemetry_enabled"
+              value={formData.is_telemetry_enabled ? "True" : "False"}
+            />
 
             <div className="flex flex-col items-center gap-4 sm:flex-row">
               <div className="w-full space-y-1">
@@ -221,12 +236,16 @@ export function InstanceSetupForm() {
                 placeholder="name@company.com"
                 value={formData.email}
                 onChange={(e) => handleFormChange("email", e.target.value)}
-                hasError={errorData.type && errorData.type === EErrorCodes.INVALID_EMAIL ? true : false}
+                hasError={
+                  errorData.type && errorData.type === EErrorCodes.INVALID_EMAIL ? true : false
+                }
                 autoComplete="off"
               />
-              {errorData.type && errorData.type === EErrorCodes.INVALID_EMAIL && errorData.message && (
-                <p className="px-1 text-11 text-danger-primary">{errorData.message}</p>
-              )}
+              {errorData.type &&
+                errorData.type === EErrorCodes.INVALID_EMAIL &&
+                errorData.message && (
+                  <p className="px-1 text-11 text-danger-primary">{errorData.message}</p>
+                )}
             </div>
 
             <div className="w-full space-y-1">
@@ -265,7 +284,9 @@ export function InstanceSetupForm() {
                   placeholder="New password"
                   value={formData.password}
                   onChange={(e) => handleFormChange("password", e.target.value)}
-                  hasError={errorData.type && errorData.type === EErrorCodes.INVALID_PASSWORD ? true : false}
+                  hasError={
+                    errorData.type && errorData.type === EErrorCodes.INVALID_PASSWORD ? true : false
+                  }
                   onFocus={() => setIsPasswordInputFocused(true)}
                   onBlur={() => setIsPasswordInputFocused(false)}
                   autoComplete="new-password"
@@ -290,10 +311,15 @@ export function InstanceSetupForm() {
                   </button>
                 )}
               </div>
-              {errorData.type && errorData.type === EErrorCodes.INVALID_PASSWORD && errorData.message && (
-                <p className="px-1 text-11 text-danger-primary">{errorData.message}</p>
-              )}
-              <PasswordStrengthIndicator password={formData.password} isFocused={isPasswordInputFocused} />
+              {errorData.type &&
+                errorData.type === EErrorCodes.INVALID_PASSWORD &&
+                errorData.message && (
+                  <p className="px-1 text-11 text-danger-primary">{errorData.message}</p>
+                )}
+              <PasswordStrengthIndicator
+                password={formData.password}
+                isFocused={isPasswordInputFocused}
+              />
             </div>
 
             <div className="w-full space-y-1">
@@ -347,11 +373,16 @@ export function InstanceSetupForm() {
                   className="h-4 w-4"
                   iconClassName="w-3 h-3"
                   id="is_telemetry_enabled"
-                  onChange={() => handleFormChange("is_telemetry_enabled", !formData.is_telemetry_enabled)}
+                  onChange={() =>
+                    handleFormChange("is_telemetry_enabled", !formData.is_telemetry_enabled)
+                  }
                   checked={formData.is_telemetry_enabled}
                 />
               </div>
-              <label className="cursor-pointer text-13 font-medium text-tertiary" htmlFor="is_telemetry_enabled">
+              <label
+                className="cursor-pointer text-13 font-medium text-tertiary"
+                htmlFor="is_telemetry_enabled"
+              >
                 Allow Plane to anonymously collect usage events.{" "}
                 <a
                   tabIndex={-1}

@@ -46,7 +46,7 @@ export const IssueSubscription = observer(function IssueSubscription(props: TIss
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug,
-    projectId
+    projectId,
   );
 
   const handleSubscription = async () => {

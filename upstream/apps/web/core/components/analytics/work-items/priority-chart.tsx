@@ -13,12 +13,23 @@ import useSWR from "swr";
 // plane package imports
 import { Download } from "lucide-react";
 import type { ChartXAxisDateGrouping } from "@plane/constants";
-import { ANALYTICS_X_AXIS_VALUES, ANALYTICS_Y_AXIS_VALUES, CHART_COLOR_PALETTES, EChartModels } from "@plane/constants";
+import {
+  ANALYTICS_X_AXIS_VALUES,
+  ANALYTICS_Y_AXIS_VALUES,
+  CHART_COLOR_PALETTES,
+  EChartModels,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { BarChart } from "@plane/propel/charts/bar-chart";
 import { EmptyStateCompact } from "@plane/propel/empty-state";
-import type { TBarItem, TChart, TChartDatum, ChartXAxisProperty, ChartYAxisMetric } from "@plane/types";
+import type {
+  TBarItem,
+  TChart,
+  TChartDatum,
+  ChartXAxisProperty,
+  ChartYAxisMetric,
+} from "@plane/types";
 // plane web components
 import { generateExtendedColors, parseChartData } from "@/components/chart/utils";
 // hooks
@@ -53,7 +64,8 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
   const { x_axis, y_axis, group_by } = props;
   const { t } = useTranslation();
   // store hooks
-  const { selectedDuration, selectedProjects, selectedCycle, selectedModule, isPeekView, isEpic } = useAnalytics();
+  const { selectedDuration, selectedProjects, selectedCycle, selectedModule, isPeekView, isEpic } =
+    useAnalytics();
   const { workspaceStates } = useProjectState();
   const { resolvedTheme } = useTheme();
   // router
@@ -75,13 +87,14 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
           ...(isEpic ? { epic: true } : {}),
           ...props,
         },
-        isPeekView
-      )
+        isPeekView,
+      ),
   );
   const parsedData = useMemo(
     () =>
-      priorityChartData && parseChartData(priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping),
-    [priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping]
+      priorityChartData &&
+      parseChartData(priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping),
+    [priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping],
   );
   const chart_model = props.group_by ? EChartModels.STACKED : EChartModels.BASIC;
 
@@ -97,7 +110,13 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
           key: "count",
           label: "Count",
           stackId: "bar-one",
-          fill: (payload) => generateBarColor(payload.key, { x_axis, y_axis, group_by }, baseColors, workspaceStates),
+          fill: (payload) =>
+            generateBarColor(
+              payload.key,
+              { x_axis, y_axis, group_by },
+              baseColors,
+              workspaceStates,
+            ),
           textClassName: "",
           showPercentage: false,
           showTopBorderRadius: () => true,
@@ -130,8 +149,10 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
         fill: extendedColors[index],
         textClassName: "",
         showPercentage: false,
-        showTopBorderRadius: (value, payload: TChartDatum) => parsedExtremes[payload.key].top === value,
-        showBottomBorderRadius: (value, payload: TChartDatum) => parsedExtremes[payload.key].bottom === value,
+        showTopBorderRadius: (value, payload: TChartDatum) =>
+          parsedExtremes[payload.key].top === value,
+        showBottomBorderRadius: (value, payload: TChartDatum) =>
+          parsedExtremes[payload.key].bottom === value,
       }));
     } else {
       parsedBars = [];
@@ -140,12 +161,14 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
   }, [chart_model, group_by, parsedData, resolvedTheme, workspaceStates, x_axis, y_axis]);
 
   const yAxisLabel = useMemo(
-    () => ANALYTICS_Y_AXIS_VALUES.find((item) => item.value === props.y_axis)?.label ?? props.y_axis,
-    [props.y_axis]
+    () =>
+      ANALYTICS_Y_AXIS_VALUES.find((item) => item.value === props.y_axis)?.label ?? props.y_axis,
+    [props.y_axis],
   );
   const xAxisLabel = useMemo(
-    () => ANALYTICS_X_AXIS_VALUES.find((item) => item.value === props.x_axis)?.label ?? props.x_axis,
-    [props.x_axis]
+    () =>
+      ANALYTICS_X_AXIS_VALUES.find((item) => item.value === props.x_axis)?.label ?? props.x_axis,
+    [props.x_axis],
   );
 
   const defaultColumns: ColumnDef<TChartDatum>[] = useMemo(
@@ -174,7 +197,7 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
         },
       },
     ],
-    [xAxisLabel]
+    [xAxisLabel],
   );
 
   const columns: ColumnDef<TChartDatum>[] = useMemo(
@@ -193,7 +216,7 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
             },
           }))
         : [],
-    [parsedData]
+    [parsedData],
   );
 
   return (
@@ -229,7 +252,13 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
               <Button
                 variant="secondary"
                 prependIcon={<Download className="h-3.5 w-3.5" />}
-                onClick={() => exportCSV(table.getRowModel().rows, [...defaultColumns, ...columns], workspaceSlug)}
+                onClick={() =>
+                  exportCSV(
+                    table.getRowModel().rows,
+                    [...defaultColumns, ...columns],
+                    workspaceSlug,
+                  )
+                }
               >
                 <div>{t("exporter.csv.short_description")}</div>
               </Button>

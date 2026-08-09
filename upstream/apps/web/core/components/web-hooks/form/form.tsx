@@ -62,7 +62,8 @@ export const WebhookForm = observer(function WebhookForm(props: Props) {
   useEffect(() => {
     if (!data) return;
 
-    if (data.project && data.cycle && data.module && data.issue && data.issue_comment) setWebhookEventType("all");
+    if (data.project && data.cycle && data.module && data.issue && data.issue_comment)
+      setWebhookEventType("all");
     else setWebhookEventType("individual");
   }, [data]);
 
@@ -113,7 +114,13 @@ export const WebhookForm = observer(function WebhookForm(props: Props) {
             {t("cancel")}
           </Button>
           {!webhookSecretKey && (
-            <Button type="submit" variant="primary" size="lg" loading={isSubmitting} className="capitalize">
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              loading={isSubmitting}
+              className="capitalize"
+            >
               {isSubmitting ? t("common.creating") : t("common.create")}
             </Button>
           )}

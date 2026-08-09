@@ -35,7 +35,9 @@ export const STATE_GROUP_COLORS: {
   cancelled: "#9AA4BC",
 };
 
-export const INTAKE_STATE_GROUP_COLORS: { [key in TIntakeStateGroups]: string } = { triage: "#4E5355" };
+export const INTAKE_STATE_GROUP_COLORS: { [key in TIntakeStateGroups]: string } = {
+  triage: "#4E5355",
+};
 
 export const STATE_GROUP_SIZES: {
   [key in EIconSize]: string;

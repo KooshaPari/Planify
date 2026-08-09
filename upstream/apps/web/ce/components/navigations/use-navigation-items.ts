@@ -7,7 +7,14 @@
 import { useMemo, useCallback } from "react";
 // plane imports
 import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
-import { CycleIcon, IntakeIcon, ModuleIcon, PageIcon, ViewsIcon, WorkItemsIcon } from "@plane/propel/icons";
+import {
+  CycleIcon,
+  IntakeIcon,
+  ModuleIcon,
+  PageIcon,
+  ViewsIcon,
+  WorkItemsIcon,
+} from "@plane/propel/icons";
 import type { EUserProjectRoles, IPartialProject } from "@plane/types";
 import type { TNavigationItem } from "@/components/navigation/tab-navigation-root";
 
@@ -19,7 +26,7 @@ type UseNavigationItemsProps = {
     access: EUserPermissions[] | EUserProjectRoles[],
     level: EUserPermissionsLevel,
     workspaceSlug: string,
-    projectId: string
+    projectId: string,
   ) => boolean;
 };
 
@@ -93,7 +100,7 @@ export const useNavigationItems = ({
         sortOrder: 6,
       },
     ],
-    [project]
+    [project],
   );
 
   // Combine, filter, and sort navigation items
@@ -103,7 +110,12 @@ export const useNavigationItems = ({
     // Filter by permissions and shouldRender
     const filteredItems = navItems.filter((item) => {
       if (!item.shouldRender) return false;
-      const hasAccess = allowPermissions(item.access, EUserPermissionsLevel.PROJECT, workspaceSlug, project?.id ?? "");
+      const hasAccess = allowPermissions(
+        item.access,
+        EUserPermissionsLevel.PROJECT,
+        workspaceSlug,
+        project?.id ?? "",
+      );
       return hasAccess;
     });
 

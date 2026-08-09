@@ -43,10 +43,14 @@ export function ModuleStatusSelect({ control, error, tabIndex }: Props) {
                 {value ? (
                   <ModuleStatusIcon status={value} />
                 ) : (
-                  <StatePropertyIcon className={`h-3 w-3 ${error ? "text-danger-primary" : "text-secondary"}`} />
+                  <StatePropertyIcon
+                    className={`h-3 w-3 ${error ? "text-danger-primary" : "text-secondary"}`}
+                  />
                 )}
                 {(selectedValue && t(selectedValue?.i18n_label)) ?? (
-                  <span className={`${error ? "text-danger-primary" : "text-secondary"}`}>Status</span>
+                  <span className={`${error ? "text-danger-primary" : "text-secondary"}`}>
+                    Status
+                  </span>
                 )}
               </div>
             }

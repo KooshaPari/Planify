@@ -24,7 +24,10 @@ export class AppError extends Error {
   code?: string;
   context?: Record<string, any>;
 
-  constructor(messageOrError: string | unknown, data?: Partial<Omit<AppError, "name" | "message">>) {
+  constructor(
+    messageOrError: string | unknown,
+    data?: Partial<Omit<AppError, "name" | "message">>,
+  ) {
     // Handle error objects - extract essential info
     const error = messageOrError;
 

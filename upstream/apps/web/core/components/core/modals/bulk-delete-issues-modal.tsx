@@ -125,7 +125,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
           type: TOAST_TYPE.ERROR,
           title: "Error!",
           message: "Something went wrong. Please try again.",
-        })
+        }),
       );
   };
 
@@ -133,7 +133,9 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
     issues.length > 0 ? (
       <li className="p-2">
         {query === "" && (
-          <h2 className="mt-4 mb-2 px-3 text-11 font-semibold text-primary">Select work items to delete</h2>
+          <h2 className="mt-4 mb-2 px-3 text-11 font-semibold text-primary">
+            Select work items to delete
+          </h2>
         )}
         <ul className="text-13 text-secondary">
           {issues.map((issue) => (
@@ -148,15 +150,26 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
     ) : (
       <div className="flex flex-col items-center justify-center px-3 py-8 text-center">
         {query === "" ? (
-          <SimpleEmptyState title={t("issue_relation.empty_state.no_issues.title")} assetPath={issuesResolvedPath} />
+          <SimpleEmptyState
+            title={t("issue_relation.empty_state.no_issues.title")}
+            assetPath={issuesResolvedPath}
+          />
         ) : (
-          <SimpleEmptyState title={t("issue_relation.empty_state.search.title")} assetPath={searchResolvedPath} />
+          <SimpleEmptyState
+            title={t("issue_relation.empty_state.search.title")}
+            assetPath={searchResolvedPath}
+          />
         )}
       </div>
     );
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <form>
         <Combobox
           onChange={(val: string) => {
@@ -164,7 +177,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
             if (selectedIssues.includes(val))
               setValue(
                 "delete_issue_ids",
-                selectedIssues.filter((i) => i !== val)
+                selectedIssues.filter((i) => i !== val),
               );
             else setValue("delete_issue_ids", [...selectedIssues, val]);
           }}
@@ -182,7 +195,10 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
             />
           </div>
 
-          <Combobox.Options static className="max-h-80 scroll-py-2 divide-y divide-subtle-1 overflow-y-auto">
+          <Combobox.Options
+            static
+            className="max-h-80 scroll-py-2 divide-y divide-subtle-1 overflow-y-auto"
+          >
             {isSearching ? (
               <Loader className="space-y-3 p-3">
                 <Loader.Item height="40px" />
@@ -201,7 +217,12 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
             <Button variant="secondary" size="lg" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="error-fill" size="lg" onClick={handleSubmit(handleDelete)} loading={isSubmitting}>
+            <Button
+              variant="error-fill"
+              size="lg"
+              onClick={handleSubmit(handleDelete)}
+              loading={isSubmitting}
+            >
               {isSubmitting ? "Deleting..." : "Delete selected work items"}
             </Button>
           </div>

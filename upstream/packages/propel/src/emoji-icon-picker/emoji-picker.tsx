@@ -51,7 +51,7 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
       });
       if (closeOnSelect) handleToggle(false);
     },
-    [onChange, closeOnSelect, handleToggle]
+    [onChange, closeOnSelect, handleToggle],
   );
 
   const handleIconChange = useCallback(
@@ -62,7 +62,7 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
       });
       if (closeOnSelect) handleToggle(false);
     },
-    [onChange, closeOnSelect, handleToggle]
+    [onChange, closeOnSelect, handleToggle],
   );
 
   const tabs = useMemo(
@@ -96,7 +96,14 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
         label: tab.label,
         content: tab.content,
       })),
-    [defaultIconColor, searchDisabled, searchPlaceholder, iconType, handleEmojiChange, handleIconChange]
+    [
+      defaultIconColor,
+      searchDisabled,
+      searchPlaceholder,
+      iconType,
+      handleEmojiChange,
+      handleIconChange,
+    ],
   );
 
   return (
@@ -106,7 +113,10 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
       </Popover.Button>
       <Popover.Panel
         positionerClassName="z-50"
-        className={cn("w-80 overflow-hidden rounded-md border-[0.5px] border-strong bg-surface-1", dropdownClassName)}
+        className={cn(
+          "w-80 overflow-hidden rounded-md border-[0.5px] border-strong bg-surface-1",
+          dropdownClassName,
+        )}
         side={finalSide}
         align={finalAlign}
         sideOffset={8}
@@ -143,7 +153,11 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
             ))}
           </Tabs.List>
           {tabs.map((tab) => (
-            <Tabs.Panel key={tab.key} value={tab.key} className="h-80 overflow-hidden overflow-y-auto">
+            <Tabs.Panel
+              key={tab.key}
+              value={tab.key}
+              className="h-80 overflow-hidden overflow-y-auto"
+            >
               {tab.content}
             </Tabs.Panel>
           ))}

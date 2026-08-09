@@ -18,7 +18,9 @@ type Props = {
   workItemDetails: TIssue;
 };
 
-export const PowerKWorkItemPrioritiesMenu = observer(function PowerKWorkItemPrioritiesMenu(props: Props) {
+export const PowerKWorkItemPrioritiesMenu = observer(function PowerKWorkItemPrioritiesMenu(
+  props: Props,
+) {
   const { handleSelect, workItemDetails } = props;
 
   return (

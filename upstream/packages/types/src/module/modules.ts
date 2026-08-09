@@ -8,7 +8,13 @@ import type { ILinkDetails } from "../issues";
 import type { TIssue } from "../issues/issue";
 import type { IIssueFilterOptions } from "../view-props";
 
-export type TModuleStatus = "backlog" | "planned" | "in-progress" | "paused" | "completed" | "cancelled";
+export type TModuleStatus =
+  | "backlog"
+  | "planned"
+  | "in-progress"
+  | "paused"
+  | "completed"
+  | "cancelled";
 
 export type TModuleCompletionChartDistribution = {
   [key: string]: number | null;
@@ -114,7 +120,9 @@ export type ModuleLink = {
   url: string;
 };
 
-export type SelectModuleType = (IModule & { actionType: "edit" | "delete" | "create-issue" }) | undefined;
+export type SelectModuleType =
+  | (IModule & { actionType: "edit" | "delete" | "create-issue" })
+  | undefined;
 
 export type TModulePlotType = "burndown" | "points";
 

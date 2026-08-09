@@ -45,7 +45,8 @@ export const CycleSidebarHeader = observer(function CycleSidebarHeader(props: Pr
   const { allowPermissions } = useUserPermissions();
   const { updateCycleDetails } = useCycle();
   const { t } = useTranslation();
-  const { renderFormattedDateInUserTimezone, getProjectUTCOffset } = useTimeZoneConverter(projectId);
+  const { renderFormattedDateInUserTimezone, getProjectUTCOffset } =
+    useTimeZoneConverter(projectId);
 
   // derived values
   const projectUTCOffset = getProjectUTCOffset();
@@ -62,7 +63,12 @@ export const CycleSidebarHeader = observer(function CycleSidebarHeader(props: Pr
 
   const submitChanges = async (data: Partial<ICycle>) => {
     if (!workspaceSlug || !projectId || !cycleDetails.id) return;
-    await updateCycleDetails(workspaceSlug.toString(), projectId.toString(), cycleDetails.id.toString(), data);
+    await updateCycleDetails(
+      workspaceSlug.toString(),
+      projectId.toString(),
+      cycleDetails.id.toString(),
+      data,
+    );
   };
 
   useEffect(() => {
@@ -116,7 +122,7 @@ export const CycleSidebarHeader = observer(function CycleSidebarHeader(props: Pr
 
   const isEditingAllowed = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   return (
@@ -133,7 +139,9 @@ export const CycleSidebarHeader = observer(function CycleSidebarHeader(props: Pr
       </div>
       <div className="flex w-full flex-col gap-2">
         <div className="flex items-start justify-between gap-3 pt-2">
-          <h4 className="w-full text-18 font-semibold break-words text-primary">{cycleDetails.name}</h4>
+          <h4 className="w-full text-18 font-semibold break-words text-primary">
+            {cycleDetails.name}
+          </h4>
           {currentCycle && (
             <span
               className="flex h-6 min-w-20 items-center justify-center truncate rounded-sm px-3 text-center text-11 font-medium whitespace-nowrap"

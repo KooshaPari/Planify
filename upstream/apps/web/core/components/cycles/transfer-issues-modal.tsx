@@ -37,7 +37,12 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
   const transferIssue = async (payload: { new_cycle_id: string }) => {
     if (!workspaceSlug || !projectId || !cycleId) return;
 
-    await transferIssuesFromCycle(workspaceSlug.toString(), projectId.toString(), cycleId.toString(), payload)
+    await transferIssuesFromCycle(
+      workspaceSlug.toString(),
+      projectId.toString(),
+      cycleId.toString(),
+      payload,
+    )
       .then(async () => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
@@ -77,7 +82,12 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
   });
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.TOP} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.TOP}
+      width={EModalWidth.XXL}
+    >
       <div className="flex flex-col gap-4 py-5">
         <div className="flex items-center justify-between px-5">
           <div className="flex items-center gap-1">

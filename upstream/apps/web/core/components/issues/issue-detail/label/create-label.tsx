@@ -74,7 +74,9 @@ export function LabelCreate(props: ILabelCreate) {
 
     const labelResponse = await labelOperations.createLabel(workspaceSlug, projectId, formData);
     const currentLabels = [...(values || []), labelResponse.id];
-    await labelOperations.updateIssue(workspaceSlug, projectId, issueId, { label_ids: currentLabels });
+    await labelOperations.updateIssue(workspaceSlug, projectId, issueId, {
+      label_ids: currentLabels,
+    });
     handleIsCreateToggle();
     reset(defaultValues);
   };
@@ -86,13 +88,20 @@ export function LabelCreate(props: ILabelCreate) {
         onClick={handleIsCreateToggle}
       >
         <div className="flex-shrink-0">
-          {isCreateToggle ? <CloseIcon className="h-2.5 w-2.5" /> : <PlusIcon className="h-2.5 w-2.5" />}
+          {isCreateToggle ? (
+            <CloseIcon className="h-2.5 w-2.5" />
+          ) : (
+            <PlusIcon className="h-2.5 w-2.5" />
+          )}
         </div>
         <div className="flex-shrink-0">{isCreateToggle ? "Cancel" : "New"}</div>
       </div>
 
       {isCreateToggle && (
-        <form className="relative flex items-center gap-x-2 p-1" onSubmit={handleSubmit(handleLabel)}>
+        <form
+          className="relative flex items-center gap-x-2 p-1"
+          onSubmit={handleSubmit(handleLabel)}
+        >
           <div>
             <Controller
               name="color"
@@ -101,7 +110,11 @@ export function LabelCreate(props: ILabelCreate) {
                 <Popover>
                   <>
                     <Popover.Button as={Fragment}>
-                      <button type="button" ref={setReferenceElement} className="grid place-items-center outline-none">
+                      <button
+                        type="button"
+                        ref={setReferenceElement}
+                        className="grid place-items-center outline-none"
+                      >
                         {value && value?.trim() !== "" && (
                           <span
                             className="h-5 w-5 rounded-sm"
@@ -119,7 +132,11 @@ export function LabelCreate(props: ILabelCreate) {
                         style={styles.popper}
                         {...attributes.popper}
                       >
-                        <TwitterPicker triangle={"hide"} color={value} onChange={(value) => onChange(value.hex)} />
+                        <TwitterPicker
+                          triangle={"hide"}
+                          color={value}
+                          onChange={(value) => onChange(value.hex)}
+                        />
                       </div>
                     </Popover.Panel>
                   </>

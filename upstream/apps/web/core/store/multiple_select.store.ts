@@ -26,7 +26,10 @@ export type IMultipleSelectStore = {
   getEntityDetailsFromEntityID: (entityID: string) => TEntityDetails | null;
   // entity actions
   updateSelectedEntityDetails: (entityDetails: TEntityDetails, action: "add" | "remove") => void;
-  bulkUpdateSelectedEntityDetails: (entitiesList: TEntityDetails[], action: "add" | "remove") => void;
+  bulkUpdateSelectedEntityDetails: (
+    entitiesList: TEntityDetails[],
+    action: "add" | "remove",
+  ) => void;
   updateLastSelectedEntityDetails: (entityDetails: TEntityDetails | null) => void;
   updatePreviousActiveEntity: (entityDetails: TEntityDetails | null) => void;
   updateNextActiveEntity: (entityDetails: TEntityDetails | null) => void;
@@ -90,7 +93,7 @@ export class MultipleSelectStore implements IMultipleSelectStore {
    * @returns {boolean}
    */
   getIsEntitySelected = computedFn((entityID: string): boolean =>
-    this.selectedEntityDetails.some((en) => en.entityID === entityID)
+    this.selectedEntityDetails.some((en) => en.entityID === entityID),
   );
 
   /**
@@ -98,7 +101,9 @@ export class MultipleSelectStore implements IMultipleSelectStore {
    * @param {string} entityID
    * @returns {boolean}
    */
-  getIsEntityActive = computedFn((entityID: string): boolean => this.activeEntityDetails?.entityID === entityID);
+  getIsEntityActive = computedFn(
+    (entityID: string): boolean => this.activeEntityDetails?.entityID === entityID,
+  );
 
   /**
    * @description get the last selected entity details
@@ -131,7 +136,7 @@ export class MultipleSelectStore implements IMultipleSelectStore {
    */
   getEntityDetailsFromEntityID = computedFn(
     (entityID: string): TEntityDetails | null =>
-      this.selectedEntityDetails.find((en) => en.entityID === entityID) ?? null
+      this.selectedEntityDetails.find((en) => en.entityID === entityID) ?? null,
   );
 
   // entity actions
@@ -171,11 +176,12 @@ export class MultipleSelectStore implements IMultipleSelectStore {
         newEntities = differenceWith(this.selectedEntityDetails, entitiesList, isEqual);
         newEntities = newEntities.concat(entitiesList);
         this.selectedEntityDetails = newEntities;
-        if (entitiesList.length > 0) this.updateLastSelectedEntityDetails(entitiesList[entitiesList.length - 1]);
+        if (entitiesList.length > 0)
+          this.updateLastSelectedEntityDetails(entitiesList[entitiesList.length - 1]);
       });
     } else {
       const newEntities = differenceWith(this.selectedEntityDetails, entitiesList, (obj1, obj2) =>
-        isEqual(obj1.entityID, obj2.entityID)
+        isEqual(obj1.entityID, obj2.entityID),
       );
       runInAction(() => {
         this.selectedEntityDetails = newEntities;

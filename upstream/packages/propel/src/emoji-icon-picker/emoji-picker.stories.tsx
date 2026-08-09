@@ -76,7 +76,9 @@ export const OpenToEmojiTab: Story = {
           closeOnSelect
         />
         {selectedValue && (
-          <div className="text-13">Selected: {selectedValue.type === "emoji" ? selectedValue.value : "Icon"}</div>
+          <div className="text-13">
+            Selected: {selectedValue.type === "emoji" ? selectedValue.value : "Icon"}
+          </div>
         )}
       </div>
     );
@@ -423,7 +425,11 @@ export const InFormContext: Story = {
               isOpen={isOpen}
               handleToggle={setIsOpen}
               onChange={handleEmojiChange}
-              label={formData.emoji && formData.emoji.type === "emoji" ? formData.emoji.value : "Click to select icon"}
+              label={
+                formData.emoji && formData.emoji.type === "emoji"
+                  ? formData.emoji.value
+                  : "Click to select icon"
+              }
               defaultOpen={EmojiIconPickerTypes.EMOJI}
               closeOnSelect
               buttonClassName="px-4 py-2 bg-layer-1 border border-subtle rounded-sm hover:bg-surface-2 w-full text-left"

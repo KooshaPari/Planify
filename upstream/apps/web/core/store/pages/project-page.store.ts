@@ -54,17 +54,22 @@ export interface IProjectPageStore {
   fetchPagesList: (
     workspaceSlug: string,
     projectId: string,
-    pageType?: TPageNavigationTabs
+    pageType?: TPageNavigationTabs,
   ) => Promise<TPage[] | undefined>;
   fetchPageDetails: (
     workspaceSlug: string,
     projectId: string,
     pageId: string,
-    options?: { trackVisit?: boolean }
+    options?: { trackVisit?: boolean },
   ) => Promise<TPage | undefined>;
   createPage: (pageData: Partial<TPage>) => Promise<TPage | undefined>;
   removePage: (params: { pageId: string; shouldSync?: boolean }) => Promise<void>;
-  movePage: (workspaceSlug: string, projectId: string, pageId: string, newProjectId: string) => Promise<void>;
+  movePage: (
+    workspaceSlug: string,
+    projectId: string,
+    pageId: string,
+    newProjectId: string,
+  ) => Promise<void>;
 }
 
 export class ProjectPageStore implements IProjectPageStore {
@@ -110,7 +115,7 @@ export class ProjectPageStore implements IProjectPageStore {
       (projectId) => {
         if (!projectId) return;
         this.filters.searchQuery = "";
-      }
+      },
     );
   }
 
@@ -127,11 +132,14 @@ export class ProjectPageStore implements IProjectPageStore {
    */
   get canCurrentUserCreatePage() {
     const { workspaceSlug, projectId } = this.store.router;
-    const currentUserProjectRole = this.store.user.permission.getProjectRoleByWorkspaceSlugAndProjectId(
-      workspaceSlug?.toString() || "",
-      projectId?.toString() || ""
+    const currentUserProjectRole =
+      this.store.user.permission.getProjectRoleByWorkspaceSlugAndProjectId(
+        workspaceSlug?.toString() || "",
+        projectId?.toString() || "",
+      );
+    return (
+      !!currentUserProjectRole && ROLE_PERMISSIONS_TO_CREATE_PAGE.includes(currentUserProjectRole)
     );
-    return !!currentUserProjectRole && ROLE_PERMISSIONS_TO_CREATE_PAGE.includes(currentUserProjectRole);
   }
 
   /**
@@ -156,7 +164,9 @@ export class ProjectPageStore implements IProjectPageStore {
    */
   getCurrentProjectPageIds = computedFn((projectId: string) => {
     if (!projectId) return [];
-    const pages = Object.values(this?.data || {}).filter((page) => page.project_ids?.includes(projectId));
+    const pages = Object.values(this?.data || {}).filter((page) =>
+      page.project_ids?.includes(projectId),
+    );
     return pages.map((page) => page.id) as string[];
   });
 
@@ -174,7 +184,7 @@ export class ProjectPageStore implements IProjectPageStore {
       (p) =>
         p.project_ids?.includes(projectId) &&
         getPageName(p.name).toLowerCase().includes(this.filters.searchQuery.toLowerCase()) &&
-        shouldFilterPage(p, this.filters.filters)
+        shouldFilterPage(p, this.filters.filters),
     );
     filteredPages = orderPages(filteredPages, this.filters.sortKey, this.filters.sortBy);
 
@@ -206,13 +216,18 @@ export class ProjectPageStore implements IProjectPageStore {
   /**
    * @description fetch all the pages
    */
-  fetchPagesList = async (workspaceSlug: string, projectId: string, pageType?: TPageNavigationTabs) => {
+  fetchPagesList = async (
+    workspaceSlug: string,
+    projectId: string,
+    pageType?: TPageNavigationTabs,
+  ) => {
     try {
       if (!workspaceSlug || !projectId) return undefined;
 
       const currentPageIds = pageType ? this.getCurrentProjectPageIdsByTab(pageType) : undefined;
       runInAction(() => {
-        this.loader = currentPageIds && currentPageIds.length > 0 ? `mutation-loader` : `init-loader`;
+        this.loader =
+          currentPageIds && currentPageIds.length > 0 ? `mutation-loader` : `init-loader`;
         this.error = undefined;
       });
 
@@ -264,7 +279,12 @@ export class ProjectPageStore implements IProjectPageStore {
         this.error = undefined;
       });
 
-      const page = await this.service.fetchById(workspaceSlug, projectId, pageId, trackVisit ?? true);
+      const page = await this.service.fetchById(
+        workspaceSlug,
+        projectId,
+        pageId,
+        trackVisit ?? true,
+      );
 
       runInAction(() => {
         if (page?.id) {
@@ -328,7 +348,13 @@ export class ProjectPageStore implements IProjectPageStore {
    * @description delete a page
    * @param {string} pageId
    */
-  removePage = async ({ pageId, shouldSync: _shouldSync = true }: { pageId: string; shouldSync?: boolean }) => {
+  removePage = async ({
+    pageId,
+    shouldSync: _shouldSync = true,
+  }: {
+    pageId: string;
+    shouldSync?: boolean;
+  }) => {
     try {
       const { workspaceSlug, projectId } = this.store.router;
       if (!workspaceSlug || !projectId || !pageId) return undefined;
@@ -336,7 +362,8 @@ export class ProjectPageStore implements IProjectPageStore {
       await this.service.remove(workspaceSlug, projectId, pageId);
       runInAction(() => {
         unset(this.data, [pageId]);
-        if (this.rootStore.favorite.entityMap[pageId]) this.rootStore.favorite.removeFavoriteFromStore(pageId);
+        if (this.rootStore.favorite.entityMap[pageId])
+          this.rootStore.favorite.removeFavoriteFromStore(pageId);
       });
     } catch (error) {
       runInAction(() => {
@@ -357,7 +384,12 @@ export class ProjectPageStore implements IProjectPageStore {
    * @param {string} pageId
    * @param {string} newProjectId
    */
-  movePage = async (workspaceSlug: string, projectId: string, pageId: string, newProjectId: string) => {
+  movePage = async (
+    workspaceSlug: string,
+    projectId: string,
+    pageId: string,
+    newProjectId: string,
+  ) => {
     try {
       await this.service.move(workspaceSlug, projectId, pageId, newProjectId);
       runInAction(() => {

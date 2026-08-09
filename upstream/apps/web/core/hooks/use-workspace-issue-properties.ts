@@ -6,7 +6,12 @@
 
 import useSWR from "swr";
 // plane web imports
-import { WORKSPACE_ESTIMATES, WORKSPACE_CYCLES, WORKSPACE_LABELS, WORKSPACE_MODULES } from "@plane/constants";
+import {
+  WORKSPACE_ESTIMATES,
+  WORKSPACE_CYCLES,
+  WORKSPACE_LABELS,
+  WORKSPACE_MODULES,
+} from "@plane/constants";
 import { useWorkspaceIssuePropertiesExtended } from "@/hooks/use-workspace-issue-properties-extended";
 // plane imports
 import { useProjectEstimates } from "./store/estimates";
@@ -27,28 +32,28 @@ export const useWorkspaceIssueProperties = (workspaceSlug: string | string[] | u
   useSWR(
     workspaceSlug ? WORKSPACE_MODULES(workspaceSlug.toString()) : null,
     workspaceSlug ? () => fetchWorkspaceModules(workspaceSlug.toString()) : null,
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   // fetch workspace Cycles
   useSWR(
     workspaceSlug ? WORKSPACE_CYCLES(workspaceSlug.toString()) : null,
     workspaceSlug ? () => fetchWorkspaceCycles(workspaceSlug.toString()) : null,
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   // fetch workspace labels
   useSWR(
     workspaceSlug ? WORKSPACE_LABELS(workspaceSlug.toString()) : null,
     workspaceSlug ? () => fetchWorkspaceLabels(workspaceSlug.toString()) : null,
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   // fetch workspace estimates
   useSWR(
     workspaceSlug ? WORKSPACE_ESTIMATES(workspaceSlug.toString()) : null,
     workspaceSlug ? () => getWorkspaceEstimates(workspaceSlug.toString()) : null,
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   // fetch extended issue properties

@@ -45,7 +45,8 @@ export function ProfilePriorityDistribution({ userProfile }: Props) {
                   key: "count",
                   label: "Count",
                   stackId: "bar-one",
-                  fill: (payload: any) => priorityColors[payload.key as keyof typeof priorityColors], // TODO: fix types
+                  fill: (payload: any) =>
+                    priorityColors[payload.key as keyof typeof priorityColors], // TODO: fix types
                   textClassName: "",
                   showPercentage: false,
                   showTopBorderRadius: () => true,

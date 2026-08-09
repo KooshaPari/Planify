@@ -84,7 +84,7 @@ export function WorkspaceCreateForm() {
       // when the component unmounts set the default values to whatever user typed in
       setDefaultValues(getValues());
     },
-    [getValues, setDefaultValues]
+    [getValues, setDefaultValues],
   );
 
   return (
@@ -149,11 +149,15 @@ export function WorkspaceCreateForm() {
               )}
             />
           </div>
-          {slugError && <p className="text-13 text-danger-primary">This URL is taken. Try something else.</p>}
+          {slugError && (
+            <p className="text-13 text-danger-primary">This URL is taken. Try something else.</p>
+          )}
           {invalidSlug && (
             <p className="text-13 text-danger-primary">{`URLs can contain only ( - ), ( _ ) and alphanumeric characters.`}</p>
           )}
-          {errors.slug && <span className="text-11 text-danger-primary">{errors.slug.message}</span>}
+          {errors.slug && (
+            <span className="text-11 text-danger-primary">{errors.slug.message}</span>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <h4 className="text-13 text-tertiary">How many people will use this workspace?</h4>
@@ -183,7 +187,9 @@ export function WorkspaceCreateForm() {
               )}
             />
             {errors.organization_size && (
-              <span className="text-13 text-danger-primary">{errors.organization_size.message}</span>
+              <span className="text-13 text-danger-primary">
+                {errors.organization_size.message}
+              </span>
             )}
           </div>
         </div>

@@ -33,7 +33,9 @@ export const DropHandlerPlugin = (props: Props): Plugin => {
           event.preventDefault();
           const files = Array.from(event.clipboardData.files);
           const acceptedFiles = files.filter(
-            (f) => ACCEPTED_IMAGE_MIME_TYPES.includes(f.type) || ACCEPTED_ATTACHMENT_MIME_TYPES.includes(f.type)
+            (f) =>
+              ACCEPTED_IMAGE_MIME_TYPES.includes(f.type) ||
+              ACCEPTED_ATTACHMENT_MIME_TYPES.includes(f.type),
           );
 
           if (acceptedFiles.length) {
@@ -62,7 +64,9 @@ export const DropHandlerPlugin = (props: Props): Plugin => {
           event.preventDefault();
           const files = Array.from(event.dataTransfer.files);
           const acceptedFiles = files.filter(
-            (f) => ACCEPTED_IMAGE_MIME_TYPES.includes(f.type) || ACCEPTED_ATTACHMENT_MIME_TYPES.includes(f.type)
+            (f) =>
+              ACCEPTED_IMAGE_MIME_TYPES.includes(f.type) ||
+              ACCEPTED_ATTACHMENT_MIME_TYPES.includes(f.type),
           );
 
           if (acceptedFiles.length) {

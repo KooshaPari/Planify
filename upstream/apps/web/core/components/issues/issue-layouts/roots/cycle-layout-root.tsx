@@ -51,7 +51,11 @@ function CycleIssueLayout(props: {
 }
 
 export const CycleLayoutRoot = observer(function CycleLayoutRoot() {
-  const { workspaceSlug: routerWorkspaceSlug, projectId: routerProjectId, cycleId: routerCycleId } = useParams();
+  const {
+    workspaceSlug: routerWorkspaceSlug,
+    projectId: routerProjectId,
+    cycleId: routerCycleId,
+  } = useParams();
   const workspaceSlug = routerWorkspaceSlug ? routerWorkspaceSlug.toString() : undefined;
   const projectId = routerProjectId ? routerProjectId.toString() : undefined;
   const cycleId = routerCycleId ? routerCycleId.toString() : undefined;
@@ -65,13 +69,15 @@ export const CycleLayoutRoot = observer(function CycleLayoutRoot() {
   const activeLayout = workItemFilters?.displayFilters?.layout;
 
   useSWR(
-    workspaceSlug && projectId && cycleId ? `CYCLE_ISSUES_${workspaceSlug}_${projectId}_${cycleId}` : null,
+    workspaceSlug && projectId && cycleId
+      ? `CYCLE_ISSUES_${workspaceSlug}_${projectId}_${cycleId}`
+      : null,
     async () => {
       if (workspaceSlug && projectId && cycleId) {
         await issuesFilter?.fetchFilters(workspaceSlug, projectId, cycleId);
       }
     },
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   const cycleDetails = cycleId ? getCycleById(cycleId) : undefined;
@@ -92,7 +98,12 @@ export const CycleLayoutRoot = observer(function CycleLayoutRoot() {
         entityId={cycleId}
         filtersToShowByLayout={ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.filters}
         initialWorkItemFilters={workItemFilters}
-        updateFilters={issuesFilter?.updateFilterExpression.bind(issuesFilter, workspaceSlug, projectId, cycleId)}
+        updateFilters={issuesFilter?.updateFilterExpression.bind(
+          issuesFilter,
+          workspaceSlug,
+          projectId,
+          cycleId,
+        )}
         projectId={projectId}
         workspaceSlug={workspaceSlug}
       >
@@ -120,7 +131,11 @@ export const CycleLayoutRoot = observer(function CycleLayoutRoot() {
                 />
               )}
               <div className="h-full w-full overflow-auto">
-                <CycleIssueLayout activeLayout={activeLayout} cycleId={cycleId} isCompletedCycle={isCompletedCycle} />
+                <CycleIssueLayout
+                  activeLayout={activeLayout}
+                  cycleId={cycleId}
+                  isCompletedCycle={isCompletedCycle}
+                />
               </div>
               {/* peek overview */}
               <IssuePeekOverview />

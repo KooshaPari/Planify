@@ -67,7 +67,8 @@ const useTimezone = () => {
     },
   ];
 
-  const selectedTimezone = (value: string | undefined) => options.find((option) => option.value === value)?.content;
+  const selectedTimezone = (value: string | undefined) =>
+    options.find((option) => option.value === value)?.content;
 
   return {
     timezones: options,

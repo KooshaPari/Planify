@@ -59,7 +59,7 @@ export function ModalCore(props: Props) {
                 className={cn(
                   "relative w-full transform rounded-lg bg-surface-1 text-left shadow-raised-200 transition-all",
                   width,
-                  className
+                  className,
                 )}
               >
                 {children}

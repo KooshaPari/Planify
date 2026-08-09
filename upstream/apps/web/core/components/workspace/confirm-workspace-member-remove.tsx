@@ -24,7 +24,9 @@ export type Props = {
   };
 };
 
-export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMemberRemove(props: Props) {
+export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMemberRemove(
+  props: Props,
+) {
   const { isOpen, onClose, onSubmit, userDetails } = props;
   // states
   const [isRemoving, setIsRemoving] = useState(false);
@@ -46,7 +48,12 @@ export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMe
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div className="sm:flex sm:items-start">
           <div className="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-danger-subtle sm:mx-0 sm:h-10 sm:w-10">
@@ -54,7 +61,9 @@ export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMe
           </div>
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
             <h3 className="text-h5-medium leading-6 text-primary">
-              {currentUser?.id === userDetails.id ? "Leave workspace?" : `Remove ${userDetails?.display_name}?`}
+              {currentUser?.id === userDetails.id
+                ? "Leave workspace?"
+                : `Remove ${userDetails?.display_name}?`}
             </h3>
             <div className="mt-2">
               {currentUser?.id === userDetails.id ? (
@@ -64,8 +73,9 @@ export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMe
               ) : (
                 <p className="text-body-xs-regular text-secondary">
                   {/* TODO: Add translation here */}
-                  Are you sure you want to remove member- <span className="font-bold">{userDetails?.display_name}</span>
-                  ? They will no longer have access to this workspace. This action cannot be undone.
+                  Are you sure you want to remove member-{" "}
+                  <span className="font-bold">{userDetails?.display_name}</span>? They will no
+                  longer have access to this workspace. This action cannot be undone.
                 </p>
               )}
             </div>
@@ -76,7 +86,13 @@ export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMe
         <Button variant="secondary" size="lg" onClick={handleClose}>
           {t("cancel")}
         </Button>
-        <Button variant="error-fill" size="lg" tabIndex={1} onClick={handleDeletion} loading={isRemoving}>
+        <Button
+          variant="error-fill"
+          size="lg"
+          tabIndex={1}
+          onClick={handleDeletion}
+          loading={isRemoving}
+        >
           {currentUser?.id === userDetails.id
             ? isRemoving
               ? t("leaving")

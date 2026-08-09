@@ -34,7 +34,7 @@ export const FilterProjects = observer(function FilterProjects(props: Props) {
 
   const sortedOptions = useMemo(() => {
     const filteredOptions = (projects || []).filter((project) =>
-      project.name.toLowerCase().includes(searchQuery.toLowerCase())
+      project.name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
     return sortBy(filteredOptions, [
       (project) => !(appliedFilters ?? []).includes(project.id),

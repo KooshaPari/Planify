@@ -23,7 +23,7 @@ export type ControllerConstructor = {
 export function registerController(
   router: Router,
   Controller: ControllerConstructor,
-  dependencies: unknown[] = []
+  dependencies: unknown[] = [],
 ): void {
   // Create the controller instance with dependencies
   const instance = new Controller(...dependencies);
@@ -48,7 +48,7 @@ export function registerController(
 function registerRestController(
   router: Router,
   Controller: ControllerConstructor,
-  existingInstance?: ControllerInstance
+  existingInstance?: ControllerInstance,
 ): void {
   const instance = existingInstance || new Controller();
   const baseRoute = Reflect.getMetadata("baseRoute", Controller) as string;
@@ -58,7 +58,8 @@ function registerRestController(
 
     const method = Reflect.getMetadata("method", instance, methodName) as HttpMethod;
     const route = Reflect.getMetadata("route", instance, methodName) as string;
-    const middlewares = (Reflect.getMetadata("middlewares", instance, methodName) as RequestHandler[]) || [];
+    const middlewares =
+      (Reflect.getMetadata("middlewares", instance, methodName) as RequestHandler[]) || [];
 
     if (method && route) {
       const handler = instance[methodName] as unknown;
@@ -68,7 +69,7 @@ function registerRestController(
           (router[method] as (path: string, ...handlers: RequestHandler[]) => void)(
             `${baseRoute}${route}`,
             ...middlewares,
-            handler.bind(instance)
+            handler.bind(instance),
           );
         }
       }
@@ -79,7 +80,7 @@ function registerRestController(
 function registerWebSocketController(
   router: Router,
   Controller: ControllerConstructor,
-  existingInstance?: ControllerInstance
+  existingInstance?: ControllerInstance,
 ): void {
   const instance = existingInstance || new Controller();
   const baseRoute = Reflect.getMetadata("baseRoute", Controller) as string;

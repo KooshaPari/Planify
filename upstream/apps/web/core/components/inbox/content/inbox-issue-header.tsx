@@ -56,7 +56,9 @@ type TInboxIssueActionsHeader = {
   embedRemoveCurrentNotification?: () => void;
 };
 
-export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader(props: TInboxIssueActionsHeader) {
+export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader(
+  props: TInboxIssueActionsHeader,
+) {
   const {
     workspaceSlug,
     projectId,
@@ -90,22 +92,28 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug,
-    projectId
+    projectId,
   );
   const canMarkAsDuplicate = isAllowed && (inboxIssue?.status === 0 || inboxIssue?.status === -2);
   const canMarkAsAccepted = isAllowed && (inboxIssue?.status === 0 || inboxIssue?.status === -2);
   const canMarkAsDeclined = isAllowed && (inboxIssue?.status === 0 || inboxIssue?.status === -2);
   // can delete only if admin or is creator of the issue
   const canDelete =
-    allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT, workspaceSlug, projectId) ||
-    issue?.created_by === currentUser?.id;
+    allowPermissions(
+      [EUserPermissions.ADMIN],
+      EUserPermissionsLevel.PROJECT,
+      workspaceSlug,
+      projectId,
+    ) || issue?.created_by === currentUser?.id;
   const isProjectAdmin = allowPermissions(
     [EUserPermissions.ADMIN],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug,
-    projectId
+    projectId,
   );
-  const isAcceptedOrDeclined = inboxIssue?.status ? [-1, 1, 2].includes(inboxIssue.status) : undefined;
+  const isAcceptedOrDeclined = inboxIssue?.status
+    ? [-1, 1, 2].includes(inboxIssue.status)
+    : undefined;
   // days left for snooze
   const numberOfDaysLeft = findHowManyDaysLeft(inboxIssue?.snoozed_till);
 
@@ -126,7 +134,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
     if (!isNotificationEmbed) {
       if (nextOrPreviousIssueId)
         router.push(
-          `/${workspaceSlug}/projects/${projectId}/intake?currentTab=${currentTab}&inboxIssueId=${nextOrPreviousIssueId}`
+          `/${workspaceSlug}/projects/${projectId}/intake?currentTab=${currentTab}&inboxIssueId=${nextOrPreviousIssueId}`,
         );
       else router.push(`/${workspaceSlug}/projects/${projectId}/intake?currentTab=${currentTab}`);
     }
@@ -180,16 +188,21 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
         type: TOAST_TYPE.SUCCESS,
         title: t("common.link_copied"),
         message: t("common.copied_to_clipboard"),
-      })
+      }),
     );
 
-  const currentIssueIndex = filteredInboxIssueIds.findIndex((issueId) => issueId === currentInboxIssueId) ?? 0;
+  const currentIssueIndex =
+    filteredInboxIssueIds.findIndex((issueId) => issueId === currentInboxIssueId) ?? 0;
 
   const handleInboxIssueNavigation = useCallback(
     (direction: "next" | "prev") => {
       if (!filteredInboxIssueIds || !currentInboxIssueId) return;
       const activeElement = document.activeElement as HTMLElement;
-      if (activeElement && (activeElement.classList.contains("tiptap") || activeElement.id === "title-input")) return;
+      if (
+        activeElement &&
+        (activeElement.classList.contains("tiptap") || activeElement.id === "title-input")
+      )
+        return;
       const nextIssueIndex =
         direction === "next"
           ? (currentIssueIndex + 1) % filteredInboxIssueIds.length
@@ -198,7 +211,14 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
       if (!nextIssueId) return;
       router.push(`/${workspaceSlug}/projects/${projectId}/intake?inboxIssueId=${nextIssueId}`);
     },
-    [currentInboxIssueId, currentIssueIndex, filteredInboxIssueIds, projectId, router, workspaceSlug]
+    [
+      currentInboxIssueId,
+      currentIssueIndex,
+      filteredInboxIssueIds,
+      projectId,
+      router,
+      workspaceSlug,
+    ],
   );
 
   const onKeyDown = useCallback(
@@ -209,10 +229,14 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
         handleInboxIssueNavigation("next");
       }
     },
-    [handleInboxIssueNavigation]
+    [handleInboxIssueNavigation],
   );
 
-  const handleActionWithPermission = (isAdmin: boolean, action: () => void, errorMessage: string) => {
+  const handleActionWithPermission = (
+    isAdmin: boolean,
+    action: () => void,
+    errorMessage: string,
+  ) => {
     if (isAdmin) action();
     else {
       setToast({
@@ -333,7 +357,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
                   handleActionWithPermission(
                     isProjectAdmin,
                     () => setAcceptIssueModal(true),
-                    t("inbox_issue.errors.accept_permission")
+                    t("inbox_issue.errors.accept_permission"),
                   )
                 }
               >
@@ -350,7 +374,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
                   handleActionWithPermission(
                     isProjectAdmin,
                     () => setDeclineIssueModal(true),
-                    t("inbox_issue.errors.decline_permission")
+                    t("inbox_issue.errors.decline_permission"),
                   )
                 }
               >
@@ -369,8 +393,16 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
                 >
                   {t("inbox_issue.actions.copy")}
                 </Button>
-                <ControlLink href={workItemLink} onClick={() => router.push(workItemLink)} target="_self">
-                  <Button variant="secondary" size="lg" prependIcon={<NewTabIcon className="h-2.5 w-2.5" />}>
+                <ControlLink
+                  href={workItemLink}
+                  onClick={() => router.push(workItemLink)}
+                  target="_self"
+                >
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    prependIcon={<NewTabIcon className="h-2.5 w-2.5" />}
+                  >
                     {t("inbox_issue.actions.open")}
                   </Button>
                 </ControlLink>
@@ -389,7 +421,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
                           handleActionWithPermission(
                             isProjectAdmin,
                             handleIssueSnoozeAction,
-                            t("inbox_issue.errors.snooze_permission")
+                            t("inbox_issue.errors.snooze_permission"),
                           )
                         }
                       >
@@ -407,7 +439,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
                           handleActionWithPermission(
                             isProjectAdmin,
                             () => setSelectDuplicateIssue(true),
-                            "Only project admins can mark work item as duplicate"
+                            "Only project admins can mark work item as duplicate",
                           )
                         }
                       >

@@ -8,11 +8,29 @@ import { Image, Link, Text, View } from "@react-pdf/renderer";
 import type { Style } from "@react-pdf/types";
 import type { ReactElement } from "react";
 import { CORE_EXTENSIONS } from "@plane/editor";
-import { BACKGROUND_COLORS, EDITOR_BACKGROUND_COLORS, resolveColorForPdf, TEXT_COLORS } from "./colors";
-import { CheckIcon, ClipboardIcon, DocumentIcon, GlobeIcon, LightbulbIcon, LinkIcon } from "./icons";
+import {
+  BACKGROUND_COLORS,
+  EDITOR_BACKGROUND_COLORS,
+  resolveColorForPdf,
+  TEXT_COLORS,
+} from "./colors";
+import {
+  CheckIcon,
+  ClipboardIcon,
+  DocumentIcon,
+  GlobeIcon,
+  LightbulbIcon,
+  LinkIcon,
+} from "./icons";
 import { applyMarks } from "./mark-renderers";
 import { pdfStyles } from "./styles";
-import type { KeyGenerator, NodeRendererRegistry, PDFExportMetadata, PDFRenderContext, TipTapNode } from "./types";
+import type {
+  KeyGenerator,
+  NodeRendererRegistry,
+  PDFExportMetadata,
+  PDFRenderContext,
+  TipTapNode,
+} from "./types";
 
 const getCalloutIcon = (node: TipTapNode, color: string): ReactElement => {
   const logoInUse = node.attrs?.["data-logo-in-use"] as string | undefined;
@@ -127,7 +145,11 @@ export const nodeRenderers: NodeRendererRegistry = {
     );
   },
 
-  blockquote: (_node: TipTapNode, children: ReactElement[], ctx: PDFRenderContext): ReactElement => (
+  blockquote: (
+    _node: TipTapNode,
+    children: ReactElement[],
+    ctx: PDFRenderContext,
+  ): ReactElement => (
     <View key={ctx.getKey()} style={pdfStyles.blockquote} wrap={false}>
       {children}
     </View>
@@ -152,7 +174,11 @@ export const nodeRenderers: NodeRendererRegistry = {
     );
   },
 
-  orderedList: (node: TipTapNode, children: ReactElement[], ctx: PDFRenderContext): ReactElement => {
+  orderedList: (
+    node: TipTapNode,
+    children: ReactElement[],
+    ctx: PDFRenderContext,
+  ): ReactElement => {
     const nestingLevel = (node.attrs?._nestingLevel as number) || 0;
     const indentStyle = nestingLevel > 0 ? { marginLeft: 18 } : {};
     return (
@@ -191,7 +217,13 @@ export const nodeRenderers: NodeRendererRegistry = {
     const checked = node.attrs?.checked === true;
     return (
       <View key={ctx.getKey()} style={pdfStyles.taskItem} wrap={false}>
-        <View style={checked ? [pdfStyles.taskCheckbox, pdfStyles.taskCheckboxChecked] : pdfStyles.taskCheckbox}>
+        <View
+          style={
+            checked
+              ? [pdfStyles.taskCheckbox, pdfStyles.taskCheckboxChecked]
+              : pdfStyles.taskCheckbox
+          }
+        >
           {checked && <CheckIcon size={8} color="#ffffff" />}
         </View>
         <View style={pdfStyles.listItemContent}>{children}</View>
@@ -208,13 +240,21 @@ export const nodeRenderers: NodeRendererRegistry = {
   tableRow: (node: TipTapNode, children: ReactElement[], ctx: PDFRenderContext): ReactElement => {
     const isHeader = node.attrs?._isHeader === true;
     return (
-      <View key={ctx.getKey()} style={isHeader ? pdfStyles.tableHeaderRow : pdfStyles.tableRow} wrap={false}>
+      <View
+        key={ctx.getKey()}
+        style={isHeader ? pdfStyles.tableHeaderRow : pdfStyles.tableRow}
+        wrap={false}
+      >
         {children}
       </View>
     );
   },
 
-  tableHeader: (node: TipTapNode, children: ReactElement[], ctx: PDFRenderContext): ReactElement => {
+  tableHeader: (
+    node: TipTapNode,
+    children: ReactElement[],
+    ctx: PDFRenderContext,
+  ): ReactElement => {
     const colwidth = node.attrs?.colwidth as number[] | undefined;
     const background = node.attrs?.background as string | undefined;
     const width = colwidth?.[0];
@@ -244,13 +284,17 @@ export const nodeRenderers: NodeRendererRegistry = {
     );
   },
 
-  horizontalRule: (_node: TipTapNode, _children: ReactElement[], ctx: PDFRenderContext): ReactElement => (
-    <View key={ctx.getKey()} style={pdfStyles.horizontalRule} />
-  ),
+  horizontalRule: (
+    _node: TipTapNode,
+    _children: ReactElement[],
+    ctx: PDFRenderContext,
+  ): ReactElement => <View key={ctx.getKey()} style={pdfStyles.horizontalRule} />,
 
-  hardBreak: (_node: TipTapNode, _children: ReactElement[], ctx: PDFRenderContext): ReactElement => (
-    <Text key={ctx.getKey()}>{"\n"}</Text>
-  ),
+  hardBreak: (
+    _node: TipTapNode,
+    _children: ReactElement[],
+    ctx: PDFRenderContext,
+  ): ReactElement => <Text key={ctx.getKey()}>{"\n"}</Text>,
 
   image: (node: TipTapNode, _children: ReactElement[], ctx: PDFRenderContext): ReactElement => {
     if (ctx.metadata?.noAssets) {
@@ -276,20 +320,28 @@ export const nodeRenderers: NodeRendererRegistry = {
       <View key={ctx.getKey()} style={[{ width: "100%" }, alignmentStyle]}>
         <Image
           src={src}
-          style={[pdfStyles.image, width ? { width, maxHeight: 500 } : { maxWidth: 400, maxHeight: 500 }]}
+          style={[
+            pdfStyles.image,
+            width ? { width, maxHeight: 500 } : { maxWidth: 400, maxHeight: 500 },
+          ]}
         />
       </View>
     );
   },
 
-  imageComponent: (node: TipTapNode, _children: ReactElement[], ctx: PDFRenderContext): ReactElement => {
+  imageComponent: (
+    node: TipTapNode,
+    _children: ReactElement[],
+    ctx: PDFRenderContext,
+  ): ReactElement => {
     if (ctx.metadata?.noAssets) {
       return <View key={ctx.getKey()} />;
     }
 
     const assetId = (node.attrs?.src as string) || "";
     const rawWidth = node.attrs?.width;
-    const width = typeof rawWidth === "string" ? parseInt(rawWidth, 10) : (rawWidth as number | undefined);
+    const width =
+      typeof rawWidth === "string" ? parseInt(rawWidth, 10) : (rawWidth as number | undefined);
     const alignment = (node.attrs?.alignment as string) || "left";
 
     if (!assetId) {
@@ -316,7 +368,8 @@ export const nodeRenderers: NodeRendererRegistry = {
       );
     }
 
-    const imageStyle = width && !isNaN(width) ? { width, maxHeight: 500 } : { maxWidth: 400, maxHeight: 500 };
+    const imageStyle =
+      width && !isNaN(width) ? { width, maxHeight: 500 } : { maxWidth: 400, maxHeight: 500 };
 
     return (
       <View key={ctx.getKey()} style={[{ width: "100%" }, alignmentStyle]}>
@@ -325,14 +378,21 @@ export const nodeRenderers: NodeRendererRegistry = {
     );
   },
 
-  calloutComponent: (node: TipTapNode, children: ReactElement[], ctx: PDFRenderContext): ReactElement => {
+  calloutComponent: (
+    node: TipTapNode,
+    children: ReactElement[],
+    ctx: PDFRenderContext,
+  ): ReactElement => {
     const backgroundKey = (node.attrs?.["data-background"] as string) || "gray";
     const backgroundColor =
-      EDITOR_BACKGROUND_COLORS[backgroundKey as keyof typeof EDITOR_BACKGROUND_COLORS] || BACKGROUND_COLORS.layer3;
+      EDITOR_BACKGROUND_COLORS[backgroundKey as keyof typeof EDITOR_BACKGROUND_COLORS] ||
+      BACKGROUND_COLORS.layer3;
 
     return (
       <View key={ctx.getKey()} style={[pdfStyles.callout, { backgroundColor }]}>
-        <View style={pdfStyles.calloutIconContainer}>{getCalloutIcon(node, TEXT_COLORS.primary)}</View>
+        <View style={pdfStyles.calloutIconContainer}>
+          {getCalloutIcon(node, TEXT_COLORS.primary)}
+        </View>
         <View style={[pdfStyles.calloutContent, { color: TEXT_COLORS.primary }]}>{children}</View>
       </View>
     );
@@ -346,7 +406,9 @@ export const nodeRenderers: NodeRendererRegistry = {
     let displayText = entityName || id || entityIdentifier;
 
     if (ctx.metadata && (entityName === "user_mention" || entityName === "user")) {
-      const userMention = ctx.metadata.userMentions?.find((u) => u.id === entityIdentifier || u.id === id);
+      const userMention = ctx.metadata.userMentions?.find(
+        (u) => u.id === entityIdentifier || u.id === id,
+      );
       if (userMention) {
         displayText = userMention.display_name;
       }
@@ -371,7 +433,8 @@ type InternalRenderContext = {
 const renderNodeWithContext = (node: TipTapNode, context: InternalRenderContext): ReactElement => {
   const { parentType, nestingLevel, listItemIndex, textAlign, pdfContext } = context;
 
-  const isListContainer = node.type === CORE_EXTENSIONS.BULLET_LIST || node.type === CORE_EXTENSIONS.ORDERED_LIST;
+  const isListContainer =
+    node.type === CORE_EXTENSIONS.BULLET_LIST || node.type === CORE_EXTENSIONS.ORDERED_LIST;
 
   let childTextAlign = textAlign;
   if (node.type === CORE_EXTENSIONS.PARAGRAPH && node.attrs?.textAlign) {
@@ -431,7 +494,7 @@ export const renderNode = (
   parentType?: string,
   _index?: number,
   metadata?: PDFExportMetadata,
-  getKey?: KeyGenerator
+  getKey?: KeyGenerator,
 ): ReactElement => {
   const keyGen = getKey ?? createKeyGenerator();
 

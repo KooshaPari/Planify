@@ -9,7 +9,10 @@ import { set } from "lodash-es";
 import { DEFAULT_WORK_ITEM_FORM_VALUES } from "@plane/constants";
 import type { IPartialProject, ISearchIssueResponse, IState, TIssue } from "@plane/types";
 
-export const getUpdateFormDataForReset = (projectId: string | null | undefined, formData: Partial<TIssue>) => ({
+export const getUpdateFormDataForReset = (
+  projectId: string | null | undefined,
+  formData: Partial<TIssue>,
+) => ({
   ...DEFAULT_WORK_ITEM_FORM_VALUES,
   project_id: projectId,
   name: formData.name,
@@ -23,7 +26,7 @@ export const convertWorkItemDataToSearchResponse = (
   workspaceSlug: string,
   workItem: TIssue,
   project: IPartialProject | undefined,
-  state: IState | undefined
+  state: IState | undefined,
 ): ISearchIssueResponse => ({
   id: workItem.id,
   name: workItem.name,
@@ -39,7 +42,10 @@ export const convertWorkItemDataToSearchResponse = (
   workspace__slug: workspaceSlug,
 });
 
-export function getChangedIssuefields(formData: Partial<TIssue>, dirtyFields: { [key: string]: boolean | undefined }) {
+export function getChangedIssuefields(
+  formData: Partial<TIssue>,
+  dirtyFields: { [key: string]: boolean | undefined },
+) {
   const changedFields = {};
 
   const dirtyFieldKeys = Object.keys(dirtyFields) as (keyof TIssue)[];

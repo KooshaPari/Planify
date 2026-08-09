@@ -26,7 +26,9 @@ type TProjectMemberListProps = {
   workspaceSlug: string;
 };
 
-export const ProjectMemberList = observer(function ProjectMemberList(props: TProjectMemberListProps) {
+export const ProjectMemberList = observer(function ProjectMemberList(
+  props: TProjectMemberListProps,
+) {
   const { projectId, workspaceSlug } = props;
   // states
   const [inviteModal, setInviteModal] = useState(false);
@@ -39,18 +41,24 @@ export const ProjectMemberList = observer(function ProjectMemberList(props: TPro
   const { t } = useTranslation();
 
   const searchedProjectMembers = (projectMemberIds ?? []).filter((userId) => {
-    const memberDetails = projectId ? getFilteredProjectMemberDetails(userId, projectId.toString()) : null;
+    const memberDetails = projectId
+      ? getFilteredProjectMemberDetails(userId, projectId.toString())
+      : null;
 
     if (!memberDetails?.member || !memberDetails.original_role) return false;
 
-    const fullName = `${memberDetails?.member.first_name} ${memberDetails?.member.last_name}`.toLowerCase();
+    const fullName =
+      `${memberDetails?.member.first_name} ${memberDetails?.member.last_name}`.toLowerCase();
     const displayName = memberDetails?.member.display_name.toLowerCase();
 
-    return displayName?.includes(searchQuery.toLowerCase()) || fullName.includes(searchQuery.toLowerCase());
+    return (
+      displayName?.includes(searchQuery.toLowerCase()) ||
+      fullName.includes(searchQuery.toLowerCase())
+    );
   });
 
   const memberDetails = searchedProjectMembers?.map((memberId) =>
-    projectId ? getFilteredProjectMemberDetails(memberId, projectId.toString()) : null
+    projectId ? getFilteredProjectMemberDetails(memberId, projectId.toString()) : null,
   );
 
   const isAdmin = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT);
@@ -124,7 +132,9 @@ export const ProjectMemberList = observer(function ProjectMemberList(props: TPro
             />
           )}
           {searchedProjectMembers.length === 0 && (
-            <h4 className="mt-16 text-center text-13 text-placeholder">{t("no_matching_members")}</h4>
+            <h4 className="mt-16 text-center text-13 text-placeholder">
+              {t("no_matching_members")}
+            </h4>
           )}
         </div>
       )}

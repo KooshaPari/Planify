@@ -25,7 +25,9 @@ function GeneralPage() {
           "Change the name of your instance and instance admin e-mail addresses. Enable or disable telemetry in your instance.",
       }}
     >
-      {instance && instanceAdmins && <GeneralConfigurationForm instance={instance} instanceAdmins={instanceAdmins} />}
+      {instance && instanceAdmins && (
+        <GeneralConfigurationForm instance={instance} instanceAdmins={instanceAdmins} />
+      )}
     </PageWrapper>
   );
 }

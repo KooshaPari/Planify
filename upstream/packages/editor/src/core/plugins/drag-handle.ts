@@ -172,10 +172,14 @@ export const DragHandlePlugin = (options: SideMenuPluginProps): SideMenuHandleOp
     } else if (isDraggedOutsideWindow === "bottom") {
       targetScrollAmount = maxScrollSpeed * 5;
     } else if (lastClientY < scrollRegionUp) {
-      const ratio = easeOutQuadAnimation((scrollRegionUp - lastClientY) / options.scrollThreshold.up);
+      const ratio = easeOutQuadAnimation(
+        (scrollRegionUp - lastClientY) / options.scrollThreshold.up,
+      );
       targetScrollAmount = -maxScrollSpeed * ratio;
     } else if (lastClientY > scrollRegionDown) {
-      const ratio = easeOutQuadAnimation((lastClientY - scrollRegionDown) / options.scrollThreshold.down);
+      const ratio = easeOutQuadAnimation(
+        (lastClientY - scrollRegionDown) / options.scrollThreshold.down,
+      );
       targetScrollAmount = maxScrollSpeed * ratio;
     }
 
@@ -193,7 +197,8 @@ export const DragHandlePlugin = (options: SideMenuPluginProps): SideMenuHandleOp
   };
 
   const handleDragStart = (event: DragEvent, view: EditorView) => {
-    const { listType: listTypeFromDragStart } = handleNodeSelection(event, view, true, options) ?? {};
+    const { listType: listTypeFromDragStart } =
+      handleNodeSelection(event, view, true, options) ?? {};
     if (listTypeFromDragStart) {
       listType = listTypeFromDragStart;
     }
@@ -202,7 +207,10 @@ export const DragHandlePlugin = (options: SideMenuPluginProps): SideMenuHandleOp
     scroll();
   };
 
-  const handleDragEnd = <TEvent extends DragEvent | FocusEvent>(event: TEvent, view?: EditorView) => {
+  const handleDragEnd = <TEvent extends DragEvent | FocusEvent>(
+    event: TEvent,
+    view?: EditorView,
+  ) => {
     event.preventDefault();
     isDragging = false;
     isMouseInsideWhileDragging = false;
@@ -242,7 +250,12 @@ export const DragHandlePlugin = (options: SideMenuPluginProps): SideMenuHandleOp
     };
 
     const dragLeaveHandler = (e: DragEvent) => {
-      if (e.clientY <= 0 || e.clientX <= 0 || e.clientX >= window.innerWidth || e.clientY >= window.innerHeight) {
+      if (
+        e.clientY <= 0 ||
+        e.clientX <= 0 ||
+        e.clientX >= window.innerWidth ||
+        e.clientY >= window.innerHeight
+      ) {
         isMouseInsideWhileDragging = true;
 
         const windowMiddleY = window.innerHeight / 2;
@@ -335,7 +348,9 @@ export const DragHandlePlugin = (options: SideMenuPluginProps): SideMenuHandleOp
         // Wrap in appropriate list type if dropped outside a list
         if (!isDroppedInsideList) {
           const listNodeType =
-            listType === "OL" ? view.state.schema.nodes.orderedList : view.state.schema.nodes.bulletList;
+            listType === "OL"
+              ? view.state.schema.nodes.orderedList
+              : view.state.schema.nodes.bulletList;
           newFragment = Fragment.from(listNodeType.create(null, newFragment));
         }
 
@@ -378,7 +393,7 @@ const handleNodeSelection = (
   event: MouseEvent | DragEvent,
   view: EditorView,
   isDragStart: boolean,
-  options: SideMenuPluginProps
+  options: SideMenuPluginProps,
 ) => {
   let listType = "";
   view.focus();
@@ -404,7 +419,9 @@ const handleNodeSelection = (
 
     // If it's a nested list item or task item, move up to the item level
     if (
-      [CORE_EXTENSIONS.LIST_ITEM, CORE_EXTENSIONS.TASK_ITEM].includes($pos.parent.type.name as CORE_EXTENSIONS) &&
+      [CORE_EXTENSIONS.LIST_ITEM, CORE_EXTENSIONS.TASK_ITEM].includes(
+        $pos.parent.type.name as CORE_EXTENSIONS,
+      ) &&
       $pos.depth > 1
     ) {
       draggedNodePos = $pos.before($pos.depth);
@@ -425,7 +442,9 @@ const handleNodeSelection = (
     if (event instanceof DragEvent && !event.dataTransfer) return;
 
     if (
-      [CORE_EXTENSIONS.LIST_ITEM, CORE_EXTENSIONS.TASK_ITEM].includes(nodeSelection.node.type.name as CORE_EXTENSIONS)
+      [CORE_EXTENSIONS.LIST_ITEM, CORE_EXTENSIONS.TASK_ITEM].includes(
+        nodeSelection.node.type.name as CORE_EXTENSIONS,
+      )
     ) {
       listType = node.closest("ol, ul")?.tagName || "";
     }

@@ -30,7 +30,9 @@ export const FilterPriority = observer(function FilterPriority(props: Props) {
 
   const appliedFiltersCount = appliedFilters?.length ?? 0;
 
-  const filteredOptions = ISSUE_PRIORITY_FILTERS.filter((p) => p.key.includes(searchQuery.toLowerCase()));
+  const filteredOptions = ISSUE_PRIORITY_FILTERS.filter((p) =>
+    p.key.includes(searchQuery.toLowerCase()),
+  );
 
   return (
     <>

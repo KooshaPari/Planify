@@ -44,7 +44,11 @@ import { CalendarWeekDays } from "./week-days";
 import { CalendarWeekHeader } from "./week-header";
 
 type Props = {
-  issuesFilterStore: IProjectIssuesFilter | IModuleIssuesFilter | ICycleIssuesFilter | IProjectViewIssuesFilter;
+  issuesFilterStore:
+    | IProjectIssuesFilter
+    | IModuleIssuesFilter
+    | ICycleIssuesFilter
+    | IProjectViewIssuesFilter;
   issues: TIssueMap | undefined;
   groupedIssueIds: TGroupedIssues;
   layout: "month" | "week" | undefined;
@@ -53,20 +57,23 @@ type Props = {
   loadMoreIssues: (dateString: string) => void;
   getPaginationData: (groupId: string | undefined) => TPaginationData | undefined;
   getGroupIssueCount: (groupId: string | undefined) => number | undefined;
-  quickAddCallback?: (projectId: string | null | undefined, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddCallback?: (
+    projectId: string | null | undefined,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   quickActions: TRenderQuickActions;
   handleDragAndDrop: (
     issueId: string | undefined,
     issueProjectId: string | undefined,
     sourceDate: string | undefined,
-    destinationDate: string | undefined
+    destinationDate: string | undefined,
   ) => Promise<void>;
   addIssuesToView?: (issueIds: string[]) => Promise<any>;
   readOnly?: boolean;
   updateFilters?: (
     projectId: string,
     filterType: TSupportedFilterTypeForUpdate,
-    filters: TSupportedFilterForUpdate
+    filters: TSupportedFilterForUpdate,
   ) => Promise<void>;
   canEditProperties: (projectId: string | undefined) => boolean;
   isEpic?: boolean;
@@ -120,7 +127,7 @@ export const CalendarChart = observer(function CalendarChart(props: Props) {
     return combine(
       autoScrollForElements({
         element,
-      })
+      }),
     );
   }, [scrollableContainerRef?.current]);
 

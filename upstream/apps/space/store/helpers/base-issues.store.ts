@@ -27,7 +27,9 @@ import type { RootStore } from "../root.store";
 // constants
 // helpers
 
-export type TIssueDisplayFilterOptions = Exclude<TIssueGroupByOptions, null | "team_project"> | "target_date";
+export type TIssueDisplayFilterOptions =
+  | Exclude<TIssueGroupByOptions, null | "team_project">
+  | "target_date";
 
 export enum EIssueGroupedAction {
   ADD = "ADD",
@@ -47,12 +49,15 @@ export interface IBaseIssuesStore {
 
   // helper methods
   getIssueIds: (groupId?: string, subGroupId?: string) => string[] | undefined;
-  getPaginationData(groupId: string | undefined, subGroupId: string | undefined): TPaginationData | undefined;
+  getPaginationData(
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ): TPaginationData | undefined;
   getIssueLoader(groupId?: string, subGroupId?: string): TLoader;
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
 }
 
@@ -151,7 +156,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     nextCursor: string,
     nextPageResults: boolean,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) {
     const cursorObject = {
       prevCursor,
@@ -177,14 +182,15 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
   /**
    * gets the Loader value of particular group/subgroup/ALL_ISSUES
    */
-  getIssueLoader = (groupId?: string, subGroupId?: string) => get(this.loader, this.getGroupKey(groupId, subGroupId));
+  getIssueLoader = (groupId?: string, subGroupId?: string) =>
+    get(this.loader, this.getGroupKey(groupId, subGroupId));
 
   /**
    * gets the pagination data of particular group/subgroup/ALL_ISSUES
    */
   getPaginationData = computedFn(
     (groupId: string | undefined, subGroupId: string | undefined): TPaginationData | undefined =>
-      get(this.issuePaginationData, [this.getGroupKey(groupId, subGroupId)])
+      get(this.issuePaginationData, [this.getGroupKey(groupId, subGroupId)]),
   );
 
   /**
@@ -196,21 +202,22 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     (
       groupId: string | undefined,
       subGroupId: string | undefined,
-      isSubGroupCumulative: boolean
+      isSubGroupCumulative: boolean,
     ): number | undefined => {
       if (isSubGroupCumulative && subGroupId) {
         const groupIssuesKeys = Object.keys(this.groupedIssueCount);
         let subGroupCumulativeCount = 0;
 
         for (const groupKey of groupIssuesKeys) {
-          if (groupKey.includes(`_${subGroupId}`)) subGroupCumulativeCount += this.groupedIssueCount[groupKey];
+          if (groupKey.includes(`_${subGroupId}`))
+            subGroupCumulativeCount += this.groupedIssueCount[groupKey];
         }
 
         return subGroupCumulativeCount;
       }
 
       return get(this.groupedIssueCount, [this.getGroupKey(groupId, subGroupId)]);
-    }
+    },
   );
 
   /**
@@ -226,7 +233,8 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    */
   onfetchIssues(issuesResponse: TIssuesResponse, options: IssuePaginationOptions) {
     // Process the Issue Response to get the following data from it
-    const { issueList, groupedIssues, groupedIssueCount } = this.processIssueResponse(issuesResponse);
+    const { issueList, groupedIssues, groupedIssueCount } =
+      this.processIssueResponse(issuesResponse);
 
     // The Issue list is added to the main Issue Map
     this.addIssue(issueList);
@@ -251,7 +259,8 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    */
   onfetchNexIssues(issuesResponse: TIssuesResponse, groupId?: string, subGroupId?: string) {
     // Process the Issue Response to get the following data from it
-    const { issueList, groupedIssues, groupedIssueCount } = this.processIssueResponse(issuesResponse);
+    const { issueList, groupedIssues, groupedIssueCount } =
+      this.processIssueResponse(issuesResponse);
 
     // The Issue list is added to the main Issue Map
     this.addIssue(issueList);
@@ -341,7 +350,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
         set(
           groupedIssues,
           [groupId],
-          groupIssueResult.map((issue) => issue.id)
+          groupIssueResult.map((issue) => issue.id),
         );
         continue;
       }
@@ -355,7 +364,11 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
         if (!subGroupIssueResult) continue;
 
         // set sub grouped Issue count of the current groupId
-        set(groupedIssueCount, [this.getGroupKey(groupId, subGroupId)], subGroupIssuesObject.total_results);
+        set(
+          groupedIssueCount,
+          [this.getGroupKey(groupId, subGroupId)],
+          subGroupIssuesObject.total_results,
+        );
 
         if (Array.isArray(subGroupIssueResult)) {
           // add the result to issueList
@@ -364,7 +377,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
           set(
             groupedIssues,
             [groupId, subGroupId],
-            subGroupIssueResult.map((issue) => issue.id)
+            subGroupIssueResult.map((issue) => issue.id),
           );
 
           continue;
@@ -387,7 +400,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     groupedIssues: TIssues,
     groupedIssueCount: TGroupedIssueCount,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) {
     // if groupId exists and groupedIssues has ALL_ISSUES as a group,
     // then it's an individual group/subgroup pagination
@@ -449,7 +462,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     // if groupedIssueIds is an array, update the `groupedIssueIds` store at the issuePath
     if (groupedIssueIds && Array.isArray(groupedIssueIds)) {
       update(this, ["groupedIssueIds", ...issuePath], (issueIds: string[] = []) =>
-        uniq(concat(issueIds, groupedIssueIds))
+        uniq(concat(issueIds, groupedIssueIds)),
       );
       // return true to indicate the store has been updated
       return true;
@@ -489,7 +502,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     issuesResponse: TIssuesResponse,
     options?: IssuePaginationOptions,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) => {
     if (options) this.paginationOptions = options;
 
@@ -498,7 +511,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
       issuesResponse.next_cursor,
       issuesResponse.next_page_results,
       groupId,
-      subGroupId
+      subGroupId,
     );
   };
 

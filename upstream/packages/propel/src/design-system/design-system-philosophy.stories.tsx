@@ -55,9 +55,10 @@ const Info: React.FC<{ title: string; children?: React.ReactNode; tone?: "info" 
   </div>
 );
 
-const Surface: React.FC<ContainerProps> = ({ children, className = "bg-surface-1 rounded-md p-6" }) => (
-  <div className={className}>{children}</div>
-);
+const Surface: React.FC<ContainerProps> = ({
+  children,
+  className = "bg-surface-1 rounded-md p-6",
+}) => <div className={className}>{children}</div>;
 
 const Layer: React.FC<ContainerProps & { hover?: boolean }> = ({
   children,
@@ -77,13 +78,15 @@ export const ApplicationRoot: Story = {
   render: () => (
     <DemoRoot>
       <Info title="✅ Application Root Pattern">
-        This is the <strong>bg-canvas</strong> - the application-level background. It should only appear{" "}
-        <strong>once</strong> in your entire application at the root level.
+        This is the <strong>bg-canvas</strong> - the application-level background. It should only
+        appear <strong>once</strong> in your entire application at the root level.
       </Info>
 
       <Surface>
         <h4 className="mb-2 font-semibold text-primary">Page Content (bg-surface-1)</h4>
-        <p className="text-13 text-secondary">Pages use surfaces, not canvas. This is a typical page layout.</p>
+        <p className="text-13 text-secondary">
+          Pages use surfaces, not canvas. This is a typical page layout.
+        </p>
       </Surface>
     </DemoRoot>
   ),
@@ -104,7 +107,9 @@ export const SurfaceSiblings: Story = {
 
         <Surface className="rounded-md bg-surface-2 p-6">
           <h4 className="mb-2 font-semibold text-primary">Surface 2</h4>
-          <p className="text-13 text-secondary">This is bg-surface-2 - a secondary surface (sibling to surface-1)</p>
+          <p className="text-13 text-secondary">
+            This is bg-surface-2 - a secondary surface (sibling to surface-1)
+          </p>
         </Surface>
       </TwoColGrid>
     </DemoRoot>
@@ -114,7 +119,9 @@ export const SurfaceSiblings: Story = {
 export const LayerStacking: Story = {
   render: () => (
     <DemoRoot>
-      <Info title="✅ Layer Stacking Pattern">Layers stack to create depth: Surface → Layer 1 → Layer 2 → Layer 3</Info>
+      <Info title="✅ Layer Stacking Pattern">
+        Layers stack to create depth: Surface → Layer 1 → Layer 2 → Layer 3
+      </Info>
 
       <Surface>
         <h4 className="mb-3 font-semibold text-primary">Surface 1</h4>
@@ -142,8 +149,8 @@ export const SurfaceLayerAssociation: Story = {
   render: () => (
     <DemoRoot>
       <Info title="✅ Surface-Layer Association">
-        Each surface should use its corresponding layer: surface-1 → layer-1, surface-2 → layer-2. Very rare exception:
-        inputs/buttons can go one level above for visual separation.
+        Each surface should use its corresponding layer: surface-1 → layer-1, surface-2 → layer-2.
+        Very rare exception: inputs/buttons can go one level above for visual separation.
       </Info>
 
       <TwoColGrid>
@@ -166,7 +173,8 @@ export const SurfaceLayerAssociation: Story = {
 
       <div className="mt-6">
         <Info title="✅ Rare Exception: Visual Separation for Form Elements">
-          In very rare cases, form elements (inputs, buttons, switches) can use one level above for visual separation.
+          In very rare cases, form elements (inputs, buttons, switches) can use one level above for
+          visual separation.
         </Info>
         <Surface>
           <h4 className="mb-3 font-semibold text-primary">Modal with Input (Rare Exception)</h4>
@@ -195,8 +203,8 @@ export const ModalException: Story = {
   render: () => (
     <DemoRoot>
       <Info title="✅ Modal Exception Pattern">
-        Modals exist on a <strong>different plane</strong>, so they can use surfaces even when there&apos;s a surface
-        below
+        Modals exist on a <strong>different plane</strong>, so they can use surfaces even when
+        there&apos;s a surface below
       </Info>
 
       <Surface>
@@ -209,8 +217,8 @@ export const ModalException: Story = {
         <div className="shadow-lg relative z-10 max-w-md rounded-lg bg-surface-1 p-6">
           <h4 className="mb-3 font-semibold text-primary">Modal Dialog</h4>
           <p className="mb-4 text-13 text-secondary">
-            This modal uses bg-surface-1 even though the page below also uses bg-surface-1. This is allowed because
-            they&apos;re on different planes.
+            This modal uses bg-surface-1 even though the page below also uses bg-surface-1. This is
+            allowed because they&apos;re on different planes.
           </p>
 
           <Layer className="rounded-md bg-layer-1 p-3 hover:bg-layer-1-hover">
@@ -225,7 +233,9 @@ export const ModalException: Story = {
 export const CardListPattern: Story = {
   render: () => (
     <DemoRoot>
-      <Info title="✅ Card List Pattern">Common pattern: Surface containing multiple layer-1 cards</Info>
+      <Info title="✅ Card List Pattern">
+        Common pattern: Surface containing multiple layer-1 cards
+      </Info>
 
       <Surface>
         <h4 className="mb-4 font-semibold text-primary">Task List</h4>
@@ -233,7 +243,9 @@ export const CardListPattern: Story = {
           {[1, 2, 3].map((item) => (
             <Layer key={item} className="rounded-md bg-layer-1 p-4 hover:bg-layer-1-hover">
               <h5 className="mb-1 font-medium text-primary">Task {item}</h5>
-              <p className="text-13 text-secondary">This is a task card using bg-layer-1 with hover state</p>
+              <p className="text-13 text-secondary">
+                This is a task card using bg-layer-1 with hover state
+              </p>
             </Layer>
           ))}
         </div>
@@ -246,8 +258,8 @@ export const SidebarLayoutPattern: Story = {
   render: () => (
     <DemoRoot>
       <Info title="✅ Sidebar Layout Pattern">
-        Sidebar and main content are both part of the same surface. Sidebar menu items use transparent backgrounds with
-        hover states.
+        Sidebar and main content are both part of the same surface. Sidebar menu items use
+        transparent backgrounds with hover states.
       </Info>
 
       <Surface className="flex rounded-md bg-surface-1">
@@ -303,12 +315,16 @@ export const StateVariants: Story = {
 export const TextColorHierarchy: Story = {
   render: () => (
     <DemoRoot>
-      <Info title="✅ Text Color Hierarchy">Semantic text colors for different importance levels</Info>
+      <Info title="✅ Text Color Hierarchy">
+        Semantic text colors for different importance levels
+      </Info>
 
       <Surface>
         <div className="rounded-md bg-layer-1 p-4">
           <h4 className="mb-3 text-16 font-semibold text-primary">Primary Text</h4>
-          <p className="mb-3 text-secondary">Secondary text for descriptions and supporting content</p>
+          <p className="mb-3 text-secondary">
+            Secondary text for descriptions and supporting content
+          </p>
           <p className="mb-3 text-13 text-tertiary">Tertiary text for labels and metadata</p>
           <input
             className="rounded border border-subtle px-3 py-2 placeholder-(--text-color-placeholder)"
@@ -323,7 +339,9 @@ export const TextColorHierarchy: Story = {
 export const CompleteExample: Story = {
   render: () => (
     <DemoRoot>
-      <Info title="✅ Complete Example">A realistic dashboard layout using all design system concepts</Info>
+      <Info title="✅ Complete Example">
+        A realistic dashboard layout using all design system concepts
+      </Info>
 
       <div className="mb-6 rounded-md bg-surface-1">
         <div className="border-b border-subtle p-4">
@@ -383,7 +401,9 @@ export const CommonMistakes: Story = {
 
       <div className="space-y-6">
         <div className="rounded-md border-2 border-danger-strong p-4">
-          <h4 className="mb-2 font-semibold text-primary">❌ Mistake 1: Nested Surfaces (Same Plane)</h4>
+          <h4 className="mb-2 font-semibold text-primary">
+            ❌ Mistake 1: Nested Surfaces (Same Plane)
+          </h4>
           <Surface>
             <p className="mb-2 text-13 text-secondary">Surface 1</p>
             <div className="rounded-md bg-surface-2 p-4">
@@ -396,16 +416,21 @@ export const CommonMistakes: Story = {
         </div>
 
         <div className="rounded-md border-2 border-danger-strong p-4">
-          <h4 className="mb-2 font-semibold text-primary">❌ Mistake 2: Wrong Layer-Surface Association</h4>
+          <h4 className="mb-2 font-semibold text-primary">
+            ❌ Mistake 2: Wrong Layer-Surface Association
+          </h4>
           <Surface>
             <p className="mb-2 text-13 text-secondary">Surface 1</p>
             <div className="rounded-md bg-layer-2 p-4">
-              <p className="text-13 text-secondary">Using layer-2 with surface-1 for content box - WRONG!</p>
+              <p className="text-13 text-secondary">
+                Using layer-2 with surface-1 for content box - WRONG!
+              </p>
             </div>
           </Surface>
           <p className="mt-2 text-11 text-tertiary">
-            ✅ Fix: Use bg-layer-1 with bg-surface-1 for content boxes. Exception: Very rare cases for inputs/buttons
-            that need visual separation (e.g., input in modal can use bg-layer-2 for separation).
+            ✅ Fix: Use bg-layer-1 with bg-surface-1 for content boxes. Exception: Very rare cases
+            for inputs/buttons that need visual separation (e.g., input in modal can use bg-layer-2
+            for separation).
           </p>
         </div>
 
@@ -413,16 +438,22 @@ export const CommonMistakes: Story = {
           <h4 className="mb-2 font-semibold text-primary">❌ Mistake 3: Mismatched Hover State</h4>
           <Surface>
             <div className="rounded-md bg-layer-1 p-4 transition-colors hover:bg-layer-2-hover">
-              <p className="text-13 text-secondary">bg-layer-1 with hover:bg-layer-2-hover - WRONG!</p>
+              <p className="text-13 text-secondary">
+                bg-layer-1 with hover:bg-layer-2-hover - WRONG!
+              </p>
             </div>
           </Surface>
-          <p className="mt-2 text-11 text-tertiary">✅ Fix: Use bg-layer-1 hover:bg-layer-1-hover</p>
+          <p className="mt-2 text-11 text-tertiary">
+            ✅ Fix: Use bg-layer-1 hover:bg-layer-1-hover
+          </p>
         </div>
 
         <div className="rounded-md border-2 border-danger-strong p-4">
           <h4 className="mb-2 font-semibold text-primary">❌ Mistake 4: Canvas for Pages</h4>
           <div className="rounded-md bg-canvas p-4">
-            <p className="text-13 text-secondary">Using bg-canvas for a page or component - WRONG!</p>
+            <p className="text-13 text-secondary">
+              Using bg-canvas for a page or component - WRONG!
+            </p>
           </div>
           <p className="mt-2 text-11 text-tertiary">
             ✅ Fix: Canvas should only be at application root. Use bg-surface-1 for pages

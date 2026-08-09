@@ -235,7 +235,9 @@ export const OnImage: Story = {
       <ContextMenu>
         <ContextMenu.Trigger>
           <div className="relative h-56 w-80 cursor-pointer overflow-hidden rounded-lg bg-layer-1">
-            <div className="absolute inset-0 flex items-center justify-center text-placeholder">Image Placeholder</div>
+            <div className="absolute inset-0 flex items-center justify-center text-placeholder">
+              Image Placeholder
+            </div>
           </div>
         </ContextMenu.Trigger>
         <ContextMenu.Portal>
@@ -269,8 +271,8 @@ export const OnText: Story = {
           <div className="w-96 rounded-lg border border-subtle p-6">
             <h3 className="mb-2 text-16 font-semibold">Context Menu on Text</h3>
             <p className="text-tertiary">
-              Right click anywhere on this text area to see the context menu. This demonstrates how context menus can be
-              applied to text content areas.
+              Right click anywhere on this text area to see the context menu. This demonstrates how
+              context menus can be applied to text content areas.
             </p>
           </div>
         </ContextMenu.Trigger>

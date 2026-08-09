@@ -30,7 +30,15 @@ type TProps = {
 };
 
 export function StickyInput(props: TProps) {
-  const { stickyData, workspaceSlug, handleUpdate, stickyId, handleDelete, handleChange, showToolbar } = props;
+  const {
+    stickyData,
+    workspaceSlug,
+    handleUpdate,
+    stickyId,
+    handleDelete,
+    handleChange,
+    showToolbar,
+  } = props;
   // refs
   const editorRef = useRef<EditorRefApi>(null);
   // navigation
@@ -53,14 +61,15 @@ export function StickyInput(props: TProps) {
         description_html: formdata.description_html ?? "<p></p>",
       });
     },
-    [handleUpdate]
+    [handleUpdate],
   );
   // reset form values
   useEffect(() => {
     if (!stickyId) return;
     reset({
       id: stickyId,
-      description_html: stickyData?.description_html?.trim() === "" ? "<p></p>" : stickyData?.description_html,
+      description_html:
+        stickyData?.description_html?.trim() === "" ? "<p></p>" : stickyData?.description_html,
     });
   }, [stickyData, stickyId, reset]);
 
@@ -89,7 +98,7 @@ export function StickyInput(props: TProps) {
               "vertical-scrollbar scrollbar-sm max-h-[540px] min-h-[256px] w-full overflow-y-scroll p-4 text-14",
               {
                 "max-h-[588px]": isStickiesPage,
-              }
+              },
             )}
             uploadFile={async () => ""}
             duplicateFile={async () => ""}

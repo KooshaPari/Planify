@@ -6,7 +6,15 @@
 
 import { FloatingOverlay } from "@floating-ui/react";
 import type { SuggestionProps } from "@tiptap/suggestion";
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 // plane imports
 import { useOutsideClickDetector } from "@plane/hooks";
 // helpers
@@ -21,7 +29,10 @@ export type SlashCommandsMenuProps = SuggestionProps<TSlashCommandSection, ISlas
   onClose: () => void;
 };
 
-export const SlashCommandsMenu = forwardRef(function SlashCommandsMenu(props: SlashCommandsMenuProps, ref) {
+export const SlashCommandsMenu = forwardRef(function SlashCommandsMenu(
+  props: SlashCommandsMenuProps,
+  ref,
+) {
   const { items: sections, command, query, onClose } = props;
   // states
   const [selectedIndex, setSelectedIndex] = useState({
@@ -36,7 +47,7 @@ export const SlashCommandsMenu = forwardRef(function SlashCommandsMenu(props: Sl
       const item = sections[sectionIndex]?.items?.[itemIndex];
       if (item) command(item);
     },
-    [command, sections]
+    [command, sections],
   );
   // handle arrow key navigation
   useEffect(() => {
@@ -90,7 +101,9 @@ export const SlashCommandsMenu = forwardRef(function SlashCommandsMenu(props: Sl
     const container = commandListContainer?.current;
     if (!container) return;
 
-    const item = container.querySelector(`#item-${selectedIndex.section}-${selectedIndex.item}`) as HTMLElement;
+    const item = container.querySelector(
+      `#item-${selectedIndex.section}-${selectedIndex.item}`,
+    ) as HTMLElement;
 
     // use scroll into view to bring the item in view if it is not in view
     item?.scrollIntoView({ block: "nearest" });
@@ -121,7 +134,8 @@ export const SlashCommandsMenu = forwardRef(function SlashCommandsMenu(props: Sl
 
   useOutsideClickDetector(commandListContainer, onClose);
 
-  const areSearchResultsEmpty = sections.map((s) => s.items?.length).reduce((acc, curr) => acc + curr, 0) === 0;
+  const areSearchResultsEmpty =
+    sections.map((s) => s.items?.length).reduce((acc, curr) => acc + curr, 0) === 0;
 
   if (areSearchResultsEmpty) return null;
 
@@ -150,12 +164,16 @@ export const SlashCommandsMenu = forwardRef(function SlashCommandsMenu(props: Sl
       >
         {sections.map((section, sectionIndex) => (
           <div key={section.key} className="space-y-2">
-            {section.title && <h6 className="text-11 font-semibold text-tertiary">{section.title}</h6>}
+            {section.title && (
+              <h6 className="text-11 font-semibold text-tertiary">{section.title}</h6>
+            )}
             <div>
               {section.items?.map((item, itemIndex) => (
                 <CommandMenuItem
                   key={item.key}
-                  isSelected={sectionIndex === selectedIndex.section && itemIndex === selectedIndex.item}
+                  isSelected={
+                    sectionIndex === selectedIndex.section && itemIndex === selectedIndex.item
+                  }
                   item={item}
                   itemIndex={itemIndex}
                   onClick={(e) => {

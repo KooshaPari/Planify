@@ -24,14 +24,23 @@ export class AnalyticsService extends APIService {
     workspaceSlug: string,
     tab: TAnalyticsTabsBase,
     params?: TAnalyticsFilterParams,
-    isPeekView?: boolean
+    isPeekView?: boolean,
   ): Promise<T> {
-    return this.get(this.processUrl<TAnalyticsTabsBase>("advance-analytics", workspaceSlug, tab, params, isPeekView), {
-      params: {
+    return this.get(
+      this.processUrl<TAnalyticsTabsBase>(
+        "advance-analytics",
+        workspaceSlug,
         tab,
-        ...params,
+        params,
+        isPeekView,
+      ),
+      {
+        params: {
+          tab,
+          ...params,
+        },
       },
-    })
+    )
       .then((res) => res?.data)
       .catch((err) => {
         throw err?.response?.data;
@@ -42,14 +51,14 @@ export class AnalyticsService extends APIService {
     workspaceSlug: string,
     tab: Exclude<TAnalyticsTabsBase, "overview">,
     params?: TAnalyticsFilterParams,
-    isPeekView?: boolean
+    isPeekView?: boolean,
   ): Promise<T> {
     const processedUrl = this.processUrl<Exclude<TAnalyticsTabsBase, "overview">>(
       "advance-analytics-stats",
       workspaceSlug,
       tab,
       params,
-      isPeekView
+      isPeekView,
     );
     return this.get(processedUrl, {
       params: {
@@ -67,14 +76,14 @@ export class AnalyticsService extends APIService {
     workspaceSlug: string,
     tab: TAnalyticsGraphsBase,
     params?: TAnalyticsFilterParams,
-    isPeekView?: boolean
+    isPeekView?: boolean,
   ): Promise<T> {
     const processedUrl = this.processUrl<TAnalyticsGraphsBase>(
       "advance-analytics-charts",
       workspaceSlug,
       tab,
       params,
-      isPeekView
+      isPeekView,
     );
     return this.get(processedUrl, {
       params: {
@@ -93,7 +102,7 @@ export class AnalyticsService extends APIService {
     workspaceSlug: string,
     tab: TAnalyticsGraphsBase | TAnalyticsTabsBase,
     params?: TAnalyticsFilterParams,
-    isPeekView?: boolean
+    isPeekView?: boolean,
   ) {
     let processedUrl = `/api/workspaces/${workspaceSlug}`;
     if (isPeekView && (tab === "work-items" || tab === "custom-work-items")) {

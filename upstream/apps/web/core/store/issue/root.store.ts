@@ -7,7 +7,15 @@
 import { isEmpty } from "lodash-es";
 import { autorun, makeObservable, observable } from "mobx";
 // types
-import type { ICycle, IIssueLabel, IModule, IProject, IState, IUserLite, TIssueServiceType } from "@plane/types";
+import type {
+  ICycle,
+  IIssueLabel,
+  IModule,
+  IProject,
+  IState,
+  IUserLite,
+  TIssueServiceType,
+} from "@plane/types";
 import { EIssueServiceType } from "@plane/types";
 // plane web store
 import type { IProjectEpics, IProjectEpicsFilter } from "@/plane-web/store/issue/epic";
@@ -212,21 +220,28 @@ export class IssueRootStore implements IIssueRootStore {
 
     autorun(() => {
       if (rootStore?.user?.data?.id) this.currentUserId = rootStore?.user?.data?.id;
-      if (this.workspaceSlug !== rootStore.router.workspaceSlug) this.workspaceSlug = rootStore.router.workspaceSlug;
-      if (this.teamspaceId !== rootStore.router.teamspaceId) this.teamspaceId = rootStore.router.teamspaceId;
-      if (this.projectId !== rootStore.router.projectId) this.projectId = rootStore.router.projectId;
+      if (this.workspaceSlug !== rootStore.router.workspaceSlug)
+        this.workspaceSlug = rootStore.router.workspaceSlug;
+      if (this.teamspaceId !== rootStore.router.teamspaceId)
+        this.teamspaceId = rootStore.router.teamspaceId;
+      if (this.projectId !== rootStore.router.projectId)
+        this.projectId = rootStore.router.projectId;
       if (this.cycleId !== rootStore.router.cycleId) this.cycleId = rootStore.router.cycleId;
       if (this.moduleId !== rootStore.router.moduleId) this.moduleId = rootStore.router.moduleId;
       if (this.viewId !== rootStore.router.viewId) this.viewId = rootStore.router.viewId;
-      if (this.globalViewId !== rootStore.router.globalViewId) this.globalViewId = rootStore.router.globalViewId;
+      if (this.globalViewId !== rootStore.router.globalViewId)
+        this.globalViewId = rootStore.router.globalViewId;
       if (this.userId !== rootStore.router.userId) this.userId = rootStore.router.userId;
       if (!isEmpty(rootStore?.state?.stateMap)) this.stateMap = rootStore?.state?.stateMap;
-      if (!isEmpty(rootStore?.state?.projectStates)) this.stateDetails = rootStore?.state?.projectStates;
-      if (!isEmpty(rootStore?.state?.workspaceStates)) this.workspaceStateDetails = rootStore?.state?.workspaceStates;
+      if (!isEmpty(rootStore?.state?.projectStates))
+        this.stateDetails = rootStore?.state?.projectStates;
+      if (!isEmpty(rootStore?.state?.workspaceStates))
+        this.workspaceStateDetails = rootStore?.state?.workspaceStates;
       if (!isEmpty(rootStore?.label?.labelMap)) this.labelMap = rootStore?.label?.labelMap;
       if (!isEmpty(rootStore?.memberRoot?.workspace?.workspaceMemberMap))
         this.workSpaceMemberRolesMap = rootStore?.memberRoot?.workspace?.memberMap || undefined;
-      if (!isEmpty(rootStore?.memberRoot?.memberMap)) this.memberMap = rootStore?.memberRoot?.memberMap || undefined;
+      if (!isEmpty(rootStore?.memberRoot?.memberMap))
+        this.memberMap = rootStore?.memberRoot?.memberMap || undefined;
       if (!isEmpty(rootStore?.projectRoot?.project?.projectMap))
         this.projectMap = rootStore?.projectRoot?.project?.projectMap;
       if (!isEmpty(rootStore?.module?.moduleMap)) this.moduleMap = rootStore?.module?.moduleMap;

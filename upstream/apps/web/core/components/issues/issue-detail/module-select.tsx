@@ -28,7 +28,14 @@ type TIssueModuleSelect = {
 };
 
 export const IssueModuleSelect = observer(function IssueModuleSelect(props: TIssueModuleSelect) {
-  const { className = "", workspaceSlug, projectId, issueId, issueOperations, disabled = false } = props;
+  const {
+    className = "",
+    workspaceSlug,
+    projectId,
+    issueId,
+    issueOperations,
+    disabled = false,
+  } = props;
   const { t } = useTranslation();
   // states
   const [isUpdating, setIsUpdating] = useState(false);
@@ -56,7 +63,13 @@ export const IssueModuleSelect = observer(function IssueModuleSelect(props: TIss
       }
     }
 
-    await issueOperations.changeModulesInIssue?.(workspaceSlug, projectId, issueId, modulesToAdd, modulesToRemove);
+    await issueOperations.changeModulesInIssue?.(
+      workspaceSlug,
+      projectId,
+      issueId,
+      modulesToAdd,
+      modulesToRemove,
+    );
 
     setIsUpdating(false);
   };

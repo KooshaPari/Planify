@@ -75,13 +75,14 @@ export const DetailedEmptyState = observer(function DetailedEmptyState(props: Pr
     className,
   } = props;
 
-  const hasButtons = primaryButton || secondaryButton || customPrimaryButton || customSecondaryButton;
+  const hasButtons =
+    primaryButton || secondaryButton || customPrimaryButton || customSecondaryButton;
 
   return (
     <div
       className={cn(
         "flex min-h-full min-w-full items-center justify-center overflow-y-auto px-5 py-10 md:px-20",
-        className
+        className,
       )}
     >
       <div className={cn("flex flex-col gap-5", sizeClasses[size])}>
@@ -96,10 +97,14 @@ export const DetailedEmptyState = observer(function DetailedEmptyState(props: Pr
           <div className="relative flex w-full flex-shrink-0 items-center justify-center gap-2">
             {/* primary button */}
             {customPrimaryButton ??
-              (primaryButton?.text && <CustomButton config={primaryButton} variant="primary" size={size} />)}
+              (primaryButton?.text && (
+                <CustomButton config={primaryButton} variant="primary" size={size} />
+              ))}
             {/* secondary button */}
             {customSecondaryButton ??
-              (secondaryButton?.text && <CustomButton config={secondaryButton} variant="secondary" size={size} />)}
+              (secondaryButton?.text && (
+                <CustomButton config={secondaryButton} variant="secondary" size={size} />
+              ))}
           </div>
         )}
       </div>

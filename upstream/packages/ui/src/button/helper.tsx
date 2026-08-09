@@ -111,7 +111,11 @@ export const buttonStyling: IButtonStyling = {
   },
 };
 
-export const getButtonStyling = (variant: TButtonVariant, size: TButtonSizes, disabled: boolean = false): string => {
+export const getButtonStyling = (
+  variant: TButtonVariant,
+  size: TButtonSizes,
+  disabled: boolean = false,
+): string => {
   let tempVariant: string = ``;
   const currentVariant = buttonStyling[variant];
 

@@ -80,7 +80,10 @@ export const getBase64Image = async (url: string): Promise<string> => {
  * @param {Array<Array<string>> | { [key: string]: string }} data - The data to be exported to CSV
  * @param {string} name - The name of the file to be downloaded
  */
-export const csvDownload = (data: Array<Array<string>> | { [key: string]: string }, name: string) => {
+export const csvDownload = (
+  data: Array<Array<string>> | { [key: string]: string },
+  name: string,
+) => {
   const rows = Array.isArray(data) ? [...data] : [Object.keys(data), Object.values(data)];
 
   const csvContent = "data:text/csv;charset=utf-8," + rows.map((e) => e.join(",")).join("\n");

@@ -16,7 +16,12 @@ import { updateFloatingUIFloaterPosition } from "@/helpers/floating-ui";
 import type { CommandListInstance } from "@/helpers/tippy";
 import { DROPDOWN_NAVIGATION_KEYS } from "@/helpers/tippy";
 // types
-import type { IEditorProps, ISlashCommandItem, TEditorCommands, TSlashCommandSectionKeys } from "@/types";
+import type {
+  IEditorProps,
+  ISlashCommandItem,
+  TEditorCommands,
+  TSlashCommandSectionKeys,
+} from "@/types";
 // components
 import { getSlashCommandFilteredSections } from "./command-items-list";
 import type { SlashCommandsMenuProps } from "./command-menu";
@@ -66,7 +71,9 @@ const Command = Extension.create<SlashCommandOptions>({
           const handleClose = (editor?: Editor) => {
             component?.destroy();
             component = null;
-            (editor || editorRef)?.commands.removeActiveDropbarExtension(CORE_EXTENSIONS.SLASH_COMMANDS);
+            (editor || editorRef)?.commands.removeActiveDropbarExtension(
+              CORE_EXTENSIONS.SLASH_COMMANDS,
+            );
             cleanup();
           };
 
@@ -74,14 +81,17 @@ const Command = Extension.create<SlashCommandOptions>({
             onStart: (props) => {
               editorRef = props.editor;
               // React renderer component, which wraps the actual dropdown component
-              component = new ReactRenderer<CommandListInstance, SlashCommandsMenuProps>(SlashCommandsMenu, {
-                props: {
-                  ...props,
-                  onClose: () => handleClose(props.editor),
-                } satisfies SlashCommandsMenuProps,
-                editor: props.editor,
-                className: "fixed z-[100]",
-              });
+              component = new ReactRenderer<CommandListInstance, SlashCommandsMenuProps>(
+                SlashCommandsMenu,
+                {
+                  props: {
+                    ...props,
+                    onClose: () => handleClose(props.editor),
+                  } satisfies SlashCommandsMenuProps,
+                  editor: props.editor,
+                  className: "fixed z-[100]",
+                },
+              );
               if (!props.clientRect) return;
               props.editor.commands.addActiveDropbarExtension(CORE_EXTENSIONS.SLASH_COMMANDS);
               const element = component.element as HTMLElement;

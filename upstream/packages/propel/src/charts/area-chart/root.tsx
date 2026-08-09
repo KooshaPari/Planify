@@ -5,7 +5,17 @@
  */
 
 import React, { useMemo, useState } from "react";
-import { Area, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, Line, ComposedChart, CartesianGrid } from "recharts";
+import {
+  Area,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  Line,
+  ComposedChart,
+  CartesianGrid,
+} from "recharts";
 // plane imports
 import { AXIS_LABEL_CLASSNAME } from "@plane/constants";
 import type { TAreaChartProps } from "@plane/types";
@@ -15,7 +25,7 @@ import { CustomXAxisTick, CustomYAxisTick } from "../components/tick";
 import { CustomTooltip } from "../components/tooltip";
 
 export const AreaChart = React.memo(function AreaChart<K extends string, T extends string>(
-  props: TAreaChartProps<K, T>
+  props: TAreaChartProps<K, T>,
 ) {
   const {
     data,
@@ -83,7 +93,7 @@ export const AreaChart = React.memo(function AreaChart<K extends string, T exten
           className="[&_path]:transition-opacity [&_path]:duration-200"
         />
       )),
-    [activeLegend, areas]
+    [activeLegend, areas],
   );
 
   // create comparison line data for straight line from origin to last point

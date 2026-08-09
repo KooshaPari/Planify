@@ -43,7 +43,7 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
         type: TOAST_TYPE.ERROR,
         title: t("auth.sign_out.toast.error.title"),
         message: t("auth.sign_out.toast.error.message"),
-      })
+      }),
     );
   };
 

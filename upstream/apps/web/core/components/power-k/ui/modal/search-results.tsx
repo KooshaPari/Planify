@@ -32,7 +32,8 @@ export const PowerKModalSearchResults = observer(function PowerKModalSearchResul
     <>
       {Object.keys(results.results).map((key) => {
         const section = results.results[key as keyof typeof results.results];
-        const currentSection = POWER_K_SEARCH_RESULTS_GROUPS_MAP[key as keyof typeof POWER_K_SEARCH_RESULTS_GROUPS_MAP];
+        const currentSection =
+          POWER_K_SEARCH_RESULTS_GROUPS_MAP[key as keyof typeof POWER_K_SEARCH_RESULTS_GROUPS_MAP];
 
         if (!currentSection) return null;
         if (section.length <= 0) return null;

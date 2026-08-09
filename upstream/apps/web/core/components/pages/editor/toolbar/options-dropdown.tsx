@@ -42,7 +42,8 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
     editor: { editorRef },
   } = page;
   // page filters
-  const { isFullWidth, handleFullWidth, isStickyToolbarEnabled, handleStickyToolbar } = usePageFilters();
+  const { isFullWidth, handleFullWidth, isStickyToolbarEnabled, handleStickyToolbar } =
+    usePageFilters();
   // query params
   const { updateQueryParams } = useQueryParams();
   // menu items list
@@ -121,7 +122,7 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
       updateQueryParams,
       router,
       setIsExportModalOpen,
-    ]
+    ],
   );
 
   return (

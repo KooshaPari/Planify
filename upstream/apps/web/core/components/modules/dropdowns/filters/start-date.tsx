@@ -30,11 +30,12 @@ export const FilterStartDate = observer(function FilterStartDate(props: Props) {
   const appliedFiltersCount = appliedFilters?.length ?? 0;
 
   const filteredOptions = DATE_AFTER_FILTER_OPTIONS.filter((d) =>
-    d.name.toLowerCase().includes(searchQuery.toLowerCase())
+    d.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const isCustomDateSelected = () => {
-    const isValidDateSelected = appliedFilters?.filter((f) => isInDateFormat(f.split(";")[0])) || [];
+    const isValidDateSelected =
+      appliedFilters?.filter((f) => isInDateFormat(f.split(";")[0])) || [];
     return isValidDateSelected.length > 0 ? true : false;
   };
   const handleCustomDate = () => {
@@ -72,7 +73,12 @@ export const FilterStartDate = observer(function FilterStartDate(props: Props) {
                   multiple
                 />
               ))}
-              <FilterOption isChecked={isCustomDateSelected()} onClick={handleCustomDate} title="Custom" multiple />
+              <FilterOption
+                isChecked={isCustomDateSelected()}
+                onClick={handleCustomDate}
+                title="Custom"
+                multiple
+              />
             </>
           ) : (
             <p className="text-11 text-placeholder italic">No matches found</p>

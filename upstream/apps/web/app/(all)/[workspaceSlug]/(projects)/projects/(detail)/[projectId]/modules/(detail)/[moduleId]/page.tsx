@@ -35,12 +35,13 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
   const isSidebarCollapsed = storedValue ? (storedValue === "true" ? true : false) : false;
   // fetching module details
   const { error } = useSWR(`CURRENT_MODULE_DETAILS_${moduleId}`, () =>
-    fetchModuleDetails(workspaceSlug, projectId, moduleId)
+    fetchModuleDetails(workspaceSlug, projectId, moduleId),
   );
   // derived values
   const projectModule = getModuleById(moduleId);
   const project = getProjectById(projectId);
-  const pageTitle = project?.name && projectModule?.name ? `${project?.name} - ${projectModule?.name}` : undefined;
+  const pageTitle =
+    project?.name && projectModule?.name ? `${project?.name} - ${projectModule?.name}` : undefined;
 
   const toggleSidebar = () => {
     setValue(`${!isSidebarCollapsed}`);
@@ -68,7 +69,7 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
           {!isSidebarCollapsed && (
             <div
               className={cn(
-                "vertical-scrollbar absolute right-0 z-13 flex scrollbar-sm h-full w-[24rem] flex-shrink-0 flex-col gap-3.5 overflow-y-auto border-l border-subtle bg-surface-1 px-6 shadow-raised-200 duration-300"
+                "vertical-scrollbar absolute right-0 z-13 flex scrollbar-sm h-full w-[24rem] flex-shrink-0 flex-col gap-3.5 overflow-y-auto border-l border-subtle bg-surface-1 px-6 shadow-raised-200 duration-300",
               )}
             >
               <ModuleAnalyticsSidebar moduleId={moduleId} handleClose={toggleSidebar} />

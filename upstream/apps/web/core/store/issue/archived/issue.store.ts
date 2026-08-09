@@ -6,7 +6,13 @@
 
 import { action, makeObservable, runInAction } from "mobx";
 // base class
-import type { TLoader, IssuePaginationOptions, TIssuesResponse, ViewFlags, TBulkOperationsPayload } from "@plane/types";
+import type {
+  TLoader,
+  IssuePaginationOptions,
+  TIssuesResponse,
+  ViewFlags,
+  TBulkOperationsPayload,
+} from "@plane/types";
 // services
 // types
 import type { IBaseIssuesStore } from "../helpers/base-issues.store";
@@ -22,23 +28,27 @@ export interface IArchivedIssues extends IBaseIssuesStore {
     workspaceSlug: string,
     projectId: string,
     loadType: TLoader,
-    option: IssuePaginationOptions
+    option: IssuePaginationOptions,
   ) => Promise<TIssuesResponse | undefined>;
   fetchIssuesWithExistingPagination: (
     workspaceSlug: string,
     projectId: string,
-    loadType: TLoader
+    loadType: TLoader,
   ) => Promise<TIssuesResponse | undefined>;
   fetchNextIssues: (
     workspaceSlug: string,
     projectId: string,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) => Promise<TIssuesResponse | undefined>;
 
   restoreIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
   removeBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  bulkUpdateProperties: (workspaceSlug: string, projectId: string, data: TBulkOperationsPayload) => Promise<void>;
+  bulkUpdateProperties: (
+    workspaceSlug: string,
+    projectId: string,
+    data: TBulkOperationsPayload,
+  ) => Promise<void>;
 
   updateIssue: undefined;
   archiveIssue: undefined;
@@ -77,7 +87,11 @@ export class ArchivedIssues extends BaseIssuesStore implements IArchivedIssues {
    * @param projectId
    */
   fetchParentStats = async (workspaceSlug: string, projectId?: string) => {
-    projectId && this.rootIssueStore.rootStore.projectRoot.project.fetchProjectDetails(workspaceSlug, projectId);
+    projectId &&
+      this.rootIssueStore.rootStore.projectRoot.project.fetchProjectDetails(
+        workspaceSlug,
+        projectId,
+      );
   };
 
   /** */
@@ -96,7 +110,7 @@ export class ArchivedIssues extends BaseIssuesStore implements IArchivedIssues {
     projectId: string,
     loadType: TLoader = "init-loader",
     options: IssuePaginationOptions,
-    isExistingPaginationOptions: boolean = false
+    isExistingPaginationOptions: boolean = false,
   ) => {
     try {
       // set loader and clear store
@@ -106,14 +120,32 @@ export class ArchivedIssues extends BaseIssuesStore implements IArchivedIssues {
       this.clear(!isExistingPaginationOptions);
 
       // get params from pagination options
-      const params = this.issueFilterStore?.getFilterParams(options, projectId, undefined, undefined, undefined);
+      const params = this.issueFilterStore?.getFilterParams(
+        options,
+        projectId,
+        undefined,
+        undefined,
+        undefined,
+      );
       // call the fetch issues API with the params
-      const response = await this.issueArchiveService.getArchivedIssues(workspaceSlug, projectId, params, {
-        signal: this.controller.signal,
-      });
+      const response = await this.issueArchiveService.getArchivedIssues(
+        workspaceSlug,
+        projectId,
+        params,
+        {
+          signal: this.controller.signal,
+        },
+      );
 
       // after fetching issues, call the base method to process the response further
-      this.onfetchIssues(response, options, workspaceSlug, projectId, undefined, !isExistingPaginationOptions);
+      this.onfetchIssues(
+        response,
+        options,
+        workspaceSlug,
+        projectId,
+        undefined,
+        !isExistingPaginationOptions,
+      );
       return response;
     } catch (error) {
       // set loader to undefined if errored out
@@ -132,7 +164,12 @@ export class ArchivedIssues extends BaseIssuesStore implements IArchivedIssues {
    * @param subGroupId
    * @returns
    */
-  fetchNextIssues = async (workspaceSlug: string, projectId: string, groupId?: string, subGroupId?: string) => {
+  fetchNextIssues = async (
+    workspaceSlug: string,
+    projectId: string,
+    groupId?: string,
+    subGroupId?: string,
+  ) => {
     const cursorObject = this.getPaginationData(groupId, subGroupId);
     // if there are no pagination options and the next page results do not exist the return
     if (!this.paginationOptions || (cursorObject && !cursorObject?.nextPageResults)) return;
@@ -146,10 +183,14 @@ export class ArchivedIssues extends BaseIssuesStore implements IArchivedIssues {
         projectId,
         this.getNextCursor(groupId, subGroupId),
         groupId,
-        subGroupId
+        subGroupId,
       );
       // call the fetch issues API with the params for next page in issues
-      const response = await this.issueArchiveService.getArchivedIssues(workspaceSlug, projectId, params);
+      const response = await this.issueArchiveService.getArchivedIssues(
+        workspaceSlug,
+        projectId,
+        params,
+      );
 
       // after the next page of issues are fetched, call the base method to process the response
       this.onfetchNexIssues(response, groupId, subGroupId);
@@ -172,7 +213,7 @@ export class ArchivedIssues extends BaseIssuesStore implements IArchivedIssues {
   fetchIssuesWithExistingPagination = async (
     workspaceSlug: string,
     projectId: string,
-    loadType: TLoader = "mutation"
+    loadType: TLoader = "mutation",
   ) => {
     if (!this.paginationOptions) return;
     return await this.fetchIssues(workspaceSlug, projectId, loadType, this.paginationOptions, true);

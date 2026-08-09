@@ -140,7 +140,8 @@ export const sanitizeHTML = (htmlString: string) => {
  * const text = stripAndTruncateHTML(html);
  * console.log(text); // Some text
  */
-export const stripAndTruncateHTML = (html: string, length: number = 55) => truncateText(sanitizeHTML(html), length);
+export const stripAndTruncateHTML = (html: string, length: number = 55) =>
+  truncateText(sanitizeHTML(html), length);
 
 /**
  * @returns {boolean} true if email is valid, false otherwise
@@ -154,7 +155,7 @@ export const checkEmailValidity = (email: string): boolean => {
 
   const isEmailValid =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-      email
+      email,
     );
 
   return isEmailValid;
@@ -256,7 +257,12 @@ export const isStringCommentEmpty = (comment: string | undefined): boolean => {
   return (
     comment?.trim() === "" ||
     comment === "<p></p>" ||
-    isEmptyHtmlString(comment ?? "", ["img", "mention-component", "image-component", "embed-component"])
+    isEmptyHtmlString(comment ?? "", [
+      "img",
+      "mention-component",
+      "image-component",
+      "embed-component",
+    ])
   );
 };
 
@@ -289,7 +295,11 @@ export const checkURLValidity = (url: string): boolean => {
  * @param conjunction Conjunction to use before last element (default: "and")
  * @returns Combined string with conjunction before the last element
  */
-export const joinWithConjunction = (array: string[], separator: string = ", ", conjunction: string = "and"): string => {
+export const joinWithConjunction = (
+  array: string[],
+  separator: string = ", ",
+  conjunction: string = "and",
+): string => {
   if (!array || array.length === 0) return "";
   if (array.length === 1) return array[0];
   if (array.length === 2) return `${array[0]} ${conjunction} ${array[1]}`;
@@ -307,7 +317,8 @@ export const joinWithConjunction = (array: string[], separator: string = ", ", c
  * @example
  * ensureUrlHasProtocol("example.com") => "http://example.com"
  */
-export const ensureUrlHasProtocol = (url: string): string => (url.startsWith("http") ? url : `http://${url}`);
+export const ensureUrlHasProtocol = (url: string): string =>
+  url.startsWith("http") ? url : `http://${url}`;
 
 /**
  * @returns {boolean} true if searchQuery is substring of text in the same order, false otherwise

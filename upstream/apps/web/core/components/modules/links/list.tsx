@@ -29,7 +29,10 @@ export const ModuleLinksList = observer(function ModuleLinksList(props: Props) {
   const moduleLinks = currentModule?.link_module;
   // memoized link handlers
   const memoizedDeleteLink = useCallback((id: string) => handleDeleteLink(id), [handleDeleteLink]);
-  const memoizedEditLink = useCallback((link: ILinkDetails) => handleEditLink(link), [handleEditLink]);
+  const memoizedEditLink = useCallback(
+    (link: ILinkDetails) => handleEditLink(link),
+    [handleEditLink],
+  );
 
   if (!moduleLinks) return null;
 

@@ -27,7 +27,8 @@ export const WithDisplayPropertiesHOC = observer(function WithDisplayPropertiesH
   else shouldDisplayPropertyFromFilters = !!displayProperties[displayPropertyKey];
 
   const renderProperty =
-    shouldDisplayPropertyFromFilters && (shouldRenderProperty ? shouldRenderProperty(displayProperties) : true);
+    shouldDisplayPropertyFromFilters &&
+    (shouldRenderProperty ? shouldRenderProperty(displayProperties) : true);
 
   if (!renderProperty) return null;
 

@@ -24,7 +24,9 @@ export function EmptyStateDetailed({
   align = "start",
 }: BaseEmptyStateCommonProps) {
   // Determine which asset to use: assetKey takes precedence, fallback to custom asset
-  const resolvedAsset = assetKey ? getDetailedAsset(assetKey as DetailedAssetType, assetClassName) : asset;
+  const resolvedAsset = assetKey
+    ? getDetailedAsset(assetKey as DetailedAssetType, assetClassName)
+    : asset;
 
   return (
     <div className={cn("flex size-full items-center justify-center", rootClassName)}>
@@ -34,7 +36,7 @@ export function EmptyStateDetailed({
           {
             "items-center text-center": align === "center",
           },
-          className
+          className,
         )}
       >
         {resolvedAsset && <div className="flex max-w-40 items-center">{resolvedAsset}</div>}

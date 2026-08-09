@@ -52,7 +52,7 @@ export const CommentsWrapper = observer(function CommentsWrapper(props: TComment
           projectId={projectId}
         />
       ),
-    [isEditingAllowed, workspaceSlug, entityId, activityOperations, projectId]
+    [isEditingAllowed, workspaceSlug, entityId, activityOperations, projectId],
   );
 
   return (

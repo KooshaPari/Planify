@@ -36,7 +36,9 @@ const extensionRegistry: TRichTextEditorAdditionalExtensionsRegistry[] = [
   },
 ];
 
-export function RichTextEditorAdditionalExtensions(props: TRichTextEditorAdditionalExtensionsProps) {
+export function RichTextEditorAdditionalExtensions(
+  props: TRichTextEditorAdditionalExtensionsProps,
+) {
   const { disabledExtensions, flaggedExtensions } = props;
 
   const extensions: Extensions = extensionRegistry

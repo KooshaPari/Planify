@@ -57,7 +57,9 @@ export function FiltersDropdown(props: Props) {
                   style={styles.popper}
                   {...attributes.popper}
                 >
-                  <div className="flex max-h-[37.5rem] w-[18.75rem] flex-col overflow-hidden">{children}</div>
+                  <div className="flex max-h-[37.5rem] w-[18.75rem] flex-col overflow-hidden">
+                    {children}
+                  </div>
                 </div>
               </Popover.Panel>
             </Transition>

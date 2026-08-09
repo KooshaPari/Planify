@@ -54,11 +54,16 @@ function ProjectCyclesPage({ params }: Route.ComponentProps) {
   const resolvedEmptyState = resolvedTheme === "light" ? lightEmptyState : darkEmptyState;
   const totalCycles = currentProjectCycleIds?.length ?? 0;
   const project = getProjectById(projectId);
-  const pageTitle = project?.name ? `${project?.name} - ${t("common.cycles", { count: 2 })}` : undefined;
-  const hasAdminLevelPermission = allowPermissions([EUserProjectRoles.ADMIN], EUserPermissionsLevel.PROJECT);
+  const pageTitle = project?.name
+    ? `${project?.name} - ${t("common.cycles", { count: 2 })}`
+    : undefined;
+  const hasAdminLevelPermission = allowPermissions(
+    [EUserProjectRoles.ADMIN],
+    EUserPermissionsLevel.PROJECT,
+  );
   const hasMemberLevelPermission = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   const handleRemoveFilter = (key: keyof TCycleFilters, value: string | null) => {

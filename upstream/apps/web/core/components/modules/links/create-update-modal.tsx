@@ -141,7 +141,13 @@ export function CreateUpdateModuleLinkModal(props: Props) {
             Cancel
           </Button>
           <Button variant="primary" size="lg" type="submit" loading={isSubmitting}>
-            {data ? (isSubmitting ? "Updating link" : "Update link") : isSubmitting ? "Adding link" : "Add link"}
+            {data
+              ? isSubmitting
+                ? "Updating link"
+                : "Update link"
+              : isSubmitting
+                ? "Adding link"
+                : "Add link"}
           </Button>
         </div>
       </form>

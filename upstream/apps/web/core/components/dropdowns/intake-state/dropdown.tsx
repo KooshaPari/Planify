@@ -20,14 +20,17 @@ type TWorkItemStateDropdownProps = Omit<
   stateIds?: string[];
 };
 
-export const IntakeStateDropdown = observer(function IntakeStateDropdown(props: TWorkItemStateDropdownProps) {
+export const IntakeStateDropdown = observer(function IntakeStateDropdown(
+  props: TWorkItemStateDropdownProps,
+) {
   const { projectId, stateIds: propsStateIds } = props;
   // router params
   const { workspaceSlug } = useParams();
   // states
   const [stateLoader, setStateLoader] = useState(false);
   // store hooks
-  const { fetchProjectIntakeState, getProjectIntakeStateIds, getIntakeStateById } = useProjectState();
+  const { fetchProjectIntakeState, getProjectIntakeStateIds, getIntakeStateById } =
+    useProjectState();
   // derived values
   const stateIds = propsStateIds ?? getProjectIntakeStateIds(projectId);
 

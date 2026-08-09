@@ -28,7 +28,8 @@ type Props = {
 
 export const WorkItemsModalMainContent = observer(function WorkItemsModalMainContent(props: Props) {
   const { projectDetails, cycleDetails, moduleDetails, fullScreen, isEpic } = props;
-  const { updateSelectedProjects, updateSelectedCycle, updateSelectedModule, updateIsPeekView } = useAnalytics();
+  const { updateSelectedProjects, updateSelectedCycle, updateSelectedModule, updateIsPeekView } =
+    useAnalytics();
   const [isModalConfigured, setIsModalConfigured] = useState(false);
 
   useEffect(() => {

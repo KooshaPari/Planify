@@ -90,8 +90,17 @@ function StoreWrapper(props: TStoreWrapper) {
     const themeData = userProfile?.theme;
 
     // Apply custom theme if current theme is custom
-    if (currentTheme === "custom" && themeData.primary && themeData.background && themeData.darkPalette !== undefined) {
-      applyCustomTheme(themeData.primary, themeData.background, themeData.darkPalette ? "dark" : "light");
+    if (
+      currentTheme === "custom" &&
+      themeData.primary &&
+      themeData.background &&
+      themeData.darkPalette !== undefined
+    ) {
+      applyCustomTheme(
+        themeData.primary,
+        themeData.background,
+        themeData.darkPalette ? "dark" : "light",
+      );
     }
     // Clear custom theme CSS when switching away from custom
     else if (previousTheme === "custom" && currentTheme !== "custom") {

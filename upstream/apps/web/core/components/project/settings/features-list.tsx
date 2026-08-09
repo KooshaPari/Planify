@@ -32,7 +32,8 @@ const PROJECT_FEATURES_LIST = {
     key: "cycles",
     property: "cycle_view",
     title: "Cycles",
-    description: "Timebox work as you see fit per project and change frequency from one period to the next.",
+    description:
+      "Timebox work as you see fit per project and change frequency from one period to the next.",
     icon: <CycleIcon className="h-5 w-5 flex-shrink-0 rotate-180 text-tertiary" />,
     isPro: false,
     isEnabled: true,
@@ -111,7 +112,10 @@ export const ProjectFeaturesList = observer(function ProjectFeaturesList(props: 
   return (
     <>
       <div>
-        <SettingsHeading title={t("projects_and_issues")} description={t("projects_and_issues_description")} />
+        <SettingsHeading
+          title={t("projects_and_issues")}
+          description={t("projects_and_issues_description")}
+        />
         <div className="mt-6 flex flex-col gap-y-4">
           {Object.entries(PROJECT_FEATURES_LIST).map(([featureItemKey, featureItem]) => (
             <div key={featureItemKey}>

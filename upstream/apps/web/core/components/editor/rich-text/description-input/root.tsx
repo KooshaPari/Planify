@@ -73,7 +73,7 @@ type Props = {
       description_html: string;
       description_json: object | undefined;
     },
-    isMigrationUpdate?: boolean
+    isMigrationUpdate?: boolean,
   ) => Promise<void>;
   /**
    * @description Placeholder, if not provided, the placeholder will be the default placeholder
@@ -131,7 +131,9 @@ export const DescriptionInput = observer(function DescriptionInput(props: Props)
   // ref to track if there are unsaved changes
   const hasUnsavedChanges = useRef(false);
   // ref to track last saved content (to skip onChange when content hasn't actually changed)
-  const lastSavedContent = useRef(initialValue?.trim() === "" ? "<p></p>" : (initialValue ?? "<p></p>"));
+  const lastSavedContent = useRef(
+    initialValue?.trim() === "" ? "<p></p>" : (initialValue ?? "<p></p>"),
+  );
   // store hooks
   const { getWorkspaceBySlug } = useWorkspace();
   const { uploadEditorAsset, duplicateEditorAsset } = useEditorAsset();
@@ -156,12 +158,12 @@ export const DescriptionInput = observer(function DescriptionInput(props: Props)
           description_html: formData.description_html,
           description_json: formData.description_json,
         },
-        formData.isMigrationUpdate
+        formData.isMigrationUpdate,
       );
       // Update lastSavedContent after successful save
       lastSavedContent.current = formData.description_html;
     },
-    [onSubmit]
+    [onSubmit],
   );
 
   // reset form values
@@ -196,7 +198,7 @@ export const DescriptionInput = observer(function DescriptionInput(props: Props)
           hasUnsavedChanges.current = false;
         });
     }, 1500),
-    [entityId, handleSubmit]
+    [entityId, handleSubmit],
   );
 
   // Save on unmount if there are unsaved changes
@@ -217,7 +219,7 @@ export const DescriptionInput = observer(function DescriptionInput(props: Props)
     },
     // since we don't want to save on unmount if there are no unsaved changes, no deps are needed
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
   if (!workspaceDetails) return null;
@@ -251,7 +253,10 @@ export const DescriptionInput = observer(function DescriptionInput(props: Props)
             hasUnsavedChanges.current = true;
             debouncedFormSave();
           }}
-          placeholder={placeholder ?? ((isFocused, value) => t(getDescriptionPlaceholderI18n(isFocused, value)))}
+          placeholder={
+            placeholder ??
+            ((isFocused, value) => t(getDescriptionPlaceholderI18n(isFocused, value)))
+          }
           searchMentionCallback={async (payload) =>
             await workspaceService.searchEntity(workspaceSlug?.toString() ?? "", {
               ...payload,

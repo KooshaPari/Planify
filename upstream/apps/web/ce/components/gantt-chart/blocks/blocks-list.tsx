@@ -42,13 +42,21 @@ export function GanttChartBlocksList(props: GanttChartBlocksProps) {
           showAllBlocks={showAllBlocks}
           blockToRender={blockToRender}
           enableBlockLeftResize={
-            typeof enableBlockLeftResize === "function" ? enableBlockLeftResize(blockId) : enableBlockLeftResize
+            typeof enableBlockLeftResize === "function"
+              ? enableBlockLeftResize(blockId)
+              : enableBlockLeftResize
           }
           enableBlockRightResize={
-            typeof enableBlockRightResize === "function" ? enableBlockRightResize(blockId) : enableBlockRightResize
+            typeof enableBlockRightResize === "function"
+              ? enableBlockRightResize(blockId)
+              : enableBlockRightResize
           }
-          enableBlockMove={typeof enableBlockMove === "function" ? enableBlockMove(blockId) : enableBlockMove}
-          enableDependency={typeof enableDependency === "function" ? enableDependency(blockId) : enableDependency}
+          enableBlockMove={
+            typeof enableBlockMove === "function" ? enableBlockMove(blockId) : enableBlockMove
+          }
+          enableDependency={
+            typeof enableDependency === "function" ? enableDependency(blockId) : enableDependency
+          }
           ganttContainerRef={ganttContainerRef}
           updateBlockDates={updateBlockDates}
         />

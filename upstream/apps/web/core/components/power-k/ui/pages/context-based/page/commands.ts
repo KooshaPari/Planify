@@ -6,7 +6,14 @@
 
 import { useCallback } from "react";
 import { useParams } from "next/navigation";
-import { ArchiveIcon, ArchiveRestoreIcon, LockKeyhole, LockKeyholeOpen, Star, StarOff } from "lucide-react";
+import {
+  ArchiveIcon,
+  ArchiveRestoreIcon,
+  LockKeyhole,
+  LockKeyholeOpen,
+  Star,
+  StarOff,
+} from "lucide-react";
 import { useTranslation } from "@plane/i18n";
 // plane imports
 import { LinkIcon, GlobeIcon, LockIcon } from "@plane/propel/icons";
@@ -79,7 +86,9 @@ export const usePowerKPageContextBasedActions = (): TPowerKCommandConfig[] => {
   return [
     {
       id: "toggle_page_lock",
-      i18n_title: isLocked ? "power_k.contextual_actions.page.unlock" : "power_k.contextual_actions.page.lock",
+      i18n_title: isLocked
+        ? "power_k.contextual_actions.page.unlock"
+        : "power_k.contextual_actions.page.lock",
       icon: isLocked ? LockKeyholeOpen : LockKeyhole,
       group: "contextual",
       contextType: "page",
@@ -128,7 +137,9 @@ export const usePowerKPageContextBasedActions = (): TPowerKCommandConfig[] => {
     },
     {
       id: "toggle_page_archive",
-      i18n_title: archived_at ? "power_k.contextual_actions.page.restore" : "power_k.contextual_actions.page.archive",
+      i18n_title: archived_at
+        ? "power_k.contextual_actions.page.restore"
+        : "power_k.contextual_actions.page.archive",
       icon: archived_at ? ArchiveRestoreIcon : ArchiveIcon,
       group: "contextual",
       contextType: "page",

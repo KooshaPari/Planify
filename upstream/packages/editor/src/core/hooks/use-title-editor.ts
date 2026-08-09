@@ -69,9 +69,10 @@ export const useTitleEditor = (props: TUseTitleEditorProps) => {
           showOnlyWhenEditable: false,
         }),
       ],
-      content: typeof initialValue === "string" && initialValue.trim() !== "" ? initialValue : "<h1></h1>",
+      content:
+        typeof initialValue === "string" && initialValue.trim() !== "" ? initialValue : "<h1></h1>",
     },
-    [editable, initialValue, docKey]
+    [editable, initialValue, docKey],
   );
 
   useImperativeHandle(titleRef, () => ({

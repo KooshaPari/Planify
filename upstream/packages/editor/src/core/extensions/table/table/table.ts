@@ -53,7 +53,11 @@ type TableOptions = {
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     [CORE_EXTENSIONS.TABLE]: {
-      insertTable: (options?: { rows?: number; cols?: number; withHeaderRow?: boolean }) => ReturnType;
+      insertTable: (options?: {
+        rows?: number;
+        cols?: number;
+        withHeaderRow?: boolean;
+      }) => ReturnType;
       addColumnBefore: () => ReturnType;
       addColumnAfter: () => ReturnType;
       deleteColumn: () => ReturnType;
@@ -235,7 +239,10 @@ export const Table = Node.create<TableOptions>({
       Tab: () => {
         if (!this.editor.isActive(CORE_EXTENSIONS.TABLE)) return false;
 
-        if (this.editor.isActive(CORE_EXTENSIONS.LIST_ITEM) || this.editor.isActive(CORE_EXTENSIONS.TASK_ITEM)) {
+        if (
+          this.editor.isActive(CORE_EXTENSIONS.LIST_ITEM) ||
+          this.editor.isActive(CORE_EXTENSIONS.TASK_ITEM)
+        ) {
           return false;
         }
 
@@ -252,7 +259,10 @@ export const Table = Node.create<TableOptions>({
       "Shift-Tab": () => {
         if (!this.editor.isActive(CORE_EXTENSIONS.TABLE)) return false;
 
-        if (this.editor.isActive(CORE_EXTENSIONS.LIST_ITEM) || this.editor.isActive(CORE_EXTENSIONS.TASK_ITEM)) {
+        if (
+          this.editor.isActive(CORE_EXTENSIONS.LIST_ITEM) ||
+          this.editor.isActive(CORE_EXTENSIONS.TASK_ITEM)
+        ) {
           return false;
         }
 
@@ -295,7 +305,7 @@ export const Table = Node.create<TableOptions>({
           cellMinWidth: this.options.cellMinWidth,
           // View: TableView,
           lastColumnResizable: this.options.lastColumnResizable,
-        })
+        }),
       );
     }
 

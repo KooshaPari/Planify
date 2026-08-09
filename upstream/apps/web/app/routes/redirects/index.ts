@@ -13,4 +13,7 @@ import { extendedRedirectRoutes } from "./extended";
  * Centralized configuration for all route redirects
  * Migrated from Next.js next.config.js redirects
  */
-export const redirectRoutes: RouteConfigEntry[] = [...coreRedirectRoutes, ...extendedRedirectRoutes];
+export const redirectRoutes: RouteConfigEntry[] = [
+  ...coreRedirectRoutes,
+  ...extendedRedirectRoutes,
+];

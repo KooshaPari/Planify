@@ -23,7 +23,7 @@ type InboxIssueAppliedFiltersMember = {
 };
 
 export const InboxIssueAppliedFiltersMember = observer(function InboxIssueAppliedFiltersMember(
-  props: InboxIssueAppliedFiltersMember
+  props: InboxIssueAppliedFiltersMember,
 ) {
   const { filterKey, label } = props;
   // hooks
@@ -34,7 +34,9 @@ export const InboxIssueAppliedFiltersMember = observer(function InboxIssueApplie
   const currentOptionDetail = (memberId: string) => getUserDetails(memberId) || undefined;
 
   const handleFilterValue = (value: string): string[] =>
-    filteredValues?.includes(value) ? filteredValues.filter((v) => v !== value) : [...filteredValues, value];
+    filteredValues?.includes(value)
+      ? filteredValues.filter((v) => v !== value)
+      : [...filteredValues, value];
 
   const clearFilter = () => handleInboxIssueFilters(filterKey, undefined);
 
@@ -46,7 +48,10 @@ export const InboxIssueAppliedFiltersMember = observer(function InboxIssueApplie
         const optionDetail = currentOptionDetail(value);
         if (!optionDetail) return <></>;
         return (
-          <div key={value} className="relative flex items-center gap-1 rounded-sm bg-layer-1 p-1 text-11">
+          <div
+            key={value}
+            className="relative flex items-center gap-1 rounded-sm bg-layer-1 p-1 text-11"
+          >
             <div className="relative flex flex-shrink-0 items-center justify-center overflow-hidden">
               <Avatar
                 name={optionDetail.display_name}

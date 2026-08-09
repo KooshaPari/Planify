@@ -17,7 +17,7 @@ export class WorkspaceDraftService extends APIService {
 
   async getIssues(
     workspaceSlug: string,
-    query: object = {}
+    query: object = {},
   ): Promise<TWorkspaceDraftPaginationInfo<TWorkspaceDraftIssue> | undefined> {
     return this.get(`/api/workspaces/${workspaceSlug}/draft-issues/`, { params: { ...query } })
       .then((response) => response?.data)
@@ -26,7 +26,10 @@ export class WorkspaceDraftService extends APIService {
       });
   }
 
-  async getIssueById(workspaceSlug: string, issueId: string): Promise<TWorkspaceDraftIssue | undefined> {
+  async getIssueById(
+    workspaceSlug: string,
+    issueId: string,
+  ): Promise<TWorkspaceDraftIssue | undefined> {
     return this.get(`/api/workspaces/${workspaceSlug}/draft-issues/${issueId}/`)
       .then((response) => response?.data)
       .catch((error) => {
@@ -36,7 +39,7 @@ export class WorkspaceDraftService extends APIService {
 
   async createIssue(
     workspaceSlug: string,
-    payload: Partial<TWorkspaceDraftIssue | TIssue>
+    payload: Partial<TWorkspaceDraftIssue | TIssue>,
   ): Promise<TWorkspaceDraftIssue | undefined> {
     return this.post(`/api/workspaces/${workspaceSlug}/draft-issues/`, payload)
       .then((response) => response?.data)
@@ -48,7 +51,7 @@ export class WorkspaceDraftService extends APIService {
   async updateIssue(
     workspaceSlug: string,
     issueId: string,
-    payload: Partial<TWorkspaceDraftIssue | TIssue>
+    payload: Partial<TWorkspaceDraftIssue | TIssue>,
   ): Promise<TWorkspaceDraftIssue | undefined> {
     return this.patch(`/api/workspaces/${workspaceSlug}/draft-issues/${issueId}/`, payload)
       .then((response) => response?.data)
@@ -65,7 +68,11 @@ export class WorkspaceDraftService extends APIService {
       });
   }
 
-  async moveIssue(workspaceSlug: string, issueId: string, payload: Partial<TWorkspaceDraftIssue>): Promise<TIssue> {
+  async moveIssue(
+    workspaceSlug: string,
+    issueId: string,
+    payload: Partial<TWorkspaceDraftIssue>,
+  ): Promise<TIssue> {
     return this.post(`/api/workspaces/${workspaceSlug}/draft-to-issue/${issueId}/`, payload)
       .then((response) => response?.data)
       .catch((error) => {

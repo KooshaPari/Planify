@@ -9,7 +9,10 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { useDropzone } from "react-dropzone";
 // plane imports
-import { ACCEPTED_AVATAR_IMAGE_MIME_TYPES_FOR_REACT_DROPZONE, MAX_FILE_SIZE } from "@plane/constants";
+import {
+  ACCEPTED_AVATAR_IMAGE_MIME_TYPES_FOR_REACT_DROPZONE,
+  MAX_FILE_SIZE,
+} from "@plane/constants";
 import { Button } from "@plane/propel/button";
 import { UserCirclePropertyIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -71,7 +74,7 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
           entity_identifier: currentWorkspace.id,
           entity_type: EFileAssetType.WORKSPACE_LOGO,
         },
-        image
+        image,
       );
       updateWorkspaceLogo(workspaceSlug.toString(), asset_url);
       onSuccess(asset_url);
@@ -107,7 +110,12 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XL}
+    >
       <div className="space-y-5 px-5 py-8 sm:p-6">
         <h3 className="text-16 leading-6 font-medium text-primary">Upload image</h3>
         <div className="space-y-3">
@@ -154,16 +162,30 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
             </p>
           )}
         </div>
-        <p className="my-4 text-13 text-secondary">File formats supported- .jpeg, .jpg, .png, .webp</p>
+        <p className="my-4 text-13 text-secondary">
+          File formats supported- .jpeg, .jpg, .png, .webp
+        </p>
         <div className="flex items-center justify-between">
-          <Button variant="error-fill" size="lg" onClick={handleImageRemove} disabled={!value} loading={isRemoving}>
+          <Button
+            variant="error-fill"
+            size="lg"
+            onClick={handleImageRemove}
+            disabled={!value}
+            loading={isRemoving}
+          >
             {isRemoving ? "Removing" : "Remove"}
           </Button>
           <div className="flex items-center gap-2">
             <Button variant="secondary" size="lg" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="primary" size="lg" onClick={handleSubmit} disabled={!image} loading={isImageUploading}>
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={handleSubmit}
+              disabled={!image}
+              loading={isImageUploading}
+            >
               {isImageUploading ? "Uploading" : "Upload & Save"}
             </Button>
           </div>

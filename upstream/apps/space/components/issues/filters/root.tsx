@@ -24,7 +24,9 @@ type IssueFiltersDropdownProps = {
   anchor: string;
 };
 
-export const IssueFiltersDropdown = observer(function IssueFiltersDropdown(props: IssueFiltersDropdownProps) {
+export const IssueFiltersDropdown = observer(function IssueFiltersDropdown(
+  props: IssueFiltersDropdownProps,
+) {
   const { anchor } = props;
   // router
   const router = useRouter();
@@ -43,7 +45,7 @@ export const IssueFiltersDropdown = observer(function IssueFiltersDropdown(props
       const { queryParam } = queryParamGenerator({ board: activeLayout, priority, state, labels });
       router.push(`/issues/${anchor}?${queryParam}`);
     },
-    [anchor, activeLayout, issueFilters, router]
+    [anchor, activeLayout, issueFilters, router],
   );
 
   const handleFilters = useCallback(
@@ -58,7 +60,7 @@ export const IssueFiltersDropdown = observer(function IssueFiltersDropdown(props
       updateIssueFilters(anchor, "filters", key, newValues);
       updateRouteParams(key, newValues);
     },
-    [anchor, issueFilters, updateIssueFilters, updateRouteParams]
+    [anchor, issueFilters, updateIssueFilters, updateRouteParams],
   );
 
   return (
@@ -67,7 +69,9 @@ export const IssueFiltersDropdown = observer(function IssueFiltersDropdown(props
         <FilterSelection
           filters={issueFilters?.filters ?? {}}
           handleFilters={handleFilters as any}
-          layoutDisplayFiltersOptions={activeLayout ? ISSUE_DISPLAY_FILTERS_BY_LAYOUT?.[activeLayout]?.filters : []}
+          layoutDisplayFiltersOptions={
+            activeLayout ? ISSUE_DISPLAY_FILTERS_BY_LAYOUT?.[activeLayout]?.filters : []
+          }
         />
       </FiltersDropdown>
     </div>

@@ -44,7 +44,8 @@ export function GroupDragOverlay(props: Props) {
 
   const shouldOverlayBeVisible = isDraggingOverColumn && canOverlayBeVisible;
   const readableOrderBy = t(
-    ISSUE_ORDER_BY_OPTIONS.find((orderByObj) => orderByObj.key === orderBy)?.titleTranslationKey || ""
+    ISSUE_ORDER_BY_OPTIONS.find((orderByObj) => orderByObj.key === orderBy)?.titleTranslationKey ||
+      "",
   );
 
   return (
@@ -56,7 +57,7 @@ export function GroupDragOverlay(props: Props) {
           "z-2 flex flex-col border-[1px] border-strong": shouldOverlayBeVisible,
           "bg-danger-subtle": workflowDisabledSource && isDropDisabled,
         },
-        { hidden: !shouldOverlayBeVisible }
+        { hidden: !shouldOverlayBeVisible },
       )}
     >
       {workflowDisabledSource ? (
@@ -81,10 +82,13 @@ export function GroupDragOverlay(props: Props) {
             <>
               {readableOrderBy && (
                 <span>
-                  {t("issue.layouts.ordered_by_label")} <span className="font-semibold">{t(readableOrderBy)}</span>.
+                  {t("issue.layouts.ordered_by_label")}{" "}
+                  <span className="font-semibold">{t(readableOrderBy)}</span>.
                 </span>
               )}
-              <span>{t("entity.drop_here_to_move", { entity: isEpic ? "epic" : "work item" })}</span>
+              <span>
+                {t("entity.drop_here_to_move", { entity: isEpic ? "epic" : "work item" })}
+              </span>
             </>
           )}
         </div>

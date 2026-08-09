@@ -153,7 +153,9 @@ export function CreateApiTokenForm(props: Props) {
                 />
               )}
             />
-            {errors.label && <span className="text-11 text-danger-primary">{errors.label.message}</span>}
+            {errors.label && (
+              <span className="text-11 text-danger-primary">{errors.label.message}</span>
+            )}
           </div>
           <Controller
             control={control}
@@ -184,7 +186,7 @@ export function CreateApiTokenForm(props: Props) {
                             "flex h-7 items-center gap-2 rounded-sm border-[0.5px] border-strong px-2 py-0.5",
                             {
                               "text-placeholder": neverExpires,
-                            }
+                            },
                           )}
                         >
                           <Calendar className="h-3 w-3" />
@@ -242,7 +244,9 @@ export function CreateApiTokenForm(props: Props) {
           <div className="flex cursor-pointer items-center justify-center">
             <ToggleSwitch value={neverExpires} onChange={() => {}} size="sm" />
           </div>
-          <span className="text-11">{t("workspace_settings.settings.api_tokens.never_expires")}</span>
+          <span className="text-11">
+            {t("workspace_settings.settings.api_tokens.never_expires")}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="secondary" onClick={handleClose}>

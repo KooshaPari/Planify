@@ -12,7 +12,13 @@ import { CloseIcon, SearchIcon } from "@plane/propel/icons";
 import type { TModuleDisplayFilters, TModuleFilters } from "@plane/types";
 // components
 import { FilterOption } from "@/components/issues/issue-layouts/filters";
-import { FilterLead, FilterMembers, FilterStartDate, FilterStatus, FilterTargetDate } from "@/components/modules";
+import {
+  FilterLead,
+  FilterMembers,
+  FilterStartDate,
+  FilterStatus,
+  FilterTargetDate,
+} from "@/components/modules";
 // hooks
 import { usePlatformOS } from "@/hooks/use-platform-os";
 
@@ -53,7 +59,11 @@ export const ModuleFiltersSelection = observer(function ModuleFiltersSelection(p
             autoFocus={!isMobile}
           />
           {filtersSearchQuery !== "" && (
-            <button type="button" className="grid place-items-center" onClick={() => setFiltersSearchQuery("")}>
+            <button
+              type="button"
+              className="grid place-items-center"
+              onClick={() => setFiltersSearchQuery("")}
+            >
               <CloseIcon className="text-tertiary" height={12} width={12} strokeWidth={2} />
             </button>
           )}

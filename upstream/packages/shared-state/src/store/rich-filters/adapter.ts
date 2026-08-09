@@ -5,7 +5,12 @@
  */
 
 // plane imports
-import type { IFilterAdapter, TExternalFilter, TFilterExpression, TFilterProperty } from "@plane/types";
+import type {
+  IFilterAdapter,
+  TExternalFilter,
+  TFilterExpression,
+  TFilterProperty,
+} from "@plane/types";
 
 /**
  * Abstract base class for converting between external filter formats and internal filter expressions.
@@ -14,10 +19,10 @@ import type { IFilterAdapter, TExternalFilter, TFilterExpression, TFilterPropert
  * @template K - Property key type that extends TFilterProperty
  * @template E - External filter type that extends TExternalFilter
  */
-export abstract class FilterAdapter<K extends TFilterProperty, E extends TExternalFilter> implements IFilterAdapter<
-  K,
-  E
-> {
+export abstract class FilterAdapter<
+  K extends TFilterProperty,
+  E extends TExternalFilter,
+> implements IFilterAdapter<K, E> {
   /**
    * Converts an external filter format to internal filter expression.
    * Must be implemented by concrete adapter classes.

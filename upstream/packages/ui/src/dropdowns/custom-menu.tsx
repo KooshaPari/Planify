@@ -123,7 +123,7 @@ function CustomMenu(props: ICustomMenuDropdownProps) {
 
   const selectActiveItem = () => {
     const activeItem: HTMLElement | undefined | null = dropdownRef.current?.querySelector(
-      `[data-headlessui-state="active"] button`
+      `[data-headlessui-state="active"] button`,
     );
     activeItem?.click();
   };
@@ -191,7 +191,7 @@ function CustomMenu(props: ICustomMenuDropdownProps) {
 
   const menuContextValue = React.useMemo(
     () => ({ closeAllSubmenus, registerSubmenu }),
-    [closeAllSubmenus, registerSubmenu]
+    [closeAllSubmenus, registerSubmenu],
   );
 
   let menuItems = (
@@ -199,7 +199,7 @@ function CustomMenu(props: ICustomMenuDropdownProps) {
       data-prevent-outside-click={!!portalElement}
       className={cn(
         "fixed z-30 translate-y-0",
-        menuItemsClassName
+        menuItemsClassName,
       )} /** translate-y-0 is a hack to create new stacking context. Required for safari  */
       static
     >
@@ -212,7 +212,7 @@ function CustomMenu(props: ICustomMenuDropdownProps) {
             "max-h-36": maxHeight === "rg",
             "max-h-28": maxHeight === "sm",
           },
-          optionsClassName
+          optionsClassName,
         )}
         ref={setPopperElement}
         style={styles.popper}
@@ -270,12 +270,16 @@ function CustomMenu(props: ICustomMenuDropdownProps) {
                     onClick={handleMenuButtonClick}
                     disabled={disabled}
                     className={`relative grid place-items-center rounded-sm p-1 text-secondary outline-none hover:text-primary ${
-                      disabled ? "cursor-not-allowed" : "cursor-pointer hover:bg-layer-transparent-hover"
+                      disabled
+                        ? "cursor-not-allowed"
+                        : "cursor-pointer hover:bg-layer-transparent-hover"
                     } ${buttonClassName}`}
                     tabIndex={customButtonTabIndex}
                     aria-label={ariaLabel}
                   >
-                    <MoreHorizontal className={`h-3.5 w-3.5 ${verticalEllipsis ? "rotate-90" : ""}`} />
+                    <MoreHorizontal
+                      className={`h-3.5 w-3.5 ${verticalEllipsis ? "rotate-90" : ""}`}
+                    />
                   </button>
                 </Menu.Button>
               ) : (
@@ -286,7 +290,9 @@ function CustomMenu(props: ICustomMenuDropdownProps) {
                     className={`flex items-center justify-between gap-1 rounded-md px-2.5 py-1 text-11 whitespace-nowrap duration-300 ${
                       open ? "text-primary" : "text-secondary"
                     } ${noBorder ? "" : "shadow-sm border border-strong focus:outline-none"} ${
-                      disabled ? "cursor-not-allowed text-secondary" : "cursor-pointer hover:bg-layer-transparent-hover"
+                      disabled
+                        ? "cursor-not-allowed text-secondary"
+                        : "cursor-pointer hover:bg-layer-transparent-hover"
                     } ${buttonClassName}`}
                     onClick={handleMenuButtonClick}
                     tabIndex={customButtonTabIndex}
@@ -414,7 +420,7 @@ function SubMenu(props: ICustomSubMenuProps) {
                   "bg-layer-transparent-hover": active && !disabled,
                   "text-placeholder": disabled,
                   "cursor-not-allowed": disabled,
-                }
+                },
               )}
               onClick={handleClick}
               disabled={disabled}
@@ -434,7 +440,7 @@ function SubMenu(props: ICustomSubMenuProps) {
             {...attributes.popper}
             className={cn(
               "shadow-md fixed z-30 min-w-[12rem] overflow-hidden rounded-md border border-strong-1 bg-surface-1 p-1 text-11 ring-1 ring-strong-1/15",
-              contentClassName
+              contentClassName,
             )}
             data-prevent-outside-click="true"
             onMouseEnter={() => {
@@ -454,7 +460,9 @@ function SubMenu(props: ICustomSubMenuProps) {
               }
             }}
           >
-            <SubMenuContext.Provider value={subMenuContextValue}>{children}</SubMenuContext.Provider>
+            <SubMenuContext.Provider value={subMenuContextValue}>
+              {children}
+            </SubMenuContext.Provider>
           </div>
         </Portal>
       )}
@@ -477,7 +485,7 @@ function MenuItem(props: ICustomMenuItemProps) {
               "bg-layer-transparent-hover": active && !disabled,
               "text-placeholder": disabled,
             },
-            className
+            className,
           )}
           onClick={(e) => {
             close();
@@ -509,7 +517,7 @@ function SubMenuTrigger(props: ICustomSubMenuTriggerProps) {
               "cursor-pointer": !disabled,
               "cursor-not-allowed": disabled,
             },
-            className
+            className,
           )}
         >
           <span className="flex-1">{children}</span>
@@ -527,7 +535,7 @@ function SubMenuContent(props: ICustomSubMenuContentProps) {
     <div
       className={cn(
         "shadow-md z-[15] min-w-[12rem] overflow-hidden rounded-md border border-strong-1 bg-surface-1 p-1 text-11 ring-1 ring-strong-1/15",
-        className
+        className,
       )}
     >
       {children}

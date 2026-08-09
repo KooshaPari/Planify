@@ -102,13 +102,16 @@ export const MemberOptions = observer(function MemberOptions(props: Props) {
               {isUserSuspended(userId, workspaceSlug?.toString()) ? (
                 <SuspendedUserIcon className="h-3.5 w-3.5 text-placeholder" />
               ) : (
-                <Avatar name={userDetails?.display_name} src={getFileURL(userDetails?.avatar_url ?? "")} />
+                <Avatar
+                  name={userDetails?.display_name}
+                  src={getFileURL(userDetails?.avatar_url ?? "")}
+                />
               )}
             </div>
             <span
               className={cn(
                 "flex-grow truncate",
-                isUserSuspended(userId, workspaceSlug?.toString()) ? "text-placeholder" : ""
+                isUserSuspended(userId, workspaceSlug?.toString()) ? "text-placeholder" : "",
               )}
             >
               {currentUser?.id === userId ? t("you") : userDetails?.display_name}
@@ -120,9 +123,11 @@ export const MemberOptions = observer(function MemberOptions(props: Props) {
     .filter((o) => !!o);
 
   const filteredOptions = sortByCurrentUserThenSelected(
-    query === "" ? options : options?.filter((o) => o?.query.toLowerCase().includes(query.toLowerCase())),
+    query === ""
+      ? options
+      : options?.filter((o) => o?.query.toLowerCase().includes(query.toLowerCase())),
     value,
-    currentUser?.id
+    currentUser?.id,
   );
 
   return createPortal(
@@ -130,7 +135,7 @@ export const MemberOptions = observer(function MemberOptions(props: Props) {
       <div
         className={cn(
           "z-30 my-1 w-48 rounded-sm border-[0.5px] border-strong bg-surface-1 px-2 py-2.5 text-11 shadow-raised-200 focus:outline-none",
-          optionsClassName
+          optionsClassName,
         )}
         ref={setPopperElement}
         style={{
@@ -167,7 +172,7 @@ export const MemberOptions = observer(function MemberOptions(props: Props) {
                           selected ? "text-primary" : "text-secondary",
                           isUserSuspended(option.value, workspaceSlug?.toString())
                             ? "cursor-not-allowed"
-                            : "cursor-pointer"
+                            : "cursor-pointer",
                         )
                       }
                       disabled={isUserSuspended(option.value, workspaceSlug?.toString())}
@@ -177,14 +182,18 @@ export const MemberOptions = observer(function MemberOptions(props: Props) {
                           <span className="flex-grow truncate">{option.content}</span>
                           {selected && <CheckIcon className="h-3.5 w-3.5 flex-shrink-0" />}
                           {isUserSuspended(option.value, workspaceSlug?.toString()) && (
-                            <Pill variant={EPillVariant.DEFAULT} size={EPillSize.XS} className="border-none">
+                            <Pill
+                              variant={EPillVariant.DEFAULT}
+                              size={EPillSize.XS}
+                              className="border-none"
+                            >
                               Suspended
                             </Pill>
                           )}
                         </>
                       )}
                     </Combobox.Option>
-                  )
+                  ),
               )
             ) : (
               <p className="px-1.5 py-1 text-placeholder italic">{t("no_matching_results")}</p>
@@ -195,6 +204,6 @@ export const MemberOptions = observer(function MemberOptions(props: Props) {
         </div>
       </div>
     </Combobox.Options>,
-    document.body
+    document.body,
   );
 });

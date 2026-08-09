@@ -49,7 +49,12 @@ type NoLabelProps = {
   placeholderText?: string;
 };
 
-const NoLabel = observer(function NoLabel({ isMobile, noLabelBorder, fullWidth, placeholderText }: NoLabelProps) {
+const NoLabel = observer(function NoLabel({
+  isMobile,
+  noLabelBorder,
+  fullWidth,
+  placeholderText,
+}: NoLabelProps) {
   const { t } = useTranslation();
 
   return (
@@ -64,7 +69,7 @@ const NoLabel = observer(function NoLabel({ isMobile, noLabelBorder, fullWidth, 
         className={cn(
           "flex h-full items-center justify-center gap-2 rounded-sm px-2.5 py-1 text-caption-sm-regular hover:bg-layer-1",
           noLabelBorder ? "rounded-none" : "border-[0.5px] border-strong",
-          fullWidth && "w-full"
+          fullWidth && "w-full",
         )}
       >
         <LabelPropertyIcon className="h-3.5 w-3.5" />
@@ -83,7 +88,14 @@ type LabelSummaryProps = {
   value: string[];
 };
 
-function LabelSummary({ isMobile, fullWidth, noLabelBorder, disabled, projectLabels, value }: LabelSummaryProps) {
+function LabelSummary({
+  isMobile,
+  fullWidth,
+  noLabelBorder,
+  disabled,
+  projectLabels,
+  value,
+}: LabelSummaryProps) {
   const { t } = useTranslation();
   return (
     <div
@@ -91,7 +103,7 @@ function LabelSummary({ isMobile, fullWidth, noLabelBorder, disabled, projectLab
         "flex h-5 flex-shrink-0 items-center justify-center rounded-sm px-2.5 text-caption-sm-regular",
         fullWidth && "w-full",
         noLabelBorder ? "rounded-none" : "border-[0.5px] border-strong",
-        disabled ? "cursor-not-allowed" : "cursor-pointer"
+        disabled ? "cursor-not-allowed" : "cursor-pointer",
       )}
     >
       <Tooltip
@@ -145,7 +157,7 @@ const LabelItem = observer(function LabelItem({
           "flex h-full max-w-full flex-shrink-0 items-center justify-center overflow-hidden rounded-sm px-2.5 text-caption-sm-regular hover:bg-layer-1",
           !disabled && "cursor-pointer",
           fullWidth && "w-full",
-          noLabelBorder ? "rounded-none" : "border-[0.5px] border-strong"
+          noLabelBorder ? "rounded-none" : "border-[0.5px] border-strong",
         )}
       >
         <div className="flex max-w-full items-center gap-1.5 overflow-hidden text-secondary">
@@ -155,14 +167,18 @@ const LabelItem = observer(function LabelItem({
               backgroundColor: label?.color ?? "#000000",
             }}
           />
-          <div className="line-clamp-1 inline-block w-auto max-w-[200px] truncate">{label?.name}</div>
+          <div className="line-clamp-1 inline-block w-auto max-w-[200px] truncate">
+            {label?.name}
+          </div>
         </div>
       </div>
     </Tooltip>
   );
 });
 
-export const IssuePropertyLabels = observer(function IssuePropertyLabels(props: IIssuePropertyLabels) {
+export const IssuePropertyLabels = observer(function IssuePropertyLabels(
+  props: IIssuePropertyLabels,
+) {
   const {
     projectId,
     value,

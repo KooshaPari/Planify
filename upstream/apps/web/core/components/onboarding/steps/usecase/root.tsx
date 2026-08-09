@@ -47,7 +47,10 @@ export const UseCaseSetupStep = observer(function UseCaseSetupStep({ handleStepC
   // handle submit
   const handleSubmitUserPersonalization = async (formData: TProfileSetupFormValues) => {
     const profileUpdatePayload: Partial<TUserProfile> = {
-      use_case: formData.use_case && formData.use_case.length > 0 ? formData.use_case.join(". ") : undefined,
+      use_case:
+        formData.use_case && formData.use_case.length > 0
+          ? formData.use_case.join(". ")
+          : undefined,
     };
     try {
       await Promise.all([
@@ -86,7 +89,10 @@ export const UseCaseSetupStep = observer(function UseCaseSetupStep({ handleStepC
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
       {/* Header */}
-      <CommonOnboardingHeader title="What brings you to Plane?" description="Tell us your goals and team size." />
+      <CommonOnboardingHeader
+        title="What brings you to Plane?"
+        description="Tell us your goals and team size."
+      />
 
       {/* Use Case Selection */}
       <div className="flex flex-col gap-3">
@@ -145,12 +151,20 @@ export const UseCaseSetupStep = observer(function UseCaseSetupStep({ handleStepC
             </div>
           )}
         />
-        {errors.use_case && <span className="text-13 text-danger-primary">{errors.use_case.message}</span>}
+        {errors.use_case && (
+          <span className="text-13 text-danger-primary">{errors.use_case.message}</span>
+        )}
       </div>
 
       {/* Action Buttons */}
       <div className="space-y-3">
-        <Button variant="primary" type="submit" className="w-full" size="xl" disabled={isButtonDisabled}>
+        <Button
+          variant="primary"
+          type="submit"
+          className="w-full"
+          size="xl"
+          disabled={isButtonDisabled}
+        >
           Continue
         </Button>
         <Button variant="ghost" onClick={handleSkip} className="w-full" size="xl">

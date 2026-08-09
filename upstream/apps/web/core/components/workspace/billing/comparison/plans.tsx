@@ -59,7 +59,7 @@ export function ComingSoonBadge({ className }: { className?: string }) {
     <span
       className={cn(
         "w-fit rounded-sm bg-accent-primary px-1.5 py-0.5 text-9 font-semibold whitespace-nowrap text-on-color",
-        className
+        className,
       )}
     >
       COMING SOON
@@ -87,7 +87,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Work items",
-        description: "Add work via work items, set properties for tracking, and add to\ncycles or modules.",
+        description:
+          "Add work via work items, set properties for tracking, and add to\ncycles or modules.",
         cloud: {
           free: true,
           one: true,
@@ -98,7 +99,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Comments",
-        description: "Respond to work items, @mention members, and brainstorm\ntogether without leaving Plane.",
+        description:
+          "Respond to work items, @mention members, and brainstorm\ntogether without leaving Plane.",
         cloud: {
           free: true,
           one: true,
@@ -160,7 +162,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
     features: [
       {
         title: "Bulk Ops",
-        description: "Add several work items to cycles or modules, transfer\nthem, or edit their properties.",
+        description:
+          "Add several work items to cycles or modules, transfer\nthem, or edit their properties.",
         cloud: {
           free: false,
           one: "Limited props",
@@ -259,7 +262,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Epics",
-        description: "Organize long-term work in epics that house work items,\ncycles, and modules.",
+        description:
+          "Organize long-term work in epics that house work items,\ncycles, and modules.",
         cloud: {
           free: false,
           one: false,
@@ -295,7 +299,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Module Overview",
-        description: "Like Cycle Overviews, see relevant details and\nprogress charts for each module.",
+        description:
+          "Like Cycle Overviews, see relevant details and\nprogress charts for each module.",
         cloud: {
           free: false,
           one: false,
@@ -306,7 +311,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Auto-assignment In Modules",
-        description: "Choose assignment rules for work items in a\nmodule including Linear, Round Robin, or Capacity.",
+        description:
+          "Choose assignment rules for work items in a\nmodule including Linear, Round Robin, or Capacity.",
         cloud: {
           free: false,
           one: false,
@@ -390,7 +396,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Project Templates",
-        description: "Save states, workflows, automation, and other project\nsettings into templates.",
+        description:
+          "Save states, workflows, automation, and other project\nsettings into templates.",
         cloud: {
           free: false,
           one: false,
@@ -456,7 +463,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Emails For Intake",
-        description: "Get an email address for reporting work items\ndirectly into a project's Intake.",
+        description:
+          "Get an email address for reporting work items\ndirectly into a project's Intake.",
         comingSoon: true,
         cloud: {
           free: false,
@@ -548,7 +556,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Cycle Reports",
-        description: "Get on-demand cycle reports during and after a\ncycle. Revisit reports anytime from permalinks.",
+        description:
+          "Get on-demand cycle reports during and after a\ncycle. Revisit reports anytime from permalinks.",
         cloud: {
           free: false,
           one: false,
@@ -583,7 +592,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       // },
       {
         title: "Advanced Pages Analytics",
-        description: "See who's viewing, sharing, and commenting on\nyour pages along with other useful info.",
+        description:
+          "See who's viewing, sharing, and commenting on\nyour pages along with other useful info.",
         comingSoon: true,
         cloud: {
           free: false,
@@ -595,7 +605,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Custom Reports",
-        description: "Generate reports by any dimension and metric\nacross your project or workspace.",
+        description:
+          "Generate reports by any dimension and metric\nacross your project or workspace.",
         comingSoon: true,
         cloud: {
           free: false,
@@ -675,7 +686,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       {
         title: "Member limit",
         description: "Number of seats that can use project and work management features",
-        selfHostedDescription: "Number of users that our standard infra supports\nIncrease infra to get more users",
+        selfHostedDescription:
+          "Number of users that our standard infra supports\nIncrease infra to get more users",
         cloud: {
           free: "12",
           one: "",
@@ -749,7 +761,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "API-enabled Audit Logs",
-        description: "See a full-workspace audit log and use APIs to flag\nPlane activity in compliance systems.",
+        description:
+          "See a full-workspace audit log and use APIs to flag\nPlane activity in compliance systems.",
         comingSoon: true,
         cloud: {
           free: false,
@@ -920,7 +933,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Nested Pages",
-        description: "Pages inside a page, organize your pages\nas you see fit for the progressive\ndisclosure.",
+        description:
+          "Pages inside a page, organize your pages\nas you see fit for the progressive\ndisclosure.",
         comingSoon: true,
         cloud: {
           free: false,
@@ -979,7 +993,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Slack",
-        description: "Get Plane activity in Slack and use / commands in\nSlack to make changes in Plane.",
+        description:
+          "Get Plane activity in Slack and use / commands in\nSlack to make changes in Plane.",
         cloud: {
           free: false,
           one: false,
@@ -1058,7 +1073,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
     features: [
       {
         title: "SAML",
-        description: "Get the officially supported SAML implementation\nand make Plane secure with any IdP.",
+        description:
+          "Get the officially supported SAML implementation\nand make Plane secure with any IdP.",
         cloud: {
           free: false,
           one: true,
@@ -1069,7 +1085,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "OIDC",
-        description: "Get the officially supported OIDC implementation\nand make Plane secure with any IdP.",
+        description:
+          "Get the officially supported OIDC implementation\nand make Plane secure with any IdP.",
         selfHostedOnly: true,
         cloud: {
           free: false,
@@ -1093,7 +1110,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "Two-factor authentication and passkeys",
-        description: "Secure your Plane workspace with device-\ndependent two-factor authentication and passkeys. ",
+        description:
+          "Secure your Plane workspace with device-\ndependent two-factor authentication and passkeys. ",
         cloud: {
           free: false,
           one: false,
@@ -1115,7 +1133,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "LDAP",
-        description: "Get our official LDAP implementation and secure\nyour Plane workspace with your LDAP server.",
+        description:
+          "Get our official LDAP implementation and secure\nyour Plane workspace with your LDAP server.",
         comingSoon: true,
         cloud: {
           free: false,
@@ -1134,7 +1153,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
     features: [
       {
         title: "God Mode",
-        description: "Manage your self-hosted Plane instance better with\nan instance admin interface.",
+        description:
+          "Manage your self-hosted Plane instance better with\nan instance admin interface.",
         cloud: {
           free: true,
           one: true,
@@ -1145,7 +1165,8 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
       },
       {
         title: "One-click Deployment",
-        description: "Install and deploy your self-hosted Plane to any\nprivate cloud with a single-line command.",
+        description:
+          "Install and deploy your self-hosted Plane to any\nprivate cloud with a single-line command.",
         cloud: {
           free: false,
           one: true,
@@ -1235,8 +1256,14 @@ export const PLANS_COMPARISON_LIST: TPlansComparisonDetails[] = [
         title: "SLA",
         description: (
           <>
-            Get business-friendly SLAs with higher plans. SLAs are by priority of work item and tiers{" "}
-            <a href="https://plane.so/talk-to-sales" target="_blank" rel="noopener noreferrer" className="underline">
+            Get business-friendly SLAs with higher plans. SLAs are by priority of work item and
+            tiers{" "}
+            <a
+              href="https://plane.so/talk-to-sales"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
               can be requested
             </a>
             .
@@ -1303,7 +1330,12 @@ export const PLANE_PLANS: PlanePlans = {
   planHighlights: {
     free: ["Upto 12 users", "Pages", "Unlimited projects", "Unlimited cycles and modules"],
     one: ["Upto 50 users", "OIDC and SAML", "Active cycles", "Limited time tracking"],
-    pro: ["Unlimited users", "Custom work items + Properties", "Work item templates", "Full Time Tracking"],
+    pro: [
+      "Unlimited users",
+      "Custom work items + Properties",
+      "Work item templates",
+      "Full Time Tracking",
+    ],
     business: ["RBAC", "Project Templates", "Baselines And Deviations", "Custom Reports"],
     enterprise: ["Private + managed deployments", "GAC", "LDAP support", "Databases + Formulas"],
   },

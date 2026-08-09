@@ -13,8 +13,10 @@ export function TabNavigationItem({ children, isActive, className }: TTabNavigat
     <div
       className={cn(
         "relative z-10 flex items-center gap-2 rounded-md px-2 py-1.5 text-13 font-medium transition-colors",
-        isActive ? "text-primary" : "text-secondary hover:bg-layer-transparent-hover hover:text-primary",
-        className
+        isActive
+          ? "text-primary"
+          : "text-secondary hover:bg-layer-transparent-hover hover:text-primary",
+        className,
       )}
     >
       <AnimatePresence>

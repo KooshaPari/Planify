@@ -16,13 +16,19 @@ type Props = {
   onSelect: (language: string) => void;
 };
 
-export const PowerKPreferencesLanguagesMenu = observer(function PowerKPreferencesLanguagesMenu(props: Props) {
+export const PowerKPreferencesLanguagesMenu = observer(function PowerKPreferencesLanguagesMenu(
+  props: Props,
+) {
   const { onSelect } = props;
 
   return (
     <Command.Group>
       {SUPPORTED_LANGUAGES.map((language) => (
-        <PowerKModalCommandItem key={language.value} onSelect={() => onSelect(language.value)} label={language.label} />
+        <PowerKModalCommandItem
+          key={language.value}
+          onSelect={() => onSelect(language.value)}
+          label={language.label}
+        />
       ))}
     </Command.Group>
   );

@@ -9,18 +9,27 @@ import { useTranslation } from "@plane/i18n";
 import { cn } from "@plane/utils";
 import type { TQuickAddIssueForm } from "../root";
 
-export const GanttQuickAddIssueForm = observer(function GanttQuickAddIssueForm(props: TQuickAddIssueForm) {
+export const GanttQuickAddIssueForm = observer(function GanttQuickAddIssueForm(
+  props: TQuickAddIssueForm,
+) {
   const { ref, projectDetail, hasError, register, onSubmit, isEpic } = props;
   const { t } = useTranslation();
   return (
-    <div className={cn("shadow-raised-200", hasError && "border border-danger-strong/20 bg-danger-subtle")}>
+    <div
+      className={cn(
+        "shadow-raised-200",
+        hasError && "border border-danger-strong/20 bg-danger-subtle",
+      )}
+    >
       <form
         ref={ref}
         onSubmit={onSubmit}
         className="flex w-full items-center gap-x-3 border-[0.5px] border-subtle bg-surface-1 px-3"
       >
         <div className="flex w-full items-center gap-3">
-          <div className="text-11 font-medium text-placeholder">{projectDetail?.identifier ?? "..."}</div>
+          <div className="text-11 font-medium text-placeholder">
+            {projectDetail?.identifier ?? "..."}
+          </div>
           <input
             type="text"
             autoComplete="off"

@@ -13,7 +13,9 @@ import type { TFilterValue } from "../expression";
  */
 export type TExtendedSupportedDateFilterOperators<_V extends TFilterValue = TFilterValue> = never;
 
-export type TExtendedAllAvailableDateFilterOperatorsForDisplay<_V extends TFilterValue = TFilterValue> = never;
+export type TExtendedAllAvailableDateFilterOperatorsForDisplay<
+  _V extends TFilterValue = TFilterValue,
+> = never;
 
 // -------- SELECT FILTER OPERATORS --------
 
@@ -22,4 +24,6 @@ export type TExtendedAllAvailableDateFilterOperatorsForDisplay<_V extends TFilte
  */
 export type TExtendedSupportedSelectFilterOperators<_V extends TFilterValue = TFilterValue> = never;
 
-export type TExtendedAllAvailableSelectFilterOperatorsForDisplay<_V extends TFilterValue = TFilterValue> = never;
+export type TExtendedAllAvailableSelectFilterOperatorsForDisplay<
+  _V extends TFilterValue = TFilterValue,
+> = never;

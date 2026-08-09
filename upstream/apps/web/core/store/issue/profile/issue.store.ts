@@ -37,26 +37,39 @@ export interface IProfileIssues extends IBaseIssuesStore {
     loadType: TLoader,
     option: IssuePaginationOptions,
     view: TProfileViews,
-    isExistingPaginationOptions?: boolean
+    isExistingPaginationOptions?: boolean,
   ) => Promise<TIssuesResponse | undefined>;
   fetchIssuesWithExistingPagination: (
     workspaceSlug: string,
     userId: string,
-    loadType: TLoader
+    loadType: TLoader,
   ) => Promise<TIssuesResponse | undefined>;
   fetchNextIssues: (
     workspaceSlug: string,
     userId: string,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) => Promise<TIssuesResponse | undefined>;
 
   createIssue: (workspaceSlug: string, projectId: string, data: Partial<TIssue>) => Promise<TIssue>;
-  updateIssue: (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>;
+  updateIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => Promise<void>;
   archiveIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
   removeBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  archiveBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  bulkUpdateProperties: (workspaceSlug: string, projectId: string, data: TBulkOperationsPayload) => Promise<void>;
+  archiveBulkIssues: (
+    workspaceSlug: string,
+    projectId: string,
+    issueIds: string[],
+  ) => Promise<void>;
+  bulkUpdateProperties: (
+    workspaceSlug: string,
+    projectId: string,
+    data: TBulkOperationsPayload,
+  ) => Promise<void>;
 
   quickAddIssue: undefined;
 }
@@ -125,7 +138,7 @@ export class ProfileIssues extends BaseIssuesStore implements IProfileIssues {
     loadType: TLoader,
     options: IssuePaginationOptions,
     view: TProfileViews,
-    isExistingPaginationOptions: boolean = false
+    isExistingPaginationOptions: boolean = false,
   ) => {
     try {
       // set loader and clear store
@@ -138,7 +151,13 @@ export class ProfileIssues extends BaseIssuesStore implements IProfileIssues {
       this.setViewId(view);
 
       // get params from pagination options
-      let params = this.issueFilterStore?.getFilterParams(options, userId, undefined, undefined, undefined);
+      let params = this.issueFilterStore?.getFilterParams(
+        options,
+        userId,
+        undefined,
+        undefined,
+        undefined,
+      );
       params = {
         ...params,
         assignees: undefined,
@@ -156,7 +175,14 @@ export class ProfileIssues extends BaseIssuesStore implements IProfileIssues {
       });
 
       // after fetching issues, call the base method to process the response further
-      this.onfetchIssues(response, options, workspaceSlug, undefined, undefined, !isExistingPaginationOptions);
+      this.onfetchIssues(
+        response,
+        options,
+        workspaceSlug,
+        undefined,
+        undefined,
+        !isExistingPaginationOptions,
+      );
       return response;
     } catch (error) {
       // set loader to undefined if errored out
@@ -175,7 +201,12 @@ export class ProfileIssues extends BaseIssuesStore implements IProfileIssues {
    * @param subGroupId
    * @returns
    */
-  fetchNextIssues = async (workspaceSlug: string, userId: string, groupId?: string, subGroupId?: string) => {
+  fetchNextIssues = async (
+    workspaceSlug: string,
+    userId: string,
+    groupId?: string,
+    subGroupId?: string,
+  ) => {
     const cursorObject = this.getPaginationData(groupId, subGroupId);
     // if there are no pagination options and the next page results do not exist the return
     if (!this.paginationOptions || (cursorObject && !cursorObject?.nextPageResults)) return;
@@ -189,7 +220,7 @@ export class ProfileIssues extends BaseIssuesStore implements IProfileIssues {
         userId,
         this.getNextCursor(groupId, subGroupId),
         groupId,
-        subGroupId
+        subGroupId,
       );
       params = {
         ...params,
@@ -222,9 +253,20 @@ export class ProfileIssues extends BaseIssuesStore implements IProfileIssues {
    * @param loadType
    * @returns
    */
-  fetchIssuesWithExistingPagination = async (workspaceSlug: string, userId: string, loadType: TLoader) => {
+  fetchIssuesWithExistingPagination = async (
+    workspaceSlug: string,
+    userId: string,
+    loadType: TLoader,
+  ) => {
     if (!this.paginationOptions || !this.currentView) return;
-    return await this.fetchIssues(workspaceSlug, userId, loadType, this.paginationOptions, this.currentView, true);
+    return await this.fetchIssues(
+      workspaceSlug,
+      userId,
+      loadType,
+      this.paginationOptions,
+      this.currentView,
+      true,
+    );
   };
 
   // Using aliased names as they cannot be overridden in other stores

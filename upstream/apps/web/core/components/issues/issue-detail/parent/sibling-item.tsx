@@ -20,7 +20,9 @@ type TIssueParentSiblingItem = {
   issueId: string;
 };
 
-export const IssueParentSiblingItem = observer(function IssueParentSiblingItem(props: TIssueParentSiblingItem) {
+export const IssueParentSiblingItem = observer(function IssueParentSiblingItem(
+  props: TIssueParentSiblingItem,
+) {
   const { workspaceSlug, issueId } = props;
   // hooks
   const { getProjectById } = useProject();
@@ -32,7 +34,8 @@ export const IssueParentSiblingItem = observer(function IssueParentSiblingItem(p
   const issueDetail = (issueId && getIssueById(issueId)) || undefined;
   if (!issueDetail) return <></>;
 
-  const projectDetails = (issueDetail.project_id && getProjectById(issueDetail.project_id)) || undefined;
+  const projectDetails =
+    (issueDetail.project_id && getProjectById(issueDetail.project_id)) || undefined;
 
   const workItemLink = generateWorkItemLink({
     workspaceSlug,

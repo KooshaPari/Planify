@@ -44,12 +44,12 @@ function ProfileActivityPage() {
         perPage={PER_PAGE}
         updateResultsCount={updateResultsCount}
         updateTotalPages={updateTotalPages}
-      />
+      />,
     );
 
   const canDownloadActivity = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   return (

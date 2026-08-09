@@ -62,8 +62,16 @@ export const WorkspaceViewQuickActions = observer(function WorkspaceViewQuickAct
 
   return (
     <>
-      <CreateUpdateWorkspaceViewModal data={view} isOpen={updateViewModal} onClose={() => setUpdateViewModal(false)} />
-      <DeleteGlobalViewModal data={view} isOpen={deleteViewModal} onClose={() => setDeleteViewModal(false)} />
+      <CreateUpdateWorkspaceViewModal
+        data={view}
+        isOpen={updateViewModal}
+        onClose={() => setUpdateViewModal(false)}
+      />
+      <DeleteGlobalViewModal
+        data={view}
+        isOpen={deleteViewModal}
+        onClose={() => setDeleteViewModal(false)}
+      />
       <CustomMenu
         ellipsis
         placement="bottom-end"
@@ -83,7 +91,7 @@ export const WorkspaceViewQuickActions = observer(function WorkspaceViewQuickAct
                 {
                   "text-placeholder": item.disabled,
                 },
-                item.className
+                item.className,
               )}
               disabled={item.disabled}
             >

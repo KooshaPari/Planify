@@ -23,7 +23,11 @@ import { useProject } from "@/hooks/store/use-project";
 import { useUser, useUserPermissions } from "@/hooks/store/user";
 // local imports
 import { WorkItemFiltersHOC } from "./base";
-import type { TEnableSaveViewProps, TEnableUpdateViewProps, TSharedWorkItemFiltersHOCProps } from "./shared";
+import type {
+  TEnableSaveViewProps,
+  TEnableUpdateViewProps,
+  TSharedWorkItemFiltersHOCProps,
+} from "./shared";
 
 type TWorkspaceLevelWorkItemFiltersHOCProps = TSharedWorkItemFiltersHOCProps & {
   workspaceSlug: string;
@@ -31,12 +35,21 @@ type TWorkspaceLevelWorkItemFiltersHOCProps = TSharedWorkItemFiltersHOCProps & {
   TEnableUpdateViewProps;
 
 export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevelWorkItemFiltersHOC(
-  props: TWorkspaceLevelWorkItemFiltersHOCProps
+  props: TWorkspaceLevelWorkItemFiltersHOCProps,
 ) {
-  const { children, enableSaveView, enableUpdateView, entityId, initialWorkItemFilters, workspaceSlug } = props;
+  const {
+    children,
+    enableSaveView,
+    enableUpdateView,
+    entityId,
+    initialWorkItemFilters,
+    workspaceSlug,
+  } = props;
   // states
   const [isCreateViewModalOpen, setIsCreateViewModalOpen] = useState(false);
-  const [createViewPayload, setCreateViewPayload] = useState<Partial<IWorkspaceView> | undefined>(undefined);
+  const [createViewPayload, setCreateViewPayload] = useState<Partial<IWorkspaceView> | undefined>(
+    undefined,
+  );
   // hooks
   const { getViewDetailsById, updateGlobalView } = useGlobalView();
   const { data: currentUser } = useUser();
@@ -50,15 +63,17 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
   const hasWorkspaceMemberLevelPermissions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
     EUserPermissionsLevel.WORKSPACE,
-    workspaceSlug
+    workspaceSlug,
   );
   const viewDetails = entityId ? getViewDetailsById(entityId) : null;
-  const isDefaultView = typeof entityId === "string" && DEFAULT_GLOBAL_VIEWS_LIST.some((view) => view.key === entityId);
+  const isDefaultView =
+    typeof entityId === "string" && DEFAULT_GLOBAL_VIEWS_LIST.some((view) => view.key === entityId);
   const isViewLocked = viewDetails ? viewDetails?.is_locked : false;
   const isCurrentUserOwner = viewDetails ? viewDetails.owned_by === currentUser?.id : false;
   const canCreateView = useMemo(
-    () => enableSaveView && !props.saveViewOptions?.isDisabled && hasWorkspaceMemberLevelPermissions,
-    [enableSaveView, props.saveViewOptions?.isDisabled, hasWorkspaceMemberLevelPermissions]
+    () =>
+      enableSaveView && !props.saveViewOptions?.isDisabled && hasWorkspaceMemberLevelPermissions,
+    [enableSaveView, props.saveViewOptions?.isDisabled, hasWorkspaceMemberLevelPermissions],
   );
   const canUpdateView = useMemo(
     () =>
@@ -75,18 +90,24 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
       isViewLocked,
       hasWorkspaceMemberLevelPermissions,
       isCurrentUserOwner,
-    ]
+    ],
   );
-  const createViewLabel = useMemo(() => props.saveViewOptions?.label, [props.saveViewOptions?.label]);
-  const updateViewLabel = useMemo(() => props.updateViewOptions?.label, [props.updateViewOptions?.label]);
+  const createViewLabel = useMemo(
+    () => props.saveViewOptions?.label,
+    [props.saveViewOptions?.label],
+  );
+  const updateViewLabel = useMemo(
+    () => props.updateViewOptions?.label,
+    [props.updateViewOptions?.label],
+  );
   const hasAdditionalChanges = useMemo(
     () =>
       !isEqual(initialWorkItemFilters?.displayFilters, viewDetails?.display_filters) ||
       !isEqual(
         removeNillKeys(initialWorkItemFilters?.displayProperties),
-        removeNillKeys(viewDetails?.display_properties)
+        removeNillKeys(viewDetails?.display_properties),
       ),
-    [initialWorkItemFilters, viewDetails]
+    [initialWorkItemFilters, viewDetails],
   );
 
   const getDefaultViewDetailPayload: () => Partial<IWorkspaceView> = useCallback(
@@ -95,16 +116,18 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
       description: viewDetails ? viewDetails.description : "",
       access: viewDetails ? viewDetails.access : EViewAccess.PUBLIC,
     }),
-    [viewDetails]
+    [viewDetails],
   );
 
-  const getViewFilterPayload: (filterExpression: TWorkItemFilterExpression) => Partial<IWorkspaceView> = useCallback(
+  const getViewFilterPayload: (
+    filterExpression: TWorkItemFilterExpression,
+  ) => Partial<IWorkspaceView> = useCallback(
     (filterExpression: TWorkItemFilterExpression) => ({
       rich_filters: cloneDeep(filterExpression),
       display_filters: cloneDeep(initialWorkItemFilters?.displayFilters),
       display_properties: cloneDeep(initialWorkItemFilters?.displayProperties),
     }),
-    [initialWorkItemFilters]
+    [initialWorkItemFilters],
   );
 
   const handleViewSave = useCallback(
@@ -115,7 +138,7 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
       });
       setIsCreateViewModalOpen(true);
     },
-    [getDefaultViewDetailPayload, getViewFilterPayload]
+    [getDefaultViewDetailPayload, getViewFilterPayload],
   );
 
   const handleViewUpdate = useCallback(
@@ -137,7 +160,7 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
           ...getViewFilterPayload(filterExpression),
         },
         /* No need to sync filters here as updateFilters already handles it */
-        false
+        false,
       )
         .then(() => {
           setToast({
@@ -154,7 +177,7 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
           });
         });
     },
-    [viewDetails, updateGlobalView, workspaceSlug, getViewFilterPayload]
+    [viewDetails, updateGlobalView, workspaceSlug, getViewFilterPayload],
   );
 
   const saveViewOptions = useMemo(
@@ -163,7 +186,7 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
       isDisabled: !canCreateView,
       onViewSave: handleViewSave,
     }),
-    [createViewLabel, canCreateView, handleViewSave]
+    [createViewLabel, canCreateView, handleViewSave],
   );
 
   const updateViewOptions = useMemo(
@@ -173,7 +196,7 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
       hasAdditionalChanges,
       onViewUpdate: handleViewUpdate,
     }),
-    [updateViewLabel, canUpdateView, hasAdditionalChanges, handleViewUpdate]
+    [updateViewLabel, canUpdateView, hasAdditionalChanges, handleViewUpdate],
   );
 
   return (

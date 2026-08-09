@@ -30,7 +30,7 @@ const ActiveProjects = observer(function ActiveProjects() {
           fetchProjectAnalyticsCount(workspaceSlug.toString(), {
             fields: "total_work_items,total_completed_work_items",
           })
-      : null
+      : null,
   );
   return (
     <AnalyticsSectionWrapper
@@ -40,9 +40,13 @@ const ActiveProjects = observer(function ActiveProjects() {
     >
       <div className="flex h-[350px] flex-col gap-4 overflow-auto">
         {isProjectAnalyticsCountLoading &&
-          Array.from({ length: 5 }).map((_, index) => <Loader.Item key={index} height="40px" width="100%" />)}
+          Array.from({ length: 5 }).map((_, index) => (
+            <Loader.Item key={index} height="40px" width="100%" />
+          ))}
         {!isProjectAnalyticsCountLoading &&
-          projectAnalyticsCount?.map((project) => <ActiveProjectItem key={project.id} project={project} />)}
+          projectAnalyticsCount?.map((project) => (
+            <ActiveProjectItem key={project.id} project={project} />
+          ))}
       </div>
     </AnalyticsSectionWrapper>
   );

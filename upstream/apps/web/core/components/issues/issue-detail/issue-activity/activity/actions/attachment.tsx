@@ -11,9 +11,15 @@ import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // components
 import { IssueActivityBlockComponent, IssueLink } from "./";
 
-type TIssueAttachmentActivity = { activityId: string; showIssue?: boolean; ends: "top" | "bottom" | undefined };
+type TIssueAttachmentActivity = {
+  activityId: string;
+  showIssue?: boolean;
+  ends: "top" | "bottom" | undefined;
+};
 
-export const IssueAttachmentActivity = observer(function IssueAttachmentActivity(props: TIssueAttachmentActivity) {
+export const IssueAttachmentActivity = observer(function IssueAttachmentActivity(
+  props: TIssueAttachmentActivity,
+) {
   const { activityId, showIssue = true, ends } = props;
   // hooks
   const {

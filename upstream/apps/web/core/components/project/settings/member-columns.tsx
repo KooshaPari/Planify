@@ -112,17 +112,19 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
   const roleLabel = ROLE[rowData.original_role ?? EUserPermissions.GUEST];
   const isCurrentUser = currentUser?.id === rowData.member.id;
   const isRowDataWorkspaceAdmin = [EUserPermissions.ADMIN].includes(
-    Number(getWorkspaceMemberDetails(rowData.member.id)?.role) ?? EUserPermissions.GUEST
+    Number(getWorkspaceMemberDetails(rowData.member.id)?.role) ?? EUserPermissions.GUEST,
   );
   const isCurrentUserWorkspaceAdmin = currentUser
     ? [EUserPermissions.ADMIN].includes(
-        Number(getWorkspaceMemberDetails(currentUser.id)?.role) ?? EUserPermissions.GUEST
+        Number(getWorkspaceMemberDetails(currentUser.id)?.role) ?? EUserPermissions.GUEST,
       )
     : false;
   const currentProjectRole = getProjectRoleByWorkspaceSlugAndProjectId(workspaceSlug, projectId);
 
   const isCurrentUserProjectAdmin = currentProjectRole
-    ? ![EUserPermissions.MEMBER, EUserPermissions.GUEST].includes(Number(currentProjectRole) ?? EUserPermissions.GUEST)
+    ? ![EUserPermissions.MEMBER, EUserPermissions.GUEST].includes(
+        Number(currentProjectRole) ?? EUserPermissions.GUEST,
+      )
     : false;
 
   // logic
@@ -132,13 +134,15 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
     (isCurrentUserWorkspaceAdmin && isCurrentUser) ||
     (isCurrentUserProjectAdmin && !isRowDataWorkspaceAdmin && !isCurrentUser);
   const checkCurrentOptionWorkspaceRole = (value: string) => {
-    const currentMemberWorkspaceRole = getWorkspaceMemberDetails(value)?.role as EUserPermissions | undefined;
+    const currentMemberWorkspaceRole = getWorkspaceMemberDetails(value)?.role as
+      | EUserPermissions
+      | undefined;
     if (!value || !currentMemberWorkspaceRole) return ROLE;
 
     const isGuest = [EUserPermissions.GUEST].includes(currentMemberWorkspaceRole);
 
     return Object.fromEntries(
-      Object.entries(ROLE).filter(([key]) => !isGuest || parseInt(key) === EUserPermissions.GUEST)
+      Object.entries(ROLE).filter(([key]) => !isGuest || parseInt(key) === EUserPermissions.GUEST),
     );
   };
 
@@ -154,19 +158,24 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
               value={rowData.original_role}
               onChange={async (value: EUserProjectRoles) => {
                 if (!workspaceSlug) return;
-                await updateMemberRole(workspaceSlug.toString(), projectId.toString(), rowData.member.id, value).catch(
-                  (err) => {
-                    console.log(err, "err");
-                    const error = err.error;
-                    const errorString = Array.isArray(error) ? error[0] : error;
+                await updateMemberRole(
+                  workspaceSlug.toString(),
+                  projectId.toString(),
+                  rowData.member.id,
+                  value,
+                ).catch((err) => {
+                  console.log(err, "err");
+                  const error = err.error;
+                  const errorString = Array.isArray(error) ? error[0] : error;
 
-                    setToast({
-                      type: TOAST_TYPE.ERROR,
-                      title: "You can’t change this role yet.",
-                      message: errorString ?? "An error occurred while updating member role. Please try again.",
-                    });
-                  }
-                );
+                  setToast({
+                    type: TOAST_TYPE.ERROR,
+                    title: "You can’t change this role yet.",
+                    message:
+                      errorString ??
+                      "An error occurred while updating member role. Please try again.",
+                  });
+                });
               }}
               label={
                 <div className="flex">
@@ -177,11 +186,13 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
               className="w-32 rounded-md p-0"
               input
             >
-              {Object.entries(checkCurrentOptionWorkspaceRole(rowData.member.id)).map(([key, label]) => (
-                <CustomSelect.Option key={key} value={key}>
-                  {label}
-                </CustomSelect.Option>
-              ))}
+              {Object.entries(checkCurrentOptionWorkspaceRole(rowData.member.id)).map(
+                ([key, label]) => (
+                  <CustomSelect.Option key={key} value={key}>
+                    {label}
+                  </CustomSelect.Option>
+                ),
+              )}
             </CustomSelect>
           )}
         />

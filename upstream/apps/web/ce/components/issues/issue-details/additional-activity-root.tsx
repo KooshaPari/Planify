@@ -13,6 +13,8 @@ export type TAdditionalActivityRoot = {
   field: string | undefined;
 };
 
-export const AdditionalActivityRoot = observer(function AdditionalActivityRoot(_props: TAdditionalActivityRoot) {
+export const AdditionalActivityRoot = observer(function AdditionalActivityRoot(
+  _props: TAdditionalActivityRoot,
+) {
   return <></>;
 });

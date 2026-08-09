@@ -8,7 +8,7 @@ import { useLayoutEffect } from "react";
 
 export const useAutoResizeTextArea = (
   textAreaRef: React.RefObject<HTMLTextAreaElement>,
-  value: string | number | readonly string[]
+  value: string | number | readonly string[],
 ) => {
   useLayoutEffect(() => {
     const textArea = textAreaRef.current;

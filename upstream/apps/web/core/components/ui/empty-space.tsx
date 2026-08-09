@@ -57,7 +57,9 @@ type EmptySpaceItemProps = {
 
 function EmptySpaceItem({ title, description, Icon, action, href }: EmptySpaceItemProps) {
   let spaceItem = (
-    <div className={`group relative flex ${description ? "items-start" : "items-center"} space-x-3 py-4`}>
+    <div
+      className={`group relative flex ${description ? "items-start" : "items-center"} space-x-3 py-4`}
+    >
       <div className="flex-shrink-0">
         <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-accent-primary">
           <Icon className="h-6 w-6 text-on-color" aria-hidden="true" />
@@ -68,7 +70,10 @@ function EmptySpaceItem({ title, description, Icon, action, href }: EmptySpaceIt
         {description ? <div className="text-13">{description}</div> : null}
       </div>
       <div className="flex-shrink-0 self-center">
-        <ChevronRightIcon className="h-5 w-5 text-secondary group-hover:text-primary" aria-hidden="true" />
+        <ChevronRightIcon
+          className="h-5 w-5 text-secondary group-hover:text-primary"
+          aria-hidden="true"
+        />
       </div>
     </div>
   );

@@ -29,7 +29,9 @@ export const PagesListView = observer(function PagesListView(props: TPageView) {
   // fetching pages list
   useSWR(
     workspaceSlug && projectId && pageType ? `PROJECT_PAGES_${projectId}` : null,
-    workspaceSlug && projectId && pageType ? () => fetchPagesList(workspaceSlug, projectId, pageType) : null
+    workspaceSlug && projectId && pageType
+      ? () => fetchPagesList(workspaceSlug, projectId, pageType)
+      : null,
   );
 
   // pages loader

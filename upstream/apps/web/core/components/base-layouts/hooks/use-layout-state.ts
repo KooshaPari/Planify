@@ -34,7 +34,7 @@ export const useLayoutState = (props: UseLayoutStateProps = { mode: "internal" }
   // Stable internal toggle function
   const internalToggleGroup = useCallback((groupId: string) => {
     setInternalCollapsedGroups((prev) =>
-      prev.includes(groupId) ? prev.filter((id) => id !== groupId) : [...prev, groupId]
+      prev.includes(groupId) ? prev.filter((id) => id !== groupId) : [...prev, groupId],
     );
   }, []);
 
@@ -50,7 +50,7 @@ export const useLayoutState = (props: UseLayoutStateProps = { mode: "internal" }
     const cleanup = combine(
       autoScrollForElements({
         element,
-      })
+      }),
     );
 
     return cleanup;

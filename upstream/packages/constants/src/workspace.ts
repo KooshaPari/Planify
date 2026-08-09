@@ -7,7 +7,14 @@
 import type { TStaticViewTypes, IWorkspaceSearchResults } from "@plane/types";
 import { EUserWorkspaceRoles } from "@plane/types";
 
-export const ORGANIZATION_SIZE: string[] = ["Just myself", "2-10", "11-50", "51-200", "201-500", "500+"];
+export const ORGANIZATION_SIZE: string[] = [
+  "Just myself",
+  "2-10",
+  "11-50",
+  "51-200",
+  "201-500",
+  "500+",
+];
 
 export const RESTRICTED_URLS: string[] = [
   "404",
@@ -198,7 +205,10 @@ export interface IWorkspaceSidebarNavigationItem {
   highlight: (pathname: string, url: string) => boolean;
 }
 
-export const WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS: Record<string, IWorkspaceSidebarNavigationItem> = {
+export const WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS: Record<
+  string,
+  IWorkspaceSidebarNavigationItem
+> = {
   views: {
     key: "views",
     labelTranslationKey: "views",
@@ -228,7 +238,10 @@ export const WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS_LINKS: IWorkspaceSidebar
   WORKSPACE_SIDEBAR_DYNAMIC_NAVIGATION_ITEMS["archives"],
 ];
 
-export const WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS: Record<string, IWorkspaceSidebarNavigationItem> = {
+export const WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS: Record<
+  string,
+  IWorkspaceSidebarNavigationItem
+> = {
   home: {
     key: "home",
     labelTranslationKey: "home.title",
@@ -277,9 +290,8 @@ export const WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS_LINKS: IWorkspaceSidebarN
   WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS["home"],
 ];
 
-export const WORKSPACE_SIDEBAR_STATIC_PINNED_NAVIGATION_ITEMS_LINKS: IWorkspaceSidebarNavigationItem[] = [
-  WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS["projects"],
-];
+export const WORKSPACE_SIDEBAR_STATIC_PINNED_NAVIGATION_ITEMS_LINKS: IWorkspaceSidebarNavigationItem[] =
+  [WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS["projects"]];
 
 export const IS_FAVORITE_MENU_OPEN = "is_favorite_menu_open";
 export const WORKSPACE_DEFAULT_SEARCH_RESULT: IWorkspaceSearchResults = {

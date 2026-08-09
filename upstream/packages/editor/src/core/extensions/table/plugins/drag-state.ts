@@ -34,7 +34,11 @@ export const TableDragStatePlugin = new Plugin({
         return oldState.map(tr.mapping, tr.doc);
       }
 
-      if (hiddenCellPositions === null || !Array.isArray(hiddenCellPositions) || hiddenCellPositions.length === 0) {
+      if (
+        hiddenCellPositions === null ||
+        !Array.isArray(hiddenCellPositions) ||
+        hiddenCellPositions.length === 0
+      ) {
         // Clear all decorations
         return DecorationSet.empty;
       }
@@ -48,7 +52,7 @@ export const TableDragStatePlugin = new Plugin({
           decorations.push(
             Decoration.node(pos, pos + node.nodeSize, {
               class: "content-hidden",
-            })
+            }),
           );
         }
       });

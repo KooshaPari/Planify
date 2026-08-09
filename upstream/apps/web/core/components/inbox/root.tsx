@@ -35,7 +35,8 @@ export const InboxIssueRoot = observer(function InboxIssueRoot(props: TInboxIssu
   // plane hooks
   const { t } = useTranslation();
   // hooks
-  const { loader, error, currentTab, currentInboxProjectId, handleCurrentTab, fetchInboxIssues } = useProjectInbox();
+  const { loader, error, currentTab, currentInboxProjectId, handleCurrentTab, fetchInboxIssues } =
+    useProjectInbox();
 
   useEffect(() => {
     if (!inboxAccessible || !workspaceSlug || !projectId) return;
@@ -51,7 +52,7 @@ export const InboxIssueRoot = observer(function InboxIssueRoot(props: TInboxIssu
         workspaceSlug.toString(),
         projectId.toString(),
         undefined,
-        navigationTab || EInboxIssueCurrentTab.OPEN
+        navigationTab || EInboxIssueCurrentTab.OPEN,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,7 +89,7 @@ export const InboxIssueRoot = observer(function InboxIssueRoot(props: TInboxIssu
         <div
           className={cn(
             "absolute top-[50px] bottom-0 z-10 w-full flex-shrink-0 bg-surface-1 transition-all lg:!relative lg:!top-0 lg:w-2/6",
-            isMobileSidebar ? "translate-x-0" : "-translate-x-full lg:!translate-x-0"
+            isMobileSidebar ? "translate-x-0" : "-translate-x-full lg:!translate-x-0",
           )}
         >
           <InboxSidebar

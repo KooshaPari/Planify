@@ -29,9 +29,14 @@ type Props = {
   handleDisplayFilterUpdate: (data: Partial<IIssueDisplayFilterOptions>) => void;
   issueIds: string[] | undefined;
   quickActions: TRenderQuickActions;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   openIssuesListModal?: (() => void) | null;
-  quickAddCallback?: (projectId: string | null | undefined, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddCallback?: (
+    projectId: string | null | undefined,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   canEditProperties: (projectId: string | undefined) => boolean;
   canLoadMoreIssues: boolean;
   loadMoreIssues: () => void;
@@ -89,7 +94,10 @@ export const SpreadsheetView = observer(function SpreadsheetView(props: Props) {
       >
         {(helpers) => (
           <>
-            <div ref={containerRef} className="vertical-scrollbar horizontal-scrollbar scrollbar-lg h-full w-full">
+            <div
+              ref={containerRef}
+              className="vertical-scrollbar horizontal-scrollbar scrollbar-lg h-full w-full"
+            >
               <SpreadsheetTable
                 displayProperties={displayProperties}
                 displayFilters={displayFilters}

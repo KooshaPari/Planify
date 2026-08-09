@@ -62,17 +62,26 @@ export const NavbarControls = observer(function NavbarControls(props: NavbarCont
       if (view_props?.spreadsheet) viewsAcceptable.push("spreadsheet");
 
       if (board) {
-        if (viewsAcceptable.includes(board.toString())) currentBoard = board.toString() as TIssueLayout;
+        if (viewsAcceptable.includes(board.toString()))
+          currentBoard = board.toString() as TIssueLayout;
         else {
-          if (viewsAcceptable && viewsAcceptable.length > 0) currentBoard = viewsAcceptable[0] as TIssueLayout;
+          if (viewsAcceptable && viewsAcceptable.length > 0)
+            currentBoard = viewsAcceptable[0] as TIssueLayout;
         }
       } else {
-        if (viewsAcceptable && viewsAcceptable.length > 0) currentBoard = viewsAcceptable[0] as TIssueLayout;
+        if (viewsAcceptable && viewsAcceptable.length > 0)
+          currentBoard = viewsAcceptable[0] as TIssueLayout;
       }
 
       if (currentBoard) {
         if (activeLayout === undefined || activeLayout !== currentBoard) {
-          const { query, queryParam } = queryParamGenerator({ board: currentBoard, peekId, priority, state, labels });
+          const { query, queryParam } = queryParamGenerator({
+            board: currentBoard,
+            peekId,
+            priority,
+            state,
+            labels,
+          });
           const params: any = {
             display_filters: { layout: (query?.board as string[])[0] },
             filters: {

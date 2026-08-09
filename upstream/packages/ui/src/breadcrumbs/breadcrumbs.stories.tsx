@@ -31,8 +31,16 @@ function BreadcrumbBlock(props: TBreadcrumbBlockProps) {
   return (
     <>
       <Breadcrumbs.ItemWrapper label={label} disableTooltip={disableTooltip}>
-        {icon && <div className="flex size-4 items-center justify-center overflow-hidden !text-16">{icon}</div>}
-        {label && <div className="relative line-clamp-1 block max-w-[150px] truncate overflow-hidden">{label}</div>}
+        {icon && (
+          <div className="flex size-4 items-center justify-center overflow-hidden !text-16">
+            {icon}
+          </div>
+        )}
+        {label && (
+          <div className="relative line-clamp-1 block max-w-[150px] truncate overflow-hidden">
+            {label}
+          </div>
+        )}
       </Breadcrumbs.ItemWrapper>
     </>
   );
@@ -45,7 +53,10 @@ export const Default: Story = {
   args: {
     children: [
       <Breadcrumbs.Item key="home" component={<BreadcrumbBlock href="/" label="Home" />} />,
-      <Breadcrumbs.Item key="projects" component={<BreadcrumbBlock href="/projects" label="Projects" />} />,
+      <Breadcrumbs.Item
+        key="projects"
+        component={<BreadcrumbBlock href="/projects" label="Projects" />}
+      />,
       <Breadcrumbs.Item
         key="current"
         component={<BreadcrumbBlock href="/projects/current" label="Current Project" />}
@@ -59,7 +70,10 @@ export const WithLoading: Story = {
     isLoading: true,
     children: [
       <Breadcrumbs.Item key="home" component={<BreadcrumbBlock href="/" label="Home" />} />,
-      <Breadcrumbs.Item key="projects" component={<BreadcrumbBlock href="/projects" label="Projects" />} />,
+      <Breadcrumbs.Item
+        key="projects"
+        component={<BreadcrumbBlock href="/projects" label="Projects" />}
+      />,
     ],
   },
 };
@@ -83,7 +97,9 @@ export const WithCustomComponent: Story = {
 
 export const SingleItem: Story = {
   args: {
-    children: [<Breadcrumbs.Item key="home" component={<BreadcrumbBlock href="/" label="Home" />} />],
+    children: [
+      <Breadcrumbs.Item key="home" component={<BreadcrumbBlock href="/" label="Home" />} />,
+    ],
   },
 };
 
@@ -120,7 +136,10 @@ export const WithNavigationDropdown: Story = {
         }
         showSeparator={false}
       />,
-      <Breadcrumbs.Item key="settings" component={<BreadcrumbBlock href="/settings" label="Settings" />} />,
+      <Breadcrumbs.Item
+        key="settings"
+        component={<BreadcrumbBlock href="/settings" label="Settings" />}
+      />,
     ],
   },
 };
@@ -221,7 +240,13 @@ export const WithNavigationDropdownAndIcons: Story = {
       />,
       <Breadcrumbs.Item
         key="settings"
-        component={<BreadcrumbBlock href="/settings" label="Settings" icon={<Settings className="size-3.5" />} />}
+        component={
+          <BreadcrumbBlock
+            href="/settings"
+            label="Settings"
+            icon={<Settings className="size-3.5" />}
+          />
+        }
         isLast
       />,
     ],

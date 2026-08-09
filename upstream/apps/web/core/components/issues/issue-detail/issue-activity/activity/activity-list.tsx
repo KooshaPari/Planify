@@ -10,7 +10,10 @@ import { getValidKeysFromObject } from "@plane/utils";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // plane web components
-import { IssueTypeActivity, AdditionalActivityRoot } from "@/plane-web/components/issues/issue-details";
+import {
+  IssueTypeActivity,
+  AdditionalActivityRoot,
+} from "@/plane-web/components/issues/issue-details";
 import { useTimeLineRelationOptions } from "@/plane-web/components/relations";
 // local components
 import {

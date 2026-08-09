@@ -48,7 +48,9 @@ export function PageForm(props: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const i18n_access_label = PAGE_ACCESS_SPECIFIERS.find((access) => access.key === formData.access)?.i18n_label;
+  const i18n_access_label = PAGE_ACCESS_SPECIFIERS.find(
+    (access) => access.key === formData.access,
+  )?.i18n_label;
 
   const { getIndex } = getTabIndex(ETabIndices.PROJECT_PAGE, isMobile);
 
@@ -144,7 +146,12 @@ export function PageForm(props: Props) {
           <h6 className="text-11 font-medium">{t(i18n_access_label || "")}</h6>
         </div>
         <div className="flex items-center justify-end gap-2">
-          <Button variant="secondary" size="lg" onClick={handleModalClose} tabIndex={getIndex("cancel")}>
+          <Button
+            variant="secondary"
+            size="lg"
+            onClick={handleModalClose}
+            tabIndex={getIndex("cancel")}
+          >
             Cancel
           </Button>
           <Button

@@ -16,12 +16,16 @@ type Props = {
   shouldShowLabel?: boolean;
 };
 
-export const IssueBlockLabels = observer(function IssueBlockLabels({ labelIds, shouldShowLabel = false }: Props) {
+export const IssueBlockLabels = observer(function IssueBlockLabels({
+  labelIds,
+  shouldShowLabel = false,
+}: Props) {
   const { getLabelsByIds } = useLabel();
 
   const labels = getLabelsByIds(labelIds);
 
-  const labelsString = labels.length > 0 ? labels.map((label) => label.name).join(", ") : "No Labels";
+  const labelsString =
+    labels.length > 0 ? labels.map((label) => label.name).join(", ") : "No Labels";
 
   if (labels.length <= 0)
     return (
@@ -40,7 +44,12 @@ export const IssueBlockLabels = observer(function IssueBlockLabels({ labelIds, s
       {labels.length <= 2 ? (
         <>
           {labels.map((label) => (
-            <Tooltip key={label.id} position="top" tooltipHeading="Labels" tooltipContent={label?.name ?? ""}>
+            <Tooltip
+              key={label.id}
+              position="top"
+              tooltipHeading="Labels"
+              tooltipContent={label?.name ?? ""}
+            >
               <div
                 key={label?.id}
                 className={`flex h-full max-w-full flex-shrink-0 items-center overflow-hidden rounded-sm border-[0.5px] border-strong px-2.5 py-1 text-11`}
@@ -52,7 +61,9 @@ export const IssueBlockLabels = observer(function IssueBlockLabels({ labelIds, s
                       backgroundColor: label?.color ?? "#000000",
                     }}
                   />
-                  <div className="line-clamp-1 inline-block w-auto max-w-[100px] truncate">{label?.name}</div>
+                  <div className="line-clamp-1 inline-block w-auto max-w-[100px] truncate">
+                    {label?.name}
+                  </div>
                 </div>
               </div>
             </Tooltip>

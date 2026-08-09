@@ -39,7 +39,15 @@ const defaultValues: Partial<ICycle> = {
 };
 
 export function CycleForm(props: Props) {
-  const { handleFormSubmit, handleClose, status, projectId, setActiveProject, data, isMobile = false } = props;
+  const {
+    handleFormSubmit,
+    handleClose,
+    status,
+    projectId,
+    setActiveProject,
+    data,
+    isMobile = false,
+  } = props;
   // plane hooks
   const { t } = useTranslation();
   // store hooks
@@ -187,7 +195,13 @@ export function CycleForm(props: Props) {
         <Button variant="secondary" size="lg" onClick={handleClose} tabIndex={getIndex("cancel")}>
           {t("common.cancel")}
         </Button>
-        <Button variant="primary" size="lg" type="submit" loading={isSubmitting} tabIndex={getIndex("submit")}>
+        <Button
+          variant="primary"
+          size="lg"
+          type="submit"
+          loading={isSubmitting}
+          tabIndex={getIndex("submit")}
+        >
           {data
             ? isSubmitting
               ? t("common.updating")

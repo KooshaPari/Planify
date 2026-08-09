@@ -43,7 +43,8 @@ export const WORKSPACE_ACTIVE_CYCLES_DETAILS = [
   {
     key: "compare_burndowns",
     title: "Compare burndowns.",
-    description: "Monitor how each of your teams are performing with a peek into each cycle’s burndown report.",
+    description:
+      "Monitor how each of your teams are performing with a peek into each cycle’s burndown report.",
     icon: BarChart4,
   },
   {
@@ -56,7 +57,8 @@ export const WORKSPACE_ACTIVE_CYCLES_DETAILS = [
   {
     key: "zoom_into_cycles_that_need_attention",
     title: "Zoom into cycles that need attention. ",
-    description: "Investigate the state of any cycle that doesn’t conform to expectations in one click.",
+    description:
+      "Investigate the state of any cycle that doesn’t conform to expectations in one click.",
     icon: SearchIcon,
   },
   {
@@ -111,16 +113,27 @@ export const WorkspaceActiveCyclesUpgrade = observer(function WorkspaceActiveCyc
         </div>
         <div className="relative hidden w-1/2 lg:block">
           <span className="absolute right-0 bottom-0">
-            <img src={isDarkMode ? ctaR1Dark : ctaR1Light} className="h-full w-full object-contain" alt="r-1" />
+            <img
+              src={isDarkMode ? ctaR1Dark : ctaR1Light}
+              className="h-full w-full object-contain"
+              alt="r-1"
+            />
           </span>
           <span className="absolute right-1/2 -bottom-16 rounded-xl">
-            <img src={isDarkMode ? ctaR2Dark : ctaR2Light} className="h-full w-full object-contain" alt="r-2" />
+            <img
+              src={isDarkMode ? ctaR2Dark : ctaR2Light}
+              className="h-full w-full object-contain"
+              alt="r-2"
+            />
           </span>
         </div>
       </div>
       <div className="grid h-full grid-cols-1 gap-5 pb-8 lg:grid-cols-2 xl:grid-cols-3">
         {WORKSPACE_ACTIVE_CYCLES_DETAILS.map((item) => (
-          <div key={item.title} className="flex min-h-32 w-full flex-col gap-2 rounded-md bg-layer-1 p-4">
+          <div
+            key={item.title}
+            className="flex min-h-32 w-full flex-col gap-2 rounded-md bg-layer-1 p-4"
+          >
             <div className="flex justify-between gap-2">
               <h3 className="font-medium">{t(item.key)}</h3>
               <item.icon className="text-blue-500 mt-1 h-4 w-4" />

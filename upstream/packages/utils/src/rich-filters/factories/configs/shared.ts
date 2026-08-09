@@ -25,7 +25,9 @@ import type {
  * @param config - The filter config to create
  * @returns The created filter config
  */
-export const createFilterConfig = <P extends TFilterProperty>(config: TFilterConfig<P>): TFilterConfig<P> => config;
+export const createFilterConfig = <P extends TFilterProperty>(
+  config: TFilterConfig<P>,
+): TFilterConfig<P> => config;
 
 /**
  * Base parameters for filter type config factory functions.
@@ -73,7 +75,7 @@ export const createOperatorConfigEntry = <
 >(
   operator: TSupportedOperators,
   createParams: P,
-  configFn: (updatedParams: P) => T
+  configFn: (updatedParams: P) => T,
 ): [TSupportedOperators, TOperatorSpecificConfigs[keyof TOperatorSpecificConfigs]] => [
   operator,
   configFn({ isOperatorEnabled: createParams.allowedOperators.has(operator), ...createParams }),
@@ -98,5 +100,5 @@ export const createFilterFieldConfig = <T extends TFilterFieldType, V extends TF
         ? TDateFilterFieldConfig<V>
         : T extends typeof FILTER_FIELD_TYPE.DATE_RANGE
           ? TDateRangeFilterFieldConfig<V>
-          : never
+          : never,
 ): TSupportedFilterFieldConfigs<V> => config as TSupportedFilterFieldConfigs<V>;

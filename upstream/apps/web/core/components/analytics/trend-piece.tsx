@@ -37,7 +37,10 @@ const sizeConfig = {
   },
 } as const;
 
-const variants: Record<NonNullable<Props["variant"]>, Record<"ontrack" | "offtrack" | "atrisk", string>> = {
+const variants: Record<
+  NonNullable<Props["variant"]>,
+  Record<"ontrack" | "offtrack" | "atrisk", string>
+> = {
   simple: {
     ontrack: "text-success-primary",
     offtrack: "text-yellow-500",
@@ -67,7 +70,7 @@ function TrendPiece(props: Props) {
         "flex items-center gap-1 rounded-md p-1",
         variants[variant][isOnTrack ? "ontrack" : isOffTrack ? "offtrack" : "atrisk"],
         config.text,
-        className
+        className,
       )}
     >
       {trendIconVisible &&

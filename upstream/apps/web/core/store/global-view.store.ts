@@ -26,12 +26,15 @@ export interface IGlobalViewStore {
   fetchAllGlobalViews: (workspaceSlug: string) => Promise<IWorkspaceView[]>;
   fetchGlobalViewDetails: (workspaceSlug: string, viewId: string) => Promise<IWorkspaceView>;
   // crud actions
-  createGlobalView: (workspaceSlug: string, data: Partial<IWorkspaceView>) => Promise<IWorkspaceView>;
+  createGlobalView: (
+    workspaceSlug: string,
+    data: Partial<IWorkspaceView>,
+  ) => Promise<IWorkspaceView>;
   updateGlobalView: (
     workspaceSlug: string,
     viewId: string,
     data: Partial<IWorkspaceView>,
-    shouldSyncFilters?: boolean
+    shouldSyncFilters?: boolean,
   ) => Promise<IWorkspaceView | undefined>;
   deleteGlobalView: (workspaceSlug: string, viewId: string) => Promise<any>;
 }
@@ -76,7 +79,7 @@ export class GlobalViewStore implements IGlobalViewStore {
 
     return (
       Object.keys(this.globalViewMap ?? {})?.filter(
-        (viewId) => this.globalViewMap[viewId]?.workspace === currentWorkspaceDetails.id
+        (viewId) => this.globalViewMap[viewId]?.workspace === currentWorkspaceDetails.id,
       ) ?? null
     );
   }
@@ -94,7 +97,7 @@ export class GlobalViewStore implements IGlobalViewStore {
       Object.keys(this.globalViewMap ?? {})?.filter(
         (viewId) =>
           this.globalViewMap[viewId]?.workspace === currentWorkspaceDetails.id &&
-          this.globalViewMap[viewId]?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+          this.globalViewMap[viewId]?.name?.toLowerCase().includes(searchQuery.toLowerCase()),
       ) ?? null
     );
   });
@@ -103,7 +106,9 @@ export class GlobalViewStore implements IGlobalViewStore {
    * @description returns view details for given viewId
    * @param viewId
    */
-  getViewDetailsById = computedFn((viewId: string): IWorkspaceView | null => this.globalViewMap[viewId] ?? null);
+  getViewDetailsById = computedFn(
+    (viewId: string): IWorkspaceView | null => this.globalViewMap[viewId] ?? null,
+  );
 
   /**
    * @description fetch all global views for given workspace
@@ -160,9 +165,11 @@ export class GlobalViewStore implements IGlobalViewStore {
     workspaceSlug: string,
     viewId: string,
     data: Partial<IWorkspaceView>,
-    shouldSyncFilters: boolean = true
+    shouldSyncFilters: boolean = true,
   ): Promise<IWorkspaceView | undefined> {
-    const currentViewData = this.getViewDetailsById(viewId) ? cloneDeep(this.getViewDetailsById(viewId)) : undefined;
+    const currentViewData = this.getViewDetailsById(viewId)
+      ? cloneDeep(this.getViewDetailsById(viewId))
+      : undefined;
     try {
       Object.keys(data).forEach((key) => {
         const currentKey = key as keyof IWorkspaceView;
@@ -172,19 +179,27 @@ export class GlobalViewStore implements IGlobalViewStore {
       const currentView = await this.workspaceService.updateView(workspaceSlug, viewId, data);
 
       // applying the filters in the global view
-      if (shouldSyncFilters && !isEqual(currentViewData?.rich_filters || {}, currentView?.rich_filters || {})) {
+      if (
+        shouldSyncFilters &&
+        !isEqual(currentViewData?.rich_filters || {}, currentView?.rich_filters || {})
+      ) {
         await this.rootStore.issue.workspaceIssuesFilter.updateFilterExpression(
           workspaceSlug,
           viewId,
-          currentView?.rich_filters || {}
+          currentView?.rich_filters || {},
         );
-        this.rootStore.issue.workspaceIssues.fetchIssuesWithExistingPagination(workspaceSlug, viewId, "mutation");
+        this.rootStore.issue.workspaceIssues.fetchIssuesWithExistingPagination(
+          workspaceSlug,
+          viewId,
+          "mutation",
+        );
       }
       return currentView;
     } catch {
       Object.keys(data).forEach((key) => {
         const currentKey = key as keyof IWorkspaceView;
-        if (currentViewData) set(this.globalViewMap, [viewId, currentKey], currentViewData[currentKey]);
+        if (currentViewData)
+          set(this.globalViewMap, [viewId, currentKey], currentViewData[currentKey]);
       });
     }
   }

@@ -14,6 +14,9 @@ export const sortStates = (states: IState[]) => {
     if (stateA.group === stateB.group) {
       return stateA.sequence - stateB.sequence;
     }
-    return Object.keys(STATE_GROUPS).indexOf(stateA.group) - Object.keys(STATE_GROUPS).indexOf(stateB.group);
+    return (
+      Object.keys(STATE_GROUPS).indexOf(stateA.group) -
+      Object.keys(STATE_GROUPS).indexOf(stateB.group)
+    );
   });
 };

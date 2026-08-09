@@ -14,7 +14,10 @@ export const coreRedirectRoutes: RouteConfigEntry[] = [
 
   // Project settings redirect: /:workspaceSlug/projects/:projectId/settings/:path*
   // → /:workspaceSlug/settings/projects/:projectId/:path*
-  route(":workspaceSlug/projects/:projectId/settings/*", "routes/redirects/core/project-settings.tsx"),
+  route(
+    ":workspaceSlug/projects/:projectId/settings/*",
+    "routes/redirects/core/project-settings.tsx",
+  ),
 
   // Analytics redirect: /:workspaceSlug/analytics → /:workspaceSlug/analytics/overview
   route(":workspaceSlug/analytics", "routes/redirects/core/analytics.tsx"),

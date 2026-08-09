@@ -25,14 +25,16 @@ function LabelsSettingsPage() {
   const { currentProjectDetails } = useProject();
   const { workspaceUserInfo, allowPermissions } = useUserPermissions();
 
-  const pageTitle = currentProjectDetails?.name ? `${currentProjectDetails?.name} - Labels` : undefined;
+  const pageTitle = currentProjectDetails?.name
+    ? `${currentProjectDetails?.name} - Labels`
+    : undefined;
 
   const scrollableContainerRef = useRef<HTMLDivElement | null>(null);
 
   // derived values
   const canPerformProjectMemberActions = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   // Enable Auto Scroll for Labels list
@@ -44,7 +46,7 @@ function LabelsSettingsPage() {
     return combine(
       autoScrollForElements({
         element,
-      })
+      }),
     );
   }, []);
 

@@ -19,7 +19,9 @@ type Props = {
   handleSelect: (cycle: ICycle) => void;
 };
 
-export const PowerKOpenProjectCyclesMenu = observer(function PowerKOpenProjectCyclesMenu(props: Props) {
+export const PowerKOpenProjectCyclesMenu = observer(function PowerKOpenProjectCyclesMenu(
+  props: Props,
+) {
   const { context, handleSelect } = props;
   // store hooks
   const { fetchedMap, getProjectCycleIds, getCycleById } = useCycle();

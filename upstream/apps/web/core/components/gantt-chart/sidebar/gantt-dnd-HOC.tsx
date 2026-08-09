@@ -6,8 +6,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
-import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { attachInstruction, extractInstruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+  attachInstruction,
+  extractInstruction,
+} from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
 import { observer } from "mobx-react";
 import { useOutsideClickDetector } from "@plane/hooks";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -19,7 +25,11 @@ type Props = {
   isLastChild: boolean;
   isDragEnabled: boolean;
   children: (isDragging: boolean) => React.ReactNode;
-  onDrop: (draggingBlockId: string | undefined, droppedBlockId: string | undefined, dropAtEndOfList: boolean) => void;
+  onDrop: (
+    draggingBlockId: string | undefined,
+    droppedBlockId: string | undefined,
+    dropAtEndOfList: boolean,
+  ) => void;
 };
 
 export const GanttDnDHOC = observer(function GanttDnDHOC(props: Props) {
@@ -49,7 +59,8 @@ export const GanttDnDHOC = observer(function GanttDnDHOC(props: Props) {
       }),
       dropTargetForElements({
         element,
-        canDrop: ({ source }) => source?.data?.id !== id && source?.data?.dragInstanceId === "GANTT_REORDER",
+        canDrop: ({ source }) =>
+          source?.data?.id !== id && source?.data?.dragInstanceId === "GANTT_REORDER",
         getData: ({ input, element }) => {
           const data = { id };
 
@@ -70,7 +81,7 @@ export const GanttDnDHOC = observer(function GanttDnDHOC(props: Props) {
               ? extractedInstruction === "reorder-below" && isLastChild
                 ? "DRAG_BELOW"
                 : "DRAG_OVER"
-              : undefined
+              : undefined,
           );
         },
         onDragLeave: () => {
@@ -92,11 +103,13 @@ export const GanttDnDHOC = observer(function GanttDnDHOC(props: Props) {
           onDrop(sourceId, destinationId, currentInstruction === "DRAG_BELOW");
           highlightIssueOnDrop(source?.element?.id, false, true);
         },
-      })
+      }),
     );
   }, [blockRef?.current, isLastChild, onDrop]);
 
-  useOutsideClickDetector(blockRef, () => blockRef?.current?.classList?.remove(HIGHLIGHT_WITH_LINE));
+  useOutsideClickDetector(blockRef, () =>
+    blockRef?.current?.classList?.remove(HIGHLIGHT_WITH_LINE),
+  );
 
   return (
     <div

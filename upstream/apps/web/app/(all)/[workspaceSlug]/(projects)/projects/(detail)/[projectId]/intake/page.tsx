@@ -39,7 +39,10 @@ function ProjectInboxPage({ params }: Route.ComponentProps) {
   const { currentProjectDetails } = useProject();
   const { allowPermissions } = useUserPermissions();
   // derived values
-  const canPerformEmptyStateActions = allowPermissions([EUserProjectRoles.ADMIN], EUserPermissionsLevel.PROJECT);
+  const canPerformEmptyStateActions = allowPermissions(
+    [EUserProjectRoles.ADMIN],
+    EUserPermissionsLevel.PROJECT,
+  );
   const resolvedPath = resolvedTheme === "light" ? lightIntakeAsset : darkIntakeAsset;
 
   // No access to inbox

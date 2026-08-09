@@ -11,7 +11,9 @@ import { PlusIcon } from "@plane/propel/icons";
 import { Row } from "@plane/ui";
 import type { TQuickAddIssueButton } from "../root";
 
-export const GanttQuickAddIssueButton = observer(function GanttQuickAddIssueButton(props: TQuickAddIssueButton) {
+export const GanttQuickAddIssueButton = observer(function GanttQuickAddIssueButton(
+  props: TQuickAddIssueButton,
+) {
   const { onClick, isEpic = false } = props;
   const { t } = useTranslation();
   return (

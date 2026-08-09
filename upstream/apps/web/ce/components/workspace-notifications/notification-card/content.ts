@@ -20,12 +20,20 @@ export const renderAdditionalAction = (notificationField: string, verb: string |
 export const renderAdditionalValue = (
   _notificationField: string | undefined,
   newValue: string | undefined,
-  _oldValue: string | undefined
+  _oldValue: string | undefined,
 ) => newValue;
 
 export const shouldShowConnector = (notificationField: string | undefined) =>
-  !["comment", "archived_at", "None", "assignees", "labels", "start_date", "target_date", "parent"].includes(
-    notificationField || ""
-  );
+  ![
+    "comment",
+    "archived_at",
+    "None",
+    "assignees",
+    "labels",
+    "start_date",
+    "target_date",
+    "parent",
+  ].includes(notificationField || "");
 
-export const shouldRender = (notificationField: string | undefined, verb: string | undefined) => verb !== "deleted";
+export const shouldRender = (notificationField: string | undefined, verb: string | undefined) =>
+  verb !== "deleted";

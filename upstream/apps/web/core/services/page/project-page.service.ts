@@ -29,7 +29,12 @@ export class ProjectPageService extends APIService {
       });
   }
 
-  async fetchById(workspaceSlug: string, projectId: string, pageId: string, trackVisit: boolean): Promise<TPage> {
+  async fetchById(
+    workspaceSlug: string,
+    projectId: string,
+    pageId: string,
+    trackVisit: boolean,
+  ): Promise<TPage> {
     return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/`, {
       params: {
         track_visit: trackVisit,
@@ -49,8 +54,16 @@ export class ProjectPageService extends APIService {
       });
   }
 
-  async update(workspaceSlug: string, projectId: string, pageId: string, data: Partial<TPage>): Promise<TPage> {
-    return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/`, data)
+  async update(
+    workspaceSlug: string,
+    projectId: string,
+    pageId: string,
+    data: Partial<TPage>,
+  ): Promise<TPage> {
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -61,9 +74,12 @@ export class ProjectPageService extends APIService {
     workspaceSlug: string,
     projectId: string,
     pageId: string,
-    data: Pick<TPage, "access">
+    data: Pick<TPage, "access">,
   ): Promise<void> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/access/`, data)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/access/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -87,15 +103,23 @@ export class ProjectPageService extends APIService {
   }
 
   async addToFavorites(workspaceSlug: string, projectId: string, pageId: string): Promise<void> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/favorite-pages/${pageId}/`)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/favorite-pages/${pageId}/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
       });
   }
 
-  async removeFromFavorites(workspaceSlug: string, projectId: string, pageId: string): Promise<void> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/favorite-pages/${pageId}/`)
+  async removeFromFavorites(
+    workspaceSlug: string,
+    projectId: string,
+    pageId: string,
+  ): Promise<void> {
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/favorite-pages/${pageId}/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -113,11 +137,13 @@ export class ProjectPageService extends APIService {
   async archive(
     workspaceSlug: string,
     projectId: string,
-    pageId: string
+    pageId: string,
   ): Promise<{
     archived_at: string;
   }> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/archive/`)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/archive/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -125,7 +151,9 @@ export class ProjectPageService extends APIService {
   }
 
   async restore(workspaceSlug: string, projectId: string, pageId: string): Promise<void> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/archive/`)
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/archive/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -141,20 +169,29 @@ export class ProjectPageService extends APIService {
   }
 
   async unlock(workspaceSlug: string, projectId: string, pageId: string): Promise<void> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/lock/`)
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/lock/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
       });
   }
 
-  async fetchDescriptionBinary(workspaceSlug: string, projectId: string, pageId: string): Promise<any> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/description/`, {
-      headers: {
-        "Content-Type": "application/octet-stream",
+  async fetchDescriptionBinary(
+    workspaceSlug: string,
+    projectId: string,
+    pageId: string,
+  ): Promise<any> {
+    return this.get(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/description/`,
+      {
+        headers: {
+          "Content-Type": "application/octet-stream",
+        },
+        responseType: "arraybuffer",
       },
-      responseType: "arraybuffer",
-    })
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -165,9 +202,12 @@ export class ProjectPageService extends APIService {
     workspaceSlug: string,
     projectId: string,
     pageId: string,
-    data: TDocumentPayload
+    data: TDocumentPayload,
   ): Promise<any> {
-    return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/description/`, data)
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/description/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error;
@@ -175,17 +215,27 @@ export class ProjectPageService extends APIService {
   }
 
   async duplicate(workspaceSlug: string, projectId: string, pageId: string): Promise<TPage> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/duplicate/`)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/duplicate/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
       });
   }
 
-  async move(workspaceSlug: string, projectId: string, pageId: string, newProjectId: string): Promise<void> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/move/`, {
-      new_project_id: newProjectId,
-    })
+  async move(
+    workspaceSlug: string,
+    projectId: string,
+    pageId: string,
+    newProjectId: string,
+  ): Promise<void> {
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/move/`,
+      {
+        new_project_id: newProjectId,
+      },
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

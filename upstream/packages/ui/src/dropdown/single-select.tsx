@@ -121,7 +121,7 @@ export function Dropdown(props: ISingleSelectDropdown) {
       onChange={onChange}
       className={cn(
         "h-full",
-        typeof containerClassName === "function" ? containerClassName(isOpen) : containerClassName
+        typeof containerClassName === "function" ? containerClassName(isOpen) : containerClassName,
       )}
       tabIndex={tabIndex}
       onKeyDown={handleKeyDown}
@@ -143,7 +143,7 @@ export function Dropdown(props: ISingleSelectDropdown) {
           <div
             className={cn(
               "my-1 w-48 rounded-sm border-[0.5px] border-strong bg-surface-1 px-2 py-2 text-11 shadow-raised-200 focus:outline-none",
-              optionsContainerClassName
+              optionsContainerClassName,
             )}
             ref={setPopperElement}
             style={styles.popper}

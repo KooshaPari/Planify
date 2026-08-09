@@ -25,9 +25,9 @@ type TSingleSelectFilterValueInputProps<P extends TFilterProperty> = {
   onChange: (value: string | null) => void;
 };
 
-export const SingleSelectFilterValueInput = observer(function SingleSelectFilterValueInput<P extends TFilterProperty>(
-  props: TSingleSelectFilterValueInputProps<P>
-) {
+export const SingleSelectFilterValueInput = observer(function SingleSelectFilterValueInput<
+  P extends TFilterProperty,
+>(props: TSingleSelectFilterValueInputProps<P>) {
   const { config, condition, onChange, isDisabled } = props;
   // states
   const [options, setOptions] = useState<IFilterOption<string>[]>([]);
@@ -56,7 +56,11 @@ export const SingleSelectFilterValueInput = observer(function SingleSelectFilter
       multiple={false}
       disabled={loading || isDisabled}
       customButton={
-        <SelectedOptionsDisplay<string> selectedValue={condition.value} options={options} displayCount={1} />
+        <SelectedOptionsDisplay<string>
+          selectedValue={condition.value}
+          options={options}
+          displayCount={1}
+        />
       }
       defaultOpen={!condition.value}
     />

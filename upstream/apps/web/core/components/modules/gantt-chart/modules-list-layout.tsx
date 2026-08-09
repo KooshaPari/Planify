@@ -48,10 +48,16 @@ export const ModulesListGanttChartView = observer(function ModulesListGanttChart
     if (blockUpdate.start_date) payload.start_date = blockUpdate.start_date;
     if (blockUpdate.target_date) payload.target_date = blockUpdate.target_date;
 
-    await updateModuleDetails(workspaceSlug.toString(), projectId.toString(), blockUpdate.id, payload);
+    await updateModuleDetails(
+      workspaceSlug.toString(),
+      projectId.toString(),
+      blockUpdate.id,
+      payload,
+    );
   };
 
-  const isAllowed = currentProjectDetails?.member_role === 20 || currentProjectDetails?.member_role === 15;
+  const isAllowed =
+    currentProjectDetails?.member_role === 20 || currentProjectDetails?.member_role === 15;
 
   if (!filteredModuleIds) return null;
 

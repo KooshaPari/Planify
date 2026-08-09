@@ -140,7 +140,8 @@ const errorCodeMessages: {
   },
   [EAuthenticationErrorCodes.USER_ACCOUNT_DEACTIVATED]: {
     title: `User account deactivated`,
-    message: () => `User account deactivated. Please contact ${SUPPORT_EMAIL ? SUPPORT_EMAIL : "administrator"}.`,
+    message: () =>
+      `User account deactivated. Please contact ${SUPPORT_EMAIL ? SUPPORT_EMAIL : "administrator"}.`,
   },
   [EAuthenticationErrorCodes.BOT_USER_LOGIN_FORBIDDEN]: {
     title: `Sign in not allowed`,
@@ -348,7 +349,10 @@ const errorCodeMessages: {
     message: () => (
       <div>
         Admin user already exists.&nbsp;
-        <Link className="font-medium underline underline-offset-4 transition-all hover:font-bold" href={`/admin`}>
+        <Link
+          className="font-medium underline underline-offset-4 transition-all hover:font-bold"
+          href={`/admin`}
+        >
           Sign In
         </Link>
         &nbsp;now.
@@ -360,7 +364,10 @@ const errorCodeMessages: {
     message: () => (
       <div>
         Admin user does not exist.&nbsp;
-        <Link className="font-medium underline underline-offset-4 transition-all hover:font-bold" href={`/admin`}>
+        <Link
+          className="font-medium underline underline-offset-4 transition-all hover:font-bold"
+          href={`/admin`}
+        >
           Sign In
         </Link>
         &nbsp;now.
@@ -377,7 +384,10 @@ const errorCodeMessages: {
   },
 };
 
-export const authErrorHandler = (errorCode: EAuthenticationErrorCodes, email?: string): TAuthErrorInfo | undefined => {
+export const authErrorHandler = (
+  errorCode: EAuthenticationErrorCodes,
+  email?: string,
+): TAuthErrorInfo | undefined => {
   const bannerAlertErrorCodes = [
     EAuthenticationErrorCodes.INSTANCE_NOT_CONFIGURED,
     EAuthenticationErrorCodes.INVALID_EMAIL,
@@ -438,7 +448,8 @@ export const authErrorHandler = (errorCode: EAuthenticationErrorCodes, email?: s
       type: EErrorAlertType.BANNER_ALERT,
       code: errorCode,
       title: errorCodeMessages[errorCode]?.title || "Error",
-      message: errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.",
+      message:
+        errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.",
     };
 
   return undefined;

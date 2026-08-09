@@ -67,7 +67,15 @@ export function DropdownButton(props: DropdownButtonProps) {
 }
 
 function BorderButton(props: ButtonProps) {
-  const { children, className, isActive, tooltipContent, renderToolTipByDefault, tooltipHeading, showTooltip } = props;
+  const {
+    children,
+    className,
+    isActive,
+    tooltipContent,
+    renderToolTipByDefault,
+    tooltipHeading,
+    showTooltip,
+  } = props;
   const { isMobile } = usePlatformOS();
 
   return (
@@ -86,7 +94,7 @@ function BorderButton(props: ButtonProps) {
           {
             "bg-layer-transparent-active": isActive,
           },
-          className
+          className,
         )}
       >
         {children}
@@ -96,7 +104,14 @@ function BorderButton(props: ButtonProps) {
 }
 
 function BackgroundButton(props: ButtonProps) {
-  const { children, className, tooltipContent, tooltipHeading, renderToolTipByDefault, showTooltip } = props;
+  const {
+    children,
+    className,
+    tooltipContent,
+    tooltipHeading,
+    renderToolTipByDefault,
+    showTooltip,
+  } = props;
   const { isMobile } = usePlatformOS();
   return (
     <Tooltip
@@ -111,7 +126,7 @@ function BackgroundButton(props: ButtonProps) {
         size="sm"
         className={cn(
           "flex h-full w-full items-center justify-between gap-1.5 bg-layer-3 hover:bg-layer-1-hover",
-          className
+          className,
         )}
       >
         {children}
@@ -121,7 +136,15 @@ function BackgroundButton(props: ButtonProps) {
 }
 
 function TransparentButton(props: ButtonProps) {
-  const { children, className, isActive, tooltipContent, tooltipHeading, renderToolTipByDefault, showTooltip } = props;
+  const {
+    children,
+    className,
+    isActive,
+    tooltipContent,
+    tooltipHeading,
+    renderToolTipByDefault,
+    showTooltip,
+  } = props;
   const { isMobile } = usePlatformOS();
   return (
     <Tooltip
@@ -139,7 +162,7 @@ function TransparentButton(props: ButtonProps) {
           {
             "bg-layer-transparent-active": isActive,
           },
-          className
+          className,
         )}
       >
         {children}

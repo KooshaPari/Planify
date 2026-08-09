@@ -50,7 +50,7 @@ export const NotificationsSidebarRoot = observer(function NotificationsSidebarRo
         setCurrentNotificationTab(tabValue);
       }
     },
-    [currentNotificationTab, setCurrentNotificationTab]
+    [currentNotificationTab, setCurrentNotificationTab],
   );
 
   if (!workspaceSlug || !workspace) return <></>;
@@ -59,7 +59,7 @@ export const NotificationsSidebarRoot = observer(function NotificationsSidebarRo
     <div
       className={cn(
         "relative z-[10] h-full flex-shrink-0 border-0 border-subtle bg-surface-1 transition-all max-md:overflow-hidden md:border-r",
-        currentSelectedNotificationId ? "w-0 md:w-3/12" : "w-full md:w-3/12"
+        currentSelectedNotificationId ? "w-0 md:w-3/12" : "w-full md:w-3/12",
       )}
     >
       <div className="relative flex h-full w-full flex-col">
@@ -80,7 +80,7 @@ export const NotificationsSidebarRoot = observer(function NotificationsSidebarRo
                   {
                     "text-accent-primary": currentNotificationTab === tab.value,
                     "text-primary hover:text-secondary": currentNotificationTab !== tab.value,
-                  }
+                  },
                 )}
               >
                 <div className="font-medium">{t(tab.i18n_label)}</div>
@@ -107,7 +107,10 @@ export const NotificationsSidebarRoot = observer(function NotificationsSidebarRo
           <>
             {notificationIds && notificationIds.length > 0 ? (
               <ContentWrapper variant={ERowVariant.HUGGING}>
-                <NotificationListRoot workspaceSlug={workspaceSlug.toString()} workspaceId={workspace?.id} />
+                <NotificationListRoot
+                  workspaceSlug={workspaceSlug.toString()}
+                  workspaceId={workspace?.id}
+                />
               </ContentWrapper>
             ) : (
               <div className="relative flex h-full w-full items-center justify-center">

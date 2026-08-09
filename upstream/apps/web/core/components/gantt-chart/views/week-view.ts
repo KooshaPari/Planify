@@ -49,7 +49,7 @@ const generateWeekChart = (
   weekPayload: ChartDataType,
   side: null | "left" | "right",
   targetDate?: Date,
-  startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY
+  startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY,
 ) => {
   let renderState = weekPayload;
 
@@ -65,10 +65,19 @@ const generateWeekChart = (
   if (side === null) {
     const currentDate = renderState.data.currentDate;
 
-    minusDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - range, currentDate.getDate());
-    plusDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + range, currentDate.getDate());
+    minusDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - range,
+      currentDate.getDate(),
+    );
+    plusDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + range,
+      currentDate.getDate(),
+    );
 
-    if (minusDate && plusDate) filteredDates = getWeeksBetweenTwoDates(minusDate, plusDate, true, startOfWeek);
+    if (minusDate && plusDate)
+      filteredDates = getWeeksBetweenTwoDates(minusDate, plusDate, true, startOfWeek);
 
     startDate = filteredDates[0].startDate;
     endDate = filteredDates[filteredDates.length - 1].endDate;
@@ -87,12 +96,21 @@ const generateWeekChart = (
     const currentDate = targetDate ? targetDate : chartStartDate;
 
     minusDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - range, 1);
-    plusDate = new Date(chartStartDate.getFullYear(), chartStartDate.getMonth(), chartStartDate.getDate() - 1);
+    plusDate = new Date(
+      chartStartDate.getFullYear(),
+      chartStartDate.getMonth(),
+      chartStartDate.getDate() - 1,
+    );
 
-    if (minusDate && plusDate) filteredDates = getWeeksBetweenTwoDates(minusDate, plusDate, true, startOfWeek);
+    if (minusDate && plusDate)
+      filteredDates = getWeeksBetweenTwoDates(minusDate, plusDate, true, startOfWeek);
 
     startDate = filteredDates[0].startDate;
-    endDate = new Date(chartStartDate.getFullYear(), chartStartDate.getMonth(), chartStartDate.getDate() - 1);
+    endDate = new Date(
+      chartStartDate.getFullYear(),
+      chartStartDate.getMonth(),
+      chartStartDate.getDate() - 1,
+    );
     renderState = {
       ...renderState,
       data: { ...renderState.data, startDate },
@@ -103,12 +121,21 @@ const generateWeekChart = (
     const chartEndDate = renderState.data.endDate;
     const currentDate = targetDate ? targetDate : chartEndDate;
 
-    minusDate = new Date(chartEndDate.getFullYear(), chartEndDate.getMonth(), chartEndDate.getDate() + 1);
+    minusDate = new Date(
+      chartEndDate.getFullYear(),
+      chartEndDate.getMonth(),
+      chartEndDate.getDate() + 1,
+    );
     plusDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + range, 1);
 
-    if (minusDate && plusDate) filteredDates = getWeeksBetweenTwoDates(minusDate, plusDate, true, startOfWeek);
+    if (minusDate && plusDate)
+      filteredDates = getWeeksBetweenTwoDates(minusDate, plusDate, true, startOfWeek);
 
-    startDate = new Date(chartEndDate.getFullYear(), chartEndDate.getMonth(), chartEndDate.getDate() + 1);
+    startDate = new Date(
+      chartEndDate.getFullYear(),
+      chartEndDate.getMonth(),
+      chartEndDate.getDate() + 1,
+    );
     endDate = filteredDates[filteredDates.length - 1].endDate;
     renderState = {
       ...renderState,
@@ -133,7 +160,7 @@ export const getWeeksBetweenTwoDates = (
   startDate: Date,
   endDate: Date,
   shouldPopulateDaysForWeek: boolean = true,
-  startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY
+  startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY,
 ): IWeekBlock[] => {
   const weeks: IWeekBlock[] = [];
 
@@ -157,7 +184,9 @@ export const getWeeksBetweenTwoDates = (
     const weekNumber = getWeekNumberByDate(currentDate);
 
     weeks.push({
-      children: shouldPopulateDaysForWeek ? populateDaysForWeek(weekStartDate, startOfWeek) : undefined,
+      children: shouldPopulateDaysForWeek
+        ? populateDaysForWeek(weekStartDate, startOfWeek)
+        : undefined,
       weekNumber,
       weekData: {
         shortTitle: `w${weekNumber}`,
@@ -187,7 +216,10 @@ export const getWeeksBetweenTwoDates = (
  * @param startDate
  * @returns
  */
-const populateDaysForWeek = (startDate: Date, startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY): IDayBlock[] => {
+const populateDaysForWeek = (
+  startDate: Date,
+  startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY,
+): IDayBlock[] => {
   const currentDate = new Date(startDate);
   const days: IDayBlock[] = [];
   const today = new Date();

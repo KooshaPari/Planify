@@ -25,7 +25,10 @@ import { ProjectViewKanBanLayout } from "../kanban/roots/project-view-root";
 import { ProjectViewListLayout } from "../list/roots/project-view-root";
 import { ProjectViewSpreadsheetLayout } from "../spreadsheet/roots/project-view-root";
 
-function ProjectViewIssueLayout(props: { activeLayout: EIssueLayoutTypes | undefined; viewId: string }) {
+function ProjectViewIssueLayout(props: {
+  activeLayout: EIssueLayoutTypes | undefined;
+  viewId: string;
+}) {
   switch (props.activeLayout) {
     case EIssueLayoutTypes.LIST:
       return <ProjectViewListLayout />;
@@ -44,7 +47,11 @@ function ProjectViewIssueLayout(props: { activeLayout: EIssueLayoutTypes | undef
 
 export const ProjectViewLayoutRoot = observer(function ProjectViewLayoutRoot() {
   // router
-  const { workspaceSlug: routerWorkspaceSlug, projectId: routerProjectId, viewId: routerViewId } = useParams();
+  const {
+    workspaceSlug: routerWorkspaceSlug,
+    projectId: routerProjectId,
+    viewId: routerViewId,
+  } = useParams();
   const workspaceSlug = routerWorkspaceSlug ? routerWorkspaceSlug?.toString() : undefined;
   const projectId = routerProjectId ? routerProjectId?.toString() : undefined;
   const viewId = routerViewId ? routerViewId?.toString() : undefined;
@@ -65,12 +72,14 @@ export const ProjectViewLayoutRoot = observer(function ProjectViewLayoutRoot() {
     : undefined;
 
   useSWR(
-    workspaceSlug && projectId && viewId ? `PROJECT_VIEW_ISSUES_${workspaceSlug}_${projectId}_${viewId}` : null,
+    workspaceSlug && projectId && viewId
+      ? `PROJECT_VIEW_ISSUES_${workspaceSlug}_${projectId}_${viewId}`
+      : null,
     async () => {
       if (workspaceSlug && projectId && viewId) {
         await issuesFilter?.fetchFilters(workspaceSlug, projectId, viewId);
       }
-    }
+    },
   );
 
   useEffect(
@@ -79,7 +88,7 @@ export const ProjectViewLayoutRoot = observer(function ProjectViewLayoutRoot() {
         issuesFilter?.resetFilters(workspaceSlug, viewId);
       }
     },
-    [issuesFilter, workspaceSlug, viewId]
+    [issuesFilter, workspaceSlug, viewId],
   );
 
   if (!workspaceSlug || !projectId || !viewId || !workItemFilters) return <></>;
@@ -95,7 +104,12 @@ export const ProjectViewLayoutRoot = observer(function ProjectViewLayoutRoot() {
         entityType={EIssuesStoreType.PROJECT_VIEW}
         filtersToShowByLayout={ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.filters}
         initialWorkItemFilters={initialWorkItemFilters}
-        updateFilters={issuesFilter?.updateFilterExpression.bind(issuesFilter, workspaceSlug, projectId, viewId)}
+        updateFilters={issuesFilter?.updateFilterExpression.bind(
+          issuesFilter,
+          workspaceSlug,
+          projectId,
+          viewId,
+        )}
         projectId={projectId}
         workspaceSlug={workspaceSlug}
       >

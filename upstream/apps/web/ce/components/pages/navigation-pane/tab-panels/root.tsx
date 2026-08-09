@@ -14,6 +14,8 @@ export type TPageNavigationPaneAdditionalTabPanelsRootProps = {
   page: TPageInstance;
 };
 
-export function PageNavigationPaneAdditionalTabPanelsRoot(_props: TPageNavigationPaneAdditionalTabPanelsRootProps) {
+export function PageNavigationPaneAdditionalTabPanelsRoot(
+  _props: TPageNavigationPaneAdditionalTabPanelsRootProps,
+) {
   return null;
 }

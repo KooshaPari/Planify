@@ -27,8 +27,9 @@ export class ProjectMemberStore extends BaseProjectMemberStore implements IProje
    * @param { string } projectId
    * @returns { EUserProjectRoles | undefined }
    */
-  getUserProjectRole = computedFn((userId: string, projectId: string): EUserProjectRoles | undefined =>
-    this.getRoleFromProjectMembership(userId, projectId)
+  getUserProjectRole = computedFn(
+    (userId: string, projectId: string): EUserProjectRoles | undefined =>
+      this.getRoleFromProjectMembership(userId, projectId),
   );
 
   /**
@@ -37,8 +38,11 @@ export class ProjectMemberStore extends BaseProjectMemberStore implements IProje
    * @param userId
    * @param role
    */
-  getProjectMemberRoleForUpdate = (_projectId: string, _userId: string, role: EUserProjectRoles): EUserProjectRoles =>
-    role;
+  getProjectMemberRoleForUpdate = (
+    _projectId: string,
+    _userId: string,
+    role: EUserProjectRoles,
+  ): EUserProjectRoles => role;
 
   /**
    * @description Processes the removal of a member from a project
@@ -46,5 +50,6 @@ export class ProjectMemberStore extends BaseProjectMemberStore implements IProje
    * @param projectId - The ID of the project to remove the member from
    * @param userId - The ID of the user to remove from the project
    */
-  processMemberRemoval = (projectId: string, userId: string) => this.handleMemberRemoval(projectId, userId);
+  processMemberRemoval = (projectId: string, userId: string) =>
+    this.handleMemberRemoval(projectId, userId);
 }

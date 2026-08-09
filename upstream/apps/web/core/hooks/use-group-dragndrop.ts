@@ -6,7 +6,12 @@
 
 import { useParams } from "next/navigation";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { EIssuesStoreType, TIssue, TIssueGroupByOptions, TIssueOrderByOptions } from "@plane/types";
+import type {
+  EIssuesStoreType,
+  TIssue,
+  TIssueGroupByOptions,
+  TIssueOrderByOptions,
+} from "@plane/types";
 import type { GroupDropLocation } from "@/components/issues/issue-layouts/utils";
 import { handleGroupDragDrop } from "@/components/issues/issue-layouts/utils";
 import { ISSUE_FILTER_DEFAULT_DATA } from "@/store/issue/helpers/base-issues.store";
@@ -31,7 +36,7 @@ export const useGroupIssuesDragNDrop = (
   storeType: DNDStoreType,
   orderBy: TIssueOrderByOptions | undefined,
   groupBy: TIssueGroupByOptions | undefined,
-  subGroupBy?: TIssueGroupByOptions
+  subGroupBy?: TIssueGroupByOptions,
 ) => {
   const { workspaceSlug } = useParams();
 
@@ -59,7 +64,7 @@ export const useGroupIssuesDragNDrop = (
         ADD: string[];
         REMOVE: string[];
       };
-    }
+    },
   ) => {
     const errorToastProps = {
       type: TOAST_TYPE.ERROR,
@@ -74,11 +79,16 @@ export const useGroupIssuesDragNDrop = (
 
     if (isCycleChanged && workspaceSlug) {
       if (data[cycleKey]) {
-        addCycleToIssue(workspaceSlug.toString(), projectId, data[cycleKey]?.toString() ?? "", issueId).catch(() =>
-          setToast(errorToastProps)
-        );
+        addCycleToIssue(
+          workspaceSlug.toString(),
+          projectId,
+          data[cycleKey]?.toString() ?? "",
+          issueId,
+        ).catch(() => setToast(errorToastProps));
       } else {
-        removeCycleFromIssue(workspaceSlug.toString(), projectId, issueId).catch(() => setToast(errorToastProps));
+        removeCycleFromIssue(workspaceSlug.toString(), projectId, issueId).catch(() =>
+          setToast(errorToastProps),
+        );
       }
       delete data[cycleKey];
     }
@@ -89,7 +99,7 @@ export const useGroupIssuesDragNDrop = (
         projectId,
         issueId,
         issueUpdates[moduleKey].ADD,
-        issueUpdates[moduleKey].REMOVE
+        issueUpdates[moduleKey].REMOVE,
       ).catch(() => setToast(errorToastProps));
       delete data[moduleKey];
     }
@@ -114,7 +124,7 @@ export const useGroupIssuesDragNDrop = (
       updateIssueOnDrop,
       groupBy,
       subGroupBy,
-      orderBy !== "sort_order"
+      orderBy !== "sort_order",
     ).catch((err) => {
       setToast({
         title: "Error!",

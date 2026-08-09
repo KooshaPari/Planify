@@ -49,7 +49,9 @@ type TIssueDefaultPropertiesProps = {
   setSelectedParentIssue: (issue: ISearchIssueResponse) => void;
 };
 
-export const IssueDefaultProperties = observer(function IssueDefaultProperties(props: TIssueDefaultPropertiesProps) {
+export const IssueDefaultProperties = observer(function IssueDefaultProperties(
+  props: TIssueDefaultPropertiesProps,
+) {
   const {
     control,
     id,
@@ -77,7 +79,13 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
   const { getIndex } = getTabIndex(ETabIndices.ISSUE_FORM, isMobile);
 
   const canCreateLabel =
-    projectId && allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT, workspaceSlug, projectId);
+    projectId &&
+    allowPermissions(
+      [EUserPermissions.ADMIN],
+      EUserPermissionsLevel.PROJECT,
+      workspaceSlug,
+      projectId,
+    );
 
   const minDate = getDate(startDate);
   minDate?.setDate(minDate.getDate());
@@ -290,7 +298,10 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
             tabIndex={getIndex("parent_id")}
           >
             <>
-              <CustomMenu.MenuItem className="!p-1" onClick={() => setParentIssueListModalOpen(true)}>
+              <CustomMenu.MenuItem
+                className="!p-1"
+                onClick={() => setParentIssueListModalOpen(true)}
+              >
                 {t("change_parent_issue")}
               </CustomMenu.MenuItem>
               <Controller

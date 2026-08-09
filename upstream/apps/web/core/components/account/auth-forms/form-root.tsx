@@ -36,7 +36,16 @@ type TAuthFormRoot = {
 const authService = new AuthService();
 
 export const AuthFormRoot = observer(function AuthFormRoot(props: TAuthFormRoot) {
-  const { authStep, authMode, email, setEmail, setAuthMode, setAuthStep, setErrorInfo, currentAuthMode } = props;
+  const {
+    authStep,
+    authMode,
+    email,
+    setEmail,
+    setAuthMode,
+    setAuthStep,
+    setErrorInfo,
+    currentAuthMode,
+  } = props;
   // router
   const router = useAppRouter();
   // query params
@@ -76,7 +85,10 @@ export const AuthFormRoot = observer(function AuthFormRoot(props: TAuthFormRoot)
         setIsExistingEmail(response.existing);
       })
       .catch((error) => {
-        const errorhandler = authErrorHandler(error?.error_code?.toString(), data?.email || undefined);
+        const errorhandler = authErrorHandler(
+          error?.error_code?.toString(),
+          data?.email || undefined,
+        );
         if (errorhandler?.type) setErrorInfo(errorhandler);
       });
   };

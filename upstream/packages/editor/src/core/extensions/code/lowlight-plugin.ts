@@ -93,7 +93,9 @@ export function LowlightPlugin({
   defaultLanguage: string | null | undefined;
 }) {
   if (!["highlight", "highlightAuto", "listLanguages"].every((api) => isFunction(lowlight[api]))) {
-    throw Error("You should provide an instance of lowlight to use the code-block-lowlight extension");
+    throw Error(
+      "You should provide an instance of lowlight to use the code-block-lowlight extension",
+    );
   }
 
   const lowlightPlugin: Plugin = new Plugin({
@@ -134,8 +136,8 @@ export function LowlightPlugin({
                     // @ts-expect-error type error
                     node.pos >= step.from &&
                     // @ts-expect-error type error
-                    node.pos + node.node.nodeSize <= step.to
-                )
+                    node.pos + node.node.nodeSize <= step.to,
+                ),
             ))
         ) {
           return getDecorations({

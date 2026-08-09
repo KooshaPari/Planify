@@ -28,8 +28,17 @@ type Props = {
   issueServiceType: TIssueServiceType;
 };
 
-export const IssueAttachmentActionButton = observer(function IssueAttachmentActionButton(props: Props) {
-  const { workspaceSlug, projectId, issueId, customButton, disabled = false, issueServiceType } = props;
+export const IssueAttachmentActionButton = observer(function IssueAttachmentActionButton(
+  props: Props,
+) {
+  const {
+    workspaceSlug,
+    projectId,
+    issueId,
+    customButton,
+    disabled = false,
+    issueServiceType,
+  } = props;
   // state
   const [isLoading, setIsLoading] = useState(false);
   // store hooks
@@ -41,7 +50,7 @@ export const IssueAttachmentActionButton = observer(function IssueAttachmentActi
     workspaceSlug,
     projectId,
     issueId,
-    issueServiceType
+    issueServiceType,
   );
   // handlers
   const handleFetchPropertyActivities = useCallback(() => {
@@ -84,7 +93,13 @@ export const IssueAttachmentActionButton = observer(function IssueAttachmentActi
       });
       return;
     },
-    [attachmentOperations, maxFileSize, workspaceSlug, handleFetchPropertyActivities, setLastWidgetAction]
+    [
+      attachmentOperations,
+      maxFileSize,
+      workspaceSlug,
+      handleFetchPropertyActivities,
+      setLastWidgetAction,
+    ],
   );
 
   const { getRootProps, getInputProps } = useDropzone({

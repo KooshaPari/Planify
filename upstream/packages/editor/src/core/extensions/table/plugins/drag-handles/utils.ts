@@ -39,7 +39,7 @@ export const constructDragPreviewTable = (): {
  * @returns {HTMLElement} The cloned cell element.
  */
 export const cloneTableCell = (
-  cellElement: HTMLElement
+  cellElement: HTMLElement,
 ): {
   clonedCellElement: HTMLElement;
 } => {
@@ -58,7 +58,10 @@ export const cloneTableCell = (
  * @param {TableNodeLocation} table - The table node location.
  * @returns {number[]} Array of cell positions.
  */
-export const getSelectedCellPositions = (selection: Selection, table: TableNodeLocation): number[] => {
+export const getSelectedCellPositions = (
+  selection: Selection,
+  table: TableNodeLocation,
+): number[] => {
   if (!isCellSelection(selection)) return [];
 
   const tableMap = TableMap.get(table.node);

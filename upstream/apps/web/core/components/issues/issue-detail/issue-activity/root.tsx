@@ -40,7 +40,11 @@ export type TActivityOperations = {
   createComment: (data: Partial<TIssueComment>) => Promise<TIssueComment>;
   updateComment: (commentId: string, data: Partial<TIssueComment>) => Promise<void>;
   removeComment: (commentId: string) => Promise<void>;
-  uploadCommentAsset: (blockId: string, file: File, commentId?: string) => Promise<TFileSignedURLResponse>;
+  uploadCommentAsset: (
+    blockId: string,
+    file: File,
+    commentId?: string,
+  ) => Promise<TFileSignedURLResponse>;
 };
 
 export const IssueActivity = observer(function IssueActivity(props: TIssueActivity) {
@@ -50,9 +54,12 @@ export const IssueActivity = observer(function IssueActivity(props: TIssueActivi
   // hooks
   const { setValue: setFilterValue, storedValue: selectedFilters } = useLocalStorage(
     "issue_activity_filters",
-    defaultActivityFilters
+    defaultActivityFilters,
   );
-  const { setValue: setSortOrder, storedValue: sortOrder } = useLocalStorage("activity_sort_order", E_SORT_ORDER.ASC);
+  const { setValue: setSortOrder, storedValue: sortOrder } = useLocalStorage(
+    "activity_sort_order",
+    E_SORT_ORDER.ASC,
+  );
   // store hooks
   const {
     issue: { getIssueById },
@@ -63,10 +70,14 @@ export const IssueActivity = observer(function IssueActivity(props: TIssueActivi
   const { data: currentUser } = useUser();
   // derived values
   const issue = issueId ? getIssueById(issueId) : undefined;
-  const currentUserProjectRole = getProjectRoleByWorkspaceSlugAndProjectId(workspaceSlug, projectId);
+  const currentUserProjectRole = getProjectRoleByWorkspaceSlugAndProjectId(
+    workspaceSlug,
+    projectId,
+  );
   const isAdmin = currentUserProjectRole === EUserPermissions.ADMIN;
   const isGuest = currentUserProjectRole === EUserPermissions.GUEST;
-  const isAssigned = issue?.assignee_ids && currentUser?.id ? issue?.assignee_ids.includes(currentUser?.id) : false;
+  const isAssigned =
+    issue?.assignee_ids && currentUser?.id ? issue?.assignee_ids.includes(currentUser?.id) : false;
   const isWorklogButtonEnabled = !isIntakeIssue && !isGuest && (isAdmin || isAssigned);
   // toggle filter
   const toggleFilter = (filter: TActivityFilters) => {
@@ -100,7 +111,7 @@ export const IssueActivity = observer(function IssueActivity(props: TIssueActivi
         projectId={projectId}
       />
     ),
-    [workspaceSlug, issueId, activityOperations, projectId]
+    [workspaceSlug, issueId, activityOperations, projectId],
   );
   if (!project) return <></>;
 
@@ -118,7 +129,10 @@ export const IssueActivity = observer(function IssueActivity(props: TIssueActivi
               disabled={disabled}
             />
           )}
-          <ActivitySortRoot sortOrder={sortOrder || E_SORT_ORDER.ASC} toggleSort={toggleSortOrder} />
+          <ActivitySortRoot
+            sortOrder={sortOrder || E_SORT_ORDER.ASC}
+            toggleSort={toggleSortOrder}
+          />
           <ActivityFilterRoot
             selectedFilters={selectedFilters || defaultActivityFilters}
             toggleFilter={toggleFilter}

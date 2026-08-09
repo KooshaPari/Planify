@@ -5,7 +5,12 @@
  */
 
 import { API_BASE_URL } from "@plane/constants";
-import type { THomeDashboardResponse, TWidget, TWidgetStatsResponse, TWidgetStatsRequestParams } from "@plane/types";
+import type {
+  THomeDashboardResponse,
+  TWidget,
+  TWidgetStatsResponse,
+  TWidgetStatsRequestParams,
+} from "@plane/types";
 import { APIService } from "../api.service";
 
 export default class DashboardService extends APIService {
@@ -42,7 +47,7 @@ export default class DashboardService extends APIService {
   async getWidgetStats(
     workspaceSlug: string,
     dashboardId: string,
-    params: TWidgetStatsRequestParams
+    params: TWidgetStatsRequestParams,
   ): Promise<TWidgetStatsResponse> {
     return this.get(`/api/workspaces/${workspaceSlug}/dashboard/${dashboardId}/`, {
       params,
@@ -75,7 +80,11 @@ export default class DashboardService extends APIService {
    * @returns {Promise<TWidget>} Promise resolving to the updated widget data
    * @throws {Error} If the API request fails
    */
-  async updateWidget(dashboardId: string, widgetId: string, data: Partial<TWidget>): Promise<TWidget> {
+  async updateWidget(
+    dashboardId: string,
+    widgetId: string,
+    data: Partial<TWidget>,
+  ): Promise<TWidget> {
     return this.patch(`/api/dashboard/${dashboardId}/widgets/${widgetId}/`, data)
       .then((response) => response?.data)
       .catch((error) => {

@@ -18,7 +18,7 @@ export const useIntersectionObserver = (
   containerRef: RefObject<HTMLDivElement | null>,
   elementRef: HTMLElement | null,
   callback: (() => void) | undefined,
-  rootMargin?: string
+  rootMargin?: string,
 ) => {
   useEffect(() => {
     if (elementRef) {
@@ -33,7 +33,7 @@ export const useIntersectionObserver = (
         {
           root: containerRef?.current,
           rootMargin,
-        }
+        },
       );
       observer.observe(elementRef);
       return () => {

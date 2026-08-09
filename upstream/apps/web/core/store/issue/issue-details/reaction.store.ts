@@ -7,7 +7,12 @@
 import { pull, find, concat, set, update } from "lodash-es";
 import { action, makeObservable, observable, runInAction } from "mobx";
 // Plane Imports
-import type { TIssueReaction, TIssueReactionMap, TIssueReactionIdMap, TIssueServiceType } from "@plane/types";
+import type {
+  TIssueReaction,
+  TIssueReactionMap,
+  TIssueReactionIdMap,
+  TIssueServiceType,
+} from "@plane/types";
 import { groupReactions } from "@plane/utils";
 // services
 import { IssueReactionService } from "@/services/issue";
@@ -17,14 +22,23 @@ import type { IIssueDetail } from "./root.store";
 export interface IIssueReactionStoreActions {
   // actions
   addReactions: (issueId: string, reactions: TIssueReaction[]) => void;
-  fetchReactions: (workspaceSlug: string, projectId: string, issueId: string) => Promise<TIssueReaction[]>;
-  createReaction: (workspaceSlug: string, projectId: string, issueId: string, reaction: string) => Promise<any>;
+  fetchReactions: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+  ) => Promise<TIssueReaction[]>;
+  createReaction: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    reaction: string,
+  ) => Promise<any>;
   removeReaction: (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     reaction: string,
-    userId: string
+    userId: string,
   ) => Promise<any>;
 }
 
@@ -88,7 +102,8 @@ export class IssueReactionStore implements IIssueReactionStore {
       if (reactions?.[reaction])
         reactions?.[reaction].map((reactionId) => {
           const currentReaction = this.getReactionById(reactionId);
-          if (currentReaction && currentReaction.actor === userId) _userReactions.push(currentReaction);
+          if (currentReaction && currentReaction.actor === userId)
+            _userReactions.push(currentReaction);
         });
     });
 
@@ -113,15 +128,29 @@ export class IssueReactionStore implements IIssueReactionStore {
 
   // actions
   fetchReactions = async (workspaceSlug: string, projectId: string, issueId: string) => {
-    const response = await this.issueReactionService.listIssueReactions(workspaceSlug, projectId, issueId);
+    const response = await this.issueReactionService.listIssueReactions(
+      workspaceSlug,
+      projectId,
+      issueId,
+    );
     this.addReactions(issueId, response);
     return response;
   };
 
-  createReaction = async (workspaceSlug: string, projectId: string, issueId: string, reaction: string) => {
-    const response = await this.issueReactionService.createIssueReaction(workspaceSlug, projectId, issueId, {
-      reaction,
-    });
+  createReaction = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    reaction: string,
+  ) => {
+    const response = await this.issueReactionService.createIssueReaction(
+      workspaceSlug,
+      projectId,
+      issueId,
+      {
+        reaction,
+      },
+    );
 
     runInAction(() => {
       update(this.reactions, [issueId, reaction], (reactionId) => {
@@ -141,7 +170,7 @@ export class IssueReactionStore implements IIssueReactionStore {
     projectId: string,
     issueId: string,
     reaction: string,
-    userId: string
+    userId: string,
   ) => {
     const userReactions = this.reactionsByUser(issueId, userId);
     const currentReaction = find(userReactions, { actor: userId, reaction: reaction });
@@ -153,7 +182,12 @@ export class IssueReactionStore implements IIssueReactionStore {
       });
     }
 
-    const response = await this.issueReactionService.deleteIssueReaction(workspaceSlug, projectId, issueId, reaction);
+    const response = await this.issueReactionService.deleteIssueReaction(
+      workspaceSlug,
+      projectId,
+      issueId,
+      reaction,
+    );
 
     // fetching activity
     this.rootIssueDetailStore.activity.fetchActivities(workspaceSlug, projectId, issueId);

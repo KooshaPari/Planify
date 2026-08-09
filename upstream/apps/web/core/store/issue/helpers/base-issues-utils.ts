@@ -5,7 +5,12 @@
  */
 
 import { uniq, orderBy, isEmpty, indexOf, groupBy, cloneDeep, set } from "lodash-es";
-import { ALL_ISSUES, EIssueFilterType, FILTER_TO_ISSUE_MAP, ISSUE_PRIORITIES } from "@plane/constants";
+import {
+  ALL_ISSUES,
+  EIssueFilterType,
+  FILTER_TO_ISSUE_MAP,
+  ISSUE_PRIORITIES,
+} from "@plane/constants";
 import type {
   IIssueDisplayFilterOptions,
   IIssueDisplayProperties,
@@ -44,7 +49,7 @@ export const getGroupKey = (groupId?: string, subGroupId?: string) => {
  */
 export const getGroupIssueKeyActions = (
   addArray: string[],
-  deleteArray: string[]
+  deleteArray: string[],
 ): { path: string[]; action: EIssueGroupedAction }[] => {
   const issueKeyActions = [];
 
@@ -83,7 +88,7 @@ export const getSubGroupIssueKeyActions = (
   previousIssueGroupProperties: string[],
   currentIssueGroupProperties: string[],
   previousIssueSubGroupProperties: string[],
-  currentIssueSubGroupProperties: string[]
+  currentIssueSubGroupProperties: string[],
 ): { path: string[]; action: EIssueGroupedAction }[] => {
   const issueKeyActions: { [key: string]: { path: string[]; action: EIssueGroupedAction } } = {};
 
@@ -146,7 +151,7 @@ export const getSubGroupIssueKeyActions = (
 export const getDifference = (
   current: string[],
   previous: string[],
-  action?: EIssueGroupedAction.ADD | EIssueGroupedAction.DELETE
+  action?: EIssueGroupedAction.ADD | EIssueGroupedAction.DELETE,
 ): { [EIssueGroupedAction.ADD]: string[]; [EIssueGroupedAction.DELETE]: string[] } => {
   const ADD = [];
   const DELETE = [];
@@ -199,7 +204,7 @@ export const getIssueIds = (issues: TIssue[]) => issues.map((issue) => issue?.id
 export const checkIssueDateFilter = (
   issue: TIssue,
   filterKey: "start_date" | "target_date",
-  dateFilters: string[]
+  dateFilters: string[],
 ): boolean => {
   if (!dateFilters || dateFilters.length === 0) return true;
 
@@ -241,7 +246,10 @@ export const getPreviousIssuesState = (issues: TIssue[]) => {
  * @param displayFilters - The display filters to be applied to the issues.
  * @returns The filtered array of issues.
  */
-export const getFilteredWorkItems = (workItems: TIssue[], filters: IIssueFilterOptions | undefined): TIssue[] => {
+export const getFilteredWorkItems = (
+  workItems: TIssue[],
+  filters: IIssueFilterOptions | undefined,
+): TIssue[] => {
   if (!filters) return workItems;
   // Get all active filters
   const activeFilters = Object.entries(filters).filter(([, value]) => value && value.length > 0);
@@ -267,7 +275,7 @@ export const getFilteredWorkItems = (workItems: TIssue[], filters: IIssueFilterO
       } else {
         return filterValues!.includes(issueValue as string);
       }
-    })
+    }),
   );
 };
 
@@ -277,27 +285,36 @@ export const getFilteredWorkItems = (workItems: TIssue[], filters: IIssueFilterO
  * @param orderByKey - The key to order the issues by.
  * @returns The ordered array of work items.
  */
-export const getOrderedWorkItems = (workItems: TIssue[], orderByKey: TIssueOrderByOptions): string[] => {
+export const getOrderedWorkItems = (
+  workItems: TIssue[],
+  orderByKey: TIssueOrderByOptions,
+): string[] => {
   switch (orderByKey) {
     case "-updated_at":
-      return getIssueIds(orderBy(workItems, (item) => convertToISODateString(item["updated_at"]), ["desc"]));
+      return getIssueIds(
+        orderBy(workItems, (item) => convertToISODateString(item["updated_at"]), ["desc"]),
+      );
 
     case "-created_at":
-      return getIssueIds(orderBy(workItems, (item) => convertToISODateString(item["created_at"]), ["desc"]));
+      return getIssueIds(
+        orderBy(workItems, (item) => convertToISODateString(item["created_at"]), ["desc"]),
+      );
 
     case "-start_date":
       return getIssueIds(
         orderBy(
           workItems,
           [getSortOrderToFilterEmptyValues.bind(null, "start_date"), "start_date"], //preferring sorting based on empty values to always keep the empty values below
-          ["asc", "desc"]
-        )
+          ["asc", "desc"],
+        ),
       );
 
     case "-priority": {
       const sortArray = ISSUE_PRIORITIES.map((i) => i.key);
       return getIssueIds(
-        orderBy(workItems, (currentIssue: TIssue) => indexOf(sortArray, currentIssue?.priority), ["asc"])
+        orderBy(workItems, (currentIssue: TIssue) => indexOf(sortArray, currentIssue?.priority), [
+          "asc",
+        ]),
       );
     }
     default:
@@ -308,7 +325,7 @@ export const getOrderedWorkItems = (workItems: TIssue[], orderByKey: TIssueOrder
 export const getGroupedWorkItemIds = (
   workItems: TIssue[],
   groupByKey?: TIssueGroupByOptions,
-  orderByKey: TIssueOrderByOptions = "-created_at"
+  orderByKey: TIssueOrderByOptions = "-created_at",
 ): Record<string, string[]> => {
   // If group by is not set set default as ALL ISSUES
   if (!groupByKey) {
@@ -361,7 +378,7 @@ export const updateSubWorkItemFilters = (
   filtersMap: Record<string, Partial<ISubWorkItemFilters>>,
   filterType: EIssueFilterType,
   filters: IIssueDisplayFilterOptions | IIssueDisplayProperties | IIssueFilterOptions,
-  workItemId: string
+  workItemId: string,
 ) => {
   const existingFilters = filtersMap[workItemId] ?? {};
   const _filters = {

@@ -88,9 +88,12 @@ export function AIFeaturesMenu(props: Props) {
 
   return (
     <div
-      className={cn("pointer-events-none fixed inset-0 z-10 size-full opacity-0 transition-opacity", {
-        "pointer-events-auto opacity-100": isPopupVisible,
-      })}
+      className={cn(
+        "pointer-events-none fixed inset-0 z-10 size-full opacity-0 transition-opacity",
+        {
+          "pointer-events-auto opacity-100": isPopupVisible,
+        },
+      )}
     >
       <div ref={menuRef} className="z-10">
         {menu?.({

@@ -114,9 +114,12 @@ export function IssueCommentToolbar(props: Props) {
                 <button
                   type="button"
                   onClick={() => handleAccessChange?.(access.key)}
-                  className={cn("grid aspect-square place-items-center rounded-xs p-1 hover:bg-layer-1", {
-                    "bg-layer-1": isAccessActive,
-                  })}
+                  className={cn(
+                    "grid aspect-square place-items-center rounded-xs p-1 hover:bg-layer-1",
+                    {
+                      "bg-layer-1": isAccessActive,
+                    },
+                  )}
                 >
                   <access.icon
                     className={cn("h-3.5 w-3.5 text-placeholder", {
@@ -148,7 +151,9 @@ export function IssueCommentToolbar(props: Props) {
                     tooltipContent={
                       <p className="flex flex-col gap-1 text-center text-11">
                         <span className="font-medium">{item.name}</span>
-                        {item.shortcut && <kbd className="text-placeholder">{item.shortcut.join(" + ")}</kbd>}
+                        {item.shortcut && (
+                          <kbd className="text-placeholder">{item.shortcut.join(" + ")}</kbd>
+                        )}
                       </p>
                     }
                   >
@@ -159,7 +164,7 @@ export function IssueCommentToolbar(props: Props) {
                         "grid aspect-square place-items-center rounded-xs p-0.5 text-placeholder hover:bg-layer-1",
                         {
                           "bg-layer-1 text-primary": isItemActive,
-                        }
+                        },
                       )}
                     >
                       <item.icon

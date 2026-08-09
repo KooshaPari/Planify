@@ -19,7 +19,7 @@ import { GanttChartRoot } from "@/components/gantt-chart/root";
 import { BaseGanttSidebar } from "./sidebar";
 
 export const BaseGanttLayout = observer(function BaseGanttLayout<T extends IBaseLayoutsGanttItem>(
-  props: IBaseLayoutsGanttProps<T>
+  props: IBaseLayoutsGanttProps<T>,
 ) {
   const {
     items,
@@ -66,7 +66,7 @@ export const BaseGanttLayout = observer(function BaseGanttLayout<T extends IBase
         onBlockUpdate(block, payload);
       }
     },
-    [onBlockUpdate]
+    [onBlockUpdate],
   );
 
   // Block renderer - wraps the user's render function
@@ -79,15 +79,25 @@ export const BaseGanttLayout = observer(function BaseGanttLayout<T extends IBase
       if (renderSidebar) {
         // If custom sidebar renderer provided, use it
         return (
-          <BaseGanttSidebar {...sidebarProps} items={items} renderItem={renderSidebar} loadMoreItems={loadMoreItems} />
+          <BaseGanttSidebar
+            {...sidebarProps}
+            items={items}
+            renderItem={renderSidebar}
+            loadMoreItems={loadMoreItems}
+          />
         );
       }
       // Otherwise use default sidebar
       return (
-        <BaseGanttSidebar {...sidebarProps} items={items} renderItem={renderBlock} loadMoreItems={loadMoreItems} />
+        <BaseGanttSidebar
+          {...sidebarProps}
+          items={items}
+          renderItem={renderBlock}
+          loadMoreItems={loadMoreItems}
+        />
       );
     },
-    [renderSidebar, renderBlock, items, loadMoreItems]
+    [renderSidebar, renderBlock, items, loadMoreItems],
   );
 
   const timelineType = GANTT_TIMELINE_TYPE[timelineTypeKey];
@@ -105,7 +115,7 @@ export const BaseGanttLayout = observer(function BaseGanttLayout<T extends IBase
         await onDateUpdate(transformedUpdates);
       }
     },
-    [onDateUpdate]
+    [onDateUpdate],
   );
 
   // Load more handler - wraps loadMoreItems to match expected signature

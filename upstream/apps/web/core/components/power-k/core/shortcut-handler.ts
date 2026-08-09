@@ -52,7 +52,11 @@ export class ShortcutHandler {
   private openPalette: () => void;
   private isEnabled = true;
 
-  constructor(registry: IPowerKCommandRegistry, getContext: () => TPowerKContext, openPalette: () => void) {
+  constructor(
+    registry: IPowerKCommandRegistry,
+    getContext: () => TPowerKContext,
+    openPalette: () => void,
+  ) {
     this.registry = registry;
     this.getContext = getContext;
     this.openPalette = openPalette;

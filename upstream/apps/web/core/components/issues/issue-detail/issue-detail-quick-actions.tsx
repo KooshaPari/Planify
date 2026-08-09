@@ -74,7 +74,8 @@ export const IssueDetailQuickActions = observer(function IssueDetailQuickActions
   // handlers
   const handleCopyText = async () => {
     try {
-      const originURL = typeof window !== "undefined" && window.location.origin ? window.location.origin : "";
+      const originURL =
+        typeof window !== "undefined" && window.location.origin ? window.location.origin : "";
       await copyTextToClipboard(`${originURL}${workItemLink}`);
       setToast({
         type: TOAST_TYPE.SUCCESS,
@@ -144,11 +145,20 @@ export const IssueDetailQuickActions = observer(function IssueDetailQuickActions
       <div className="flex flex-shrink-0 items-center justify-end">
         <div className="flex flex-wrap items-center gap-2">
           {currentUser && !issue?.archived_at && (
-            <IssueSubscription workspaceSlug={workspaceSlug} projectId={projectId} issueId={issueId} />
+            <IssueSubscription
+              workspaceSlug={workspaceSlug}
+              projectId={projectId}
+              issueId={issueId}
+            />
           )}
           <div className="flex flex-wrap items-center gap-2 text-tertiary">
             <Tooltip tooltipContent={t("common.actions.copy_link")} isMobile={isMobile}>
-              <IconButton variant="secondary" size="lg" onClick={handleCopyText} icon={CopyLinkIcon} />
+              <IconButton
+                variant="secondary"
+                size="lg"
+                onClick={handleCopyText}
+                icon={CopyLinkIcon}
+              />
             </Tooltip>
             <WorkItemDetailQuickActions
               parentRef={parentRef}

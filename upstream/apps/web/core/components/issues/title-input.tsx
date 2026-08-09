@@ -66,14 +66,16 @@ export const IssueTitleInput = observer(function IssueTitleInput(props: IssueTit
     const textarea = document.querySelector("#title-input");
     if (debouncedValue && debouncedValue !== value) {
       if (debouncedValue.trim().length > 0) {
-        issueOperations.update(workspaceSlug, projectId, issueId, { name: debouncedValue }).finally(() => {
-          setIsSubmitting("saved");
-          hasUnsavedChanges.current = false;
-          if (textarea && !textarea.matches(":focus")) {
-            const trimmedTitle = debouncedValue.trim();
-            if (trimmedTitle !== title) setTitle(trimmedTitle);
-          }
-        });
+        issueOperations
+          .update(workspaceSlug, projectId, issueId, { name: debouncedValue })
+          .finally(() => {
+            setIsSubmitting("saved");
+            hasUnsavedChanges.current = false;
+            if (textarea && !textarea.matches(":focus")) {
+              const trimmedTitle = debouncedValue.trim();
+              if (trimmedTitle !== title) setTitle(trimmedTitle);
+            }
+          });
       } else {
         setTitle(value || "");
         setIsSubmitting("saved");
@@ -128,7 +130,7 @@ export const IssueTitleInput = observer(function IssueTitleInput(props: IssueTit
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
   const handleTitleChange = useCallback(
@@ -139,7 +141,7 @@ export const IssueTitleInput = observer(function IssueTitleInput(props: IssueTit
       currentTitleRef.current = titleFromEvent;
       hasUnsavedChanges.current = true;
     },
-    [setIsSubmitting]
+    [setIsSubmitting],
   );
 
   if (disabled) return <div className="text-20 font-medium whitespace-pre-line">{title}</div>;
@@ -154,7 +156,7 @@ export const IssueTitleInput = observer(function IssueTitleInput(props: IssueTit
             {
               "mx-2.5 ring-1 ring-danger-strong": title?.length === 0,
             },
-            className
+            className,
           )}
           disabled={disabled}
           value={title}
@@ -169,10 +171,12 @@ export const IssueTitleInput = observer(function IssueTitleInput(props: IssueTit
             "pointer-events-none absolute right-1 bottom-1 z-[2] rounded-sm bg-surface-1 p-0.5 text-11 text-secondary opacity-0 transition-opacity",
             {
               "opacity-100": isLengthVisible,
-            }
+            },
           )}
         >
-          <span className={`${title.length === 0 || title.length > 255 ? "text-danger-primary" : ""}`}>
+          <span
+            className={`${title.length === 0 || title.length > 255 ? "text-danger-primary" : ""}`}
+          >
             {title.length}
           </span>
           /255

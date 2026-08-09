@@ -24,7 +24,7 @@ export const WorkspaceDraftEmptyState = observer(function WorkspaceDraftEmptySta
   // derived values
   const canPerformEmptyStateActions = allowPermissions(
     [EUserWorkspaceRoles.ADMIN, EUserWorkspaceRoles.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   return (

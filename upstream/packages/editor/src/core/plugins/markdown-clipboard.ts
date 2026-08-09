@@ -30,7 +30,8 @@ export const MarkdownClipboardPlugin = (args: TArgs): Plugin => {
             const editorHTML = editor.getHTML();
             const metaData = getEditorMetaData(editorHTML);
             // meta data from selection
-            const clipboardHTML = view.serializeForClipboard(view.state.selection.content()).dom.innerHTML;
+            const clipboardHTML = view.serializeForClipboard(view.state.selection.content()).dom
+              .innerHTML;
             // convert to markdown
             const markdown = convertHTMLToMarkdown({
               description_html: clipboardHTML,

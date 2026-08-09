@@ -38,7 +38,7 @@ export interface ICycleIssuesFilter extends IBaseIssueFilterStore {
     cycleId: string,
     cursor: string | undefined,
     groupId: string | undefined,
-    subGroupId: string | undefined
+    subGroupId: string | undefined,
   ) => Partial<Record<TIssueParams, string | boolean>>;
   getIssueFilters(cycleId: string): IIssueFilters | undefined;
   // action
@@ -47,14 +47,14 @@ export interface ICycleIssuesFilter extends IBaseIssueFilterStore {
     workspaceSlug: string,
     projectId: string,
     cycleId: string,
-    filters: TWorkItemFilterExpression
+    filters: TWorkItemFilterExpression,
   ) => Promise<void>;
   updateFilters: (
     workspaceSlug: string,
     projectId: string,
     filterType: TSupportedFilterTypeForUpdate,
     filters: TSupportedFilterForUpdate,
-    cycleId: string
+    cycleId: string,
   ) => Promise<void>;
 }
 
@@ -111,16 +111,20 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
     const userFilters = this.getIssueFilters(cycleId);
     if (!userFilters) return undefined;
 
-    const filteredParams = handleIssueQueryParamsByLayout(userFilters?.displayFilters?.layout, "issues");
+    const filteredParams = handleIssueQueryParamsByLayout(
+      userFilters?.displayFilters?.layout,
+      "issues",
+    );
     if (!filteredParams) return undefined;
 
     if (filteredParams.includes("cycle")) filteredParams.splice(filteredParams.indexOf("cycle"), 1);
 
-    const filteredRouteParams: Partial<Record<TIssueParams, string | boolean>> = this.computedFilteredParams(
-      userFilters?.richFilters,
-      userFilters?.displayFilters,
-      filteredParams
-    );
+    const filteredRouteParams: Partial<Record<TIssueParams, string | boolean>> =
+      this.computedFilteredParams(
+        userFilters?.richFilters,
+        userFilters?.displayFilters,
+        filteredParams,
+      );
 
     return filteredRouteParams;
   }
@@ -131,7 +135,7 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
       cycleId: string,
       cursor: string | undefined,
       groupId: string | undefined,
-      subGroupId: string | undefined
+      subGroupId: string | undefined,
     ) => {
       let filterParams = this.getAppliedFilters(cycleId);
 
@@ -140,17 +144,31 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
       }
       filterParams["cycle"] = cycleId;
 
-      const paginationParams = this.getPaginationParams(filterParams, options, cursor, groupId, subGroupId);
+      const paginationParams = this.getPaginationParams(
+        filterParams,
+        options,
+        cursor,
+        groupId,
+        subGroupId,
+      );
       return paginationParams;
-    }
+    },
   );
 
   fetchFilters = async (workspaceSlug: string, projectId: string, cycleId: string) => {
-    const _filters = await this.issueFilterService.fetchCycleIssueFilters(workspaceSlug, projectId, cycleId);
+    const _filters = await this.issueFilterService.fetchCycleIssueFilters(
+      workspaceSlug,
+      projectId,
+      cycleId,
+    );
 
     const richFilters: TWorkItemFilterExpression = _filters?.rich_filters;
-    const displayFilters: IIssueDisplayFilterOptions = this.computedDisplayFilters(_filters?.display_filters);
-    const displayProperties: IIssueDisplayProperties = this.computedDisplayProperties(_filters?.display_properties);
+    const displayFilters: IIssueDisplayFilterOptions = this.computedDisplayFilters(
+      _filters?.display_filters,
+    );
+    const displayProperties: IIssueDisplayProperties = this.computedDisplayProperties(
+      _filters?.display_properties,
+    );
 
     // fetching the kanban toggle helpers in the local storage
     const kanbanFilters = {
@@ -163,7 +181,7 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
         EIssuesStoreType.CYCLE,
         workspaceSlug,
         cycleId,
-        currentUserId
+        currentUserId,
       );
       kanbanFilters.group_by = _kanbanFilters?.kanban_filters?.group_by || [];
       kanbanFilters.sub_group_by = _kanbanFilters?.kanban_filters?.sub_group_by || [];
@@ -186,14 +204,19 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
     workspaceSlug,
     projectId,
     cycleId,
-    filters
+    filters,
   ) => {
     try {
       runInAction(() => {
         set(this.filters, [cycleId, "richFilters"], filters);
       });
 
-      this.rootIssueStore.cycleIssues.fetchIssuesWithExistingPagination(workspaceSlug, projectId, "mutation", cycleId);
+      this.rootIssueStore.cycleIssues.fetchIssuesWithExistingPagination(
+        workspaceSlug,
+        projectId,
+        "mutation",
+        cycleId,
+      );
       await this.issueFilterService.patchCycleIssueFilters(workspaceSlug, projectId, cycleId, {
         rich_filters: filters,
       });
@@ -203,7 +226,13 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
     }
   };
 
-  updateFilters: ICycleIssuesFilter["updateFilters"] = async (workspaceSlug, projectId, type, filters, cycleId) => {
+  updateFilters: ICycleIssuesFilter["updateFilters"] = async (
+    workspaceSlug,
+    projectId,
+    type,
+    filters,
+    cycleId,
+  ) => {
     try {
       if (isEmpty(this.filters) || isEmpty(this.filters[cycleId])) return;
 
@@ -233,7 +262,10 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
             updatedDisplayFilters.sub_group_by = null;
           }
           // set group_by to state if layout is switched to kanban and group_by is null
-          if (_filters.displayFilters.layout === "kanban" && _filters.displayFilters.group_by === null) {
+          if (
+            _filters.displayFilters.layout === "kanban" &&
+            _filters.displayFilters.group_by === null
+          ) {
             _filters.displayFilters.group_by = "state";
             updatedDisplayFilters.group_by = "state";
           }
@@ -243,7 +275,7 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
               set(
                 this.filters,
                 [cycleId, "displayFilters", _key],
-                updatedDisplayFilters[_key as keyof IIssueDisplayFilterOptions]
+                updatedDisplayFilters[_key as keyof IIssueDisplayFilterOptions],
               );
             });
           });
@@ -257,7 +289,7 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
               workspaceSlug,
               projectId,
               "mutation",
-              cycleId
+              cycleId,
             );
           }
 
@@ -269,14 +301,17 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
         }
         case EIssueFilterType.DISPLAY_PROPERTIES: {
           const updatedDisplayProperties = filters as IIssueDisplayProperties;
-          _filters.displayProperties = { ..._filters.displayProperties, ...updatedDisplayProperties };
+          _filters.displayProperties = {
+            ..._filters.displayProperties,
+            ...updatedDisplayProperties,
+          };
 
           runInAction(() => {
             Object.keys(updatedDisplayProperties).forEach((_key) => {
               set(
                 this.filters,
                 [cycleId, "displayProperties", _key],
-                updatedDisplayProperties[_key as keyof IIssueDisplayProperties]
+                updatedDisplayProperties[_key as keyof IIssueDisplayProperties],
               );
             });
           });
@@ -293,16 +328,23 @@ export class CycleIssuesFilter extends IssueFilterHelperStore implements ICycleI
 
           const currentUserId = this.rootIssueStore.currentUserId;
           if (currentUserId)
-            this.handleIssuesLocalFilters.set(EIssuesStoreType.CYCLE, type, workspaceSlug, cycleId, currentUserId, {
-              kanban_filters: _filters.kanbanFilters,
-            });
+            this.handleIssuesLocalFilters.set(
+              EIssuesStoreType.CYCLE,
+              type,
+              workspaceSlug,
+              cycleId,
+              currentUserId,
+              {
+                kanban_filters: _filters.kanbanFilters,
+              },
+            );
 
           runInAction(() => {
             Object.keys(updatedKanbanFilters).forEach((_key) => {
               set(
                 this.filters,
                 [cycleId, "kanbanFilters", _key],
-                updatedKanbanFilters[_key as keyof TIssueKanbanFilters]
+                updatedKanbanFilters[_key as keyof TIssueKanbanFilters],
               );
             });
           });

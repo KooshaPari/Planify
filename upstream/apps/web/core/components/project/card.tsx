@@ -59,7 +59,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
   const projectMembersIds = project.members;
   const shouldRenderFavorite = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
   // auth
   const isMemberOfProject = !!project.member_role;
@@ -68,10 +68,8 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
   // archive
   const isArchived = !!project.archived_at;
   // local storage
-  const { setValue: toggleFavoriteMenu, storedValue: isFavoriteMenuOpen } = useLocalStorage<boolean>(
-    IS_FAVORITE_MENU_OPEN,
-    false
-  );
+  const { setValue: toggleFavoriteMenu, storedValue: isFavoriteMenuOpen } =
+    useLocalStorage<boolean>(IS_FAVORITE_MENU_OPEN, false);
 
   const handleAddToFavorites = () => {
     if (!workspaceSlug) return;
@@ -97,7 +95,10 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
   const handleRemoveFromFavorites = () => {
     if (!workspaceSlug) return;
 
-    const removeFromFavoritePromise = removeProjectFromFavorites(workspaceSlug.toString(), project.id);
+    const removeFromFavoritePromise = removeProjectFromFavorites(
+      workspaceSlug.toString(),
+      project.id,
+    );
     setPromiseToast(removeFromFavoritePromise, {
       loading: "Removing project from favorites...",
       success: {
@@ -118,7 +119,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
         type: TOAST_TYPE.INFO,
         title: "Link Copied!",
         message: "Project link copied to clipboard.",
-      })
+      }),
     );
   const handleOpenInNewTab = () => window.open(`/${projectLink}`, "_blank");
 
@@ -206,7 +207,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
         }}
         data-prevent-progress={!isMemberOfProject || isArchived}
         className={cn(
-          "group/project-card flex w-full flex-col justify-between overflow-hidden rounded-lg border border-subtle bg-layer-2 transition-all duration-300 hover:border-strong hover:shadow-raised-200"
+          "group/project-card flex w-full flex-col justify-between overflow-hidden rounded-lg border border-subtle bg-layer-2 transition-all duration-300 hover:border-strong hover:shadow-raised-200",
         )}
       >
         <ContextMenu parentRef={projectCardRef} items={MENU_ITEMS} />
@@ -282,7 +283,9 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
                 isMobile={isMobile}
                 tooltipHeading="Members"
                 tooltipContent={
-                  project.members && project.members.length > 0 ? `${project.members.length} Members` : "No Member"
+                  project.members && project.members.length > 0
+                    ? `${project.members.length} Members`
+                    : "No Member"
                 }
                 position="top"
               >
@@ -293,7 +296,11 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
                         const member = getUserDetails(memberId);
                         if (!member) return null;
                         return (
-                          <Avatar key={member.id} name={member.display_name} src={getFileURL(member.avatar_url)} />
+                          <Avatar
+                            key={member.id}
+                            name={member.display_name}
+                            src={getFileURL(member.avatar_url)}
+                          />
                         );
                       })}
                     </AvatarGroup>

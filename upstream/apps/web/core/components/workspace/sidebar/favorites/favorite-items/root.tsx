@@ -11,7 +11,10 @@ import type {
   DragLocationHistory,
 } from "@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types";
 import type { ElementDragPayload } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { pointerOutsideOfPreview } from "@atlaskit/pragmatic-drag-and-drop/element/pointer-outside-of-preview";
 import { setCustomNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview";
 import { attachInstruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
@@ -25,7 +28,12 @@ import { DropIndicator } from "@plane/ui";
 import { useFavoriteItemDetails } from "@/hooks/use-favorite-item-details";
 // local imports
 import { getCanDrop, getInstructionFromPayload } from "../favorites.helpers";
-import { FavoriteItemDragHandle, FavoriteItemQuickAction, FavoriteItemTitle, FavoriteItemWrapper } from "./common";
+import {
+  FavoriteItemDragHandle,
+  FavoriteItemQuickAction,
+  FavoriteItemTitle,
+  FavoriteItemWrapper,
+} from "./common";
 
 type Props = {
   isLastChild: boolean;
@@ -33,12 +41,17 @@ type Props = {
   workspaceSlug: string;
   favorite: IFavorite;
   handleRemoveFromFavorites: (favorite: IFavorite) => void;
-  handleDrop: (self: DropTargetRecord, source: ElementDragPayload, location: DragLocationHistory) => void;
+  handleDrop: (
+    self: DropTargetRecord,
+    source: ElementDragPayload,
+    location: DragLocationHistory,
+  ) => void;
 };
 
 export const FavoriteRoot = observer(function FavoriteRoot(props: Props) {
   // props
-  const { isLastChild, parentId, workspaceSlug, favorite, handleRemoveFromFavorites, handleDrop } = props;
+  const { isLastChild, parentId, workspaceSlug, favorite, handleRemoveFromFavorites, handleDrop } =
+    props;
   // store hooks
   const { itemLink, itemIcon, itemTitle } = useFavoriteItemDetails(workspaceSlug, favorite);
   //state
@@ -77,7 +90,7 @@ export const FavoriteRoot = observer(function FavoriteRoot(props: Props) {
               root.render(
                 <div className="rounded-sm bg-surface-1 p-1 pr-2 text-13">
                   <FavoriteItemTitle href={itemLink} icon={itemIcon} title={itemTitle} />
-                </div>
+                </div>,
               );
               return () => root.unmount();
             },
@@ -117,7 +130,7 @@ export const FavoriteRoot = observer(function FavoriteRoot(props: Props) {
           setInstruction(undefined);
           handleDrop(self, source, location);
         },
-      })
+      }),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elementRef?.current, isDragging, isLastChild, favorite.id]);

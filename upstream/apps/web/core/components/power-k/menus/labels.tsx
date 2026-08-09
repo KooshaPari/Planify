@@ -17,7 +17,11 @@ type Props = {
   value?: string[];
 };
 
-export const PowerKLabelsMenu = observer(function PowerKLabelsMenu({ labels, onSelect, value }: Props) {
+export const PowerKLabelsMenu = observer(function PowerKLabelsMenu({
+  labels,
+  onSelect,
+  value,
+}: Props) {
   return (
     <PowerKMenuBuilder
       items={labels}

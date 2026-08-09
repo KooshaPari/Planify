@@ -33,7 +33,7 @@ export const WorkspaceHomeView = observer(function WorkspaceHomeView() {
       revalidateIfStale: true,
       revalidateOnFocus: false,
       revalidateOnReconnect: true,
-    }
+    },
   );
 
   const handleTourCompleted = async () => {

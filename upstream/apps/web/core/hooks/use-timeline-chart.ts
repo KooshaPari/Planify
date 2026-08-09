@@ -16,7 +16,7 @@ import { useTimeLineType } from "../components/gantt-chart/contexts";
 
 export const getTimelineStore = (
   timelineStore: ITimelineStore,
-  timelineType: TTimelineTypeCore
+  timelineType: TTimelineTypeCore,
 ): IBaseTimelineStore => {
   if (timelineType === GANTT_TIMELINE_TYPE.ISSUE) {
     return timelineStore.issuesTimeLineStore as IBaseTimelineStore;
@@ -45,7 +45,8 @@ export const useTimeLineChartStore = (): IBaseTimelineStore => {
   const timelineType = useTimeLineType();
 
   if (!context) throw new Error("useTimeLineChartStore must be used within StoreProvider");
-  if (!timelineType) throw new Error("useTimeLineChartStore must be used within TimeLineTypeContext");
+  if (!timelineType)
+    throw new Error("useTimeLineChartStore must be used within TimeLineTypeContext");
 
   return getTimelineStore(context.timelineStore, timelineType);
 };

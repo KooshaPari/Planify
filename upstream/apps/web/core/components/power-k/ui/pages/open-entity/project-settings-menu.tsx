@@ -20,7 +20,9 @@ type Props = {
   handleSelect: (href: string) => void;
 };
 
-export const PowerKOpenProjectSettingsMenu = observer(function PowerKOpenProjectSettingsMenu(props: Props) {
+export const PowerKOpenProjectSettingsMenu = observer(function PowerKOpenProjectSettingsMenu(
+  props: Props,
+) {
   const { context, handleSelect } = props;
   // plane hooks
   const { t } = useTranslation();
@@ -35,8 +37,8 @@ export const PowerKOpenProjectSettingsMenu = observer(function PowerKOpenProject
         setting.access,
         EUserPermissionsLevel.PROJECT,
         context.params.workspaceSlug?.toString(),
-        context.params.projectId?.toString()
-      )
+        context.params.projectId?.toString(),
+      ),
   );
   const settingsListWithIcons = settingsList.map((setting) => ({
     ...setting,
@@ -44,5 +46,10 @@ export const PowerKOpenProjectSettingsMenu = observer(function PowerKOpenProject
     icon: PROJECT_SETTINGS_ICONS[setting.key],
   }));
 
-  return <PowerKSettingsMenu settings={settingsListWithIcons} onSelect={(setting) => handleSelect(setting.href)} />;
+  return (
+    <PowerKSettingsMenu
+      settings={settingsListWithIcons}
+      onSelect={(setting) => handleSelect(setting.href)}
+    />
+  );
 });

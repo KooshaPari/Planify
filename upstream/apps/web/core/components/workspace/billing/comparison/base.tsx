@@ -11,7 +11,11 @@ import { Button } from "@plane/propel/button";
 import { cn } from "@plane/utils";
 // constants
 import type { TPlanePlans } from "@/components/workspace/billing/comparison/plans";
-import { ComingSoonBadge, PLANE_PLANS, PLANS_LIST } from "@/components/workspace/billing/comparison/plans";
+import {
+  ComingSoonBadge,
+  PLANE_PLANS,
+  PLANS_LIST,
+} from "@/components/workspace/billing/comparison/plans";
 // local imports
 import { PlanFeatureDetail } from "./feature-detail";
 
@@ -30,12 +34,19 @@ export const shouldRenderPlanDetail = (planKey: TPlanePlans) => {
   return true;
 };
 
-export const PlansComparisonBase = observer(function PlansComparisonBase(props: TPlansComparisonBaseProps) {
-  const { planeDetails, isSelfManaged, isCompareAllFeaturesSectionOpen, setIsCompareAllFeaturesSectionOpen } = props;
+export const PlansComparisonBase = observer(function PlansComparisonBase(
+  props: TPlansComparisonBaseProps,
+) {
+  const {
+    planeDetails,
+    isSelfManaged,
+    isCompareAllFeaturesSectionOpen,
+    setIsCompareAllFeaturesSectionOpen,
+  } = props;
   // plan details
   const { planDetails, planHighlights, planComparison } = PLANE_PLANS;
   const numberOfPlansToRender = Object.keys(planDetails).filter((planKey) =>
-    shouldRenderPlanDetail(planKey as TPlanePlans)
+    shouldRenderPlanDetail(planKey as TPlanePlans),
   ).length;
 
   const getSubscriptionType = (planKey: TPlanePlans) => planDetails[planKey].id;
@@ -45,7 +56,9 @@ export const PlansComparisonBase = observer(function PlansComparisonBase(props: 
       <div className="max-w-full" style={{ minWidth: `${numberOfPlansToRender * 280}px` }}>
         <div className="flex h-full flex-col gap-y-10">
           <div
-            className={cn("sticky top-2 z-10 grid flex-shrink-0 gap-3 bg-layer-1 text-caption-md-medium")}
+            className={cn(
+              "sticky top-2 z-10 grid flex-shrink-0 gap-3 bg-layer-1 text-caption-md-medium",
+            )}
             style={{
               gridTemplateColumns: `repeat(${numberOfPlansToRender + 1}, minmax(0, 1fr))`,
             }}
@@ -58,7 +71,9 @@ export const PlansComparisonBase = observer(function PlansComparisonBase(props: 
             {/* Plan Highlights */}
             <div
               className="text-caption-md grid gap-3 rounded-xs py-1 text-secondary even:bg-surface-2"
-              style={{ gridTemplateColumns: `repeat(${numberOfPlansToRender + 1}, minmax(0, 1fr))` }}
+              style={{
+                gridTemplateColumns: `repeat(${numberOfPlansToRender + 1}, minmax(0, 1fr))`,
+              }}
             >
               <div className="col-span-1 p-3 text-body-sm-medium">Highlights</div>
               {Object.entries(planHighlights).map(
@@ -71,7 +86,7 @@ export const PlansComparisonBase = observer(function PlansComparisonBase(props: 
                         ))}
                       </ul>
                     </div>
-                  )
+                  ),
               )}
             </div>
           </section>
@@ -89,7 +104,9 @@ export const PlansComparisonBase = observer(function PlansComparisonBase(props: 
                       <div
                         key={featureIdx}
                         className="text-caption-md grid gap-3 rounded-xs bg-layer-transparent text-secondary even:bg-layer-1"
-                        style={{ gridTemplateColumns: `repeat(${numberOfPlansToRender + 1}, minmax(0, 1fr))` }}
+                        style={{
+                          gridTemplateColumns: `repeat(${numberOfPlansToRender + 1}, minmax(0, 1fr))`,
+                        }}
                       >
                         <div className="col-span-1 flex items-center p-3 text-body-sm-medium">
                           <div className="flex w-full items-start justify-between gap-2">
@@ -107,12 +124,13 @@ export const PlansComparisonBase = observer(function PlansComparisonBase(props: 
                                   subscriptionType={getSubscriptionType(planKey)}
                                   data={
                                     isSelfManaged
-                                      ? (feature["self-hosted"]?.[planKey] ?? feature.cloud[planKey])
+                                      ? (feature["self-hosted"]?.[planKey] ??
+                                        feature.cloud[planKey])
                                       : feature.cloud[planKey]
                                   }
                                 />
                               </div>
-                            )
+                            ),
                         )}
                       </div>
                     ))}

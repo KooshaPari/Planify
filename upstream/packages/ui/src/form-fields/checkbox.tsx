@@ -14,7 +14,10 @@ export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElemen
   indeterminate?: boolean;
 }
 
-const Checkbox = React.forwardRef(function Checkbox(props: CheckboxProps, ref: React.ForwardedRef<HTMLInputElement>) {
+const Checkbox = React.forwardRef(function Checkbox(
+  props: CheckboxProps,
+  ref: React.ForwardedRef<HTMLInputElement>,
+) {
   const {
     id,
     name,
@@ -45,7 +48,7 @@ const Checkbox = React.forwardRef(function Checkbox(props: CheckboxProps, ref: R
 
             "border-none": checked,
           },
-          className
+          className,
         )}
         disabled={disabled}
         {...rest}
@@ -57,7 +60,7 @@ const Checkbox = React.forwardRef(function Checkbox(props: CheckboxProps, ref: R
             block: checked,
             "text-placeholder opacity-40": disabled,
           },
-          iconClassName
+          iconClassName,
         )}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -76,7 +79,7 @@ const Checkbox = React.forwardRef(function Checkbox(props: CheckboxProps, ref: R
             "stroke-placeholder opacity-40": disabled,
             block: indeterminate && !checked,
           },
-          iconClassName
+          iconClassName,
         )}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 8 8"

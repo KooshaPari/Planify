@@ -39,12 +39,13 @@ export const useAdditionalEditorMention = (_args: TUseAdditionalEditorMentionArg
     (_args: TAdditionalEditorMentionHandlerArgs): TAdditionalEditorMentionHandlerReturnType => ({
       sections: [],
     }),
-    []
+    [],
   );
 
   const parseAdditionalEditorContent = useCallback(
-    (_args: TAdditionalParseEditorContentArgs): TAdditionalParseEditorContentReturnType => undefined,
-    []
+    (_args: TAdditionalParseEditorContentArgs): TAdditionalParseEditorContentReturnType =>
+      undefined,
+    [],
   );
 
   const editorMentionTypes: TSearchEntities[] = useMemo(() => ["user_mention"], []);

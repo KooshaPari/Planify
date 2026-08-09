@@ -50,13 +50,14 @@ export const CyclesViewHeader = observer(function CyclesViewHeader(props: Props)
           else newValues.splice(newValues.indexOf(val), 1);
         });
       else {
-        if (currentProjectFilters?.[key]?.includes(value)) newValues.splice(newValues.indexOf(value), 1);
+        if (currentProjectFilters?.[key]?.includes(value))
+          newValues.splice(newValues.indexOf(value), 1);
         else newValues.push(value);
       }
 
       updateFilters(projectId, { [key]: newValues });
     },
-    [currentProjectFilters, projectId, updateFilters]
+    [currentProjectFilters, projectId, updateFilters],
   );
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -93,7 +94,7 @@ export const CyclesViewHeader = observer(function CyclesViewHeader(props: Props)
             "ml-auto flex w-0 items-center justify-start gap-1 overflow-hidden rounded-md border border-transparent bg-surface-1 text-placeholder opacity-0 transition-[width] ease-linear",
             {
               "w-64 border-subtle px-2.5 py-1.5 opacity-100": isSearchOpen,
-            }
+            },
           )}
         >
           <SearchIcon className="h-3.5 w-3.5" />
@@ -126,7 +127,10 @@ export const CyclesViewHeader = observer(function CyclesViewHeader(props: Props)
         placement="bottom-end"
         isFiltersApplied={isFiltersApplied}
       >
-        <CycleFiltersSelection filters={currentProjectFilters ?? {}} handleFiltersUpdate={handleFilters} />
+        <CycleFiltersSelection
+          filters={currentProjectFilters ?? {}}
+          handleFiltersUpdate={handleFilters}
+        />
       </FiltersDropdown>
     </div>
   );

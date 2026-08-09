@@ -179,7 +179,8 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
         reset(getUpdateFormDataForReset(projectId, getValues()));
       }
     }
-    if (projectId && routeProjectId !== projectId) fetchCycles(workspaceSlug?.toString(), projectId);
+    if (projectId && routeProjectId !== projectId)
+      fetchCycles(workspaceSlug?.toString(), projectId);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
@@ -201,7 +202,8 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
 
     // get issue type id on project change
     const issueTypeIdOnProjectChange = getIssueTypeIdOnProjectChange(projectId);
-    if (issueTypeIdOnProjectChange) setValue("type_id", issueTypeIdOnProjectChange, { shouldValidate: true });
+    if (issueTypeIdOnProjectChange)
+      setValue("type_id", issueTypeIdOnProjectChange, { shouldValidate: true });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, projectId]);
@@ -304,7 +306,8 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
   };
 
   const condition =
-    (watch("name") && watch("name") !== "") || (watch("description_html") && watch("description_html") !== "<p></p>");
+    (watch("name") && watch("name") !== "") ||
+    (watch("description_html") && watch("description_html") !== "<p></p>");
 
   const handleFormChange = () => {
     if (!onChange) return;
@@ -322,7 +325,7 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
       name: watch("name"),
       description_html: getTextContent(watch("description_html")),
       issueId: data?.id,
-    }
+    },
   );
 
   // executing this useEffect when the parent_id coming from the component prop
@@ -340,7 +343,12 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
     const stateDetails = getStateById(issue.state_id);
 
     setSelectedParentIssue(
-      convertWorkItemDataToSearchResponse(workspaceSlug?.toString(), issue, projectDetails, stateDetails)
+      convertWorkItemDataToSearchResponse(
+        workspaceSlug?.toString(),
+        issue,
+        projectDetails,
+        stateDetails,
+      ),
     );
   }, [watch, getIssueById, getProjectById, selectedParentIssue, getStateById]);
 
@@ -454,7 +462,7 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
               className={cn(
                 "space-y-3 bg-surface-1 pb-4",
                 activeAdditionalPropertiesLength > 4 &&
-                  "vertical-scrollbar scrollbar-sm max-h-[45vh] overflow-hidden overflow-y-auto"
+                  "vertical-scrollbar scrollbar-sm max-h-[45vh] overflow-hidden overflow-y-auto",
               )}
             >
               <div className="px-5">
@@ -489,7 +497,7 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
             <div
               className={cn(
                 "rounded-b-lg border-t-[0.5px] border-subtle bg-surface-1 px-4 py-3",
-                activeAdditionalPropertiesLength > 0 && "shadow-raised-100"
+                activeAdditionalPropertiesLength > 0 && "shadow-raised-100",
               )}
             >
               <div className="pb-3">
@@ -521,7 +529,11 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
                       }}
                       role="button"
                     >
-                      <ToggleSwitch value={isCreateMoreToggleEnabled} onChange={() => {}} size="sm" />
+                      <ToggleSwitch
+                        value={isCreateMoreToggleEnabled}
+                        onChange={() => {}}
+                        size="sm"
+                      />
                       <span className="text-caption-sm-regular">{t("create_more")}</span>
                     </div>
                   )}
@@ -537,7 +549,8 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
                             setToast({
                               type: TOAST_TYPE.ERROR,
                               title: "Error!",
-                              message: "Editor is still processing changes. Please wait before proceeding.",
+                              message:
+                                "Editor is still processing changes. Please wait before proceeding.",
                             });
                           }
                         }}
@@ -580,7 +593,11 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
           <div
             ref={modalContainerRef}
             className="shadow-xl bg-pi-50 relative flex flex-col gap-2.5 rounded-lg px-3 py-4"
-            style={{ maxHeight: formRef?.current?.offsetHeight ? `${formRef.current.offsetHeight}px` : "436px" }}
+            style={{
+              maxHeight: formRef?.current?.offsetHeight
+                ? `${formRef.current.offsetHeight}px`
+                : "436px",
+            }}
           >
             <DuplicateModalRoot
               workspaceSlug={workspaceSlug.toString()}

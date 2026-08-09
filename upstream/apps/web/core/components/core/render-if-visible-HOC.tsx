@@ -58,7 +58,7 @@ function RenderIfVisible(props: Props) {
           if (typeof window !== "undefined" && useIdleTime) {
             visibilityIdleTaskRef.current?.cancel();
             visibilityIdleTaskRef.current = runIdleTask(() =>
-              setShouldVisible(entries[entries.length - 1].isIntersecting)
+              setShouldVisible(entries[entries.length - 1].isIntersecting),
             );
           } else {
             setShouldVisible(entries[entries.length - 1].isIntersecting);
@@ -67,7 +67,7 @@ function RenderIfVisible(props: Props) {
         {
           root: root?.current,
           rootMargin: `${verticalOffset}% ${horizontalOffset}% ${verticalOffset}% ${horizontalOffset}%`,
-        }
+        },
       );
       observer.observe(target);
       return () => {
@@ -83,7 +83,8 @@ function RenderIfVisible(props: Props) {
     if (intersectionRef.current && isVisible && shouldRecordHeights) {
       heightIdleTaskRef.current?.cancel();
       heightIdleTaskRef.current = runIdleTask(() => {
-        if (intersectionRef.current) placeholderHeight.current = `${intersectionRef.current.offsetHeight}px`;
+        if (intersectionRef.current)
+          placeholderHeight.current = `${intersectionRef.current.offsetHeight}px`;
       });
     }
     return () => {
@@ -93,7 +94,8 @@ function RenderIfVisible(props: Props) {
   }, [isVisible, intersectionRef, shouldRecordHeights]);
 
   const child = isVisible ? <>{children}</> : placeholderChildren;
-  const style = isVisible || !shouldRecordHeights ? {} : { height: placeholderHeight.current, width: "100%" };
+  const style =
+    isVisible || !shouldRecordHeights ? {} : { height: placeholderHeight.current, width: "100%" };
   const className = isVisible || placeholderChildren ? classNames : cn(classNames, "bg-layer-1");
 
   return React.createElement(as, { ref: intersectionRef, style, className }, child);

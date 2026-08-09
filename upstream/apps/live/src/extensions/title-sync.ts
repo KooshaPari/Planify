@@ -55,7 +55,11 @@ export class TitleSyncExtension implements Extension {
         const title = pageDetails.name;
         if (title == null) return;
         const titleJson = (generateTitleProsemirrorJson as (text: string) => JSONContent)(title);
-        const titleField = TiptapTransformer.toYdoc(titleJson, "title", TITLE_EDITOR_EXTENSIONS as AnyExtension[]);
+        const titleField = TiptapTransformer.toYdoc(
+          titleJson,
+          "title",
+          TITLE_EDITOR_EXTENSIONS as AnyExtension[],
+        );
         document.merge(titleField);
       }
     } catch (error) {
@@ -153,7 +157,13 @@ export class TitleSyncExtension implements Extension {
   /**
    * Remove observers after document unload
    */
-  async afterUnloadDocument({ documentName, document }: { documentName: string; document?: Document }) {
+  async afterUnloadDocument({
+    documentName,
+    document,
+  }: {
+    documentName: string;
+    document?: Document;
+  }) {
     // Clean up observer when document is unloaded
     const observer = this.titleObservers.get(documentName);
     if (observer) {
@@ -162,7 +172,10 @@ export class TitleSyncExtension implements Extension {
         try {
           document.getXmlFragment("title").unobserveDeep(observer);
         } catch (error) {
-          logger.error("Failed to unobserve title field", new AppError(error, { context: { documentName } }));
+          logger.error(
+            "Failed to unobserve title field",
+            new AppError(error, { context: { documentName } }),
+          );
         }
       }
       this.titleObservers.delete(documentName);

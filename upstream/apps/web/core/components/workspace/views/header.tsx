@@ -9,7 +9,11 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 
 // plane imports
-import { DEFAULT_GLOBAL_VIEWS_LIST, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import {
+  DEFAULT_GLOBAL_VIEWS_LIST,
+  EUserPermissions,
+  EUserPermissionsLevel,
+} from "@plane/constants";
 import { PlusIcon } from "@plane/propel/icons";
 import type { TStaticViewTypes } from "@plane/types";
 import { Header, EHeaderVariant } from "@plane/ui";
@@ -79,19 +83,25 @@ export const GlobalViewsHeader = observer(function GlobalViewsHeader() {
         const containerRect = containerRef.current.getBoundingClientRect();
         const activeTabRect = activeTabElement.getBoundingClientRect();
         const diff = containerRect.right - activeTabRect.right;
-        activeTabElement.scrollIntoView({ behavior: "smooth", inline: diff > 500 ? "center" : "nearest" });
+        activeTabElement.scrollIntoView({
+          behavior: "smooth",
+          inline: diff > 500 ? "center" : "nearest",
+        });
       }
     }
   }, [globalViewId, currentWorkspaceViews, containerRef]);
 
   const isAuthorizedUser = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   return (
     <Header variant={EHeaderVariant.SECONDARY} className="z-[12] min-h-[44px] bg-surface-1">
-      <CreateUpdateWorkspaceViewModal isOpen={createViewModal} onClose={() => setCreateViewModal(false)} />
+      <CreateUpdateWorkspaceViewModal
+        isOpen={createViewModal}
+        onClose={() => setCreateViewModal(false)}
+      />
       <div
         ref={containerRef}
         className="horizontal-scrollbar flex scrollbar-sm h-full w-full items-center overflow-x-auto overflow-y-hidden"

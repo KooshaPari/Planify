@@ -89,7 +89,7 @@ export const useUploader = (args: TUploaderArgs) => {
       maxFileSize,
       onInvalidFile,
       onUpload,
-    ]
+    ],
   );
 
   return { isUploading, uploadFile };
@@ -145,7 +145,7 @@ export const useDropZone = (args: TDropzoneArgs) => {
         uploader,
       });
     },
-    [editor, type, uploader, getPos]
+    [editor, type, uploader, getPos],
   );
   const onDragEnter = useCallback(() => setDraggedInside(true), []);
   const onDragLeave = useCallback(() => setDraggedInside(false), []);

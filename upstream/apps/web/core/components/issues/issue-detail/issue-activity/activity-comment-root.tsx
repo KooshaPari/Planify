@@ -32,7 +32,9 @@ type TIssueActivityCommentRoot = {
   sortOrder: E_SORT_ORDER;
 };
 
-export const IssueActivityCommentRoot = observer(function IssueActivityCommentRoot(props: TIssueActivityCommentRoot) {
+export const IssueActivityCommentRoot = observer(function IssueActivityCommentRoot(
+  props: TIssueActivityCommentRoot,
+) {
   const {
     workspaceSlug,
     isIntakeIssue,
@@ -56,7 +58,10 @@ export const IssueActivityCommentRoot = observer(function IssueActivityCommentRo
 
   if (activityAndComments.length <= 0) return null;
 
-  const filteredActivityAndComments = filterActivityOnSelectedFilters(activityAndComments, selectedFilters);
+  const filteredActivityAndComments = filterActivityOnSelectedFilters(
+    activityAndComments,
+    selectedFilters,
+  );
 
   return (
     <div>
@@ -69,24 +74,44 @@ export const IssueActivityCommentRoot = observer(function IssueActivityCommentRo
             entityId={issueId}
             comment={comment}
             activityOperations={activityOperations}
-            ends={index === 0 ? "top" : index === filteredActivityAndComments.length - 1 ? "bottom" : undefined}
+            ends={
+              index === 0
+                ? "top"
+                : index === filteredActivityAndComments.length - 1
+                  ? "bottom"
+                  : undefined
+            }
             showAccessSpecifier={!!showAccessSpecifier}
             showCopyLinkOption={!isIntakeIssue}
             disabled={disabled}
             projectId={projectId}
             enableReplies
           />
-        ) : BASE_ACTIVITY_FILTER_TYPES.includes(activityComment.activity_type as EActivityFilterType) ? (
+        ) : BASE_ACTIVITY_FILTER_TYPES.includes(
+            activityComment.activity_type as EActivityFilterType,
+          ) ? (
           <IssueActivityItem
             key={activityComment.id}
             activityId={activityComment.id}
-            ends={index === 0 ? "top" : index === filteredActivityAndComments.length - 1 ? "bottom" : undefined}
+            ends={
+              index === 0
+                ? "top"
+                : index === filteredActivityAndComments.length - 1
+                  ? "bottom"
+                  : undefined
+            }
           />
         ) : activityComment.activity_type === "ISSUE_ADDITIONAL_PROPERTIES_ACTIVITY" ? (
           <IssueAdditionalPropertiesActivity
             key={activityComment.id}
             activityId={activityComment.id}
-            ends={index === 0 ? "top" : index === filteredActivityAndComments.length - 1 ? "bottom" : undefined}
+            ends={
+              index === 0
+                ? "top"
+                : index === filteredActivityAndComments.length - 1
+                  ? "bottom"
+                  : undefined
+            }
           />
         ) : activityComment.activity_type === "WORKLOG" ? (
           <IssueActivityWorklog
@@ -95,7 +120,13 @@ export const IssueActivityCommentRoot = observer(function IssueActivityCommentRo
             projectId={projectId}
             issueId={issueId}
             activityComment={activityComment}
-            ends={index === 0 ? "top" : index === filteredActivityAndComments.length - 1 ? "bottom" : undefined}
+            ends={
+              index === 0
+                ? "top"
+                : index === filteredActivityAndComments.length - 1
+                  ? "bottom"
+                  : undefined
+            }
           />
         ) : (
           <></>

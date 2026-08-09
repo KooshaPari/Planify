@@ -13,7 +13,12 @@ import { useParams } from "next/navigation";
 import { Paperclip } from "lucide-react";
 // i18n
 import { useTranslation } from "@plane/i18n";
-import { LinkIcon, StartDatePropertyIcon, ViewsIcon, DueDatePropertyIcon } from "@plane/propel/icons";
+import {
+  LinkIcon,
+  StartDatePropertyIcon,
+  ViewsIcon,
+  DueDatePropertyIcon,
+} from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
 import type { TIssue, IIssueDisplayProperties, TIssuePriorities } from "@plane/types";
 // ui
@@ -50,7 +55,9 @@ import { WithDisplayPropertiesHOC } from "./with-display-properties-HOC";
 
 export interface IIssueProperties {
   issue: TIssue;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   displayProperties: IIssueDisplayProperties | undefined;
   isReadOnly: boolean;
   className: string;
@@ -89,11 +96,23 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
     () => ({
       addModulesToIssue: async (moduleIds: string[]) => {
         if (!workspaceSlug || !issue.project_id || !issue.id) return;
-        await changeModulesInIssue?.(workspaceSlug.toString(), issue.project_id, issue.id, moduleIds, []);
+        await changeModulesInIssue?.(
+          workspaceSlug.toString(),
+          issue.project_id,
+          issue.id,
+          moduleIds,
+          [],
+        );
       },
       removeModulesFromIssue: async (moduleIds: string[]) => {
         if (!workspaceSlug || !issue.project_id || !issue.id) return;
-        await changeModulesInIssue?.(workspaceSlug.toString(), issue.project_id, issue.id, [], moduleIds);
+        await changeModulesInIssue?.(
+          workspaceSlug.toString(),
+          issue.project_id,
+          issue.id,
+          [],
+          moduleIds,
+        );
       },
       addIssueToCycle: async (cycleId: string) => {
         if (!workspaceSlug || !issue.project_id || !issue.id) return;
@@ -104,7 +123,7 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
         await removeCycleFromIssue?.(workspaceSlug.toString(), issue.project_id, issue.id);
       },
     }),
-    [workspaceSlug, issue, changeModulesInIssue, addCycleToIssue, removeCycleFromIssue]
+    [workspaceSlug, issue, changeModulesInIssue, addCycleToIssue, removeCycleFromIssue],
   );
 
   const handleState = async (stateId: string) => {
@@ -136,7 +155,7 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
       if (modulesToAdd.length > 0) issueOperations.addModulesToIssue(modulesToAdd);
       if (modulesToRemove.length > 0) issueOperations.removeModulesFromIssue(modulesToRemove);
     },
-    [issueOperations, issue]
+    [issueOperations, issue],
   );
 
   const handleCycle = useCallback(
@@ -145,17 +164,21 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
       if (cycleId) issueOperations.addIssueToCycle?.(cycleId);
       else issueOperations.removeIssueFromCycle?.();
     },
-    [issue, issueOperations]
+    [issue, issueOperations],
   );
 
   const handleStartDate = async (date: Date | null) => {
     if (updateIssue)
-      await updateIssue(issue.project_id, issue.id, { start_date: date ? renderFormattedPayloadDate(date) : null });
+      await updateIssue(issue.project_id, issue.id, {
+        start_date: date ? renderFormattedPayloadDate(date) : null,
+      });
   };
 
   const handleTargetDate = async (date: Date | null) => {
     if (updateIssue)
-      await updateIssue(issue.project_id, issue.id, { target_date: date ? renderFormattedPayloadDate(date) : null });
+      await updateIssue(issue.project_id, issue.id, {
+        target_date: date ? renderFormattedPayloadDate(date) : null,
+      });
   };
 
   const handleEstimate = async (value: string | undefined) => {
@@ -178,7 +201,10 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
 
   // date range is enabled only when both dates are available and both dates are enabled
   const isDateRangeEnabled: boolean = Boolean(
-    issue.start_date && issue.target_date && displayProperties.start_date && displayProperties.due_date
+    issue.start_date &&
+    issue.target_date &&
+    displayProperties.start_date &&
+    displayProperties.due_date,
   );
 
   const defaultLabelOptions = issue?.label_ids?.map((id) => labelMap[id]) || [];
@@ -245,9 +271,13 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
             }}
             isClearable
             mergeDates
-            buttonVariant={issue.start_date || issue.target_date ? "border-with-text" : "border-without-text"}
+            buttonVariant={
+              issue.start_date || issue.target_date ? "border-with-text" : "border-without-text"
+            }
             buttonClassName={
-              shouldHighlightIssueDueDate(issue.target_date, stateDetails?.group) ? "text-danger-primary" : ""
+              shouldHighlightIssueDueDate(issue.target_date, stateDetails?.group)
+                ? "text-danger-primary"
+                : ""
             }
             clearIconClassName="text-primary!"
             disabled={isReadOnly}
@@ -297,7 +327,9 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
             icon={<DueDatePropertyIcon className="h-3 w-3 shrink-0" />}
             buttonVariant={issue.target_date ? "border-with-text" : "border-without-text"}
             buttonClassName={
-              shouldHighlightIssueDueDate(issue.target_date, stateDetails?.group) ? "text-danger-primary" : ""
+              shouldHighlightIssueDueDate(issue.target_date, stateDetails?.group)
+                ? "text-danger-primary"
+                : ""
             }
             clearIconClassName="text-primary!"
             optionsClassName="z-10"
@@ -318,7 +350,9 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
             onChange={handleAssignee}
             disabled={isReadOnly}
             multiple
-            buttonVariant={issue.assignee_ids?.length > 0 ? "transparent-without-text" : "border-without-text"}
+            buttonVariant={
+              issue.assignee_ids?.length > 0 ? "transparent-without-text" : "border-without-text"
+            }
             buttonClassName={issue.assignee_ids?.length > 0 ? "hover:bg-transparent px-0" : ""}
             showTooltip={issue?.assignee_ids?.length === 0}
             placeholder={t("common.assignees")}
@@ -334,8 +368,15 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
           <>
             {/* modules */}
             {projectDetails?.module_view && (
-              <WithDisplayPropertiesHOC displayProperties={displayProperties} displayPropertyKey="modules">
-                <div className="h-5" onFocus={handleEventPropagation} onClick={handleEventPropagation}>
+              <WithDisplayPropertiesHOC
+                displayProperties={displayProperties}
+                displayPropertyKey="modules"
+              >
+                <div
+                  className="h-5"
+                  onFocus={handleEventPropagation}
+                  onClick={handleEventPropagation}
+                >
                   <ModuleDropdown
                     buttonContainerClassName="truncate max-w-40"
                     projectId={issue?.project_id}
@@ -354,8 +395,15 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
 
             {/* cycles */}
             {projectDetails?.cycle_view && (
-              <WithDisplayPropertiesHOC displayProperties={displayProperties} displayPropertyKey="cycle">
-                <div className="h-5" onFocus={handleEventPropagation} onClick={handleEventPropagation}>
+              <WithDisplayPropertiesHOC
+                displayProperties={displayProperties}
+                displayPropertyKey="cycle"
+              >
+                <div
+                  className="h-5"
+                  onFocus={handleEventPropagation}
+                  onClick={handleEventPropagation}
+                >
                   <CycleDropdown
                     buttonContainerClassName="truncate max-w-40"
                     projectId={issue?.project_id}
@@ -375,7 +423,10 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
 
       {/* estimates */}
       {projectId && areEstimateEnabledByProjectId(projectId?.toString()) && (
-        <WithDisplayPropertiesHOC displayProperties={displayProperties} displayPropertyKey="estimate">
+        <WithDisplayPropertiesHOC
+          displayProperties={displayProperties}
+          displayPropertyKey="estimate"
+        >
           <div className="h-5" onFocus={handleEventPropagation} onClick={handleEventPropagation}>
             <EstimateDropdown
               value={issue.estimate_point ?? undefined}
@@ -415,7 +466,7 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
                 "flex h-5 flex-shrink-0 items-center justify-center gap-2 overflow-hidden rounded-sm border-[0.5px] border-strong px-2.5 py-1",
                 {
                   "cursor-pointer hover:bg-layer-1": subIssueCount,
-                }
+                },
               )}
             >
               <ViewsIcon className="h-3 w-3 flex-shrink-0" strokeWidth={2} />
@@ -429,7 +480,9 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
       <WithDisplayPropertiesHOC
         displayProperties={displayProperties}
         displayPropertyKey="attachment_count"
-        shouldRenderProperty={(properties) => !!properties.attachment_count && !!issue.attachment_count}
+        shouldRenderProperty={(properties) =>
+          !!properties.attachment_count && !!issue.attachment_count
+        }
       >
         <Tooltip
           tooltipHeading={t("common.attachments")}

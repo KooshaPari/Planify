@@ -26,7 +26,11 @@ export interface IQuarterMonthBlock {
  * @param side
  * @returns
  */
-const generateQuarterChart = (quarterPayload: ChartDataType, side: null | "left" | "right", targetDate?: Date) => {
+const generateQuarterChart = (
+  quarterPayload: ChartDataType,
+  side: null | "left" | "right",
+  targetDate?: Date,
+) => {
   let renderState = quarterPayload;
 
   const range: number = renderState.data.approxFilterRange || 12;
@@ -72,7 +76,11 @@ const generateQuarterChart = (quarterPayload: ChartDataType, side: null | "left"
 
     const startMonthBlock = filteredDates[0];
     startDate = new Date(startMonthBlock.year, startMonthBlock.month, 1);
-    endDate = new Date(chartStartDate.getFullYear(), chartStartDate.getMonth(), chartStartDate.getDate() - 1);
+    endDate = new Date(
+      chartStartDate.getFullYear(),
+      chartStartDate.getMonth(),
+      chartStartDate.getDate() - 1,
+    );
     renderState = {
       ...renderState,
       data: { ...renderState.data, startDate },
@@ -89,7 +97,11 @@ const generateQuarterChart = (quarterPayload: ChartDataType, side: null | "left"
     if (minusDate && plusDate) filteredDates = getMonthsBetweenTwoDates(minusDate, plusDate);
 
     const endMonthBlock = filteredDates[filteredDates.length - 1];
-    startDate = new Date(chartEndDate.getFullYear(), chartEndDate.getMonth(), chartEndDate.getDate() + 1);
+    startDate = new Date(
+      chartEndDate.getFullYear(),
+      chartEndDate.getMonth(),
+      chartEndDate.getDate() + 1,
+    );
     endDate = new Date(endMonthBlock.year, endMonthBlock.month + 1, 0);
     renderState = {
       ...renderState,

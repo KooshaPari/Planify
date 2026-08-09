@@ -9,12 +9,14 @@ import type { TExtendedSupportedOperators } from "@plane/types";
 /**
  * Extended operator labels
  */
-export const EXTENDED_OPERATOR_LABELS_MAP: Record<TExtendedSupportedOperators, string> = {} as const;
+export const EXTENDED_OPERATOR_LABELS_MAP: Record<TExtendedSupportedOperators, string> =
+  {} as const;
 
 /**
  * Extended date-specific operator labels
  */
-export const EXTENDED_DATE_OPERATOR_LABELS_MAP: Record<TExtendedSupportedOperators, string> = {} as const;
+export const EXTENDED_DATE_OPERATOR_LABELS_MAP: Record<TExtendedSupportedOperators, string> =
+  {} as const;
 
 /**
  * Negated operator labels for all operators

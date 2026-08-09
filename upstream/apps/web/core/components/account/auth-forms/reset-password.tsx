@@ -71,7 +71,9 @@ export const ResetPasswordForm = observer(function ResetPasswordForm() {
 
   useEffect(() => {
     if (csrfToken === undefined)
-      authService.requestCSRFToken().then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
+      authService
+        .requestCSRFToken()
+        .then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
   }, [csrfToken]);
 
   const isButtonDisabled = useMemo(
@@ -81,7 +83,7 @@ export const ResetPasswordForm = observer(function ResetPasswordForm() {
       resetFormData.password === resetFormData.confirm_password
         ? false
         : true,
-    [resetFormData]
+    [resetFormData],
   );
 
   useEffect(() => {
@@ -95,7 +97,8 @@ export const ResetPasswordForm = observer(function ResetPasswordForm() {
 
   const password = resetFormData?.password ?? "";
   const confirmPassword = resetFormData?.confirm_password ?? "";
-  const renderPasswordMatchError = !isRetryPasswordInputFocused || confirmPassword.length >= password.length;
+  const renderPasswordMatchError =
+    !isRetryPasswordInputFocused || confirmPassword.length >= password.length;
 
   return (
     <FormContainer>
@@ -159,7 +162,10 @@ export const ResetPasswordForm = observer(function ResetPasswordForm() {
               />
             )}
           </div>
-          <PasswordStrengthIndicator password={resetFormData.password} isFocused={isPasswordInputFocused} />
+          <PasswordStrengthIndicator
+            password={resetFormData.password}
+            isFocused={isPasswordInputFocused}
+          />
         </div>
         <div className="space-y-1">
           <label className="text-13 font-medium text-tertiary" htmlFor="confirm_password">
@@ -192,10 +198,18 @@ export const ResetPasswordForm = observer(function ResetPasswordForm() {
           {!!resetFormData.confirm_password &&
             resetFormData.password !== resetFormData.confirm_password &&
             renderPasswordMatchError && (
-              <span className="text-13 text-danger-primary">{t("auth.common.password.errors.match")}</span>
+              <span className="text-13 text-danger-primary">
+                {t("auth.common.password.errors.match")}
+              </span>
             )}
         </div>
-        <Button type="submit" variant="primary" className="w-full" size="xl" disabled={isButtonDisabled}>
+        <Button
+          type="submit"
+          variant="primary"
+          className="w-full"
+          size="xl"
+          disabled={isButtonDisabled}
+        >
           {t("auth.common.password.submit")}
         </Button>
       </form>

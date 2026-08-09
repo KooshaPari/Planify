@@ -31,7 +31,7 @@ export const AppliedStatusFilters = observer(function AppliedStatusFilters(props
             className={cn(
               "flex items-center gap-1 rounded-sm px-1.5 py-1 text-11",
               statusDetails?.bgColor,
-              statusDetails?.textColor
+              statusDetails?.textColor,
             )}
           >
             {statusDetails && t(statusDetails?.i18n_title)}

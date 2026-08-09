@@ -24,8 +24,17 @@ type Props = {
   issueServiceType?: TIssueServiceType;
 };
 
-export const IssueAttachmentsCollapsibleTitle = observer(function IssueAttachmentsCollapsibleTitle(props: Props) {
-  const { isOpen, workspaceSlug, projectId, issueId, disabled, issueServiceType = EIssueServiceType.ISSUES } = props;
+export const IssueAttachmentsCollapsibleTitle = observer(function IssueAttachmentsCollapsibleTitle(
+  props: Props,
+) {
+  const {
+    isOpen,
+    workspaceSlug,
+    projectId,
+    issueId,
+    disabled,
+    issueServiceType = EIssueServiceType.ISSUES,
+  } = props;
   const { t } = useTranslation();
   // store hooks
   const {
@@ -43,7 +52,7 @@ export const IssueAttachmentsCollapsibleTitle = observer(function IssueAttachmen
         <p className="text-14 !leading-3 text-tertiary">{attachmentCount}</p>
       </span>
     ),
-    [attachmentCount]
+    [attachmentCount],
   );
 
   return (

@@ -43,12 +43,16 @@ export const PrevExports = observer(function PrevExports(props: Props) {
 
   const { data: exporterServices } = useSWR(
     workspaceSlug && cursor ? EXPORT_SERVICES_LIST(workspaceSlug, cursor, `${per_page}`) : null,
-    workspaceSlug && cursor ? () => integrationService.getExportsServicesList(workspaceSlug, cursor, per_page) : null
+    workspaceSlug && cursor
+      ? () => integrationService.getExportsServicesList(workspaceSlug, cursor, per_page)
+      : null,
   );
 
   const handleRefresh = () => {
     setRefreshing(true);
-    mutate(EXPORT_SERVICES_LIST(workspaceSlug, `${cursor}`, `${per_page}`)).then(() => setRefreshing(false));
+    mutate(EXPORT_SERVICES_LIST(workspaceSlug, `${cursor}`, `${per_page}`)).then(() =>
+      setRefreshing(false),
+    );
   };
 
   useEffect(() => {
@@ -67,7 +71,9 @@ export const PrevExports = observer(function PrevExports(props: Props) {
     <div>
       <div className="flex items-center justify-between border-b border-subtle pb-3.5">
         <div className="flex items-center gap-2">
-          <h3 className="text-h6-medium text-primary">{t("workspace_settings.settings.exports.previous_exports")}</h3>
+          <h3 className="text-h6-medium text-primary">
+            {t("workspace_settings.settings.exports.previous_exports")}
+          </h3>
           <Button variant="tertiary" className="shrink-0" onClick={handleRefresh}>
             <RefreshCw className={`h-3 w-3 ${refreshing ? "animate-spin" : ""}`} />
             {refreshing ? t("refreshing") : t("refresh_status")}
@@ -79,7 +85,9 @@ export const PrevExports = observer(function PrevExports(props: Props) {
               variant="secondary"
               size="sm"
               disabled={!exporterServices?.prev_page_results}
-              onClick={() => exporterServices?.prev_page_results && setCursor(exporterServices?.prev_cursor)}
+              onClick={() =>
+                exporterServices?.prev_page_results && setCursor(exporterServices?.prev_cursor)
+              }
               prependIcon={<MoveLeft />}
             >
               {t("prev")}
@@ -88,7 +96,9 @@ export const PrevExports = observer(function PrevExports(props: Props) {
               variant="secondary"
               size="sm"
               disabled={!exporterServices?.next_page_results}
-              onClick={() => exporterServices?.next_page_results && setCursor(exporterServices?.next_cursor)}
+              onClick={() =>
+                exporterServices?.next_page_results && setCursor(exporterServices?.next_cursor)
+              }
               appendIcon={<MoveRight />}
             >
               {t("next")}

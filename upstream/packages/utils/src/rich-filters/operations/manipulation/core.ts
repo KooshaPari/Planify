@@ -27,7 +27,7 @@ import { transformExpressionTree } from "../transformation/core";
  */
 export const addAndCondition = <P extends TFilterProperty>(
   expression: TFilterExpression<P> | null,
-  condition: TFilterExpression<P>
+  condition: TFilterExpression<P>,
 ): TFilterExpression<P> => {
   // if no expression, set the new condition
   if (!expression) {
@@ -62,7 +62,7 @@ export const addAndCondition = <P extends TFilterProperty>(
 export const replaceNodeInExpression = <P extends TFilterProperty>(
   expression: TFilterExpression<P>,
   targetId: string,
-  replacement: TFilterExpression<P>
+  replacement: TFilterExpression<P>,
 ): TFilterExpression<P> => {
   const result = transformExpressionTree(expression, (node: TFilterExpression<P>) => {
     // If this is the node we want to replace, return the replacement
@@ -90,7 +90,7 @@ export const replaceNodeInExpression = <P extends TFilterProperty>(
 export const updateNodeInExpression = <P extends TFilterProperty>(
   expression: TFilterExpression<P>,
   targetId: string,
-  updates: Partial<TFilterConditionPayload<P, TFilterValue>>
+  updates: Partial<TFilterConditionPayload<P, TFilterValue>>,
 ) => {
   // Helper function to recursively update nodes
   const updateNode = (node: TFilterExpression<P>): void => {
@@ -120,7 +120,7 @@ export const updateNodeInExpression = <P extends TFilterProperty>(
  */
 export const unwrapGroupIfNeeded = <P extends TFilterProperty>(
   group: TFilterGroupNode<P>,
-  preserveNotGroups = true
+  preserveNotGroups = true,
 ) => {
   if (shouldUnwrapGroup(group, preserveNotGroups)) {
     const children = getGroupChildren(group);

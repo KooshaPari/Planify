@@ -40,7 +40,7 @@ type LiteTextEditorWrapperProps = MakeOptional<
 
 export const LiteTextEditor = React.forwardRef(function LiteTextEditor(
   props: LiteTextEditorWrapperProps,
-  ref: React.ForwardedRef<EditorRefApi>
+  ref: React.ForwardedRef<EditorRefApi>,
 ) {
   const {
     anchor,
@@ -52,7 +52,9 @@ export const LiteTextEditor = React.forwardRef(function LiteTextEditor(
     workspaceId,
     ...rest
   } = props;
-  function isMutableRefObject<T>(ref: React.ForwardedRef<T>): ref is React.MutableRefObject<T | null> {
+  function isMutableRefObject<T>(
+    ref: React.ForwardedRef<T>,
+  ): ref is React.MutableRefObject<T | null> {
     return !!ref && typeof ref === "object" && "current" in ref;
   }
   // derived values

@@ -49,46 +49,64 @@ export interface ICycleIssues extends IBaseIssuesStore {
     projectId: string,
     loadType: TLoader,
     options: IssuePaginationOptions,
-    cycleId: string
+    cycleId: string,
   ) => Promise<TIssuesResponse | undefined>;
   fetchIssuesWithExistingPagination: (
     workspaceSlug: string,
     projectId: string,
     loadType: TLoader,
-    cycleId: string
+    cycleId: string,
   ) => Promise<TIssuesResponse | undefined>;
   fetchNextIssues: (
     workspaceSlug: string,
     projectId: string,
     cycleId: string,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) => Promise<TIssuesResponse | undefined>;
 
   fetchActiveCycleIssues: (
     workspaceSlug: string,
     projectId: string,
     perPageCount: number,
-    cycleId: string
+    cycleId: string,
   ) => Promise<TIssuesResponse | undefined>;
   fetchNextActiveCycleIssues: (
     workspaceSlug: string,
     projectId: string,
-    cycleId: string
+    cycleId: string,
   ) => Promise<TIssuesResponse | undefined>;
 
-  createIssue: (workspaceSlug: string, projectId: string, data: Partial<TIssue>, cycleId: string) => Promise<TIssue>;
-  updateIssue: (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>;
+  createIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<TIssue>,
+    cycleId: string,
+  ) => Promise<TIssue>;
+  updateIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => Promise<void>;
   archiveIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
   quickAddIssue: (
     workspaceSlug: string,
     projectId: string,
     data: TIssue,
-    cycleId: string
+    cycleId: string,
   ) => Promise<TIssue | undefined>;
   removeBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  archiveBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  bulkUpdateProperties: (workspaceSlug: string, projectId: string, data: TBulkOperationsPayload) => Promise<void>;
+  archiveBulkIssues: (
+    workspaceSlug: string,
+    projectId: string,
+    issueIds: string[],
+  ) => Promise<void>;
+  bulkUpdateProperties: (
+    workspaceSlug: string,
+    projectId: string,
+    data: TBulkOperationsPayload,
+  ) => Promise<void>;
 
   transferIssuesFromCycle: (
     workspaceSlug: string,
@@ -96,7 +114,7 @@ export interface ICycleIssues extends IBaseIssuesStore {
     cycleId: string,
     payload: {
       new_cycle_id: string;
-    }
+    },
   ) => Promise<TIssue>;
 }
 
@@ -152,7 +170,11 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
       isSidebarCollapsed &&
       JSON.parse(isSidebarCollapsed) === false
     ) {
-      this.rootIssueStore.rootStore.cycle.fetchActiveCycleProgressPro(workspaceSlug, projectId, cycleId);
+      this.rootIssueStore.rootStore.cycle.fetchActiveCycleProgressPro(
+        workspaceSlug,
+        projectId,
+        cycleId,
+      );
     }
   };
 
@@ -162,7 +184,7 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
         prevIssueState,
         nextIssueState,
         this.rootIssueStore.rootStore.state.stateMap,
-        this.rootIssueStore.rootStore.projectEstimate?.currentActiveEstimate?.estimatePointById
+        this.rootIssueStore.rootStore.projectEstimate?.currentActiveEstimate?.estimatePointById,
       );
 
       const cycleId = id ?? this.cycleId;
@@ -189,7 +211,7 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
     loadType: TLoader,
     options: IssuePaginationOptions,
     cycleId: string,
-    isExistingPaginationOptions: boolean = false
+    isExistingPaginationOptions: boolean = false,
   ) => {
     try {
       // set loader and clear store
@@ -199,14 +221,27 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
       });
 
       // get params from pagination options
-      const params = this.issueFilterStore?.getFilterParams(options, cycleId, undefined, undefined, undefined);
+      const params = this.issueFilterStore?.getFilterParams(
+        options,
+        cycleId,
+        undefined,
+        undefined,
+        undefined,
+      );
       // call the fetch issues API with the params
       const response = await this.issueService.getIssues(workspaceSlug, projectId, params, {
         signal: this.controller.signal,
       });
 
       // after fetching issues, call the base method to process the response further
-      this.onfetchIssues(response, options, workspaceSlug, projectId, cycleId, !isExistingPaginationOptions);
+      this.onfetchIssues(
+        response,
+        options,
+        workspaceSlug,
+        projectId,
+        cycleId,
+        !isExistingPaginationOptions,
+      );
       return response;
     } catch (error) {
       // set loader to undefined once errored out
@@ -231,7 +266,7 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
     projectId: string,
     cycleId: string,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) => {
     const cursorObject = this.getPaginationData(groupId, subGroupId);
     // if there are no pagination options and the next page results do not exist the return
@@ -246,7 +281,7 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
         cycleId,
         this.getNextCursor(groupId, subGroupId),
         groupId,
-        subGroupId
+        subGroupId,
       );
       // call the fetch issues API with the params for next page in issues
       const response = await this.issueService.getIssues(workspaceSlug, projectId, params);
@@ -274,10 +309,17 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
     workspaceSlug: string,
     projectId: string,
     loadType: TLoader,
-    cycleId: string
+    cycleId: string,
   ) => {
     if (!this.paginationOptions) return;
-    return await this.fetchIssues(workspaceSlug, projectId, loadType, this.paginationOptions, cycleId, true);
+    return await this.fetchIssues(
+      workspaceSlug,
+      projectId,
+      loadType,
+      this.paginationOptions,
+      cycleId,
+      true,
+    );
   };
 
   /**
@@ -288,7 +330,12 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
    * @param cycleId
    * @returns
    */
-  override createIssue = async (workspaceSlug: string, projectId: string, data: Partial<TIssue>, cycleId: string) => {
+  override createIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<TIssue>,
+    cycleId: string,
+  ) => {
     const response = await super.createIssue(workspaceSlug, projectId, data, cycleId, false);
     await this.addIssueToCycle(workspaceSlug, projectId, cycleId, [response.id], false);
     return response;
@@ -308,10 +355,15 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
     cycleId: string,
     payload: {
       new_cycle_id: string;
-    }
+    },
   ) => {
     // call API call to transfer issues
-    const response = await this.cycleService.transferIssues(workspaceSlug, projectId, cycleId, payload);
+    const response = await this.cycleService.transferIssues(
+      workspaceSlug,
+      projectId,
+      cycleId,
+      payload,
+    );
     // call fetch issues
     if (this.paginationOptions) {
       await this.fetchIssues(workspaceSlug, projectId, "mutation", this.paginationOptions, cycleId);
@@ -329,14 +381,28 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
    * @param cycleId
    * @returns
    */
-  fetchActiveCycleIssues = async (workspaceSlug: string, projectId: string, perPageCount: number, cycleId: string) => {
+  fetchActiveCycleIssues = async (
+    workspaceSlug: string,
+    projectId: string,
+    perPageCount: number,
+    cycleId: string,
+  ) => {
     // set loader
     set(this.activeCycleIds, [cycleId], undefined);
 
     // set params for urgent and high
-    const params = { priority: `urgent,high`, cursor: `${perPageCount}:0:0`, per_page: perPageCount };
+    const params = {
+      priority: `urgent,high`,
+      cursor: `${perPageCount}:0:0`,
+      per_page: perPageCount,
+    };
     // call the fetch issues API
-    const response = await this.cycleService.getCycleIssues(workspaceSlug, projectId, cycleId, params);
+    const response = await this.cycleService.getCycleIssues(
+      workspaceSlug,
+      projectId,
+      cycleId,
+      params,
+    );
 
     // Process issue response
     const { issueList, groupedIssues } = this.processIssueResponse(response);
@@ -365,7 +431,11 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
    * @param cycleId
    * @returns
    */
-  fetchNextActiveCycleIssues = async (workspaceSlug: string, projectId: string, cycleId: string) => {
+  fetchNextActiveCycleIssues = async (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+  ) => {
     //get the previous pagination data for the cycle id
     const activeCycle = get(this.activeCycleIds, [cycleId]);
 
@@ -373,9 +443,18 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
     if (!activeCycle || !activeCycle.nextPageResults) return;
 
     // create params
-    const params = { priority: `urgent,high`, cursor: activeCycle.nextCursor, per_page: activeCycle.perPageCount };
+    const params = {
+      priority: `urgent,high`,
+      cursor: activeCycle.nextCursor,
+      per_page: activeCycle.perPageCount,
+    };
     // fetch API response
-    const response = await this.cycleService.getCycleIssues(workspaceSlug, projectId, cycleId, params);
+    const response = await this.cycleService.getCycleIssues(
+      workspaceSlug,
+      projectId,
+      cycleId,
+      params,
+    );
 
     // Process the response
     const { issueList, groupedIssues } = this.processIssueResponse(response);
@@ -391,7 +470,7 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
     set(this.activeCycleIds, [cycleId, "nextPageResults"], response.next_page_results);
     set(this.activeCycleIds, [cycleId, "issueCount"], response.total_count);
     update(this.activeCycleIds, [cycleId, "issueIds"], (issueIds: string[] = []) =>
-      this.issuesSortWithOrderBy(uniq(concat(issueIds, activeIssueIds)), this.orderBy)
+      this.issuesSortWithOrderBy(uniq(concat(issueIds, activeIssueIds)), this.orderBy),
     );
 
     return response;
@@ -405,7 +484,12 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
    * @param cycleId
    * @returns
    */
-  quickAddIssue = async (workspaceSlug: string, projectId: string, data: TIssue, cycleId: string) => {
+  quickAddIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    data: TIssue,
+    cycleId: string,
+  ) => {
     // add temporary issue to store list
     this.addIssue(data);
 
@@ -419,7 +503,9 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
     });
 
     const currentModuleIds =
-      data.module_ids && data.module_ids.length > 0 ? data.module_ids.filter((moduleId) => moduleId != "None") : [];
+      data.module_ids && data.module_ids.length > 0
+        ? data.module_ids.filter((moduleId) => moduleId != "None")
+        : [];
 
     if (currentModuleIds.length > 0) {
       await this.changeModulesInIssue(workspaceSlug, projectId, response.id, currentModuleIds, []);

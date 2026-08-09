@@ -34,9 +34,10 @@ export type TAddFilterButtonProps<P extends TFilterProperty, E extends TExternal
   onFilterSelect?: (id: string) => void;
 };
 
-export const AddFilterButton = observer(function AddFilterButton<P extends TFilterProperty, E extends TExternalFilter>(
-  props: TAddFilterButtonProps<P, E>
-) {
+export const AddFilterButton = observer(function AddFilterButton<
+  P extends TFilterProperty,
+  E extends TExternalFilter,
+>(props: TAddFilterButtonProps<P, E>) {
   const { filter, buttonConfig, onFilterSelect } = props;
   const {
     variant = "secondary",
@@ -57,7 +58,7 @@ export const AddFilterButton = observer(function AddFilterButton<P extends TFilt
         operator,
         value: undefined,
       },
-      isNegation
+      isNegation,
     );
     onFilterSelect?.(property);
   };

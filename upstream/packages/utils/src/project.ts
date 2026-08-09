@@ -6,7 +6,12 @@
 
 import { sortBy } from "lodash-es";
 // plane imports
-import type { TProject, TProjectDisplayFilters, TProjectFilters, TProjectOrderByOptions } from "@plane/types";
+import type {
+  TProject,
+  TProjectDisplayFilters,
+  TProjectFilters,
+  TProjectOrderByOptions,
+} from "@plane/types";
 // local imports
 import { getDate } from "./datetime";
 import { satisfiesDateFilter } from "./filter";
@@ -22,9 +27,10 @@ export const orderJoinedProjects = (
   sourceIndex: number,
   destinationIndex: number,
   currentProjectId: string,
-  joinedProjects: TProject[]
+  joinedProjects: TProject[],
 ): number | undefined => {
-  if (!currentProjectId || sourceIndex < 0 || destinationIndex < 0 || joinedProjects.length <= 0) return undefined;
+  if (!currentProjectId || sourceIndex < 0 || destinationIndex < 0 || joinedProjects.length <= 0)
+    return undefined;
 
   let updatedSortOrder: number | undefined = undefined;
   const sortOrderDefaultValue = 10000;
@@ -61,7 +67,7 @@ export const projectIdentifierSanitizer = (identifier: string): string =>
 export const shouldFilterProject = (
   project: TProject,
   displayFilters: TProjectDisplayFilters,
-  filters: TProjectFilters
+  filters: TProjectFilters,
 ): boolean => {
   let fallsInFilters = true;
   Object.keys(filters).forEach((key) => {
@@ -72,18 +78,21 @@ export const shouldFilterProject = (
       fallsInFilters = fallsInFilters && filters.lead.includes(`${project.project_lead}`);
     if (filterKey === "members" && filters.members && filters.members.length > 0) {
       const memberIds = project.members;
-      fallsInFilters = fallsInFilters && filters.members.some((memberId) => memberIds?.includes(memberId));
+      fallsInFilters =
+        fallsInFilters && filters.members.some((memberId) => memberIds?.includes(memberId));
     }
     if (filterKey === "created_at" && filters.created_at && filters.created_at.length > 0) {
       const createdDate = getDate(project.created_at);
       filters.created_at.forEach((dateFilter) => {
-        fallsInFilters = fallsInFilters && !!createdDate && satisfiesDateFilter(createdDate, dateFilter);
+        fallsInFilters =
+          fallsInFilters && !!createdDate && satisfiesDateFilter(createdDate, dateFilter);
       });
     }
   });
   if (displayFilters.my_projects && !project.member_role) fallsInFilters = false;
   if (displayFilters.archived_projects && !project.archived_at) fallsInFilters = false;
-  if (project.archived_at) fallsInFilters = displayFilters.archived_projects ? fallsInFilters : false;
+  if (project.archived_at)
+    fallsInFilters = displayFilters.archived_projects ? fallsInFilters : false;
 
   return fallsInFilters;
 };
@@ -94,17 +103,23 @@ export const shouldFilterProject = (
  * @param {TProjectOrderByOptions | undefined} orderByKey
  * @returns {TProject[]}
  */
-export const orderProjects = (projects: TProject[], orderByKey: TProjectOrderByOptions | undefined): TProject[] => {
+export const orderProjects = (
+  projects: TProject[],
+  orderByKey: TProjectOrderByOptions | undefined,
+): TProject[] => {
   let orderedProjects: TProject[] = [];
   if (projects.length === 0) return orderedProjects;
 
   if (orderByKey === "sort_order") orderedProjects = sortBy(projects, [(p) => p.sort_order]);
   if (orderByKey === "name") orderedProjects = sortBy(projects, [(p) => p.name.toLowerCase()]);
-  if (orderByKey === "-name") orderedProjects = sortBy(projects, [(p) => p.name.toLowerCase()]).reverse();
+  if (orderByKey === "-name")
+    orderedProjects = sortBy(projects, [(p) => p.name.toLowerCase()]).reverse();
   if (orderByKey === "created_at") orderedProjects = sortBy(projects, [(p) => p.created_at]);
   if (orderByKey === "-created_at") orderedProjects = sortBy(projects, [(p) => !p.created_at]);
-  if (orderByKey === "members_length") orderedProjects = sortBy(projects, [(p) => p.members?.length]);
-  if (orderByKey === "-members_length") orderedProjects = sortBy(projects, [(p) => p.members?.length]).reverse();
+  if (orderByKey === "members_length")
+    orderedProjects = sortBy(projects, [(p) => p.members?.length]);
+  if (orderByKey === "-members_length")
+    orderedProjects = sortBy(projects, [(p) => p.members?.length]).reverse();
 
   return orderedProjects;
 };

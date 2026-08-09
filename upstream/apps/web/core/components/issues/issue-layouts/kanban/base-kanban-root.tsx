@@ -105,7 +105,7 @@ export const BaseKanBanRoot = observer(function BaseKanBanRoot(props: IBaseKanBa
         fetchNextIssues(groupId, subgroupId);
       }
     },
-    [fetchNextIssues]
+    [fetchNextIssues],
   );
 
   const groupedIssueIds = issues?.groupedIssueIds;
@@ -124,7 +124,7 @@ export const BaseKanBanRoot = observer(function BaseKanBanRoot(props: IBaseKanBa
 
   const isEditingAllowed = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   const handleOnDrop = useGroupIssuesDragNDrop(storeType, orderBy, group_by, sub_group_by);
@@ -132,11 +132,13 @@ export const BaseKanBanRoot = observer(function BaseKanBanRoot(props: IBaseKanBa
   const canEditProperties = useCallback(
     (projectId: string | undefined) => {
       const isEditingAllowedBasedOnProject =
-        canEditPropertiesBasedOnProject && projectId ? canEditPropertiesBasedOnProject(projectId) : isEditingAllowed;
+        canEditPropertiesBasedOnProject && projectId
+          ? canEditPropertiesBasedOnProject(projectId)
+          : isEditingAllowed;
 
       return enableInlineEditing && isEditingAllowedBasedOnProject;
     },
-    [canEditPropertiesBasedOnProject, enableInlineEditing, isEditingAllowed]
+    [canEditPropertiesBasedOnProject, enableInlineEditing, isEditingAllowed],
   );
 
   // Enable Auto Scroll for Main Kanban
@@ -148,7 +150,7 @@ export const BaseKanBanRoot = observer(function BaseKanBanRoot(props: IBaseKanBa
     return combine(
       autoScrollForElements({
         element,
-      })
+      }),
     );
   }, []);
 
@@ -161,7 +163,11 @@ export const BaseKanBanRoot = observer(function BaseKanBanRoot(props: IBaseKanBa
     return combine(
       dropTargetForElements({
         element,
-        getData: () => ({ columnId: "issue-trash-box", groupId: "issue-trash-box", type: "DELETE" }),
+        getData: () => ({
+          columnId: "issue-trash-box",
+          groupId: "issue-trash-box",
+          type: "DELETE",
+        }),
         onDragEnter: () => {
           setIsDragOverDelete(true);
         },
@@ -177,7 +183,7 @@ export const BaseKanBanRoot = observer(function BaseKanBanRoot(props: IBaseKanBa
           setDraggedIssueId(source.id);
           setDeleteIssueModal(true);
         },
-      })
+      }),
     );
   }, [setIsDragOverDelete, setDraggedIssueId, setDeleteIssueModal]);
 
@@ -189,14 +195,24 @@ export const BaseKanBanRoot = observer(function BaseKanBanRoot(props: IBaseKanBa
         issue={issue}
         handleDelete={async () => removeIssue(issue.project_id, issue.id)}
         handleUpdate={async (data) => updateIssue && updateIssue(issue.project_id, issue.id, data)}
-        handleRemoveFromView={async () => removeIssueFromView && removeIssueFromView(issue.project_id, issue.id)}
+        handleRemoveFromView={async () =>
+          removeIssueFromView && removeIssueFromView(issue.project_id, issue.id)
+        }
         handleArchive={async () => archiveIssue && archiveIssue(issue.project_id, issue.id)}
         handleRestore={async () => restoreIssue && restoreIssue(issue.project_id, issue.id)}
         readOnly={!canEditProperties(issue.project_id ?? undefined) || isCompletedCycle}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isCompletedCycle, canEditProperties, removeIssue, updateIssue, removeIssueFromView, archiveIssue, restoreIssue]
+    [
+      isCompletedCycle,
+      canEditProperties,
+      removeIssue,
+      updateIssue,
+      removeIssueFromView,
+      archiveIssue,
+      restoreIssue,
+    ],
   );
 
   const handleDeleteIssue = async () => {
@@ -228,10 +244,13 @@ export const BaseKanBanRoot = observer(function BaseKanBanRoot(props: IBaseKanBa
         });
       }
     },
-    [workspaceSlug, issuesFilter, projectId, updateFilters]
+    [workspaceSlug, issuesFilter, projectId, updateFilters],
   );
 
-  const collapsedGroups = issuesFilter?.issueFilters?.kanbanFilters || { group_by: [], sub_group_by: [] };
+  const collapsedGroups = issuesFilter?.issueFilters?.kanbanFilters || {
+    group_by: [],
+    sub_group_by: [],
+  };
 
   return (
     <>

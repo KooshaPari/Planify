@@ -24,7 +24,9 @@ function ProjectDetailSettingsLayout({ params }: Route.ComponentProps) {
   return (
     <>
       <SettingsMobileNav
-        hamburgerContent={(props) => <ProjectSettingsSidebarRoot {...props} projectId={projectId} />}
+        hamburgerContent={(props) => (
+          <ProjectSettingsSidebarRoot {...props} projectId={projectId} />
+        )}
         activePath={getProjectActivePath(pathname) || ""}
       />
       <div className="inset-y-0 flex h-full w-full flex-row">

@@ -38,7 +38,7 @@ export interface IModuleIssuesFilter extends IBaseIssueFilterStore {
     moduleId: string,
     cursor: string | undefined,
     groupId: string | undefined,
-    subGroupId: string | undefined
+    subGroupId: string | undefined,
   ) => Partial<Record<TIssueParams, string | boolean>>;
   getIssueFilters(moduleId: string): IIssueFilters | undefined;
   // action
@@ -47,14 +47,14 @@ export interface IModuleIssuesFilter extends IBaseIssueFilterStore {
     workspaceSlug: string,
     projectId: string,
     moduleId: string,
-    filters: TWorkItemFilterExpression
+    filters: TWorkItemFilterExpression,
   ) => Promise<void>;
   updateFilters: (
     workspaceSlug: string,
     projectId: string,
     filterType: TSupportedFilterTypeForUpdate,
     filters: TSupportedFilterForUpdate,
-    moduleId: string
+    moduleId: string,
   ) => Promise<void>;
 }
 
@@ -111,16 +111,21 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
     const userFilters = this.getIssueFilters(moduleId);
     if (!userFilters) return undefined;
 
-    const filteredParams = handleIssueQueryParamsByLayout(userFilters?.displayFilters?.layout, "issues");
+    const filteredParams = handleIssueQueryParamsByLayout(
+      userFilters?.displayFilters?.layout,
+      "issues",
+    );
     if (!filteredParams) return undefined;
 
-    if (filteredParams.includes("module")) filteredParams.splice(filteredParams.indexOf("module"), 1);
+    if (filteredParams.includes("module"))
+      filteredParams.splice(filteredParams.indexOf("module"), 1);
 
-    const filteredRouteParams: Partial<Record<TIssueParams, string | boolean>> = this.computedFilteredParams(
-      userFilters?.richFilters,
-      userFilters?.displayFilters,
-      filteredParams
-    );
+    const filteredRouteParams: Partial<Record<TIssueParams, string | boolean>> =
+      this.computedFilteredParams(
+        userFilters?.richFilters,
+        userFilters?.displayFilters,
+        filteredParams,
+      );
 
     return filteredRouteParams;
   }
@@ -131,7 +136,7 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
       moduleId: string,
       cursor: string | undefined,
       groupId: string | undefined,
-      subGroupId: string | undefined
+      subGroupId: string | undefined,
     ) => {
       let filterParams = this.getAppliedFilters(moduleId);
 
@@ -140,17 +145,31 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
       }
       filterParams["module"] = moduleId;
 
-      const paginationParams = this.getPaginationParams(filterParams, options, cursor, groupId, subGroupId);
+      const paginationParams = this.getPaginationParams(
+        filterParams,
+        options,
+        cursor,
+        groupId,
+        subGroupId,
+      );
       return paginationParams;
-    }
+    },
   );
 
   fetchFilters = async (workspaceSlug: string, projectId: string, moduleId: string) => {
-    const _filters = await this.issueFilterService.fetchModuleIssueFilters(workspaceSlug, projectId, moduleId);
+    const _filters = await this.issueFilterService.fetchModuleIssueFilters(
+      workspaceSlug,
+      projectId,
+      moduleId,
+    );
 
     const richFilters: TWorkItemFilterExpression = _filters?.rich_filters;
-    const displayFilters: IIssueDisplayFilterOptions = this.computedDisplayFilters(_filters?.display_filters);
-    const displayProperties: IIssueDisplayProperties = this.computedDisplayProperties(_filters?.display_properties);
+    const displayFilters: IIssueDisplayFilterOptions = this.computedDisplayFilters(
+      _filters?.display_filters,
+    );
+    const displayProperties: IIssueDisplayProperties = this.computedDisplayProperties(
+      _filters?.display_properties,
+    );
 
     // fetching the kanban toggle helpers in the local storage
     const kanbanFilters = {
@@ -163,7 +182,7 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
         EIssuesStoreType.MODULE,
         workspaceSlug,
         moduleId,
-        currentUserId
+        currentUserId,
       );
       kanbanFilters.group_by = _kanbanFilters?.kanban_filters?.group_by || [];
       kanbanFilters.sub_group_by = _kanbanFilters?.kanban_filters?.sub_group_by || [];
@@ -186,7 +205,7 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
     workspaceSlug,
     projectId,
     moduleId,
-    filters
+    filters,
   ) => {
     try {
       runInAction(() => {
@@ -197,7 +216,7 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
         workspaceSlug,
         projectId,
         "mutation",
-        moduleId
+        moduleId,
       );
       await this.issueFilterService.patchModuleIssueFilters(workspaceSlug, projectId, moduleId, {
         rich_filters: filters,
@@ -208,7 +227,13 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
     }
   };
 
-  updateFilters: IModuleIssuesFilter["updateFilters"] = async (workspaceSlug, projectId, type, filters, moduleId) => {
+  updateFilters: IModuleIssuesFilter["updateFilters"] = async (
+    workspaceSlug,
+    projectId,
+    type,
+    filters,
+    moduleId,
+  ) => {
     try {
       if (isEmpty(this.filters) || isEmpty(this.filters[moduleId])) return;
 
@@ -238,7 +263,10 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
             updatedDisplayFilters.sub_group_by = null;
           }
           // set group_by to state if layout is switched to kanban and group_by is null
-          if (_filters.displayFilters.layout === "kanban" && _filters.displayFilters.group_by === null) {
+          if (
+            _filters.displayFilters.layout === "kanban" &&
+            _filters.displayFilters.group_by === null
+          ) {
             _filters.displayFilters.group_by = "state";
             updatedDisplayFilters.group_by = "state";
           }
@@ -248,7 +276,7 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
               set(
                 this.filters,
                 [moduleId, "displayFilters", _key],
-                updatedDisplayFilters[_key as keyof IIssueDisplayFilterOptions]
+                updatedDisplayFilters[_key as keyof IIssueDisplayFilterOptions],
               );
             });
           });
@@ -262,33 +290,46 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
               workspaceSlug,
               projectId,
               "mutation",
-              moduleId
+              moduleId,
             );
           }
 
-          await this.issueFilterService.patchModuleIssueFilters(workspaceSlug, projectId, moduleId, {
-            display_filters: _filters.displayFilters,
-          });
+          await this.issueFilterService.patchModuleIssueFilters(
+            workspaceSlug,
+            projectId,
+            moduleId,
+            {
+              display_filters: _filters.displayFilters,
+            },
+          );
 
           break;
         }
         case EIssueFilterType.DISPLAY_PROPERTIES: {
           const updatedDisplayProperties = filters as IIssueDisplayProperties;
-          _filters.displayProperties = { ..._filters.displayProperties, ...updatedDisplayProperties };
+          _filters.displayProperties = {
+            ..._filters.displayProperties,
+            ...updatedDisplayProperties,
+          };
 
           runInAction(() => {
             Object.keys(updatedDisplayProperties).forEach((_key) => {
               set(
                 this.filters,
                 [moduleId, "displayProperties", _key],
-                updatedDisplayProperties[_key as keyof IIssueDisplayProperties]
+                updatedDisplayProperties[_key as keyof IIssueDisplayProperties],
               );
             });
           });
 
-          await this.issueFilterService.patchModuleIssueFilters(workspaceSlug, projectId, moduleId, {
-            display_properties: _filters.displayProperties,
-          });
+          await this.issueFilterService.patchModuleIssueFilters(
+            workspaceSlug,
+            projectId,
+            moduleId,
+            {
+              display_properties: _filters.displayProperties,
+            },
+          );
           break;
         }
 
@@ -298,16 +339,23 @@ export class ModuleIssuesFilter extends IssueFilterHelperStore implements IModul
 
           const currentUserId = this.rootIssueStore.currentUserId;
           if (currentUserId)
-            this.handleIssuesLocalFilters.set(EIssuesStoreType.MODULE, type, workspaceSlug, moduleId, currentUserId, {
-              kanban_filters: _filters.kanbanFilters,
-            });
+            this.handleIssuesLocalFilters.set(
+              EIssuesStoreType.MODULE,
+              type,
+              workspaceSlug,
+              moduleId,
+              currentUserId,
+              {
+                kanban_filters: _filters.kanbanFilters,
+              },
+            );
 
           runInAction(() => {
             Object.keys(updatedKanbanFilters).forEach((_key) => {
               set(
                 this.filters,
                 [moduleId, "kanbanFilters", _key],
-                updatedKanbanFilters[_key as keyof TIssueKanbanFilters]
+                updatedKanbanFilters[_key as keyof TIssueKanbanFilters],
               );
             });
           });

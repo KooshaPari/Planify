@@ -19,7 +19,7 @@ type TNotificationSidebarHeader = {
 };
 
 export const NotificationSidebarHeader = observer(function NotificationSidebarHeader(
-  props: TNotificationSidebarHeader
+  props: TNotificationSidebarHeader,
 ) {
   const { workspaceSlug } = props;
   const { t } = useTranslation();

@@ -19,7 +19,13 @@ interface IPriorityIcon {
 }
 
 export function PriorityIcon(props: IPriorityIcon) {
-  const { priority, className = "", containerClassName = "", size = 14, withContainer = false } = props;
+  const {
+    priority,
+    className = "",
+    containerClassName = "",
+    size = 14,
+    withContainer = false,
+  } = props;
 
   const priorityClasses = {
     urgent: "bg-layer-2 text-priority-urgent border-priority-urgent",
@@ -48,7 +54,7 @@ export function PriorityIcon(props: IPriorityIcon) {
           className={cn(
             "flex flex-shrink-0 items-center justify-center rounded-sm border p-0.5",
             priorityClasses[priority ?? "none"],
-            containerClassName
+            containerClassName,
           )}
         >
           <Icon
@@ -59,7 +65,7 @@ export function PriorityIcon(props: IPriorityIcon) {
                 "translate-x-0.5": priority === "medium",
                 "translate-x-1": priority === "low",
               },
-              className
+              className,
             )}
           />
         </div>
@@ -75,7 +81,7 @@ export function PriorityIcon(props: IPriorityIcon) {
               "text-priority-low": priority === "low",
               "text-priority-none": priority === "none",
             },
-            className
+            className,
           )}
         />
       )}

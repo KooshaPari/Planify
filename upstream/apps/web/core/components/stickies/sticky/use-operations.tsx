@@ -24,7 +24,7 @@ export type TOperations = {
     workspaceSlug: string,
     sourceId: string,
     droppedId: string,
-    instruction: InstructionType
+    instruction: InstructionType,
   ) => Promise<void>;
 };
 
@@ -40,8 +40,14 @@ export const getRandomStickyColor = (): string => {
 export const useStickyOperations = (props: TProps) => {
   const { workspaceSlug } = props;
   // store hooks
-  const { stickies, getWorkspaceStickyIds, createSticky, updateSticky, deleteSticky, updateStickyPosition } =
-    useSticky();
+  const {
+    stickies,
+    getWorkspaceStickyIds,
+    createSticky,
+    updateSticky,
+    deleteSticky,
+    updateStickyPosition,
+  } = useSticky();
   const { t } = useTranslation();
 
   const isValid = (data: Partial<TSticky>) => {
@@ -68,7 +74,10 @@ export const useStickyOperations = (props: TProps) => {
           // check if latest sticky is empty
           if (workspaceStickIds && workspaceStickIds.length >= 0) {
             const latestSticky = stickies[workspaceStickIds[0]];
-            if (latestSticky && (!latestSticky.description_html || isCommentEmpty(latestSticky.description_html))) {
+            if (
+              latestSticky &&
+              (!latestSticky.description_html || isCommentEmpty(latestSticky.description_html))
+            ) {
               setToast({
                 message: t("stickies.toasts.errors.already_exists"),
                 type: TOAST_TYPE.WARNING,
@@ -130,7 +139,7 @@ export const useStickyOperations = (props: TProps) => {
         workspaceSlug: string,
         sourceId: string,
         droppedId: string,
-        instruction: InstructionType
+        instruction: InstructionType,
       ) => {
         try {
           if (!workspaceSlug) throw new Error("Missing required fields");
@@ -145,7 +154,15 @@ export const useStickyOperations = (props: TProps) => {
         }
       },
     }),
-    [createSticky, deleteSticky, getWorkspaceStickyIds, stickies, updateSticky, updateStickyPosition, workspaceSlug]
+    [
+      createSticky,
+      deleteSticky,
+      getWorkspaceStickyIds,
+      stickies,
+      updateSticky,
+      updateStickyPosition,
+      workspaceSlug,
+    ],
   );
 
   return {

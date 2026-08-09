@@ -191,7 +191,9 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
 
   renderHTML({ HTMLAttributes, node }) {
     const emojiItem = shortcodeToEmoji(node.attrs.name, this.options.emojis);
-    const attributes = mergeAttributes(HTMLAttributes, this.options.HTMLAttributes, { "data-type": this.name });
+    const attributes = mergeAttributes(HTMLAttributes, this.options.HTMLAttributes, {
+      "data-type": this.name,
+    });
 
     if (!emojiItem) {
       return ["span", attributes, `:${node.attrs.name}:`];
@@ -277,7 +279,7 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
             })
             .run();
         },
-      })
+      }),
     );
 
     if (this.options.enableEmoticons) {
@@ -287,7 +289,9 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
         .flat()
         .filter((item) => item) as string[];
 
-      const emoticonRegex = new RegExp(`(?:^|\\s)(${emoticons.map((item) => escapeForRegEx(item)).join("|")}) $`);
+      const emoticonRegex = new RegExp(
+        `(?:^|\\s)(${emoticons.map((item) => escapeForRegEx(item)).join("|")}) $`,
+      );
 
       inputRules.push(
         nodeInputRule({
@@ -304,7 +308,7 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
               name: emoji.name,
             };
           },
-        })
+        }),
       );
     }
 
@@ -333,7 +337,7 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
               },
               {
                 updateSelection: false,
-              }
+              },
             )
             .command(({ tr, state }) => {
               tr.setStoredMarks(state.doc.resolve(state.selection.to - 1).marks());
@@ -382,7 +386,8 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
         // replace text emojis with emoji node on any change
         appendTransaction: (transactions, oldState, newState) => {
           const docChanges =
-            transactions.some((transaction) => transaction.docChanged) && !oldState.doc.eq(newState.doc);
+            transactions.some((transaction) => transaction.docChanged) &&
+            !oldState.doc.eq(newState.doc);
 
           if (!docChanges) {
             return;
@@ -403,7 +408,11 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
               return;
             }
 
-            const textNodes = findChildrenInRange(newState.doc, newRange, (node) => node.type.isText);
+            const textNodes = findChildrenInRange(
+              newState.doc,
+              newRange,
+              (node) => node.type.isText,
+            );
 
             textNodes.forEach(({ node, pos }) => {
               if (!node.text) {

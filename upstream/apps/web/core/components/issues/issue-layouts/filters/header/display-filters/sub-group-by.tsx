@@ -40,20 +40,22 @@ export const FilterSubGroupBy = observer(function FilterSubGroupBy(props: Props)
       />
       {previewEnabled && (
         <div>
-          {ISSUE_GROUP_BY_OPTIONS.filter((option) => subGroupByOptions.includes(option.key)).map((subGroupBy) => {
-            if (selectedGroupBy !== null && subGroupBy.key === selectedGroupBy) return null;
-            if (ignoreGroupedFilters.includes(subGroupBy?.key)) return null;
+          {ISSUE_GROUP_BY_OPTIONS.filter((option) => subGroupByOptions.includes(option.key)).map(
+            (subGroupBy) => {
+              if (selectedGroupBy !== null && subGroupBy.key === selectedGroupBy) return null;
+              if (ignoreGroupedFilters.includes(subGroupBy?.key)) return null;
 
-            return (
-              <FilterOption
-                key={subGroupBy?.key}
-                isChecked={selectedSubGroupBy === subGroupBy?.key ? true : false}
-                onClick={() => handleUpdate(subGroupBy.key)}
-                title={t(subGroupBy.titleTranslationKey)}
-                multiple={false}
-              />
-            );
-          })}
+              return (
+                <FilterOption
+                  key={subGroupBy?.key}
+                  isChecked={selectedSubGroupBy === subGroupBy?.key ? true : false}
+                  onClick={() => handleUpdate(subGroupBy.key)}
+                  title={t(subGroupBy.titleTranslationKey)}
+                  multiple={false}
+                />
+              );
+            },
+          )}
         </div>
       )}
     </>

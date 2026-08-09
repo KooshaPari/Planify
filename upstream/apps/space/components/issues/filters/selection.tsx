@@ -24,7 +24,8 @@ export const FilterSelection = observer(function FilterSelection(props: Props) {
 
   const [filtersSearchQuery, setFiltersSearchQuery] = useState("");
 
-  const isFilterEnabled = (filter: keyof IIssueFilterOptions) => layoutDisplayFiltersOptions.includes(filter);
+  const isFilterEnabled = (filter: keyof IIssueFilterOptions) =>
+    layoutDisplayFiltersOptions.includes(filter);
 
   return (
     <div className="flex h-full w-full flex-col overflow-hidden">
@@ -40,7 +41,11 @@ export const FilterSelection = observer(function FilterSelection(props: Props) {
             autoFocus
           />
           {filtersSearchQuery !== "" && (
-            <button type="button" className="grid place-items-center" onClick={() => setFiltersSearchQuery("")}>
+            <button
+              type="button"
+              className="grid place-items-center"
+              onClick={() => setFiltersSearchQuery("")}
+            >
               <CloseIcon className="text-tertiary" height={12} width={12} strokeWidth={2} />
             </button>
           )}

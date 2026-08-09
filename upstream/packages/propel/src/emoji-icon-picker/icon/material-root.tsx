@@ -16,7 +16,9 @@ type MaterialIconListProps = {
 export function MaterialIconList(props: MaterialIconListProps) {
   const { query, onChange, activeColor } = props;
 
-  const filteredArray = MATERIAL_ICONS_LIST.filter((icon) => icon.name.toLowerCase().includes(query.toLowerCase()));
+  const filteredArray = MATERIAL_ICONS_LIST.filter((icon) =>
+    icon.name.toLowerCase().includes(query.toLowerCase()),
+  );
 
   const isMaterialSymbolsFontLoaded = useFontFaceObserver([
     {
@@ -42,7 +44,10 @@ export function MaterialIconList(props: MaterialIconListProps) {
           }}
         >
           {isMaterialSymbolsFontLoaded ? (
-            <span style={{ color: activeColor }} className="material-symbols-rounded text-20! leading-5!">
+            <span
+              style={{ color: activeColor }}
+              className="material-symbols-rounded text-20! leading-5!"
+            >
               {icon.name}
             </span>
           ) : (

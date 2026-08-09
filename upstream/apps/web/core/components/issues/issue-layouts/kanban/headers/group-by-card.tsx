@@ -11,7 +11,12 @@ import { useParams } from "next/navigation";
 import { Minimize2, Maximize2, Circle } from "lucide-react";
 import { PlusIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { TIssue, ISearchIssueResponse, TIssueKanbanFilters, TIssueGroupByOptions } from "@plane/types";
+import type {
+  TIssue,
+  ISearchIssueResponse,
+  TIssueKanbanFilters,
+  TIssueGroupByOptions,
+} from "@plane/types";
 // ui
 import { CustomMenu } from "@plane/ui";
 // components
@@ -54,7 +59,9 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
     addIssuesToView,
     isEpic = false,
   } = props;
-  const verticalAlignPosition = sub_group_by ? false : collapsedGroups?.group_by.includes(column_id);
+  const verticalAlignPosition = sub_group_by
+    ? false
+    : collapsedGroups?.group_by.includes(column_id);
   // states
   const [isOpen, setIsOpen] = React.useState(false);
   const [openExistingIssueListModal, setOpenExistingIssueListModal] = React.useState(false);
@@ -64,7 +71,9 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
   const { workspaceSlug, projectId, moduleId, cycleId } = useParams();
 
   const renderExistingIssueModal = moduleId || cycleId;
-  const ExistingIssuesListModalPayload = moduleId ? { module: moduleId.toString() } : { cycle: true };
+  const ExistingIssuesListModalPayload = moduleId
+    ? { module: moduleId.toString() }
+    : { cycle: true };
 
   const handleAddIssuesToView = async (data: ISearchIssueResponse[]) => {
     if (!workspaceSlug || !projectId) return;
@@ -91,7 +100,11 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
   return (
     <>
       {isEpic ? (
-        <CreateUpdateEpicModal isOpen={isOpen} onClose={() => setIsOpen(false)} data={issuePayload} />
+        <CreateUpdateEpicModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          data={issuePayload}
+        />
       ) : (
         <CreateUpdateIssueModal
           isOpen={isOpen}
@@ -122,7 +135,9 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
 
         <div
           className={`relative flex gap-1 ${
-            verticalAlignPosition ? `flex-col items-center` : `w-full flex-row items-baseline overflow-hidden`
+            verticalAlignPosition
+              ? `flex-col items-center`
+              : `w-full flex-row items-baseline overflow-hidden`
           }`}
         >
           <div
@@ -176,7 +191,9 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
                   setOpenExistingIssueListModal(true);
                 }}
               >
-                <span className="flex items-center justify-start gap-2">Add an existing work item</span>
+                <span className="flex items-center justify-start gap-2">
+                  Add an existing work item
+                </span>
               </CustomMenu.MenuItem>
             </CustomMenu>
           ) : (

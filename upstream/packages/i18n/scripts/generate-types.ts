@@ -116,7 +116,9 @@ function main(): void {
         // Find which file already had this key
         for (const [otherFile, otherKeys] of keysByFile.entries()) {
           if (otherFile !== file && otherKeys.includes(key)) {
-            collisions.push(`Cross-namespace collision: key "${key}" exists in both "${otherFile}" and "${file}"`);
+            collisions.push(
+              `Cross-namespace collision: key "${key}" exists in both "${otherFile}" and "${file}"`,
+            );
           }
         }
       }

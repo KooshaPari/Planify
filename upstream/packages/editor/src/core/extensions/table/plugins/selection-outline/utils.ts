@@ -14,7 +14,7 @@ import type { TableMap } from "@tiptap/pm/tables";
  */
 const getAdjacentCellPositions = (
   cellStart: number,
-  tableMap: TableMap
+  tableMap: TableMap,
 ): { top?: number; bottom?: number; left?: number; right?: number } => {
   // Extract table dimensions
   // width -> number of columns in the table
@@ -53,7 +53,11 @@ const getAdjacentCellPositions = (
   };
 };
 
-export const getCellBorderClasses = (cellStart: number, selectedCells: number[], tableMap: TableMap): string[] => {
+export const getCellBorderClasses = (
+  cellStart: number,
+  selectedCells: number[],
+  tableMap: TableMap,
+): string[] => {
   const adjacent = getAdjacentCellPositions(cellStart, tableMap);
   const classes: string[] = [];
 

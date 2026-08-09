@@ -35,16 +35,19 @@ interface Props {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
-  getPaginationData: (groupId: string | undefined, subGroupId: string | undefined) => TPaginationData | undefined;
+  getPaginationData: (
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ) => TPaginationData | undefined;
   getIssueLoader: (groupId?: string, subGroupId?: string) => TLoader;
 }
 
 // List loader component
 const ListLoaderItemRow = forwardRef(function ListLoaderItemRow(
   props: Record<string, unknown>,
-  ref: React.ForwardedRef<HTMLDivElement>
+  ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   return (
     <div ref={ref} className="flex h-11 items-center justify-between border-b border-subtle p-3">
@@ -88,7 +91,12 @@ export const ListGroup = observer(function ListGroup(props: Props) {
   const nextPageResults = getPaginationData(group.id, undefined)?.nextPageResults;
   const isPaginating = !!getIssueLoader(group.id);
 
-  useIntersectionObserver(containerRef, isPaginating ? null : intersectionElement, loadMoreIssues, `100% 0% 100% 0%`);
+  useIntersectionObserver(
+    containerRef,
+    isPaginating ? null : intersectionElement,
+    loadMoreIssues,
+    `100% 0% 100% 0%`,
+  );
 
   const shouldLoadMore =
     nextPageResults === undefined && groupIssueCount !== undefined && groupIssueIds
@@ -121,7 +129,10 @@ export const ListGroup = observer(function ListGroup(props: Props) {
   const shouldExpand = (!!groupIssueCount && isExpanded) || !groupBy;
 
   return validateEmptyIssueGroups(groupIssueCount) ? (
-    <div ref={groupRef} className={cn(`relative flex shrink-0 flex-col border-[1px] border-transparent`)}>
+    <div
+      ref={groupRef}
+      className={cn(`relative flex shrink-0 flex-col border-[1px] border-transparent`)}
+    >
       <div className="sticky top-0 z-2 w-full shrink-0 border-b border-subtle">
         <HeaderGroupByCard
           groupID={group.id}
@@ -142,7 +153,8 @@ export const ListGroup = observer(function ListGroup(props: Props) {
             />
           )}
 
-          {shouldLoadMore && (groupBy ? <>{loadMore}</> : <ListLoaderItemRow ref={setIntersectionElement} />)}
+          {shouldLoadMore &&
+            (groupBy ? <>{loadMore}</> : <ListLoaderItemRow ref={setIntersectionElement} />)}
         </div>
       )}
     </div>

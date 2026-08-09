@@ -7,7 +7,11 @@
 import { observer } from "mobx-react";
 import { usePathname } from "next/navigation";
 // i18n
-import { EUserPermissions, EUserPermissionsLevel, PROJECT_TRACKER_ELEMENTS } from "@plane/constants";
+import {
+  EUserPermissions,
+  EUserPermissionsLevel,
+  PROJECT_TRACKER_ELEMENTS,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 // ui
 import { Button } from "@plane/propel/button";
@@ -34,7 +38,7 @@ export const ProjectsBaseHeader = observer(function ProjectsBaseHeader() {
   // auth
   const isAuthorizedUser = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
   const isArchived = pathname.includes("/archives");
 
@@ -69,7 +73,9 @@ export const ProjectsBaseHeader = observer(function ProjectsBaseHeader() {
             className="items-center gap-1"
           >
             <span className="hidden sm:inline-block">{t("workspace_projects.create.label")}</span>
-            <span className="inline-block sm:hidden">{t("workspace_projects.label", { count: 1 })}</span>
+            <span className="inline-block sm:hidden">
+              {t("workspace_projects.label", { count: 1 })}
+            </span>
           </Button>
         ) : (
           <></>

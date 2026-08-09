@@ -30,13 +30,24 @@ export const Default: Story = {
   render() {
     return (
       <Command className="border-gray-200 w-96 rounded-lg border p-2">
-        <Command.Input placeholder="Search..." className="h-9 w-full bg-transparent py-3 text-13 outline-none" />
+        <Command.Input
+          placeholder="Search..."
+          className="h-9 w-full bg-transparent py-3 text-13 outline-none"
+        />
         <Command.List className="max-h-80 overflow-auto py-2">
-          <Command.Item className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">Item 1</Command.Item>
-          <Command.Item className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">Item 2</Command.Item>
-          <Command.Item className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">Item 3</Command.Item>
+          <Command.Item className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">
+            Item 1
+          </Command.Item>
+          <Command.Item className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">
+            Item 2
+          </Command.Item>
+          <Command.Item className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">
+            Item 3
+          </Command.Item>
         </Command.List>
-        <Command.Empty className="text-gray-500 py-6 text-center text-13">No results found.</Command.Empty>
+        <Command.Empty className="text-gray-500 py-6 text-center text-13">
+          No results found.
+        </Command.Empty>
       </Command>
     );
   },
@@ -68,7 +79,9 @@ export const WithIcons: Story = {
             <span>package.json</span>
           </Command.Item>
         </Command.List>
-        <Command.Empty className="text-gray-500 py-6 text-center text-13">No files or folders found.</Command.Empty>
+        <Command.Empty className="text-gray-500 py-6 text-center text-13">
+          No files or folders found.
+        </Command.Empty>
       </Command>
     );
   },
@@ -103,7 +116,9 @@ export const WithCategories: Story = {
             <span>New File</span>
           </Command.Item>
         </Command.List>
-        <Command.Empty className="text-gray-500 py-6 text-center text-13">No commands found.</Command.Empty>
+        <Command.Empty className="text-gray-500 py-6 text-center text-13">
+          No commands found.
+        </Command.Empty>
       </Command>
     );
   },
@@ -113,8 +128,13 @@ export const EmptyState: Story = {
   render() {
     return (
       <Command className="border-gray-200 w-96 rounded-lg border p-2">
-        <Command.Input placeholder="Search..." className="h-9 w-full bg-transparent py-3 text-13 outline-none" />
-        <Command.List className="max-h-80 overflow-auto py-2">{/* No items - will show empty state */}</Command.List>
+        <Command.Input
+          placeholder="Search..."
+          className="h-9 w-full bg-transparent py-3 text-13 outline-none"
+        />
+        <Command.List className="max-h-80 overflow-auto py-2">
+          {/* No items - will show empty state */}
+        </Command.List>
         <Command.Empty className="text-gray-500 py-6 text-center text-13">
           <p className="font-semibold">No results found</p>
           <p className="mt-1 text-11">Try searching for something else</p>
@@ -128,7 +148,10 @@ export const LongList: Story = {
   render() {
     return (
       <Command className="border-gray-200 w-96 rounded-lg border p-2">
-        <Command.Input placeholder="Search items..." className="h-9 w-full bg-transparent py-3 text-13 outline-none" />
+        <Command.Input
+          placeholder="Search items..."
+          className="h-9 w-full bg-transparent py-3 text-13 outline-none"
+        />
         <Command.List className="max-h-60 overflow-auto py-2">
           {Array.from({ length: 20 }, (_, i) => (
             <Command.Item key={i} className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">
@@ -136,7 +159,9 @@ export const LongList: Story = {
             </Command.Item>
           ))}
         </Command.List>
-        <Command.Empty className="text-gray-500 py-6 text-center text-13">No results found.</Command.Empty>
+        <Command.Empty className="text-gray-500 py-6 text-center text-13">
+          No results found.
+        </Command.Empty>
       </Command>
     );
   },
@@ -184,7 +209,9 @@ export const CustomStyling: Story = {
             Custom Item 3
           </Command.Item>
         </Command.List>
-        <Command.Empty className="text-blue-500 py-6 text-center text-13">No matching items found.</Command.Empty>
+        <Command.Empty className="text-blue-500 py-6 text-center text-13">
+          No matching items found.
+        </Command.Empty>
       </Command>
     );
   },
@@ -194,15 +221,24 @@ export const DisabledItems: Story = {
   render() {
     return (
       <Command className="border-gray-200 w-96 rounded-lg border p-2">
-        <Command.Input placeholder="Search..." className="h-9 w-full bg-transparent py-3 text-13 outline-none" />
+        <Command.Input
+          placeholder="Search..."
+          className="h-9 w-full bg-transparent py-3 text-13 outline-none"
+        />
         <Command.List className="max-h-80 overflow-auto py-2">
-          <Command.Item className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">Active Item 1</Command.Item>
+          <Command.Item className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">
+            Active Item 1
+          </Command.Item>
           <Command.Item disabled className="cursor-not-allowed rounded-sm px-3 py-2 opacity-50">
             Disabled Item
           </Command.Item>
-          <Command.Item className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">Active Item 2</Command.Item>
+          <Command.Item className="hover:bg-gray-100 cursor-pointer rounded-sm px-3 py-2">
+            Active Item 2
+          </Command.Item>
         </Command.List>
-        <Command.Empty className="text-gray-500 py-6 text-center text-13">No results found.</Command.Empty>
+        <Command.Empty className="text-gray-500 py-6 text-center text-13">
+          No results found.
+        </Command.Empty>
       </Command>
     );
   },

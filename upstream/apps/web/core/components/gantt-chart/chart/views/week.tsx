@@ -55,11 +55,13 @@ export const WeekChartView = observer(function WeekChartView(_props: any) {
                       "flex flex-shrink-0 justify-between p-1 text-center capitalize outline-[0.25px] outline-subtle-1",
                       {
                         "bg-accent-primary/20": weekDay.today,
-                      }
+                      },
                     )}
                     style={{ width: `${currentViewData?.data.dayWidth}px` }}
                   >
-                    <div className="space-x-1 text-11 font-medium text-placeholder">{weekDay.dayData.abbreviation}</div>
+                    <div className="space-x-1 text-11 font-medium text-placeholder">
+                      {weekDay.dayData.abbreviation}
+                    </div>
                     <div className="space-x-1 text-11 font-medium">
                       <span
                         className={cn({

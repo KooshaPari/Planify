@@ -5,7 +5,11 @@
  */
 
 import { API_BASE_URL } from "@plane/constants";
-import type { TCycleDistribution, TProgressSnapshot, TCycleEstimateDistribution } from "@plane/types";
+import type {
+  TCycleDistribution,
+  TProgressSnapshot,
+  TCycleEstimateDistribution,
+} from "@plane/types";
 import { APIService } from "../api.service";
 
 /**
@@ -31,10 +35,10 @@ export class CycleAnalyticsService extends APIService {
     workspaceSlug: string,
     projectId: string,
     cycleId: string,
-    analytic_type: string = "points"
+    analytic_type: string = "points",
   ): Promise<TCycleDistribution | TCycleEstimateDistribution> {
     return this.get(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/analytics?type=${analytic_type}`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/analytics?type=${analytic_type}`,
     )
       .then((res) => res?.data)
       .catch((err) => {
@@ -53,9 +57,11 @@ export class CycleAnalyticsService extends APIService {
   async workspaceActiveCyclesProgress(
     workspaceSlug: string,
     projectId: string,
-    cycleId: string
+    cycleId: string,
   ): Promise<TProgressSnapshot> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/progress/`)
+    return this.get(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/progress/`,
+    )
       .then((res) => res?.data)
       .catch((err) => {
         throw err?.response?.data;
@@ -73,9 +79,11 @@ export class CycleAnalyticsService extends APIService {
   async workspaceActiveCyclesProgressPro(
     workspaceSlug: string,
     projectId: string,
-    cycleId: string
+    cycleId: string,
   ): Promise<TProgressSnapshot> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/cycle-progress/`)
+    return this.get(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}/cycle-progress/`,
+    )
       .then((res) => res?.data)
       .catch((err) => {
         throw err?.response?.data;

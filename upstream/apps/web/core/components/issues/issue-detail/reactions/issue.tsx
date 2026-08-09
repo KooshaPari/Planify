@@ -29,7 +29,14 @@ export type TIssueReaction = {
 };
 
 export const IssueReaction = observer(function IssueReaction(props: TIssueReaction) {
-  const { workspaceSlug, projectId, issueId, currentUser, disabled = false, className = "" } = props;
+  const {
+    workspaceSlug,
+    projectId,
+    issueId,
+    currentUser,
+    disabled = false,
+    className = "",
+  } = props;
   // state
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   // hooks
@@ -64,7 +71,8 @@ export const IssueReaction = observer(function IssueReaction(props: TIssueReacti
       },
       remove: async (reaction: string) => {
         try {
-          if (!workspaceSlug || !projectId || !issueId || !currentUser?.id) throw new Error("Missing fields");
+          if (!workspaceSlug || !projectId || !issueId || !currentUser?.id)
+            throw new Error("Missing fields");
           await removeReaction(workspaceSlug, projectId, issueId, reaction, currentUser.id);
           setToast({
             title: "Success!",
@@ -84,7 +92,7 @@ export const IssueReaction = observer(function IssueReaction(props: TIssueReacti
         else await issueReactionOperations.create(reaction);
       },
     }),
-    [workspaceSlug, projectId, issueId, currentUser, createReaction, removeReaction, userReactions]
+    [workspaceSlug, projectId, issueId, currentUser, createReaction, removeReaction, userReactions],
   );
 
   const getReactionUsers = (reaction: string): string[] => {

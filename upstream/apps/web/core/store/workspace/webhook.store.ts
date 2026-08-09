@@ -28,14 +28,18 @@ export interface IWebhookStore {
   // crud actions
   createWebhook: (
     workspaceSlug: string,
-    data: Partial<IWebhook>
+    data: Partial<IWebhook>,
   ) => Promise<{ webHook: IWebhook; secretKey: string | null }>;
-  updateWebhook: (workspaceSlug: string, webhookId: string, data: Partial<IWebhook>) => Promise<IWebhook>;
+  updateWebhook: (
+    workspaceSlug: string,
+    webhookId: string,
+    data: Partial<IWebhook>,
+  ) => Promise<IWebhook>;
   removeWebhook: (workspaceSlug: string, webhookId: string) => Promise<void>;
   // secret key actions
   regenerateSecretKey: (
     workspaceSlug: string,
-    webhookId: string
+    webhookId: string,
   ) => Promise<{ webHook: IWebhook; secretKey: string | null }>;
   clearSecretKey: () => void;
 }
@@ -96,12 +100,15 @@ export class WebhookStore implements IWebhookStore {
    */
   fetchWebhooks = async (workspaceSlug: string) =>
     await this.webhookService.fetchWebhooksList(workspaceSlug).then((response) => {
-      const webHookObject: { [webhookId: string]: IWebhook } = response.reduce((accumulator, currentWebhook) => {
-        if (currentWebhook && currentWebhook.id) {
-          return { ...accumulator, [currentWebhook.id]: currentWebhook };
-        }
-        return accumulator;
-      }, {});
+      const webHookObject: { [webhookId: string]: IWebhook } = response.reduce(
+        (accumulator, currentWebhook) => {
+          if (currentWebhook && currentWebhook.id) {
+            return { ...accumulator, [currentWebhook.id]: currentWebhook };
+          }
+          return accumulator;
+        },
+        {},
+      );
       runInAction(() => {
         this.webhooks = webHookObject;
       });

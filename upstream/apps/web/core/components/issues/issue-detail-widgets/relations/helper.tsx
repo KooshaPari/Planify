@@ -16,12 +16,17 @@ import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 
 export type TRelationIssueOperations = {
   copyLink: (path: string) => void;
-  update: (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>;
+  update: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => Promise<void>;
   remove: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
 };
 
 export const useRelationOperations = (
-  issueServiceType: TIssueServiceType = EIssueServiceType.ISSUES
+  issueServiceType: TIssueServiceType = EIssueServiceType.ISSUES,
 ): TRelationIssueOperations => {
   const { updateIssue, removeIssue } = useIssueDetail(issueServiceType);
   const { t } = useTranslation();
@@ -58,7 +63,7 @@ export const useRelationOperations = (
         return removeIssue(workspaceSlug, projectId, issueId);
       },
     }),
-    [entityName, removeIssue, t, updateIssue]
+    [entityName, removeIssue, t, updateIssue],
   );
 
   return issueOperations;

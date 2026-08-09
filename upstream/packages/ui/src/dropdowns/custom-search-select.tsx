@@ -56,7 +56,9 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
   });
 
   const filteredOptions =
-    query === "" ? options : options?.filter((option) => option.query.toLowerCase().includes(query.toLowerCase()));
+    query === ""
+      ? options
+      : options?.filter((option) => option.query.toLowerCase().includes(query.toLowerCase()));
 
   const comboboxProps: any = {
     value,
@@ -110,7 +112,7 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
                       "cursor-not-allowed text-secondary": disabled,
                       "cursor-pointer hover:bg-layer-transparent-hover": !disabled,
                     },
-                    customButtonClassName
+                    customButtonClassName,
                   )}
                   onClick={toggleDropdown}
                 >
@@ -130,13 +132,16 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
                       "cursor-not-allowed text-secondary": disabled,
                       "cursor-pointer hover:bg-layer-transparent-hover": !disabled,
                     },
-                    buttonClassName
+                    buttonClassName,
                   )}
                   onClick={toggleDropdown}
                 >
                   {label}
                   {!noChevron && !disabled && (
-                    <ChevronDownIcon className={cn("h-3 w-3 flex-shrink-0", chevronClassName)} aria-hidden="true" />
+                    <ChevronDownIcon
+                      className={cn("h-3 w-3 flex-shrink-0", chevronClassName)}
+                      aria-hidden="true"
+                    />
                   )}
                 </button>
               </Combobox.Button>
@@ -147,7 +152,7 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
                   <div
                     className={cn(
                       "z-30 my-1 min-w-48 overflow-y-scroll rounded-md border-[0.5px] border-subtle-1 bg-surface-1 py-2.5 text-11 whitespace-nowrap focus:outline-none",
-                      optionsClassName
+                      optionsClassName,
                     )}
                     ref={setPopperElement}
                     style={styles.popper}
@@ -164,14 +169,17 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
                       />
                     </div>
                     <div
-                      className={cn("vertical-scrollbar mt-2 scrollbar-xs space-y-1 overflow-y-scroll px-2", {
-                        "max-h-96": maxHeight === "2xl",
-                        "max-h-80": maxHeight === "xl",
-                        "max-h-60": maxHeight === "lg",
-                        "max-h-48": maxHeight === "md",
-                        "max-h-36": maxHeight === "rg",
-                        "max-h-28": maxHeight === "sm",
-                      })}
+                      className={cn(
+                        "vertical-scrollbar mt-2 scrollbar-xs space-y-1 overflow-y-scroll px-2",
+                        {
+                          "max-h-96": maxHeight === "2xl",
+                          "max-h-80": maxHeight === "xl",
+                          "max-h-60": maxHeight === "lg",
+                          "max-h-48": maxHeight === "md",
+                          "max-h-36": maxHeight === "rg",
+                          "max-h-28": maxHeight === "sm",
+                        },
+                      )}
                     >
                       {filteredOptions ? (
                         filteredOptions.length > 0 ? (
@@ -184,8 +192,9 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
                                   "flex w-full cursor-pointer items-center justify-between gap-2 truncate rounded-sm px-1 py-1.5 select-none",
                                   {
                                     "bg-layer-transparent-hover": active,
-                                    "cursor-not-allowed text-placeholder opacity-60": option.disabled,
-                                  }
+                                    "cursor-not-allowed text-placeholder opacity-60":
+                                      option.disabled,
+                                  },
                                 )
                               }
                               onClick={() => {
@@ -222,7 +231,7 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
                     {footerOption}
                   </div>
                 </Combobox.Options>,
-                document.body
+                document.body,
               )}
           </>
         );

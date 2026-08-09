@@ -46,11 +46,16 @@ export const FilterItemProperty = observer(function FilterItemProperty<
   );
 });
 
-type TPropertyButtonProps<P extends TFilterProperty, E extends TExternalFilter> = IFilterItemPropertyProps<P, E> & {
+type TPropertyButtonProps<
+  P extends TFilterProperty,
+  E extends TExternalFilter,
+> = IFilterItemPropertyProps<P, E> & {
   className?: string;
 };
 
-function PropertyButton<P extends TFilterProperty, E extends TExternalFilter>(props: TPropertyButtonProps<P, E>) {
+function PropertyButton<P extends TFilterProperty, E extends TExternalFilter>(
+  props: TPropertyButtonProps<P, E>,
+) {
   const { icon: Icon, label, tooltipContent, className } = props;
 
   return (
@@ -59,7 +64,7 @@ function PropertyButton<P extends TFilterProperty, E extends TExternalFilter>(pr
         className={cn(
           "flex h-full min-w-0 items-center gap-1 px-2 py-[5px] text-11 text-tertiary",
           COMMON_FILTER_ITEM_BORDER_CLASSNAME,
-          className
+          className,
         )}
       >
         {Icon && (

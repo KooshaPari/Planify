@@ -25,7 +25,9 @@ type Props = {
   invitationId: string;
 };
 
-export const WorkspaceInvitationsListItem = observer(function WorkspaceInvitationsListItem(props: Props) {
+export const WorkspaceInvitationsListItem = observer(function WorkspaceInvitationsListItem(
+  props: Props,
+) {
   const { invitationId } = props;
   // router
   const { workspaceSlug } = useParams();
@@ -50,7 +52,7 @@ export const WorkspaceInvitationsListItem = observer(function WorkspaceInvitatio
   // 3. user cannot change role of higher role
   const hasRoleChangeAccess = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   const handleRemoveInvitation = async () => {
@@ -162,7 +164,9 @@ export const WorkspaceInvitationsListItem = observer(function WorkspaceInvitatio
                 setToast({
                   type: TOAST_TYPE.ERROR,
                   title: "Error!",
-                  message: error?.error || "An error occurred while updating member role. Please try again.",
+                  message:
+                    error?.error ||
+                    "An error occurred while updating member role. Please try again.",
                 });
               });
             }}
@@ -199,7 +203,7 @@ export const WorkspaceInvitationsListItem = observer(function WorkspaceInvitatio
                       {
                         "text-placeholder": item.disabled,
                       },
-                      item.className
+                      item.className,
                     )}
                     disabled={item.disabled}
                   >

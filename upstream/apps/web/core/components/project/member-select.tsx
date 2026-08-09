@@ -33,7 +33,9 @@ export const MemberSelect = observer(function MemberSelect(props: Props) {
 
   const options = projectMemberIds
     ?.map((userId) => {
-      const memberDetails = projectId ? getProjectMemberDetails(userId, projectId.toString()) : null;
+      const memberDetails = projectId
+        ? getProjectMemberDetails(userId, projectId.toString())
+        : null;
 
       if (!memberDetails?.member) return;
       const isGuest = memberDetails.role === EUserProjectRoles.GUEST;
@@ -44,7 +46,10 @@ export const MemberSelect = observer(function MemberSelect(props: Props) {
         query: `${memberDetails?.member.display_name}`,
         content: (
           <div className="flex items-center gap-2">
-            <Avatar name={memberDetails?.member.display_name} src={getFileURL(memberDetails?.member.avatar_url)} />
+            <Avatar
+              name={memberDetails?.member.display_name}
+              src={getFileURL(memberDetails?.member.avatar_url)}
+            />
             {memberDetails?.member.display_name}
           </div>
         ),
@@ -65,7 +70,10 @@ export const MemberSelect = observer(function MemberSelect(props: Props) {
       label={
         <div className="flex h-3.5 items-center gap-2">
           {selectedOption && (
-            <Avatar name={selectedOption.member?.display_name} src={getFileURL(selectedOption.member?.avatar_url)} />
+            <Avatar
+              name={selectedOption.member?.display_name}
+              src={getFileURL(selectedOption.member?.avatar_url)}
+            />
           )}
           {selectedOption ? (
             selectedOption.member?.display_name

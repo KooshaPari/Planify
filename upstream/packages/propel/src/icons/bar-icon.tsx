@@ -10,7 +10,13 @@ import type { ISvgIcons } from "./type";
 
 export function BarIcon({ className = "", ...rest }: ISvgIcons) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" {...rest}>
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      {...rest}
+    >
       <path
         d="M0 12.5859C0 11.4814 0.89543 10.5859 2 10.5859H3.64706C4.75163 10.5859 5.64706 11.4814 5.64706 12.5859V23.9977H0V12.5859Z"
         fill="currentColor"

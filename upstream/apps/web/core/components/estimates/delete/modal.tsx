@@ -23,7 +23,9 @@ type TDeleteEstimateModal = {
   handleClose: () => void;
 };
 
-export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: TDeleteEstimateModal) {
+export const DeleteEstimateModal = observer(function DeleteEstimateModal(
+  props: TDeleteEstimateModal,
+) {
   // props
   const { workspaceSlug, projectId, estimateId, isOpen, handleClose } = props;
   // hooks
@@ -70,8 +72,8 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
         <div className="px-5">
           <div className="text-14 text-secondary">
             Deleting the estimate <span className="font-bold text-primary">{estimate?.name}</span>
-            &nbsp;system will remove it from all work items permanently. This action cannot be undone. If you add
-            estimates again, you will need to update all the work items.
+            &nbsp;system will remove it from all work items permanently. This action cannot be
+            undone. If you add estimates again, you will need to update all the work items.
           </div>
         </div>
 
@@ -79,7 +81,12 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
           <Button variant="secondary" size="lg" onClick={handleClose} disabled={buttonLoader}>
             Cancel
           </Button>
-          <Button variant="error-fill" size="lg" onClick={handleDeleteEstimate} disabled={buttonLoader}>
+          <Button
+            variant="error-fill"
+            size="lg"
+            onClick={handleDeleteEstimate}
+            disabled={buttonLoader}
+          >
             {buttonLoader ? "Deleting" : "Delete Estimate"}
           </Button>
         </div>

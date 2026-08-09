@@ -43,7 +43,9 @@ export function GanttChartRowList(props: GanttChartBlocksProps) {
             horizontalOffset={100}
             verticalOffset={200}
             classNames="relative min-w-full w-max"
-            placeholderChildren={<div className="pointer-events-none w-full" style={{ height: `${BLOCK_HEIGHT}px` }} />}
+            placeholderChildren={
+              <div className="pointer-events-none w-full" style={{ height: `${BLOCK_HEIGHT}px` }} />
+            }
             shouldRecordHeights={false}
           >
             <BlockRow
@@ -52,7 +54,9 @@ export function GanttChartRowList(props: GanttChartBlocksProps) {
               showAllBlocks={showAllBlocks}
               blockUpdateHandler={blockUpdateHandler}
               handleScrollToBlock={handleScrollToBlock}
-              enableAddBlock={typeof enableAddBlock === "function" ? enableAddBlock(blockId) : enableAddBlock}
+              enableAddBlock={
+                typeof enableAddBlock === "function" ? enableAddBlock(blockId) : enableAddBlock
+              }
               selectionHelpers={selectionHelpers}
               ganttContainerRef={ganttContainerRef}
             />

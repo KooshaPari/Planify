@@ -56,7 +56,8 @@ function Draggable({ children, data, className }: Props) {
             setIsDraggedOver(false);
           },
           // @ts-expect-error Due to live server dependencies
-          canDrop: ({ source }) => !isEqual(source.data, data) && source.data.__uuid__ === data.__uuid__,
+          canDrop: ({ source }) =>
+            !isEqual(source.data, data) && source.data.__uuid__ === data.__uuid__,
           // @ts-expect-error Due to live server dependencies
           getData: ({ input, element }) =>
             attachClosestEdge(data, {
@@ -64,7 +65,7 @@ function Draggable({ children, data, className }: Props) {
               element,
               allowedEdges: ["top", "bottom"],
             }),
-        })
+        }),
       );
     }
   }, [data]);

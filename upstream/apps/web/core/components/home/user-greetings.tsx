@@ -43,7 +43,8 @@ export function UserGreetingsView(props: IUserGreetingsView) {
     minute: "2-digit",
   }).format(currentTime);
 
-  const greeting = parseInt(hour, 10) < 12 ? "morning" : parseInt(hour, 10) < 18 ? "afternoon" : "evening";
+  const greeting =
+    parseInt(hour, 10) < 12 ? "morning" : parseInt(hour, 10) < 18 ? "afternoon" : "evening";
 
   return (
     <div className="my-6 flex flex-col items-center">

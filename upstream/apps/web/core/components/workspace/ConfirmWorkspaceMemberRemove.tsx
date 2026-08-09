@@ -12,7 +12,9 @@ import { Button } from "@plane/propel/button";
 import { useUser } from "@/hooks/store/user";
 import type { Props } from "./confirm-workspace-member-remove";
 
-export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMemberRemove(props: Props) {
+export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMemberRemove(
+  props: Props,
+) {
   const { isOpen, onClose, onSubmit, userDetails } = props;
   // states
   const [isRemoving, setIsRemoving] = useState(false);
@@ -73,14 +75,15 @@ export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMe
                       <div className="mt-2">
                         {currentUser?.id === userDetails.id ? (
                           <p className="text-13 text-secondary">
-                            Are you sure you want to leave the workspace? You will no longer have access to this
-                            workspace. This action cannot be undone.
+                            Are you sure you want to leave the workspace? You will no longer have
+                            access to this workspace. This action cannot be undone.
                           </p>
                         ) : (
                           <p className="text-13 text-secondary">
                             Are you sure you want to remove member-{" "}
-                            <span className="font-bold">{userDetails?.display_name}</span>? They will no longer have
-                            access to this workspace. This action cannot be undone.
+                            <span className="font-bold">{userDetails?.display_name}</span>? They
+                            will no longer have access to this workspace. This action cannot be
+                            undone.
                           </p>
                         )}
                       </div>
@@ -91,7 +94,12 @@ export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMe
                   <Button variant="secondary" onClick={handleClose}>
                     Cancel
                   </Button>
-                  <Button variant="error-fill" tabIndex={1} onClick={handleDeletion} loading={isRemoving}>
+                  <Button
+                    variant="error-fill"
+                    tabIndex={1}
+                    onClick={handleDeletion}
+                    loading={isRemoving}
+                  >
                     {currentUser?.id === userDetails.id
                       ? isRemoving
                         ? "Leaving"

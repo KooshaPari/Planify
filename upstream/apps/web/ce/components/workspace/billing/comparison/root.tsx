@@ -8,7 +8,10 @@ import { observer } from "mobx-react";
 // plane imports
 import type { EProductSubscriptionEnum, TBillingFrequency } from "@plane/types";
 // components
-import { PlansComparisonBase, shouldRenderPlanDetail } from "@/components/workspace/billing/comparison/base";
+import {
+  PlansComparisonBase,
+  shouldRenderPlanDetail,
+} from "@/components/workspace/billing/comparison/base";
 import type { TPlanePlans } from "@/components/workspace/billing/comparison/plans";
 import { PLANE_PLANS } from "@/components/workspace/billing/comparison/plans";
 // plane web imports
@@ -16,8 +19,13 @@ import { PlanDetail } from "./plan-detail";
 
 type TPlansComparisonProps = {
   isCompareAllFeaturesSectionOpen: boolean;
-  getBillingFrequency: (subscriptionType: EProductSubscriptionEnum) => TBillingFrequency | undefined;
-  setBillingFrequency: (subscriptionType: EProductSubscriptionEnum, frequency: TBillingFrequency) => void;
+  getBillingFrequency: (
+    subscriptionType: EProductSubscriptionEnum,
+  ) => TBillingFrequency | undefined;
+  setBillingFrequency: (
+    subscriptionType: EProductSubscriptionEnum,
+    frequency: TBillingFrequency,
+  ) => void;
   setIsCompareAllFeaturesSectionOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 

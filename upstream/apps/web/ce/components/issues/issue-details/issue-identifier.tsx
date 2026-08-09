@@ -13,7 +13,13 @@ import { useProject } from "@/hooks/store/use-project";
 import { IdentifierText } from "@/components/issues/issue-detail/identifier-text";
 
 export const IssueIdentifier = observer(function IssueIdentifier(props: TIssueIdentifierProps) {
-  const { projectId, variant, size, displayProperties, enableClickToCopyIdentifier = false } = props;
+  const {
+    projectId,
+    variant,
+    size,
+    displayProperties,
+    enableClickToCopyIdentifier = false,
+  } = props;
   // store hooks
   const { getProjectIdentifierById } = useProject();
   const {
@@ -23,7 +29,9 @@ export const IssueIdentifier = observer(function IssueIdentifier(props: TIssueId
   const isUsingStoreData = "issueId" in props;
   // derived values
   const issue = isUsingStoreData ? getIssueById(props.issueId) : null;
-  const projectIdentifier = isUsingStoreData ? getProjectIdentifierById(projectId) : props.projectIdentifier;
+  const projectIdentifier = isUsingStoreData
+    ? getProjectIdentifierById(projectId)
+    : props.projectIdentifier;
   const issueSequenceId = isUsingStoreData ? issue?.sequence_id : props.issueSequenceId;
   const shouldRenderIssueID = displayProperties ? displayProperties.key : true;
 
@@ -41,6 +49,8 @@ export const IssueIdentifier = observer(function IssueIdentifier(props: TIssueId
   );
 });
 
-export const IssueTypeIdentifier = observer(function IssueTypeIdentifier(_props: TIssueTypeIdentifier) {
+export const IssueTypeIdentifier = observer(function IssueTypeIdentifier(
+  _props: TIssueTypeIdentifier,
+) {
   return <></>;
 });

@@ -57,7 +57,7 @@ export const ProjectSearch = observer(function ProjectSearch() {
           "ml-auto flex w-0 items-center justify-start gap-1 overflow-hidden rounded-md border border-transparent bg-surface-1 text-placeholder opacity-0 transition-[width] ease-linear",
           {
             "w-30 border-subtle px-2.5 py-1.5 opacity-100 md:w-64": isSearchOpen,
-          }
+          },
         )}
       >
         <SearchIcon className="h-3.5 w-3.5" />

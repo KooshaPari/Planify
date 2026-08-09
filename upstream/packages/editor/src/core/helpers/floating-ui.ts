@@ -16,16 +16,21 @@ export type UpdateFloatingUIFloaterPosition = (
     elementStyle?: Partial<CSSStyleDeclaration>;
     placement?: Placement;
     strategy?: Strategy;
-  }
+  },
 ) => {
   cleanup: () => void;
 };
 
-export const updateFloatingUIFloaterPosition: UpdateFloatingUIFloaterPosition = (editor, element, options) => {
+export const updateFloatingUIFloaterPosition: UpdateFloatingUIFloaterPosition = (
+  editor,
+  element,
+  options,
+) => {
   document.body.appendChild(element);
 
   const virtualElement: ReferenceElement = {
-    getBoundingClientRect: () => posToDOMRect(editor.view, editor.state.selection.from, editor.state.selection.to),
+    getBoundingClientRect: () =>
+      posToDOMRect(editor.view, editor.state.selection.from, editor.state.selection.to),
   };
 
   const cleanup = autoUpdate(virtualElement, element, () => {
@@ -43,7 +48,9 @@ export const updateFloatingUIFloaterPosition: UpdateFloatingUIFloaterPosition = 
           ...options?.elementStyle,
         });
       })
-      .catch((error) => console.error("An error occurred while updating floating UI floater position:", error));
+      .catch((error) =>
+        console.error("An error occurred while updating floating UI floater position:", error),
+      );
   });
 
   return {

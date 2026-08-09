@@ -41,7 +41,7 @@ function OnboardingPage() {
     `USER_WORKSPACE_INVITATIONS_LIST_${user?.id}`,
     () => {
       if (user?.id) return workspaceService.userWorkspaceInvitations();
-    }
+    },
   );
 
   return (

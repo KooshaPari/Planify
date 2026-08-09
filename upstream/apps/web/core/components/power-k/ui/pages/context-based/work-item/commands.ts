@@ -47,7 +47,13 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
   const { getProjectById } = useProject();
   const { areEstimateEnabledByProjectId } = useProjectEstimates();
   const {
-    issue: { getIssueById, getIssueIdByIdentifier, addCycleToIssue, removeIssueFromCycle, changeModulesInIssue },
+    issue: {
+      getIssueById,
+      getIssueIdByIdentifier,
+      addCycleToIssue,
+      removeIssueFromCycle,
+      changeModulesInIssue,
+    },
     subscription: { getSubscriptionByIssueId, createSubscription, removeSubscription },
     updateIssue,
   } = useIssueDetail(EIssueServiceType.ISSUES);
@@ -57,14 +63,19 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
       removeIssueFromCycle: removeEpicFromCycle,
       changeModulesInIssue: changeModulesInEpic,
     },
-    subscription: { createSubscription: createEpicSubscription, removeSubscription: removeEpicSubscription },
+    subscription: {
+      createSubscription: createEpicSubscription,
+      removeSubscription: removeEpicSubscription,
+    },
     updateIssue: updateEpic,
   } = useIssueDetail(EIssueServiceType.EPICS);
   // derived values
   const entityId = entityIdentifier ? getIssueIdByIdentifier(entityIdentifier.toString()) : null;
   const entityDetails = entityId ? getIssueById(entityId) : null;
   const isEpic = !!entityDetails?.is_epic;
-  const projectDetails = entityDetails?.project_id ? getProjectById(entityDetails?.project_id) : undefined;
+  const projectDetails = entityDetails?.project_id
+    ? getProjectById(entityDetails?.project_id)
+    : undefined;
   const isCurrentUserAssigned = !!entityDetails?.assignee_ids?.includes(currentUser?.id ?? "");
   const isEstimateEnabled = entityDetails?.project_id
     ? areEstimateEnabledByProjectId(entityDetails?.project_id)
@@ -82,13 +93,18 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
       [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
       EUserPermissionsLevel.PROJECT,
       workspaceSlug?.toString(),
-      entityDetails?.project_id ?? undefined
+      entityDetails?.project_id ?? undefined,
     ) && !entityDetails?.archived_at;
 
   const handleUpdateEntity = useCallback(
     async (formData: Partial<TIssue>) => {
       if (!workspaceSlug || !entityDetails || !entityDetails.project_id) return;
-      await updateEntity(workspaceSlug.toString(), entityDetails.project_id, entityDetails.id, formData).catch(() => {
+      await updateEntity(
+        workspaceSlug.toString(),
+        entityDetails.project_id,
+        entityDetails.id,
+        formData,
+      ).catch(() => {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: "Error!",
@@ -96,7 +112,7 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
         });
       });
     },
-    [entityDetails, isEpic, updateEntity, workspaceSlug]
+    [entityDetails, isEpic, updateEntity, workspaceSlug],
   );
 
   const handleUpdateAssignee = useCallback(
@@ -104,12 +120,13 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
       if (!entityDetails) return;
 
       const updatedAssignees = [...(entityDetails.assignee_ids ?? [])];
-      if (updatedAssignees.includes(assigneeId)) updatedAssignees.splice(updatedAssignees.indexOf(assigneeId), 1);
+      if (updatedAssignees.includes(assigneeId))
+        updatedAssignees.splice(updatedAssignees.indexOf(assigneeId), 1);
       else updatedAssignees.push(assigneeId);
 
       handleUpdateEntity({ assignee_ids: updatedAssignees });
     },
-    [entityDetails, handleUpdateEntity]
+    [entityDetails, handleUpdateEntity],
   );
 
   const handleSubscription = useCallback(async () => {
@@ -117,9 +134,17 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
 
     try {
       if (isSubscribed) {
-        await removeEntitySubscription(workspaceSlug.toString(), entityDetails.project_id, entityDetails.id);
+        await removeEntitySubscription(
+          workspaceSlug.toString(),
+          entityDetails.project_id,
+          entityDetails.id,
+        );
       } else {
-        await createEntitySubscription(workspaceSlug.toString(), entityDetails.project_id, entityDetails.id);
+        await createEntitySubscription(
+          workspaceSlug.toString(),
+          entityDetails.project_id,
+          entityDetails.id,
+        );
       }
       setToast({
         type: TOAST_TYPE.SUCCESS,
@@ -136,7 +161,13 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createEntitySubscription, entityDetails, isSubscribed, removeEntitySubscription, workspaceSlug]);
+  }, [
+    createEntitySubscription,
+    entityDetails,
+    isSubscribed,
+    removeEntitySubscription,
+    workspaceSlug,
+  ]);
 
   const handleDeleteWorkItem = useCallback(() => {
     toggleDeleteIssueModal(true);
@@ -305,17 +336,24 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
         if (entityDetails.cycle_id === cycleId) return;
         // handlers
         const addCycleToEntity = entityDetails.is_epic ? addCycleToEpic : addCycleToIssue;
-        const removeCycleFromEntity = entityDetails.is_epic ? removeEpicFromCycle : removeIssueFromCycle;
+        const removeCycleFromEntity = entityDetails.is_epic
+          ? removeEpicFromCycle
+          : removeIssueFromCycle;
 
         try {
           if (cycleId) {
-            addCycleToEntity(workspaceSlug.toString(), entityDetails.project_id, cycleId, entityDetails.id);
+            addCycleToEntity(
+              workspaceSlug.toString(),
+              entityDetails.project_id,
+              cycleId,
+              entityDetails.id,
+            );
           } else {
             removeCycleFromEntity(
               workspaceSlug.toString(),
               entityDetails.project_id,
               entityDetails.cycle_id ?? "",
-              entityDetails.id
+              entityDetails.id,
             );
           }
         } catch {
@@ -343,12 +381,26 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
         const moduleId = (data as IModule)?.id;
         if (!workspaceSlug || !entityDetails || !entityDetails.project_id) return;
         // handlers
-        const changeModulesInEntity = entityDetails.is_epic ? changeModulesInEpic : changeModulesInIssue;
+        const changeModulesInEntity = entityDetails.is_epic
+          ? changeModulesInEpic
+          : changeModulesInIssue;
         try {
           if (entityDetails.module_ids?.includes(moduleId)) {
-            changeModulesInEntity(workspaceSlug.toString(), entityDetails.project_id, entityDetails.id, [], [moduleId]);
+            changeModulesInEntity(
+              workspaceSlug.toString(),
+              entityDetails.project_id,
+              entityDetails.id,
+              [],
+              [moduleId],
+            );
           } else {
-            changeModulesInEntity(workspaceSlug.toString(), entityDetails.project_id, entityDetails.id, [moduleId], []);
+            changeModulesInEntity(
+              workspaceSlug.toString(),
+              entityDetails.project_id,
+              entityDetails.id,
+              [moduleId],
+              [],
+            );
           }
         } catch {
           setToast({
@@ -375,7 +427,8 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
         const labelId = (data as IIssueLabel)?.id;
         if (!workspaceSlug || !entityDetails || !entityDetails.project_id) return;
         const updatedLabels = [...(entityDetails.label_ids ?? [])];
-        if (updatedLabels.includes(labelId)) updatedLabels.splice(updatedLabels.indexOf(labelId), 1);
+        if (updatedLabels.includes(labelId))
+          updatedLabels.splice(updatedLabels.indexOf(labelId), 1);
         else updatedLabels.push(labelId);
         handleUpdateEntity({
           label_ids: updatedLabels,

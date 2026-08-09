@@ -42,9 +42,12 @@ export const ProjectsAppPowerKProvider = observer(function ProjectsAppPowerKProv
     issue: { getIssueById, getIssueIdByIdentifier },
   } = useIssueDetail();
   // derived values
-  const workItemId = workItemIdentifier ? getIssueIdByIdentifier(workItemIdentifier.toString()) : undefined;
+  const workItemId = workItemIdentifier
+    ? getIssueIdByIdentifier(workItemIdentifier.toString())
+    : undefined;
   const workItemDetails = workItemId ? getIssueById(workItemId) : undefined;
-  const projectId: string | string[] | undefined | null = routerProjectId ?? workItemDetails?.project_id;
+  const projectId: string | string[] | undefined | null =
+    routerProjectId ?? workItemDetails?.project_id;
   const commands = useProjectsAppPowerKCommands();
   // Build command context from props and store
   const context: TPowerKContext = useMemo(
@@ -73,7 +76,7 @@ export const ProjectsAppPowerKProvider = observer(function ProjectsAppPowerKProv
       router,
       togglePowerKModal,
       setActivePage,
-    ]
+    ],
   );
 
   return (
@@ -81,7 +84,10 @@ export const ProjectsAppPowerKProvider = observer(function ProjectsAppPowerKProv
       <GlobalShortcutsProvider context={context} commands={commands} />
       {workspaceSlug && <WorkspaceLevelModals workspaceSlug={workspaceSlug.toString()} />}
       {workspaceSlug && projectId && (
-        <ProjectLevelModals workspaceSlug={workspaceSlug.toString()} projectId={projectId.toString()} />
+        <ProjectLevelModals
+          workspaceSlug={workspaceSlug.toString()}
+          projectId={projectId.toString()}
+        />
       )}
       <WorkItemLevelModals workItemIdentifier={workItemIdentifier?.toString()} />
       <ProjectsAppPowerKModalWrapper

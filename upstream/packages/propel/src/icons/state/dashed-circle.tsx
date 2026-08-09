@@ -34,8 +34,16 @@ export function DashedCircle({ center, color, percentage, totalSegments = 15 }: 
       if (isSegmentVisible) {
         segments.push(
           <g key={i} transform={`translate(${center} ${center}) rotate(${angle})`}>
-            <line x1={5.75} y1="0" x2={6.5} y2="0" stroke={color} strokeWidth={1.21} strokeLinecap="round" />
-          </g>
+            <line
+              x1={5.75}
+              y1="0"
+              x2={6.5}
+              y2="0"
+              stroke={color}
+              strokeWidth={1.21}
+              strokeLinecap="round"
+            />
+          </g>,
         );
       }
     }

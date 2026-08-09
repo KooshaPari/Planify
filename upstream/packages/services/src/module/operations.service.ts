@@ -23,9 +23,12 @@ export class ModuleOperationService extends APIService {
     workspaceSlug: string,
     projectId: string,
     moduleId: string,
-    data: { issues: string[] }
+    data: { issues: string[] },
   ): Promise<void> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/issues/`, data)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/issues/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -46,9 +49,12 @@ export class ModuleOperationService extends APIService {
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    data: { modules: string[]; removed_modules?: string[] }
+    data: { modules: string[]; removed_modules?: string[] },
   ): Promise<void> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/issues/${issueId}/modules/`, data)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/issues/${issueId}/modules/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -67,12 +73,14 @@ export class ModuleOperationService extends APIService {
     workspaceSlug: string,
     projectId: string,
     moduleId: string,
-    issueIds: string[]
+    issueIds: string[],
   ): Promise<void> {
     const promiseDataUrls: any = [];
     issueIds.forEach((issueId) => {
       promiseDataUrls.push(
-        this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/issues/${issueId}/`)
+        this.delete(
+          `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/issues/${issueId}/`,
+        ),
       );
     });
     await Promise.all(promiseDataUrls)
@@ -94,12 +102,14 @@ export class ModuleOperationService extends APIService {
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    moduleIds: string[]
+    moduleIds: string[],
   ): Promise<void> {
     const promiseDataUrls: any = [];
     moduleIds.forEach((moduleId) => {
       promiseDataUrls.push(
-        this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/issues/${issueId}/`)
+        this.delete(
+          `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/issues/${issueId}/`,
+        ),
       );
     });
     await Promise.all(promiseDataUrls)
@@ -122,9 +132,12 @@ export class ModuleOperationService extends APIService {
     projectId: string,
     data: {
       module: string;
-    }
+    },
   ): Promise<any> {
-    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-modules/`, data)
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-modules/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -138,8 +151,14 @@ export class ModuleOperationService extends APIService {
    * @param {string} moduleId - The ID of the module to be removed
    * @returns {Promise<any>}
    */
-  async removeModuleFromFavorites(workspaceSlug: string, projectId: string, moduleId: string): Promise<any> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-modules/${moduleId}/`)
+  async removeModuleFromFavorites(
+    workspaceSlug: string,
+    projectId: string,
+    moduleId: string,
+  ): Promise<any> {
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/user-favorite-modules/${moduleId}/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

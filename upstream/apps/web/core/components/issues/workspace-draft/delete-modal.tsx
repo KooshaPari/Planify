@@ -36,7 +36,10 @@ export function WorkspaceDraftIssueDeleteIssueModal(props: Props) {
   const { data: currentUser } = useUser();
 
   // derived values
-  const canPerformProjectAdminActions = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT);
+  const canPerformProjectAdminActions = allowPermissions(
+    [EUserPermissions.ADMIN],
+    EUserPermissionsLevel.PROJECT,
+  );
 
   useEffect(() => {
     setIsDeleting(false);
@@ -62,7 +65,8 @@ export function WorkspaceDraftIssueDeleteIssueModal(props: Props) {
         title: t(PROJECT_ERROR_MESSAGES.permissionError.i18n_title),
         type: TOAST_TYPE.ERROR,
         message:
-          PROJECT_ERROR_MESSAGES.permissionError.i18n_message && t(PROJECT_ERROR_MESSAGES.permissionError.i18n_message),
+          PROJECT_ERROR_MESSAGES.permissionError.i18n_message &&
+          t(PROJECT_ERROR_MESSAGES.permissionError.i18n_message),
       });
       onClose();
       return;
@@ -78,7 +82,8 @@ export function WorkspaceDraftIssueDeleteIssueModal(props: Props) {
           onClose();
         })
         .catch((errors) => {
-          const isPermissionError = errors?.error === "Only admin or creator can delete the work item";
+          const isPermissionError =
+            errors?.error === "Only admin or creator can delete the work item";
           const currentError = isPermissionError
             ? PROJECT_ERROR_MESSAGES.permissionError
             : PROJECT_ERROR_MESSAGES.issueDeleteError;

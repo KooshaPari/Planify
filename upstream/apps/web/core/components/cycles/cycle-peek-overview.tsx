@@ -44,7 +44,14 @@ export const CyclePeekOverview = observer(function CyclePeekOverview(props: Prop
     if (!peekCycle || !projectId) return;
     if (isArchived) fetchArchivedCycleDetails(workspaceSlug, projectId, peekCycle.toString());
     else fetchCycleDetails(workspaceSlug, projectId, peekCycle.toString());
-  }, [fetchArchivedCycleDetails, fetchCycleDetails, isArchived, peekCycle, projectId, workspaceSlug]);
+  }, [
+    fetchArchivedCycleDetails,
+    fetchCycleDetails,
+    isArchived,
+    peekCycle,
+    projectId,
+    workspaceSlug,
+  ]);
 
   return (
     <>

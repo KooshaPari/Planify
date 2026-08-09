@@ -11,7 +11,9 @@ import type {
   TDocumentEventsServer,
 } from "@/types/document-collaborative-events";
 
-export const getServerEventName = (clientEvent: TDocumentEventsClient): TDocumentEventsServer | undefined => {
+export const getServerEventName = (
+  clientEvent: TDocumentEventsClient,
+): TDocumentEventsServer | undefined => {
   for (const key in DocumentCollaborativeEvents) {
     if (DocumentCollaborativeEvents[key as TDocumentEventKey].client === clientEvent) {
       return DocumentCollaborativeEvents[key as TDocumentEventKey].server;

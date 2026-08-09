@@ -23,13 +23,19 @@ export type TIssueCommentReaction = {
   disabled?: boolean;
 };
 
-export const IssueCommentReaction = observer(function IssueCommentReaction(props: TIssueCommentReaction) {
+export const IssueCommentReaction = observer(function IssueCommentReaction(
+  props: TIssueCommentReaction,
+) {
   const { workspaceSlug, projectId, commentId, currentUser, disabled = false } = props;
   // state
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   // hooks
   const {
-    commentReaction: { getCommentReactionsByCommentId, commentReactionsByUser, getCommentReactionById },
+    commentReaction: {
+      getCommentReactionsByCommentId,
+      commentReactionsByUser,
+      getCommentReactionById,
+    },
     createCommentReaction,
     removeCommentReaction,
   } = useIssueDetail();
@@ -59,7 +65,8 @@ export const IssueCommentReaction = observer(function IssueCommentReaction(props
       },
       remove: async (reaction: string) => {
         try {
-          if (!workspaceSlug || !projectId || !commentId || !currentUser?.id) throw new Error("Missing fields");
+          if (!workspaceSlug || !projectId || !commentId || !currentUser?.id)
+            throw new Error("Missing fields");
           removeCommentReaction(workspaceSlug, projectId, commentId, reaction, currentUser.id);
           setToast({
             title: "Success!",
@@ -79,7 +86,15 @@ export const IssueCommentReaction = observer(function IssueCommentReaction(props
         else await issueCommentReactionOperations.create(reaction);
       },
     }),
-    [workspaceSlug, projectId, commentId, currentUser, createCommentReaction, removeCommentReaction, userReactions]
+    [
+      workspaceSlug,
+      projectId,
+      commentId,
+      currentUser,
+      createCommentReaction,
+      removeCommentReaction,
+      userReactions,
+    ],
   );
 
   const getReactionUsers = (reaction: string): string[] => {

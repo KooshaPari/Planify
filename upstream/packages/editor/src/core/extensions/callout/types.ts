@@ -38,4 +38,7 @@ export type TCalloutBlockAttributes = {
 export type CustomCalloutExtensionOptions = unknown;
 export type CustomCalloutExtensionStorage = unknown;
 
-export type CustomCalloutExtensionType = ProseMirrorNode<CustomCalloutExtensionOptions, CustomCalloutExtensionStorage>;
+export type CustomCalloutExtensionType = ProseMirrorNode<
+  CustomCalloutExtensionOptions,
+  CustomCalloutExtensionStorage
+>;

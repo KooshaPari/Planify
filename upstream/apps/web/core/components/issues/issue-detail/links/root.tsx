@@ -34,7 +34,12 @@ export function IssueLinkRoot(props: TIssueLinkRoot) {
   // props
   const { workspaceSlug, projectId, issueId, disabled = false } = props;
   // hooks
-  const { toggleIssueLinkModal: toggleIssueLinkModalStore, createLink, updateLink, removeLink } = useIssueDetail();
+  const {
+    toggleIssueLinkModal: toggleIssueLinkModalStore,
+    createLink,
+    updateLink,
+    removeLink,
+  } = useIssueDetail();
   // state
   const [isIssueLinkModal, setIsIssueLinkModal] = useState(false);
   const toggleIssueLinkModal = useCallback(
@@ -42,7 +47,7 @@ export function IssueLinkRoot(props: TIssueLinkRoot) {
       toggleIssueLinkModalStore(modalToggle);
       setIsIssueLinkModal(modalToggle);
     },
-    [toggleIssueLinkModalStore]
+    [toggleIssueLinkModalStore],
   );
 
   const handleLinkOperations: TLinkOperations = useMemo(
@@ -104,7 +109,7 @@ export function IssueLinkRoot(props: TIssueLinkRoot) {
         }
       },
     }),
-    [workspaceSlug, projectId, issueId, createLink, updateLink, removeLink, toggleIssueLinkModal]
+    [workspaceSlug, projectId, issueId, createLink, updateLink, removeLink, toggleIssueLinkModal],
   );
 
   const handleOnClose = () => {
@@ -138,7 +143,11 @@ export function IssueLinkRoot(props: TIssueLinkRoot) {
         </div>
 
         <div>
-          <IssueLinkList issueId={issueId} linkOperations={handleLinkOperations} disabled={disabled} />
+          <IssueLinkList
+            issueId={issueId}
+            linkOperations={handleLinkOperations}
+            disabled={disabled}
+          />
         </div>
       </div>
     </>

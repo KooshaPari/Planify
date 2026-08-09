@@ -27,8 +27,11 @@ export function Calendar({ className, showOutsideDays = true, ...props }: Calend
           <ChevronLeftIcon
             className={cn(
               "size-4",
-              { "rotate-180": props.orientation === "right", "-rotate-90": props.orientation === "down" },
-              className
+              {
+                "rotate-180": props.orientation === "right",
+                "-rotate-90": props.orientation === "down",
+              },
+              className,
             )}
             {...props}
           />

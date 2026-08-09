@@ -23,68 +23,70 @@ const DEFAULT_DOCUMENT_INFO: TDocumentInfo = {
   paragraphs: 0,
 };
 
-export const PageNavigationPaneInfoTabDocumentInfo = observer(function PageNavigationPaneInfoTabDocumentInfo(
-  props: Props
-) {
-  const { page } = props;
-  // states
-  const [documentInfo, setDocumentInfo] = useState<TDocumentInfo>(DEFAULT_DOCUMENT_INFO);
-  // derived values
-  const {
-    editor: { editorRef },
-  } = page;
-  // translation
-  const { t } = useTranslation();
-  // subscribe to asset changes
-  useEffect(() => {
-    const unsubscribe = editorRef?.onDocumentInfoChange(setDocumentInfo);
-    // for initial render of this component to get the editor assets
-    setDocumentInfo(editorRef?.getDocumentInfo() ?? DEFAULT_DOCUMENT_INFO);
-    return () => {
-      unsubscribe?.();
-    };
-  }, [editorRef]);
+export const PageNavigationPaneInfoTabDocumentInfo = observer(
+  function PageNavigationPaneInfoTabDocumentInfo(props: Props) {
+    const { page } = props;
+    // states
+    const [documentInfo, setDocumentInfo] = useState<TDocumentInfo>(DEFAULT_DOCUMENT_INFO);
+    // derived values
+    const {
+      editor: { editorRef },
+    } = page;
+    // translation
+    const { t } = useTranslation();
+    // subscribe to asset changes
+    useEffect(() => {
+      const unsubscribe = editorRef?.onDocumentInfoChange(setDocumentInfo);
+      // for initial render of this component to get the editor assets
+      setDocumentInfo(editorRef?.getDocumentInfo() ?? DEFAULT_DOCUMENT_INFO);
+      return () => {
+        unsubscribe?.();
+      };
+    }, [editorRef]);
 
-  const secondsToReadableTime = useCallback(() => {
-    const wordsCount = documentInfo.words;
-    const readTimeInSeconds = Number(getReadTimeFromWordsCount(wordsCount).toFixed(0));
-    return readTimeInSeconds < 60 ? `${readTimeInSeconds}s` : `${Math.ceil(readTimeInSeconds / 60)}m`;
-  }, [documentInfo.words]);
+    const secondsToReadableTime = useCallback(() => {
+      const wordsCount = documentInfo.words;
+      const readTimeInSeconds = Number(getReadTimeFromWordsCount(wordsCount).toFixed(0));
+      return readTimeInSeconds < 60
+        ? `${readTimeInSeconds}s`
+        : `${Math.ceil(readTimeInSeconds / 60)}m`;
+    }, [documentInfo.words]);
 
-  const documentInfoCards = useMemo(
-    () => [
-      {
-        key: "words-count",
-        title: t("page_navigation_pane.tabs.info.document_info.words"),
-        info: documentInfo.words,
-      },
-      {
-        key: "characters-count",
-        title: t("page_navigation_pane.tabs.info.document_info.characters"),
-        info: documentInfo.characters,
-      },
-      {
-        key: "paragraphs-count",
-        title: t("page_navigation_pane.tabs.info.document_info.paragraphs"),
-        info: documentInfo.paragraphs,
-      },
-      {
-        key: "read-time",
-        title: t("page_navigation_pane.tabs.info.document_info.read_time"),
-        info: secondsToReadableTime(),
-      },
-    ],
-    [documentInfo, secondsToReadableTime, t]
-  );
+    const documentInfoCards = useMemo(
+      () => [
+        {
+          key: "words-count",
+          title: t("page_navigation_pane.tabs.info.document_info.words"),
+          info: documentInfo.words,
+        },
+        {
+          key: "characters-count",
+          title: t("page_navigation_pane.tabs.info.document_info.characters"),
+          info: documentInfo.characters,
+        },
+        {
+          key: "paragraphs-count",
+          title: t("page_navigation_pane.tabs.info.document_info.paragraphs"),
+          info: documentInfo.paragraphs,
+        },
+        {
+          key: "read-time",
+          title: t("page_navigation_pane.tabs.info.document_info.read_time"),
+          info: secondsToReadableTime(),
+        },
+      ],
+      [documentInfo, secondsToReadableTime, t],
+    );
 
-  return (
-    <div className="grid grid-cols-2 gap-2">
-      {documentInfoCards.map((card) => (
-        <div key={card.key} className="rounded-sm bg-layer-2 p-2">
-          <h6 className="text-14 font-semibold">{card.info}</h6>
-          <p className="mt-1.5 text-13 font-medium text-tertiary">{card.title}</p>
-        </div>
-      ))}
-    </div>
-  );
-});
+    return (
+      <div className="grid grid-cols-2 gap-2">
+        {documentInfoCards.map((card) => (
+          <div key={card.key} className="rounded-sm bg-layer-2 p-2">
+            <h6 className="text-14 font-semibold">{card.info}</h6>
+            <p className="mt-1.5 text-13 font-medium text-tertiary">{card.title}</p>
+          </div>
+        ))}
+      </div>
+    );
+  },
+);

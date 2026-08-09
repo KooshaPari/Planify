@@ -40,8 +40,9 @@ export function LayoutSelection(props: Props) {
             className={cn(
               "group grid h-5.5 w-7 place-items-center overflow-hidden rounded-sm transition-all hover:bg-layer-transparent-hover",
               {
-                "bg-layer-transparent-active hover:bg-layer-transparent-active": selectedLayout === layout.key,
-              }
+                "bg-layer-transparent-active hover:bg-layer-transparent-active":
+                  selectedLayout === layout.key,
+              },
             )}
             onClick={() => handleOnChange(layout.key)}
           >

@@ -45,8 +45,11 @@ export const ActivityList = observer(function ActivityList(props: Props) {
                   <div className="relative flex items-start space-x-3">
                     <div className="relative px-1">
                       {activityItem.field ? (
-                        activityItem.new_value === "restore" && <History className="h-3.5 w-3.5 text-secondary" />
-                      ) : activityItem.actor_detail.avatar_url && activityItem.actor_detail.avatar_url !== "" ? (
+                        activityItem.new_value === "restore" && (
+                          <History className="h-3.5 w-3.5 text-secondary" />
+                        )
+                      ) : activityItem.actor_detail.avatar_url &&
+                        activityItem.actor_detail.avatar_url !== "" ? (
                         <img
                           src={getFileURL(activityItem.actor_detail.avatar_url)}
                           alt={activityItem.actor_detail.display_name}
@@ -61,7 +64,10 @@ export const ActivityList = observer(function ActivityList(props: Props) {
                       )}
 
                       <span className="flex h-6 w-6 items-center justify-center rounded-full bg-layer-1 text-secondary ring-6 ring-white">
-                        <MessageSquare className="h-6 w-6 !text-20 text-secondary" aria-hidden="true" />
+                        <MessageSquare
+                          className="h-6 w-6 !text-20 text-secondary"
+                          aria-hidden="true"
+                        />
                       </span>
                     </div>
                     <div className="min-w-0 flex-1">
@@ -98,7 +104,7 @@ export const ActivityList = observer(function ActivityList(props: Props) {
             const message =
               activityItem.verb === "created" &&
               !["cycles", "modules", "attachment", "link", "estimate"].includes(
-                activityItem.field?.toString() as string
+                activityItem.field?.toString() as string,
               ) &&
               !activityItem.field ? (
                 <span>
@@ -144,10 +150,13 @@ export const ActivityList = observer(function ActivityList(props: Props) {
                         </div>
                         <div className="min-w-0 flex-1 border-b border-subtle py-4">
                           <div className="text-13 break-words text-secondary">
-                            {activityItem.field === "archived_at" && activityItem.new_value !== "restore" ? (
+                            {activityItem.field === "archived_at" &&
+                            activityItem.new_value !== "restore" ? (
                               <span className="text-gray font-medium">Plane</span>
                             ) : activityItem.actor_detail.is_bot ? (
-                              <span className="text-gray font-medium">{activityItem.actor_detail.first_name} Bot</span>
+                              <span className="text-gray font-medium">
+                                {activityItem.actor_detail.first_name} Bot
+                              </span>
                             ) : (
                               <Link
                                 href={`/${activityItem.workspace_detail?.slug}/profile/${activityItem.actor_detail.id}`}

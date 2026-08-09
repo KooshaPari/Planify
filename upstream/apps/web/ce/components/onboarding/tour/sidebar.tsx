@@ -60,7 +60,9 @@ export function TourSidebar({ step, setStep }: Props) {
           <h5
             key={option.key}
             className={`flex cursor-pointer items-center gap-2 border-l-[3px] py-0.5 pr-2 pl-3 text-13 font-medium capitalize ${
-              step === option.key ? "border-accent-strong text-accent-primary" : "border-transparent text-secondary"
+              step === option.key
+                ? "border-accent-strong text-accent-primary"
+                : "border-transparent text-secondary"
             }`}
             onClick={() => setStep(option.key)}
             role="button"

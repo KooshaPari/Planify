@@ -4,7 +4,10 @@
  * See the LICENSE file for details.
  */
 
-import type { TAllAvailableOperatorsForDisplay, TAllAvailableDateFilterOperatorsForDisplay } from "@plane/types";
+import type {
+  TAllAvailableOperatorsForDisplay,
+  TAllAvailableDateFilterOperatorsForDisplay,
+} from "@plane/types";
 import { CORE_OPERATOR_LABELS_MAP, CORE_DATE_OPERATOR_LABELS_MAP } from "./core";
 import {
   EXTENDED_OPERATOR_LABELS_MAP,
@@ -30,11 +33,12 @@ export const OPERATOR_LABELS_MAP: Record<TAllAvailableOperatorsForDisplay, strin
 /**
  * Complete date operator labels mapping - combines core, extended, and negated labels
  */
-export const DATE_OPERATOR_LABELS_MAP: Record<TAllAvailableDateFilterOperatorsForDisplay, string> = {
-  ...CORE_DATE_OPERATOR_LABELS_MAP,
-  ...EXTENDED_DATE_OPERATOR_LABELS_MAP,
-  ...NEGATED_DATE_OPERATOR_LABELS_MAP,
-} as const;
+export const DATE_OPERATOR_LABELS_MAP: Record<TAllAvailableDateFilterOperatorsForDisplay, string> =
+  {
+    ...CORE_DATE_OPERATOR_LABELS_MAP,
+    ...EXTENDED_DATE_OPERATOR_LABELS_MAP,
+    ...NEGATED_DATE_OPERATOR_LABELS_MAP,
+  } as const;
 
 // -------- RE-EXPORTS --------
 

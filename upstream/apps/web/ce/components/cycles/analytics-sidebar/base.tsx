@@ -27,8 +27,13 @@ export const SidebarChart = observer(function SidebarChart(props: ProgressChartP
   const { workspaceSlug, projectId, cycleId } = props;
 
   // hooks
-  const { getEstimateTypeByCycleId, getCycleById, fetchCycleDetails, fetchArchivedCycleDetails, setEstimateType } =
-    useCycle();
+  const {
+    getEstimateTypeByCycleId,
+    getCycleById,
+    fetchCycleDetails,
+    fetchArchivedCycleDetails,
+    setEstimateType,
+  } = useCycle();
   const { t } = useTranslation();
 
   // derived data
@@ -40,7 +45,9 @@ export const SidebarChart = observer(function SidebarChart(props: ProgressChartP
   const estimateType = getEstimateTypeByCycleId(cycleId);
 
   const chartDistributionData =
-    estimateType === "points" ? cycleDetails?.estimate_distribution : cycleDetails?.distribution || undefined;
+    estimateType === "points"
+      ? cycleDetails?.estimate_distribution
+      : cycleDetails?.distribution || undefined;
 
   const completionChartDistributionData = chartDistributionData?.completion_chart || undefined;
 
@@ -66,7 +73,12 @@ export const SidebarChart = observer(function SidebarChart(props: ProgressChartP
   return (
     <div>
       <div className="relative flex items-center justify-between gap-2 pt-4">
-        <EstimateTypeDropdown value={estimateType} onChange={onChange} cycleId={cycleId} projectId={projectId} />
+        <EstimateTypeDropdown
+          value={estimateType}
+          onChange={onChange}
+          cycleId={cycleId}
+          projectId={projectId}
+        />
       </div>
       <div className="py-4">
         <div>

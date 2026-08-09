@@ -10,7 +10,12 @@ import { observer } from "mobx-react";
 import { ListFilter } from "lucide-react";
 import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
-import type { GroupByColumnTypes, TIssue, TIssueServiceType, TSubIssueOperations } from "@plane/types";
+import type {
+  GroupByColumnTypes,
+  TIssue,
+  TIssueServiceType,
+  TSubIssueOperations,
+} from "@plane/types";
 import { EIssueServiceType, EIssuesStoreType } from "@plane/types";
 // hooks
 import { SectionEmptyState } from "@/components/empty-state/section-empty-state-root";
@@ -28,7 +33,7 @@ type Props = {
   handleIssueCrudState: (
     key: "create" | "existing" | "update" | "delete",
     issueId: string,
-    issue?: TIssue | null
+    issue?: TIssue | null,
   ) => void;
   subIssueOperations: TSubIssueOperations;
   issueServiceType?: TIssueServiceType;
@@ -53,7 +58,12 @@ export const SubIssuesListRoot = observer(function SubIssuesListRoot(props: Prop
   const {
     subIssues: {
       subIssuesByIssueId,
-      filters: { getSubIssueFilters, getGroupedSubWorkItems, getFilteredSubWorkItems, resetFilters },
+      filters: {
+        getSubIssueFilters,
+        getGroupedSubWorkItems,
+        getFilteredSubWorkItems,
+        resetFilters,
+      },
     },
   } = useIssueDetail(issueServiceType);
 
@@ -61,7 +71,9 @@ export const SubIssuesListRoot = observer(function SubIssuesListRoot(props: Prop
   const filters = getSubIssueFilters(rootIssueId);
   const isRootLevel = useMemo(() => rootIssueId === parentIssueId, [rootIssueId, parentIssueId]);
   const group_by = isRootLevel ? (filters?.displayFilters?.group_by ?? null) : null;
-  const filteredSubWorkItemsCount = (getFilteredSubWorkItems(rootIssueId, filters.filters ?? {}) ?? []).length;
+  const filteredSubWorkItemsCount = (
+    getFilteredSubWorkItems(rootIssueId, filters.filters ?? {}) ?? []
+  ).length;
 
   const groups = getGroupByColumns({
     groupBy: group_by as GroupByColumnTypes,
@@ -80,7 +92,7 @@ export const SubIssuesListRoot = observer(function SubIssuesListRoot(props: Prop
       const subIssueIds = subIssuesByIssueId(parentIssueId);
       return subIssueIds ?? [];
     },
-    [isRootLevel, subIssuesByIssueId, rootIssueId, getGroupedSubWorkItems, parentIssueId]
+    [isRootLevel, subIssuesByIssueId, rootIssueId, getGroupedSubWorkItems, parentIssueId],
   );
 
   const isSubWorkItems = issueServiceType === EIssueServiceType.ISSUES;

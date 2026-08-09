@@ -37,7 +37,7 @@ export interface IEstimate extends Omit<IEstimateType, "points"> {
   creteEstimatePoint: (
     workspaceSlug: string,
     projectId: string,
-    payload: Partial<IEstimatePointType>
+    payload: Partial<IEstimatePointType>,
   ) => Promise<IEstimatePointType | undefined>;
 }
 
@@ -60,7 +60,7 @@ export class Estimate implements IEstimate {
 
   constructor(
     public store: CoreRootStore,
-    public data: IEstimateType
+    public data: IEstimateType,
   ) {
     makeObservable(this, {
       // data model observables
@@ -97,7 +97,11 @@ export class Estimate implements IEstimate {
     this.updated_by = this.data.updated_by;
     this.data.points?.forEach((estimationPoint) => {
       if (estimationPoint.id)
-        set(this.estimatePoints, [estimationPoint.id], new EstimatePoint(this.store, this.data, estimationPoint));
+        set(
+          this.estimatePoints,
+          [estimationPoint.id],
+          new EstimatePoint(this.store, this.data, estimationPoint),
+        );
     });
   }
 
@@ -122,10 +126,12 @@ export class Estimate implements IEstimate {
     const { estimatePoints } = this;
     if (!estimatePoints) return undefined;
     let currentEstimatePoints = Object.values(estimatePoints).filter(
-      (estimatePoint) => estimatePoint?.estimate === this.id
+      (estimatePoint) => estimatePoint?.estimate === this.id,
     );
     currentEstimatePoints = orderBy(currentEstimatePoints, ["key"], "asc");
-    const estimatePointIds = currentEstimatePoints.map((estimatePoint) => estimatePoint.id) as string[];
+    const estimatePointIds = currentEstimatePoints.map(
+      (estimatePoint) => estimatePoint.id,
+    ) as string[];
     return estimatePointIds ?? undefined;
   }
 
@@ -145,15 +151,24 @@ export class Estimate implements IEstimate {
   creteEstimatePoint = async (
     workspaceSlug: string,
     projectId: string,
-    payload: Partial<IEstimatePointType>
+    payload: Partial<IEstimatePointType>,
   ): Promise<IEstimatePointType | undefined> => {
     if (!this.id || !payload) return;
 
-    const estimatePoint = await estimateService.createEstimatePoint(workspaceSlug, projectId, this.id, payload);
+    const estimatePoint = await estimateService.createEstimatePoint(
+      workspaceSlug,
+      projectId,
+      this.id,
+      payload,
+    );
     if (estimatePoint) {
       runInAction(() => {
         if (estimatePoint.id) {
-          set(this.estimatePoints, [estimatePoint.id], new EstimatePoint(this.store, this.data, estimatePoint));
+          set(
+            this.estimatePoints,
+            [estimatePoint.id],
+            new EstimatePoint(this.store, this.data, estimatePoint),
+          );
         }
       });
     }

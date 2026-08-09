@@ -129,7 +129,10 @@ export const validateDisplayName = (displayName: string): boolean | string => {
  * validateCompanyName("Acme_Corp-123") // returns true
  * validateCompanyName("Acme{Corp}") // returns error message
  */
-export const validateCompanyName = (companyName: string, required: boolean = false): boolean | string => {
+export const validateCompanyName = (
+  companyName: string,
+  required: boolean = false,
+): boolean | string => {
   if (!companyName || companyName.trim() === "") {
     return required ? "Company name is required" : true;
   }
@@ -163,7 +166,10 @@ export const validateCompanyName = (companyName: string, required: boolean = fal
  * validateWorkspaceName("Acme_Corp-123") // returns true
  * validateWorkspaceName("Acme{Corp}") // returns error message
  */
-export const validateWorkspaceName = (workspaceName: string, required: boolean = false): boolean | string => {
+export const validateWorkspaceName = (
+  workspaceName: string,
+  required: boolean = false,
+): boolean | string => {
   if (!workspaceName || workspaceName.trim() === "") {
     return required ? "Workspace name is required" : true;
   }

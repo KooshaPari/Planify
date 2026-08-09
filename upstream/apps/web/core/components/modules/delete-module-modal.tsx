@@ -48,7 +48,8 @@ export const DeleteModuleModal = observer(function DeleteModuleModal(props: Prop
 
     await deleteModule(workspaceSlug.toString(), projectId.toString(), data.id)
       .then(() => {
-        if (moduleId || peekModule) router.push(`/${workspaceSlug}/projects/${data.project_id}/modules`);
+        if (moduleId || peekModule)
+          router.push(`/${workspaceSlug}/projects/${data.project_id}/modules`);
         handleClose();
         setToast({
           type: TOAST_TYPE.SUCCESS,
@@ -80,8 +81,8 @@ export const DeleteModuleModal = observer(function DeleteModuleModal(props: Prop
       content={
         <>
           Are you sure you want to delete module-{" "}
-          <span className="font-medium break-all text-primary">{data?.name}</span>? All of the data related to the
-          module will be permanently removed. This action cannot be undone.
+          <span className="font-medium break-all text-primary">{data?.name}</span>? All of the data
+          related to the module will be permanently removed. This action cannot be undone.
         </>
       }
     />

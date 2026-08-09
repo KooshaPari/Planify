@@ -29,29 +29,46 @@ export interface IProjectViewIssues extends IBaseIssuesStore {
     projectId: string,
     viewId: string,
     loadType: TLoader,
-    options: IssuePaginationOptions
+    options: IssuePaginationOptions,
   ) => Promise<TIssuesResponse | undefined>;
   fetchIssuesWithExistingPagination: (
     workspaceSlug: string,
     projectId: string,
     viewId: string,
-    loadType: TLoader
+    loadType: TLoader,
   ) => Promise<TIssuesResponse | undefined>;
   fetchNextIssues: (
     workspaceSlug: string,
     projectId: string,
     viewId: string,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) => Promise<TIssuesResponse | undefined>;
 
   createIssue: (workspaceSlug: string, projectId: string, data: Partial<TIssue>) => Promise<TIssue>;
-  updateIssue: (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>;
+  updateIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => Promise<void>;
   archiveIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
-  quickAddIssue: (workspaceSlug: string, projectId: string, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   removeBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  archiveBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  bulkUpdateProperties: (workspaceSlug: string, projectId: string, data: TBulkOperationsPayload) => Promise<void>;
+  archiveBulkIssues: (
+    workspaceSlug: string,
+    projectId: string,
+    issueIds: string[],
+  ) => Promise<void>;
+  bulkUpdateProperties: (
+    workspaceSlug: string,
+    projectId: string,
+    data: TBulkOperationsPayload,
+  ) => Promise<void>;
 }
 
 export class ProjectViewIssues extends BaseIssuesStore implements IProjectViewIssues {
@@ -94,7 +111,7 @@ export class ProjectViewIssues extends BaseIssuesStore implements IProjectViewIs
     viewId: string,
     loadType: TLoader,
     options: IssuePaginationOptions,
-    isExistingPaginationOptions: boolean = false
+    isExistingPaginationOptions: boolean = false,
   ) => {
     try {
       // set loader and clear store
@@ -104,14 +121,27 @@ export class ProjectViewIssues extends BaseIssuesStore implements IProjectViewIs
       });
 
       // get params from pagination options
-      const params = this.issueFilterStore?.getFilterParams(options, viewId, undefined, undefined, undefined);
+      const params = this.issueFilterStore?.getFilterParams(
+        options,
+        viewId,
+        undefined,
+        undefined,
+        undefined,
+      );
       // call the fetch issues API with the params
       const response = await this.issueService.getIssues(workspaceSlug, projectId, params, {
         signal: this.controller.signal,
       });
 
       // after fetching issues, call the base method to process the response further
-      this.onfetchIssues(response, options, workspaceSlug, projectId, viewId, !isExistingPaginationOptions);
+      this.onfetchIssues(
+        response,
+        options,
+        workspaceSlug,
+        projectId,
+        viewId,
+        !isExistingPaginationOptions,
+      );
       return response;
     } catch (error) {
       // set loader to undefined if errored out
@@ -135,7 +165,7 @@ export class ProjectViewIssues extends BaseIssuesStore implements IProjectViewIs
     projectId: string,
     viewId: string,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) => {
     const cursorObject = this.getPaginationData(groupId, subGroupId);
     // if there are no pagination options and the next page results do not exist the return
@@ -150,7 +180,7 @@ export class ProjectViewIssues extends BaseIssuesStore implements IProjectViewIs
         viewId,
         this.getNextCursor(groupId, subGroupId),
         groupId,
-        subGroupId
+        subGroupId,
       );
       // call the fetch issues API with the params for next page in issues
       const response = await this.issueService.getIssues(workspaceSlug, projectId, params);
@@ -177,10 +207,17 @@ export class ProjectViewIssues extends BaseIssuesStore implements IProjectViewIs
     workspaceSlug: string,
     projectId: string,
     viewId: string,
-    loadType: TLoader
+    loadType: TLoader,
   ) => {
     if (!this.paginationOptions) return;
-    return await this.fetchIssues(workspaceSlug, projectId, viewId, loadType, this.paginationOptions, true);
+    return await this.fetchIssues(
+      workspaceSlug,
+      projectId,
+      viewId,
+      loadType,
+      this.paginationOptions,
+      true,
+    );
   };
 
   // Using aliased names as they cannot be overridden in other stores

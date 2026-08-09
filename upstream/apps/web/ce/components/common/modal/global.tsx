@@ -10,7 +10,7 @@ import { observer } from "mobx-react";
 const ProfileSettingsModal = lazy(() =>
   import("@/components/settings/profile/modal").then((module) => ({
     default: module.ProfileSettingsModal,
-  }))
+  })),
 );
 
 type TGlobalModalsProps = {

@@ -54,7 +54,7 @@ export const ThemeSwitcher = observer(function ThemeSwitcher(props: {
           applyCustomTheme(
             userProfile.theme.primary,
             userProfile.theme.background,
-            userProfile.theme.darkPalette ? "dark" : "light"
+            userProfile.theme.darkPalette ? "dark" : "light",
           );
         }
 
@@ -77,7 +77,7 @@ export const ThemeSwitcher = observer(function ThemeSwitcher(props: {
         console.error("Error updating theme:", error);
       }
     },
-    [setTheme, updateUserTheme, userProfile]
+    [setTheme, updateUserTheme, userProfile],
   );
 
   if (!userProfile) return null;

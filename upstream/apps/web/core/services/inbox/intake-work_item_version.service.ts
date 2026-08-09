@@ -19,10 +19,10 @@ export class IntakeWorkItemVersionService extends APIService {
   async listDescriptionVersions(
     workspaceSlug: string,
     projectId: string,
-    intakeWorkItemId: string
+    intakeWorkItemId: string,
   ): Promise<TDescriptionVersionsListResponse> {
     return this.get(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/intake-work-items/${intakeWorkItemId}/description-versions/`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/intake-work-items/${intakeWorkItemId}/description-versions/`,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -34,10 +34,10 @@ export class IntakeWorkItemVersionService extends APIService {
     workspaceSlug: string,
     projectId: string,
     intakeWorkItemId: string,
-    versionId: string
+    versionId: string,
   ): Promise<TDescriptionVersionDetails> {
     return this.get(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/intake-work-items/${intakeWorkItemId}/description-versions/${versionId}/`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/intake-work-items/${intakeWorkItemId}/description-versions/${versionId}/`,
     )
       .then((response) => response?.data)
       .catch((error) => {

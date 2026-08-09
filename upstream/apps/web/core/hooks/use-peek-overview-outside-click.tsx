@@ -11,7 +11,7 @@ const usePeekOverviewOutsideClickDetector = (
   ref: React.RefObject<HTMLElement>,
   callback: () => void,
   issueId: string,
-  excludePreventionElementIds?: string[]
+  excludePreventionElementIds?: string[],
 ) => {
   const handleClick = useCallback(
     (event: MouseEvent) => {
@@ -24,7 +24,9 @@ const usePeekOverviewOutsideClickDetector = (
           // Check if this element's ID is in the exclusion list
           const elementId = preventOutsideClickElement.id;
           const shouldExcludePrevention =
-            excludePreventionElementIds && elementId && excludePreventionElementIds.includes(elementId);
+            excludePreventionElementIds &&
+            elementId &&
+            excludePreventionElementIds.includes(elementId);
 
           if (!shouldExcludePrevention && !preventOutsideClickElement.contains(ref.current)) {
             // Only prevent the callback if the ref is NOT inside the same prevent-outside-click container.
@@ -53,7 +55,7 @@ const usePeekOverviewOutsideClickDetector = (
         callback();
       }
     },
-    [ref, callback, issueId, excludePreventionElementIds]
+    [ref, callback, issueId, excludePreventionElementIds],
   );
 
   useEffect(() => {

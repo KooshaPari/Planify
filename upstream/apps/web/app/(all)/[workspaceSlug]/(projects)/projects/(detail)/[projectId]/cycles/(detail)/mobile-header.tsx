@@ -10,13 +10,25 @@ import { useParams } from "next/navigation";
 // plane imports
 import { EIssueFilterType, ISSUE_LAYOUTS, ISSUE_DISPLAY_FILTERS_BY_PAGE } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
-import { CalendarLayoutIcon, BoardLayoutIcon, ListLayoutIcon, ChevronDownIcon } from "@plane/propel/icons";
-import type { IIssueDisplayFilterOptions, IIssueDisplayProperties, EIssueLayoutTypes } from "@plane/types";
+import {
+  CalendarLayoutIcon,
+  BoardLayoutIcon,
+  ListLayoutIcon,
+  ChevronDownIcon,
+} from "@plane/propel/icons";
+import type {
+  IIssueDisplayFilterOptions,
+  IIssueDisplayProperties,
+  EIssueLayoutTypes,
+} from "@plane/types";
 import { EIssuesStoreType } from "@plane/types";
 import { CustomMenu } from "@plane/ui";
 // components
 import { WorkItemsModal } from "@/components/analytics/work-items/modal";
-import { DisplayFiltersSelection, FiltersDropdown } from "@/components/issues/issue-layouts/filters";
+import {
+  DisplayFiltersSelection,
+  FiltersDropdown,
+} from "@/components/issues/issue-layouts/filters";
 import { IssueLayoutIcon } from "@/components/issues/issue-layouts/layout-icon";
 // hooks
 import { useCycle } from "@/hooks/store/use-cycle";
@@ -54,10 +66,10 @@ export const CycleIssuesMobileHeader = observer(function CycleIssuesMobileHeader
         projectId.toString(),
         EIssueFilterType.DISPLAY_FILTERS,
         { layout: layout },
-        cycleId.toString()
+        cycleId.toString(),
       );
     },
-    [workspaceSlug, projectId, cycleId, updateFilters]
+    [workspaceSlug, projectId, cycleId, updateFilters],
   );
 
   const handleDisplayFilters = useCallback(
@@ -68,10 +80,10 @@ export const CycleIssuesMobileHeader = observer(function CycleIssuesMobileHeader
         projectId.toString(),
         EIssueFilterType.DISPLAY_FILTERS,
         updatedDisplayFilter,
-        cycleId.toString()
+        cycleId.toString(),
       );
     },
-    [workspaceSlug, projectId, cycleId, updateFilters]
+    [workspaceSlug, projectId, cycleId, updateFilters],
   );
 
   const handleDisplayProperties = useCallback(
@@ -82,10 +94,10 @@ export const CycleIssuesMobileHeader = observer(function CycleIssuesMobileHeader
         projectId.toString(),
         EIssueFilterType.DISPLAY_PROPERTIES,
         property,
-        cycleId.toString()
+        cycleId.toString(),
       );
     },
-    [workspaceSlug, projectId, cycleId, updateFilters]
+    [workspaceSlug, projectId, cycleId, updateFilters],
   );
 
   return (
@@ -102,7 +114,9 @@ export const CycleIssuesMobileHeader = observer(function CycleIssuesMobileHeader
           className="flex flex-grow justify-center text-13 text-secondary"
           placement="bottom-start"
           customButton={
-            <span className="flex flex-grow justify-center text-13 text-secondary">{t("common.layout")}</span>
+            <span className="flex flex-grow justify-center text-13 text-secondary">
+              {t("common.layout")}
+            </span>
           }
           customButtonClassName="flex flex-grow justify-center text-secondary text-13"
           closeOnSelect
@@ -133,7 +147,9 @@ export const CycleIssuesMobileHeader = observer(function CycleIssuesMobileHeader
           >
             <DisplayFiltersSelection
               layoutDisplayFiltersOptions={
-                activeLayout ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout] : undefined
+                activeLayout
+                  ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout]
+                  : undefined
               }
               displayFilters={issueFilters?.displayFilters ?? {}}
               handleDisplayFiltersUpdate={handleDisplayFilters}

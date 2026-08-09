@@ -8,7 +8,12 @@ import * as React from "react";
 
 import type { ISvgIcons } from "./type";
 
-export function PendingState({ width = "10", height = "11", className, color = "#455068" }: ISvgIcons) {
+export function PendingState({
+  width = "10",
+  height = "11",
+  className,
+  color = "#455068",
+}: ISvgIcons) {
   return (
     <svg
       width={width}

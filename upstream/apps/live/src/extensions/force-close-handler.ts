@@ -7,8 +7,17 @@
 import type { Connection, Extension, Hocuspocus, onConfigurePayload } from "@hocuspocus/server";
 import { logger } from "@plane/logger";
 import { Redis } from "@/extensions/redis";
-import { AdminCommand, CloseCode, getForceCloseMessage, isForceCloseCommand } from "@/types/admin-commands";
-import type { ForceCloseReason, ClientForceCloseMessage, ForceCloseCommandData } from "@/types/admin-commands";
+import {
+  AdminCommand,
+  CloseCode,
+  getForceCloseMessage,
+  isForceCloseCommand,
+} from "@/types/admin-commands";
+import type {
+  ForceCloseReason,
+  ClientForceCloseMessage,
+  ForceCloseCommandData,
+} from "@/types/admin-commands";
 
 /**
  * Extension to handle force close commands from other servers via Redis admin channel
@@ -42,7 +51,9 @@ export class ForceCloseHandler implements Extension {
       }
 
       const connectionCount = document.getConnectionsCount();
-      logger.info(`[FORCE_CLOSE_HANDLER] Sending force close message to ${connectionCount} clients...`);
+      logger.info(
+        `[FORCE_CLOSE_HANDLER] Sending force close message to ${connectionCount} clients...`,
+      );
 
       // Step 1: Send force close message to ALL clients first
       const forceCloseMessage: ClientForceCloseMessage = {
@@ -63,7 +74,9 @@ export class ForceCloseHandler implements Extension {
         }
       });
 
-      logger.info(`[FORCE_CLOSE_HANDLER] Sent force close message to ${messageSent}/${connectionCount} clients`);
+      logger.info(
+        `[FORCE_CLOSE_HANDLER] Sent force close message to ${messageSent}/${connectionCount} clients`,
+      );
 
       // Wait a moment for messages to be delivered
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -81,7 +94,9 @@ export class ForceCloseHandler implements Extension {
         }
       });
 
-      logger.info(`[FORCE_CLOSE_HANDLER] Closed ${closed}/${connectionCount} connections for ${docId}`);
+      logger.info(
+        `[FORCE_CLOSE_HANDLER] Closed ${closed}/${connectionCount} connections for ${docId}`,
+      );
     });
 
     logger.info("[FORCE_CLOSE_HANDLER] Registered with Redis extension");
@@ -103,7 +118,7 @@ export const forceCloseDocumentAcrossServers = async (
   instance: Hocuspocus,
   pageId: string,
   reason: ForceCloseReason,
-  code: CloseCode = CloseCode.FORCE_CLOSE
+  code: CloseCode = CloseCode.FORCE_CLOSE,
 ): Promise<void> => {
   // STEP 1: VERIFY DOCUMENT EXISTS
   const document = instance.documents.get(pageId);
@@ -134,7 +149,9 @@ export const forceCloseDocumentAcrossServers = async (
     }
   });
 
-  logger.info(`[FORCE_CLOSE] Sent force close message to ${messageSentCount}/${connectionsBefore} clients`);
+  logger.info(
+    `[FORCE_CLOSE] Sent force close message to ${messageSentCount}/${connectionsBefore} clients`,
+  );
 
   // Wait a moment for messages to be delivered
   await new Promise((resolve) => setTimeout(resolve, 50));
@@ -194,9 +211,11 @@ export const forceCloseDocumentAcrossServers = async (
 
   if (documentAfterUnload) {
     logger.error(
-      `❌ [FORCE_CLOSE] Document still in memory!, Document ID: ${pageId}, Connections: ${documentAfterUnload.getConnectionsCount()}`
+      `❌ [FORCE_CLOSE] Document still in memory!, Document ID: ${pageId}, Connections: ${documentAfterUnload.getConnectionsCount()}`,
     );
   } else {
-    logger.info(`✅ [FORCE_CLOSE] COMPLETE, Document: ${pageId}, Status: Successfully closed and unloaded`);
+    logger.info(
+      `✅ [FORCE_CLOSE] COMPLETE, Document: ${pageId}, Status: Successfully closed and unloaded`,
+    );
   }
 };

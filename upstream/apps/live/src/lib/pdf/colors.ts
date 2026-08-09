@@ -102,7 +102,10 @@ export const extractColorKeyFromCssVariable = (cssVar: string): string | null =>
  * Resolves a color value to a hex color for PDF rendering
  * Handles both direct hex values and CSS variable references
  */
-export const resolveColorForPdf = (value: string | null | undefined, type: "text" | "background"): string | null => {
+export const resolveColorForPdf = (
+  value: string | null | undefined,
+  type: "text" | "background",
+): string | null => {
   if (!value) return null;
 
   // If it's already a hex color, return it

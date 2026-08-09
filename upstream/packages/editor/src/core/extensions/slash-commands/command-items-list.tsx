@@ -57,7 +57,11 @@ export type TSlashCommandSection = {
 export const getSlashCommandFilteredSections =
   (args: TExtensionProps) =>
   ({ query }: { query: string }): TSlashCommandSection[] => {
-    const { additionalOptions: externalAdditionalOptions, disabledExtensions, flaggedExtensions } = args;
+    const {
+      additionalOptions: externalAdditionalOptions,
+      disabledExtensions,
+      flaggedExtensions,
+    } = args;
     const SLASH_COMMAND_SECTIONS: TSlashCommandSection[] = [
       {
         key: "general",
@@ -178,7 +182,8 @@ export const getSlashCommandFilteredSections =
             description: "Capture a code snippet.",
             searchTerms: ["codeblock"],
             icon: <Code2 className="size-3.5" />,
-            command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
+            command: ({ editor, range }) =>
+              editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
           },
           {
             commandKey: "callout",
@@ -196,7 +201,8 @@ export const getSlashCommandFilteredSections =
             description: "Visually divide blocks.",
             searchTerms: ["line", "divider", "horizontal", "rule", "separate"],
             icon: <MinusSquare className="size-3.5" />,
-            command: ({ editor, range }) => editor.chain().focus().deleteRange(range).setHorizontalRule().run(),
+            command: ({ editor, range }) =>
+              editor.chain().focus().deleteRange(range).setHorizontalRule().run(),
           },
           {
             commandKey: "emoji",
@@ -243,7 +249,7 @@ export const getSlashCommandFilteredSections =
                 ),
 
                 command: ({ editor, range }) => toggleTextColor(color.key, editor, range),
-              }) as ISlashCommandItem
+              }) as ISlashCommandItem,
           ),
         ],
       },
@@ -281,7 +287,7 @@ export const getSlashCommandFilteredSections =
                 },
 
                 command: ({ editor, range }) => toggleBackgroundColor(color.key, editor, range),
-              }) as ISlashCommandItem
+              }) as ISlashCommandItem,
           ),
         ],
       },
@@ -296,7 +302,8 @@ export const getSlashCommandFilteredSections =
         icon: <ImageIcon className="size-3.5" />,
         description: "Insert an image",
         searchTerms: ["img", "photo", "picture", "media", "upload"],
-        command: ({ editor, range }: CommandProps) => insertImage({ editor, event: "insert", range }),
+        command: ({ editor, range }: CommandProps) =>
+          insertImage({ editor, event: "insert", range }),
         section: "general",
         pushAfter: "code",
       });
@@ -310,8 +317,11 @@ export const getSlashCommandFilteredSections =
         flaggedExtensions,
       }),
     ]?.forEach((item) => {
-      const sectionToPushTo = SLASH_COMMAND_SECTIONS.find((s) => s.key === item.section) ?? SLASH_COMMAND_SECTIONS[0];
-      const itemIndexToPushAfter = sectionToPushTo.items.findIndex((i) => i.commandKey === item.pushAfter);
+      const sectionToPushTo =
+        SLASH_COMMAND_SECTIONS.find((s) => s.key === item.section) ?? SLASH_COMMAND_SECTIONS[0];
+      const itemIndexToPushAfter = sectionToPushTo.items.findIndex(
+        (i) => i.commandKey === item.pushAfter,
+      );
       if (itemIndexToPushAfter !== -1) {
         sectionToPushTo.items.splice(itemIndexToPushAfter + 1, 0, item);
       } else {

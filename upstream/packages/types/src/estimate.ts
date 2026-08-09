@@ -20,7 +20,10 @@ export interface IEstimatePoint {
   updated_by: string | undefined;
 }
 
-export type TEstimateSystemKeys = EEstimateSystem.POINTS | EEstimateSystem.CATEGORIES | EEstimateSystem.TIME;
+export type TEstimateSystemKeys =
+  | EEstimateSystem.POINTS
+  | EEstimateSystem.CATEGORIES
+  | EEstimateSystem.TIME;
 
 export interface IEstimate {
   id: string | undefined;

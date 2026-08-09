@@ -23,7 +23,7 @@ import type {
 export const getDisplayOperator = <P extends TFilterProperty>(
   operator: TSupportedOperators,
   _expression: TFilterExpression<P>,
-  _conditionId: string
+  _conditionId: string,
 ): TAllAvailableOperatorsForDisplay =>
   // Otherwise, return the operator as-is
   operator;

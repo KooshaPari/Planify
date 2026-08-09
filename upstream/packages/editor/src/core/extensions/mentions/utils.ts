@@ -38,15 +38,18 @@ export const renderMentionsDropdown =
       onStart: (props) => {
         if (!searchCallback) return;
         editorRef = props.editor;
-        component = new ReactRenderer<CommandListInstance, MentionsListDropdownProps>(MentionsListDropdown, {
-          props: {
-            ...props,
-            searchCallback,
-            onClose: () => handleClose(props.editor),
-          } satisfies MentionsListDropdownProps,
-          editor: props.editor,
-          className: "fixed z-[100]",
-        });
+        component = new ReactRenderer<CommandListInstance, MentionsListDropdownProps>(
+          MentionsListDropdown,
+          {
+            props: {
+              ...props,
+              searchCallback,
+              onClose: () => handleClose(props.editor),
+            } satisfies MentionsListDropdownProps,
+            editor: props.editor,
+            className: "fixed z-[100]",
+          },
+        );
         if (!props.clientRect) return;
         props.editor.commands.addActiveDropbarExtension(CORE_EXTENSIONS.MENTION);
         const element = component.element as HTMLElement;
@@ -57,7 +60,10 @@ export const renderMentionsDropdown =
         component.updateProps(props);
         if (!props.clientRect) return;
         cleanup();
-        cleanup = updateFloatingUIFloaterPosition(props.editor, component.element as HTMLElement).cleanup;
+        cleanup = updateFloatingUIFloaterPosition(
+          props.editor,
+          component.element as HTMLElement,
+        ).cleanup;
       },
       onKeyDown: ({ event }) => {
         if ([...DROPDOWN_NAVIGATION_KEYS, "Escape"].includes(event.key)) {

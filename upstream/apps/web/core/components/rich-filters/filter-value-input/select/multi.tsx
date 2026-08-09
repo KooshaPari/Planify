@@ -27,9 +27,9 @@ type TMultiSelectFilterValueInputProps<P extends TFilterProperty> = {
   onChange: (values: SingleOrArray<string>) => void;
 };
 
-export const MultiSelectFilterValueInput = observer(function MultiSelectFilterValueInput<P extends TFilterProperty>(
-  props: TMultiSelectFilterValueInputProps<P>
-) {
+export const MultiSelectFilterValueInput = observer(function MultiSelectFilterValueInput<
+  P extends TFilterProperty,
+>(props: TMultiSelectFilterValueInputProps<P>) {
   const { config, condition, isDisabled, onChange } = props;
   // states
   const [options, setOptions] = useState<IFilterOption<string>[]>([]);
@@ -53,7 +53,9 @@ export const MultiSelectFilterValueInput = observer(function MultiSelectFilterVa
       options={formattedOptions}
       multiple
       disabled={loading || isDisabled}
-      customButton={<SelectedOptionsDisplay<string> selectedValue={condition.value} options={options} />}
+      customButton={
+        <SelectedOptionsDisplay<string> selectedValue={condition.value} options={options} />
+      }
       defaultOpen={getFilterValueLength(condition.value) === 0}
     />
   );

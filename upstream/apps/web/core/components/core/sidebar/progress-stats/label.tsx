@@ -46,7 +46,9 @@ export const LabelStatComponent = observer(function LabelStatComponent(props: TL
                         backgroundColor: label.color ?? "transparent",
                       }}
                     />
-                    <span className="truncate text-11 text-ellipsis">{label.title ?? t("no_labels_yet")}</span>
+                    <span className="truncate text-11 text-ellipsis">
+                      {label.title ?? t("no_labels_yet")}
+                    </span>
                   </div>
                 }
                 completed={label.completed}

@@ -13,7 +13,7 @@ export const loggerConfig: LoggerOptions = {
     format.timestamp({
       format: "YYYY-MM-DD HH:mm:ss:ms",
     }),
-    format.json()
+    format.json(),
   ),
   transports: [new transports.Console()],
 };

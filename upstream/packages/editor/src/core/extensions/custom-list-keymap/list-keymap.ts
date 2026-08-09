@@ -39,7 +39,10 @@ export const ListKeymap = ({ tabIndex }: { tabIndex?: number }) =>
     addKeyboardShortcuts() {
       return {
         Tab: () => {
-          if (this.editor.isActive(CORE_EXTENSIONS.LIST_ITEM) || this.editor.isActive(CORE_EXTENSIONS.TASK_ITEM)) {
+          if (
+            this.editor.isActive(CORE_EXTENSIONS.LIST_ITEM) ||
+            this.editor.isActive(CORE_EXTENSIONS.TASK_ITEM)
+          ) {
             if (this.editor.commands.sinkListItem(CORE_EXTENSIONS.LIST_ITEM)) {
               return true;
             } else if (this.editor.commands.sinkListItem(CORE_EXTENSIONS.TASK_ITEM)) {

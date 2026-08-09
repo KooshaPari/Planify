@@ -10,7 +10,13 @@ import type { ISvgIcons } from "./type";
 
 export function OffTrackIcon({ width = "16", height = "16" }: ISvgIcons) {
   return (
-    <svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g clipPath="url(#clip0_365_7595)">
         <path
           fillRule="evenodd"

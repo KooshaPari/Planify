@@ -105,7 +105,9 @@ export class InstanceService extends APIService {
    * @returns {Promise<IInstanceConfiguration[]>} The updated instance configurations
    * @throws {Error} If the API request fails
    */
-  async updateConfigurations(data: Partial<IFormattedInstanceConfiguration>): Promise<IInstanceConfiguration[]> {
+  async updateConfigurations(
+    data: Partial<IFormattedInstanceConfiguration>,
+  ): Promise<IInstanceConfiguration[]> {
     return this.patch("/api/instances/configurations/", data)
       .then((response) => response?.data)
       .catch((error) => {

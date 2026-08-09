@@ -43,7 +43,8 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
     watch,
   } = useForm({ defaultValues });
 
-  const canDelete = watch("projectName") === project?.name && watch("confirmDelete") === "delete my project";
+  const canDelete =
+    watch("projectName") === project?.name && watch("confirmDelete") === "delete my project";
 
   const handleClose = () => {
     const timer = setTimeout(() => {
@@ -59,7 +60,8 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
 
     try {
       await deleteProject(workspaceSlug.toString(), project.id);
-      if (projectId && projectId.toString() === project.id) router.push(`/${workspaceSlug}/projects`);
+      if (projectId && projectId.toString() === project.id)
+        router.push(`/${workspaceSlug}/projects`);
       handleClose();
       setToast({
         type: TOAST_TYPE.SUCCESS,
@@ -76,7 +78,12 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 p-6">
         <div className="flex w-full items-center justify-start gap-6">
           <span className="place-items-center rounded-full bg-danger-subtle p-4">
@@ -88,13 +95,15 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
         </div>
         <span>
           <p className="text-13 leading-7 text-secondary">
-            Are you sure you want to delete project <span className="font-semibold break-words">{project?.name}</span>?
-            All of the data related to the project will be permanently removed. This action cannot be undone
+            Are you sure you want to delete project{" "}
+            <span className="font-semibold break-words">{project?.name}</span>? All of the data
+            related to the project will be permanently removed. This action cannot be undone
           </p>
         </span>
         <div className="text-secondary">
           <p className="text-13 break-words">
-            Enter the project name <span className="font-medium text-primary">{project?.name}</span> to continue:
+            Enter the project name <span className="font-medium text-primary">{project?.name}</span>{" "}
+            to continue:
           </p>
           <Controller
             control={control}
@@ -117,7 +126,8 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
         </div>
         <div className="text-secondary">
           <p className="text-13">
-            To confirm, type <span className="font-medium text-primary">delete my project</span> below:
+            To confirm, type <span className="font-medium text-primary">delete my project</span>{" "}
+            below:
           </p>
           <Controller
             control={control}
@@ -142,7 +152,13 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
           <Button variant="secondary" size="lg" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="error-fill" size="lg" type="submit" disabled={!canDelete} loading={isSubmitting}>
+          <Button
+            variant="error-fill"
+            size="lg"
+            type="submit"
+            disabled={!canDelete}
+            loading={isSubmitting}
+          >
             {isSubmitting ? "Deleting" : "Delete project"}
           </Button>
         </div>

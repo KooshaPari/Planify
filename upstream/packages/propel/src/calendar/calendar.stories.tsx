@@ -29,7 +29,13 @@ export const SingleDate: Story = {
 
     return (
       <div className="p-4">
-        <Calendar {...args} mode="single" selected={date} onSelect={setDate} className="rounded-md border" />
+        <Calendar
+          {...args}
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="rounded-md border"
+        />
       </div>
     );
   },
@@ -45,7 +51,13 @@ export const MultipleDates: Story = {
 
     return (
       <div className="p-4">
-        <Calendar {...args} mode="multiple" selected={dates} onSelect={setDates} className="rounded-md border" />
+        <Calendar
+          {...args}
+          mode="multiple"
+          selected={dates}
+          onSelect={setDates}
+          className="rounded-md border"
+        />
       </div>
     );
   },
@@ -60,7 +72,13 @@ export const RangeSelection: Story = {
 
     return (
       <div className="p-4">
-        <Calendar {...args} mode="range" selected={range} onSelect={setRange} className="rounded-md border" />
+        <Calendar
+          {...args}
+          mode="range"
+          selected={range}
+          onSelect={setRange}
+          className="rounded-md border"
+        />
       </div>
     );
   },
@@ -69,7 +87,12 @@ export const RangeSelection: Story = {
 export const DisabledDates: Story = {
   render(args) {
     const [date, setDate] = useState<Date | undefined>();
-    const disabledDays = [new Date(2024, 0, 5), new Date(2024, 0, 12), new Date(2024, 0, 19), new Date(2024, 0, 26)];
+    const disabledDays = [
+      new Date(2024, 0, 5),
+      new Date(2024, 0, 12),
+      new Date(2024, 0, 19),
+      new Date(2024, 0, 26),
+    ];
 
     return (
       <div className="p-4">
@@ -193,7 +216,12 @@ export const Uncontrolled: Story = {
   render() {
     return (
       <div className="p-4">
-        <Calendar mode="single" defaultMonth={new Date(2024, 0)} showOutsideDays className="rounded-md border" />
+        <Calendar
+          mode="single"
+          defaultMonth={new Date(2024, 0)}
+          showOutsideDays
+          className="rounded-md border"
+        />
       </div>
     );
   },

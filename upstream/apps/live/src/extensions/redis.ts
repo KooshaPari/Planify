@@ -79,7 +79,7 @@ export class Redis extends HocuspocusRedis {
    */
   public onAdminCommand<T extends AdminCommandData = AdminCommandData>(
     command: AdminCommand,
-    handler: AdminCommandHandler<T>
+    handler: AdminCommandHandler<T>,
   ) {
     this.adminHandlers.set(command, handler as AdminCommandHandler);
     logger.info(`[Redis] Registered admin command: ${command}`);

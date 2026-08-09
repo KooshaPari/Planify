@@ -22,7 +22,9 @@ type Props = {
 export const CustomTooltip = React.memo(function CustomTooltip(props: Props) {
   const { active, activeKey, label, payload, itemKeys, itemLabels, itemDotColors } = props;
   // derived values
-  const filteredPayload = payload?.filter((item) => item.dataKey && itemKeys.includes(`${item.dataKey}`));
+  const filteredPayload = payload?.filter(
+    (item) => item.dataKey && itemKeys.includes(`${item.dataKey}`),
+  );
 
   if (!active || !filteredPayload || !filteredPayload.length) return null;
 
@@ -31,7 +33,9 @@ export const CustomTooltip = React.memo(function CustomTooltip(props: Props) {
       className="vertical-scrollbar flex scrollbar-sm max-h-[40vh] w-[12rem] flex-col overflow-y-scroll"
       spacing={ECardSpacing.SM}
     >
-      <p className="flex-shrink-0 truncate border-b border-subtle pb-2 text-11 font-medium text-primary">{label}</p>
+      <p className="flex-shrink-0 truncate border-b border-subtle pb-2 text-11 font-medium text-primary">
+        {label}
+      </p>
       {filteredPayload.map((item) => {
         if (!item.dataKey) return null;
 

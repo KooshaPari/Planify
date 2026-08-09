@@ -18,7 +18,7 @@ type TNotificationAppSidebarOption = {
 };
 
 export const NotificationAppSidebarOption = observer(function NotificationAppSidebarOption(
-  props: TNotificationAppSidebarOption
+  props: TNotificationAppSidebarOption,
 ) {
   const { workspaceSlug } = props;
   // hooks
@@ -26,11 +26,12 @@ export const NotificationAppSidebarOption = observer(function NotificationAppSid
 
   useSWR(
     workspaceSlug ? "WORKSPACE_UNREAD_NOTIFICATION_COUNT" : null,
-    workspaceSlug ? () => getUnreadNotificationsCount(workspaceSlug) : null
+    workspaceSlug ? () => getUnreadNotificationsCount(workspaceSlug) : null,
   );
 
   // derived values
-  const isMentionsEnabled = unreadNotificationsCount.mention_unread_notifications_count > 0 ? true : false;
+  const isMentionsEnabled =
+    unreadNotificationsCount.mention_unread_notifications_count > 0 ? true : false;
   const totalNotifications = isMentionsEnabled
     ? unreadNotificationsCount.mention_unread_notifications_count
     : unreadNotificationsCount.total_unread_notifications_count;

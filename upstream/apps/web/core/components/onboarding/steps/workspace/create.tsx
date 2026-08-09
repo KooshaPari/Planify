@@ -118,9 +118,9 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
     return (
       <div className="flex flex-col gap-10">
         <span className="text-center text-14 text-tertiary">
-          You don&apos;t seem to have any invites to a workspace and your instance admin has restricted creation of new
-          workspaces. Please ask a workspace owner or admin to invite you to a workspace first and come back to this
-          screen to join.
+          You don&apos;t seem to have any invites to a workspace and your instance admin has
+          restricted creation of new workspaces. Please ask a workspace owner or admin to invite you
+          to a workspace first and come back to this screen to join.
         </span>
       </div>
     );
@@ -132,7 +132,10 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
         void handleSubmit(handleCreateWorkspace)(e);
       }}
     >
-      <CommonOnboardingHeader title="Create your workspace" description="All your work — unified." />
+      <CommonOnboardingHeader
+        title="Create your workspace"
+        description="All your work — unified."
+      />
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
           <label
@@ -162,9 +165,13 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
                   onChange={(event) => {
                     onChange(event.target.value);
                     setValue("name", event.target.value);
-                    setValue("slug", event.target.value.toLocaleLowerCase().trim().replace(/ /g, "-"), {
-                      shouldValidate: true,
-                    });
+                    setValue(
+                      "slug",
+                      event.target.value.toLocaleLowerCase().trim().replace(/ /g, "-"),
+                      {
+                        shouldValidate: true,
+                      },
+                    );
                   }}
                   placeholder="Enter workspace name"
                   ref={ref}
@@ -173,7 +180,7 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
                     {
                       "border-strong": !errors.name,
                       "border-danger-strong": errors.name,
-                    }
+                    },
                   )}
                   // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus
@@ -181,7 +188,9 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
               </div>
             )}
           />
-          {errors.name && <span className="text-13 text-danger-primary">{errors.name.message}</span>}
+          {errors.name && (
+            <span className="text-13 text-danger-primary">{errors.name.message}</span>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <label
@@ -207,7 +216,7 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
                   {
                     "border-strong": !errors.name,
                     "border-danger-strong": errors.name,
-                  }
+                  },
                 )}
               >
                 <span className={cn("rounded-md pr-0 whitespace-nowrap text-secondary")}>
@@ -227,7 +236,7 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
                   ref={ref}
                   placeholder={t("workspace_creation.form.url.placeholder")}
                   className={cn(
-                    "ring-none w-full rounded-md border-none bg-surface-1 px-3 py-0 pl-0 text-secondary outline-none placeholder:text-placeholder"
+                    "ring-none w-full rounded-md border-none bg-surface-1 px-3 py-0 pl-0 text-secondary outline-none placeholder:text-placeholder",
                   )}
                 />
               </div>
@@ -240,9 +249,13 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
             </p>
           )}
           {invalidSlug && (
-            <p className="text-13 text-danger-primary">{t("workspace_creation.errors.validation.url_alphanumeric")}</p>
+            <p className="text-13 text-danger-primary">
+              {t("workspace_creation.errors.validation.url_alphanumeric")}
+            </p>
           )}
-          {errors.slug && <span className="text-13 text-danger-primary">{errors.slug.message}</span>}
+          {errors.slug && (
+            <span className="text-13 text-danger-primary">{errors.slug.message}</span>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <label
@@ -274,7 +287,9 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
                             : "border-subtle text-tertiary hover:border-strong"
                         }`}
                       >
-                        <CircleCheck className={cn("size-4 text-placeholder", isSelected && "text-secondary")} />
+                        <CircleCheck
+                          className={cn("size-4 text-placeholder", isSelected && "text-secondary")}
+                        />
 
                         <span className="font-medium">{size}</span>
                       </button>
@@ -284,14 +299,26 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
               )}
             />
             {errors.organization_size && (
-              <span className="text-13 text-danger-primary">{errors.organization_size.message}</span>
+              <span className="text-13 text-danger-primary">
+                {errors.organization_size.message}
+              </span>
             )}
           </div>
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <Button variant="primary" type="submit" size="xl" className="w-full" disabled={isButtonDisabled}>
-          {isSubmitting ? <Spinner height="20px" width="20px" /> : t("workspace_creation.button.default")}
+        <Button
+          variant="primary"
+          type="submit"
+          size="xl"
+          className="w-full"
+          disabled={isButtonDisabled}
+        >
+          {isSubmitting ? (
+            <Spinner height="20px" width="20px" />
+          ) : (
+            t("workspace_creation.button.default")
+          )}
         </Button>
         {hasInvitations && (
           <Button variant="ghost" size="xl" className="w-full" onClick={handleCurrentViewChange}>

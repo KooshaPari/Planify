@@ -18,7 +18,9 @@ type TWorkspaceListItemProps = {
   workspaceId: string;
 };
 
-export const WorkspaceListItem = observer(function WorkspaceListItem({ workspaceId }: TWorkspaceListItemProps) {
+export const WorkspaceListItem = observer(function WorkspaceListItem({
+  workspaceId,
+}: TWorkspaceListItemProps) {
   // store hooks
   const { getWorkspaceById } = useWorkspace();
   // derived values
@@ -82,7 +84,11 @@ export const WorkspaceListItem = observer(function WorkspaceListItem({ workspace
         </div>
       </div>
       <div className="flex-shrink-0">
-        <NewTabIcon width={14} height={16} className="text-placeholder group-hover:text-secondary" />
+        <NewTabIcon
+          width={14}
+          height={16}
+          className="text-placeholder group-hover:text-secondary"
+        />
       </div>
     </a>
   );

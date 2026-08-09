@@ -16,7 +16,8 @@ import { getMemberMultiSelectConfig } from "./shared";
 /**
  * Member picker property filter specific params
  */
-type TCreateMemberPickerPropertyFilterParams = TCustomPropertyFilterParams<IUserLite> & TCreateUserFilterParams;
+type TCreateMemberPickerPropertyFilterParams = TCustomPropertyFilterParams<IUserLite> &
+  TCreateUserFilterParams;
 
 /**
  * Get the member picker property filter config
@@ -24,7 +25,9 @@ type TCreateMemberPickerPropertyFilterParams = TCustomPropertyFilterParams<IUser
  * @returns The member picker property filter config
  */
 export const getMemberPickerPropertyFilterConfig =
-  <P extends TFilterProperty>(key: P): TCreateFilterConfig<P, TCreateMemberPickerPropertyFilterParams> =>
+  <P extends TFilterProperty>(
+    key: P,
+  ): TCreateFilterConfig<P, TCreateMemberPickerPropertyFilterParams> =>
   (params: TCreateMemberPickerPropertyFilterParams) =>
     createFilterConfig({
       id: key,
@@ -33,7 +36,7 @@ export const getMemberPickerPropertyFilterConfig =
       icon: params.filterIcon,
       supportedOperatorConfigsMap: new Map([
         createOperatorConfigEntry(EQUALITY_OPERATOR.EXACT, params, (updatedParams) =>
-          getMemberMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT)
+          getMemberMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT),
         ),
       ]),
     });

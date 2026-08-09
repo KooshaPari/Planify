@@ -41,9 +41,13 @@ const useCyclesDetails = (props: IActiveCycleDetails) => {
 
   // fetch cycle details
   useSWR(
-    workspaceSlug && projectId && cycle?.id ? `PROJECT_ACTIVE_CYCLE_${projectId}_PROGRESS_${cycle.id}` : null,
-    workspaceSlug && projectId && cycle?.id ? () => fetchActiveCycleProgress(workspaceSlug, projectId, cycle.id) : null,
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    workspaceSlug && projectId && cycle?.id
+      ? `PROJECT_ACTIVE_CYCLE_${projectId}_PROGRESS_${cycle.id}`
+      : null,
+    workspaceSlug && projectId && cycle?.id
+      ? () => fetchActiveCycleProgress(workspaceSlug, projectId, cycle.id)
+      : null,
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
   useSWR(
     workspaceSlug && projectId && cycle?.id && !cycle?.distribution
@@ -51,7 +55,7 @@ const useCyclesDetails = (props: IActiveCycleDetails) => {
       : null,
     workspaceSlug && projectId && cycle?.id && !cycle?.distribution
       ? () => fetchActiveCycleAnalytics(workspaceSlug, projectId, cycle.id, "issues")
-      : null
+      : null,
   );
   useSWR(
     workspaceSlug && projectId && cycle?.id && !cycle?.estimate_distribution
@@ -59,17 +63,21 @@ const useCyclesDetails = (props: IActiveCycleDetails) => {
       : null,
     workspaceSlug && projectId && cycle?.id && !cycle?.estimate_distribution
       ? () => fetchActiveCycleAnalytics(workspaceSlug, projectId, cycle.id, "points")
-      : null
+      : null,
   );
   useSWR(
-    workspaceSlug && projectId && cycle?.id ? CYCLE_ISSUES_WITH_PARAMS(cycle?.id, { priority: "urgent,high" }) : null,
+    workspaceSlug && projectId && cycle?.id
+      ? CYCLE_ISSUES_WITH_PARAMS(cycle?.id, { priority: "urgent,high" })
+      : null,
     workspaceSlug && projectId && cycle?.id
       ? () => fetchActiveCycleIssues(workspaceSlug, projectId, 30, cycle?.id)
       : null,
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
-  const cycleIssueDetails = cycle?.id ? getActiveCycleByIdFromIssue(cycle?.id) : { nextPageResults: false };
+  const cycleIssueDetails = cycle?.id
+    ? getActiveCycleByIdFromIssue(cycle?.id)
+    : { nextPageResults: false };
 
   const handleFiltersUpdate = useCallback(
     async (conditions: TWorkItemFilterCondition[]) => {
@@ -79,12 +87,19 @@ const useCyclesDetails = (props: IActiveCycleDetails) => {
         EIssuesStoreType.CYCLE,
         cycleId,
         conditions,
-        updateFilterExpression.bind(updateFilterExpression, workspaceSlug, projectId, cycleId)
+        updateFilterExpression.bind(updateFilterExpression, workspaceSlug, projectId, cycleId),
       );
 
       router.push(`/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}`);
     },
-    [workspaceSlug, projectId, cycleId, updateFilterExpressionFromConditions, updateFilterExpression, router]
+    [
+      workspaceSlug,
+      projectId,
+      cycleId,
+      updateFilterExpressionFromConditions,
+      updateFilterExpression,
+      router,
+    ],
   );
   return {
     cycle,

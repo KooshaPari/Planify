@@ -24,43 +24,48 @@ type Props = {
   workspaceSlug: string;
 };
 
-export const ProjectSettingsFeatureControlItem = observer(function ProjectSettingsFeatureControlItem(props: Props) {
-  const { description, disabled, featureProperty, projectId, title, value, workspaceSlug } = props;
-  // store hooks
-  const { getProjectById, updateProject } = useProject();
-  // derived values
-  const currentProjectDetails = getProjectById(projectId);
+export const ProjectSettingsFeatureControlItem = observer(
+  function ProjectSettingsFeatureControlItem(props: Props) {
+    const { description, disabled, featureProperty, projectId, title, value, workspaceSlug } =
+      props;
+    // store hooks
+    const { getProjectById, updateProject } = useProject();
+    // derived values
+    const currentProjectDetails = getProjectById(projectId);
 
-  const handleSubmit = () => {
-    if (!workspaceSlug || !projectId || !currentProjectDetails) return;
+    const handleSubmit = () => {
+      if (!workspaceSlug || !projectId || !currentProjectDetails) return;
 
-    // making the request to update the project feature
-    const settingsPayload = {
-      [featureProperty]: !currentProjectDetails?.[featureProperty],
+      // making the request to update the project feature
+      const settingsPayload = {
+        [featureProperty]: !currentProjectDetails?.[featureProperty],
+      };
+      const updateProjectPromise = updateProject(workspaceSlug, projectId, settingsPayload);
+
+      setPromiseToast(updateProjectPromise, {
+        loading: "Updating project feature...",
+        success: {
+          title: "Success!",
+          message: () => "Project feature updated successfully.",
+        },
+        error: {
+          title: "Error!",
+          message: () => "Something went wrong while updating project feature. Please try again.",
+        },
+      });
+      void updateProjectPromise.then(() => {
+        return undefined;
+      });
     };
-    const updateProjectPromise = updateProject(workspaceSlug, projectId, settingsPayload);
 
-    setPromiseToast(updateProjectPromise, {
-      loading: "Updating project feature...",
-      success: {
-        title: "Success!",
-        message: () => "Project feature updated successfully.",
-      },
-      error: {
-        title: "Error!",
-        message: () => "Something went wrong while updating project feature. Please try again.",
-      },
-    });
-    void updateProjectPromise.then(() => {
-      return undefined;
-    });
-  };
-
-  return (
-    <SettingsBoxedControlItem
-      title={title}
-      description={description}
-      control={<ToggleSwitch value={value} onChange={handleSubmit} disabled={disabled} size="sm" />}
-    />
-  );
-});
+    return (
+      <SettingsBoxedControlItem
+        title={title}
+        description={description}
+        control={
+          <ToggleSwitch value={value} onChange={handleSubmit} disabled={disabled} size="sm" />
+        }
+      />
+    );
+  },
+);

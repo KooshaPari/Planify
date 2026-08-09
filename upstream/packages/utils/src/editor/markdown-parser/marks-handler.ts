@@ -9,7 +9,11 @@ import type { PhrasingContent, Text as MDASTText } from "mdast";
 // local imports
 import { createTextNode } from "./common";
 
-const processMarkElement = (state: Parameters<Handle>[0], node: Parameters<Handle>[1], wrapper: string): MDASTText => {
+const processMarkElement = (
+  state: Parameters<Handle>[0],
+  node: Parameters<Handle>[1],
+  wrapper: string,
+): MDASTText => {
   if (node.children && node.children.length > 0) {
     // Process all children and collect their text content
     const processedChildren: PhrasingContent[] = [];
@@ -32,7 +36,9 @@ const processMarkElement = (state: Parameters<Handle>[0], node: Parameters<Handl
     }
 
     // Concatenate all text content and wrap with the specified wrapper
-    const combinedText = processedChildren.map((child) => (child.type === "text" ? child.value : "")).join("");
+    const combinedText = processedChildren
+      .map((child) => (child.type === "text" ? child.value : ""))
+      .join("");
 
     return createTextNode(`${wrapper}${combinedText}${wrapper}`);
   }

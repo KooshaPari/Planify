@@ -35,9 +35,14 @@ const LAYOUT = {
   },
 };
 
-const calculateContentWidth = (text: string | number, fontSize: number): number => String(text).length * fontSize * 0.7;
+const calculateContentWidth = (text: string | number, fontSize: number): number =>
+  String(text).length * fontSize * 0.7;
 
-const calculateTopSectionConfig = (effectiveWidth: number, name: string, hasIcon: boolean): TTopSectionConfig => {
+const calculateTopSectionConfig = (
+  effectiveWidth: number,
+  name: string,
+  hasIcon: boolean,
+): TTopSectionConfig => {
   const iconWidth = hasIcon ? LAYOUT.ICON.SIZE + LAYOUT.ICON.GAP : 0;
   const nameWidth = calculateContentWidth(name, LAYOUT.TEXT.FONT_SIZES.SM);
   const totalPadding = LAYOUT.TEXT.PADDING_LEFT + LAYOUT.TEXT.PADDING_RIGHT;
@@ -69,7 +74,7 @@ const calculateBottomSectionConfig = (
   effectiveWidth: number,
   effectiveHeight: number,
   value: number | undefined,
-  label: string | undefined
+  label: string | undefined,
 ): TBottomSectionConfig => {
   // If height is not enough for bottom section
   if (effectiveHeight < LAYOUT.MIN_DIMENSIONS.HEIGHT_FOR_BOTH) {
@@ -114,7 +119,7 @@ const calculateVisibility = (
   hasIcon: boolean,
   name: string,
   value: number | undefined,
-  label: string | undefined
+  label: string | undefined,
 ): TContentVisibility => {
   const effectiveWidth = width - LAYOUT.PADDING * 2;
   const effectiveHeight = height - LAYOUT.PADDING * 2;
@@ -139,7 +144,12 @@ const calculateVisibility = (
   };
 };
 
-const truncateText = (text: string | number, maxWidth: number, fontSize: number, reservedWidth: number = 0): string => {
+const truncateText = (
+  text: string | number,
+  maxWidth: number,
+  fontSize: number,
+  reservedWidth: number = 0,
+): string => {
   const availableWidth = maxWidth - reservedWidth;
   if (availableWidth <= 0) return "";
 
@@ -175,7 +185,7 @@ export function CustomTreeMapContent({
 
   const visibility = useMemo(
     () => calculateVisibility(width, height, !!icon, name, value, label),
-    [width, height, icon, name, value, label]
+    [width, height, icon, name, value, label],
   );
 
   if (!name || width <= 0 || height <= 0) return null;
@@ -227,10 +237,15 @@ export function CustomTreeMapContent({
               x={pX + LAYOUT.TEXT.PADDING_LEFT + iconSpace}
               y={pY + LAYOUT.TEXT.VERTICAL_OFFSET}
               textAnchor="start"
-              className={cn("tracking-wider text-13 font-light select-none", textClassName || "text-tertiary")}
+              className={cn(
+                "tracking-wider text-13 font-light select-none",
+                textClassName || "text-tertiary",
+              )}
               fill="currentColor"
             >
-              {top.nameTruncated ? truncateText(name, availableTextWidth, LAYOUT.TEXT.FONT_SIZES.SM, iconSpace) : name}
+              {top.nameTruncated
+                ? truncateText(name, availableTextWidth, LAYOUT.TEXT.FONT_SIZES.SM, iconSpace)
+                : name}
             </text>
           )}
         </g>
@@ -243,7 +258,10 @@ export function CustomTreeMapContent({
                 x={pX + LAYOUT.TEXT.PADDING_LEFT}
                 y={pY + pHeight - LAYOUT.TEXT.PADDING_LEFT}
                 textAnchor="start"
-                className={cn("tracking-wider text-13 font-light select-none", textClassName || "text-tertiary")}
+                className={cn(
+                  "tracking-wider text-13 font-light select-none",
+                  textClassName || "text-tertiary",
+                )}
                 fill="currentColor"
               >
                 {value.toLocaleString()}
@@ -252,8 +270,10 @@ export function CustomTreeMapContent({
                     {bottom.labelTruncated
                       ? truncateText(
                           label,
-                          availableTextWidth - calculateContentWidth(value, LAYOUT.TEXT.FONT_SIZES.SM) - 4,
-                          LAYOUT.TEXT.FONT_SIZES.SM
+                          availableTextWidth -
+                            calculateContentWidth(value, LAYOUT.TEXT.FONT_SIZES.SM) -
+                            4,
+                          LAYOUT.TEXT.FONT_SIZES.SM,
                         )
                       : label}
                   </tspan>

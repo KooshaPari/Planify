@@ -191,7 +191,11 @@ export const Interactive: Story = {
           <p className="text-gray-700 text-13">
             Status: <span className="font-semibold">{enabled ? "Enabled" : "Disabled"}</span>
           </p>
-          {enabled && <p className="mt-2 text-11 text-success-primary">Feature is now active and ready to use!</p>}
+          {enabled && (
+            <p className="mt-2 text-11 text-success-primary">
+              Feature is now active and ready to use!
+            </p>
+          )}
         </div>
       </div>
     );
@@ -237,7 +241,11 @@ export const MultipleControls: Story = {
           {Object.entries(settings).map(([key, value]) => (
             <div key={key} className="flex items-center justify-between">
               <span className="text-13 capitalize">{key.replace(/([A-Z])/g, " $1").trim()}</span>
-              <Switch value={value} onChange={() => toggleSetting(key as keyof typeof settings)} size="sm" />
+              <Switch
+                value={value}
+                onChange={() => toggleSetting(key as keyof typeof settings)}
+                size="sm"
+              />
             </div>
           ))}
         </div>

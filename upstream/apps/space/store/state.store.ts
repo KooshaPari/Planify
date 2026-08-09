@@ -48,7 +48,8 @@ export class StateStore implements IStateStore {
     return sortStates(clone(this.states));
   }
 
-  getStateById = (stateId: string | undefined) => this.states?.find((state) => state.id === stateId);
+  getStateById = (stateId: string | undefined) =>
+    this.states?.find((state) => state.id === stateId);
 
   fetchStates = async (anchor: string) => {
     const statesResponse = await this.stateService.list(anchor);

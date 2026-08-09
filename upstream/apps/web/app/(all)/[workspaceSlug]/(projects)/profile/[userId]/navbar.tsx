@@ -22,7 +22,9 @@ export function ProfileNavbar(props: Props) {
   const { workspaceSlug, userId } = useParams();
   const pathname = usePathname();
 
-  const tabsList = isAuthorized ? [...PROFILE_VIEWER_TAB, ...PROFILE_ADMINS_TAB] : PROFILE_VIEWER_TAB;
+  const tabsList = isAuthorized
+    ? [...PROFILE_VIEWER_TAB, ...PROFILE_ADMINS_TAB]
+    : PROFILE_VIEWER_TAB;
 
   return (
     <Header variant={EHeaderVariant.SECONDARY} showOnMobile={false}>
@@ -35,7 +37,7 @@ export function ProfileNavbar(props: Props) {
                   pathname === `/${workspaceSlug}/profile/${userId}${tab.selected}`
                     ? "border-accent-strong text-accent-primary hover:text-accent-primary"
                     : "border-transparent"
-                }`
+                }`,
               )}
             >
               {t(tab.i18n_label)}

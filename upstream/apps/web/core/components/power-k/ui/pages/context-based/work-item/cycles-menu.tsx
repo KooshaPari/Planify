@@ -23,11 +23,21 @@ export const PowerKWorkItemCyclesMenu = observer(function PowerKWorkItemCyclesMe
   // store hooks
   const { getProjectCycleIds, getCycleById } = useCycle();
   // derived values
-  const projectCycleIds = workItemDetails.project_id ? getProjectCycleIds(workItemDetails.project_id) : undefined;
-  const cyclesList = projectCycleIds ? projectCycleIds.map((cycleId) => getCycleById(cycleId)) : undefined;
+  const projectCycleIds = workItemDetails.project_id
+    ? getProjectCycleIds(workItemDetails.project_id)
+    : undefined;
+  const cyclesList = projectCycleIds
+    ? projectCycleIds.map((cycleId) => getCycleById(cycleId))
+    : undefined;
   const filteredCyclesList = cyclesList ? cyclesList.filter((cycle) => !!cycle) : undefined;
 
   if (!filteredCyclesList) return <Spinner />;
 
-  return <PowerKCyclesMenu cycles={filteredCyclesList} onSelect={handleSelect} value={workItemDetails.cycle_id} />;
+  return (
+    <PowerKCyclesMenu
+      cycles={filteredCyclesList}
+      onSelect={handleSelect}
+      value={workItemDetails.cycle_id}
+    />
+  );
 });

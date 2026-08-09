@@ -7,7 +7,13 @@
 import { isNil } from "lodash-es";
 // types
 import { EIconSize, ISSUE_PRIORITIES } from "@plane/constants";
-import { CycleGroupIcon, CycleIcon, ModuleIcon, PriorityIcon, StateGroupIcon } from "@plane/propel/icons";
+import {
+  CycleGroupIcon,
+  CycleIcon,
+  ModuleIcon,
+  PriorityIcon,
+  StateGroupIcon,
+} from "@plane/propel/icons";
 import type {
   GroupByColumnTypes,
   IGroupByColumn,
@@ -36,7 +42,7 @@ export const getGroupByColumns = (
   label: IIssueLabelStore,
   projectState: IStateStore,
   member: IIssueMemberStore,
-  includeNone?: boolean
+  includeNone?: boolean,
 ): IGroupByColumn[] | undefined => {
   switch (groupBy) {
     case "cycle":
@@ -54,7 +60,8 @@ export const getGroupByColumns = (
     case "created_by":
       return getCreatedByColumns(member) as any;
     default:
-      if (includeNone) return [{ id: `All Issues`, name: `All work items`, payload: {}, icon: undefined }];
+      if (includeNone)
+        return [{ id: `All Issues`, name: `All work items`, payload: {}, icon: undefined }];
   }
 };
 
@@ -67,7 +74,9 @@ const getCycleColumns = (cycleStore: ICycleStore): IGroupByColumn[] | undefined 
 
   cycles.map((cycle) => {
     if (cycle) {
-      const cycleStatus = cycle?.status ? (cycle.status.toLocaleLowerCase() as TCycleGroups) : "draft";
+      const cycleStatus = cycle?.status
+        ? (cycle.status.toLocaleLowerCase() as TCycleGroups)
+        : "draft";
       cycleGroups.push({
         id: cycle.id,
         name: cycle.name,
@@ -150,7 +159,10 @@ const getLabelsColumns = (label: IIssueLabelStore) => {
     id: label.id,
     name: label.name,
     icon: (
-      <div className="h-[12px] w-[12px] rounded-full" style={{ backgroundColor: label.color ? label.color : "#666" }} />
+      <div
+        className="h-[12px] w-[12px] rounded-full"
+        style={{ backgroundColor: label.color ? label.color : "#666" }}
+      />
     ),
     payload: label?.id === "None" ? {} : { label_ids: [label.id] },
   }));
@@ -188,7 +200,7 @@ const getCreatedByColumns = (member: IIssueMemberStore) => {
 
 export const getDisplayPropertiesCount = (
   displayProperties: IIssueDisplayProperties,
-  ignoreFields?: (keyof IIssueDisplayProperties)[]
+  ignoreFields?: (keyof IIssueDisplayProperties)[],
 ) => {
   const propertyKeys = Object.keys(displayProperties) as (keyof IIssueDisplayProperties)[];
 
@@ -202,8 +214,11 @@ export const getDisplayPropertiesCount = (
   return count;
 };
 
-export const getIssueBlockId = (issueId: string | undefined, groupId: string | undefined, subGroupId?: string) =>
-  `issue_${issueId}_${groupId}_${subGroupId}`;
+export const getIssueBlockId = (
+  issueId: string | undefined,
+  groupId: string | undefined,
+  subGroupId?: string,
+) => `issue_${issueId}_${groupId}_${subGroupId}`;
 
 /**
  * returns empty Array if groupId is None

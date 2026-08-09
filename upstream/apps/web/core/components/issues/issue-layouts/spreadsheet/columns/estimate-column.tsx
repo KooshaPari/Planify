@@ -25,7 +25,11 @@ export const SpreadsheetEstimateColumn = observer(function SpreadsheetEstimateCo
       <EstimateDropdown
         value={issue.estimate_point || undefined}
         onChange={(data) =>
-          onChange(issue, { estimate_point: data }, { changed_property: "estimate_point", change_details: data })
+          onChange(
+            issue,
+            { estimate_point: data },
+            { changed_property: "estimate_point", change_details: data },
+          )
         }
         placeholder="Estimate"
         projectId={issue.project_id ?? undefined}

@@ -11,7 +11,9 @@ import type { IAppRailVisibilityContext } from "./types";
  * Context for app-rail visibility control
  * Provides access to app rail enabled state, collapse state, and toggle function
  */
-export const AppRailVisibilityContext = createContext<IAppRailVisibilityContext | undefined>(undefined);
+export const AppRailVisibilityContext = createContext<IAppRailVisibilityContext | undefined>(
+  undefined,
+);
 
 /**
  * Hook to consume the AppRailVisibilityContext

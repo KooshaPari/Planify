@@ -56,7 +56,7 @@ export function ModalPortal({
         onClose();
       }
     },
-    [closeOnOverlayClick, onClose]
+    [closeOnOverlayClick, onClose],
   );
 
   // close on escape
@@ -66,7 +66,7 @@ export function ModalPortal({
         onClose();
       }
     },
-    [closeOnEscape, onClose]
+    [closeOnEscape, onClose],
   );
 
   // add event listener for escape
@@ -87,7 +87,7 @@ export function ModalPortal({
       "shadow-lg absolute top-0 h-full bg-white transition-transform duration-300 ease-out",
       widthClass,
       positionClass,
-      contentClassName
+      contentClassName,
     );
   }, [fullScreen, width, position, contentClassName]);
 
@@ -101,12 +101,20 @@ export function ModalPortal({
     >
       {showOverlay && (
         <div
-          className={cn("absolute inset-0 bg-black/50 transition-colors duration-300", overlayClassName)}
+          className={cn(
+            "absolute inset-0 bg-black/50 transition-colors duration-300",
+            overlayClassName,
+          )}
           onClick={handleOverlayClick}
           aria-hidden="true"
         />
       )}
-      <div ref={contentRef} className={cn(modalClasses)} style={{ zIndex: MODAL_Z_INDEX + 1 }} role="document">
+      <div
+        ref={contentRef}
+        className={cn(modalClasses)}
+        style={{ zIndex: MODAL_Z_INDEX + 1 }}
+        role="document"
+      >
         {children}
       </div>
     </div>

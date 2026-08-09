@@ -52,7 +52,7 @@ export const ProjectsListMobileHeader = observer(function ProjectsListMobileHead
       }
       updateFilters(workspaceSlug.toString(), { [key]: newValues });
     },
-    [filters, updateFilters, workspaceSlug]
+    [filters, updateFilters, workspaceSlug],
   );
 
   const isFiltersApplied = calculateTotalFilters(filters ?? {}) !== 0;

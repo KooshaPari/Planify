@@ -8,7 +8,9 @@ import { useState, useEffect } from "react";
 
 const useOnlineStatus = () => {
   // states
-  const [isOnline, setIsOnline] = useState(typeof navigator !== "undefined" ? navigator.onLine : true);
+  const [isOnline, setIsOnline] = useState(
+    typeof navigator !== "undefined" ? navigator.onLine : true,
+  );
 
   const updateOnlineStatus = () => setIsOnline(navigator.onLine);
 

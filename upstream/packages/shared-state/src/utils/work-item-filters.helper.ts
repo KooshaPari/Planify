@@ -16,7 +16,10 @@ import type {
 import { workItemFiltersAdapter } from "../store/work-item-filters/adapter";
 import { buildTempFilterExpressionFromConditions } from "./rich-filter.helper";
 
-export type TWorkItemFilterCondition = TFilterConditionForBuild<TWorkItemFilterProperty, TFilterValue>;
+export type TWorkItemFilterCondition = TFilterConditionForBuild<
+  TWorkItemFilterProperty,
+  TFilterValue
+>;
 
 /**
  * Builds a work item filter expression from conditions.
@@ -27,12 +30,13 @@ export const buildWorkItemFilterExpressionFromConditions = (
   params: Omit<
     TBuildFilterExpressionParams<TWorkItemFilterProperty, TFilterValue, TWorkItemFilterExpression>,
     "adapter"
-  >
+  >,
 ): TWorkItemFilterExpression | undefined => {
   const workItemFilterExpression = buildTempFilterExpressionFromConditions({
     ...params,
     adapter: workItemFiltersAdapter,
   });
-  if (!workItemFilterExpression) console.error("Failed to build work item filter expression from conditions");
+  if (!workItemFilterExpression)
+    console.error("Failed to build work item filter expression from conditions");
   return workItemFilterExpression;
 };

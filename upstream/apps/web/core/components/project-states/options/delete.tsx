@@ -72,8 +72,9 @@ export const StateDelete = observer(function StateDelete(props: TStateDelete) {
         title="Delete State"
         content={
           <>
-            Are you sure you want to delete state- <span className="font-medium text-primary">{state?.name}</span>? All
-            of the data related to the state will be permanently removed. This action cannot be undone.
+            Are you sure you want to delete state-{" "}
+            <span className="font-medium text-primary">{state?.name}</span>? All of the data related
+            to the state will be permanently removed. This action cannot be undone.
           </>
         }
       />
@@ -82,20 +83,28 @@ export const StateDelete = observer(function StateDelete(props: TStateDelete) {
         type="button"
         className={cn(
           "flex h-5 w-5 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-sm transition-colors focus:outline-none",
-          isDeleteDisabled ? "bg-surface-2 text-secondary" : "text-danger-primary hover:bg-layer-1"
+          isDeleteDisabled ? "bg-surface-2 text-secondary" : "text-danger-primary hover:bg-layer-1",
         )}
         disabled={isDeleteDisabled}
         onClick={() => setIsDeleteModal(true)}
       >
         <Tooltip
           tooltipContent={
-            state.default ? "Cannot delete the default state." : totalStates === 1 ? `Cannot have an empty group.` : ``
+            state.default
+              ? "Cannot delete the default state."
+              : totalStates === 1
+                ? `Cannot have an empty group.`
+                : ``
           }
           isMobile={isMobile}
           disabled={!isDeleteDisabled}
           className="focus:outline-none"
         >
-          {isDelete ? <Loader className="h-3.5 w-3.5 text-secondary" /> : <CloseIcon className="h-3.5 w-3.5" />}
+          {isDelete ? (
+            <Loader className="h-3.5 w-3.5 text-secondary" />
+          ) : (
+            <CloseIcon className="h-3.5 w-3.5" />
+          )}
         </Tooltip>
       </button>
     </>

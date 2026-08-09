@@ -19,13 +19,19 @@ type Props = {
 };
 
 const IconWrapper = React.memo(function IconWrapper({ icon }: { icon: React.ReactNode }) {
-  return <div className="flex size-4 items-center justify-center overflow-hidden !text-16">{icon}</div>;
+  return (
+    <div className="flex size-4 items-center justify-center overflow-hidden !text-16">{icon}</div>
+  );
 });
 
 IconWrapper.displayName = "IconWrapper";
 
 const LabelWrapper = React.memo(function LabelWrapper({ label }: { label: React.ReactNode }) {
-  return <div className="relative line-clamp-1 block max-w-[150px] truncate overflow-hidden text-primary">{label}</div>;
+  return (
+    <div className="relative line-clamp-1 block max-w-[150px] truncate overflow-hidden text-primary">
+      {label}
+    </div>
+  );
 });
 
 LabelWrapper.displayName = "LabelWrapper";
@@ -69,7 +75,7 @@ export const BreadcrumbLink = observer(function BreadcrumbLink(props: Props) {
       type: href && href !== "" ? "link" : "text",
       isLast,
     }),
-    [href, label, isMobile, disableTooltip, isLast]
+    [href, label, isMobile, disableTooltip, isLast],
   );
 
   const content = useMemo(() => <BreadcrumbContent icon={icon} label={label} />, [icon, label]);

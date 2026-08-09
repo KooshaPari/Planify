@@ -23,7 +23,9 @@ type Props = {
   workItemDetails: TIssue;
 };
 
-export const PowerKWorkItemEstimatesMenu = observer(function PowerKWorkItemEstimatesMenu(props: Props) {
+export const PowerKWorkItemEstimatesMenu = observer(function PowerKWorkItemEstimatesMenu(
+  props: Props,
+) {
   const { handleSelect, workItemDetails } = props;
   // store hooks
   const { currentActiveEstimateIdByProjectId, getEstimateById } = useProjectEstimates();
@@ -32,7 +34,9 @@ export const PowerKWorkItemEstimatesMenu = observer(function PowerKWorkItemEstim
     : undefined;
   const { estimatePointIds, estimatePointById } = useEstimate(currentActiveEstimateId);
   // derived values
-  const currentActiveEstimate = currentActiveEstimateId ? getEstimateById(currentActiveEstimateId) : undefined;
+  const currentActiveEstimate = currentActiveEstimateId
+    ? getEstimateById(currentActiveEstimateId)
+    : undefined;
   // translation
   const { t } = useTranslation();
 

@@ -17,18 +17,32 @@ import type {
   TWorkItemFilterExpressionData,
   TWorkItemFilterProperty,
 } from "@plane/types";
-import { LOGICAL_OPERATOR, MULTI_VALUE_OPERATORS, WORK_ITEM_FILTER_PROPERTY_KEYS } from "@plane/types";
-import { createConditionNode, createAndGroupNode, isAndGroupNode, isConditionNode } from "@plane/utils";
+import {
+  LOGICAL_OPERATOR,
+  MULTI_VALUE_OPERATORS,
+  WORK_ITEM_FILTER_PROPERTY_KEYS,
+} from "@plane/types";
+import {
+  createConditionNode,
+  createAndGroupNode,
+  isAndGroupNode,
+  isConditionNode,
+} from "@plane/utils";
 // local imports
 import { FilterAdapter } from "../rich-filters/adapter";
 
-class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWorkItemFilterExpression> {
+class WorkItemFiltersAdapter extends FilterAdapter<
+  TWorkItemFilterProperty,
+  TWorkItemFilterExpression
+> {
   /**
    * Converts external work item filter expression to internal filter tree
    * @param externalFilter - The external filter expression
    * @returns Internal filter expression or null
    */
-  toInternal(externalFilter: TWorkItemFilterExpression): TFilterExpression<TWorkItemFilterProperty> | null {
+  toInternal(
+    externalFilter: TWorkItemFilterExpression,
+  ): TFilterExpression<TWorkItemFilterProperty> | null {
     if (!externalFilter || isEmpty(externalFilter)) return null;
 
     try {
@@ -45,7 +59,7 @@ class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWor
    * @returns Internal filter expression
    */
   private _convertExpressionToInternal(
-    expression: TWorkItemFilterExpressionData
+    expression: TWorkItemFilterExpressionData,
   ): TFilterExpression<TWorkItemFilterProperty> {
     if (!expression || isEmpty(expression)) {
       throw new Error("Invalid expression: empty or null data");
@@ -70,18 +84,24 @@ class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWor
     const expressionKeys = Object.keys(expression);
 
     if (LOGICAL_OPERATOR.AND in expression) {
-      const andExpression = expression as { [LOGICAL_OPERATOR.AND]: TWorkItemFilterExpressionData[] };
+      const andExpression = expression as {
+        [LOGICAL_OPERATOR.AND]: TWorkItemFilterExpressionData[];
+      };
       const andConditions = andExpression[LOGICAL_OPERATOR.AND];
 
       if (!Array.isArray(andConditions) || andConditions.length === 0) {
         throw new Error("AND group must contain at least one condition");
       }
 
-      const convertedConditions = andConditions.map((item) => this._convertExpressionToInternal(item));
+      const convertedConditions = andConditions.map((item) =>
+        this._convertExpressionToInternal(item),
+      );
       return createAndGroupNode(convertedConditions);
     }
 
-    throw new Error(`Invalid expression: unknown structure with keys [${expressionKeys.join(", ")}]`);
+    throw new Error(
+      `Invalid expression: unknown structure with keys [${expressionKeys.join(", ")}]`,
+    );
   }
 
   /**
@@ -89,7 +109,9 @@ class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWor
    * @param internalFilter - The internal filter expression
    * @returns External filter expression
    */
-  toExternal(internalFilter: TFilterExpression<TWorkItemFilterProperty>): TWorkItemFilterExpression {
+  toExternal(
+    internalFilter: TFilterExpression<TWorkItemFilterProperty>,
+  ): TWorkItemFilterExpression {
     if (!internalFilter) {
       return {};
     }
@@ -108,17 +130,23 @@ class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWor
    * @returns External expression data
    */
   private _convertExpressionToExternal(
-    expression: TFilterExpression<TWorkItemFilterProperty>
+    expression: TFilterExpression<TWorkItemFilterProperty>,
   ): TWorkItemFilterExpressionData {
     if (isConditionNode(expression)) {
-      return this._createWorkItemFilterConditionData(expression.property, expression.operator, expression.value);
+      return this._createWorkItemFilterConditionData(
+        expression.property,
+        expression.operator,
+        expression.value,
+      );
     }
 
     // It's a group node
 
     if (isAndGroupNode(expression)) {
       return {
-        [LOGICAL_OPERATOR.AND]: expression.children.map((child) => this._convertExpressionToExternal(child)),
+        [LOGICAL_OPERATOR.AND]: expression.children.map((child) =>
+          this._convertExpressionToExternal(child),
+        ),
       } as TWorkItemFilterExpressionData;
     }
 
@@ -130,7 +158,9 @@ class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWor
    * @param data - The data to check
    * @returns True if data is TWorkItemFilterConditionData, false otherwise
    */
-  private _isWorkItemFilterConditionData = (data: unknown): data is TWorkItemFilterConditionData => {
+  private _isWorkItemFilterConditionData = (
+    data: unknown,
+  ): data is TWorkItemFilterConditionData => {
     if (!data || typeof data !== "object" || isEmpty(data)) return false;
 
     const keys = Object.keys(data);
@@ -149,7 +179,9 @@ class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWor
    * @param key - The key to validate
    * @returns True if the key is valid
    */
-  private _isValidWorkItemFilterConditionKey = (key: string): key is TWorkItemFilterConditionKey => {
+  private _isValidWorkItemFilterConditionKey = (
+    key: string,
+  ): key is TWorkItemFilterConditionKey => {
     if (typeof key !== "string" || key.length === 0) return false;
 
     // Find the last occurrence of '__' to separate property from operator
@@ -167,7 +199,10 @@ class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWor
 
     // Validate property is in allowed list
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (!WORK_ITEM_FILTER_PROPERTY_KEYS.includes(property as any) && !property.startsWith("customproperty_")) {
+    if (
+      !WORK_ITEM_FILTER_PROPERTY_KEYS.includes(property as any) &&
+      !property.startsWith("customproperty_")
+    ) {
       return false;
     }
 
@@ -181,7 +216,7 @@ class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWor
    * @returns Tuple of property, operator and value, or null if invalid
    */
   private _extractWorkItemFilterConditionData = (
-    data: TWorkItemFilterConditionData
+    data: TWorkItemFilterConditionData,
   ): [TWorkItemFilterProperty, TSupportedOperators, SingleOrArray<TFilterValue>] | null => {
     const keys = Object.keys(data);
     if (keys.length !== 1) {
@@ -203,7 +238,9 @@ class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWor
     const rawValue = data[key];
 
     // Parse comma-separated values
-    const parsedValue = MULTI_VALUE_OPERATORS.includes(operator) ? this._parseFilterValue(rawValue) : rawValue;
+    const parsedValue = MULTI_VALUE_OPERATORS.includes(operator)
+      ? this._parseFilterValue(rawValue)
+      : rawValue;
 
     return [property as TWorkItemFilterProperty, operator, parsedValue];
   };
@@ -246,7 +283,7 @@ class WorkItemFiltersAdapter extends FilterAdapter<TWorkItemFilterProperty, TWor
   private _createWorkItemFilterConditionData = (
     property: TWorkItemFilterProperty,
     operator: TSupportedOperators,
-    value: SingleOrArray<TFilterValue>
+    value: SingleOrArray<TFilterValue>,
   ): TWorkItemFilterConditionData => {
     const conditionKey = `${property}__${operator}`;
 

@@ -37,7 +37,7 @@ type RichTextEditorWrapperProps = MakeOptional<
 
 export const RichTextEditor = forwardRef(function RichTextEditor(
   props: RichTextEditorWrapperProps,
-  ref: React.ForwardedRef<EditorRefApi>
+  ref: React.ForwardedRef<EditorRefApi>,
 ) {
   const {
     anchor,

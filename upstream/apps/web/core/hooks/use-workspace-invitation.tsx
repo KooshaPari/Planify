@@ -44,7 +44,9 @@ type TUseWorkspaceInvitationReturn = {
   appendField: () => void;
 };
 
-export const useWorkspaceInvitationActions = (props: TUseWorkspaceInvitationProps): TUseWorkspaceInvitationReturn => {
+export const useWorkspaceInvitationActions = (
+  props: TUseWorkspaceInvitationProps,
+): TUseWorkspaceInvitationReturn => {
   const { onSubmit, onClose } = props;
   // form info
   const { control, reset, watch, handleSubmit, formState } = useForm<InvitationFormValues>({

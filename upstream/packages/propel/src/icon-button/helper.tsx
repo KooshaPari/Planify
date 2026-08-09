@@ -37,7 +37,7 @@ export const iconButtonVariants = cva(
       variant: "primary",
       size: "base",
     },
-  }
+  },
 );
 
 type IconButtonPropsWithChildren = React.ButtonHTMLAttributes<HTMLButtonElement> &
@@ -50,7 +50,7 @@ export type IconButtonProps = Omit<IconButtonPropsWithChildren, "children">;
 
 export function getIconButtonStyling(
   variant: NonNullable<IconButtonProps["variant"]>,
-  size: NonNullable<IconButtonProps["size"]>
+  size: NonNullable<IconButtonProps["size"]>,
 ): string {
   return iconButtonVariants({ variant, size });
 }

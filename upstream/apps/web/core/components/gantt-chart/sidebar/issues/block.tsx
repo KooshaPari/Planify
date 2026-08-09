@@ -30,11 +30,14 @@ type Props = {
 export const IssuesSidebarBlock = observer(function IssuesSidebarBlock(props: Props) {
   const { block, enableSelection, isDragging, selectionHelpers, isEpic = false } = props;
   // store hooks
-  const { updateActiveBlockId, isBlockActive, getNumberOfDaysFromPosition } = useTimeLineChartStore();
+  const { updateActiveBlockId, isBlockActive, getNumberOfDaysFromPosition } =
+    useTimeLineChartStore();
   const { getIsIssuePeeked } = useIssueDetail();
 
   const isBlockComplete = !!block?.start_date && !!block?.target_date;
-  const duration = isBlockComplete ? getNumberOfDaysFromPosition(block?.position?.width) : undefined;
+  const duration = isBlockComplete
+    ? getNumberOfDaysFromPosition(block?.position?.width)
+    : undefined;
 
   if (!block?.data) return null;
 
@@ -59,7 +62,7 @@ export const IssuesSidebarBlock = observer(function IssuesSidebarBlock(props: Pr
             "bg-layer-transparent-hover": isBlockHoveredOn,
             "bg-accent-primary/5 hover:bg-accent-primary/10": isIssueSelected,
             "bg-accent-primary/10": isIssueSelected && isBlockHoveredOn,
-          }
+          },
         )}
         style={{
           height: `${BLOCK_HEIGHT}px`,
@@ -72,7 +75,7 @@ export const IssuesSidebarBlock = observer(function IssuesSidebarBlock(props: Pr
                 "pointer-events-none opacity-0 transition-opacity group-hover/list-block:pointer-events-auto group-hover/list-block:opacity-100",
                 {
                   "pointer-events-auto opacity-100": isIssueSelected,
-                }
+                },
               )}
               groupId={GANTT_SELECT_GROUP}
               id={block.id}

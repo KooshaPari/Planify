@@ -31,8 +31,17 @@ export type TIssueLabel = {
 };
 
 export type TLabelOperations = {
-  updateIssue: (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>;
-  createLabel: (workspaceSlug: string, projectId: string, data: Partial<IIssueLabel>) => Promise<any>;
+  updateIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => Promise<void>;
+  createLabel: (
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<IIssueLabel>,
+  ) => Promise<any>;
 };
 
 export const IssueLabel = observer(function IssueLabel(props: TIssueLabel) {
@@ -58,7 +67,12 @@ export const IssueLabel = observer(function IssueLabel(props: TIssueLabel) {
 
   const labelOperations: TLabelOperations = useMemo(
     () => ({
-      updateIssue: async (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => {
+      updateIssue: async (
+        workspaceSlug: string,
+        projectId: string,
+        issueId: string,
+        data: Partial<TIssue>,
+      ) => {
         try {
           if (onLabelUpdate) onLabelUpdate(data.label_ids || []);
           else await updateIssue(workspaceSlug, projectId, issueId, data);
@@ -82,7 +96,10 @@ export const IssueLabel = observer(function IssueLabel(props: TIssueLabel) {
           return labelResponse;
         } catch (error) {
           let errMessage = t("label.create.failed");
-          if (error && (error as any).error === "Label with the same name already exists in the project")
+          if (
+            error &&
+            (error as any).error === "Label with the same name already exists in the project"
+          )
             errMessage = t("label.create.already_exists");
 
           setToast({
@@ -94,7 +111,7 @@ export const IssueLabel = observer(function IssueLabel(props: TIssueLabel) {
         }
       },
     }),
-    [updateIssue, createLabel, onLabelUpdate]
+    [updateIssue, createLabel, onLabelUpdate],
   );
 
   return (

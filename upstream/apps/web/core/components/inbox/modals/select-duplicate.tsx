@@ -87,7 +87,9 @@ export function SelectDuplicateInboxIssueModal(props: Props) {
   const issueList =
     filteredIssues.length > 0 ? (
       <li className="p-2">
-        {query === "" && <h2 className="mt-4 mb-2 px-3 text-11 font-semibold text-primary">Select work item</h2>}
+        {query === "" && (
+          <h2 className="mt-4 mb-2 px-3 text-11 font-semibold text-primary">Select work item</h2>
+        )}
         <ul className="text-13 text-primary">
           {filteredIssues.map((issue) => {
             const stateColor = issue.state__color || "";
@@ -123,15 +125,26 @@ export function SelectDuplicateInboxIssueModal(props: Props) {
     ) : (
       <div className="flex flex-col items-center justify-center px-3 py-8 text-center">
         {query === "" ? (
-          <SimpleEmptyState title={t("issue_relation.empty_state.no_issues.title")} assetPath={issuesResolvedPath} />
+          <SimpleEmptyState
+            title={t("issue_relation.empty_state.no_issues.title")}
+            assetPath={issuesResolvedPath}
+          />
         ) : (
-          <SimpleEmptyState title={t("issue_relation.empty_state.search.title")} assetPath={searchResolvedPath} />
+          <SimpleEmptyState
+            title={t("issue_relation.empty_state.search.title")}
+            assetPath={searchResolvedPath}
+          />
         )}
       </div>
     );
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <Combobox value={value} onChange={handleSubmit}>
         <div className="relative m-1">
           <SearchIcon
@@ -146,7 +159,10 @@ export function SelectDuplicateInboxIssueModal(props: Props) {
           />
         </div>
 
-        <Combobox.Options static className="max-h-80 scroll-py-2 divide-y divide-subtle-1 overflow-y-auto">
+        <Combobox.Options
+          static
+          className="max-h-80 scroll-py-2 divide-y divide-subtle-1 overflow-y-auto"
+        >
           {isSearching ? (
             <Loader className="space-y-3 p-3">
               <Loader.Item height="40px" />

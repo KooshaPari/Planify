@@ -68,7 +68,7 @@ export const AddComment = observer(function AddComment(props: Props) {
           type: TOAST_TYPE.ERROR,
           title: "Error!",
           message: "Comment could not be posted. Please try again.",
-        })
+        }),
       );
   };
 
@@ -90,7 +90,9 @@ export const AddComment = observer(function AddComment(props: Props) {
               ref={editorRef}
               id="peek-overview-add-comment"
               initialValue={
-                !value || value === "" || (typeof value === "object" && Object.keys(value).length === 0)
+                !value ||
+                value === "" ||
+                (typeof value === "object" && Object.keys(value).length === 0)
                   ? watch("comment_html")
                   : value
               }

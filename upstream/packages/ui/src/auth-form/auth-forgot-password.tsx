@@ -38,7 +38,7 @@ export function AuthForgotPassword({
           "cursor-not-allowed opacity-50": disabled,
           "cursor-pointer": !disabled,
         },
-        className
+        className,
       )}
     >
       {text}

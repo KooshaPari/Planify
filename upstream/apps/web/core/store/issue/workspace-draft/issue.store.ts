@@ -48,68 +48,92 @@ export interface IWorkspaceDraftIssues {
   fetchIssues: (
     workspaceSlug: string,
     loadType: TWorkspaceDraftIssueLoader,
-    paginationType?: TDraftIssuePaginationType
+    paginationType?: TDraftIssuePaginationType,
   ) => Promise<TWorkspaceDraftPaginationInfo<TWorkspaceDraftIssue> | undefined>;
   createIssue: (
     workspaceSlug: string,
-    payload: Partial<TWorkspaceDraftIssue | TIssue>
+    payload: Partial<TWorkspaceDraftIssue | TIssue>,
   ) => Promise<TWorkspaceDraftIssue | undefined>;
   updateIssue: (
     workspaceSlug: string,
     issueId: string,
-    payload: Partial<TWorkspaceDraftIssue | TIssue>
+    payload: Partial<TWorkspaceDraftIssue | TIssue>,
   ) => Promise<TWorkspaceDraftIssue | undefined>;
   deleteIssue: (workspaceSlug: string, issueId: string) => Promise<void>;
-  moveIssue: (workspaceSlug: string, issueId: string, payload: Partial<TWorkspaceDraftIssue>) => Promise<TIssue>;
+  moveIssue: (
+    workspaceSlug: string,
+    issueId: string,
+    payload: Partial<TWorkspaceDraftIssue>,
+  ) => Promise<TIssue>;
   addCycleToIssue: (
     workspaceSlug: string,
     issueId: string,
-    cycleId: string
+    cycleId: string,
   ) => Promise<TWorkspaceDraftIssue | undefined>;
   addModulesToIssue: (
     workspaceSlug: string,
     issueId: string,
-    moduleIds: string[]
+    moduleIds: string[],
   ) => Promise<TWorkspaceDraftIssue | undefined>;
 
   // dummies
   viewFlags: ViewFlags;
   groupedIssueIds: TGroupedIssues | TSubGroupedIssues | undefined;
   getIssueIds: (groupId?: string, subGroupId?: string) => string[] | undefined;
-  getPaginationData(groupId: string | undefined, subGroupId: string | undefined): TPaginationData | undefined;
+  getPaginationData(
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ): TPaginationData | undefined;
   getIssueLoader(groupId?: string, subGroupId?: string): TLoader;
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
-  removeCycleFromIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
+  removeCycleFromIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+  ) => Promise<void>;
   addIssueToCycle: (
     workspaceSlug: string,
     projectId: string,
     cycleId: string,
     issueIds: string[],
-    fetchAddedIssues?: boolean
+    fetchAddedIssues?: boolean,
   ) => Promise<void>;
-  removeIssueFromCycle: (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => Promise<void>;
+  removeIssueFromCycle: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => Promise<void>;
 
   removeIssuesFromModule: (
     workspaceSlug: string,
     projectId: string,
     moduleId: string,
-    issueIds: string[]
+    issueIds: string[],
   ) => Promise<void>;
   changeModulesInIssue(
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     addModuleIds: string[],
-    removeModuleIds: string[]
+    removeModuleIds: string[],
   ): Promise<void>;
   archiveIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
-  archiveBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
+  archiveBulkIssues: (
+    workspaceSlug: string,
+    projectId: string,
+    issueIds: string[],
+  ) => Promise<void>;
   removeBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  bulkUpdateProperties: (workspaceSlug: string, projectId: string, data: TBulkOperationsPayload) => Promise<void>;
+  bulkUpdateProperties: (
+    workspaceSlug: string,
+    projectId: string,
+    data: TBulkOperationsPayload,
+  ) => Promise<void>;
 }
 
 export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
@@ -117,7 +141,8 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
   paginatedCount = 50;
   // observables
   loader: TWorkspaceDraftIssueLoader = undefined;
-  paginationInfo: Omit<TWorkspaceDraftPaginationInfo<TWorkspaceDraftIssue>, "results"> | undefined = undefined;
+  paginationInfo: Omit<TWorkspaceDraftPaginationInfo<TWorkspaceDraftIssue>, "results"> | undefined =
+    undefined;
   issuesMap: Record<string, TWorkspaceDraftIssue> = {};
   issueMapIds: Record<string, string[]> = {};
 
@@ -153,7 +178,11 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
     if (!workspaceSlug) return [];
     if (!this.issueMapIds[workspaceSlug]) return [];
     const issueIds = this.issueMapIds[workspaceSlug];
-    return orderBy(issueIds, (issueId) => convertToISODateString(this.issuesMap[issueId]?.created_at), ["desc"]);
+    return orderBy(
+      issueIds,
+      (issueId) => convertToISODateString(this.issuesMap[issueId]?.created_at),
+      ["desc"],
+    );
   }
 
   // computed functions
@@ -190,7 +219,7 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
 
   generateNotificationQueryParams = (
     paramType: TDraftIssuePaginationType,
-    filterParams = {}
+    filterParams = {},
   ): TWorkspaceDraftQueryParams => {
     const queryCursorNext: string =
       paramType === EDraftIssuePaginationType.INIT
@@ -214,7 +243,7 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
   fetchIssues = async (
     workspaceSlug: string,
     loadType: TWorkspaceDraftIssueLoader,
-    paginationType: TDraftIssuePaginationType = EDraftIssuePaginationType.INIT
+    paginationType: TDraftIssuePaginationType = EDraftIssuePaginationType.INIT,
   ) => {
     try {
       this.loader = loadType;
@@ -224,7 +253,9 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
       const params = this.generateNotificationQueryParams(paginationType, filterParams);
 
       // fetching the paginated workspace draft issues
-      const draftIssuesResponse = await workspaceDraftService.getIssues(workspaceSlug, { ...params });
+      const draftIssuesResponse = await workspaceDraftService.getIssues(workspaceSlug, {
+        ...params,
+      });
       if (!draftIssuesResponse) return undefined;
 
       const { results, ...paginationInfo } = draftIssuesResponse;
@@ -237,7 +268,10 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
           const newIssueIds = issueIds.filter((issueId) => !existingIssueIds.includes(issueId));
           this.addIssue(results);
           // issue map update
-          update(this.issueMapIds, [workspaceSlug], (existingIssueIds = []) => [...newIssueIds, ...existingIssueIds]);
+          update(this.issueMapIds, [workspaceSlug], (existingIssueIds = []) => [
+            ...newIssueIds,
+            ...existingIssueIds,
+          ]);
           this.loader = undefined;
         } else {
           this.loader = "empty-state";
@@ -254,7 +288,7 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
 
   createIssue = async (
     workspaceSlug: string,
-    payload: Partial<TWorkspaceDraftIssue | TIssue>
+    payload: Partial<TWorkspaceDraftIssue | TIssue>,
   ): Promise<TWorkspaceDraftIssue | undefined> => {
     try {
       this.loader = "create";
@@ -263,7 +297,10 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
       if (response) {
         runInAction(() => {
           this.addIssue([response]);
-          update(this.issueMapIds, [workspaceSlug], (existingIssueIds = []) => [response.id, ...existingIssueIds]);
+          update(this.issueMapIds, [workspaceSlug], (existingIssueIds = []) => [
+            response.id,
+            ...existingIssueIds,
+          ]);
           // increase the count of issues in the pagination info
           if (this.paginationInfo?.total_count) {
             set(this, "paginationInfo", {
@@ -284,7 +321,11 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
     }
   };
 
-  updateIssue = async (workspaceSlug: string, issueId: string, payload: Partial<TWorkspaceDraftIssue | TIssue>) => {
+  updateIssue = async (
+    workspaceSlug: string,
+    issueId: string,
+    payload: Partial<TWorkspaceDraftIssue | TIssue>,
+  ) => {
     const issueBeforeUpdate = clone(this.getIssueById(issueId));
     try {
       this.loader = "update";
@@ -314,7 +355,9 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
       const response = await workspaceDraftService.deleteIssue(workspaceSlug, issueId);
       runInAction(() => {
         // Remove the issue from the issueMapIds
-        this.issueMapIds[workspaceSlug] = (this.issueMapIds[workspaceSlug] || []).filter((id) => id !== issueId);
+        this.issueMapIds[workspaceSlug] = (this.issueMapIds[workspaceSlug] || []).filter(
+          (id) => id !== issueId,
+        );
         // Remove the issue from the issuesMap
         delete this.issuesMap[issueId];
         // reduce the count of issues in the pagination info
@@ -336,14 +379,20 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
     }
   };
 
-  moveIssue = async (workspaceSlug: string, issueId: string, payload: Partial<TWorkspaceDraftIssue>) => {
+  moveIssue = async (
+    workspaceSlug: string,
+    issueId: string,
+    payload: Partial<TWorkspaceDraftIssue>,
+  ) => {
     try {
       this.loader = "move";
 
       const response = await workspaceDraftService.moveIssue(workspaceSlug, issueId, payload);
       runInAction(() => {
         // Remove the issue from the issueMapIds
-        this.issueMapIds[workspaceSlug] = (this.issueMapIds[workspaceSlug] || []).filter((id) => id !== issueId);
+        this.issueMapIds[workspaceSlug] = (this.issueMapIds[workspaceSlug] || []).filter(
+          (id) => id !== issueId,
+        );
         // Remove the issue from the issuesMap
         delete this.issuesMap[issueId];
         // reduce the count of issues in the pagination info
@@ -389,7 +438,11 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
   };
 
   // dummies
-  viewFlags: ViewFlags = { enableQuickAdd: false, enableIssueCreation: false, enableInlineEditing: false };
+  viewFlags: ViewFlags = {
+    enableQuickAdd: false,
+    enableIssueCreation: false,
+    enableInlineEditing: false,
+  };
   groupedIssueIds: TGroupedIssues | TSubGroupedIssues | undefined = undefined;
   getIssueIds = (_groupId?: string, _subGroupId?: string) => undefined;
   getPaginationData = (_groupId: string | undefined, _subGroupId: string | undefined) => undefined;
@@ -397,7 +450,7 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
   getGroupIssueCount = (
     _groupId: string | undefined,
     _subGroupId: string | undefined,
-    _isSubGroupCumulative: boolean
+    _isSubGroupCumulative: boolean,
   ) => undefined;
   removeCycleFromIssue = async (_workspaceSlug: string, _projectId: string, _issueId: string) => {};
   addIssueToCycle = async (
@@ -405,25 +458,34 @@ export class WorkspaceDraftIssues implements IWorkspaceDraftIssues {
     _projectId: string,
     _cycleId: string,
     _issueIds: string[],
-    _fetchAddedIssues?: boolean
+    _fetchAddedIssues?: boolean,
   ) => {};
-  removeIssueFromCycle = async (_workspaceSlug: string, _projectId: string, _cycleId: string, _issueId: string) => {};
+  removeIssueFromCycle = async (
+    _workspaceSlug: string,
+    _projectId: string,
+    _cycleId: string,
+    _issueId: string,
+  ) => {};
 
   removeIssuesFromModule = async (
     _workspaceSlug: string,
     _projectId: string,
     _moduleId: string,
-    _issueIds: string[]
+    _issueIds: string[],
   ) => {};
   changeModulesInIssue = async (
     _workspaceSlug: string,
     _projectId: string,
     _issueId: string,
     _addModuleIds: string[],
-    _removeModuleIds: string[]
+    _removeModuleIds: string[],
   ) => {};
   archiveIssue = async (_workspaceSlug: string, _projectId: string, _issueId: string) => {};
   archiveBulkIssues = async (_workspaceSlug: string, _projectId: string, _issueIds: string[]) => {};
   removeBulkIssues = async (_workspaceSlug: string, _projectId: string, _issueIds: string[]) => {};
-  bulkUpdateProperties = async (_workspaceSlug: string, _projectId: string, _data: TBulkOperationsPayload) => {};
+  bulkUpdateProperties = async (
+    _workspaceSlug: string,
+    _projectId: string,
+    _data: TBulkOperationsPayload,
+  ) => {};
 }

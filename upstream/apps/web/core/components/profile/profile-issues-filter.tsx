@@ -15,7 +15,11 @@ import { useTranslation } from "@plane/i18n";
 import type { IIssueDisplayFilterOptions, IIssueDisplayProperties } from "@plane/types";
 import { EIssuesStoreType, EIssueLayoutTypes } from "@plane/types";
 // components
-import { DisplayFiltersSelection, FiltersDropdown, LayoutSelection } from "@/components/issues/issue-layouts/filters";
+import {
+  DisplayFiltersSelection,
+  FiltersDropdown,
+  LayoutSelection,
+} from "@/components/issues/issue-layouts/filters";
 import { WorkItemFiltersToggle } from "@/components/work-item-filters/filters-toggle";
 // hooks
 import { useIssues } from "@/hooks/store/use-issues";
@@ -36,9 +40,15 @@ export const ProfileIssuesFilter = observer(function ProfileIssuesFilter() {
   const handleLayoutChange = useCallback(
     (layout: EIssueLayoutTypes) => {
       if (!workspaceSlug || !userId) return;
-      updateFilters(workspaceSlug.toString(), undefined, EIssueFilterType.DISPLAY_FILTERS, { layout: layout }, userId);
+      updateFilters(
+        workspaceSlug.toString(),
+        undefined,
+        EIssueFilterType.DISPLAY_FILTERS,
+        { layout: layout },
+        userId,
+      );
     },
-    [workspaceSlug, updateFilters, userId]
+    [workspaceSlug, updateFilters, userId],
   );
 
   const handleDisplayFilters = useCallback(
@@ -49,18 +59,24 @@ export const ProfileIssuesFilter = observer(function ProfileIssuesFilter() {
         undefined,
         EIssueFilterType.DISPLAY_FILTERS,
         updatedDisplayFilter,
-        userId
+        userId,
       );
     },
-    [workspaceSlug, updateFilters, userId]
+    [workspaceSlug, updateFilters, userId],
   );
 
   const handleDisplayProperties = useCallback(
     (property: Partial<IIssueDisplayProperties>) => {
       if (!workspaceSlug || !userId) return;
-      updateFilters(workspaceSlug.toString(), undefined, EIssueFilterType.DISPLAY_PROPERTIES, property, userId);
+      updateFilters(
+        workspaceSlug.toString(),
+        undefined,
+        EIssueFilterType.DISPLAY_PROPERTIES,
+        property,
+        userId,
+      );
     },
-    [workspaceSlug, updateFilters, userId]
+    [workspaceSlug, updateFilters, userId],
   );
 
   return (
@@ -74,7 +90,9 @@ export const ProfileIssuesFilter = observer(function ProfileIssuesFilter() {
       <FiltersDropdown title={t("common.display")} placement="bottom-end">
         <DisplayFiltersSelection
           layoutDisplayFiltersOptions={
-            activeLayout ? ISSUE_DISPLAY_FILTERS_BY_PAGE.profile_issues.layoutOptions[activeLayout] : undefined
+            activeLayout
+              ? ISSUE_DISPLAY_FILTERS_BY_PAGE.profile_issues.layoutOptions[activeLayout]
+              : undefined
           }
           displayFilters={issueFilters?.displayFilters ?? {}}
           handleDisplayFiltersUpdate={handleDisplayFilters}

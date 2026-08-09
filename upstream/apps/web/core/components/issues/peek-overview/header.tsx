@@ -10,7 +10,12 @@ import Link from "next/link";
 import { MoveDiagonal, MoveRight } from "lucide-react";
 // plane imports
 import { useTranslation } from "@plane/i18n";
-import { CenterPanelIcon, CopyLinkIcon, FullScreenPanelIcon, SidePanelIcon } from "@plane/propel/icons";
+import {
+  CenterPanelIcon,
+  CopyLinkIcon,
+  FullScreenPanelIcon,
+  SidePanelIcon,
+} from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
 import type { TNameDescriptionLoader } from "@plane/types";
@@ -67,7 +72,9 @@ export type PeekOverviewHeaderProps = {
   isSubmitting: TNameDescriptionLoader;
 };
 
-export const IssuePeekOverviewHeader = observer(function IssuePeekOverviewHeader(props: PeekOverviewHeaderProps) {
+export const IssuePeekOverviewHeader = observer(function IssuePeekOverviewHeader(
+  props: PeekOverviewHeaderProps,
+) {
   const {
     peekMode,
     setPeekMode,
@@ -187,7 +194,9 @@ export const IssuePeekOverviewHeader = observer(function IssuePeekOverviewHeader
                 <CustomSelect.Option key={mode.key} value={mode.key}>
                   <div
                     className={`flex items-center gap-1.5 ${
-                      currentMode.key === mode.key ? "text-secondary" : "text-placeholder hover:text-secondary"
+                      currentMode.key === mode.key
+                        ? "text-secondary"
+                        : "text-placeholder hover:text-secondary"
                     }`}
                   >
                     <mode.icon className="-my-1 h-4 w-4 flex-shrink-0" />
@@ -203,10 +212,19 @@ export const IssuePeekOverviewHeader = observer(function IssuePeekOverviewHeader
         <NameDescriptionUpdateStatus isSubmitting={isSubmitting} />
         <div className="flex items-center gap-2">
           {currentUser && !isArchived && (
-            <IssueSubscription workspaceSlug={workspaceSlug} projectId={projectId} issueId={issueId} />
+            <IssueSubscription
+              workspaceSlug={workspaceSlug}
+              projectId={projectId}
+              issueId={issueId}
+            />
           )}
           <Tooltip tooltipContent={t("common.actions.copy_link")} isMobile={isMobile}>
-            <IconButton variant="secondary" size="lg" onClick={handleCopyText} icon={CopyLinkIcon} />
+            <IconButton
+              variant="secondary"
+              size="lg"
+              onClick={handleCopyText}
+              icon={CopyLinkIcon}
+            />
           </Tooltip>
           {issueDetails && (
             <WorkItemDetailQuickActions

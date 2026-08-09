@@ -36,22 +36,23 @@ export const Default: Story = {
         <div className="space-y-4 p-4">
           <h3 className="text-16 font-semibold">Long Text Content</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </p>
           <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum.
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+            officia deserunt mollit anim id est laborum.
           </p>
           <p>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+            architecto beatae vitae dicta sunt explicabo.
           </p>
           <p>
-            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-            dolores eos qui ratione voluptatem sequi nesciunt.
+            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
           </p>
         </div>
       </ScrollArea>
@@ -64,7 +65,9 @@ export const Sizes: Story = {
     const content = (
       <div className="space-y-2 p-4">
         {[...Array(10)].map((_, i) => (
-          <p key={i}>Line {i + 1}: This is some scrollable content to demonstrate different sizes.</p>
+          <p key={i}>
+            Line {i + 1}: This is some scrollable content to demonstrate different sizes.
+          </p>
         ))}
       </div>
     );
@@ -147,7 +150,10 @@ export const HorizontalScroll: Story = {
       <ScrollArea className="h-32 w-96 rounded-lg border" orientation="horizontal">
         <div className="flex w-[1200px] gap-4 p-4">
           {[...Array(12)].map((_, i) => (
-            <div key={i} className="flex h-20 w-32 flex-shrink-0 items-center justify-center rounded-sm bg-layer-1">
+            <div
+              key={i}
+              className="flex h-20 w-32 flex-shrink-0 items-center justify-center rounded-sm bg-layer-1"
+            >
               Item {i + 1}
             </div>
           ))}
@@ -163,11 +169,13 @@ export const BothDirections: Story = {
       <ScrollArea className="h-64 w-96 rounded-lg border">
         <div className="w-[800px] space-y-2 p-4">
           <h3 className="text-16 font-semibold">Both Directions</h3>
-          <p className="text-13 text-placeholder">Content scrolls both vertically and horizontally</p>
+          <p className="text-13 text-placeholder">
+            Content scrolls both vertically and horizontally
+          </p>
           {[...Array(20)].map((_, i) => (
             <p key={i}>
-              Line {i + 1}: This line is very long and extends beyond the container width to demonstrate horizontal
-              scrolling along with vertical scrolling.
+              Line {i + 1}: This line is very long and extends beyond the container width to
+              demonstrate horizontal scrolling along with vertical scrolling.
             </p>
           ))}
         </div>

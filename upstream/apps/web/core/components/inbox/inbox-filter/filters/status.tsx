@@ -35,7 +35,7 @@ export const FilterStatus = observer(function FilterStatus(props: Props) {
     (s) =>
       ((currentTab === "open" && [-2, 0].includes(s.status)) ||
         (currentTab === "closed" && [-1, 1, 2].includes(s.status))) &&
-      s.key.includes(searchQuery.toLowerCase())
+      s.key.includes(searchQuery.toLowerCase()),
   );
 
   const handleFilterValue = (value: TInboxIssueStatus): TInboxIssueStatus[] =>

@@ -22,7 +22,9 @@ type Props = {
   issueServiceType: TIssueServiceType;
 };
 
-export const IssueLinksCollapsibleTitle = observer(function IssueLinksCollapsibleTitle(props: Props) {
+export const IssueLinksCollapsibleTitle = observer(function IssueLinksCollapsibleTitle(
+  props: Props,
+) {
   const { isOpen, issueId, disabled, issueServiceType } = props;
   // translation
   const { t } = useTranslation();
@@ -43,7 +45,7 @@ export const IssueLinksCollapsibleTitle = observer(function IssueLinksCollapsibl
         <p className="text-14 !leading-3 text-tertiary">{linksCount}</p>
       </span>
     ),
-    [linksCount]
+    [linksCount],
   );
 
   return (
@@ -52,7 +54,9 @@ export const IssueLinksCollapsibleTitle = observer(function IssueLinksCollapsibl
       title={t("common.links")}
       indicatorElement={indicatorElement}
       actionItemElement={
-        !disabled && <IssueLinksActionButton issueServiceType={issueServiceType} disabled={disabled} />
+        !disabled && (
+          <IssueLinksActionButton issueServiceType={issueServiceType} disabled={disabled} />
+        )
       }
     />
   );

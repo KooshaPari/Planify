@@ -44,12 +44,20 @@ export const SidebarFavoritesMenu = observer(function SidebarFavoritesMenu() {
   // navigation
   const { workspaceSlug } = useParams();
   // store hooks
-  const { groupedFavorites, deleteFavorite, removeFromFavoriteFolder, reOrderFavorite, moveFavoriteToFolder } =
-    useFavorite();
+  const {
+    groupedFavorites,
+    deleteFavorite,
+    removeFromFavoriteFolder,
+    reOrderFavorite,
+    moveFavoriteToFolder,
+  } = useFavorite();
   // translation
   const { t } = useTranslation();
   // local storage
-  const { setValue: toggleFavoriteMenu, storedValue } = useLocalStorage<boolean>(IS_FAVORITE_MENU_OPEN, false);
+  const { setValue: toggleFavoriteMenu, storedValue } = useLocalStorage<boolean>(
+    IS_FAVORITE_MENU_OPEN,
+    false,
+  );
   // derived values
   const isFavoriteMenuOpen = !!storedValue;
   // refs
@@ -68,12 +76,18 @@ export const SidebarFavoritesMenu = observer(function SidebarFavoritesMenu() {
     });
   };
 
-  const handleDrop = (self: DropTargetRecord, source: ElementDragPayload, location: DragLocationHistory) => {
+  const handleDrop = (
+    self: DropTargetRecord,
+    source: ElementDragPayload,
+    location: DragLocationHistory,
+  ) => {
     const isFolder = self.data?.isGroup;
     const dropTargets = location?.current?.dropTargets ?? [];
     if (!dropTargets || dropTargets.length <= 0) return;
     const dropTarget =
-      dropTargets.length > 1 ? dropTargets.find((target: DropTargetRecord) => target?.data?.isChild) : dropTargets[0];
+      dropTargets.length > 1
+        ? dropTargets.find((target: DropTargetRecord) => target?.data?.isChild)
+        : dropTargets[0];
 
     const dropTargetData = dropTarget?.data as TargetData;
 
@@ -147,7 +161,7 @@ export const SidebarFavoritesMenu = observer(function SidebarFavoritesMenu() {
         });
       });
     },
-    [workspaceSlug, reOrderFavorite, t]
+    [workspaceSlug, reOrderFavorite, t],
   );
 
   useEffect(() => {
@@ -173,7 +187,7 @@ export const SidebarFavoritesMenu = observer(function SidebarFavoritesMenu() {
           console.log({ sourceId });
           if (!sourceId || !groupedFavorites[sourceId].parent) return;
         },
-      })
+      }),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elementRef.current, isDragging]);
@@ -184,7 +198,7 @@ export const SidebarFavoritesMenu = observer(function SidebarFavoritesMenu() {
         <div
           ref={elementRef}
           className={cn(
-            "group/favorites-button flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-placeholder hover:bg-layer-transparent-hover"
+            "group/favorites-button flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-placeholder hover:bg-layer-transparent-hover",
           )}
         >
           <Disclosure.Button
@@ -194,13 +208,13 @@ export const SidebarFavoritesMenu = observer(function SidebarFavoritesMenu() {
               "flex w-full items-center gap-1 text-left text-13 font-semibold whitespace-nowrap text-placeholder",
               {
                 "bg-layer-1 opacity-60": isDragging,
-              }
+              },
             )}
             onClick={() => toggleFavoriteMenu(!isFavoriteMenuOpen)}
             aria-label={t(
               isFavoriteMenuOpen
                 ? "aria_labels.projects_sidebar.close_favorites_menu"
-                : "aria_labels.projects_sidebar.open_favorites_menu"
+                : "aria_labels.projects_sidebar.open_favorites_menu",
             )}
           >
             <span className="text-13 font-semibold">{t("favorites")}</span>
@@ -226,7 +240,7 @@ export const SidebarFavoritesMenu = observer(function SidebarFavoritesMenu() {
               aria-label={t(
                 isFavoriteMenuOpen
                   ? "aria_labels.projects_sidebar.close_favorites_menu"
-                  : "aria_labels.projects_sidebar.open_favorites_menu"
+                  : "aria_labels.projects_sidebar.open_favorites_menu",
               )}
             >
               <ChevronRightIcon
@@ -248,10 +262,14 @@ export const SidebarFavoritesMenu = observer(function SidebarFavoritesMenu() {
         >
           {isFavoriteMenuOpen && (
             <Disclosure.Panel as="div" className="mt-0.5 flex flex-col gap-0.5" static>
-              {createNewFolder && <NewFavoriteFolder setCreateNewFolder={setCreateNewFolder} actionType="create" />}
+              {createNewFolder && (
+                <NewFavoriteFolder setCreateNewFolder={setCreateNewFolder} actionType="create" />
+              )}
               {Object.keys(groupedFavorites).length === 0 ? (
                 <>
-                  <span className="px-8 py-1.5 text-11 font-medium text-placeholder">{t("no_favorites_yet")}</span>
+                  <span className="px-8 py-1.5 text-11 font-medium text-placeholder">
+                    {t("no_favorites_yet")}
+                  </span>
                 </>
               ) : (
                 orderBy(Object.values(groupedFavorites), "sequence", "desc")

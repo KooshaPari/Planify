@@ -79,7 +79,9 @@ export const iconsMap: ActivityIconMap = {
   intake_view: IntakeIcon,
 };
 
-export const messages = (activity: TProjectActivity): { message: string | ReactNode; customUserName?: string } => {
+export const messages = (
+  activity: TProjectActivity,
+): { message: string | ReactNode; customUserName?: string } => {
   const activityType = activity.field;
   const newValue = activity.new_value;
   const oldValue = activity.old_value;
@@ -97,7 +99,8 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
       return {
         message: (
           <>
-            set the priority to <span className="font-medium text-primary">{newValue || "none"}</span>
+            set the priority to{" "}
+            <span className="font-medium text-primary">{newValue || "none"}</span>
           </>
         ),
       };
@@ -160,7 +163,8 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
           <>
             {newValue ? (
               <>
-                set the estimate point to <span className="font-medium text-primary">{newValue}</span>
+                set the estimate point to{" "}
+                <span className="font-medium text-primary">{newValue}</span>
               </>
             ) : (
               <>
@@ -193,7 +197,9 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
                 {activity.new_value}
               </a>
             ) : (
-              <span className="font-medium text-primary">{activity.old_value || "Unknown cycle"}</span>
+              <span className="font-medium text-primary">
+                {activity.old_value || "Unknown cycle"}
+              </span>
             )}
           </>
         ),
@@ -216,7 +222,9 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
         message: (
           <>
             {verb} the label{" "}
-            <span className="font-medium text-primary">{newValue || oldValue || "Untitled label"}</span>
+            <span className="font-medium text-primary">
+              {newValue || oldValue || "Untitled label"}
+            </span>
           </>
         ),
       };
@@ -229,7 +237,9 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
         message: (
           <>
             {newValue ? "created" : "removed"} the project page{" "}
-            <span className="font-medium text-primary">{newValue || oldValue || "Untitled page"}</span>
+            <span className="font-medium text-primary">
+              {newValue || oldValue || "Untitled page"}
+            </span>
           </>
         ),
       };
@@ -241,7 +251,8 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
       return {
         message: (
           <>
-            updated project identifier to <span className="font-medium text-primary">{newValue || "none"}</span>
+            updated project identifier to{" "}
+            <span className="font-medium text-primary">{newValue || "none"}</span>
           </>
         ),
       };
@@ -249,7 +260,8 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
       return {
         message: (
           <>
-            changed project timezone to <span className="font-medium text-primary">{newValue || "default"}</span>
+            changed project timezone to{" "}
+            <span className="font-medium text-primary">{newValue || "default"}</span>
           </>
         ),
       };
@@ -261,7 +273,8 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
       return {
         message: (
           <>
-            {getBooleanActionText(newValue)} {activityType.replace(/_view$/, "").replace(/_/g, " ")} view
+            {getBooleanActionText(newValue)} {activityType.replace(/_view$/, "").replace(/_/g, " ")}{" "}
+            view
           </>
         ),
       };

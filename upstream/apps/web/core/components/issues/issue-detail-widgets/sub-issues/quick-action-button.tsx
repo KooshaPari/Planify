@@ -43,7 +43,7 @@ export const SubIssuesActionButton = observer(function SubIssuesActionButton(pro
   const handleIssueCrudState = (
     key: "create" | "existing",
     _parentIssueId: string | null,
-    issue: TIssue | null = null
+    issue: TIssue | null = null,
   ) => {
     setIssueCrudOperationState({
       ...issueCrudOperationState,
@@ -83,7 +83,12 @@ export const SubIssuesActionButton = observer(function SubIssuesActionButton(pro
   const customButtonElement = customButton ? <>{customButton}</> : <PlusIcon className="h-4 w-4" />;
 
   return (
-    <CustomMenu customButton={customButtonElement} placement="bottom-start" disabled={disabled} closeOnSelect>
+    <CustomMenu
+      customButton={customButtonElement}
+      placement="bottom-start"
+      disabled={disabled}
+      closeOnSelect
+    >
       {optionItems.map((item, index) => (
         <CustomMenu.MenuItem
           key={index}

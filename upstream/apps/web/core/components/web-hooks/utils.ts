@@ -12,7 +12,7 @@ import { renderFormattedPayloadDate } from "@plane/utils";
 export const getCurrentHookAsCSV = (
   currentWorkspace: IWorkspace | null,
   webhook: IWebhook | undefined,
-  secretKey: string | undefined
+  secretKey: string | undefined,
 ) => ({
   id: webhook?.id || "",
   url: webhook?.url || "",

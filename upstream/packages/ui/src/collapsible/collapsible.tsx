@@ -19,7 +19,8 @@ export type TCollapsibleProps = {
 };
 
 export function Collapsible(props: TCollapsibleProps) {
-  const { title, children, buttonRef, className, buttonClassName, isOpen, onToggle, defaultOpen } = props;
+  const { title, children, buttonRef, className, buttonClassName, isOpen, onToggle, defaultOpen } =
+    props;
   // state
   const [localIsOpen, setLocalIsOpen] = useState<boolean>(isOpen || defaultOpen ? true : false);
 

@@ -48,7 +48,9 @@ export type TCustomImageAttributes = {
   [ECustomImageAttributeNames.STATUS]: ECustomImageStatus;
 };
 
-export type UploadEntity = ({ event: "insert" } | { event: "drop"; file: File }) & { hasOpenedFileInputOnce?: boolean };
+export type UploadEntity = ({ event: "insert" } | { event: "drop"; file: File }) & {
+  hasOpenedFileInputOnce?: boolean;
+};
 
 export type InsertImageComponentProps = {
   file?: File;
@@ -70,4 +72,7 @@ export type CustomImageExtensionStorage = {
   maxFileSize: number;
 };
 
-export type CustomImageExtensionType = Node<CustomImageExtensionOptions, CustomImageExtensionStorage>;
+export type CustomImageExtensionType = Node<
+  CustomImageExtensionOptions,
+  CustomImageExtensionStorage
+>;

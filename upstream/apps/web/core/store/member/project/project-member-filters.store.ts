@@ -20,7 +20,7 @@ export interface IProjectMemberFiltersStore {
     members: TProjectMembership[],
     memberDetailsMap: Record<string, IUserLite>,
     getMemberKey: (member: TProjectMembership) => string,
-    projectId: string
+    projectId: string,
   ) => string[];
   // actions
   updateFilters: (projectId: string, filters: Partial<IMemberFilters>) => void;
@@ -52,15 +52,20 @@ export class ProjectMemberFiltersStore implements IProjectMemberFiltersStore {
       members: TProjectMembership[],
       memberDetailsMap: Record<string, IUserLite>,
       getMemberKey: (member: TProjectMembership) => string,
-      projectId: string
+      projectId: string,
     ): string[] => {
       if (!members || members.length === 0) return [];
 
       // Apply filters and sorting
-      const sortedMembers = sortProjectMembers(members, memberDetailsMap, getMemberKey, this.filtersMap[projectId]);
+      const sortedMembers = sortProjectMembers(
+        members,
+        memberDetailsMap,
+        getMemberKey,
+        this.filtersMap[projectId],
+      );
 
       return sortedMembers.map(getMemberKey);
-    }
+    },
   );
 
   getFilters = (projectId: string) => this.filtersMap[projectId];

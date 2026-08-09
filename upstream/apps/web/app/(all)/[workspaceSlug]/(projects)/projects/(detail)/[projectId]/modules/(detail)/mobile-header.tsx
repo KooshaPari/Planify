@@ -10,13 +10,25 @@ import { useParams } from "next/navigation";
 // plane imports
 import { EIssueFilterType, ISSUE_LAYOUTS, ISSUE_DISPLAY_FILTERS_BY_PAGE } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
-import { CalendarLayoutIcon, BoardLayoutIcon, ListLayoutIcon, ChevronDownIcon } from "@plane/propel/icons";
-import type { IIssueDisplayFilterOptions, IIssueDisplayProperties, EIssueLayoutTypes } from "@plane/types";
+import {
+  CalendarLayoutIcon,
+  BoardLayoutIcon,
+  ListLayoutIcon,
+  ChevronDownIcon,
+} from "@plane/propel/icons";
+import type {
+  IIssueDisplayFilterOptions,
+  IIssueDisplayProperties,
+  EIssueLayoutTypes,
+} from "@plane/types";
 import { EIssuesStoreType } from "@plane/types";
 import { CustomMenu } from "@plane/ui";
 // components
 import { WorkItemsModal } from "@/components/analytics/work-items/modal";
-import { DisplayFiltersSelection, FiltersDropdown } from "@/components/issues/issue-layouts/filters";
+import {
+  DisplayFiltersSelection,
+  FiltersDropdown,
+} from "@/components/issues/issue-layouts/filters";
 import { IssueLayoutIcon } from "@/components/issues/issue-layouts/layout-icon";
 // hooks
 import { useIssues } from "@/hooks/store/use-issues";
@@ -49,25 +61,43 @@ export const ModuleIssuesMobileHeader = observer(function ModuleIssuesMobileHead
   const handleLayoutChange = useCallback(
     (layout: EIssueLayoutTypes) => {
       if (!workspaceSlug || !projectId) return;
-      updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_FILTERS, { layout: layout }, moduleId);
+      updateFilters(
+        workspaceSlug,
+        projectId,
+        EIssueFilterType.DISPLAY_FILTERS,
+        { layout: layout },
+        moduleId,
+      );
     },
-    [workspaceSlug, projectId, moduleId, updateFilters]
+    [workspaceSlug, projectId, moduleId, updateFilters],
   );
 
   const handleDisplayFilters = useCallback(
     (updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>) => {
       if (!workspaceSlug || !projectId) return;
-      updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_FILTERS, updatedDisplayFilter, moduleId);
+      updateFilters(
+        workspaceSlug,
+        projectId,
+        EIssueFilterType.DISPLAY_FILTERS,
+        updatedDisplayFilter,
+        moduleId,
+      );
     },
-    [workspaceSlug, projectId, moduleId, updateFilters]
+    [workspaceSlug, projectId, moduleId, updateFilters],
   );
 
   const handleDisplayProperties = useCallback(
     (property: Partial<IIssueDisplayProperties>) => {
       if (!workspaceSlug || !projectId) return;
-      updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_PROPERTIES, property, moduleId);
+      updateFilters(
+        workspaceSlug,
+        projectId,
+        EIssueFilterType.DISPLAY_PROPERTIES,
+        property,
+        moduleId,
+      );
     },
-    [workspaceSlug, projectId, moduleId, updateFilters]
+    [workspaceSlug, projectId, moduleId, updateFilters],
   );
 
   return (
@@ -83,7 +113,9 @@ export const ModuleIssuesMobileHeader = observer(function ModuleIssuesMobileHead
           maxHeight={"md"}
           className="flex flex-grow justify-center text-13 text-secondary"
           placement="bottom-start"
-          customButton={<span className="flex flex-grow justify-center text-13 text-secondary">Layout</span>}
+          customButton={
+            <span className="flex flex-grow justify-center text-13 text-secondary">Layout</span>
+          }
           customButtonClassName="flex flex-grow justify-center text-secondary text-13"
           closeOnSelect
         >
@@ -113,7 +145,9 @@ export const ModuleIssuesMobileHeader = observer(function ModuleIssuesMobileHead
           >
             <DisplayFiltersSelection
               layoutDisplayFiltersOptions={
-                activeLayout ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout] : undefined
+                activeLayout
+                  ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout]
+                  : undefined
               }
               displayFilters={issueFilters?.displayFilters ?? {}}
               handleDisplayFiltersUpdate={handleDisplayFilters}

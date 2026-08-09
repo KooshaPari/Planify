@@ -21,7 +21,9 @@ type Props = {
   projectId: string;
 };
 
-export const ProjectSettingsSidebarHeader = observer(function ProjectSettingsSidebarHeader(props: Props) {
+export const ProjectSettingsSidebarHeader = observer(function ProjectSettingsSidebarHeader(
+  props: Props,
+) {
   const { projectId } = props;
   // router
   const router = useAppRouter();
@@ -56,7 +58,9 @@ export const ProjectSettingsSidebarHeader = observer(function ProjectSettingsSid
         </div>
         <div className="truncate">
           <p className="truncate text-body-sm-medium">{projectDetails?.name}</p>
-          <p className="truncate text-caption-md-regular">{t(ROLE_DETAILS[currentProjectRole].i18n_title)}</p>
+          <p className="truncate text-caption-md-regular">
+            {t(ROLE_DETAILS[currentProjectRole].i18n_title)}
+          </p>
         </div>
       </div>
     </div>

@@ -39,13 +39,20 @@ export function TabList({ autoWrap = true, ...props }: TTabListProps) {
   );
 }
 
-function TabListInner({ tabs, tabListClassName, tabClassName, size = "md", selectedTab, onTabChange }: TTabListProps) {
+function TabListInner({
+  tabs,
+  tabListClassName,
+  tabClassName,
+  size = "md",
+  selectedTab,
+  onTabChange,
+}: TTabListProps) {
   return (
     <Tab.List
       as="div"
       className={cn(
         "flex w-full min-w-fit items-center justify-between gap-1.5 rounded-md bg-layer-1 p-0.5 text-13",
-        tabListClassName
+        tabListClassName,
       )}
     >
       {tabs.map((tab) => (
@@ -63,7 +70,7 @@ function TabListInner({ tabs, tabListClassName, tabClassName, size = "md", selec
                 "text-13": size === "md",
                 "text-14": size === "lg",
               },
-              tabClassName
+              tabClassName,
             )
           }
           key={tab.key}
@@ -76,7 +83,13 @@ function TabListInner({ tabs, tabListClassName, tabClassName, size = "md", selec
           disabled={tab.disabled}
         >
           {tab.icon && (
-            <tab.icon className={cn({ "size-3": size === "sm", "size-4": size === "md", "size-5": size === "lg" })} />
+            <tab.icon
+              className={cn({
+                "size-3": size === "sm",
+                "size-4": size === "md",
+                "size-5": size === "lg",
+              })}
+            />
           )}
           {tab.label}
         </Tab>

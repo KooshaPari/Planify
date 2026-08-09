@@ -9,7 +9,11 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { ArchiveRestore } from "lucide-react";
 // plane imports
-import { PROJECT_AUTOMATION_MONTHS, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import {
+  PROJECT_AUTOMATION_MONTHS,
+  EUserPermissions,
+  EUserPermissionsLevel,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import type { IProject } from "@plane/types";
 import { CustomSelect, Loader, ToggleSwitch } from "@plane/ui";
@@ -42,7 +46,7 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
     [EUserPermissions.ADMIN],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug?.toString(),
-    currentProjectDetails?.id
+    currentProjectDetails?.id,
   );
 
   const autoArchiveStatus = useMemo(() => {
@@ -76,7 +80,12 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
             title={t("project_settings.automations.auto-archive.title")}
             description={t("project_settings.automations.auto-archive.description")}
             control={
-              <ToggleSwitch value={autoArchiveStatus} onChange={handleToggleArchive} size="sm" disabled={!isAdmin} />
+              <ToggleSwitch
+                value={autoArchiveStatus}
+                onChange={handleToggleArchive}
+                size="sm"
+                disabled={!isAdmin}
+              />
             }
           />
         </div>
@@ -100,7 +109,9 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
                     <>
                       {PROJECT_AUTOMATION_MONTHS.map((month) => (
                         <CustomSelect.Option key={month.i18n_label} value={month.value}>
-                          <span className="text-13">{t(month.i18n_label, { months: month.value })}</span>
+                          <span className="text-13">
+                            {t(month.i18n_label, { months: month.value })}
+                          </span>
                         </CustomSelect.Option>
                       ))}
 

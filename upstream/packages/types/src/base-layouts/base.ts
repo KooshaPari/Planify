@@ -29,7 +29,7 @@ export interface IDragDropHandlers<T extends IBaseLayoutsBaseItem> {
     sourceId: string,
     destinationId: string | null,
     sourceGroupId: string,
-    destinationGroupId: string
+    destinationGroupId: string,
   ) => Promise<void>;
   canDrag?: (item: T) => boolean;
 }
@@ -54,7 +54,8 @@ export interface IGroupRenderProps {
   renderGroupHeader?: (props: IGroupHeaderProps) => ReactNode;
 }
 
-export interface IRenderProps<T extends IBaseLayoutsBaseItem> extends IItemRenderProps<T>, IGroupRenderProps {}
+export interface IRenderProps<T extends IBaseLayoutsBaseItem>
+  extends IItemRenderProps<T>, IGroupRenderProps {}
 
 // Layout Configuration
 
@@ -67,7 +68,8 @@ export interface IBaseLayoutConfig {
 }
 
 // Base Layout Props
-export interface IBaseLayoutsBaseProps<T extends IBaseLayoutsBaseItem> extends IDragDropHandlers<T>, IRenderProps<T> {
+export interface IBaseLayoutsBaseProps<T extends IBaseLayoutsBaseItem>
+  extends IDragDropHandlers<T>, IRenderProps<T> {
   items: Record<string, T>;
   groupedItemIds: Record<string, string[]>;
   groups: IBaseLayoutsBaseGroup[];

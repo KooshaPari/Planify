@@ -30,7 +30,7 @@ export const ProjectArchivedEmptyState = observer(function ProjectArchivedEmptyS
   const archivedWorkItemFilter = useWorkItemFilterInstance(EIssuesStoreType.ARCHIVED, projectId);
   const canPerformEmptyStateActions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   return (
@@ -57,7 +57,8 @@ export const ProjectArchivedEmptyState = observer(function ProjectArchivedEmptyS
           actions={[
             {
               label: t("workspace_empty_state.archive_work_items.cta_primary"),
-              onClick: () => router.push(`/${workspaceSlug}/settings/projects/${projectId}/automations`),
+              onClick: () =>
+                router.push(`/${workspaceSlug}/settings/projects/${projectId}/automations`),
               disabled: !canPerformEmptyStateActions,
               variant: "primary",
             },

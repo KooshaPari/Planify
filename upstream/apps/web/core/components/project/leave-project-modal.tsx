@@ -95,7 +95,12 @@ export const LeaveProjectModal = observer(function LeaveProjectModal(props: ILea
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 p-6">
         <div className="flex w-full items-center justify-start gap-6">
           <span className="place-items-center rounded-full bg-danger-subtle p-4">
@@ -109,14 +114,15 @@ export const LeaveProjectModal = observer(function LeaveProjectModal(props: ILea
         <span>
           <p className="text-13 leading-7 text-secondary">
             Are you sure you want to leave the project -
-            <span className="font-medium text-primary">{` "${project?.name}" `}</span>? All of the work items associated
-            with you will become inaccessible.
+            <span className="font-medium text-primary">{` "${project?.name}" `}</span>? All of the
+            work items associated with you will become inaccessible.
           </p>
         </span>
 
         <div className="text-secondary">
           <p className="text-13 break-words">
-            Enter the project name <span className="font-medium text-primary">{project?.name}</span> to continue:
+            Enter the project name <span className="font-medium text-primary">{project?.name}</span>{" "}
+            to continue:
           </p>
           <Controller
             control={control}

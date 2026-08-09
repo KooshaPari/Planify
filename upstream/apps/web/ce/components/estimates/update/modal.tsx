@@ -14,6 +14,8 @@ type TUpdateEstimateModal = {
   handleClose: () => void;
 };
 
-export const UpdateEstimateModal = observer(function UpdateEstimateModal(_props: TUpdateEstimateModal) {
+export const UpdateEstimateModal = observer(function UpdateEstimateModal(
+  _props: TUpdateEstimateModal,
+) {
   return <></>;
 });

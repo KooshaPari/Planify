@@ -21,7 +21,9 @@ export interface IArchivedModulesView {
   projectId: string;
 }
 
-export const ArchivedModulesView = observer(function ArchivedModulesView(props: IArchivedModulesView) {
+export const ArchivedModulesView = observer(function ArchivedModulesView(
+  props: IArchivedModulesView,
+) {
   const { workspaceSlug, projectId } = props;
   // store hooks
   const { getFilteredArchivedModuleIds, loader } = useModule();

@@ -72,13 +72,21 @@ export const onAuthenticate = async ({
   });
 };
 
-export const handleAuthentication = async ({ cookie, userId }: { cookie: string; userId: string }) => {
+export const handleAuthentication = async ({
+  cookie,
+  userId,
+}: {
+  cookie: string;
+  userId: string;
+}) => {
   // fetch current user info
   try {
     const userService = new UserService();
     const user = await userService.currentUser(cookie);
     if (user.id !== userId) {
-      throw new AppError("Authentication unsuccessful: User ID mismatch", { code: "AUTH_USER_MISMATCH" });
+      throw new AppError("Authentication unsuccessful: User ID mismatch", {
+        code: "AUTH_USER_MISMATCH",
+      });
     }
 
     return {

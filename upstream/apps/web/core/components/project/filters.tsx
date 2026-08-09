@@ -67,7 +67,7 @@ const HeaderFilters = observer(function HeaderFilters({
 
       updateFilters(workspaceSlug.toString(), { [key]: newValues });
     },
-    [filters, updateFilters, workspaceSlug]
+    [filters, updateFilters, workspaceSlug],
   );
   const isFiltersApplied = calculateTotalFilters(filters ?? {}) !== 0;
 

@@ -8,7 +8,12 @@ import { sortBy, cloneDeep, update, set } from "lodash-es";
 import { observable, action, computed, makeObservable, runInAction } from "mobx";
 import { computedFn } from "mobx-utils";
 // plane imports
-import type { TFetchStatus, TLoader, TProjectAnalyticsCount, TProjectAnalyticsCountParams } from "@plane/types";
+import type {
+  TFetchStatus,
+  TLoader,
+  TProjectAnalyticsCount,
+  TProjectAnalyticsCountParams,
+} from "@plane/types";
 // helpers
 import { orderProjects, shouldFilterProject } from "@plane/utils";
 // services
@@ -41,7 +46,9 @@ export interface IProjectStore {
   getProjectById: (projectId: string | undefined | null) => TProject | undefined;
   getPartialProjectById: (projectId: string | undefined | null) => TPartialProject | undefined;
   getProjectIdentifierById: (projectId: string | undefined | null) => string;
-  getProjectAnalyticsCountById: (projectId: string | undefined | null) => TProjectAnalyticsCount | undefined;
+  getProjectAnalyticsCountById: (
+    projectId: string | undefined | null,
+  ) => TProjectAnalyticsCount | undefined;
   getProjectByIdentifier: (projectIdentifier: string) => TProject | undefined;
   // collapsible
   openCollapsibleSection: ProjectOverviewCollapsible[];
@@ -60,7 +67,7 @@ export interface IProjectStore {
   fetchProjectDetails: (workspaceSlug: string, projectId: string) => Promise<TProject>;
   fetchProjectAnalyticsCount: (
     workspaceSlug: string,
-    params?: TProjectAnalyticsCountParams
+    params?: TProjectAnalyticsCountParams,
   ) => Promise<TProjectAnalyticsCount[]>;
   // favorites actions
   addProjectToFavorites: (workspaceSlug: string, projectId: string) => Promise<any>;
@@ -69,7 +76,11 @@ export interface IProjectStore {
   updateProjectView: (workspaceSlug: string, projectId: string, viewProps: any) => Promise<any>;
   // CRUD actions
   createProject: (workspaceSlug: string, data: Partial<TProject>) => Promise<TProject>;
-  updateProject: (workspaceSlug: string, projectId: string, data: Partial<TProject>) => Promise<TProject>;
+  updateProject: (
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<TProject>,
+  ) => Promise<TProject>;
   deleteProject: (workspaceSlug: string, projectId: string) => Promise<void>;
   // archive actions
   archiveProject: (workspaceSlug: string, projectId: string) => Promise<void>;
@@ -168,7 +179,7 @@ export class ProjectStore implements IProjectStore {
         p.workspace === workspaceDetails.id &&
         (p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           p.identifier.toLowerCase().includes(searchQuery.toLowerCase())) &&
-        shouldFilterProject(p, displayFilters, filters)
+        shouldFilterProject(p, displayFilters, filters),
     );
     workspaceProjects = orderProjects(workspaceProjects, displayFilters.order_by);
     return workspaceProjects.map((p) => p.id);
@@ -181,7 +192,7 @@ export class ProjectStore implements IProjectStore {
     const workspaceDetails = this.rootStore.workspaceRoot.currentWorkspace;
     if (!workspaceDetails) return;
     const workspaceProjects = Object.values(this.projectMap).filter(
-      (p) => p.workspace === workspaceDetails.id && !p.archived_at
+      (p) => p.workspace === workspaceDetails.id && !p.archived_at,
     );
     const projectIds = workspaceProjects.map((p) => p.id);
     return projectIds ?? null;
@@ -244,7 +255,12 @@ export class ProjectStore implements IProjectStore {
     projects = sortBy(projects, "sort_order");
 
     const projectIds = projects
-      .filter((project) => project.workspace === currentWorkspace.id && !!project.member_role && !project.archived_at)
+      .filter(
+        (project) =>
+          project.workspace === currentWorkspace.id &&
+          !!project.member_role &&
+          !project.archived_at,
+      )
       .map((project) => project.id);
     return projectIds;
   }
@@ -265,7 +281,7 @@ export class ProjectStore implements IProjectStore {
           project.workspace === currentWorkspace.id &&
           !!project.member_role &&
           project.is_favorite &&
-          !project.archived_at
+          !project.archived_at,
       )
       .map((project) => project.id);
     return projectIds;
@@ -297,7 +313,11 @@ export class ProjectStore implements IProjectStore {
     runInAction(() => {
       set(this.projectMap, [data.id], data);
       // updating the user project role in workspaceProjectsPermissions
-      set(this.rootStore.user.permission.workspaceProjectsPermissions, [workspaceSlug, data.id], data.member_role);
+      set(
+        this.rootStore.user.permission.workspaceProjectsPermissions,
+        [workspaceSlug, data.id],
+        data.member_role,
+      );
     });
   };
 
@@ -382,7 +402,7 @@ export class ProjectStore implements IProjectStore {
    */
   fetchProjectAnalyticsCount = async (
     workspaceSlug: string,
-    params?: TProjectAnalyticsCountParams
+    params?: TProjectAnalyticsCountParams,
   ): Promise<TProjectAnalyticsCount[]> => {
     try {
       const response = await this.projectService.getProjectAnalyticsCount(workspaceSlug, params);
@@ -414,7 +434,7 @@ export class ProjectStore implements IProjectStore {
    * @returns TProject | undefined
    */
   getProjectByIdentifier = computedFn((projectIdentifier: string) =>
-    Object.values(this.projectMap).find((project) => project.identifier === projectIdentifier)
+    Object.values(this.projectMap).find((project) => project.identifier === projectIdentifier),
   );
 
   /**
@@ -490,7 +510,10 @@ export class ProjectStore implements IProjectStore {
       runInAction(() => {
         set(this.projectMap, [projectId, "is_favorite"], false);
       });
-      const response = await this.rootStore.favorite.removeFavoriteEntity(workspaceSlug.toString(), projectId);
+      const response = await this.rootStore.favorite.removeFavoriteEntity(
+        workspaceSlug.toString(),
+        projectId,
+      );
 
       return response;
     } catch (error) {
@@ -509,13 +532,21 @@ export class ProjectStore implements IProjectStore {
    * @param viewProps
    * @returns
    */
-  updateProjectView = async (workspaceSlug: string, projectId: string, viewProps: { sort_order: number }) => {
+  updateProjectView = async (
+    workspaceSlug: string,
+    projectId: string,
+    viewProps: { sort_order: number },
+  ) => {
     const currentProjectSortOrder = this.getProjectById(projectId)?.sort_order;
     try {
       runInAction(() => {
         set(this.projectMap, [projectId, "sort_order"], viewProps?.sort_order);
       });
-      const response = await this.projectService.updateProjectUserProperties(workspaceSlug, projectId, viewProps);
+      const response = await this.projectService.updateProjectUserProperties(
+        workspaceSlug,
+        projectId,
+        viewProps,
+      );
       return response;
     } catch (error) {
       runInAction(() => {
@@ -584,8 +615,11 @@ export class ProjectStore implements IProjectStore {
       await this.projectService.deleteProject(workspaceSlug, projectId);
       runInAction(() => {
         delete this.projectMap[projectId];
-        if (this.rootStore.favorite.entityMap[projectId]) this.rootStore.favorite.removeFavoriteFromStore(projectId);
-        delete this.rootStore.user.permission.workspaceProjectsPermissions[workspaceSlug][projectId];
+        if (this.rootStore.favorite.entityMap[projectId])
+          this.rootStore.favorite.removeFavoriteFromStore(projectId);
+        delete this.rootStore.user.permission.workspaceProjectsPermissions[workspaceSlug][
+          projectId
+        ];
       });
     } catch (error) {
       console.log("Failed to delete project from project store");

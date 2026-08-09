@@ -51,7 +51,7 @@ export const EditorUserMention = observer(function EditorUserMention(props: Prop
         "not-prose inline rounded-sm bg-accent-subtle-active px-1 py-0.5 text-accent-primary no-underline",
         {
           "bg-label-yellow-bg text-label-yellow-text": id === currentUser?.id,
-        }
+        },
       )}
     >
       <Popover delay={100} openOnHover>
@@ -71,7 +71,10 @@ export const EditorUserMention = observer(function EditorUserMention(props: Prop
                 />
               </div>
               <div>
-                <Link to={profileLink} className="not-prose text-13 font-medium text-primary hover:underline">
+                <Link
+                  to={profileLink}
+                  className="not-prose text-13 font-medium text-primary hover:underline"
+                >
                   {userDetails?.first_name} {userDetails?.last_name}
                 </Link>
                 {roleDetails && <p className="text-11 text-secondary">{ROLE[roleDetails]}</p>}

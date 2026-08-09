@@ -26,7 +26,13 @@ type Props = {
 };
 
 export const RelationIssueProperty = observer(function RelationIssueProperty(props: Props) {
-  const { workspaceSlug, issueId, disabled, issueOperations, issueServiceType = EIssueServiceType.ISSUES } = props;
+  const {
+    workspaceSlug,
+    issueId,
+    disabled,
+    issueOperations,
+    issueServiceType = EIssueServiceType.ISSUES,
+  } = props;
   // hooks
   const {
     issue: { getIssueById },
@@ -86,8 +92,14 @@ export const RelationIssueProperty = observer(function RelationIssueProperty(pro
           onChange={handleAssigneeChange}
           disabled={disabled}
           multiple
-          buttonVariant={(issue?.assignee_ids || []).length > 0 ? "transparent-without-text" : "border-without-text"}
-          buttonClassName={(issue?.assignee_ids || []).length > 0 ? "hover:bg-transparent px-0" : ""}
+          buttonVariant={
+            (issue?.assignee_ids || []).length > 0
+              ? "transparent-without-text"
+              : "border-without-text"
+          }
+          buttonClassName={
+            (issue?.assignee_ids || []).length > 0 ? "hover:bg-transparent px-0" : ""
+          }
         />
       </div>
     </div>

@@ -8,7 +8,10 @@ export type IdleTaskHandle = {
   cancel: () => void;
 };
 
-const requestIdleFallback = (callback: IdleRequestCallback, options?: IdleRequestOptions): number => {
+const requestIdleFallback = (
+  callback: IdleRequestCallback,
+  options?: IdleRequestOptions,
+): number => {
   const start = Date.now();
 
   return globalThis.setTimeout(() => {
@@ -23,8 +26,12 @@ const cancelIdleFallback = (id: number) => {
   globalThis.clearTimeout(id);
 };
 
-export const requestIdle = (callback: IdleRequestCallback, options?: IdleRequestOptions): number => {
-  if (typeof globalThis.requestIdleCallback === "function") return globalThis.requestIdleCallback(callback, options);
+export const requestIdle = (
+  callback: IdleRequestCallback,
+  options?: IdleRequestOptions,
+): number => {
+  if (typeof globalThis.requestIdleCallback === "function")
+    return globalThis.requestIdleCallback(callback, options);
 
   return requestIdleFallback(callback, options);
 };

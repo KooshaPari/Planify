@@ -25,7 +25,7 @@ export type TSendWorkspaceInvitationModalProps = {
 };
 
 export const SendWorkspaceInvitationModal = observer(function SendWorkspaceInvitationModal(
-  props: TSendWorkspaceInvitationModalProps
+  props: TSendWorkspaceInvitationModalProps,
 ) {
   const { isOpen, onClose, onSubmit } = props;
   // store hooks
@@ -33,10 +33,11 @@ export const SendWorkspaceInvitationModal = observer(function SendWorkspaceInvit
   // router
   const { workspaceSlug } = useParams();
   // derived values
-  const { control, fields, formState, remove, onFormSubmit, handleClose, appendField } = useWorkspaceInvitationActions({
-    onSubmit,
-    onClose,
-  });
+  const { control, fields, formState, remove, onFormSubmit, handleClose, appendField } =
+    useWorkspaceInvitationActions({
+      onSubmit,
+      onClose,
+    });
 
   return (
     <ModalCore isOpen={isOpen} position={EModalPosition.TOP} width={EModalWidth.XXL}>

@@ -131,7 +131,10 @@ export class ThemeStore implements IThemeStore {
     } else {
       this.isExtendedProjectSidebarOpened = collapsed;
     }
-    localStorage.setItem("extended_project_sidebar_collapsed", this.isExtendedProjectSidebarOpened.toString());
+    localStorage.setItem(
+      "extended_project_sidebar_collapsed",
+      this.isExtendedProjectSidebarOpened.toString(),
+    );
   };
 
   /**
@@ -157,7 +160,10 @@ export class ThemeStore implements IThemeStore {
     } else {
       this.workspaceAnalyticsSidebarCollapsed = collapsed;
     }
-    localStorage.setItem("workspace_analytics_sidebar_collapsed", this.workspaceAnalyticsSidebarCollapsed.toString());
+    localStorage.setItem(
+      "workspace_analytics_sidebar_collapsed",
+      this.workspaceAnalyticsSidebarCollapsed.toString(),
+    );
   };
 
   toggleIssueDetailSidebar = (collapsed?: boolean) => {
@@ -166,7 +172,10 @@ export class ThemeStore implements IThemeStore {
     } else {
       this.issueDetailSidebarCollapsed = collapsed;
     }
-    localStorage.setItem("issue_detail_sidebar_collapsed", this.issueDetailSidebarCollapsed.toString());
+    localStorage.setItem(
+      "issue_detail_sidebar_collapsed",
+      this.issueDetailSidebarCollapsed.toString(),
+    );
   };
 
   toggleEpicDetailSidebar = (collapsed?: boolean) => {
@@ -175,7 +184,10 @@ export class ThemeStore implements IThemeStore {
     } else {
       this.epicDetailSidebarCollapsed = collapsed;
     }
-    localStorage.setItem("epic_detail_sidebar_collapsed", this.epicDetailSidebarCollapsed.toString());
+    localStorage.setItem(
+      "epic_detail_sidebar_collapsed",
+      this.epicDetailSidebarCollapsed.toString(),
+    );
   };
 
   toggleInitiativesSidebar = (collapsed?: boolean) => {
@@ -184,7 +196,10 @@ export class ThemeStore implements IThemeStore {
     } else {
       this.initiativesSidebarCollapsed = collapsed;
     }
-    localStorage.setItem("initiatives_sidebar_collapsed", this.initiativesSidebarCollapsed.toString());
+    localStorage.setItem(
+      "initiatives_sidebar_collapsed",
+      this.initiativesSidebarCollapsed.toString(),
+    );
   };
 
   toggleProjectOverviewSidebar = (collapsed?: boolean) => {
@@ -193,6 +208,9 @@ export class ThemeStore implements IThemeStore {
     } else {
       this.projectOverviewSidebarCollapsed = collapsed;
     }
-    localStorage.setItem("project_overview_sidebar_collapsed", this.projectOverviewSidebarCollapsed.toString());
+    localStorage.setItem(
+      "project_overview_sidebar_collapsed",
+      this.projectOverviewSidebarCollapsed.toString(),
+    );
   };
 }

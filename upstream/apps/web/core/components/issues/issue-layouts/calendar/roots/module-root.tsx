@@ -25,9 +25,14 @@ export const ModuleCalendarLayout = observer(function ModuleCalendarLayout() {
   const addIssuesToView = useCallback(
     (issueIds: string[]) => {
       if (!workspaceSlug || !projectId || !moduleId) throw new Error();
-      return addIssuesToModule(workspaceSlug.toString(), projectId.toString(), moduleId.toString(), issueIds);
+      return addIssuesToModule(
+        workspaceSlug.toString(),
+        projectId.toString(),
+        moduleId.toString(),
+        issueIds,
+      );
     },
-    [addIssuesToModule, workspaceSlug, projectId, moduleId]
+    [addIssuesToModule, workspaceSlug, projectId, moduleId],
   );
 
   if (!moduleId) return null;

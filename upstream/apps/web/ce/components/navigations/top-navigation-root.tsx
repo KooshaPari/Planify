@@ -35,7 +35,7 @@ export const TopNavigationRoot = observer(function TopNavigationRoot() {
   // Fetch notification count
   useSWR(
     workspaceSlug ? "WORKSPACE_UNREAD_NOTIFICATION_COUNT" : null,
-    workspaceSlug ? () => getUnreadNotificationsCount(workspaceSlug.toString()) : null
+    workspaceSlug ? () => getUnreadNotificationsCount(workspaceSlug.toString()) : null,
   );
 
   // Calculate notification count
@@ -46,9 +46,12 @@ export const TopNavigationRoot = observer(function TopNavigationRoot() {
 
   return (
     <div
-      className={cn("z-[27] flex min-h-10 w-full items-center bg-canvas px-3.5 transition-all duration-300", {
-        "px-2": !showLabel,
-      })}
+      className={cn(
+        "z-[27] flex min-h-10 w-full items-center bg-canvas px-3.5 transition-all duration-300",
+        {
+          "px-2": !showLabel,
+        },
+      )}
     >
       {/* Workspace Menu */}
       <div className="flex-1 shrink-0">

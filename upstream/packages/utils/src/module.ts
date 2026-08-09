@@ -6,7 +6,12 @@
 
 import { sortBy } from "lodash-es";
 // plane imports
-import type { IModule, TModuleDisplayFilters, TModuleFilters, TModuleOrderByOptions } from "@plane/types";
+import type {
+  IModule,
+  TModuleDisplayFilters,
+  TModuleFilters,
+  TModuleOrderByOptions,
+} from "@plane/types";
 // local imports
 import { getDate } from "./datetime";
 import { satisfiesDateFilter } from "./filter";
@@ -26,12 +31,17 @@ const naturalSort = (a: string, b: string): number => collator.compare(a, b);
  * @param {TModuleOrderByOptions | undefined} orderByKey
  * @returns {IModule[]}
  */
-export const orderModules = (modules: IModule[], orderByKey: TModuleOrderByOptions | undefined): IModule[] => {
+export const orderModules = (
+  modules: IModule[],
+  orderByKey: TModuleOrderByOptions | undefined,
+): IModule[] => {
   let orderedModules: IModule[] = [];
   if (modules.length === 0 || !orderByKey) return [];
 
-  if (orderByKey === "name") orderedModules = [...modules].sort((a, b) => naturalSort(a.name, b.name));
-  if (orderByKey === "-name") orderedModules = [...modules].sort((a, b) => naturalSort(b.name, a.name));
+  if (orderByKey === "name")
+    orderedModules = [...modules].sort((a, b) => naturalSort(a.name, b.name));
+  if (orderByKey === "-name")
+    orderedModules = [...modules].sort((a, b) => naturalSort(b.name, a.name));
   if (["progress", "-progress"].includes(orderByKey))
     orderedModules = sortBy(modules, [
       (m) => {
@@ -41,7 +51,9 @@ export const orderModules = (modules: IModule[], orderByKey: TModuleOrderByOptio
       },
     ]);
   if (["issues_length", "-issues_length"].includes(orderByKey))
-    orderedModules = sortBy(modules, [(m) => (orderByKey === "issues_length" ? m.total_issues : !m.total_issues)]);
+    orderedModules = sortBy(modules, [
+      (m) => (orderByKey === "issues_length" ? m.total_issues : !m.total_issues),
+    ]);
   if (orderByKey === "target_date") orderedModules = sortBy(modules, [(m) => m.target_date]);
   if (orderByKey === "-target_date") orderedModules = sortBy(modules, [(m) => !m.target_date]);
   if (orderByKey === "created_at") orderedModules = sortBy(modules, [(m) => m.created_at]);
@@ -61,23 +73,26 @@ export const orderModules = (modules: IModule[], orderByKey: TModuleOrderByOptio
 export const shouldFilterModule = (
   module: IModule,
   displayFilters: TModuleDisplayFilters,
-  filters: TModuleFilters
+  filters: TModuleFilters,
 ): boolean => {
   let fallsInFilters = true;
   Object.keys(filters).forEach((key) => {
     const filterKey = key as keyof TModuleFilters;
     if (filterKey === "status" && filters.status && filters.status.length > 0)
-      fallsInFilters = fallsInFilters && filters.status.includes(module.status?.toLowerCase() ?? "");
+      fallsInFilters =
+        fallsInFilters && filters.status.includes(module.status?.toLowerCase() ?? "");
     if (filterKey === "lead" && filters.lead && filters.lead.length > 0)
       fallsInFilters = fallsInFilters && filters.lead.includes(`${module.lead_id}`);
     if (filterKey === "members" && filters.members && filters.members.length > 0) {
       const memberIds = module.member_ids;
-      fallsInFilters = fallsInFilters && filters.members.some((memberId) => memberIds.includes(memberId));
+      fallsInFilters =
+        fallsInFilters && filters.members.some((memberId) => memberIds.includes(memberId));
     }
     if (filterKey === "start_date" && filters.start_date && filters.start_date.length > 0) {
       const startDate = getDate(module.start_date);
       filters.start_date.forEach((dateFilter) => {
-        fallsInFilters = fallsInFilters && !!startDate && satisfiesDateFilter(startDate, dateFilter);
+        fallsInFilters =
+          fallsInFilters && !!startDate && satisfiesDateFilter(startDate, dateFilter);
       });
     }
     if (filterKey === "target_date" && filters.target_date && filters.target_date.length > 0) {

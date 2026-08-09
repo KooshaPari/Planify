@@ -32,7 +32,7 @@ export interface IIssueActivityStoreActions {
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    loaderType?: TActivityLoader
+    loaderType?: TActivityLoader,
   ) => Promise<TIssueActivity[]>;
 }
 
@@ -44,7 +44,10 @@ export interface IIssueActivityStore extends IIssueActivityStoreActions {
   // helper methods
   getActivitiesByIssueId: (issueId: string) => string[] | undefined;
   getActivityById: (activityId: string) => TIssueActivity | undefined;
-  getActivityAndCommentsByIssueId: (issueId: string, sortOrder: E_SORT_ORDER) => TIssueActivityComment[] | undefined;
+  getActivityAndCommentsByIssueId: (
+    issueId: string,
+    sortOrder: E_SORT_ORDER,
+  ) => TIssueActivityComment[] | undefined;
 }
 
 export class IssueActivityStore implements IIssueActivityStore {
@@ -58,7 +61,7 @@ export class IssueActivityStore implements IIssueActivityStore {
 
   constructor(
     protected store: CoreRootStore,
-    serviceType: TIssueServiceType = EIssueServiceType.ISSUES
+    serviceType: TIssueServiceType = EIssueServiceType.ISSUES,
   ) {
     makeObservable(this, {
       // observables
@@ -90,7 +93,9 @@ export class IssueActivityStore implements IIssueActivityStore {
     const activityComments: TIssueActivityComment[] = [];
 
     const currentStore =
-      this.serviceType === EIssueServiceType.EPICS ? this.store.issue.epicDetail : this.store.issue.issueDetail;
+      this.serviceType === EIssueServiceType.EPICS
+        ? this.store.issue.epicDetail
+        : this.store.issue.issueDetail;
 
     const activities = this.getActivitiesByIssueId(issueId);
     const comments = currentStore.comment.getCommentsByIssueId(issueId);
@@ -128,7 +133,10 @@ export class IssueActivityStore implements IIssueActivityStore {
     return activityComments;
   }
 
-  protected sortActivityComments(items: TIssueActivityComment[], sortOrder: E_SORT_ORDER): TIssueActivityComment[] {
+  protected sortActivityComments(
+    items: TIssueActivityComment[],
+    sortOrder: E_SORT_ORDER,
+  ): TIssueActivityComment[] {
     return orderBy(items, (e) => new Date(e.created_at || 0), sortOrder);
   }
 
@@ -143,7 +151,7 @@ export class IssueActivityStore implements IIssueActivityStore {
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    loaderType: TActivityLoader = "fetch"
+    loaderType: TActivityLoader = "fetch",
   ) {
     try {
       this.loader = loaderType;
@@ -151,11 +159,18 @@ export class IssueActivityStore implements IIssueActivityStore {
       let props = {};
       const currentActivityIds = this.getActivitiesByIssueId(issueId);
       if (currentActivityIds && currentActivityIds.length > 0) {
-        const currentActivity = this.getActivityById(currentActivityIds[currentActivityIds.length - 1]);
+        const currentActivity = this.getActivityById(
+          currentActivityIds[currentActivityIds.length - 1],
+        );
         if (currentActivity) props = { created_at__gt: currentActivity.created_at };
       }
 
-      const activities = await this.issueActivityService.getIssueActivities(workspaceSlug, projectId, issueId, props);
+      const activities = await this.issueActivityService.getIssueActivities(
+        workspaceSlug,
+        projectId,
+        issueId,
+        props,
+      );
 
       const activityIds = activities.map((activity) => activity.id);
 

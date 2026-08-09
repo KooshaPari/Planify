@@ -20,8 +20,10 @@ export type TDocumentEventEmitter = {
 };
 
 export type TDocumentEventKey = keyof typeof DocumentCollaborativeEvents;
-export type TDocumentEventsClient = (typeof DocumentCollaborativeEvents)[TDocumentEventKey]["client"];
-export type TDocumentEventsServer = (typeof DocumentCollaborativeEvents)[TDocumentEventKey]["server"];
+export type TDocumentEventsClient =
+  (typeof DocumentCollaborativeEvents)[TDocumentEventKey]["client"];
+export type TDocumentEventsServer =
+  (typeof DocumentCollaborativeEvents)[TDocumentEventKey]["server"];
 
 // In this version, our union of all events (the client names) is:
 export type TAllEventTypes = TDocumentEventsClient;
@@ -47,7 +49,7 @@ export type CommonRealtimeFields = {
 
 // Helper function to create a realtime event in a type‑safe way.
 export function createRealtimeEvent<T extends keyof EventToPayloadMap>(
-  opts: ApiServerPayload<T>
+  opts: ApiServerPayload<T>,
 ): CommonRealtimeFields & BroadcastedEvent<T> {
   return {
     affectedPages: {
@@ -87,7 +89,8 @@ export type BroadcastedEventUnion = {
   [K in keyof EventToPayloadMap]: BroadcastedEvent<K>;
 }[keyof EventToPayloadMap];
 
-export type BroadcastedEvent<T extends keyof EventToPayloadMap = keyof EventToPayloadMap> = CommonRealtimeFields & {
-  action: T;
-  data: EventToPayloadMap[T];
-};
+export type BroadcastedEvent<T extends keyof EventToPayloadMap = keyof EventToPayloadMap> =
+  CommonRealtimeFields & {
+    action: T;
+    data: EventToPayloadMap[T];
+  };

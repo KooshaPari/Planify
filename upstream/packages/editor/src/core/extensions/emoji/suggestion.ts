@@ -26,7 +26,7 @@ export const emojiSuggestion: EmojiOptions["suggestion"] = {
 
     if (query.trim() === "") {
       const defaultEmojis = DEFAULT_EMOJIS.map((name) =>
-        emojis.find((emoji) => emoji.shortcodes.includes(name) || emoji.name === name)
+        emojis.find((emoji) => emoji.shortcodes.includes(name) || emoji.name === name),
       )
         .filter(Boolean)
         .slice(0, 5);
@@ -64,15 +64,18 @@ export const emojiSuggestion: EmojiOptions["suggestion"] = {
         editorRef = props.editor;
         const emojiStorage = props.editor.storage.emoji as ExtendedEmojiStorage;
         const forceOpen = emojiStorage.forceOpen || false;
-        component = new ReactRenderer<CommandListInstance, EmojisListDropdownProps>(EmojisListDropdown, {
-          props: {
-            ...props,
-            onClose: () => handleClose(props.editor),
-            forceOpen,
-          } satisfies EmojisListDropdownProps,
-          editor: props.editor,
-          className: "fixed z-[100]",
-        });
+        component = new ReactRenderer<CommandListInstance, EmojisListDropdownProps>(
+          EmojisListDropdown,
+          {
+            props: {
+              ...props,
+              onClose: () => handleClose(props.editor),
+              forceOpen,
+            } satisfies EmojisListDropdownProps,
+            editor: props.editor,
+            className: "fixed z-[100]",
+          },
+        );
         if (!props.clientRect) return;
         props.editor.commands.addActiveDropbarExtension(CORE_EXTENSIONS.EMOJI);
         const element = component.element as HTMLElement;
@@ -86,7 +89,10 @@ export const emojiSuggestion: EmojiOptions["suggestion"] = {
         component.updateProps({ ...props, forceOpen });
         if (!props.clientRect) return;
         cleanup();
-        cleanup = updateFloatingUIFloaterPosition(props.editor, component.element as HTMLElement).cleanup;
+        cleanup = updateFloatingUIFloaterPosition(
+          props.editor,
+          component.element as HTMLElement,
+        ).cleanup;
       },
       onKeyDown: ({ event }) => {
         if ([...DROPDOWN_NAVIGATION_KEYS, "Escape"].includes(event.key)) {

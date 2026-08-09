@@ -13,7 +13,10 @@ import { Monitor } from "lucide-react";
 import { API_BASE_URL } from "@plane/constants";
 import { Button, getButtonStyling } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { IFormattedInstanceConfiguration, TInstanceGithubAuthenticationConfigurationKeys } from "@plane/types";
+import type {
+  IFormattedInstanceConfiguration,
+  TInstanceGithubAuthenticationConfigurationKeys,
+} from "@plane/types";
 // components
 import { CodeBlock } from "@/components/common/code-block";
 import { ConfirmDiscardModal } from "@/components/common/confirm-discard-modal";
@@ -53,7 +56,11 @@ export function InstanceGithubConfigForm(props: Props) {
     },
   });
 
-  const originURL = !isEmpty(API_BASE_URL) ? API_BASE_URL : typeof window !== "undefined" ? window.location.origin : "";
+  const originURL = !isEmpty(API_BASE_URL)
+    ? API_BASE_URL
+    : typeof window !== "undefined"
+      ? window.location.origin
+      : "";
 
   const GITHUB_FORM_FIELDS: TControllerInputFormField[] = [
     {
@@ -123,7 +130,8 @@ export function InstanceGithubConfigForm(props: Props) {
       url: originURL,
       description: (
         <>
-          We will auto-generate this. Paste this into the <CodeBlock darkerShade>Authorized origin URL</CodeBlock> field{" "}
+          We will auto-generate this. Paste this into the{" "}
+          <CodeBlock darkerShade>Authorized origin URL</CodeBlock> field{" "}
           <a
             tabIndex={-1}
             href="https://github.com/settings/applications/new"
@@ -145,8 +153,8 @@ export function InstanceGithubConfigForm(props: Props) {
       url: `${originURL}/auth/github/callback/`,
       description: (
         <>
-          We will auto-generate this. Paste this into your <CodeBlock darkerShade>Authorized Callback URI</CodeBlock>{" "}
-          field{" "}
+          We will auto-generate this. Paste this into your{" "}
+          <CodeBlock darkerShade>Authorized Callback URI</CodeBlock> field{" "}
           <a
             tabIndex={-1}
             href="https://github.com/settings/applications/new"
@@ -174,7 +182,8 @@ export function InstanceGithubConfigForm(props: Props) {
       reset({
         GITHUB_CLIENT_ID: response.find((item) => item.key === "GITHUB_CLIENT_ID")?.value,
         GITHUB_CLIENT_SECRET: response.find((item) => item.key === "GITHUB_CLIENT_SECRET")?.value,
-        GITHUB_ORGANIZATION_ID: response.find((item) => item.key === "GITHUB_ORGANIZATION_ID")?.value,
+        GITHUB_ORGANIZATION_ID: response.find((item) => item.key === "GITHUB_ORGANIZATION_ID")
+          ?.value,
         ENABLE_GITHUB_SYNC: response.find((item) => item.key === "ENABLE_GITHUB_SYNC")?.value,
       });
     } catch (err) {
@@ -225,7 +234,11 @@ export function InstanceGithubConfigForm(props: Props) {
                 >
                   {isSubmitting ? "Saving" : "Save changes"}
                 </Button>
-                <Link href="/authentication" className={getButtonStyling("secondary", "lg")} onClick={handleGoBack}>
+                <Link
+                  href="/authentication"
+                  className={getButtonStyling("secondary", "lg")}
+                  onClick={handleGoBack}
+                >
                   Go back
                 </Link>
               </div>
@@ -238,7 +251,12 @@ export function InstanceGithubConfigForm(props: Props) {
               {/* common service details */}
               <div className="flex flex-col gap-y-4 rounded-lg bg-layer-1 px-6 py-4">
                 {GITHUB_COMMON_SERVICE_DETAILS.map((field) => (
-                  <CopyField key={field.key} label={field.label} url={field.url} description={field.description} />
+                  <CopyField
+                    key={field.key}
+                    label={field.label}
+                    url={field.url}
+                    description={field.description}
+                  />
                 ))}
               </div>
 
@@ -250,7 +268,12 @@ export function InstanceGithubConfigForm(props: Props) {
                 </div>
                 <div className="flex flex-col gap-y-4 bg-layer-1 px-6 py-4">
                   {GITHUB_SERVICE_DETAILS.map((field) => (
-                    <CopyField key={field.key} label={field.label} url={field.url} description={field.description} />
+                    <CopyField
+                      key={field.key}
+                      label={field.label}
+                      url={field.url}
+                      description={field.description}
+                    />
                   ))}
                 </div>
               </div>

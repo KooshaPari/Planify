@@ -54,12 +54,14 @@ export const ActivityFilter = observer(function ActivityFilter(props: TActivityF
                 "bg-accent-primary text-on-color": item.isSelected,
                 "bg-layer-1 text-placeholder": item.isSelected && selectedFilters.length === 1,
                 "bg-surface-2": !item.isSelected,
-              }
+              },
             )}
           >
             {item.isSelected && <CheckIcon className="h-2.5 w-2.5" />}
           </div>
-          <div className={cn("whitespace-nowrap", item.isSelected ? "text-primary" : "text-secondary")}>
+          <div
+            className={cn("whitespace-nowrap", item.isSelected ? "text-primary" : "text-secondary")}
+          >
             {t(item.labelTranslationKey)}
           </div>
         </div>

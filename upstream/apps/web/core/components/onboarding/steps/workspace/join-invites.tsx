@@ -38,11 +38,16 @@ export function WorkspaceJoinInvitesStep(props: Props) {
   const { fetchCurrentUserSettings } = useUserSettings();
 
   // handle invitation
-  const handleInvitation = (workspace_invitation: IWorkspaceMemberInvitation, action: "accepted" | "withdraw") => {
+  const handleInvitation = (
+    workspace_invitation: IWorkspaceMemberInvitation,
+    action: "accepted" | "withdraw",
+  ) => {
     if (action === "accepted") {
       setInvitationsRespond((prevData) => [...prevData, workspace_invitation.id]);
     } else if (action === "withdraw") {
-      setInvitationsRespond((prevData) => prevData.filter((item: string) => item !== workspace_invitation.id));
+      setInvitationsRespond((prevData) =>
+        prevData.filter((item: string) => item !== workspace_invitation.id),
+      );
     }
   };
 
@@ -67,7 +72,10 @@ export function WorkspaceJoinInvitesStep(props: Props) {
 
   return invitations && invitations.length > 0 ? (
     <div className="flex flex-col gap-10">
-      <CommonOnboardingHeader title="Join invites or create a workspace" description="All your work — unified." />
+      <CommonOnboardingHeader
+        title="Join invites or create a workspace"
+        description="All your work — unified."
+      />
       <div className="flex flex-col gap-3">
         {invitations &&
           invitations.length > 0 &&
@@ -88,7 +96,9 @@ export function WorkspaceJoinInvitesStep(props: Props) {
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-13 font-medium">{truncateText(invitedWorkspace?.name, 30)}</div>
+                  <div className="text-13 font-medium">
+                    {truncateText(invitedWorkspace?.name, 30)}
+                  </div>
                   <p className="text-11 text-secondary">{ROLE[invitation.role]}</p>
                 </div>
                 <span className={`flex-shrink-0`}>

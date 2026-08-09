@@ -22,12 +22,15 @@ export interface IIssueKanBanViewStore {
   // computed
   getCanUserDragDrop: (
     group_by: TIssueGroupByOptions | undefined,
-    sub_group_by: TIssueGroupByOptions | undefined
+    sub_group_by: TIssueGroupByOptions | undefined,
   ) => boolean;
   canUserDragDropVertically: boolean;
   canUserDragDropHorizontally: boolean;
   // actions
-  handleKanBanToggle: (toggle: "groupByHeaderMinMax" | "subgroupByIssuesVisibility", value: string) => void;
+  handleKanBanToggle: (
+    toggle: "groupByHeaderMinMax" | "subgroupByIssuesVisibility",
+    value: string,
+  ) => void;
   setIsDragging: (isDragging: boolean) => void;
 }
 
@@ -61,13 +64,16 @@ export class IssueKanBanViewStore implements IIssueKanBanViewStore {
   };
 
   getCanUserDragDrop = computedFn(
-    (group_by: TIssueGroupByOptions | undefined, sub_group_by: TIssueGroupByOptions | undefined) => {
+    (
+      group_by: TIssueGroupByOptions | undefined,
+      sub_group_by: TIssueGroupByOptions | undefined,
+    ) => {
       if (group_by && DRAG_ALLOWED_GROUPS.includes(group_by)) {
         if (!sub_group_by) return true;
         if (sub_group_by && DRAG_ALLOWED_GROUPS.includes(sub_group_by)) return true;
       }
       return false;
-    }
+    },
   );
 
   get canUserDragDropVertically() {
@@ -78,7 +84,10 @@ export class IssueKanBanViewStore implements IIssueKanBanViewStore {
     return false;
   }
 
-  handleKanBanToggle = (toggle: "groupByHeaderMinMax" | "subgroupByIssuesVisibility", value: string) => {
+  handleKanBanToggle = (
+    toggle: "groupByHeaderMinMax" | "subgroupByIssuesVisibility",
+    value: string,
+  ) => {
     this.kanBanToggle = {
       ...this.kanBanToggle,
       [toggle]: this.kanBanToggle[toggle].includes(value)

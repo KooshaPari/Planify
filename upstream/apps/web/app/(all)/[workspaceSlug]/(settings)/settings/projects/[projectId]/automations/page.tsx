@@ -34,7 +34,10 @@ function AutomationSettingsPage({ params }: Route.ComponentProps) {
   const { t } = useTranslation();
 
   // derived values
-  const canPerformProjectAdminActions = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT);
+  const canPerformProjectAdminActions = allowPermissions(
+    [EUserPermissions.ADMIN],
+    EUserPermissionsLevel.PROJECT,
+  );
 
   const handleChange = async (formData: Partial<IProject>) => {
     if (!projectDetails) return;

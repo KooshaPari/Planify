@@ -45,7 +45,7 @@ export interface IStateStore {
     workspaceSlug: string,
     projectId: string,
     stateId: string,
-    data: Partial<IState>
+    data: Partial<IState>,
   ) => Promise<IState | undefined>;
   deleteState: (workspaceSlug: string, projectId: string, stateId: string) => Promise<void>;
   markStateAsDefault: (workspaceSlug: string, projectId: string, stateId: string) => Promise<void>;
@@ -53,7 +53,7 @@ export interface IStateStore {
     workspaceSlug: string,
     projectId: string,
     stateId: string,
-    payload: Partial<IState>
+    payload: Partial<IState>,
   ) => Promise<void>;
 
   getStatePercentageInGroup: (stateId: string | null | undefined) => number | undefined;
@@ -111,7 +111,9 @@ export class StateStore implements IStateStore {
     const projectId = this.router.projectId;
     const workspaceSlug = this.router.workspaceSlug || "";
     if (!projectId || !(this.fetchedMap[projectId] || this.fetchedMap[workspaceSlug])) return;
-    return sortStates(Object.values(this.stateMap).filter((state) => state.project_id === projectId));
+    return sortStates(
+      Object.values(this.stateMap).filter((state) => state.project_id === projectId),
+    );
   }
 
   /**
@@ -129,7 +131,7 @@ export class StateStore implements IStateStore {
         ...acc,
         [group]: groupedStates[group] || [],
       }),
-      {} as Record<string, IState[]>
+      {} as Record<string, IState[]>,
     );
 
     return allGroups;
@@ -161,7 +163,9 @@ export class StateStore implements IStateStore {
   getProjectStates = computedFn((projectId: string | null | undefined) => {
     const workspaceSlug = this.router.workspaceSlug || "";
     if (!projectId || !(this.fetchedMap[projectId] || this.fetchedMap[workspaceSlug])) return;
-    return sortStates(Object.values(this.stateMap).filter((state) => state.project_id === projectId));
+    return sortStates(
+      Object.values(this.stateMap).filter((state) => state.project_id === projectId),
+    );
   });
 
   /**
@@ -181,7 +185,11 @@ export class StateStore implements IStateStore {
    */
   getProjectStateIds = computedFn((projectId: string | null | undefined) => {
     const workspaceSlug = this.router.workspaceSlug;
-    if (!workspaceSlug || !projectId || !(this.fetchedMap[projectId] || this.fetchedMap[workspaceSlug]))
+    if (
+      !workspaceSlug ||
+      !projectId ||
+      !(this.fetchedMap[projectId] || this.fetchedMap[workspaceSlug])
+    )
       return undefined;
     const projectStates = this.getProjectStates(projectId);
     return projectStates?.map((state) => state.id) ?? [];
@@ -280,7 +288,12 @@ export class StateStore implements IStateStore {
    * @param data
    * @returns
    */
-  updateState = async (workspaceSlug: string, projectId: string, stateId: string, data: Partial<IState>) => {
+  updateState = async (
+    workspaceSlug: string,
+    projectId: string,
+    stateId: string,
+    data: Partial<IState>,
+  ) => {
     const originalState = this.stateMap[stateId];
     try {
       runInAction(() => {
@@ -323,7 +336,7 @@ export class StateStore implements IStateStore {
   markStateAsDefault = async (workspaceSlug: string, projectId: string, stateId: string) => {
     const originalStates = this.stateMap;
     const currentDefaultState = Object.values(this.stateMap).find(
-      (state) => state.project_id === projectId && state.default
+      (state) => state.project_id === projectId && state.default,
     );
     try {
       runInAction(() => {
@@ -348,7 +361,12 @@ export class StateStore implements IStateStore {
    * @param direction
    * @param groupIndex
    */
-  moveStatePosition = async (workspaceSlug: string, projectId: string, stateId: string, payload: Partial<IState>) => {
+  moveStatePosition = async (
+    workspaceSlug: string,
+    projectId: string,
+    stateId: string,
+    payload: Partial<IState>,
+  ) => {
     const originalStates = this.stateMap;
     try {
       Object.entries(payload).forEach(([key, value]) => {

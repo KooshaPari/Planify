@@ -21,10 +21,14 @@ export const getPaginationParams = (
   options: IssuePaginationOptions,
   cursor: string | undefined,
   groupId?: string,
-  subGroupId?: string
+  subGroupId?: string,
 ) => {
   // if cursor exists, use the cursor. If it doesn't exist construct the cursor based on per page count
-  const pageCursor = cursor ? cursor : groupId ? `${options.perPageCount}:1:0` : `${options.perPageCount}:0:0`;
+  const pageCursor = cursor
+    ? cursor
+    : groupId
+      ? `${options.perPageCount}:1:0`
+      : `${options.perPageCount}:0:0`;
 
   // pagination params
   const paginationParams: Partial<Record<TIssueParams, string | boolean>> = {

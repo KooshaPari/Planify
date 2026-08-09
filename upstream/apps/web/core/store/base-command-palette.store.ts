@@ -43,13 +43,20 @@ export interface IBaseCommandPaletteStore {
   toggleCreateCycleModal: (value?: boolean) => void;
   toggleCreateViewModal: (value?: boolean) => void;
   toggleCreatePageModal: (value?: TCreatePageModal) => void;
-  toggleCreateIssueModal: (value?: boolean, storeType?: TCreateModalStoreTypes, allowedProjectIds?: string[]) => void;
+  toggleCreateIssueModal: (
+    value?: boolean,
+    storeType?: TCreateModalStoreTypes,
+    allowedProjectIds?: string[],
+  ) => void;
   toggleCreateModuleModal: (value?: boolean) => void;
   toggleDeleteIssueModal: (value?: boolean) => void;
   toggleBulkDeleteIssueModal: (value?: boolean) => void;
   toggleAllStickiesModal: (value?: boolean) => void;
   toggleProjectListOpen: (projectId: string, value?: boolean) => void;
-  toggleProfileSettingsModal: (value: { activeTab?: TProfileSettingsTabs | null; isOpen?: boolean }) => void;
+  toggleProfileSettingsModal: (value: {
+    activeTab?: TProfileSettingsTabs | null;
+    isOpen?: boolean;
+  }) => void;
 }
 
 export abstract class BaseCommandPaletteStore implements IBaseCommandPaletteStore {
@@ -63,7 +70,8 @@ export abstract class BaseCommandPaletteStore implements IBaseCommandPaletteStor
   isBulkDeleteIssueModalOpen: boolean = false;
   createPageModal: TCreatePageModal = DEFAULT_CREATE_PAGE_MODAL_DATA;
   createIssueStoreType: TCreateModalStoreTypes = EIssuesStoreType.PROJECT;
-  createWorkItemAllowedProjectIds: IBaseCommandPaletteStore["createWorkItemAllowedProjectIds"] = undefined;
+  createWorkItemAllowedProjectIds: IBaseCommandPaletteStore["createWorkItemAllowedProjectIds"] =
+    undefined;
   profileSettingsModal: IBaseCommandPaletteStore["profileSettingsModal"] = {
     activeTab: "general",
     isOpen: false,
@@ -117,7 +125,7 @@ export abstract class BaseCommandPaletteStore implements IBaseCommandPaletteStor
       this.isBulkDeleteIssueModalOpen ||
       this.isDeleteIssueModalOpen ||
       this.createPageModal.isOpen ||
-      this.allStickiesModal
+      this.allStickiesModal,
     );
   }
   // computedFn
@@ -197,7 +205,11 @@ export abstract class BaseCommandPaletteStore implements IBaseCommandPaletteStor
    * @param storeType
    * @returns
    */
-  toggleCreateIssueModal = (value?: boolean, storeType?: TCreateModalStoreTypes, allowedProjectIds?: string[]) => {
+  toggleCreateIssueModal = (
+    value?: boolean,
+    storeType?: TCreateModalStoreTypes,
+    allowedProjectIds?: string[],
+  ) => {
     if (value !== undefined) {
       this.isCreateIssueModalOpen = value;
       this.createIssueStoreType = storeType || EIssuesStoreType.PROJECT;
@@ -266,7 +278,9 @@ export abstract class BaseCommandPaletteStore implements IBaseCommandPaletteStor
    * @param value
    * @returns
    */
-  toggleProfileSettingsModal: IBaseCommandPaletteStore["toggleProfileSettingsModal"] = (payload) => {
+  toggleProfileSettingsModal: IBaseCommandPaletteStore["toggleProfileSettingsModal"] = (
+    payload,
+  ) => {
     const updatedSettings: IBaseCommandPaletteStore["profileSettingsModal"] = {
       ...this.profileSettingsModal,
       ...payload,

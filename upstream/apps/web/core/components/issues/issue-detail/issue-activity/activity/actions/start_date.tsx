@@ -13,9 +13,15 @@ import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { IssueActivityBlockComponent, IssueLink } from "./";
 // helpers
 
-type TIssueStartDateActivity = { activityId: string; showIssue?: boolean; ends: "top" | "bottom" | undefined };
+type TIssueStartDateActivity = {
+  activityId: string;
+  showIssue?: boolean;
+  ends: "top" | "bottom" | undefined;
+};
 
-export const IssueStartDateActivity = observer(function IssueStartDateActivity(props: TIssueStartDateActivity) {
+export const IssueStartDateActivity = observer(function IssueStartDateActivity(
+  props: TIssueStartDateActivity,
+) {
   const { activityId, showIssue = true, ends } = props;
   // hooks
   const {
@@ -35,7 +41,9 @@ export const IssueStartDateActivity = observer(function IssueStartDateActivity(p
         {activity.new_value ? `set the start date to ` : `removed the start date `}
         {activity.new_value && (
           <>
-            <span className="font-medium text-primary">{renderFormattedDate(activity.new_value)}</span>
+            <span className="font-medium text-primary">
+              {renderFormattedDate(activity.new_value)}
+            </span>
           </>
         )}
         {showIssue && (activity.new_value ? ` for ` : ` from `)}

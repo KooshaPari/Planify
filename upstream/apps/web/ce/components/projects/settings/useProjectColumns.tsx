@@ -44,10 +44,11 @@ export const useProjectColumns = (props: TUseProjectColumnsProps) => {
     [EUserPermissions.ADMIN],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug.toString(),
-    projectId.toString()
+    projectId.toString(),
   );
   const currentProjectRole =
-    getProjectRoleByWorkspaceSlugAndProjectId(workspaceSlug.toString(), projectId.toString()) ?? EUserPermissions.GUEST;
+    getProjectRoleByWorkspaceSlugAndProjectId(workspaceSlug.toString(), projectId.toString()) ??
+    EUserPermissions.GUEST;
 
   const displayFilters = getFilters(projectId);
 
@@ -100,7 +101,9 @@ export const useProjectColumns = (props: TUseProjectColumnsProps) => {
           handleDisplayFilterUpdate={handleDisplayFilterUpdate}
         />
       ),
-      tdRender: (rowData: RowData) => <div className="w-48 text-secondary">{rowData.member.email}</div>,
+      tdRender: (rowData: RowData) => (
+        <div className="w-48 text-secondary">{rowData.member.email}</div>
+      ),
     },
     {
       key: "Account Type",
@@ -131,7 +134,9 @@ export const useProjectColumns = (props: TUseProjectColumnsProps) => {
           handleDisplayFilterUpdate={handleDisplayFilterUpdate}
         />
       ),
-      tdRender: (rowData: RowData) => <div>{renderFormattedDate(rowData?.member?.joining_date)}</div>,
+      tdRender: (rowData: RowData) => (
+        <div>{renderFormattedDate(rowData?.member?.joining_date)}</div>
+      ),
     },
   ];
   return {

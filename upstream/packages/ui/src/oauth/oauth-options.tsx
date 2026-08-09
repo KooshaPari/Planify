@@ -25,7 +25,13 @@ type OAuthOptionsProps = {
 };
 
 export function OAuthOptions(props: OAuthOptionsProps) {
-  const { options, compact = false, showDivider = true, className = "", containerClassName = "" } = props;
+  const {
+    options,
+    compact = false,
+    showDivider = true,
+    className = "",
+    containerClassName = "",
+  } = props;
 
   // Filter enabled options
   const enabledOptions = options.filter((option) => option.enabled !== false);
@@ -38,7 +44,7 @@ export function OAuthOptions(props: OAuthOptionsProps) {
         className={cn(
           "flex gap-4 overflow-hidden transition-all duration-500 ease-in-out",
           compact ? "flex-row" : "flex-col",
-          className
+          className,
         )}
       >
         {enabledOptions.map((option) => (
@@ -56,7 +62,9 @@ export function OAuthOptions(props: OAuthOptionsProps) {
       {showDivider && (
         <div className="mt-4 flex items-center transition-all duration-300">
           <hr className="w-full border-strong transition-colors duration-300" />
-          <p className="mx-3 flex-shrink-0 text-center text-13 text-placeholder transition-colors duration-300">or</p>
+          <p className="mx-3 flex-shrink-0 text-center text-13 text-placeholder transition-colors duration-300">
+            or
+          </p>
           <hr className="w-full border-strong transition-colors duration-300" />
         </div>
       )}

@@ -18,7 +18,9 @@ type Props = {
   setValue: UseFormSetValue<IUserTheme>;
 };
 
-export const CustomThemeImportConfigButton = observer(function CustomThemeImportConfigButton(props: Props) {
+export const CustomThemeImportConfigButton = observer(function CustomThemeImportConfigButton(
+  props: Props,
+) {
   const { handleUpdateTheme, setValue } = props;
   // refs
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -92,8 +94,19 @@ export const CustomThemeImportConfigButton = observer(function CustomThemeImport
 
   return (
     <>
-      <input ref={fileInputRef} type="file" accept=".json" onChange={handleUploadConfig} className="hidden" />
-      <Button variant="secondary" size="lg" type="button" onClick={() => fileInputRef.current?.click()}>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        onChange={handleUploadConfig}
+        className="hidden"
+      />
+      <Button
+        variant="secondary"
+        size="lg"
+        type="button"
+        onClick={() => fileInputRef.current?.click()}
+      >
         Import config
       </Button>
     </>

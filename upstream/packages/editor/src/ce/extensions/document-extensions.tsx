@@ -32,7 +32,9 @@ const extensionRegistry: TDocumentEditorAdditionalExtensionsRegistry[] = [
   },
 ];
 
-export function DocumentEditorAdditionalExtensions(props: TDocumentEditorAdditionalExtensionsProps) {
+export function DocumentEditorAdditionalExtensions(
+  props: TDocumentEditorAdditionalExtensionsProps,
+) {
   const { disabledExtensions, flaggedExtensions } = props;
 
   const documentExtensions = extensionRegistry

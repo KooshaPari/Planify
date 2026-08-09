@@ -32,13 +32,15 @@ export const ProfileActivity = observer(function ProfileActivity() {
   const { t } = useTranslation();
 
   const { data: userProfileActivity } = useSWR(
-    workspaceSlug && userId ? USER_PROFILE_ACTIVITY(workspaceSlug.toString(), userId.toString(), {}) : null,
+    workspaceSlug && userId
+      ? USER_PROFILE_ACTIVITY(workspaceSlug.toString(), userId.toString(), {})
+      : null,
     workspaceSlug && userId
       ? () =>
           userService.getUserProfileActivity(workspaceSlug.toString(), userId.toString(), {
             per_page: 10,
           })
-      : null
+      : null,
   );
 
   return (
@@ -71,13 +73,19 @@ export const ProfileActivity = observer(function ProfileActivity() {
                         </span>
                       )}
                     </p>
-                    <p className="text-11 whitespace-nowrap text-secondary">{calculateTimeAgo(activity.created_at)}</p>
+                    <p className="text-11 whitespace-nowrap text-secondary">
+                      {calculateTimeAgo(activity.created_at)}
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <EmptyStateCompact title={t("no_data_yet")} assetKey="unknown" assetClassName="size-20" />
+            <EmptyStateCompact
+              title={t("no_data_yet")}
+              assetKey="unknown"
+              assetClassName="size-20"
+            />
           )
         ) : (
           <Loader className="space-y-5">

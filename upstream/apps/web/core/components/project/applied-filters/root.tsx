@@ -61,7 +61,9 @@ export function ProjectAppliedFiltersList(props: Props) {
 
           return (
             <Tag key={filterKey}>
-              <span className="text-11 text-tertiary">{replaceUnderscoreIfSnakeCase(filterKey)}</span>
+              <span className="text-11 text-tertiary">
+                {replaceUnderscoreIfSnakeCase(filterKey)}
+              </span>
               {filterKey === "access" && (
                 <AppliedAccessFilters
                   editable={isEditingAllowed}
@@ -120,7 +122,8 @@ export function ProjectAppliedFiltersList(props: Props) {
           tooltipContent={
             <p>
               <span className="font-semibold">{filteredProjects}</span> of{" "}
-              <span className="font-semibold">{totalProjects}</span> projects match the applied filters.
+              <span className="font-semibold">{totalProjects}</span> projects match the applied
+              filters.
             </p>
           }
         >

@@ -32,7 +32,9 @@ const CreateWorkspacePage = observer(function CreateWorkspacePage() {
   const { data: currentUser } = useUser();
   const { updateUserProfile } = useUserProfile();
   // states
-  const [defaultValues, setDefaultValues] = useState<Pick<IWorkspace, "name" | "slug" | "organization_size">>({
+  const [defaultValues, setDefaultValues] = useState<
+    Pick<IWorkspace, "name" | "slug" | "organization_size">
+  >({
     name: "",
     slug: "",
     organization_size: "",
@@ -53,7 +55,9 @@ const CreateWorkspacePage = observer(function CreateWorkspacePage() {
   };
 
   const onSubmit = async (workspace: IWorkspace) => {
-    await updateUserProfile({ last_workspace_id: workspace.id }).then(() => router.push(`/${workspace.slug}`));
+    await updateUserProfile({ last_workspace_id: workspace.id }).then(() =>
+      router.push(`/${workspace.slug}`),
+    );
   };
 
   return (

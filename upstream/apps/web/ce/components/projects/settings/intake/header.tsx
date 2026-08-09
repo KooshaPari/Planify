@@ -39,7 +39,7 @@ export const ProjectInboxHeader = observer(function ProjectInboxHeader() {
   // derived value
   const isAuthorized = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   return (
@@ -47,7 +47,10 @@ export const ProjectInboxHeader = observer(function ProjectInboxHeader() {
       <Header.LeftItem>
         <div className="flex flex-grow items-center gap-4">
           <Breadcrumbs isLoading={currentProjectDetailsLoader === "init-loader"}>
-            <CommonProjectBreadcrumbs workspaceSlug={workspaceSlug?.toString()} projectId={projectId?.toString()} />
+            <CommonProjectBreadcrumbs
+              workspaceSlug={workspaceSlug?.toString()}
+              projectId={projectId?.toString()}
+            />
             <Breadcrumbs.Item
               component={
                 <BreadcrumbLink

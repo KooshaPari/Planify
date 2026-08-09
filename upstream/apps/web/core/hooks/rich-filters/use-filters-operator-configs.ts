@@ -16,7 +16,9 @@ export type TUseFiltersOperatorConfigsProps = {
   workspaceSlug: string;
 };
 
-export const useFiltersOperatorConfigs = (_props: TUseFiltersOperatorConfigsProps): TFiltersOperatorConfigs => ({
+export const useFiltersOperatorConfigs = (
+  _props: TUseFiltersOperatorConfigsProps,
+): TFiltersOperatorConfigs => ({
   allowedOperators: new Set(Object.values(CORE_OPERATORS)),
   allowNegative: false,
 });

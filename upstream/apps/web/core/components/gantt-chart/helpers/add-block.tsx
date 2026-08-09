@@ -88,7 +88,10 @@ export const ChartAddBlock = observer(function ChartAddBlock(props: Props) {
     >
       <div ref={containerRef} className="h-full w-full" />
       {isButtonVisible && (
-        <Tooltip tooltipContent={buttonStartDate && renderFormattedDate(buttonStartDate)} isMobile={isMobile}>
+        <Tooltip
+          tooltipContent={buttonStartDate && renderFormattedDate(buttonStartDate)}
+          isMobile={isMobile}
+        >
           <button
             type="button"
             className="absolute top-1/2 grid h-8 w-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-sm border border-strong bg-layer-1 p-1.5 text-secondary hover:text-primary"

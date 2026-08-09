@@ -37,7 +37,16 @@ interface Props {
 }
 
 export const ModuleOptions = observer(function ModuleOptions(props: Props) {
-  const { getModuleById, isOpen, moduleIds, multiple, onDropdownOpen, placement, referenceElement, value } = props;
+  const {
+    getModuleById,
+    isOpen,
+    moduleIds,
+    multiple,
+    onDropdownOpen,
+    placement,
+    referenceElement,
+    value,
+  } = props;
   // refs
   const inputRef = useRef<HTMLInputElement | null>(null);
   // states
@@ -108,8 +117,10 @@ export const ModuleOptions = observer(function ModuleOptions(props: Props) {
     });
 
   const filteredOptions = sortBySelectedFirst(
-    query === "" ? options : options?.filter((o) => o.query.toLowerCase().includes(query.toLowerCase())),
-    value
+    query === ""
+      ? options
+      : options?.filter((o) => o.query.toLowerCase().includes(query.toLowerCase())),
+    value,
   );
 
   return (
@@ -147,7 +158,7 @@ export const ModuleOptions = observer(function ModuleOptions(props: Props) {
                         "bg-layer-transparent-hover": active,
                         "text-primary": selected,
                         "text-secondary": !selected,
-                      }
+                      },
                     )
                   }
                 >
@@ -160,7 +171,9 @@ export const ModuleOptions = observer(function ModuleOptions(props: Props) {
                 </Combobox.Option>
               ))
             ) : (
-              <p className="px-1.5 py-1 text-placeholder italic">{t("common.search.no_matching_results")}</p>
+              <p className="px-1.5 py-1 text-placeholder italic">
+                {t("common.search.no_matching_results")}
+              </p>
             )
           ) : (
             <p className="px-1.5 py-1 text-placeholder italic">{t("common.loading")}</p>

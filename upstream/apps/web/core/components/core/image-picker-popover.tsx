@@ -13,7 +13,10 @@ import { Controller } from "react-hook-form";
 import useSWR from "swr";
 import { Popover } from "@headlessui/react";
 // plane imports
-import { ACCEPTED_COVER_IMAGE_MIME_TYPES_FOR_REACT_DROPZONE, MAX_FILE_SIZE } from "@plane/constants";
+import {
+  ACCEPTED_COVER_IMAGE_MIME_TYPES_FOR_REACT_DROPZONE,
+  MAX_FILE_SIZE,
+} from "@plane/constants";
 import { useOutsideClickDetector } from "@plane/hooks";
 import { Tabs } from "@plane/propel/tabs";
 import { Button, getButtonStyling } from "@plane/propel/button";
@@ -49,7 +52,16 @@ type Props = {
 const fileService = new FileService();
 
 export const ImagePickerPopover = observer(function ImagePickerPopover(props: Props) {
-  const { label, value, control, onChange, disabled = false, tabIndex, isProfileCover = false, projectId } = props;
+  const {
+    label,
+    value,
+    control,
+    onChange,
+    disabled = false,
+    tabIndex,
+    isProfileCover = false,
+    projectId,
+  } = props;
   // states
   const [image, setImage] = useState<File | null>(null);
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -84,7 +96,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
         isEnabled: true,
       },
     ],
-    [hasUnsplashConfigured]
+    [hasUnsplashConfigured],
   );
 
   const enabledTabs = useMemo(() => tabOptions.filter((tab) => tab.isEnabled), [tabOptions]);
@@ -95,7 +107,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 
   const imagePickerRef = useRef<HTMLDivElement>(null);
@@ -133,7 +145,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
             entity_identifier: "",
             entity_type: EFileAssetType.USER_COVER,
           },
-          image
+          image,
         )
         .then((res) => uploadCallback(res.asset_url))
         .catch((error) => {
@@ -154,7 +166,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
             entity_identifier: projectId?.toString() ?? "",
             entity_type: EFileAssetType.PROJECT_COVER,
           },
-          image
+          image,
         )
         .then((res) => uploadCallback(res.asset_url))
         .catch((error) => {
@@ -189,7 +201,11 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
 
   return (
     <Popover className="relative z-19" ref={ref} tabIndex={tabIndex} onKeyDown={handleKeyDown}>
-      <Popover.Button className={getButtonStyling("secondary", "sm")} onClick={handleOnClick} disabled={disabled}>
+      <Popover.Button
+        className={getButtonStyling("secondary", "sm")}
+        onClick={handleOnClick}
+        disabled={disabled}
+      >
         {label}
       </Popover.Button>
 
@@ -202,7 +218,10 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
             ref={imagePickerRef}
             className="flex h-96 w-80 flex-col overflow-auto rounded border border-subtle bg-surface-1 shadow-raised-200 md:h-[36rem] md:w-[36rem]"
           >
-            <Tabs defaultValue={enabledTabs[0]?.key || "images"} className="flex h-full flex-col p-3">
+            <Tabs
+              defaultValue={enabledTabs[0]?.key || "images"}
+              className="flex h-full flex-col p-3"
+            >
               <Tabs.List className="flex rounded bg-layer-3 p-1">
                 {enabledTabs.map((tab) => (
                   <Tabs.Trigger key={tab.key} value={tab.key} size="md">
@@ -238,7 +257,11 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                             />
                           )}
                         />
-                        <Button variant="primary" size="xl" onClick={() => setSearchParams(formData.search)}>
+                        <Button
+                          variant="primary"
+                          size="xl"
+                          onClick={() => setSearchParams(formData.search)}
+                        >
                           Search
                         </Button>
                       </div>
@@ -263,7 +286,9 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                             ))}
                           </div>
                         ) : (
-                          <p className="pt-7 text-center text-11 text-secondary">No images found.</p>
+                          <p className="pt-7 text-center text-11 text-secondary">
+                            No images found.
+                          </p>
                         )
                       ) : (
                         <Loader className="grid grid-cols-4 gap-4">
@@ -317,7 +342,11 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                         {image !== null || (value && value !== "") ? (
                           <>
                             <img
-                              src={image ? URL.createObjectURL(image) : getCoverImageDisplayURL(value, "")}
+                              src={
+                                image
+                                  ? URL.createObjectURL(image)
+                                  : getCoverImageDisplayURL(value, "")
+                              }
                               alt="image"
                               className="h-full w-full rounded-lg object-cover"
                             />
@@ -325,7 +354,9 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                         ) : (
                           <div>
                             <span className="mt-2 block text-13 font-medium text-secondary">
-                              {isDragActive ? "Drop image here to upload" : "Drag & drop image here"}
+                              {isDragActive
+                                ? "Drop image here to upload"
+                                : "Drag & drop image here"}
                             </span>
                           </div>
                         )}
@@ -341,7 +372,9 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                       </p>
                     )}
 
-                    <p className="text-13 text-secondary">File formats supported- .jpeg, .jpg, .png, .webp</p>
+                    <p className="text-13 text-secondary">
+                      File formats supported- .jpeg, .jpg, .png, .webp
+                    </p>
 
                     <div className="flex h-12 items-start justify-end gap-2">
                       <Button

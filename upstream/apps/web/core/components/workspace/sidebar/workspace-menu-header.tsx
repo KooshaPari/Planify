@@ -26,7 +26,7 @@ export type SidebarWorkspaceMenuHeaderProps = {
 };
 
 export const SidebarWorkspaceMenuHeader = observer(function SidebarWorkspaceMenuHeader(
-  props: SidebarWorkspaceMenuHeaderProps
+  props: SidebarWorkspaceMenuHeaderProps,
 ) {
   const { isWorkspaceMenuOpen, toggleWorkspaceMenu } = props;
   // state
@@ -43,7 +43,10 @@ export const SidebarWorkspaceMenuHeader = observer(function SidebarWorkspaceMenu
 
   // TODO: fix types
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const isAdmin = allowPermissions([EUserWorkspaceRoles.ADMIN] as any, EUserPermissionsLevel.WORKSPACE);
+  const isAdmin = allowPermissions(
+    [EUserWorkspaceRoles.ADMIN] as any,
+    EUserPermissionsLevel.WORKSPACE,
+  );
 
   return (
     <div className="group/workspace-button mt-2.5 flex rounded-sm bg-surface-1 px-2 hover:bg-surface-2">
@@ -70,7 +73,7 @@ export const SidebarWorkspaceMenuHeader = observer(function SidebarWorkspaceMenu
           "pointer-events-none z-20 my-auto flex h-full flex-shrink-0 items-center opacity-0 group-hover/workspace-button:pointer-events-auto group-hover/workspace-button:opacity-100",
           {
             "pointer-events-auto opacity-100": isMenuActive,
-          }
+          },
         )}
         customButtonClassName="grid place-items-center"
         placement="bottom-start"

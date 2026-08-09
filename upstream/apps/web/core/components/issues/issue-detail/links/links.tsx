@@ -36,7 +36,12 @@ export const IssueLinkList = observer(function IssueLinkList(props: TIssueLinkLi
       {issueLinks &&
         issueLinks.length > 0 &&
         issueLinks.map((linkId) => (
-          <IssueLinkDetail key={linkId} linkId={linkId} linkOperations={linkOperations} isNotAllowed={disabled} />
+          <IssueLinkDetail
+            key={linkId}
+            linkId={linkId}
+            linkOperations={linkOperations}
+            isNotAllowed={disabled}
+          />
         ))}
     </div>
   );

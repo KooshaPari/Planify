@@ -35,7 +35,7 @@ export const WorkspaceDraftHeader = observer(function WorkspaceDraftHeader() {
   // check if user is authorized to create draft work item
   const isAuthorizedUser = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   return (
@@ -52,7 +52,10 @@ export const WorkspaceDraftHeader = observer(function WorkspaceDraftHeader() {
             <Breadcrumbs>
               <Breadcrumbs.Item
                 component={
-                  <BreadcrumbLink label={t("drafts")} icon={<DraftIcon className="h-4 w-4 text-tertiary" />} />
+                  <BreadcrumbLink
+                    label={t("drafts")}
+                    icon={<DraftIcon className="h-4 w-4 text-tertiary" />}
+                  />
                 }
               />
             </Breadcrumbs>

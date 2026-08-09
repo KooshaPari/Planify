@@ -23,7 +23,11 @@ import { Button } from "@plane/propel/button";
 import { IconButton } from "@plane/propel/icon-button";
 import { CycleIcon } from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
-import type { ICustomSearchSelectOption, IIssueDisplayFilterOptions, IIssueDisplayProperties } from "@plane/types";
+import type {
+  ICustomSearchSelectOption,
+  IIssueDisplayFilterOptions,
+  IIssueDisplayProperties,
+} from "@plane/types";
 import { EIssuesStoreType, EIssueLayoutTypes } from "@plane/types";
 import { Breadcrumbs, BreadcrumbNavigationSearchDropdown, Header } from "@plane/ui";
 import { cn } from "@plane/utils";
@@ -83,25 +87,43 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
   const handleLayoutChange = useCallback(
     (layout: EIssueLayoutTypes) => {
       if (!workspaceSlug || !projectId) return;
-      updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_FILTERS, { layout: layout }, cycleId);
+      updateFilters(
+        workspaceSlug,
+        projectId,
+        EIssueFilterType.DISPLAY_FILTERS,
+        { layout: layout },
+        cycleId,
+      );
     },
-    [workspaceSlug, projectId, cycleId, updateFilters]
+    [workspaceSlug, projectId, cycleId, updateFilters],
   );
 
   const handleDisplayFilters = useCallback(
     (updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>) => {
       if (!workspaceSlug || !projectId) return;
-      updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_FILTERS, updatedDisplayFilter, cycleId);
+      updateFilters(
+        workspaceSlug,
+        projectId,
+        EIssueFilterType.DISPLAY_FILTERS,
+        updatedDisplayFilter,
+        cycleId,
+      );
     },
-    [workspaceSlug, projectId, cycleId, updateFilters]
+    [workspaceSlug, projectId, cycleId, updateFilters],
   );
 
   const handleDisplayProperties = useCallback(
     (property: Partial<IIssueDisplayProperties>) => {
       if (!workspaceSlug || !projectId) return;
-      updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_PROPERTIES, property, cycleId);
+      updateFilters(
+        workspaceSlug,
+        projectId,
+        EIssueFilterType.DISPLAY_PROPERTIES,
+        property,
+        cycleId,
+      );
     },
-    [workspaceSlug, projectId, cycleId, updateFilters]
+    [workspaceSlug, projectId, cycleId, updateFilters],
   );
 
   // derived values
@@ -109,7 +131,7 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
   const isCompletedCycle = cycleDetails?.status?.toLocaleLowerCase() === "completed";
   const canUserCreateIssue = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   const switcherOptions = currentProjectCycleIds
@@ -138,7 +160,10 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
         <Header.LeftItem>
           <div className="flex items-center gap-2">
             <Breadcrumbs onBack={router.back} isLoading={loader === "init-loader"}>
-              <CommonProjectBreadcrumbs workspaceSlug={workspaceSlug?.toString()} projectId={projectId?.toString()} />
+              <CommonProjectBreadcrumbs
+                workspaceSlug={workspaceSlug?.toString()}
+                projectId={projectId?.toString()}
+              />
               <Breadcrumbs.Item
                 component={
                   <BreadcrumbLink
@@ -219,7 +244,9 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
             >
               <DisplayFiltersSelection
                 layoutDisplayFiltersOptions={
-                  activeLayout ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout] : undefined
+                  activeLayout
+                    ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout]
+                    : undefined
                 }
                 displayFilters={issueFilters?.displayFilters ?? {}}
                 handleDisplayFiltersUpdate={handleDisplayFilters}

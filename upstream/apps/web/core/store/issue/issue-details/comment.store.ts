@@ -7,7 +7,12 @@
 import { pull, concat, update, uniq, set } from "lodash-es";
 import { action, makeObservable, observable, runInAction } from "mobx";
 // Plane Imports
-import type { TIssueComment, TIssueCommentMap, TIssueCommentIdMap, TIssueServiceType } from "@plane/types";
+import type {
+  TIssueComment,
+  TIssueCommentMap,
+  TIssueCommentIdMap,
+  TIssueServiceType,
+} from "@plane/types";
 // services
 import { IssueCommentService } from "@/services/issue";
 // types
@@ -20,22 +25,27 @@ export interface IIssueCommentStoreActions {
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    loaderType?: TCommentLoader
+    loaderType?: TCommentLoader,
   ) => Promise<TIssueComment[]>;
   createComment: (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    data: Partial<TIssueComment>
+    data: Partial<TIssueComment>,
   ) => Promise<any>;
   updateComment: (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     commentId: string,
-    data: Partial<TIssueComment>
+    data: Partial<TIssueComment>,
   ) => Promise<any>;
-  removeComment: (workspaceSlug: string, projectId: string, issueId: string, commentId: string) => Promise<any>;
+  removeComment: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    commentId: string,
+  ) => Promise<any>;
 }
 
 export interface IIssueCommentStore extends IIssueCommentStoreActions {
@@ -93,7 +103,7 @@ export class IssueCommentStore implements IIssueCommentStore {
     workspaceSlug: string,
     projectId: string,
     issueId: string,
-    loaderType: TCommentLoader = "fetch"
+    loaderType: TCommentLoader = "fetch",
   ) => {
     this.loader = loaderType;
 
@@ -104,7 +114,12 @@ export class IssueCommentStore implements IIssueCommentStore {
       if (_comment) props = { created_at__gt: _comment.created_at };
     }
 
-    const comments = await this.issueCommentService.getIssueComments(workspaceSlug, projectId, issueId, props);
+    const comments = await this.issueCommentService.getIssueComments(
+      workspaceSlug,
+      projectId,
+      issueId,
+      props,
+    );
 
     const commentIds = comments.map((comment) => comment.id);
     runInAction(() => {
@@ -113,7 +128,10 @@ export class IssueCommentStore implements IIssueCommentStore {
         return uniq(concat(_commentIds, commentIds));
       });
       comments.forEach((comment) => {
-        this.rootIssueDetail.commentReaction.applyCommentReactions(comment.id, comment?.comment_reactions || []);
+        this.rootIssueDetail.commentReaction.applyCommentReactions(
+          comment.id,
+          comment?.comment_reactions || [],
+        );
         set(this.commentMap, comment.id, comment);
       });
       this.loader = undefined;
@@ -122,8 +140,18 @@ export class IssueCommentStore implements IIssueCommentStore {
     return comments;
   };
 
-  createComment = async (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssueComment>) => {
-    const response = await this.issueCommentService.createIssueComment(workspaceSlug, projectId, issueId, data);
+  createComment = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssueComment>,
+  ) => {
+    const response = await this.issueCommentService.createIssueComment(
+      workspaceSlug,
+      projectId,
+      issueId,
+      data,
+    );
 
     runInAction(() => {
       update(this.comments, issueId, (_commentIds) => {
@@ -141,7 +169,7 @@ export class IssueCommentStore implements IIssueCommentStore {
     projectId: string,
     issueId: string,
     commentId: string,
-    data: Partial<TIssueComment>
+    data: Partial<TIssueComment>,
   ) => {
     try {
       runInAction(() => {
@@ -155,7 +183,7 @@ export class IssueCommentStore implements IIssueCommentStore {
         projectId,
         issueId,
         commentId,
-        data
+        data,
       );
 
       runInAction(() => {
@@ -170,8 +198,18 @@ export class IssueCommentStore implements IIssueCommentStore {
     }
   };
 
-  removeComment = async (workspaceSlug: string, projectId: string, issueId: string, commentId: string) => {
-    const response = await this.issueCommentService.deleteIssueComment(workspaceSlug, projectId, issueId, commentId);
+  removeComment = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    commentId: string,
+  ) => {
+    const response = await this.issueCommentService.deleteIssueComment(
+      workspaceSlug,
+      projectId,
+      issueId,
+      commentId,
+    );
 
     runInAction(() => {
       pull(this.comments[issueId], commentId);

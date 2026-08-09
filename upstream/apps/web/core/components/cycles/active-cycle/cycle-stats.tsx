@@ -53,7 +53,8 @@ export type ActiveCycleStatsProps = {
 };
 
 export const ActiveCycleStats = observer(function ActiveCycleStats(props: ActiveCycleStatsProps) {
-  const { workspaceSlug, projectId, cycle, cycleId, handleFiltersUpdate, cycleIssueDetails } = props;
+  const { workspaceSlug, projectId, cycle, cycleId, handleFiltersUpdate, cycleIssueDetails } =
+    props;
   // local storage
   const { storedValue: tab, setValue: setTab } = useLocalStorage("activeCycleTab", "Assignees");
   // refs
@@ -137,7 +138,7 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                 {
                   "bg-surface-1 text-tertiary": selected,
                   "hover:text-tertiary": !selected,
-                }
+                },
               )
             }
           >
@@ -150,7 +151,7 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                 {
                   "bg-surface-1 text-tertiary": selected,
                   "hover:text-tertiary": !selected,
-                }
+                },
               )
             }
           >
@@ -163,7 +164,7 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                 {
                   "bg-surface-1 text-tertiary": selected,
                   "hover:text-tertiary": !selected,
-                }
+                },
               )
             }
           >
@@ -207,8 +208,17 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                           }}
                         >
                           <div className="flex w-full min-w-24 flex-grow items-center gap-1.5 truncate">
-                            <IssueIdentifier issueId={issue.id} projectId={projectId} size="xs" variant="secondary" />
-                            <Tooltip position="top-start" tooltipHeading="Title" tooltipContent={issue.name}>
+                            <IssueIdentifier
+                              issueId={issue.id}
+                              projectId={projectId}
+                              size="xs"
+                              variant="secondary"
+                            />
+                            <Tooltip
+                              position="top-start"
+                              tooltipHeading="Title"
+                              tooltipContent={issue.name}
+                            >
                               <span className="truncate text-13 text-primary">{issue.name}</span>
                             </Tooltip>
                           </div>
@@ -240,7 +250,8 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                         </div>
                       );
                     })}
-                    {(cycleIssueDetails.nextPageResults === undefined || cycleIssueDetails.nextPageResults) && (
+                    {(cycleIssueDetails.nextPageResults === undefined ||
+                      cycleIssueDetails.nextPageResults) && (
                       <div
                         ref={setIssueLoaderElement}
                         className={
@@ -289,7 +300,11 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                         onClick={() => {
                           if (assignee.assignee_id) {
                             handleFiltersUpdate([
-                              { property: "assignee_id", operator: "in", value: [assignee.assignee_id] },
+                              {
+                                property: "assignee_id",
+                                operator: "in",
+                                value: [assignee.assignee_id],
+                              },
                             ]);
                           }
                         }}
@@ -302,7 +317,13 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                         title={
                           <div className="flex items-center gap-2">
                             <div className="h-5 w-5 rounded-full border-2 border-subtle bg-layer-1">
-                              <img src={userImage} height="100%" width="100%" className="rounded-full" alt="User" />
+                              <img
+                                src={userImage}
+                                height="100%"
+                                width="100%"
+                                className="rounded-full"
+                                alt="User"
+                              />
                             </div>
                             <span>{t("no_assignee")}</span>
                           </div>
@@ -342,7 +363,9 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                             backgroundColor: label.color ?? "#000000",
                           }}
                         />
-                        <span className="truncate text-11 text-ellipsis">{label.label_name ?? "No labels"}</span>
+                        <span className="truncate text-11 text-ellipsis">
+                          {label.label_name ?? "No labels"}
+                        </span>
                       </div>
                     }
                     completed={label.completed_issues}
@@ -351,7 +374,9 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                       label.label_id
                         ? () => {
                             if (label.label_id) {
-                              handleFiltersUpdate([{ property: "label_id", operator: "in", value: [label.label_id] }]);
+                              handleFiltersUpdate([
+                                { property: "label_id", operator: "in", value: [label.label_id] },
+                              ]);
                             }
                           }
                         : undefined
@@ -360,7 +385,10 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                 ))
               ) : (
                 <div className="flex h-full w-full items-center justify-center">
-                  <SimpleEmptyState title={t("active_cycle.empty_state.label.title")} assetPath={labelsResolvedPath} />
+                  <SimpleEmptyState
+                    title={t("active_cycle.empty_state.label.title")}
+                    assetPath={labelsResolvedPath}
+                  />
                 </div>
               )
             ) : (

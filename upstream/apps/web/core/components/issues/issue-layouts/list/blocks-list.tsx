@@ -18,7 +18,9 @@ interface Props {
   issuesMap: TIssueMap;
   groupId: string;
   canEditProperties: (projectId: string | undefined) => boolean;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   quickActions: TRenderQuickActions;
   displayProperties: IIssueDisplayProperties | undefined;
   containerRef: MutableRefObject<HTMLDivElement | null>;

@@ -32,9 +32,12 @@ interface IKanbanGroup {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
-  getPaginationData: (groupId: string | undefined, subGroupId: string | undefined) => TPaginationData | undefined;
+  getPaginationData: (
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ) => TPaginationData | undefined;
   getIssueLoader: (groupId?: string, subGroupId?: string) => TLoader;
   scrollableContainerRef?: MutableRefObject<HTMLDivElement | null>;
 }
@@ -42,10 +45,13 @@ interface IKanbanGroup {
 // Loader components
 const KanbanIssueBlockLoader = forwardRef(function KanbanIssueBlockLoader(
   props: Record<string, unknown>,
-  ref: React.ForwardedRef<HTMLSpanElement>
+  ref: React.ForwardedRef<HTMLSpanElement>,
 ) {
   return (
-    <span ref={ref} className="m-1.5 block h-28 animate-pulse rounded-sm bg-[var(--illustration-fill-quaternary)]" />
+    <span
+      ref={ref}
+      className="m-1.5 block h-28 animate-pulse rounded-sm bg-[var(--illustration-fill-quaternary)]"
+    />
   );
 });
 KanbanIssueBlockLoader.displayName = "KanbanIssueBlockLoader";
@@ -80,7 +86,7 @@ export const KanbanGroup = observer(function KanbanGroup(props: IKanbanGroup) {
     containerRef,
     isPaginating ? null : intersectionElement,
     loadMoreIssuesInThisGroup,
-    `0% 100% 100% 100%`
+    `0% 100% 100% 100%`,
   );
 
   const isSubGroup = !!subGroupId && subGroupId !== "null";
@@ -105,12 +111,15 @@ export const KanbanGroup = observer(function KanbanGroup(props: IKanbanGroup) {
     </div>
   );
 
-  const shouldLoadMore = nextPageResults === undefined ? issueIds?.length < groupIssueCount : !!nextPageResults;
+  const shouldLoadMore =
+    nextPageResults === undefined ? issueIds?.length < groupIssueCount : !!nextPageResults;
 
   return (
     <div
       id={`${groupId}__${subGroupId}`}
-      className={cn("relative h-full min-h-[120px] transition-all", { "vertical-scrollbar scrollbar-md": !subGroupBy })}
+      className={cn("relative h-full min-h-[120px] transition-all", {
+        "vertical-scrollbar scrollbar-md": !subGroupBy,
+      })}
       ref={columnRef}
     >
       <KanbanIssueBlocksList

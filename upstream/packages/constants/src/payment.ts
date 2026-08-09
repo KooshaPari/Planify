@@ -123,7 +123,10 @@ export const TALK_TO_SALES_URL = "https://plane.so/talk-to-sales";
  * Mapping of subscription types to their respective upgrade/redirection URLs based on billing frequency
  * Used for self-hosted installations to redirect users to appropriate upgrade pages
  */
-export const SUBSCRIPTION_REDIRECTION_URLS: Record<EProductSubscriptionEnum, Record<TBillingFrequency, string>> = {
+export const SUBSCRIPTION_REDIRECTION_URLS: Record<
+  EProductSubscriptionEnum,
+  Record<TBillingFrequency, string>
+> = {
   [EProductSubscriptionEnum.FREE]: {
     month: TALK_TO_SALES_URL,
     year: TALK_TO_SALES_URL,

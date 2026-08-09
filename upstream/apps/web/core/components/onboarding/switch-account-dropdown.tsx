@@ -19,7 +19,9 @@ type TSwitchAccountDropdownProps = {
   fullName?: string;
 };
 
-export const SwitchAccountDropdown = observer(function SwitchAccountDropdown(props: TSwitchAccountDropdownProps) {
+export const SwitchAccountDropdown = observer(function SwitchAccountDropdown(
+  props: TSwitchAccountDropdownProps,
+) {
   const { fullName } = props;
   // states
   const [showSwitchAccountModal, setShowSwitchAccountModal] = useState(false);
@@ -36,7 +38,10 @@ export const SwitchAccountDropdown = observer(function SwitchAccountDropdown(pro
 
   return (
     <>
-      <SwitchAccountModal isOpen={showSwitchAccountModal} onClose={() => setShowSwitchAccountModal(false)} />
+      <SwitchAccountModal
+        isOpen={showSwitchAccountModal}
+        onClose={() => setShowSwitchAccountModal(false)}
+      />
       <Menu as="div" className="relative">
         <Menu.Button className="z-10 flex items-center gap-x-2.5 rounded-lg bg-layer-1 px-2 py-1.5">
           <div className="flex size-6 items-center justify-center rounded-full bg-success-primary text-13 font-semibold text-on-color capitalize">
@@ -65,9 +70,12 @@ export const SwitchAccountDropdown = observer(function SwitchAccountDropdown(pro
               as="button"
               type="button"
               className={({ active }) =>
-                cn("w-full rounded-sm px-1 py-1.5 text-left whitespace-nowrap text-danger-primary", {
-                  "bg-layer-1": active,
-                })
+                cn(
+                  "w-full rounded-sm px-1 py-1.5 text-left whitespace-nowrap text-danger-primary",
+                  {
+                    "bg-layer-1": active,
+                  },
+                )
               }
               onClick={() => setShowSwitchAccountModal(true)}
             >

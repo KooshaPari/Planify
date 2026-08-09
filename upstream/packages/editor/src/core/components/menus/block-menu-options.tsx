@@ -13,7 +13,9 @@ import { CORE_EXTENSIONS } from "@/constants/extension";
 // types
 import type { BlockMenuOption } from "./block-menu";
 
-const findSelectedTable = (editor: Editor): { tableNode: ProseMirrorNode | null; tablePos: number } => {
+const findSelectedTable = (
+  editor: Editor,
+): { tableNode: ProseMirrorNode | null; tablePos: number } => {
   const { state } = editor;
   const selectedNode = state.selection.content().content.firstChild;
 
@@ -39,7 +41,9 @@ const setTableToFullWidth = (editor: Editor): void => {
     const editorContainer = view.dom.closest(".editor-container");
     if (!editorContainer) return;
 
-    const contentWidthVar = getComputedStyle(editorContainer).getPropertyValue("--editor-content-width").trim();
+    const contentWidthVar = getComputedStyle(editorContainer)
+      .getPropertyValue("--editor-content-width")
+      .trim();
     if (!contentWidthVar) return;
 
     const contentWidth = parseInt(contentWidthVar);

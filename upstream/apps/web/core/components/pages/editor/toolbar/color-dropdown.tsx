@@ -16,11 +16,11 @@ import { cn } from "@plane/utils";
 type Props = {
   handleColorSelect: (
     key: Extract<TEditorCommands, "text-color" | "background-color">,
-    color: string | undefined
+    color: string | undefined,
   ) => void;
   isColorActive: (
     key: Extract<TEditorCommands, "text-color" | "background-color">,
-    color: string | undefined
+    color: string | undefined,
   ) => boolean;
 };
 
@@ -41,16 +41,21 @@ export const ColorDropdown = memo(function ColorDropdown(props: Props) {
               "text-tertiary hover:bg-layer-1",
               {
                 "bg-layer-1 text-primary": open,
-              }
+              },
             )}
           >
             Color
             <span
-              className={cn("grid size-6 shrink-0 place-items-center rounded-sm border-[0.5px] border-strong", {
-                "bg-surface-1": !activeBackgroundColor,
-              })}
+              className={cn(
+                "grid size-6 shrink-0 place-items-center rounded-sm border-[0.5px] border-strong",
+                {
+                  "bg-surface-1": !activeBackgroundColor,
+                },
+              )}
               style={{
-                backgroundColor: activeBackgroundColor ? activeBackgroundColor.backgroundColor : "transparent",
+                backgroundColor: activeBackgroundColor
+                  ? activeBackgroundColor.backgroundColor
+                  : "transparent",
               }}
             >
               <ALargeSmall

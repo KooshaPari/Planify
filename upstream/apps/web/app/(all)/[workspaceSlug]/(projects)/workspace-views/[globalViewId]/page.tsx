@@ -32,7 +32,11 @@ function GlobalViewIssuesPage({ params }: Route.ComponentProps) {
   return (
     <>
       <PageHead title={pageTitle} />
-      <AllIssueLayoutRoot isDefaultView={!!defaultView} isLoading={isLoading} toggleLoading={toggleLoading} />
+      <AllIssueLayoutRoot
+        isDefaultView={!!defaultView}
+        isLoading={isLoading}
+        toggleLoading={toggleLoading}
+      />
     </>
   );
 }

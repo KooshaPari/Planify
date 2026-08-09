@@ -46,7 +46,8 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
   const { t } = useTranslation();
   // store hooks
   const { getProjectById } = useProject();
-  const { selectedDuration, selectedProjects, selectedCycle, selectedModule, isPeekView, isEpic } = useAnalytics();
+  const { selectedDuration, selectedProjects, selectedCycle, selectedModule, isPeekView, isEpic } =
+    useAnalytics();
   const { data: workItemsData, isLoading } = useSWR(
     `insights-table-work-items-${workspaceSlug}-${selectedDuration}-${selectedProjects}-${selectedCycle}-${selectedModule}-${isPeekView}-${isEpic}`,
     () =>
@@ -60,23 +61,25 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
           ...(selectedModule ? { module_id: selectedModule } : {}),
           ...(isEpic ? { epic: true } : {}),
         },
-        isPeekView
-      )
+        isPeekView,
+      ),
   );
   // derived values
-  const columnsLabels: Record<keyof Omit<WorkItemInsightColumns, "project_id" | "avatar_url" | "assignee_id">, string> =
-    useMemo(
-      () => ({
-        backlog_work_items: t("workspace_projects.state.backlog"),
-        started_work_items: t("workspace_projects.state.started"),
-        un_started_work_items: t("workspace_projects.state.unstarted"),
-        completed_work_items: t("workspace_projects.state.completed"),
-        cancelled_work_items: t("workspace_projects.state.cancelled"),
-        project__name: t("common.project"),
-        display_name: t("common.assignee"),
-      }),
-      [t]
-    );
+  const columnsLabels: Record<
+    keyof Omit<WorkItemInsightColumns, "project_id" | "avatar_url" | "assignee_id">,
+    string
+  > = useMemo(
+    () => ({
+      backlog_work_items: t("workspace_projects.state.backlog"),
+      started_work_items: t("workspace_projects.state.started"),
+      un_started_work_items: t("workspace_projects.state.unstarted"),
+      completed_work_items: t("workspace_projects.state.completed"),
+      cancelled_work_items: t("workspace_projects.state.cancelled"),
+      project__name: t("common.project"),
+      display_name: t("common.assignee"),
+    }),
+    [t],
+  );
   const columns: ColumnDef<AnalyticsTableDataMap["work-items"]>[] = useMemo(
     () => [
       !isPeekView
@@ -125,7 +128,9 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
                       )}
                     </div>
                   )}
-                  <span className="break-words text-secondary">{row.original.display_name ?? t(`Unassigned`)}</span>
+                  <span className="break-words text-secondary">
+                    {row.original.display_name ?? t(`Unassigned`)}
+                  </span>
                 </div>
               </div>
             ),
@@ -192,7 +197,7 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
         },
       },
     ],
-    [columnsLabels, getProjectById, isPeekView, t]
+    [columnsLabels, getProjectById, isPeekView, t],
   );
   return (
     <InsightTable<"work-items">

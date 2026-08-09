@@ -23,13 +23,16 @@ type Props = {
 export const ModulesSidebarBlock = observer(function ModulesSidebarBlock(props: Props) {
   const { blockId, isDragging } = props;
   // store hooks
-  const { getBlockById, updateActiveBlockId, isBlockActive, getNumberOfDaysFromPosition } = useTimeLineChartStore();
+  const { getBlockById, updateActiveBlockId, isBlockActive, getNumberOfDaysFromPosition } =
+    useTimeLineChartStore();
   const block = getBlockById(blockId);
 
   if (!block) return <></>;
 
   const isBlockComplete = !!block.start_date && !!block.target_date;
-  const duration = isBlockComplete ? getNumberOfDaysFromPosition(block?.position?.width) : undefined;
+  const duration = isBlockComplete
+    ? getNumberOfDaysFromPosition(block?.position?.width)
+    : undefined;
 
   return (
     <div
@@ -45,7 +48,7 @@ export const ModulesSidebarBlock = observer(function ModulesSidebarBlock(props: 
           "group flex w-full items-center gap-2 bg-layer-transparent pr-4 hover:bg-layer-transparent-hover",
           {
             "bg-transparent-hover": isBlockActive(block.id),
-          }
+          },
         )}
         style={{
           height: `${BLOCK_HEIGHT}px`,

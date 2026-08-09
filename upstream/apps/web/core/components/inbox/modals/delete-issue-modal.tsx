@@ -54,7 +54,8 @@ export const DeleteInboxIssueModal = observer(function DeleteInboxIssueModal({
         });
       })
       .catch((errors) => {
-        const isPermissionError = errors?.error === "Only admin or creator can delete the work item";
+        const isPermissionError =
+          errors?.error === "Only admin or creator can delete the work item";
         const currentError = isPermissionError
           ? PROJECT_ERROR_MESSAGES.permissionError
           : PROJECT_ERROR_MESSAGES.issueDeleteError;

@@ -54,7 +54,7 @@ function MenuItem(props: TMenuItemProps) {
         {
           "text-placeholder": disabled,
         },
-        className
+        className,
       )}
       onClick={(e) => {
         close();
@@ -180,7 +180,7 @@ function Menu(props: TMenuProps) {
           align={"start"}
           className={cn(
             "fixed z-30 translate-y-0",
-            menuItemsClassName
+            menuItemsClassName,
           )} /** translate-y-0 is a hack to create new stacking context. Required for safari  */
         >
           <BaseMenu.Popup
@@ -193,11 +193,13 @@ function Menu(props: TMenuProps) {
                 "max-h-36": maxHeight === "rg",
                 "max-h-28": maxHeight === "sm",
               },
-              optionsClassName
+              optionsClassName,
             )}
             data-main-menu="true"
           >
-            <MenuContext.Provider value={{ closeAllSubmenus, registerSubmenu }}>{children}</MenuContext.Provider>
+            <MenuContext.Provider value={{ closeAllSubmenus, registerSubmenu }}>
+              {children}
+            </MenuContext.Provider>
           </BaseMenu.Popup>
         </BaseMenu.Positioner>
       </BaseMenu.Portal>

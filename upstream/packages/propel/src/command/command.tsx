@@ -13,7 +13,10 @@ function CommandComponent({ className, ...props }: React.ComponentProps<typeof C
   return <CommandPrimitive data-slot="command" className={cn("", className)} {...props} />;
 }
 
-function CommandInput({ className, ...props }: React.ComponentProps<typeof CommandPrimitive.Input>) {
+function CommandInput({
+  className,
+  ...props
+}: React.ComponentProps<typeof CommandPrimitive.Input>) {
   return (
     <div
       data-slot="command-input-wrapper"

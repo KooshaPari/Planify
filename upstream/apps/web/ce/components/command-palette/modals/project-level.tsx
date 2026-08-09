@@ -20,7 +20,9 @@ export type TProjectLevelModalsProps = {
   projectId: string;
 };
 
-export const ProjectLevelModals = observer(function ProjectLevelModals(props: TProjectLevelModalsProps) {
+export const ProjectLevelModals = observer(function ProjectLevelModals(
+  props: TProjectLevelModalsProps,
+) {
   const { workspaceSlug, projectId } = props;
   // store hooks
   const {

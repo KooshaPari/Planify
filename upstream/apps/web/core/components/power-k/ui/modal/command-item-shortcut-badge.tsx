@@ -13,7 +13,8 @@ import React from "react";
 export const formatShortcutForDisplay = (shortcut: string | undefined): string | null => {
   if (!shortcut) return null;
 
-  const isMac = typeof window !== "undefined" && navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+  const isMac =
+    typeof window !== "undefined" && navigator.platform.toUpperCase().indexOf("MAC") >= 0;
 
   const parts = shortcut.split("+").map((part) => {
     const lower = part.toLowerCase().trim();

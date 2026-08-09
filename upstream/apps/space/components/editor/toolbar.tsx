@@ -24,7 +24,14 @@ type Props = {
 const toolbarItems = TOOLBAR_ITEMS.lite;
 
 export function IssueCommentToolbar(props: Props) {
-  const { executeCommand, handleSubmit, isCommentEmpty, editorRef, isSubmitting, showSubmitButton } = props;
+  const {
+    executeCommand,
+    handleSubmit,
+    isCommentEmpty,
+    editorRef,
+    isSubmitting,
+    showSubmitButton,
+  } = props;
   // states
   const [activeStates, setActiveStates] = useState<Record<string, boolean>>({});
 
@@ -73,7 +80,9 @@ export function IssueCommentToolbar(props: Props) {
                     tooltipContent={
                       <p className="flex flex-col gap-1 text-center text-11">
                         <span className="font-medium">{item.name}</span>
-                        {item.shortcut && <kbd className="text-placeholder">{item.shortcut.join(" + ")}</kbd>}
+                        {item.shortcut && (
+                          <kbd className="text-placeholder">{item.shortcut.join(" + ")}</kbd>
+                        )}
                       </p>
                     }
                   >
@@ -84,7 +93,7 @@ export function IssueCommentToolbar(props: Props) {
                         "grid aspect-square place-items-center rounded-xs p-0.5 text-placeholder hover:bg-layer-transparent-hover",
                         {
                           "bg-layer-transparent-hover text-primary": isItemActive,
-                        }
+                        },
                       )}
                     >
                       <item.icon

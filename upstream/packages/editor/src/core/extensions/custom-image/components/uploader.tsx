@@ -15,7 +15,11 @@ import { CORE_EXTENSIONS } from "@/constants/extension";
 // helpers
 import type { EFileError } from "@/helpers/file";
 // hooks
-import { useUploader, useDropZone, uploadFirstFileAndInsertRemaining } from "@/hooks/use-file-upload";
+import {
+  useUploader,
+  useDropZone,
+  uploadFirstFileAndInsertRemaining,
+} from "@/hooks/use-file-upload";
 // local imports
 import { ECustomImageStatus } from "../types";
 import { getImageComponentImageFileMap } from "../utils";
@@ -91,7 +95,7 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [imageComponentImageFileMap, imageEntityId, updateAttributes, getPos]
+    [imageComponentImageFileMap, imageEntityId, updateAttributes, getPos],
   );
 
   const uploadImageEditorCommand = useCallback(
@@ -99,14 +103,14 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
       updateAttributes({ status: ECustomImageStatus.UPLOADING });
       return await extension.options.uploadImage?.(imageEntityId ?? "", file);
     },
-    [extension.options, imageEntityId, updateAttributes]
+    [extension.options, imageEntityId, updateAttributes],
   );
 
   const handleProgressStatus = useCallback(
     (isUploading: boolean) => {
       editor.storage.utility.uploadInProgress = isUploading;
     },
-    [editor]
+    [editor],
   );
 
   const handleInvalidFile = useCallback((_error: EFileError, _file: File, message: string) => {
@@ -142,13 +146,20 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
       if (meta.event === "drop" && "file" in meta) {
         hasTriedUploadingOnMountRef.current = true;
         uploadFile(meta.file);
-      } else if (meta.event === "insert" && fileInputRef.current && !hasTriggeredFilePickerRef.current) {
+      } else if (
+        meta.event === "insert" &&
+        fileInputRef.current &&
+        !hasTriggeredFilePickerRef.current
+      ) {
         if (meta.hasOpenedFileInputOnce) return;
         if (!isTouchDevice) {
           fileInputRef.current.click();
         }
         hasTriggeredFilePickerRef.current = true;
-        imageComponentImageFileMap?.set(imageEntityId ?? "", { ...meta, hasOpenedFileInputOnce: true });
+        imageComponentImageFileMap?.set(imageEntityId ?? "", {
+          ...meta,
+          hasOpenedFileInputOnce: true,
+        });
       }
     } else {
       hasTriedUploadingOnMountRef.current = true;
@@ -171,7 +182,7 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
         uploader: uploadFile,
       });
     },
-    [uploadFile, editor, getPos]
+    [uploadFile, editor, getPos],
   );
 
   const isErrorState = failedToLoadImage || hasDuplicationFailed;
@@ -205,7 +216,7 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
         updateAttributes({ status: ECustomImageStatus.DUPLICATING });
       }
     },
-    [hasDuplicationFailed, editor.isEditable, updateAttributes]
+    [hasDuplicationFailed, editor.isEditable, updateAttributes],
   );
 
   return (
@@ -214,15 +225,17 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
         "image-upload-component flex cursor-default items-center justify-start gap-2 rounded-lg border border-dashed bg-layer-3 px-2 py-3 text-tertiary transition-all duration-200 ease-in-out",
         {
           "border-subtle": !(selected && editor.isEditable && !isErrorState),
-          "cursor-pointer hover:bg-layer-3-hover hover:text-secondary": editor.isEditable && !isErrorState,
+          "cursor-pointer hover:bg-layer-3-hover hover:text-secondary":
+            editor.isEditable && !isErrorState,
           "bg-layer-3-hover text-secondary": draggedInside && editor.isEditable && !isErrorState,
           "bg-accent-primary/10 text-accent-secondary hover:bg-accent-primary/10 hover:text-accent-secondary":
             selected && editor.isEditable && !isErrorState,
           "cursor-default bg-danger-subtle text-danger-primary": isErrorState,
-          "hover:bg-danger-subtle-hover hover:text-danger-primary": isErrorState && editor.isEditable,
+          "hover:bg-danger-subtle-hover hover:text-danger-primary":
+            isErrorState && editor.isEditable,
           "bg-danger-subtle-selected": isErrorState && selected,
           "hover:bg-danger-subtle-active": isErrorState && selected && editor.isEditable,
-        }
+        },
       )}
       style={borderColor ? { borderColor } : undefined}
       onDrop={onDrop}
@@ -245,7 +258,7 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
             "flex items-center gap-1 rounded-md px-2 py-1 font-medium text-danger-primary transition-all duration-200 ease-in-out hover:bg-danger-subtle-hover",
             {
               "hover:bg-danger-subtle-hover": selected,
-            }
+            },
           )}
           title="Retry duplication"
         >

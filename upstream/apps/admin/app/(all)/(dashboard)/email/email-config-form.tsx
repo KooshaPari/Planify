@@ -9,7 +9,10 @@ import { useForm } from "react-hook-form";
 // types
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { IFormattedInstanceConfiguration, TInstanceEmailConfigurationKeys } from "@plane/types";
+import type {
+  IFormattedInstanceConfiguration,
+  TInstanceEmailConfigurationKeys,
+} from "@plane/types";
 // ui
 import { CustomSelect } from "@plane/ui";
 // components
@@ -116,7 +119,7 @@ export function InstanceEmailForm(props: IInstanceEmailForm) {
           type: TOAST_TYPE.SUCCESS,
           title: "Success",
           message: "Email Settings updated successfully",
-        })
+        }),
       )
       .catch((err) => console.error(err));
   };
@@ -147,7 +150,10 @@ export function InstanceEmailForm(props: IInstanceEmailForm) {
   return (
     <div className="space-y-8">
       <div>
-        <SendTestEmailModal isOpen={isSendTestEmailModalOpen} handleClose={() => setIsSendTestEmailModalOpen(false)} />
+        <SendTestEmailModal
+          isOpen={isSendTestEmailModalOpen}
+          handleClose={() => setIsSendTestEmailModalOpen(false)}
+        />
         <div className="grid-col grid w-full max-w-4xl grid-cols-1 items-start justify-between gap-10 lg:grid-cols-2">
           {emailFormFields.map((field) => (
             <ControllerInput
@@ -185,7 +191,8 @@ export function InstanceEmailForm(props: IInstanceEmailForm) {
               <div className="grow">
                 <div className="text-13 font-medium text-primary">Authentication</div>
                 <div className="text-11 font-regular text-tertiary">
-                  This is optional, but we recommend setting up a username and a password for your SMTP server.
+                  This is optional, but we recommend setting up a username and a password for your
+                  SMTP server.
                 </div>
               </div>
             </div>

@@ -24,7 +24,12 @@ export const DeleteWorkspaceModal = observer(function DeleteWorkspaceModal(props
   const { isOpen, data, onClose } = props;
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={() => onClose()} position={EModalPosition.CENTER} width={EModalWidth.XL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={() => onClose()}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XL}
+    >
       <DeleteWorkspaceForm data={data} onClose={onClose} />
     </ModalCore>
   );

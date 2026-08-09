@@ -11,7 +11,11 @@ import type {
   TSingleSelectFilterFieldConfig,
   TMultiSelectFilterFieldConfig,
 } from "../field-types";
-import type { CORE_COLLECTION_OPERATOR, CORE_COMPARISON_OPERATOR, CORE_EQUALITY_OPERATOR } from "../operators";
+import type {
+  CORE_COLLECTION_OPERATOR,
+  CORE_COMPARISON_OPERATOR,
+  CORE_EQUALITY_OPERATOR,
+} from "../operators";
 
 // ----------------------------- EXACT Operator -----------------------------
 export type TCoreExactOperatorConfigs =

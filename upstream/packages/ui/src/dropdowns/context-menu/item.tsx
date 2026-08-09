@@ -32,7 +32,8 @@ export function ContextMenuItem(props: ContextMenuItemProps) {
 
   const contextMenuContext = useContext(ContextMenuContext);
   const hasNestedItems = item.nestedMenuItems && item.nestedMenuItems.length > 0;
-  const renderedNestedItems = item.nestedMenuItems?.filter((nestedItem) => nestedItem.shouldRender !== false) || [];
+  const renderedNestedItems =
+    item.nestedMenuItems?.filter((nestedItem) => nestedItem.shouldRender !== false) || [];
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: "right-start",
@@ -123,7 +124,9 @@ export function ContextMenuItem(props: ContextMenuItemProps) {
       }
       if (e.key === "ArrowUp") {
         e.preventDefault();
-        setActiveNestedIndex((prev) => (prev - 1 + renderedNestedItems.length) % renderedNestedItems.length);
+        setActiveNestedIndex(
+          (prev) => (prev - 1 + renderedNestedItems.length) % renderedNestedItems.length,
+        );
       }
       if (e.key === "Enter") {
         e.preventDefault();
@@ -163,7 +166,7 @@ export function ContextMenuItem(props: ContextMenuItemProps) {
             "bg-layer-transparent-hover": isActive,
             "text-placeholder": item.disabled,
           },
-          item.className
+          item.className,
         )}
         onClick={handleItemClick}
         onMouseEnter={handleMouseEnter}
@@ -199,7 +202,10 @@ export function ContextMenuItem(props: ContextMenuItemProps) {
             className="fixed z-[35] min-w-[12rem] overflow-hidden rounded-md border-[0.5px] border-subtle-1 bg-surface-1 px-2 py-2.5 text-11"
             data-context-submenu="true"
           >
-            <div ref={nestedMenuRef} className="vertical-scrollbar scrollbar-sm max-h-72 overflow-y-scroll">
+            <div
+              ref={nestedMenuRef}
+              className="vertical-scrollbar scrollbar-sm max-h-72 overflow-y-scroll"
+            >
               {renderedNestedItems.map((nestedItem, index) => (
                 <button
                   key={nestedItem.key}
@@ -210,7 +216,7 @@ export function ContextMenuItem(props: ContextMenuItemProps) {
                       "bg-layer-transparent-hover": index === activeNestedIndex,
                       "text-placeholder": nestedItem.disabled,
                     },
-                    nestedItem.className
+                    nestedItem.className,
                   )}
                   onClick={(e) => {
                     e.preventDefault();
@@ -223,7 +229,9 @@ export function ContextMenuItem(props: ContextMenuItemProps) {
                 >
                   {nestedItem.customContent ?? (
                     <>
-                      {nestedItem.icon && <nestedItem.icon className={cn("h-3 w-3", nestedItem.iconClassName)} />}
+                      {nestedItem.icon && (
+                        <nestedItem.icon className={cn("h-3 w-3", nestedItem.iconClassName)} />
+                      )}
                       <div>
                         <h5>{nestedItem.title}</h5>
                         {nestedItem.description && (

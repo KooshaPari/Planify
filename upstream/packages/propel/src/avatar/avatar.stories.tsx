@@ -142,11 +142,36 @@ export const FallbackVariations: Story = {
   render() {
     return (
       <div className="flex items-center gap-4">
-        <Avatar name="Alice" src="invalid-url" fallbackBackgroundColor="#ef4444" fallbackTextColor="#ffffff" />
-        <Avatar name="Bob" src="invalid-url" fallbackBackgroundColor="#f59e0b" fallbackTextColor="#ffffff" />
-        <Avatar name="Charlie" src="invalid-url" fallbackBackgroundColor="#10b981" fallbackTextColor="#ffffff" />
-        <Avatar name="David" src="invalid-url" fallbackBackgroundColor="#3b82f6" fallbackTextColor="#ffffff" />
-        <Avatar name="Eve" src="invalid-url" fallbackBackgroundColor="#8b5cf6" fallbackTextColor="#ffffff" />
+        <Avatar
+          name="Alice"
+          src="invalid-url"
+          fallbackBackgroundColor="#ef4444"
+          fallbackTextColor="#ffffff"
+        />
+        <Avatar
+          name="Bob"
+          src="invalid-url"
+          fallbackBackgroundColor="#f59e0b"
+          fallbackTextColor="#ffffff"
+        />
+        <Avatar
+          name="Charlie"
+          src="invalid-url"
+          fallbackBackgroundColor="#10b981"
+          fallbackTextColor="#ffffff"
+        />
+        <Avatar
+          name="David"
+          src="invalid-url"
+          fallbackBackgroundColor="#3b82f6"
+          fallbackTextColor="#ffffff"
+        />
+        <Avatar
+          name="Eve"
+          src="invalid-url"
+          fallbackBackgroundColor="#8b5cf6"
+          fallbackTextColor="#ffffff"
+        />
       </div>
     );
   },
@@ -159,10 +184,30 @@ export const AvatarGroup: Story = {
   render() {
     return (
       <div className="flex -space-x-2">
-        <Avatar name="User 1" src="https://i.pravatar.cc/150?img=20" size="md" className="ring-2 ring-white" />
-        <Avatar name="User 2" src="https://i.pravatar.cc/150?img=21" size="md" className="ring-2 ring-white" />
-        <Avatar name="User 3" src="https://i.pravatar.cc/150?img=22" size="md" className="ring-2 ring-white" />
-        <Avatar name="User 4" src="https://i.pravatar.cc/150?img=23" size="md" className="ring-2 ring-white" />
+        <Avatar
+          name="User 1"
+          src="https://i.pravatar.cc/150?img=20"
+          size="md"
+          className="ring-2 ring-white"
+        />
+        <Avatar
+          name="User 2"
+          src="https://i.pravatar.cc/150?img=21"
+          size="md"
+          className="ring-2 ring-white"
+        />
+        <Avatar
+          name="User 3"
+          src="https://i.pravatar.cc/150?img=22"
+          size="md"
+          className="ring-2 ring-white"
+        />
+        <Avatar
+          name="User 4"
+          src="https://i.pravatar.cc/150?img=23"
+          size="md"
+          className="ring-2 ring-white"
+        />
         <Avatar
           fallbackText="+5"
           src="invalid-url"

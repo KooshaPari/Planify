@@ -13,7 +13,11 @@ import type { IEmailCheckData } from "@plane/types";
 import { OAuthOptions } from "@plane/ui";
 // helpers
 import type { TAuthErrorInfo } from "@/helpers/authentication.helper";
-import { EErrorAlertType, authErrorHandler, EAuthenticationErrorCodes } from "@/helpers/authentication.helper";
+import {
+  EErrorAlertType,
+  authErrorHandler,
+  EAuthenticationErrorCodes,
+} from "@/helpers/authentication.helper";
 // hooks
 import { useOAuthConfig } from "@/hooks/oauth";
 import { useInstance } from "@/hooks/store/use-instance";
@@ -94,7 +98,9 @@ export const AuthRoot = observer(function AuthRoot() {
     await authService
       .emailCheck(data)
       .then(async (response) => {
-        let currentAuthMode: EAuthModes = response.existing ? EAuthModes.SIGN_IN : EAuthModes.SIGN_UP;
+        let currentAuthMode: EAuthModes = response.existing
+          ? EAuthModes.SIGN_IN
+          : EAuthModes.SIGN_UP;
         if (response.existing) {
           currentAuthMode = EAuthModes.SIGN_IN;
           setAuthMode(() => EAuthModes.SIGN_IN);
@@ -128,7 +134,10 @@ export const AuthRoot = observer(function AuthRoot() {
         return;
       })
       .catch((error) => {
-        const errorhandler = authErrorHandler(error?.error_code?.toString(), data?.email || undefined);
+        const errorhandler = authErrorHandler(
+          error?.error_code?.toString(),
+          data?.email || undefined,
+        );
         if (errorhandler?.type) setErrorInfo(errorhandler);
       });
   };
@@ -153,9 +162,13 @@ export const AuthRoot = observer(function AuthRoot() {
           <AuthBanner bannerData={errorInfo} handleBannerData={(value) => setErrorInfo(value)} />
         )}
         <AuthHeader authMode={authMode} />
-        {isOAuthEnabled && <OAuthOptions options={oAuthOptions} compact={authStep === EAuthSteps.PASSWORD} />}
+        {isOAuthEnabled && (
+          <OAuthOptions options={oAuthOptions} compact={authStep === EAuthSteps.PASSWORD} />
+        )}
 
-        {authStep === EAuthSteps.EMAIL && <AuthEmailForm defaultEmail={email} onSubmit={handleEmailVerification} />}
+        {authStep === EAuthSteps.EMAIL && (
+          <AuthEmailForm defaultEmail={email} onSubmit={handleEmailVerification} />
+        )}
         {authStep === EAuthSteps.UNIQUE_CODE && (
           <AuthUniqueCodeForm
             mode={authMode}

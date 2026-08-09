@@ -27,16 +27,24 @@ export interface IFavoriteStore {
   fetchFavorite: (workspaceSlug: string) => Promise<IFavorite[]>;
   // CRUD actions
   addFavorite: (workspaceSlug: string, data: Partial<IFavorite>) => Promise<IFavorite>;
-  updateFavorite: (workspaceSlug: string, favoriteId: string, data: Partial<IFavorite>) => Promise<IFavorite>;
+  updateFavorite: (
+    workspaceSlug: string,
+    favoriteId: string,
+    data: Partial<IFavorite>,
+  ) => Promise<IFavorite>;
   deleteFavorite: (workspaceSlug: string, favoriteId: string) => Promise<void>;
   fetchGroupedFavorites: (workspaceSlug: string, favoriteId: string) => Promise<IFavorite[]>;
-  moveFavoriteToFolder: (workspaceSlug: string, favoriteId: string, data: Partial<IFavorite>) => Promise<void>;
+  moveFavoriteToFolder: (
+    workspaceSlug: string,
+    favoriteId: string,
+    data: Partial<IFavorite>,
+  ) => Promise<void>;
   removeFavoriteEntity: (workspaceSlug: string, entityId: string) => Promise<void>;
   reOrderFavorite: (
     workspaceSlug: string,
     favoriteId: string,
     destinationId: string,
-    edge: string | undefined
+    edge: string | undefined,
   ) => Promise<void>;
   removeFromFavoriteFolder: (workspaceSlug: string, favoriteId: string) => Promise<void>;
   removeFavoriteFromStore: (entity_identifier: string) => void;
@@ -100,7 +108,7 @@ export class FavoriteStore implements IFavoriteStore {
           acc[fav.id] = fav;
           return acc;
         },
-        {} as { [favoriteId: string]: IFavorite }
+        {} as { [favoriteId: string]: IFavorite },
       );
   }
 
@@ -109,7 +117,9 @@ export class FavoriteStore implements IFavoriteStore {
   }
 
   get groupedFavorites() {
-    const data: { [favoriteId: string]: IFavorite } = JSON.parse(JSON.stringify(this.currentWorkspaceFavorites));
+    const data: { [favoriteId: string]: IFavorite } = JSON.parse(
+      JSON.stringify(this.currentWorkspaceFavorites),
+    );
 
     Object.values(data).forEach((fav) => {
       if (fav.parent && data[fav.parent]) {
@@ -134,7 +144,8 @@ export class FavoriteStore implements IFavoriteStore {
   addFavorite = async (workspaceSlug: string, data: Partial<IFavorite>) => {
     data = { ...data, parent: null, is_folder: data.entity_type === "folder" };
 
-    if (data.entity_identifier && this.entityMap[data.entity_identifier]) return this.entityMap[data.entity_identifier];
+    if (data.entity_identifier && this.entityMap[data.entity_identifier])
+      return this.entityMap[data.entity_identifier];
     const id = uuidv4();
     try {
       // optimistic addition
@@ -203,7 +214,11 @@ export class FavoriteStore implements IFavoriteStore {
    * @param data
    * @returns Promise<void>
    */
-  moveFavoriteToFolder = async (workspaceSlug: string, favoriteId: string, data: Partial<IFavorite>) => {
+  moveFavoriteToFolder = async (
+    workspaceSlug: string,
+    favoriteId: string,
+    data: Partial<IFavorite>,
+  ) => {
     try {
       await this.favoriteService.updateFavorite(workspaceSlug, favoriteId, data);
       runInAction(() => {
@@ -220,17 +235,20 @@ export class FavoriteStore implements IFavoriteStore {
     workspaceSlug: string,
     favoriteId: string,
     destinationId: string,
-    edge: string | undefined
+    edge: string | undefined,
   ) => {
     try {
       let resultSequence = 10000;
       if (edge) {
-        const sortedIds = orderBy(Object.values(this.favoriteMap), "sequence", "desc").map((fav: IFavorite) => fav.id);
+        const sortedIds = orderBy(Object.values(this.favoriteMap), "sequence", "desc").map(
+          (fav: IFavorite) => fav.id,
+        );
         const destinationSequence = this.favoriteMap[destinationId]?.sequence || undefined;
         if (destinationSequence) {
           const destinationIndex = sortedIds.findIndex((id) => id === destinationId);
           if (edge === "reorder-above") {
-            const prevSequence = this.favoriteMap[sortedIds[destinationIndex - 1]]?.sequence || undefined;
+            const prevSequence =
+              this.favoriteMap[sortedIds[destinationIndex - 1]]?.sequence || undefined;
             if (prevSequence) {
               resultSequence = (destinationSequence + prevSequence) / 2;
             } else {
@@ -242,7 +260,9 @@ export class FavoriteStore implements IFavoriteStore {
         }
       }
 
-      await this.favoriteService.updateFavorite(workspaceSlug, favoriteId, { sequence: resultSequence });
+      await this.favoriteService.updateFavorite(workspaceSlug, favoriteId, {
+        sequence: resultSequence,
+      });
 
       runInAction(() => {
         set(this.favoriteMap, [favoriteId, "sequence"], resultSequence);
@@ -270,7 +290,8 @@ export class FavoriteStore implements IFavoriteStore {
     switch (entity_type) {
       case "view":
         return (
-          this.viewStore.viewMap[entity_identifier] && (this.viewStore.viewMap[entity_identifier].is_favorite = false)
+          this.viewStore.viewMap[entity_identifier] &&
+          (this.viewStore.viewMap[entity_identifier].is_favorite = false)
         );
       case "module":
         return (
@@ -278,7 +299,10 @@ export class FavoriteStore implements IFavoriteStore {
           (this.moduleStore.moduleMap[entity_identifier].is_favorite = false)
         );
       case "page":
-        return this.pageStore.data[entity_identifier] && (this.pageStore.data[entity_identifier].is_favorite = false);
+        return (
+          this.pageStore.data[entity_identifier] &&
+          (this.pageStore.data[entity_identifier].is_favorite = false)
+        );
       case "cycle":
         return (
           this.cycleStore.cycleMap[entity_identifier] &&
@@ -330,7 +354,12 @@ export class FavoriteStore implements IFavoriteStore {
     } catch (error) {
       console.error("Failed to delete favorite from favorite store", error);
       runInAction(() => {
-        if (parent) set(this.favoriteMap, [parent, "children"], [...this.favoriteMap[parent].children, initialState]);
+        if (parent)
+          set(
+            this.favoriteMap,
+            [parent, "children"],
+            [...this.favoriteMap[parent].children, initialState],
+          );
         set(this.favoriteMap, [favoriteId], initialState);
         if (entity_identifier) {
           set(this.entityMap, [entity_identifier], initialState);
@@ -366,7 +395,7 @@ export class FavoriteStore implements IFavoriteStore {
       const favoriteId = this.entityMap[entity_identifier]?.id;
       const oldData = this.favoriteMap[favoriteId];
       const projectData = Object.values(this.favoriteMap).filter(
-        (fav) => fav.project_id === entity_identifier && fav.entity_type !== "project"
+        (fav) => fav.project_id === entity_identifier && fav.entity_type !== "project",
       );
       runInAction(() => {
         if (projectData) {
@@ -407,7 +436,8 @@ export class FavoriteStore implements IFavoriteStore {
           set(this.favoriteMap, [favorite.id], favorite);
           this.favoriteIds.push(favorite.id);
           this.favoriteIds = uniqBy(this.favoriteIds, (id) => id);
-          if (favorite.entity_identifier) set(this.entityMap, [favorite.entity_identifier], favorite);
+          if (favorite.entity_identifier)
+            set(this.entityMap, [favorite.entity_identifier], favorite);
         });
       });
 

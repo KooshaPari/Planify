@@ -49,8 +49,16 @@ type Props = {
 };
 
 export const PeekOverviewIssueDetails = observer(function PeekOverviewIssueDetails(props: Props) {
-  const { editorRef, workspaceSlug, issueId, issueOperations, disabled, isArchived, isSubmitting, setIsSubmitting } =
-    props;
+  const {
+    editorRef,
+    workspaceSlug,
+    issueId,
+    issueOperations,
+    disabled,
+    isArchived,
+    isSubmitting,
+    setIsSubmitting,
+  } = props;
   // store hooks
   const { data: currentUser } = useUser();
   const {
@@ -84,7 +92,7 @@ export const PeekOverviewIssueDetails = observer(function PeekOverviewIssueDetai
       name: issue?.name,
       description_html: getTextContent(issue?.description_html),
       issueId: issue?.id,
-    }
+    },
   );
 
   if (!issue || !issue.project_id) return <></>;
@@ -176,17 +184,19 @@ export const PeekOverviewIssueDetails = observer(function PeekOverviewIssueDetai
                 workItemVersionService.listDescriptionVersions(
                   workspaceSlug,
                   issue.project_id?.toString() ?? "",
-                  issueId
+                  issueId,
                 ),
               retrieveDescriptionVersion: (issueId, versionId) =>
                 workItemVersionService.retrieveDescriptionVersion(
                   workspaceSlug,
                   issue.project_id?.toString() ?? "",
                   issueId,
-                  versionId
+                  versionId,
                 ),
             }}
-            handleRestore={(descriptionHTML) => editorRef.current?.setEditorValue(descriptionHTML, true)}
+            handleRestore={(descriptionHTML) =>
+              editorRef.current?.setEditorValue(descriptionHTML, true)
+            }
             projectId={issue.project_id}
             workspaceSlug={workspaceSlug}
           />

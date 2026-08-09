@@ -11,7 +11,11 @@ import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // components
 import { IssueActivityBlockComponent, IssueLink } from "./";
 
-type TIssueLinkActivity = { activityId: string; showIssue?: boolean; ends: "top" | "bottom" | undefined };
+type TIssueLinkActivity = {
+  activityId: string;
+  showIssue?: boolean;
+  ends: "top" | "bottom" | undefined;
+};
 
 export const IssueLinkActivity = observer(function IssueLinkActivity(props: TIssueLinkActivity) {
   const { activityId, showIssue = false, ends } = props;

@@ -32,7 +32,9 @@ export const ALPHA_MAPPING = {
  * 50 = white, 1000 = black
  * Extended range: 50-1000 for more granular control
  */
-export const SHADE_STOPS = [50, 100, 200, 300, 400, 500, 600, 700, 750, 800, 850, 900, 950, 1000] as const;
+export const SHADE_STOPS = [
+  50, 100, 200, 300, 400, 500, 600, 700, 750, 800, 850, 900, 950, 1000,
+] as const;
 
 /**
  * Default stop where user input color is anchored

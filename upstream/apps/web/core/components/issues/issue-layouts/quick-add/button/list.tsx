@@ -11,7 +11,9 @@ import { PlusIcon } from "@plane/propel/icons";
 import { Row } from "@plane/ui";
 import type { TQuickAddIssueButton } from "../root";
 
-export const ListQuickAddIssueButton = observer(function ListQuickAddIssueButton(props: TQuickAddIssueButton) {
+export const ListQuickAddIssueButton = observer(function ListQuickAddIssueButton(
+  props: TQuickAddIssueButton,
+) {
   const { onClick, isEpic = false } = props;
   const { t } = useTranslation();
   return (

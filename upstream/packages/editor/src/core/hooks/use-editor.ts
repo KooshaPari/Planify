@@ -96,7 +96,7 @@ export const useEditor = (props: TEditorHookProps) => {
       onDestroy: () => handleEditorReady?.(false),
       onFocus: onEditorFocus,
     },
-    [editable]
+    [editable],
   );
 
   // Effect for syncing SWR data
@@ -152,7 +152,7 @@ export const useEditor = (props: TEditorHookProps) => {
         getEditorMetaData,
         provider,
       }),
-    [editor, getEditorMetaData, provider]
+    [editor, getEditorMetaData, provider],
   );
 
   if (!editor) {

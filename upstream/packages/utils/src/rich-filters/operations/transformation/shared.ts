@@ -18,7 +18,7 @@ import { transformGroupWithChildren } from "./core";
  */
 export const transformGroup = <P extends TFilterProperty>(
   group: TFilterGroupNode<P>,
-  transformFn: TTreeTransformFn<P>
+  transformFn: TTreeTransformFn<P>,
 ): TTreeTransformResult<P> =>
   processGroupNode(group, {
     onAndGroup: (andGroup) => transformGroupWithChildren(andGroup, transformFn),

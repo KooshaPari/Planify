@@ -29,7 +29,11 @@ export const PowerKModalPagesList = observer(function PowerKModalPagesList(props
 
   return (
     <>
-      <PowerKOpenEntityPages activePage={activePage} context={context} handleSelection={onPageDataSelect} />
+      <PowerKOpenEntityPages
+        activePage={activePage}
+        context={context}
+        handleSelection={onPageDataSelect}
+      />
       <PowerKAccountPreferencesPages activePage={activePage} handleSelection={onPageDataSelect} />
     </>
   );

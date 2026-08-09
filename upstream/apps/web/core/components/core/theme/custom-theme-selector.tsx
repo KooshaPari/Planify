@@ -68,7 +68,11 @@ export const CustomThemeSelector = observer(function CustomThemeSelector() {
 
     try {
       setIsLoadingPalette(true);
-      applyCustomTheme(formData.primary, formData.background, formData.darkPalette ? "dark" : "light");
+      applyCustomTheme(
+        formData.primary,
+        formData.background,
+        formData.darkPalette ? "dark" : "light",
+      );
       // Save to profile endpoint
       await updateUserTheme({
         theme: "custom",
@@ -108,7 +112,12 @@ export const CustomThemeSelector = observer(function CustomThemeSelector() {
       <div className="space-y-5">
         <ProfileSettingsHeading
           title={t("customize_your_theme")}
-          control={<CustomThemeImportConfigButton handleUpdateTheme={handleUpdateTheme} setValue={setValue} />}
+          control={
+            <CustomThemeImportConfigButton
+              handleUpdateTheme={handleUpdateTheme}
+              setValue={setValue}
+            />
+          }
         />
         <CustomThemeModeSelector control={control} />
         {/* Color Inputs */}
@@ -116,7 +125,12 @@ export const CustomThemeSelector = observer(function CustomThemeSelector() {
       </div>
       <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         {/* Save Theme Button */}
-        <Button variant="primary" size="lg" type="submit" loading={isSubmitting || isLoadingPalette}>
+        <Button
+          variant="primary"
+          size="lg"
+          type="submit"
+          loading={isSubmitting || isLoadingPalette}
+        >
           {isSubmitting ? t("common.saving") : isLoadingPalette ? "Generating" : t("set_theme")}
         </Button>
         {/* Import/Export Section */}

@@ -75,7 +75,9 @@ export function EditorAIMenu(props: Props) {
   // params
   const handleGenerateResponse = async (payload: TTaskPayload) => {
     if (!workspaceSlug) return;
-    await aiService.performEditorTask(workspaceSlug.toString(), payload).then((res) => setResponse(res.response));
+    await aiService
+      .performEditorTask(workspaceSlug.toString(), payload)
+      .then((res) => setResponse(res.response));
   };
   // handle task click
   const handleClick = async (key: AI_EDITOR_TASKS) => {
@@ -103,7 +105,7 @@ export function EditorAIMenu(props: Props) {
         responseContainerRef.current?.scrollTo({
           top: 0,
           behavior: "smooth",
-        })
+        }),
       )
       .finally(() => setIsRegenerating(false));
   };
@@ -123,7 +125,7 @@ export function EditorAIMenu(props: Props) {
       responseContainerRef.current?.scrollTo({
         top: 0,
         behavior: "smooth",
-      })
+      }),
     );
   };
   // handle replace selected text with the response
@@ -147,7 +149,7 @@ export function EditorAIMenu(props: Props) {
         "flex w-[210px] flex-col rounded-md border-[0.5px] border-strong bg-surface-1 shadow-raised-200 transition-all",
         {
           "w-[700px]": activeTask,
-        }
+        },
       )}
     >
       <div
@@ -167,7 +169,7 @@ export function EditorAIMenu(props: Props) {
                   "flex w-full items-center justify-between gap-2 truncate rounded-sm px-1 py-1.5 text-11 text-secondary transition-colors hover:bg-layer-1",
                   {
                     "bg-layer-1": isActiveTask,
-                  }
+                  },
                 )}
                 onClick={(e) => {
                   e.preventDefault();
@@ -180,9 +182,12 @@ export function EditorAIMenu(props: Props) {
                   {item.label}
                 </span>
                 <ChevronRightIcon
-                  className={cn("pointer-events-none size-3 flex-shrink-0 opacity-0 transition-opacity", {
-                    "pointer-events-auto opacity-100": isActiveTask,
-                  })}
+                  className={cn(
+                    "pointer-events-none size-3 flex-shrink-0 opacity-0 transition-opacity",
+                    {
+                      "pointer-events-auto opacity-100": isActiveTask,
+                    },
+                  )}
                 />
               </button>
             );
@@ -278,7 +283,7 @@ export function EditorAIMenu(props: Props) {
                       "rounded-sm bg-layer-1 p-1 text-11 font-medium text-secondary transition-colors outline-none",
                       {
                         "bg-accent-primary/20 text-accent-primary": tone.key === "default",
-                      }
+                      },
                     )}
                     onClick={(e) => {
                       e.preventDefault();

@@ -34,7 +34,7 @@ function Switch({ value, onChange, label, size = "sm", disabled, className }: IT
           : value
             ? "cursor-pointer bg-accent-primary"
             : "cursor-pointer bg-surface-2",
-        className
+        className,
       )}
     >
       {label && <span className="sr-only">{label}</span>}
@@ -53,7 +53,7 @@ function Switch({ value, onChange, label, size = "sm", disabled, className }: IT
                 : "translate-x-5 bg-white"
             : "translate-x-0.5 bg-surface-2",
           // disabled
-          disabled && "cursor-not-allowed bg-surface-2"
+          disabled && "cursor-not-allowed bg-surface-2",
         )}
       />
     </BaseSwitch.Root>

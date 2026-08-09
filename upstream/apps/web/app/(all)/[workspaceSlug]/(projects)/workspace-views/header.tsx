@@ -17,13 +17,20 @@ import {
 import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { ViewsIcon } from "@plane/propel/icons";
-import type { IIssueDisplayFilterOptions, IIssueDisplayProperties, ICustomSearchSelectOption } from "@plane/types";
+import type {
+  IIssueDisplayFilterOptions,
+  IIssueDisplayProperties,
+  ICustomSearchSelectOption,
+} from "@plane/types";
 import { EIssuesStoreType, EIssueLayoutTypes } from "@plane/types";
 import { Breadcrumbs, Header, BreadcrumbNavigationSearchDropdown } from "@plane/ui";
 // components
 import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
 import { SwitcherLabel } from "@/components/common/switcher-label";
-import { DisplayFiltersSelection, FiltersDropdown } from "@/components/issues/issue-layouts/filters";
+import {
+  DisplayFiltersSelection,
+  FiltersDropdown,
+} from "@/components/issues/issue-layouts/filters";
 import { WorkItemFiltersToggle } from "@/components/work-item-filters/filters-toggle";
 import { DefaultWorkspaceViewQuickActions } from "@/components/workspace/views/default-view-quick-action";
 import { CreateUpdateWorkspaceViewModal } from "@/components/workspace/views/modal";
@@ -61,18 +68,24 @@ export const GlobalIssuesHeader = observer(function GlobalIssuesHeader() {
         undefined,
         EIssueFilterType.DISPLAY_FILTERS,
         updatedDisplayFilter,
-        globalViewId
+        globalViewId,
       );
     },
-    [workspaceSlug, updateFilters, globalViewId]
+    [workspaceSlug, updateFilters, globalViewId],
   );
 
   const handleDisplayProperties = useCallback(
     (property: Partial<IIssueDisplayProperties>) => {
       if (!workspaceSlug || !globalViewId) return;
-      updateFilters(workspaceSlug.toString(), undefined, EIssueFilterType.DISPLAY_PROPERTIES, property, globalViewId);
+      updateFilters(
+        workspaceSlug.toString(),
+        undefined,
+        EIssueFilterType.DISPLAY_PROPERTIES,
+        property,
+        globalViewId,
+      );
     },
-    [workspaceSlug, updateFilters, globalViewId]
+    [workspaceSlug, updateFilters, globalViewId],
   );
 
   const handleLayoutChange = useCallback(
@@ -83,10 +96,10 @@ export const GlobalIssuesHeader = observer(function GlobalIssuesHeader() {
         undefined,
         EIssueFilterType.DISPLAY_FILTERS,
         { layout: layout },
-        globalViewId
+        globalViewId,
       );
     },
-    [workspaceSlug, updateFilters, globalViewId]
+    [workspaceSlug, updateFilters, globalViewId],
   );
 
   const isLocked = viewDetails?.is_locked;
@@ -112,7 +125,7 @@ export const GlobalIssuesHeader = observer(function GlobalIssuesHeader() {
   });
 
   const switcherOptions = [...defaultOptions, ...workspaceOptions].filter(
-    (option) => option !== undefined
+    (option) => option !== undefined,
   ) as ICustomSearchSelectOption[];
   const currentLayoutFilters = useMemo(() => {
     const layout = activeLayout ?? EIssueLayoutTypes.SPREADSHEET;
@@ -121,12 +134,20 @@ export const GlobalIssuesHeader = observer(function GlobalIssuesHeader() {
 
   return (
     <>
-      <CreateUpdateWorkspaceViewModal isOpen={createViewModal} onClose={() => setCreateViewModal(false)} />
+      <CreateUpdateWorkspaceViewModal
+        isOpen={createViewModal}
+        onClose={() => setCreateViewModal(false)}
+      />
       <Header>
         <Header.LeftItem>
           <Breadcrumbs>
             <Breadcrumbs.Item
-              component={<BreadcrumbLink label={t("views")} icon={<ViewsIcon className="h-4 w-4 text-tertiary" />} />}
+              component={
+                <BreadcrumbLink
+                  label={t("views")}
+                  icon={<ViewsIcon className="h-4 w-4 text-tertiary" />}
+                />
+              }
             />
             <Breadcrumbs.Item
               component={
@@ -158,7 +179,9 @@ export const GlobalIssuesHeader = observer(function GlobalIssuesHeader() {
               workspaceSlug={workspaceSlug.toString()}
             />
           )}
-          {globalViewId && <WorkItemFiltersToggle entityType={EIssuesStoreType.GLOBAL} entityId={globalViewId} />}
+          {globalViewId && (
+            <WorkItemFiltersToggle entityType={EIssuesStoreType.GLOBAL} entityId={globalViewId} />
+          )}
           {!isLocked && (
             <FiltersDropdown title={t("common.display")} placement="bottom-end">
               <DisplayFiltersSelection
@@ -179,9 +202,17 @@ export const GlobalIssuesHeader = observer(function GlobalIssuesHeader() {
             {t("workspace_views.add_view")}
           </Button>
           <div className="hidden md:block">
-            {viewDetails && <WorkspaceViewQuickActions workspaceSlug={workspaceSlug?.toString()} view={viewDetails} />}
+            {viewDetails && (
+              <WorkspaceViewQuickActions
+                workspaceSlug={workspaceSlug?.toString()}
+                view={viewDetails}
+              />
+            )}
             {isDefaultView && defaultViewDetails && (
-              <DefaultWorkspaceViewQuickActions workspaceSlug={workspaceSlug?.toString()} view={defaultViewDetails} />
+              <DefaultWorkspaceViewQuickActions
+                workspaceSlug={workspaceSlug?.toString()}
+                view={defaultViewDetails}
+              />
             )}
           </div>
         </Header.RightItem>

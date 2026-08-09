@@ -55,9 +55,14 @@ const validateFilename = (filename: string): string | null => {
  * @param {File} file
  * @returns {FormData} file upload request payload
  */
-export const generateFileUploadPayload = (signedURLResponse: TFileSignedURLResponse, file: File): FormData => {
+export const generateFileUploadPayload = (
+  signedURLResponse: TFileSignedURLResponse,
+  file: File,
+): FormData => {
   const formData = new FormData();
-  Object.entries(signedURLResponse.upload_data.fields).forEach(([key, value]) => formData.append(key, value));
+  Object.entries(signedURLResponse.upload_data.fields).forEach(([key, value]) =>
+    formData.append(key, value),
+  );
   formData.append("file", file);
   return formData;
 };

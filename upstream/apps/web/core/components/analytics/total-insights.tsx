@@ -26,7 +26,7 @@ const getInsightLabel = (
   analyticsType: TAnalyticsTabsBase,
   item: IInsightField,
   isEpic: boolean | undefined,
-  t: (key: string, params?: Record<string, unknown>) => string
+  t: (key: string, params?: Record<string, unknown>) => string,
 ) => {
   if (analyticsType === "work-items") {
     return isEpic
@@ -60,7 +60,8 @@ const TotalInsights = observer(function TotalInsights({
   const params = useParams();
   const workspaceSlug = params.workspaceSlug.toString();
   const { t } = useTranslation();
-  const { selectedDuration, selectedProjects, selectedCycle, selectedModule, isPeekView, isEpic } = useAnalytics();
+  const { selectedDuration, selectedProjects, selectedCycle, selectedModule, isPeekView, isEpic } =
+    useAnalytics();
   const { data: totalInsightsData, isLoading } = useSWR(
     `total-insights-${analyticsType}-${selectedDuration}-${selectedProjects}-${selectedCycle}-${selectedModule}-${isEpic}`,
     () =>
@@ -74,8 +75,8 @@ const TotalInsights = observer(function TotalInsights({
           ...(selectedModule ? { module_id: selectedModule } : {}),
           ...(isEpic ? { epic: true } : {}),
         },
-        isPeekView
-      )
+        isPeekView,
+      ),
   );
   return (
     <div
@@ -85,7 +86,7 @@ const TotalInsights = observer(function TotalInsights({
           ? ANALYTICS_INSIGHTS_FIELDS[analyticsType]?.length % 5 === 0
             ? "gap-10 lg:grid-cols-5"
             : "gap-8 lg:grid-cols-4"
-          : "grid-cols-2"
+          : "grid-cols-2",
       )}
     >
       {ANALYTICS_INSIGHTS_FIELDS[analyticsType]?.map((item) => (

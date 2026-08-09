@@ -22,7 +22,9 @@ type TProjectBreadcrumbProps = {
   handleOnClick?: () => void;
 };
 
-export const ProjectBreadcrumb = observer(function ProjectBreadcrumb(props: TProjectBreadcrumbProps) {
+export const ProjectBreadcrumb = observer(function ProjectBreadcrumb(
+  props: TProjectBreadcrumbProps,
+) {
   const { workspaceSlug, projectId, handleOnClick } = props;
   // router
   const router = useAppRouter();

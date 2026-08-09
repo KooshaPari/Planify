@@ -37,7 +37,7 @@ const defaultValues: TIssueLinkCreateFormFieldOptions = {
 };
 
 export const IssueLinkCreateUpdateModal = observer(function IssueLinkCreateUpdateModal(
-  props: TIssueLinkCreateEditModal
+  props: TIssueLinkCreateEditModal,
 ) {
   const { isModalOpen, handleOnClose, linkOperations, issueServiceType } = props;
   // i18n
@@ -62,7 +62,8 @@ export const IssueLinkCreateUpdateModal = observer(function IssueLinkCreateUpdat
   const handleFormSubmit = async (formData: TIssueLinkCreateFormFieldOptions) => {
     const parsedUrl = formData.url.startsWith("http") ? formData.url : `http://${formData.url}`;
     try {
-      if (!formData || !formData.id) await linkOperations.create({ title: formData.title, url: parsedUrl });
+      if (!formData || !formData.id)
+        await linkOperations.create({ title: formData.title, url: parsedUrl });
       else await linkOperations.update(formData.id, { title: formData.title, url: parsedUrl });
       onClose();
     } catch (error) {
@@ -106,7 +107,9 @@ export const IssueLinkCreateUpdateModal = observer(function IssueLinkCreateUpdat
                 )}
               />
               {errors.url && (
-                <span className="text-caption-sm-regular text-danger-primary">{t("common.url_is_invalid")}</span>
+                <span className="text-caption-sm-regular text-danger-primary">
+                  {t("common.url_is_invalid")}
+                </span>
               )}
             </div>
             <div>

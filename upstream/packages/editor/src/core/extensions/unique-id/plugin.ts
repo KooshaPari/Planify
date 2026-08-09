@@ -4,7 +4,12 @@
  * See the LICENSE file for details.
  */
 
-import { combineTransactionSteps, findChildrenInRange, findDuplicates, getChangedRanges } from "@tiptap/core";
+import {
+  combineTransactionSteps,
+  findChildrenInRange,
+  findDuplicates,
+  getChangedRanges,
+} from "@tiptap/core";
 import { Fragment, Slice } from "@tiptap/pm/model";
 import type { Node as ProseMirrorNode } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
@@ -23,7 +28,8 @@ export const createUniqueIDPlugin = (options: UniqueIDOptions) => {
     key: new PluginKey("uniqueID"),
     appendTransaction: (transactions, oldState, newState) => {
       const hasDocChanges =
-        transactions.some((transaction) => transaction.docChanged) && !oldState.doc.eq(newState.doc);
+        transactions.some((transaction) => transaction.docChanged) &&
+        !oldState.doc.eq(newState.doc);
       const filterTransactions =
         options.filterTransaction && transactions.some((tr) => !options.filterTransaction?.(tr));
 
@@ -54,11 +60,15 @@ export const createUniqueIDPlugin = (options: UniqueIDOptions) => {
           allNodesInDoc.push({ node, pos });
         }
       });
-      const allIds = allNodesInDoc.map(({ node }) => node.attrs[attributeName]).filter((id) => id !== null);
+      const allIds = allNodesInDoc
+        .map(({ node }) => node.attrs[attributeName])
+        .filter((id) => id !== null);
       const duplicatedIds = findDuplicates(allIds);
 
       changes.forEach(({ newRange }) => {
-        const newNodes = findChildrenInRange(newState.doc, newRange, (node) => types.includes(node.type.name));
+        const newNodes = findChildrenInRange(newState.doc, newRange, (node) =>
+          types.includes(node.type.name),
+        );
 
         newNodes.forEach(({ node, pos }) => {
           // instead of checking `node.attrs[attributeName]` directly
@@ -109,7 +119,9 @@ export const createUniqueIDPlugin = (options: UniqueIDOptions) => {
     // we register a global drag handler to track the current drag source element
     view(view) {
       const handleDragstart = (event: DragEvent) => {
-        dragSourceElement = view.dom.parentElement?.contains(event.target as Element) ? view.dom.parentElement : null;
+        dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
+          ? view.dom.parentElement
+          : null;
       };
 
       window.addEventListener("dragstart", handleDragstart);
@@ -151,7 +163,10 @@ export const createUniqueIDPlugin = (options: UniqueIDOptions) => {
         // or dropped content while holding `alt`
         // or content is dragged from another editor
         drop: (view, event) => {
-          if (dragSourceElement !== view.dom.parentElement || event.dataTransfer?.effectAllowed === "copy") {
+          if (
+            dragSourceElement !== view.dom.parentElement ||
+            event.dataTransfer?.effectAllowed === "copy"
+          ) {
             dragSourceElement = null;
             transformPasted = true;
           }
@@ -199,7 +214,7 @@ export const createUniqueIDPlugin = (options: UniqueIDOptions) => {
                 [attributeName]: null,
               },
               removeId(node.content),
-              node.marks
+              node.marks,
             );
 
             list.push(nodeWithoutId);

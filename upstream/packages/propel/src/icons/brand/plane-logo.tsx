@@ -8,7 +8,12 @@ import * as React from "react";
 
 import type { ISvgIcons } from "../type";
 
-export function PlaneLogo({ width = "85", height = "52", className, color = "currentColor" }: ISvgIcons) {
+export function PlaneLogo({
+  width = "85",
+  height = "52",
+  className,
+  color = "currentColor",
+}: ISvgIcons) {
   return (
     <svg
       width={width}

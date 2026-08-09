@@ -43,7 +43,9 @@ interface Props {
   isEstimateEnabled: boolean;
   quickActions: TRenderQuickActions;
   canEditProperties: (projectId: string | undefined) => boolean;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   portalElement: React.MutableRefObject<HTMLDivElement | null>;
   nestingLevel: number;
   issueId: string;
@@ -77,7 +79,9 @@ export const SpreadsheetIssueRow = observer(function SpreadsheetIssueRow(props: 
   // states
   const [isExpanded, setExpanded] = useState<boolean>(false);
   // store hooks
-  const { subIssues: subIssuesStore } = useIssueDetail(isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES);
+  const { subIssues: subIssuesStore } = useIssueDetail(
+    isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES,
+  );
   const { issueMap } = useIssues();
 
   // derived values
@@ -158,7 +162,9 @@ interface IssueRowDetailsProps {
   isEstimateEnabled: boolean;
   quickActions: TRenderQuickActions;
   canEditProperties: (projectId: string | undefined) => boolean;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   portalElement: React.MutableRefObject<HTMLDivElement | null>;
   nestingLevel: number;
   issueId: string;
@@ -198,7 +204,9 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
   const { workspaceSlug, projectId } = useParams();
   // hooks
   const { getProjectIdentifierById } = useProject();
-  const { getIsIssuePeeked, peekIssue } = useIssueDetail(isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES);
+  const { getIsIssuePeeked, peekIssue } = useIssueDetail(
+    isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES,
+  );
   const { handleRedirection } = useIssuePeekOverviewRedirection(isEpic);
   const { isMobile } = usePlatformOS();
 
@@ -235,7 +243,11 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
     } else {
       setExpanded((prevState) => {
         if (!prevState && workspaceSlug && issueDetail && issueDetail.project_id)
-          subIssuesStore.fetchSubIssues(workspaceSlug.toString(), issueDetail.project_id, issueDetail.id);
+          subIssuesStore.fetchSubIssues(
+            workspaceSlug.toString(),
+            issueDetail.project_id,
+            issueDetail.id,
+          );
         return !prevState;
       });
     }
@@ -280,7 +292,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
                 "border border-accent-strong hover:border-accent-strong":
                   getIsIssuePeeked(issueDetail.id) && nestingLevel === peekIssue?.nestingLevel,
                 "shadow-[8px_22px_22px_10px_rgba(0,0,0,0.05)]": isScrolled.current,
-              }
+              },
             )}
           >
             {/* Identifier section - conditionally rendered */}
@@ -325,7 +337,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
                         "pointer-events-none opacity-0 transition-opacity group-hover/list-block:pointer-events-auto group-hover/list-block:opacity-100",
                         {
                           "pointer-events-auto opacity-100": isIssueSelected,
-                        }
+                        },
                       )}
                       groupId={SPREADSHEET_SELECT_GROUP}
                       id={issueDetail.id}

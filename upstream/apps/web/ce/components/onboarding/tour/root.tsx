@@ -55,7 +55,8 @@ const TOUR_STEPS: {
   {
     key: "modules",
     title: "Break into modules",
-    description: "Modules break your big thing into Projects or Features, to help you organize better.",
+    description:
+      "Modules break your big thing into Projects or Features, to help you organize better.",
     image: ModulesTour,
     prevStep: "cycles",
     nextStep: "views",
@@ -72,7 +73,8 @@ const TOUR_STEPS: {
   {
     key: "pages",
     title: "Document with pages",
-    description: "Use Pages to quickly jot down work items when you're in a meeting or starting a day.",
+    description:
+      "Use Pages to quickly jot down work items when you're in a meeting or starting a day.",
     image: PagesTour,
     prevStep: "views",
   },
@@ -102,8 +104,8 @@ export const TourRoot = observer(function TourRoot(props: TOnboardingTourProps) 
                 Welcome to Plane, {currentUser?.first_name} {currentUser?.last_name}
               </h3>
               <p className="mt-3 text-13 text-secondary">
-                We{"'"}re glad that you decided to try out Plane. You can now manage your projects with ease. Get
-                started by creating a project.
+                We{"'"}re glad that you decided to try out Plane. You can now manage your projects
+                with ease. Get started by creating a project.
               </p>
               <div className="flex h-full items-end">
                 <div className="mt-12 flex items-center gap-6">
@@ -145,7 +147,11 @@ export const TourRoot = observer(function TourRoot(props: TOnboardingTourProps) 
                 currentStepIndex % 2 === 0 ? "justify-end" : "justify-start"
               }`}
             >
-              <img src={currentStep?.image} className="h-full w-full object-cover" alt={currentStep?.title} />
+              <img
+                src={currentStep?.image}
+                className="h-full w-full object-cover"
+                alt={currentStep?.title}
+              />
             </div>
             <div className="flex h-1/2 flex-col overflow-y-auto p-4 sm:h-2/5">
               <h3 className="font-semibold sm:text-18">{currentStep?.title}</h3>
@@ -153,12 +159,18 @@ export const TourRoot = observer(function TourRoot(props: TOnboardingTourProps) 
               <div className="mt-3 flex h-full items-end justify-between gap-4">
                 <div className="flex items-center gap-4">
                   {currentStep?.prevStep && (
-                    <Button variant="secondary" onClick={() => setStep(currentStep.prevStep ?? "welcome")}>
+                    <Button
+                      variant="secondary"
+                      onClick={() => setStep(currentStep.prevStep ?? "welcome")}
+                    >
                       Back
                     </Button>
                   )}
                   {currentStep?.nextStep && (
-                    <Button variant="primary" onClick={() => setStep(currentStep.nextStep ?? "work-items")}>
+                    <Button
+                      variant="primary"
+                      onClick={() => setStep(currentStep.nextStep ?? "work-items")}
+                    >
                       Next
                     </Button>
                   )}

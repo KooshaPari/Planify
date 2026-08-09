@@ -162,7 +162,11 @@ export const CustomLinkExtension = Mark.create<LinkOptions, CustomLinkStorage>({
             return null;
           }
           const href = node.getAttribute("href")?.toLowerCase() || "";
-          if (href.startsWith("javascript:") || href.startsWith("data:") || href.startsWith("vbscript:")) {
+          if (
+            href.startsWith("javascript:") ||
+            href.startsWith("data:") ||
+            href.startsWith("vbscript:")
+          ) {
             return false;
           }
           return {};
@@ -173,8 +177,16 @@ export const CustomLinkExtension = Mark.create<LinkOptions, CustomLinkStorage>({
 
   renderHTML({ HTMLAttributes }) {
     const href = HTMLAttributes.href?.toLowerCase() || "";
-    if (href.startsWith("javascript:") || href.startsWith("data:") || href.startsWith("vbscript:")) {
-      return ["a", mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: "" }), 0];
+    if (
+      href.startsWith("javascript:") ||
+      href.startsWith("data:") ||
+      href.startsWith("vbscript:")
+    ) {
+      return [
+        "a",
+        mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: "" }),
+        0,
+      ];
     }
     return ["a", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
@@ -197,7 +209,10 @@ export const CustomLinkExtension = Mark.create<LinkOptions, CustomLinkStorage>({
       unsetLink:
         () =>
         ({ chain }) =>
-          chain().unsetMark(this.name, { extendEmptyMarkRange: true }).setMeta("preventAutolink", true).run(),
+          chain()
+            .unsetMark(this.name, { extendEmptyMarkRange: true })
+            .setMeta("preventAutolink", true)
+            .run(),
     };
   },
 
@@ -218,7 +233,7 @@ export const CustomLinkExtension = Mark.create<LinkOptions, CustomLinkStorage>({
                     href: link.href,
                   },
                   index: link.start,
-                })
+                }),
               );
             }
           }
@@ -241,7 +256,7 @@ export const CustomLinkExtension = Mark.create<LinkOptions, CustomLinkStorage>({
         autolink({
           type: this.type,
           validate: this.options.validate,
-        })
+        }),
       );
     }
 
@@ -249,7 +264,7 @@ export const CustomLinkExtension = Mark.create<LinkOptions, CustomLinkStorage>({
       plugins.push(
         clickHandler({
           type: this.type,
-        })
+        }),
       );
     }
 
@@ -258,7 +273,7 @@ export const CustomLinkExtension = Mark.create<LinkOptions, CustomLinkStorage>({
         pasteHandler({
           editor: this.editor,
           type: this.type,
-        })
+        }),
       );
     }
 

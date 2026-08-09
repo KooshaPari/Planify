@@ -20,7 +20,7 @@ export function SectionEmptyState(props: Props) {
     <div
       className={cn(
         "flex flex-col items-center justify-center gap-4 rounded-md border border-subtle p-10",
-        customClassName
+        customClassName,
       )}
     >
       <div className="flex flex-col items-center gap-2">

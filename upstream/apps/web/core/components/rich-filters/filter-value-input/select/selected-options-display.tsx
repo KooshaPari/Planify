@@ -19,8 +19,16 @@ type TSelectedOptionsDisplayProps<V extends TFilterValue> = {
   fallbackText?: string;
 };
 
-export function SelectedOptionsDisplay<V extends TFilterValue>(props: TSelectedOptionsDisplayProps<V>) {
-  const { selectedValue, options, displayCount = 2, emptyValue = EMPTY_FILTER_PLACEHOLDER_TEXT, fallbackText } = props;
+export function SelectedOptionsDisplay<V extends TFilterValue>(
+  props: TSelectedOptionsDisplayProps<V>,
+) {
+  const {
+    selectedValue,
+    options,
+    displayCount = 2,
+    emptyValue = EMPTY_FILTER_PLACEHOLDER_TEXT,
+    fallbackText,
+  } = props;
   // derived values
   const selectedArray = toFilterArray(selectedValue);
   const remainingCount = selectedArray.length - displayCount;
@@ -35,7 +43,11 @@ export function SelectedOptionsDisplay<V extends TFilterValue>(props: TSelectedO
 
   // When no options are found but we have a fallback text
   if (options.length === 0) {
-    return <span className="text-placeholder">{fallbackText ?? `${selectedArray.length} option(s) selected`}</span>;
+    return (
+      <span className="text-placeholder">
+        {fallbackText ?? `${selectedArray.length} option(s) selected`}
+      </span>
+    );
   }
 
   return (
@@ -43,10 +55,14 @@ export function SelectedOptionsDisplay<V extends TFilterValue>(props: TSelectedO
       {selectedOptions.slice(0, displayCount).map((option, index) => (
         <React.Fragment key={index}>
           <div className="flex items-center whitespace-nowrap">
-            {option?.icon && <span className={cn("mr-1", option.iconClassName)}>{option.icon}</span>}
+            {option?.icon && (
+              <span className={cn("mr-1", option.iconClassName)}>{option.icon}</span>
+            )}
             <span className="max-w-24 truncate">{option?.label}</span>
           </div>
-          {index < Math.min(displayCount, selectedOptions.length) - 1 && <span className="mx-1 text-tertiary">,</span>}
+          {index < Math.min(displayCount, selectedOptions.length) - 1 && (
+            <span className="mx-1 text-tertiary">,</span>
+          )}
         </React.Fragment>
       ))}
       {remainingCount > 0 && (

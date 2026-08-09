@@ -14,7 +14,12 @@ import { EUserProjectRoles } from "@plane/types";
 import { ContentWrapper, Row, ERowVariant } from "@plane/ui";
 // components
 import { ListLayout } from "@/components/core/list";
-import { ModuleCardItem, ModuleListItem, ModulePeekOverview, ModulesListGanttChartView } from "@/components/modules";
+import {
+  ModuleCardItem,
+  ModuleListItem,
+  ModulePeekOverview,
+  ModulesListGanttChartView,
+} from "@/components/modules";
 import { CycleModuleBoardLayoutLoader } from "@/components/ui/loader/cycle-module-board-loader";
 import { CycleModuleListLayoutLoader } from "@/components/ui/loader/cycle-module-list-loader";
 import { GanttLayoutLoader } from "@/components/ui/loader/layouts/gantt-layout-loader";
@@ -41,7 +46,7 @@ export const ModulesListView = observer(function ModulesListView() {
   const filteredModuleIds = projectId ? getFilteredModuleIds(projectId.toString()) : undefined;
   const canPerformEmptyStateActions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   if (loader || !projectModuleIds || !filteredModuleIds)
@@ -109,7 +114,10 @@ export const ModulesListView = observer(function ModulesListView() {
           </div>
         )}
         <div className="flex-shrink-0">
-          <ModulePeekOverview projectId={projectId?.toString() ?? ""} workspaceSlug={workspaceSlug?.toString() ?? ""} />
+          <ModulePeekOverview
+            projectId={projectId?.toString() ?? ""}
+            workspaceSlug={workspaceSlug?.toString() ?? ""}
+          />
         </div>
       </div>
     </ContentWrapper>

@@ -114,19 +114,30 @@ export function SendTestEmailModal(props: Props) {
                   {sendEmailStep === ESendEmailSteps.SUCCESS && (
                     <div className="flex flex-col gap-y-4 text-13">
                       <p>
-                        We have sent the test email to {receiverEmail}. Please check your spam folder if you cannot find
-                        it.
+                        We have sent the test email to {receiverEmail}. Please check your spam
+                        folder if you cannot find it.
                       </p>
-                      <p>If you still cannot find it, recheck your SMTP configuration and trigger a new test email.</p>
+                      <p>
+                        If you still cannot find it, recheck your SMTP configuration and trigger a
+                        new test email.
+                      </p>
                     </div>
                   )}
-                  {sendEmailStep === ESendEmailSteps.FAILED && <div className="text-13">{error}</div>}
+                  {sendEmailStep === ESendEmailSteps.FAILED && (
+                    <div className="text-13">{error}</div>
+                  )}
                   <div className="mt-5 flex items-center justify-end gap-2">
                     <Button variant="secondary" size="lg" onClick={handleClose} tabIndex={2}>
                       {sendEmailStep === ESendEmailSteps.SEND_EMAIL ? "Cancel" : "Close"}
                     </Button>
                     {sendEmailStep === ESendEmailSteps.SEND_EMAIL && (
-                      <Button variant="primary" size="lg" loading={isLoading} onClick={handleSubmit} tabIndex={3}>
+                      <Button
+                        variant="primary"
+                        size="lg"
+                        loading={isLoading}
+                        onClick={handleSubmit}
+                        tabIndex={3}
+                      >
                         {isLoading ? "Sending email" : "Send email"}
                       </Button>
                     )}

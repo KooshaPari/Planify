@@ -34,7 +34,9 @@ type TIssueAttachmentItemList = {
   issueServiceType?: TIssueServiceType;
 };
 
-export const IssueAttachmentItemList = observer(function IssueAttachmentItemList(props: TIssueAttachmentItemList) {
+export const IssueAttachmentItemList = observer(function IssueAttachmentItemList(
+  props: TIssueAttachmentItemList,
+) {
   const {
     workspaceSlug,
     projectId,
@@ -100,7 +102,7 @@ export const IssueAttachmentItemList = observer(function IssueAttachmentItemList
       });
       return;
     },
-    [createAttachment, maxFileSize, workspaceSlug, handleFetchPropertyActivities]
+    [createAttachment, maxFileSize, workspaceSlug, handleFetchPropertyActivities],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

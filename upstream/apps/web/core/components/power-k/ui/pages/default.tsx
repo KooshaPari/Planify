@@ -23,5 +23,7 @@ export function PowerKModalDefaultPage(props: Props) {
   // Get commands to display
   const commands = commandRegistry.getVisibleCommands(context);
 
-  return <CommandRenderer context={context} commands={commands} onCommandSelect={onCommandSelect} />;
+  return (
+    <CommandRenderer context={context} commands={commands} onCommandSelect={onCommandSelect} />
+  );
 }

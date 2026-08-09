@@ -9,7 +9,11 @@ import { useCallback, useEffect } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // plane imports
-import { EIssueGroupByToServerOptions, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import {
+  EIssueGroupByToServerOptions,
+  EUserPermissions,
+  EUserPermissionsLevel,
+} from "@plane/constants";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TGroupedIssues } from "@plane/types";
 import { EIssuesStoreType } from "@plane/types";
@@ -76,7 +80,7 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
 
   const isEditingAllowed = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   const { enableInlineEditing } = issues?.viewFlags || {};
@@ -99,7 +103,7 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
           after: startDate,
           groupedBy: EIssueGroupByToServerOptions["target_date"],
         },
-        viewId
+        viewId,
       );
     }
   }, [fetchIssues, storeType, startDate, endDate, layout, viewId]);
@@ -108,7 +112,7 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
     issueId: string | undefined,
     issueProjectId: string | undefined,
     sourceDate: string | undefined,
-    destinationDate: string | undefined
+    destinationDate: string | undefined,
   ) => {
     if (!issueId || !destinationDate || !sourceDate || !issueProjectId) return;
 
@@ -118,7 +122,7 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
       destinationDate,
       workspaceSlug?.toString(),
       issueProjectId,
-      updateIssue
+      updateIssue,
     ).catch((err) => {
       setToast({
         title: "Error!",
@@ -132,27 +136,29 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
     (dateString: string) => {
       fetchNextIssues(dateString);
     },
-    [fetchNextIssues]
+    [fetchNextIssues],
   );
 
   const getPaginationData = useCallback(
     (groupId: string | undefined) => issues?.getPaginationData(groupId, undefined),
-    [issues?.getPaginationData]
+    [issues?.getPaginationData],
   );
 
   const getGroupIssueCount = useCallback(
     (groupId: string | undefined) => issues?.getGroupIssueCount(groupId, undefined, false),
-    [issues?.getGroupIssueCount]
+    [issues?.getGroupIssueCount],
   );
 
   const canEditProperties = useCallback(
     (projectId: string | undefined) => {
       const isEditingAllowedBasedOnProject =
-        canEditPropertiesBasedOnProject && projectId ? canEditPropertiesBasedOnProject(projectId) : isEditingAllowed;
+        canEditPropertiesBasedOnProject && projectId
+          ? canEditPropertiesBasedOnProject(projectId)
+          : isEditingAllowed;
 
       return enableInlineEditing && isEditingAllowedBasedOnProject;
     },
-    [canEditPropertiesBasedOnProject, enableInlineEditing, isEditingAllowed]
+    [canEditPropertiesBasedOnProject, enableInlineEditing, isEditingAllowed],
   );
 
   return (
@@ -171,8 +177,12 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
               customActionButton={customActionButton}
               issue={issue}
               handleDelete={async () => removeIssue(issue.project_id, issue.id)}
-              handleUpdate={async (data) => updateIssue && updateIssue(issue.project_id, issue.id, data)}
-              handleRemoveFromView={async () => removeIssueFromView && removeIssueFromView(issue.project_id, issue.id)}
+              handleUpdate={async (data) =>
+                updateIssue && updateIssue(issue.project_id, issue.id, data)
+              }
+              handleRemoveFromView={async () =>
+                removeIssueFromView && removeIssueFromView(issue.project_id, issue.id)
+              }
               handleArchive={async () => archiveIssue && archiveIssue(issue.project_id, issue.id)}
               handleRestore={async () => restoreIssue && restoreIssue(issue.project_id, issue.id)}
               readOnly={!canEditProperties(issue.project_id ?? undefined) || isCompletedCycle}

@@ -58,7 +58,9 @@ export class Server {
     // Security middleware
     this.app.use(helmet());
     // Middleware for response compression
-    this.app.use(compression({ level: env.COMPRESSION_LEVEL, threshold: env.COMPRESSION_THRESHOLD }));
+    this.app.use(
+      compression({ level: env.COMPRESSION_LEVEL, threshold: env.COMPRESSION_THRESHOLD }),
+    );
     // Logging middleware
     this.app.use(loggerMiddleware);
     // Body parsing middleware
@@ -76,7 +78,7 @@ export class Server {
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
-      })
+      }),
     );
   }
 
@@ -89,7 +91,9 @@ export class Server {
   }
 
   private setupRoutes(hocuspocusServer: Hocuspocus) {
-    CONTROLLERS.forEach((controller) => registerController(this.router, controller, [hocuspocusServer]));
+    CONTROLLERS.forEach((controller) =>
+      registerController(this.router, controller, [hocuspocusServer]),
+    );
   }
 
   public listen() {

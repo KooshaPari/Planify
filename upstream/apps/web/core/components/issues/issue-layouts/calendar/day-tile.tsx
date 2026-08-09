@@ -10,7 +10,13 @@ import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element
 import { differenceInCalendarDays } from "date-fns/differenceInCalendarDays";
 import { observer } from "mobx-react";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { TGroupedIssues, TIssue, TIssueMap, TPaginationData, ICalendarDate } from "@plane/types";
+import type {
+  TGroupedIssues,
+  TIssue,
+  TIssueMap,
+  TPaginationData,
+  ICalendarDate,
+} from "@plane/types";
 // types
 // ui
 // components
@@ -28,7 +34,11 @@ import type { TRenderQuickActions } from "../list/list-view-types";
 import { CalendarIssueBlocks } from "./issue-blocks";
 
 type Props = {
-  issuesFilterStore: IProjectIssuesFilter | IModuleIssuesFilter | ICycleIssuesFilter | IProjectViewIssuesFilter;
+  issuesFilterStore:
+    | IProjectIssuesFilter
+    | IModuleIssuesFilter
+    | ICycleIssuesFilter
+    | IProjectViewIssuesFilter;
   date: ICalendarDate;
   issues: TIssueMap | undefined;
   groupedIssueIds: TGroupedIssues;
@@ -37,13 +47,16 @@ type Props = {
   getGroupIssueCount: (groupId: string | undefined) => number | undefined;
   enableQuickIssueCreate?: boolean;
   disableIssueCreation?: boolean;
-  quickAddCallback?: (projectId: string | null | undefined, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddCallback?: (
+    projectId: string | null | undefined,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   quickActions: TRenderQuickActions;
   handleDragAndDrop: (
     issueId: string | undefined,
     issueProjectId: string | undefined,
     sourceDate: string | undefined,
-    destinationDate: string | undefined
+    destinationDate: string | undefined,
   ) => Promise<void>;
   addIssuesToView?: (issueIds: string[]) => Promise<any>;
   readOnly?: boolean;
@@ -77,7 +90,8 @@ export const CalendarDayTile = observer(function CalendarDayTile(props: Props) {
 
   const [isDraggingOver, setIsDraggingOver] = useState(false);
 
-  const calendarLayout = issuesFilterStore?.issueFilters?.displayFilters?.calendar?.layout ?? "month";
+  const calendarLayout =
+    issuesFilterStore?.issueFilters?.displayFilters?.calendar?.layout ?? "month";
 
   const formattedDatePayload = renderFormattedPayloadDate(date.date);
 
@@ -123,11 +137,11 @@ export const CalendarDayTile = observer(function CalendarDayTile(props: Props) {
             sourceData?.id,
             issueDetails?.project_id ?? undefined,
             sourceData?.date,
-            destinationData?.date
+            destinationData?.date,
           );
           highlightIssueOnDrop(source?.element?.id, false);
         },
-      })
+      }),
     );
   }, [dayTileRef?.current, formattedDatePayload]);
 
@@ -173,7 +187,7 @@ export const CalendarDayTile = observer(function CalendarDayTile(props: Props) {
               `h-full w-full select-none ${isDraggingOver ? `${draggingOverBackground} opacity-70` : normalBackground}`,
               {
                 "min-h-[5rem]": isMonthLayout,
-              }
+              },
             )}
           >
             <CalendarIssueBlocks
@@ -202,7 +216,7 @@ export const CalendarDayTile = observer(function CalendarDayTile(props: Props) {
             "mx-auto flex h-full w-full cursor-pointer flex-col items-center justify-start py-2.5 text-13 font-medium opacity-80 md:hidden",
             {
               "bg-layer-2": !isWeekend,
-            }
+            },
           )}
         >
           <div

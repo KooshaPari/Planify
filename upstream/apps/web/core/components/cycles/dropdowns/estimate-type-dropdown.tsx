@@ -26,7 +26,8 @@ export const EstimateTypeDropdown = observer(function EstimateTypeDropdown(props
   const { value, onChange, projectId, cycleId, showDefault = false } = props;
   const { getIsPointsDataAvailable } = useCycle();
   const { areEstimateEnabledByProjectId, currentProjectEstimateType } = useProjectEstimates();
-  const isCurrentProjectEstimateEnabled = projectId && areEstimateEnabledByProjectId(projectId) ? true : false;
+  const isCurrentProjectEstimateEnabled =
+    projectId && areEstimateEnabledByProjectId(projectId) ? true : false;
   return (getIsPointsDataAvailable(cycleId) || isCurrentProjectEstimateEnabled) &&
     currentProjectEstimateType !== EEstimateSystem.CATEGORIES ? (
     <div className="relative flex items-center gap-2">
@@ -45,6 +46,8 @@ export const EstimateTypeDropdown = observer(function EstimateTypeDropdown(props
       </CustomSelect>
     </div>
   ) : showDefault ? (
-    <span className="capitalize">{cycleEstimateOptions.find((v) => v.value === value)?.label ?? value}</span>
+    <span className="capitalize">
+      {cycleEstimateOptions.find((v) => v.value === value)?.label ?? value}
+    </span>
   ) : null;
 });

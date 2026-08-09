@@ -64,7 +64,7 @@ function DocumentEditor(props: IDocumentEditorProps) {
           name: "",
           color: "",
         },
-      })
+      }),
     );
     return additionalExtensions;
   }, [disabledExtensions, editable, extendedEditorProps, fileHandler, flaggedExtensions, user]);
@@ -110,7 +110,7 @@ function DocumentEditor(props: IDocumentEditorProps) {
 
 const DocumentEditorWithRef = forwardRef(function DocumentEditorWithRef(
   props: IDocumentEditorProps,
-  ref: React.ForwardedRef<EditorRefApi>
+  ref: React.ForwardedRef<EditorRefApi>,
 ) {
   return <DocumentEditor {...props} forwardedRef={ref as MutableRefObject<EditorRefApi | null>} />;
 });

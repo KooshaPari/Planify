@@ -108,9 +108,13 @@ export class FilterConfigManager<
    * @returns All available filterConfigs.
    */
   get allAvailableConfigs(): IFilterConfigManager<P>["allAvailableConfigs"] {
-    const appliedProperties = new Set(this._filterInstance.allConditions.map((condition) => condition.property));
+    const appliedProperties = new Set(
+      this._filterInstance.allConditions.map((condition) => condition.property),
+    );
     // Return all enabled configs that either allow multiple filters or are not currently applied
-    return this._allEnabledConfigs.filter((config) => config.allowMultipleFilters || !appliedProperties.has(config.id));
+    return this._allEnabledConfigs.filter(
+      (config) => config.allowMultipleFilters || !appliedProperties.has(config.id),
+    );
   }
 
   // ------------ computed functions ------------
@@ -121,7 +125,7 @@ export class FilterConfigManager<
    * @returns The config for the property, or undefined if not found.
    */
   getConfigByProperty: IFilterConfigManager<P>["getConfigByProperty"] = computedFn(
-    (property) => this.filterConfigs.get(property) as IFilterConfig<P>
+    (property) => this.filterConfigs.get(property) as IFilterConfig<P>,
   );
 
   // ------------ helpers ------------
@@ -156,10 +160,12 @@ export class FilterConfigManager<
    * @param property - The property of the config to update.
    * @param configUpdates - The updates to apply to the config.
    */
-  updateConfigByProperty: IFilterConfigManager<P>["updateConfigByProperty"] = action((property, configUpdates) => {
-    const prevConfig = this.filterConfigs.get(property);
-    prevConfig?.mutate(configUpdates);
-  });
+  updateConfigByProperty: IFilterConfigManager<P>["updateConfigByProperty"] = action(
+    (property, configUpdates) => {
+      const prevConfig = this.filterConfigs.get(property);
+      prevConfig?.mutate(configUpdates);
+    },
+  );
 
   /**
    * Updates the configs ready state.
@@ -191,6 +197,8 @@ export class FilterConfigManager<
    * @returns The initialized config options.
    */
   private _initializeConfigOptions(options?: Partial<TConfigOptions>): TConfigOptions {
-    return DEFAULT_FILTER_CONFIG_OPTIONS ? { ...DEFAULT_FILTER_CONFIG_OPTIONS, ...options } : options || {};
+    return DEFAULT_FILTER_CONFIG_OPTIONS
+      ? { ...DEFAULT_FILTER_CONFIG_OPTIONS, ...options }
+      : options || {};
   }
 }

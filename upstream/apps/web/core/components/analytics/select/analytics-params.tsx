@@ -32,11 +32,11 @@ export const AnalyticsSelectParams = observer(function AnalyticsSelectParams(pro
   const { control, params, classNames, isEpic } = props;
   const xAxisOptions = useMemo(
     () => ANALYTICS_X_AXIS_VALUES.filter((option) => option.value !== params.group_by),
-    [params.group_by]
+    [params.group_by],
   );
   const groupByOptions = useMemo(
     () => ANALYTICS_X_AXIS_VALUES.filter((option) => option.value !== params.x_axis),
-    [params.x_axis]
+    [params.x_axis],
   );
 
   return (

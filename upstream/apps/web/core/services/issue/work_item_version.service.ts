@@ -7,7 +7,11 @@
 // plane imports
 import { API_BASE_URL } from "@plane/constants";
 import { EIssueServiceType } from "@plane/types";
-import type { TDescriptionVersionsListResponse, TDescriptionVersionDetails, TIssueServiceType } from "@plane/types";
+import type {
+  TDescriptionVersionsListResponse,
+  TDescriptionVersionDetails,
+  TIssueServiceType,
+} from "@plane/types";
 // helpers
 // services
 import { APIService } from "@/services/api.service";
@@ -23,10 +27,10 @@ export class WorkItemVersionService extends APIService {
   async listDescriptionVersions(
     workspaceSlug: string,
     projectId: string,
-    workItemId: string
+    workItemId: string,
   ): Promise<TDescriptionVersionsListResponse> {
     return this.get(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${workItemId}/description-versions/`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${workItemId}/description-versions/`,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -38,10 +42,10 @@ export class WorkItemVersionService extends APIService {
     workspaceSlug: string,
     projectId: string,
     workItemId: string,
-    versionId: string
+    versionId: string,
   ): Promise<TDescriptionVersionDetails> {
     return this.get(
-      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${workItemId}/description-versions/${versionId}/`
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${workItemId}/description-versions/${versionId}/`,
     )
       .then((response) => response?.data)
       .catch((error) => {

@@ -25,7 +25,15 @@ export type TReadonlyStateProps = {
 };
 
 export const ReadonlyState = observer(function ReadonlyState(props: TReadonlyStateProps) {
-  const { className, iconSize = "size-4", hideIcon = false, value, placeholder, projectId, workspaceSlug } = props;
+  const {
+    className,
+    iconSize = "size-4",
+    hideIcon = false,
+    value,
+    placeholder,
+    projectId,
+    workspaceSlug,
+  } = props;
   // states
   const [stateLoader, setStateLoader] = useState(false);
   const { t } = useTranslation();

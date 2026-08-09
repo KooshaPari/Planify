@@ -34,8 +34,11 @@ export type TCreateProjectFormProps = {
   updateCoverImageStatus: (projectId: string, coverImage: string) => Promise<void>;
 };
 
-export const CreateProjectForm = observer(function CreateProjectForm(props: TCreateProjectFormProps) {
-  const { setToFavorite, workspaceSlug, data, onClose, handleNextStep, updateCoverImageStatus } = props;
+export const CreateProjectForm = observer(function CreateProjectForm(
+  props: TCreateProjectFormProps,
+) {
+  const { setToFavorite, workspaceSlug, data, onClose, handleNextStep, updateCoverImageStatus } =
+    props;
   // store
   const { t } = useTranslation();
   const { addProjectToFavorites, createProject, updateProject } = useProject();
@@ -96,7 +99,9 @@ export const CreateProjectForm = observer(function CreateProjectForm(props: TCre
       .then(async (res) => {
         if (uploadedAssetUrl) {
           await updateCoverImageStatus(res.id, uploadedAssetUrl);
-          await updateProject(workspaceSlug.toString(), res.id, { cover_image_url: uploadedAssetUrl });
+          await updateProject(workspaceSlug.toString(), res.id, {
+            cover_image_url: uploadedAssetUrl,
+          });
         } else if (coverImage && coverImage.startsWith("http")) {
           await updateCoverImageStatus(res.id, coverImage);
           await updateProject(workspaceSlug.toString(), res.id, { cover_image_url: coverImage });
@@ -118,8 +123,12 @@ export const CreateProjectForm = observer(function CreateProjectForm(props: TCre
           const errorData = err?.data ?? {};
 
           const nameError = errorData.name?.includes("PROJECT_NAME_ALREADY_EXIST");
-          const identifierError = errorData?.identifier?.includes("PROJECT_IDENTIFIER_ALREADY_EXIST");
-          const nameSpecialCharError = errorData?.name?.includes("PROJECT_NAME_CANNOT_CONTAIN_SPECIAL_CHARACTERS");
+          const identifierError = errorData?.identifier?.includes(
+            "PROJECT_IDENTIFIER_ALREADY_EXIST",
+          );
+          const nameSpecialCharError = errorData?.name?.includes(
+            "PROJECT_NAME_CANNOT_CONTAIN_SPECIAL_CHARACTERS",
+          );
 
           if (nameError || identifierError || nameSpecialCharError) {
             if (nameError) {

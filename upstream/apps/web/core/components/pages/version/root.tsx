@@ -15,7 +15,10 @@ import { useQueryParams } from "@/hooks/use-query-params";
 // plane web imports
 import type { EPageStoreType } from "@/hooks/store";
 // local imports
-import { PAGE_NAVIGATION_PANE_VERSION_QUERY_PARAM, PAGE_NAVIGATION_PANE_WIDTH } from "../navigation-pane";
+import {
+  PAGE_NAVIGATION_PANE_VERSION_QUERY_PARAM,
+  PAGE_NAVIGATION_PANE_WIDTH,
+} from "../navigation-pane";
 import type { TVersionEditorProps } from "./editor";
 import { PageVersionsMainContent } from "./main-content";
 
@@ -29,7 +32,8 @@ type Props = {
 };
 
 export const PageVersionsOverlay = observer(function PageVersionsOverlay(props: Props) {
-  const { editorComponent, fetchVersionDetails, handleRestore, pageId, restoreEnabled, storeType } = props;
+  const { editorComponent, fetchVersionDetails, handleRestore, pageId, restoreEnabled, storeType } =
+    props;
   // navigation
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -52,7 +56,7 @@ export const PageVersionsOverlay = observer(function PageVersionsOverlay(props: 
         "pointer-events-none absolute inset-0 z-[16] flex h-full overflow-hidden bg-surface-1 opacity-0 transition-opacity",
         {
           "pointer-events-auto opacity-100": isOpen,
-        }
+        },
       )}
       style={{
         width: `calc(100% - ${PAGE_NAVIGATION_PANE_WIDTH}px)`,

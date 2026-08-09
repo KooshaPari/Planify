@@ -12,7 +12,11 @@ import { useParams, usePathname } from "next/navigation";
 import { Ellipsis } from "lucide-react";
 import { Disclosure, Transition } from "@headlessui/react";
 // plane imports
-import { EUserPermissions, EUserPermissionsLevel, PROJECT_TRACKER_ELEMENTS } from "@plane/constants";
+import {
+  EUserPermissions,
+  EUserPermissionsLevel,
+  PROJECT_TRACKER_ELEMENTS,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { PlusIcon, ChevronRightIcon } from "@plane/propel/icons";
 import { IconButton } from "@plane/propel/icon-button";
@@ -48,7 +52,12 @@ export const SidebarProjectsList = observer(function SidebarProjectsList() {
   const { preferences: projectPreferences } = useProjectNavigationPreferences();
   const { isExtendedProjectSidebarOpened, toggleExtendedProjectSidebar } = useAppTheme();
 
-  const { loader, getPartialProjectById, joinedProjectIds: joinedProjects, updateProjectView } = useProject();
+  const {
+    loader,
+    getPartialProjectById,
+    joinedProjectIds: joinedProjects,
+    updateProjectView,
+  } = useProject();
   // router params
   const { workspaceSlug } = useParams();
   const pathname = usePathname();
@@ -56,7 +65,7 @@ export const SidebarProjectsList = observer(function SidebarProjectsList() {
   // auth
   const isAuthorizedUser = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   // Compute limited projects for main sidebar
@@ -66,7 +75,8 @@ export const SidebarProjectsList = observer(function SidebarProjectsList() {
 
   // Check if there are more projects to show
   const hasMoreProjects =
-    projectPreferences.showLimitedProjects && joinedProjects.length > projectPreferences.limitedProjectsCount;
+    projectPreferences.showLimitedProjects &&
+    joinedProjects.length > projectPreferences.limitedProjectsCount;
 
   const handleCopyText = (projectId: string) => {
     copyUrlToClipboard(`${workspaceSlug}/projects/${projectId}/issues`).then(() => {
@@ -81,7 +91,7 @@ export const SidebarProjectsList = observer(function SidebarProjectsList() {
   const handleOnProjectDrop = (
     sourceId: string | undefined,
     destinationId: string | undefined,
-    shouldDropAtEnd: boolean
+    shouldDropAtEnd: boolean,
   ) => {
     if (!sourceId || !destinationId || !workspaceSlug) return;
     if (sourceId === destinationId) return;
@@ -93,19 +103,28 @@ export const SidebarProjectsList = observer(function SidebarProjectsList() {
     });
 
     const sourceIndex = joinedProjects.indexOf(sourceId);
-    const destinationIndex = shouldDropAtEnd ? joinedProjects.length : joinedProjects.indexOf(destinationId);
+    const destinationIndex = shouldDropAtEnd
+      ? joinedProjects.length
+      : joinedProjects.indexOf(destinationId);
 
     if (joinedProjectsList.length <= 0) return;
 
-    const updatedSortOrder = orderJoinedProjects(sourceIndex, destinationIndex, sourceId, joinedProjectsList);
+    const updatedSortOrder = orderJoinedProjects(
+      sourceIndex,
+      destinationIndex,
+      sourceId,
+      joinedProjectsList,
+    );
     if (updatedSortOrder != undefined)
-      updateProjectView(workspaceSlug.toString(), sourceId, { sort_order: updatedSortOrder }).catch(() => {
-        setToast({
-          type: TOAST_TYPE.ERROR,
-          title: t("error"),
-          message: t("something_went_wrong"),
-        });
-      });
+      updateProjectView(workspaceSlug.toString(), sourceId, { sort_order: updatedSortOrder }).catch(
+        () => {
+          setToast({
+            type: TOAST_TYPE.ERROR,
+            title: t("error"),
+            message: t("something_went_wrong"),
+          });
+        },
+      );
   };
 
   /**
@@ -139,7 +158,7 @@ export const SidebarProjectsList = observer(function SidebarProjectsList() {
         element,
         canScroll: ({ source }) => source?.data?.dragInstanceId === "PROJECTS",
         getAllowedAxis: () => "vertical",
-      })
+      }),
     );
   }, [containerRef]);
 
@@ -180,7 +199,7 @@ export const SidebarProjectsList = observer(function SidebarProjectsList() {
                 aria-label={t(
                   isAllProjectsListOpen
                     ? "aria_labels.projects_sidebar.close_projects_menu"
-                    : "aria_labels.projects_sidebar.open_projects_menu"
+                    : "aria_labels.projects_sidebar.open_projects_menu",
                 )}
               >
                 <span className="text-13 font-semibold">{t("projects")}</span>
@@ -213,7 +232,7 @@ export const SidebarProjectsList = observer(function SidebarProjectsList() {
                   aria-label={t(
                     isAllProjectsListOpen
                       ? "aria_labels.projects_sidebar.close_projects_menu"
-                      : "aria_labels.projects_sidebar.open_projects_menu"
+                      : "aria_labels.projects_sidebar.open_projects_menu",
                   )}
                 />
               </div>
@@ -259,7 +278,7 @@ export const SidebarProjectsList = observer(function SidebarProjectsList() {
                           aria-label={t(
                             isExtendedProjectSidebarOpened
                               ? "aria_labels.app_sidebar.close_extended_sidebar"
-                              : "aria_labels.app_sidebar.open_extended_sidebar"
+                              : "aria_labels.app_sidebar.open_extended_sidebar",
                           )}
                         >
                           <Ellipsis className="size-4 flex-shrink-0" />

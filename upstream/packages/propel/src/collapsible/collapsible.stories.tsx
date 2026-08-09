@@ -62,10 +62,16 @@ export const Controlled: Story = {
     return (
       <div className="space-y-4">
         <div className="flex gap-2">
-          <button onClick={() => setIsOpen(true)} className="bg-blue-500 rounded-sm px-4 py-2 text-13 text-on-color">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="bg-blue-500 rounded-sm px-4 py-2 text-13 text-on-color"
+          >
             Open
           </button>
-          <button onClick={() => setIsOpen(false)} className="bg-gray-500 rounded-sm px-4 py-2 text-13 text-on-color">
+          <button
+            onClick={() => setIsOpen(false)}
+            className="bg-gray-500 rounded-sm px-4 py-2 text-13 text-on-color"
+          >
             Close
           </button>
           <button
@@ -75,7 +81,11 @@ export const Controlled: Story = {
             Toggle
           </button>
         </div>
-        <Collapsible.CollapsibleRoot isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} className="w-96">
+        <Collapsible.CollapsibleRoot
+          isOpen={isOpen}
+          onToggle={() => setIsOpen(!isOpen)}
+          className="w-96"
+        >
           <Collapsible.CollapsibleTrigger className="bg-gray-100 hover:bg-gray-200 flex w-full items-center justify-between rounded-md px-4 py-2">
             <span className="font-semibold">Controlled Collapsible</span>
             <ChevronDownIcon className="h-4 w-4 transition-transform group-data-[panel-open]:rotate-180" />
@@ -96,7 +106,12 @@ export const NestedContent: Story = {
   render(args) {
     const [isOpen, setIsOpen] = useState(args.isOpen);
     return (
-      <Collapsible.CollapsibleRoot {...args} isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} className="w-96">
+      <Collapsible.CollapsibleRoot
+        {...args}
+        isOpen={isOpen}
+        onToggle={() => setIsOpen(!isOpen)}
+        className="w-96"
+      >
         <Collapsible.CollapsibleTrigger className="bg-gray-100 hover:bg-gray-200 flex w-full items-center justify-between rounded-md px-4 py-2">
           <span className="font-semibold">Collapsible with Nested Content</span>
           <ChevronDownIcon className="h-4 w-4 transition-transform group-data-[panel-open]:rotate-180" />
@@ -123,14 +138,21 @@ export const CustomStyling: Story = {
   render(args) {
     const [isOpen, setIsOpen] = useState(args.isOpen);
     return (
-      <Collapsible.CollapsibleRoot {...args} isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} className="w-96">
+      <Collapsible.CollapsibleRoot
+        {...args}
+        isOpen={isOpen}
+        onToggle={() => setIsOpen(!isOpen)}
+        className="w-96"
+      >
         <Collapsible.CollapsibleTrigger className="from-purple-500 to-pink-500 shadow-lg hover:shadow-xl flex w-full items-center justify-between rounded-lg bg-gradient-to-r px-6 py-3 text-on-color transition-all">
           <span className="text-16 font-bold">Custom Styled Trigger</span>
           <ChevronDownIcon className="h-5 w-5 transition-transform group-data-[panel-open]:rotate-180" />
         </Collapsible.CollapsibleTrigger>
         <Collapsible.CollapsibleContent className="mt-4">
           <div className="from-purple-100 to-pink-100 shadow-md rounded-lg bg-gradient-to-br p-6">
-            <p className="text-purple-900">This collapsible has custom styling with gradients, shadows, and colors.</p>
+            <p className="text-purple-900">
+              This collapsible has custom styling with gradients, shadows, and colors.
+            </p>
           </div>
         </Collapsible.CollapsibleContent>
       </Collapsible.CollapsibleRoot>

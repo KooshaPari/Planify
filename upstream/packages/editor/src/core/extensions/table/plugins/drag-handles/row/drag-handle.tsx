@@ -145,7 +145,8 @@ export function RowDragHandle(props: RowDragHandleProps) {
       const tableElement = editor.view.nodeDOM(table.pos);
 
       const dropMarker = tableElement instanceof HTMLElement ? getDropMarker(tableElement) : null;
-      const dragMarker = tableElement instanceof HTMLElement ? getRowDragMarker(tableElement) : null;
+      const dragMarker =
+        tableElement instanceof HTMLElement ? getRowDragMarker(tableElement) : null;
 
       const handleFinish = (): void => {
         if (!dropMarker || !dragMarker) return;
@@ -191,8 +192,12 @@ export function RowDragHandle(props: RowDragHandleProps) {
         }
 
         const dragMarkerHeightPx = rows[row].height;
-        const dragMarkerTopPx = Math.max(0, Math.min(cursorTop, tableHeightPx - dragMarkerHeightPx));
-        const dropMarkerTopPx = dropIndex <= row ? rows[dropIndex].top : rows[dropIndex].top + rows[dropIndex].height;
+        const dragMarkerTopPx = Math.max(
+          0,
+          Math.min(cursorTop, tableHeightPx - dragMarkerHeightPx),
+        );
+        const dropMarkerTopPx =
+          dropIndex <= row ? rows[dropIndex].top : rows[dropIndex].top + rows[dropIndex].height;
 
         updateRowDropMarker({
           element: dropMarker,
@@ -218,7 +223,7 @@ export function RowDragHandle(props: RowDragHandleProps) {
         handleFinish();
       }
     },
-    [editor, row]
+    [editor, row],
   );
 
   return (
@@ -229,10 +234,13 @@ export function RowDragHandle(props: RowDragHandleProps) {
           {...getReferenceProps()}
           type="button"
           onMouseDown={handleMouseDown}
-          className={cn("rounded-sm border border-strong-1 bg-layer-1 py-1 transition-all duration-200 outline-none", {
-            "border-accent-strong bg-accent-primary !opacity-100": isDropdownOpen,
-            "hover:bg-layer-1-hover": !isDropdownOpen,
-          })}
+          className={cn(
+            "rounded-sm border border-strong-1 bg-layer-1 py-1 transition-all duration-200 outline-none",
+            {
+              "border-accent-strong bg-accent-primary !opacity-100": isDropdownOpen,
+              "hover:bg-layer-1-hover": !isDropdownOpen,
+            },
+          )}
         >
           <Ellipsis className="size-4 rotate-90 text-primary" />
         </button>

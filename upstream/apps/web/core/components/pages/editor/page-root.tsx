@@ -8,7 +8,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 // plane imports
 import type { CollaborationState, EditorRefApi } from "@plane/editor";
-import type { TDocumentPayload, TPage, TPageVersion, TWebhookConnectionQueryParams } from "@plane/types";
+import type {
+  TDocumentPayload,
+  TPage,
+  TPageVersion,
+  TWebhookConnectionQueryParams,
+} from "@plane/types";
 // hooks
 import { usePageFallback } from "@/hooks/use-page-fallback";
 // plane web import
@@ -87,7 +92,7 @@ export const PageRoot = observer(function PageRoot(props: TPageRootProps) {
         setEditorRef(editorRef.current);
       }
     },
-    [page.editor.editorRef, setEditorRef]
+    [page.editor.editorRef, setEditorRef],
   );
 
   useEffect(() => {
@@ -141,7 +146,7 @@ export const PageRoot = observer(function PageRoot(props: TPageRootProps) {
       editorRef.current?.clearEditor();
       editorRef.current?.setEditorValue(descriptionHTML);
     },
-    [editorRef]
+    [editorRef],
   );
 
   // reset editor ref on unmount
@@ -149,7 +154,7 @@ export const PageRoot = observer(function PageRoot(props: TPageRootProps) {
     () => () => {
       setEditorRef(null);
     },
-    [setEditorRef]
+    [setEditorRef],
   );
 
   return (

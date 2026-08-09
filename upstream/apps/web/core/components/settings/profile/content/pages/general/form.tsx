@@ -50,7 +50,9 @@ type Props = {
   profile: TUserProfile;
 };
 
-export const GeneralProfileSettingsForm = observer(function GeneralProfileSettingsForm(props: Props) {
+export const GeneralProfileSettingsForm = observer(function GeneralProfileSettingsForm(
+  props: Props,
+) {
   const { user, profile } = props;
   // states
   const [isLoading, setIsLoading] = useState(false);
@@ -126,11 +128,15 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
     };
 
     try {
-      const coverImagePayload = await handleCoverImageChange(user.cover_image_url, formData.cover_image_url, {
-        entityIdentifier: "",
-        entityType: EFileAssetType.USER_COVER,
-        isUserAsset: true,
-      });
+      const coverImagePayload = await handleCoverImageChange(
+        user.cover_image_url,
+        formData.cover_image_url,
+        {
+          entityIdentifier: "",
+          entityType: EFileAssetType.USER_COVER,
+          isUserAsset: true,
+        },
+      );
 
       if (coverImagePayload) {
         Object.assign(userPayload, coverImagePayload);
@@ -166,7 +172,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
           throw rejectedResult.reason ?? new Error("Failed to update profile");
         }
         const values = results.map(
-          (result) => (result as PromiseFulfilledResult<IUser | TUserProfile | undefined>).value
+          (result) => (result as PromiseFulfilledResult<IUser | TUserProfile | undefined>).value,
         );
         if (values.some((v) => v === undefined)) {
           throw new Error("Failed to update profile");
@@ -190,8 +196,14 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
 
   return (
     <>
-      <DeactivateAccountModal isOpen={deactivateAccountModal} onClose={() => setDeactivateAccountModal(false)} />
-      <ChangeEmailModal isOpen={isChangeEmailModalOpen} onClose={() => setIsChangeEmailModalOpen(false)} />
+      <DeactivateAccountModal
+        isOpen={deactivateAccountModal}
+        onClose={() => setDeactivateAccountModal(false)}
+      />
+      <ChangeEmailModal
+        isOpen={isChangeEmailModalOpen}
+        onClose={() => setIsChangeEmailModalOpen(false)}
+      />
       <Controller
         control={control}
         name="avatar_url"
@@ -294,7 +306,9 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                     />
                   )}
                 />
-                {errors.first_name && <span className="text-11 text-danger-primary">{errors.first_name.message}</span>}
+                {errors.first_name && (
+                  <span className="text-11 text-danger-primary">{errors.first_name.message}</span>
+                )}
               </div>
               <div className="flex flex-col gap-1">
                 <h4 className="text-13 font-medium text-secondary">{t("last_name")}</h4>
@@ -320,7 +334,9 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                     />
                   )}
                 />
-                {errors.last_name && <span className="text-11 text-danger-primary">{errors.last_name.message}</span>}
+                {errors.last_name && (
+                  <span className="text-11 text-danger-primary">{errors.last_name.message}</span>
+                )}
               </div>
               <div className="flex flex-col gap-1">
                 <h4 className="text-13 font-medium text-secondary">
@@ -350,7 +366,9 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                   )}
                 />
                 {errors?.display_name && (
-                  <span className="text-11 text-danger-primary">{errors?.display_name?.message}</span>
+                  <span className="text-11 text-danger-primary">
+                    {errors?.display_name?.message}
+                  </span>
                 )}
               </div>
               <div className="flex flex-col gap-1">

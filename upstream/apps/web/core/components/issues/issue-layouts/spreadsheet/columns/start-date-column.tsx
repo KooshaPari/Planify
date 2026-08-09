@@ -21,7 +21,9 @@ type Props = {
   disabled: boolean;
 };
 
-export const SpreadsheetStartDateColumn = observer(function SpreadsheetStartDateColumn(props: Props) {
+export const SpreadsheetStartDateColumn = observer(function SpreadsheetStartDateColumn(
+  props: Props,
+) {
   const { issue, onChange, disabled, onClose } = props;
 
   return (
@@ -37,7 +39,7 @@ export const SpreadsheetStartDateColumn = observer(function SpreadsheetStartDate
             {
               changed_property: "start_date",
               change_details: startDate,
-            }
+            },
           );
         }}
         disabled={disabled}

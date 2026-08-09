@@ -18,7 +18,12 @@ import type {
 import { cn, getDate } from "@plane/utils";
 // components
 import { MultipleSelectGroup } from "@/components/core/multiple-select";
-import { GanttChartSidebar, MonthChartView, QuarterChartView, WeekChartView } from "@/components/gantt-chart";
+import {
+  GanttChartSidebar,
+  MonthChartView,
+  QuarterChartView,
+  WeekChartView,
+} from "@/components/gantt-chart";
 // helpers
 // hooks
 import { useTimeLineChartStore } from "@/hooks/use-timeline-chart";
@@ -59,7 +64,7 @@ type Props = {
   updateCurrentViewRenderPayload: (
     direction: "left" | "right",
     currentView: TGanttViews,
-    targetDate?: Date
+    targetDate?: Date,
   ) => ChartDataType | undefined;
   quickAdd?: React.ReactNode | undefined;
   isEpic?: boolean;
@@ -107,7 +112,7 @@ export const GanttChartMainContent = observer(function GanttChartMainContent(pro
         element,
         getAllowedAxis: () => "vertical",
         canScroll: ({ source }) => source.data.dragInstanceId === "GANTT_REORDER",
-      })
+      }),
     );
   }, [ganttContainerRef?.current]);
 
@@ -145,7 +150,8 @@ export const GanttChartMainContent = observer(function GanttChartMainContent(pro
 
     setTimeout(() => {
       if (updatedPosition)
-        scrollContainer.scrollLeft = updatedPosition.marginLeft - 4 - (scrollToEndDate ? DEFAULT_BLOCK_WIDTH : 0);
+        scrollContainer.scrollLeft =
+          updatedPosition.marginLeft - 4 - (scrollToEndDate ? DEFAULT_BLOCK_WIDTH : 0);
     });
   };
 
@@ -179,7 +185,7 @@ export const GanttChartMainContent = observer(function GanttChartMainContent(pro
                 "vertical-scrollbar horizontal-scrollbar flex scrollbar-lg h-full w-full overflow-auto border-t-[0.5px] border-subtle",
                 {
                   "mb-8": bottomSpacing,
-                }
+                },
               )}
               ref={ganttContainerRef}
               onScroll={onScroll}
@@ -220,7 +226,10 @@ export const GanttChartMainContent = observer(function GanttChartMainContent(pro
                     />
                     <TimelineDependencyPaths isEpic={isEpic} />
                     <TimelineDraggablePath />
-                    <GanttAdditionalLayers itemsContainerWidth={itemsContainerWidth} blockCount={blockIds.length} />
+                    <GanttAdditionalLayers
+                      itemsContainerWidth={itemsContainerWidth}
+                      blockCount={blockIds.length}
+                    />
                     <GanttChartBlocksList
                       blockIds={blockIds}
                       blockToRender={blockToRender}

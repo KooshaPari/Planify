@@ -40,7 +40,7 @@ export const FilterCycle = observer(function FilterCycle(props: Props) {
 
   const sortedOptions = useMemo(() => {
     const filteredOptions = (cycles || []).filter((cycle) =>
-      cycle.name.toLowerCase().includes(searchQuery.toLowerCase())
+      cycle.name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
     return sortBy(filteredOptions, [
@@ -78,7 +78,10 @@ export const FilterCycle = observer(function FilterCycle(props: Props) {
                     isChecked={appliedFilters?.includes(cycle.id) ? true : false}
                     onClick={() => handleUpdate(cycle.id)}
                     icon={
-                      <CycleGroupIcon cycleGroup={cycleStatus(cycle?.status)} className="h-3.5 w-3.5 flex-shrink-0" />
+                      <CycleGroupIcon
+                        cycleGroup={cycleStatus(cycle?.status)}
+                        className="h-3.5 w-3.5 flex-shrink-0"
+                      />
                     }
                     title={cycle.name}
                     activePulse={cycleStatus(cycle?.status) === "current" ? true : false}

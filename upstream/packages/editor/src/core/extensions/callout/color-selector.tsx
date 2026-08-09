@@ -28,10 +28,14 @@ export function CalloutBlockColorSelector(props: Props) {
 
   return (
     <div
-      className={cn("pointer-events-none absolute top-2 right-2 z-10 opacity-0 transition-opacity", {
-        "group-hover/callout-node:pointer-events-auto group-hover/callout-node:opacity-100": !disabled,
-        "pointer-events-auto opacity-100": isOpen,
-      })}
+      className={cn(
+        "pointer-events-none absolute top-2 right-2 z-10 opacity-0 transition-opacity",
+        {
+          "group-hover/callout-node:pointer-events-auto group-hover/callout-node:opacity-100":
+            !disabled,
+          "pointer-events-auto opacity-100": isOpen,
+        },
+      )}
       contentEditable={false}
     >
       <div className="relative">
@@ -45,7 +49,7 @@ export function CalloutBlockColorSelector(props: Props) {
             "flex h-full items-center gap-1 rounded-sm px-2.5 py-1 text-13 font-medium whitespace-nowrap text-tertiary transition-colors hover:bg-layer-1-hover active:bg-layer-1-active",
             {
               "bg-layer-1": isOpen,
-            }
+            },
           )}
           disabled={disabled}
         >

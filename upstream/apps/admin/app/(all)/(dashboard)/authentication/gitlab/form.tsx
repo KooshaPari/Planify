@@ -12,7 +12,10 @@ import { useForm } from "react-hook-form";
 import { API_BASE_URL } from "@plane/constants";
 import { Button, getButtonStyling } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { IFormattedInstanceConfiguration, TInstanceGitlabAuthenticationConfigurationKeys } from "@plane/types";
+import type {
+  IFormattedInstanceConfiguration,
+  TInstanceGitlabAuthenticationConfigurationKeys,
+} from "@plane/types";
 // components
 import { CodeBlock } from "@/components/common/code-block";
 import { ConfirmDiscardModal } from "@/components/common/confirm-discard-modal";
@@ -52,7 +55,11 @@ export function InstanceGitlabConfigForm(props: Props) {
     },
   });
 
-  const originURL = !isEmpty(API_BASE_URL) ? API_BASE_URL : typeof window !== "undefined" ? window.location.origin : "";
+  const originURL = !isEmpty(API_BASE_URL)
+    ? API_BASE_URL
+    : typeof window !== "undefined"
+      ? window.location.origin
+      : "";
 
   const GITLAB_FORM_FIELDS: TControllerInputFormField[] = [
     {
@@ -61,7 +68,8 @@ export function InstanceGitlabConfigForm(props: Props) {
       label: "Host",
       description: (
         <>
-          This is either https://gitlab.com or the <CodeBlock>domain.tld</CodeBlock> where you host GitLab.
+          This is either https://gitlab.com or the <CodeBlock>domain.tld</CodeBlock> where you host
+          GitLab.
         </>
       ),
       placeholder: "https://gitlab.com",
@@ -128,7 +136,8 @@ export function InstanceGitlabConfigForm(props: Props) {
       url: `${originURL}/auth/gitlab/callback/`,
       description: (
         <>
-          We will auto-generate this. Paste this into the <CodeBlock darkerShade>Redirect URI</CodeBlock> field of your{" "}
+          We will auto-generate this. Paste this into the{" "}
+          <CodeBlock darkerShade>Redirect URI</CodeBlock> field of your{" "}
           <a
             tabIndex={-1}
             href="https://docs.gitlab.com/ee/integration/oauth_provider.html"
@@ -208,7 +217,11 @@ export function InstanceGitlabConfigForm(props: Props) {
                 >
                   {isSubmitting ? "Saving" : "Save changes"}
                 </Button>
-                <Link href="/authentication" className={getButtonStyling("secondary", "lg")} onClick={handleGoBack}>
+                <Link
+                  href="/authentication"
+                  className={getButtonStyling("secondary", "lg")}
+                  onClick={handleGoBack}
+                >
                   Go back
                 </Link>
               </div>
@@ -218,7 +231,12 @@ export function InstanceGitlabConfigForm(props: Props) {
             <div className="flex flex-col gap-y-4 rounded-lg bg-layer-3 px-6 pt-1.5 pb-4">
               <div className="pt-2 text-18 font-medium">Plane-provided details for GitLab</div>
               {GITLAB_SERVICE_FIELD.map((field) => (
-                <CopyField key={field.key} label={field.label} url={field.url} description={field.description} />
+                <CopyField
+                  key={field.key}
+                  label={field.label}
+                  url={field.url}
+                  description={field.description}
+                />
               ))}
             </div>
           </div>

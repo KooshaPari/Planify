@@ -63,8 +63,8 @@ export function DeleteWebhookModal(props: IDeleteWebhook) {
       title="Delete webhook"
       content={
         <>
-          Are you sure you want to delete this webhook? Future events will not be delivered to this webhook. This action
-          cannot be undone.
+          Are you sure you want to delete this webhook? Future events will not be delivered to this
+          webhook. This action cannot be undone.
         </>
       }
     />

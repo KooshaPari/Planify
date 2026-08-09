@@ -40,7 +40,10 @@ export function LinearProgressIndicator({
     if (noTooltip) return <div style={style} key={item.id} />;
     else
       return (
-        <Tooltip key={item.id} tooltipContent={`${item.name} ${Math.round(item.value)}${inPercentage ? "%" : ""}`}>
+        <Tooltip
+          key={item.id}
+          tooltipContent={`${item.name} ${Math.round(item.value)}${inPercentage ? "%" : ""}`}
+        >
           <div style={style} className={cn("first:rounded-l-xs last:rounded-r-xs", barClassName)} />
         </Tooltip>
       );
@@ -55,7 +58,11 @@ export function LinearProgressIndicator({
         "h-[14px]": size === "xl",
       })}
     >
-      <div className={cn("flex h-full w-full gap-[1.5px] rounded-xs bg-surface-2 p-[2px]", className)}>{bars}</div>
+      <div
+        className={cn("flex h-full w-full gap-[1.5px] rounded-xs bg-surface-2 p-[2px]", className)}
+      >
+        {bars}
+      </div>
     </div>
   );
 }

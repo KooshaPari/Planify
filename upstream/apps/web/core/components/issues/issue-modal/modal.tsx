@@ -35,14 +35,20 @@ export interface IssuesModalProps {
   showActionItemsOnUpdate?: boolean;
 }
 
-export const CreateUpdateIssueModal = observer(function CreateUpdateIssueModal(props: IssuesModalProps) {
+export const CreateUpdateIssueModal = observer(function CreateUpdateIssueModal(
+  props: IssuesModalProps,
+) {
   // router params
   const { cycleId, moduleId } = useParams();
   // derived values
   const dataForPreload = {
     ...props.data,
     cycle_id: props.data?.cycle_id ? props.data?.cycle_id : cycleId ? cycleId.toString() : null,
-    module_ids: props.data?.module_ids ? props.data?.module_ids : moduleId ? [moduleId.toString()] : null,
+    module_ids: props.data?.module_ids
+      ? props.data?.module_ids
+      : moduleId
+        ? [moduleId.toString()]
+        : null,
   };
 
   if (!props.isOpen) return null;

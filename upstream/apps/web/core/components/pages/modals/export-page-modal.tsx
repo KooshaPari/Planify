@@ -112,10 +112,11 @@ export function ExportPageModal(props: Props) {
     defaultValues,
   });
   // parse editor content
-  const { replaceCustomComponentsFromHTMLContent, replaceCustomComponentsFromMarkdownContent } = useParseEditorContent({
-    projectId,
-    workspaceSlug: workspaceSlug ?? "",
-  });
+  const { replaceCustomComponentsFromHTMLContent, replaceCustomComponentsFromMarkdownContent } =
+    useParseEditorContent({
+      projectId,
+      workspaceSlug: workspaceSlug ?? "",
+    });
   // derived values
   const selectedExportFormat = watch("export_format");
   const selectedPageFormat = watch("page_format");
@@ -153,7 +154,9 @@ export function ExportPageModal(props: Props) {
         noAssets: selectedContentVariety === "no-assets",
       });
 
-      const blob = await pdf(<PDFDocument content={parsedPageContent} pageFormat={selectedPageFormat} />).toBlob();
+      const blob = await pdf(
+        <PDFDocument content={parsedPageContent} pageFormat={selectedPageFormat} />,
+      ).toBlob();
       initiateDownload(blob, `${fileName}-${selectedPageFormat.toString().toLowerCase()}.pdf`);
     } catch (error) {
       throw new Error(`Error in exporting as a PDF: ${error}`);
@@ -203,7 +206,12 @@ export function ExportPageModal(props: Props) {
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.SM}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.SM}
+    >
       <div>
         <div className="space-y-5 p-5">
           <h3 className="text-18 font-medium text-secondary">Export page</h3>

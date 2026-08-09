@@ -37,7 +37,11 @@ export interface IMonthView {
  * @param side
  * @returns
  */
-const generateMonthChart = (monthPayload: ChartDataType, side: null | "left" | "right", targetDate?: Date) => {
+const generateMonthChart = (
+  monthPayload: ChartDataType,
+  side: null | "left" | "right",
+  targetDate?: Date,
+) => {
   let renderState = cloneDeep(monthPayload);
 
   const range: number = renderState.data.approxFilterRange || 6;
@@ -52,8 +56,16 @@ const generateMonthChart = (monthPayload: ChartDataType, side: null | "left" | "
   if (side === null) {
     const currentDate = renderState.data.currentDate;
 
-    minusDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - range, currentDate.getDate());
-    plusDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + range, currentDate.getDate());
+    minusDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - range,
+      currentDate.getDate(),
+    );
+    plusDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + range,
+      currentDate.getDate(),
+    );
 
     if (minusDate && plusDate) filteredDates = getMonthsViewBetweenTwoDates(minusDate, plusDate);
 
@@ -74,12 +86,20 @@ const generateMonthChart = (monthPayload: ChartDataType, side: null | "left" | "
     const currentDate = targetDate ? targetDate : chartStartDate;
 
     minusDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - range, 1);
-    plusDate = new Date(chartStartDate.getFullYear(), chartStartDate.getMonth(), chartStartDate.getDate() - 1);
+    plusDate = new Date(
+      chartStartDate.getFullYear(),
+      chartStartDate.getMonth(),
+      chartStartDate.getDate() - 1,
+    );
 
     if (minusDate && plusDate) filteredDates = getMonthsViewBetweenTwoDates(minusDate, plusDate);
 
     startDate = filteredDates.weeks[0]?.startDate;
-    endDate = new Date(chartStartDate.getFullYear(), chartStartDate.getMonth(), chartStartDate.getDate() - 1);
+    endDate = new Date(
+      chartStartDate.getFullYear(),
+      chartStartDate.getMonth(),
+      chartStartDate.getDate() - 1,
+    );
     renderState = {
       ...renderState,
       data: { ...renderState.data, startDate },
@@ -90,16 +110,27 @@ const generateMonthChart = (monthPayload: ChartDataType, side: null | "left" | "
     const chartEndDate = renderState.data.endDate;
     const currentDate = targetDate ? targetDate : chartEndDate;
 
-    minusDate = new Date(chartEndDate.getFullYear(), chartEndDate.getMonth(), chartEndDate.getDate() + 1);
+    minusDate = new Date(
+      chartEndDate.getFullYear(),
+      chartEndDate.getMonth(),
+      chartEndDate.getDate() + 1,
+    );
     plusDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + range, 1);
 
     if (minusDate && plusDate) filteredDates = getMonthsViewBetweenTwoDates(minusDate, plusDate);
 
-    startDate = new Date(chartEndDate.getFullYear(), chartEndDate.getMonth(), chartEndDate.getDate() + 1);
+    startDate = new Date(
+      chartEndDate.getFullYear(),
+      chartEndDate.getMonth(),
+      chartEndDate.getDate() + 1,
+    );
     endDate = filteredDates.weeks[filteredDates.weeks.length - 1]?.endDate;
     renderState = {
       ...renderState,
-      data: { ...renderState.data, endDate: filteredDates.weeks[filteredDates.weeks.length - 1]?.endDate },
+      data: {
+        ...renderState.data,
+        endDate: filteredDates.weeks[filteredDates.weeks.length - 1]?.endDate,
+      },
     };
   }
 
@@ -164,10 +195,13 @@ export const getMonthsBetweenTwoDates = (startDate: Date, endDate: Date): IMonth
  * @returns
  */
 const mergeMonthRenderPayloads = (a: IMonthView, b: IMonthView): IMonthView => ({
-  months: uniqBy([...a.months, ...b.months], (monthBlock) => `${monthBlock.month}_${monthBlock.year}`),
+  months: uniqBy(
+    [...a.months, ...b.months],
+    (monthBlock) => `${monthBlock.month}_${monthBlock.year}`,
+  ),
   weeks: uniqBy(
     [...a.weeks, ...b.weeks],
-    (weekBlock) => `${weekBlock.startDate.getTime()}_${weekBlock.endDate.getTime()}`
+    (weekBlock) => `${weekBlock.startDate.getTime()}_${weekBlock.endDate.getTime()}`,
   ),
 });
 

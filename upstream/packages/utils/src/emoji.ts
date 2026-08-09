@@ -56,7 +56,7 @@ export const emojiCodeToUnicode = (emoji: string): string => {
  */
 export const groupReactions: (reactions: any[], key: string) => { [key: string]: any[] } = (
   reactions: any,
-  key: string
+  key: string,
 ) => {
   if (!Array.isArray(reactions)) {
     console.error("Expected an array of reactions, but got:", reactions);
@@ -65,7 +65,11 @@ export const groupReactions: (reactions: any[], key: string) => { [key: string]:
 
   const groupedReactions = reactions.reduce(
     (acc: any, reaction: any) => {
-      if (!reaction || typeof reaction !== "object" || !Object.prototype.hasOwnProperty.call(reaction, key)) {
+      if (
+        !reaction ||
+        typeof reaction !== "object" ||
+        !Object.prototype.hasOwnProperty.call(reaction, key)
+      ) {
         console.warn("Skipping undefined reaction or missing key:", reaction);
         return acc; // Skip undefined reactions or those without the specified key
       }
@@ -76,7 +80,7 @@ export const groupReactions: (reactions: any[], key: string) => { [key: string]:
       acc[reaction[key]].push(reaction);
       return acc;
     },
-    {} as { [key: string]: any[] }
+    {} as { [key: string]: any[] },
   );
 
   return groupedReactions;
@@ -86,4 +90,5 @@ export const groupReactions: (reactions: any[], key: string) => { [key: string]:
  * Returns a random emoji code from the RANDOM_EMOJI_CODES array
  * @returns {string} A random emoji code
  */
-export const getRandomEmoji = (): string => RANDOM_EMOJI_CODES[Math.floor(Math.random() * RANDOM_EMOJI_CODES.length)];
+export const getRandomEmoji = (): string =>
+  RANDOM_EMOJI_CODES[Math.floor(Math.random() * RANDOM_EMOJI_CODES.length)];

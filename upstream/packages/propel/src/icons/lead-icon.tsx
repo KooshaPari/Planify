@@ -10,7 +10,13 @@ import type { ISvgIcons } from "./type";
 
 export function LeadIcon({ className = "text-current", ...rest }: ISvgIcons) {
   return (
-    <svg className={className} viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
+    <svg
+      className={className}
+      viewBox="0 0 19 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...rest}
+    >
       <path
         d="M0.571533 9C0.571533 4.02944 4.60097 0 9.57153 0C14.5421 0 18.5715 4.02944 18.5715 9C18.5715 13.9706 14.5421 18 9.57153 18C4.60097 18 0.571533 13.9706 0.571533 9Z"
         fill="#3372FF"

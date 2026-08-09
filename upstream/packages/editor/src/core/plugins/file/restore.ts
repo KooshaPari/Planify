@@ -21,10 +21,17 @@ import type { TFileNode } from "./types";
 
 const RESTORE_PLUGIN_KEY = new PluginKey("restore-utility");
 
-export const TrackFileRestorationPlugin = (editor: Editor, restoreHandler: TFileHandler["restore"]): Plugin =>
+export const TrackFileRestorationPlugin = (
+  editor: Editor,
+  restoreHandler: TFileHandler["restore"],
+): Plugin =>
   new Plugin({
     key: RESTORE_PLUGIN_KEY,
-    appendTransaction: (transactions: readonly Transaction[], oldState: EditorState, newState: EditorState) => {
+    appendTransaction: (
+      transactions: readonly Transaction[],
+      oldState: EditorState,
+      newState: EditorState,
+    ) => {
       if (!transactions.some((tr) => tr.docChanged)) return null;
 
       const oldFileSources: {
@@ -61,7 +68,8 @@ export const TrackFileRestorationPlugin = (editor: Editor, restoreHandler: TFile
           }
           // if the src is just a id (private bucket), then we don't need to handle restore from here but
           // only while it fails to load
-          if (nodeType === CORE_EXTENSIONS.CUSTOM_IMAGE && !node.attrs.src?.startsWith("http")) return;
+          if (nodeType === CORE_EXTENSIONS.CUSTOM_IMAGE && !node.attrs.src?.startsWith("http"))
+            return;
           addedFiles.push(node as TFileNode);
         });
 
@@ -70,7 +78,8 @@ export const TrackFileRestorationPlugin = (editor: Editor, restoreHandler: TFile
           const src = node.attrs.src;
           const nodeFileSetDetails = NODE_FILE_MAP[nodeType];
           if (!nodeFileSetDetails) return;
-          const extensionFileSetStorage = editor.storage[nodeType]?.[nodeFileSetDetails.fileSetName];
+          const extensionFileSetStorage =
+            editor.storage[nodeType]?.[nodeFileSetDetails.fileSetName];
           const wasDeleted = extensionFileSetStorage?.get(src);
           if (!nodeFileSetDetails || !src) return;
           if (wasDeleted === undefined) {

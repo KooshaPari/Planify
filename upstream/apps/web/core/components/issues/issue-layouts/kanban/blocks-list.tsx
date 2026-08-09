@@ -18,7 +18,9 @@ interface IssueBlocksListProps {
   issuesMap: IIssueMap;
   issueIds: string[];
   displayProperties: IIssueDisplayProperties | undefined;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   quickActions: TRenderQuickActions;
   canEditProperties: (projectId: string | undefined) => boolean;
   canDropOverIssue: boolean;
@@ -27,7 +29,9 @@ interface IssueBlocksListProps {
   isEpic?: boolean;
 }
 
-export const KanbanIssueBlocksList = observer(function KanbanIssueBlocksList(props: IssueBlocksListProps) {
+export const KanbanIssueBlocksList = observer(function KanbanIssueBlocksList(
+  props: IssueBlocksListProps,
+) {
   const {
     sub_group_id,
     groupId,

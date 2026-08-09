@@ -28,7 +28,12 @@ export const ActivityItem = observer(function ActivityItem(props: TActivityItem)
   const icon = iconsMap[activityType] || iconsMap.default;
 
   return (
-    <ActivityBlockComponent icon={icon} activity={activity} ends={ends} customUserName={customUserName}>
+    <ActivityBlockComponent
+      icon={icon}
+      activity={activity}
+      ends={ends}
+      customUserName={customUserName}
+    >
       <>{message}</>
     </ActivityBlockComponent>
   );

@@ -34,7 +34,9 @@ export const FilterLabels = observer(function FilterLabels(props: Props) {
 
   const appliedFiltersCount = filterValue?.length ?? 0;
 
-  const filteredOptions = labels?.filter((label) => label.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredOptions = labels?.filter((label) =>
+    label.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   const handleViewToggle = () => {
     if (!filteredOptions) return;

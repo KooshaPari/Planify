@@ -30,7 +30,13 @@ type Props = {
  * Displays items that don't fit in the visible area, with action icons
  * Shows "Eye" icon for user-hidden items, "Set as default" icon for all items
  */
-export function TabNavigationOverflowMenu({ overflowItems, isActive, tabPreferences, onToggleDefault, onShow }: Props) {
+export function TabNavigationOverflowMenu({
+  overflowItems,
+  isActive,
+  tabPreferences,
+  onToggleDefault,
+  onShow,
+}: Props) {
   const { t } = useTranslation();
 
   return (
@@ -51,7 +57,10 @@ export function TabNavigationOverflowMenu({ overflowItems, isActive, tabPreferen
         const isDefault = item.key === tabPreferences.defaultTab;
 
         return (
-          <Menu.MenuItem key={`${item.key}-overflow-${itemIsActive ? "active" : "inactive"}`} className="w-full p-0">
+          <Menu.MenuItem
+            key={`${item.key}-overflow-${itemIsActive ? "active" : "inactive"}`}
+            className="w-full p-0"
+          >
             <div className="group/menu-item flex w-full items-center justify-between">
               <Link to={item.href} className="w-full min-w-0 flex-1 p-1">
                 <span className="text-11">{t(item.i18n_key)}</span>
@@ -83,7 +92,7 @@ export function TabNavigationOverflowMenu({ overflowItems, isActive, tabPreferen
                       "invisible rounded-sm p-1 text-tertiary transition-colors group-hover/menu-item:visible hover:text-primary",
                       {
                         visible: isDefault,
-                      }
+                      },
                     )}
                     title={isDefault ? "Clear default" : "Set as default"}
                   >

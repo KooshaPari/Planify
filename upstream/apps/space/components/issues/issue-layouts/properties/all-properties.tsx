@@ -70,7 +70,10 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
 
       {/* start date */}
       {issue?.start_date && (
-        <WithDisplayPropertiesHOC displayProperties={displayProperties} displayPropertyKey="start_date">
+        <WithDisplayPropertiesHOC
+          displayProperties={displayProperties}
+          displayPropertyKey="start_date"
+        >
           <div className="h-5">
             <IssueBlockDate
               due_date={issue?.start_date}
@@ -83,7 +86,10 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
 
       {/* target/due date */}
       {issue?.target_date && (
-        <WithDisplayPropertiesHOC displayProperties={displayProperties} displayPropertyKey="due_date">
+        <WithDisplayPropertiesHOC
+          displayProperties={displayProperties}
+          displayPropertyKey="due_date"
+        >
           <div className="h-5">
             <IssueBlockDate due_date={issue?.target_date} stateId={issue?.state_id ?? undefined} />
           </div>
@@ -99,7 +105,10 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
 
       {/* modules */}
       {issue.module_ids && issue.module_ids.length > 0 && (
-        <WithDisplayPropertiesHOC displayProperties={displayProperties} displayPropertyKey="modules">
+        <WithDisplayPropertiesHOC
+          displayProperties={displayProperties}
+          displayPropertyKey="modules"
+        >
           <div className="h-5">
             <IssueBlockModules moduleIds={issue.module_ids} />
           </div>
@@ -136,7 +145,9 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
       <WithDisplayPropertiesHOC
         displayProperties={displayProperties}
         displayPropertyKey="sub_issue_count"
-        shouldRenderProperty={(properties) => !!properties.sub_issue_count && !!issue.sub_issues_count}
+        shouldRenderProperty={(properties) =>
+          !!properties.sub_issue_count && !!issue.sub_issues_count
+        }
       >
         <Tooltip tooltipHeading="Sub-work items" tooltipContent={`${issue.sub_issues_count}`}>
           <div
@@ -144,7 +155,7 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
               "flex h-5 flex-shrink-0 items-center justify-center gap-2 overflow-hidden rounded-sm border-[0.5px] border-strong px-2.5 py-1",
               {
                 "cursor-pointer hover:bg-layer-1": issue.sub_issues_count,
-              }
+              },
             )}
           >
             <ViewsIcon className="h-3 w-3 flex-shrink-0" strokeWidth={2} />
@@ -157,7 +168,9 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
       <WithDisplayPropertiesHOC
         displayProperties={displayProperties}
         displayPropertyKey="attachment_count"
-        shouldRenderProperty={(properties) => !!properties.attachment_count && !!issue.attachment_count}
+        shouldRenderProperty={(properties) =>
+          !!properties.attachment_count && !!issue.attachment_count
+        }
       >
         <Tooltip tooltipHeading="Attachments" tooltipContent={`${issue.attachment_count}`}>
           <div className="flex h-5 flex-shrink-0 items-center justify-center gap-2 overflow-hidden rounded-sm border-[0.5px] border-strong px-2.5 py-1">

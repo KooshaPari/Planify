@@ -50,7 +50,10 @@ export const ProjectHeader = observer(function ProjectHeader(props: TProjectHead
   const { tabPreferences } = useTabPreferences(workspaceSlug, projectId);
 
   // Memoize available tab keys
-  const availableTabKeys = useMemo(() => navigationItems.map((item) => item.key), [navigationItems]);
+  const availableTabKeys = useMemo(
+    () => navigationItems.map((item) => item.key),
+    [navigationItems],
+  );
 
   // Memoize validated default tab key
   const validatedDefaultTabKey = useMemo(
@@ -58,7 +61,7 @@ export const ProjectHeader = observer(function ProjectHeader(props: TProjectHead
       availableTabKeys.includes(tabPreferences.defaultTab)
         ? tabPreferences.defaultTab
         : availableTabKeys[0] || "work_items",
-    [availableTabKeys, tabPreferences.defaultTab]
+    [availableTabKeys, tabPreferences.defaultTab],
   );
 
   // Memoize switcher options to prevent recalculation on every render
@@ -83,7 +86,7 @@ export const ProjectHeader = observer(function ProjectHeader(props: TProjectHead
           };
         })
         .filter((option): option is ICustomSearchSelectOption => option !== null),
-    [joinedProjectIds, getPartialProjectById]
+    [joinedProjectIds, getPartialProjectById],
   );
 
   // Memoize onChange handler
@@ -93,7 +96,7 @@ export const ProjectHeader = observer(function ProjectHeader(props: TProjectHead
         router.push(getTabUrl(workspaceSlug, value, validatedDefaultTabKey));
       }
     },
-    [currentProjectDetails?.id, router, workspaceSlug, validatedDefaultTabKey]
+    [currentProjectDetails?.id, router, workspaceSlug, validatedDefaultTabKey],
   );
 
   // Early return if no project details
@@ -104,7 +107,9 @@ export const ProjectHeader = observer(function ProjectHeader(props: TProjectHead
       options={switcherOptions}
       value={currentProjectDetails.id}
       onChange={handleProjectChange}
-      customButton={currentProjectDetails ? <ProjectHeaderButton project={currentProjectDetails} /> : null}
+      customButton={
+        currentProjectDetails ? <ProjectHeaderButton project={currentProjectDetails} /> : null
+      }
       className="h-full rounded"
       customButtonClassName="group flex items-center gap-0.5 rounded-sm hover:bg-surface-2 outline-none cursor-pointer h-full"
     />

@@ -31,14 +31,19 @@ type TInboxIssueDescription = {
   projectId: string;
   workspaceId: string;
   data: Partial<TIssue>;
-  handleData: (issueKey: keyof Partial<TIssue>, issueValue: Partial<TIssue>[keyof Partial<TIssue>]) => void;
+  handleData: (
+    issueKey: keyof Partial<TIssue>,
+    issueValue: Partial<TIssue>[keyof Partial<TIssue>],
+  ) => void;
   editorRef: RefObject<EditorRefApi>;
   onEnterKeyPress?: (e?: any) => void;
   onAssetUpload?: (assetId: string) => void;
 };
 
 // TODO: have to implement GPT Assistance
-export const InboxIssueDescription = observer(function InboxIssueDescription(props: TInboxIssueDescription) {
+export const InboxIssueDescription = observer(function InboxIssueDescription(
+  props: TInboxIssueDescription,
+) {
   const {
     containerClassName,
     workspaceSlug,
@@ -70,14 +75,22 @@ export const InboxIssueDescription = observer(function InboxIssueDescription(pro
     <RichTextEditor
       editable
       id="inbox-modal-editor"
-      initialValue={!data?.description_html || data?.description_html === "" ? "<p></p>" : data?.description_html}
+      initialValue={
+        !data?.description_html || data?.description_html === ""
+          ? "<p></p>"
+          : data?.description_html
+      }
       ref={editorRef}
       workspaceSlug={workspaceSlug}
       workspaceId={workspaceId}
       projectId={projectId}
       dragDropEnabled={false}
-      onChange={(_description: object, description_html: string) => handleData("description_html", description_html)}
-      placeholder={(isFocused, description) => t(`${getDescriptionPlaceholderI18n(isFocused, description)}`)}
+      onChange={(_description: object, description_html: string) =>
+        handleData("description_html", description_html)
+      }
+      placeholder={(isFocused, description) =>
+        t(`${getDescriptionPlaceholderI18n(isFocused, description)}`)
+      }
       searchMentionCallback={async (payload) =>
         await workspaceService.searchEntity(workspaceSlug?.toString() ?? "", {
           ...payload,

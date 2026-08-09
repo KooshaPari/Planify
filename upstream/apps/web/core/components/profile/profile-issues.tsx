@@ -47,7 +47,7 @@ export const ProfileIssuesPage = observer(function ProfileIssuesPage(props: Prop
         await fetchFilters(workspaceSlug, userId);
       }
     },
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   return (

@@ -11,7 +11,15 @@ import { ArchiveRestoreIcon, FileOutput, LockKeyhole, LockKeyholeOpen } from "lu
 // constants
 import { EPageAccess } from "@plane/constants";
 // plane editor
-import { LinkIcon, CopyIcon, LockIcon, NewTabIcon, ArchiveIcon, TrashIcon, GlobeIcon } from "@plane/propel/icons";
+import {
+  LinkIcon,
+  CopyIcon,
+  LockIcon,
+  NewTabIcon,
+  ArchiveIcon,
+  TrashIcon,
+  GlobeIcon,
+} from "@plane/propel/icons";
 // plane ui
 import type { TContextMenuItem } from "@plane/ui";
 import { ContextMenu, CustomMenu } from "@plane/ui";
@@ -167,7 +175,7 @@ export const PageActions = observer(function PageActions(props: Props) {
       canCurrentUserMovePage,
       isMovePageEnabled,
       pageOperations,
-    ]
+    ],
   );
   // arrange options
   const arrangedOptions = useMemo<(TContextMenuItem & { key: TPageActions })[]>(
@@ -175,7 +183,7 @@ export const PageActions = observer(function PageActions(props: Props) {
       optionsOrder
         .map((key) => MENU_ITEMS.find((item) => item.key === key))
         .filter((item): item is TContextMenuItem & { key: TPageActions } => !!item),
-    [optionsOrder, MENU_ITEMS]
+    [optionsOrder, MENU_ITEMS],
   );
 
   return (

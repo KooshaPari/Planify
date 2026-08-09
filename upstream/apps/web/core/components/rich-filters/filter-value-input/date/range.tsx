@@ -7,7 +7,11 @@
 import React from "react";
 import { observer } from "mobx-react";
 // plane imports
-import type { TDateRangeFilterFieldConfig, TFilterConditionNodeForDisplay, TFilterProperty } from "@plane/types";
+import type {
+  TDateRangeFilterFieldConfig,
+  TFilterConditionNodeForDisplay,
+  TFilterProperty,
+} from "@plane/types";
 import { cn, isValidDate, renderFormattedPayloadDate, toFilterArray } from "@plane/utils";
 // components
 import { DateRangeDropdown } from "@/components/dropdowns/date-range";
@@ -21,9 +25,9 @@ type TDateRangeFilterValueInputProps<P extends TFilterProperty> = {
   onChange: (value: string[]) => void;
 };
 
-export const DateRangeFilterValueInput = observer(function DateRangeFilterValueInput<P extends TFilterProperty>(
-  props: TDateRangeFilterValueInputProps<P>
-) {
+export const DateRangeFilterValueInput = observer(function DateRangeFilterValueInput<
+  P extends TFilterProperty,
+>(props: TDateRangeFilterValueInputProps<P>) {
   const { config, condition, isDisabled, onChange } = props;
   // derived values
   const [fromRaw, toRaw] = toFilterArray(condition.value) ?? [];

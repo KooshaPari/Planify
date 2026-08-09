@@ -22,7 +22,7 @@ type TArgs = {
 export const DROPDOWN_NAVIGATION_KEYS = ["ArrowUp", "ArrowDown", "Enter"];
 
 export const getNextValidIndex = (
-  args: TArgs
+  args: TArgs,
 ):
   | {
       section: number;

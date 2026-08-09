@@ -44,7 +44,7 @@ export const ModulesLinksListItem = observer(function ModulesLinksListItem(props
         type: TOAST_TYPE.SUCCESS,
         title: "Copied to clipboard",
         message: "The URL has been successfully copied to your clipboard",
-      })
+      }),
     );
   };
 
@@ -55,8 +55,16 @@ export const ModulesLinksListItem = observer(function ModulesLinksListItem(props
           <span className="py-1">
             <Icon className="size-3 shrink-0 stroke-2 text-tertiary group-hover:text-primary" />
           </span>
-          <Tooltip tooltipContent={link.title && link.title !== "" ? link.title : link.url} isMobile={isMobile}>
-            <a href={link.url} target="_blank" rel="noopener noreferrer" className="cursor-pointer truncate text-11">
+          <Tooltip
+            tooltipContent={link.title && link.title !== "" ? link.title : link.url}
+            isMobile={isMobile}
+          >
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer truncate text-11"
+            >
               {link.title && link.title !== "" ? link.title : link.url}
             </a>
           </Tooltip>
@@ -104,7 +112,12 @@ export const ModulesLinksListItem = observer(function ModulesLinksListItem(props
         <p className="mt-0.5 flex items-center gap-1.5 stroke-[1.5] text-11 text-tertiary">
           Added {calculateTimeAgo(link.created_at)}{" "}
           {createdByDetails && (
-            <>by {createdByDetails?.is_bot ? createdByDetails?.first_name + " Bot" : createdByDetails?.display_name}</>
+            <>
+              by{" "}
+              {createdByDetails?.is_bot
+                ? createdByDetails?.first_name + " Bot"
+                : createdByDetails?.display_name}
+            </>
           )}
         </p>
       </div>

@@ -27,7 +27,9 @@ import { transformExpressionTree } from "./transformation/core";
  * @param condition - The condition to create a comparable representation for
  * @returns A comparable object without ID
  */
-const createConditionComparable = <P extends TFilterProperty>(condition: TFilterConditionNode<P, TFilterValue>) => ({
+const createConditionComparable = <P extends TFilterProperty>(
+  condition: TFilterConditionNode<P, TFilterValue>,
+) => ({
   // Explicitly exclude: id (random UUID should not be compared)
   type: condition.type,
   property: condition.property,
@@ -41,7 +43,7 @@ const createConditionComparable = <P extends TFilterProperty>(condition: TFilter
  */
 const createComparableChildren = <P extends TFilterProperty>(
   children: TFilterExpression<P>[],
-  baseComparable: Record<string, unknown>
+  baseComparable: Record<string, unknown>,
 ): Record<string, unknown> => {
   const childrenComparable = compact(children.map((child) => createExpressionComparable(child)));
 
@@ -52,7 +54,11 @@ const createComparableChildren = <P extends TFilterProperty>(
     }
     // For nested groups, sort by logical operator and recursive structure
     if (child?.type === FILTER_NODE_TYPE.GROUP) {
-      const childrenCount = child.child ? 1 : Array.isArray(child.children) ? child.children.length : 0;
+      const childrenCount = child.child
+        ? 1
+        : Array.isArray(child.children)
+          ? child.children.length
+          : 0;
       return `group_${child.logicalOperator}_${childrenCount}_${JSON.stringify(child)}`;
     }
     return "unknown";
@@ -73,7 +79,7 @@ const createComparableChildren = <P extends TFilterProperty>(
  * @returns A comparable object without ID
  */
 export const createGroupComparable = <P extends TFilterProperty>(
-  group: TFilterGroupNode<P>
+  group: TFilterGroupNode<P>,
 ): Record<string, unknown> => {
   const baseComparable = {
     // Explicitly exclude: id (random UUID should not be compared)
@@ -94,7 +100,7 @@ export const createGroupComparable = <P extends TFilterProperty>(
  * @returns A comparable object without IDs or null if the expression is empty
  */
 export const createExpressionComparable = <P extends TFilterProperty>(
-  expression: TFilterExpression<P> | null
+  expression: TFilterExpression<P> | null,
 ): Record<string, unknown> | null => {
   if (!expression) return null;
 
@@ -120,7 +126,7 @@ export const createExpressionComparable = <P extends TFilterProperty>(
  * @returns The normalized expression or null if the entire expression is empty
  */
 export const normalizeFilterExpression = <P extends TFilterProperty>(
-  expression: TFilterExpression<P> | null
+  expression: TFilterExpression<P> | null,
 ): TFilterExpression<P> | null => {
   const result = transformExpressionTree<P>(expression, (node: TFilterExpression<P>) => {
     // Only transform condition nodes - check if they have valid values
@@ -148,7 +154,7 @@ export const normalizeFilterExpression = <P extends TFilterProperty>(
  */
 export const deepCompareFilterExpressions = <P extends TFilterProperty>(
   expression1: TFilterExpression<P> | null,
-  expression2: TFilterExpression<P> | null
+  expression2: TFilterExpression<P> | null,
 ): boolean => {
   // Normalize both expressions to remove empty conditions and groups
   const normalized1 = normalizeFilterExpression(expression1);

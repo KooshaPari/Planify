@@ -223,7 +223,7 @@ export class SitesIssueService extends APIService {
     commentId: string,
     data: {
       reaction: string;
-    }
+    },
   ): Promise<any> {
     return this.post(`/api/public/anchor/${anchor}/comments/${commentId}/reactions/`, data)
       .then((response) => response?.data)
@@ -240,8 +240,14 @@ export class SitesIssueService extends APIService {
    * @returns {Promise<any>} Promise resolving to the deletion response
    * @throws {Error} If the API request fails
    */
-  async removeCommentReaction(anchor: string, commentId: string, reactionHex: string): Promise<any> {
-    return this.delete(`/api/public/anchor/${anchor}/comments/${commentId}/reactions/${reactionHex}/`)
+  async removeCommentReaction(
+    anchor: string,
+    commentId: string,
+    reactionHex: string,
+  ): Promise<any> {
+    return this.delete(
+      `/api/public/anchor/${anchor}/comments/${commentId}/reactions/${reactionHex}/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response;

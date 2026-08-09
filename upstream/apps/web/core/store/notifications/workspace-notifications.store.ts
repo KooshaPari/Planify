@@ -9,7 +9,11 @@ import { action, makeObservable, observable, runInAction } from "mobx";
 import { computedFn } from "mobx-utils";
 // plane imports
 import type { TNotificationTab } from "@plane/constants";
-import { ENotificationTab, ENotificationLoader, ENotificationQueryParamType } from "@plane/constants";
+import {
+  ENotificationTab,
+  ENotificationLoader,
+  ENotificationQueryParamType,
+} from "@plane/constants";
 import type {
   TNotification,
   TNotificationFilter,
@@ -45,17 +49,22 @@ export interface IWorkspaceNotificationStore {
   notificationLiteByNotificationId: (notificationId: string | undefined) => TNotificationLite;
   // helper actions
   mutateNotifications: (notifications: TNotification[]) => void;
-  updateFilters: <T extends keyof TNotificationFilter>(key: T, value: TNotificationFilter[T]) => void;
+  updateFilters: <T extends keyof TNotificationFilter>(
+    key: T,
+    value: TNotificationFilter[T],
+  ) => void;
   updateBulkFilters: (filters: Partial<TNotificationFilter>) => void;
   // actions
   setCurrentNotificationTab: (tab: TNotificationTab) => void;
   setCurrentSelectedNotificationId: (notificationId: string | undefined) => void;
   setUnreadNotificationsCount: (type: "increment" | "decrement", newCount?: number) => void;
-  getUnreadNotificationsCount: (workspaceSlug: string) => Promise<TUnreadNotificationsCount | undefined>;
+  getUnreadNotificationsCount: (
+    workspaceSlug: string,
+  ) => Promise<TUnreadNotificationsCount | undefined>;
   getNotifications: (
     workspaceSlug: string,
     loader?: TNotificationLoader,
-    queryCursorType?: TNotificationQueryParamType
+    queryCursorType?: TNotificationQueryParamType,
   ) => Promise<TNotificationPaginatedInfo | undefined>;
   markAllNotificationsAsRead: (workspaceId: string) => Promise<void>;
 }
@@ -121,14 +130,14 @@ export class WorkspaceNotificationStore implements IWorkspaceNotificationStore {
     const workspaceNotifications = orderBy(
       Object.values(this.notifications || []),
       (n) => convertToEpoch(n.created_at),
-      ["desc"]
+      ["desc"],
     );
     const workspaceNotificationIds = workspaceNotifications
       .filter((n) => n.workspace === workspaceId)
       .filter((n) =>
         this.currentNotificationTab === ENotificationTab.MENTIONS
           ? n.is_mentioned_notification
-          : !n.is_mentioned_notification
+          : !n.is_mentioned_notification,
       )
       .filter((n) => {
         if (!this.filters.archived && !this.filters.snoozed) {
@@ -177,7 +186,9 @@ export class WorkspaceNotificationStore implements IWorkspaceNotificationStore {
    * @description generate notification query params
    * @returns { object }
    */
-  generateNotificationQueryParams = (paramType: TNotificationQueryParamType): TNotificationPaginatedInfoQueryParams => {
+  generateNotificationQueryParams = (
+    paramType: TNotificationQueryParamType,
+  ): TNotificationPaginatedInfoQueryParams => {
     const queryParamsType =
       Object.entries(this.filters.type)
         .filter(([, value]) => value)
@@ -237,7 +248,11 @@ export class WorkspaceNotificationStore implements IWorkspaceNotificationStore {
     if (!workspaceSlug) return;
 
     set(this, "notifications", {});
-    this.getNotifications(workspaceSlug, ENotificationLoader.INIT_LOADER, ENotificationQueryParamType.INIT);
+    this.getNotifications(
+      workspaceSlug,
+      ENotificationLoader.INIT_LOADER,
+      ENotificationQueryParamType.INIT,
+    );
   };
 
   /**
@@ -253,7 +268,11 @@ export class WorkspaceNotificationStore implements IWorkspaceNotificationStore {
     if (!workspaceSlug) return;
 
     set(this, "notifications", {});
-    this.getNotifications(workspaceSlug, ENotificationLoader.INIT_LOADER, ENotificationQueryParamType.INIT);
+    this.getNotifications(
+      workspaceSlug,
+      ENotificationLoader.INIT_LOADER,
+      ENotificationQueryParamType.INIT,
+    );
   };
 
   // actions
@@ -268,7 +287,11 @@ export class WorkspaceNotificationStore implements IWorkspaceNotificationStore {
     if (!workspaceSlug) return;
 
     set(this, "notifications", {});
-    this.getNotifications(workspaceSlug, ENotificationLoader.INIT_LOADER, ENotificationQueryParamType.INIT);
+    this.getNotifications(
+      workspaceSlug,
+      ENotificationLoader.INIT_LOADER,
+      ENotificationQueryParamType.INIT,
+    );
   };
 
   /**
@@ -293,14 +316,16 @@ export class WorkspaceNotificationStore implements IWorkspaceNotificationStore {
         update(
           this.unreadNotificationsCount,
           "total_unread_notifications_count",
-          (count: number) => +Math.max(0, type === "increment" ? count + validCount : count - validCount)
+          (count: number) =>
+            +Math.max(0, type === "increment" ? count + validCount : count - validCount),
         );
         break;
       case ENotificationTab.MENTIONS:
         update(
           this.unreadNotificationsCount,
           "mention_unread_notifications_count",
-          (count: number) => +Math.max(0, type === "increment" ? count + validCount : count - validCount)
+          (count: number) =>
+            +Math.max(0, type === "increment" ? count + validCount : count - validCount),
         );
         break;
       default:
@@ -314,9 +339,12 @@ export class WorkspaceNotificationStore implements IWorkspaceNotificationStore {
    * @param { TNotificationQueryParamType } queryCursorType,
    * @returns { number | undefined }
    */
-  getUnreadNotificationsCount = async (workspaceSlug: string): Promise<TUnreadNotificationsCount | undefined> => {
+  getUnreadNotificationsCount = async (
+    workspaceSlug: string,
+  ): Promise<TUnreadNotificationsCount | undefined> => {
     try {
-      const unreadNotificationCount = await workspaceNotificationService.fetchUnreadNotificationsCount(workspaceSlug);
+      const unreadNotificationCount =
+        await workspaceNotificationService.fetchUnreadNotificationsCount(workspaceSlug);
       if (unreadNotificationCount)
         runInAction(() => {
           set(this, "unreadNotificationsCount", unreadNotificationCount);
@@ -337,13 +365,16 @@ export class WorkspaceNotificationStore implements IWorkspaceNotificationStore {
   getNotifications = async (
     workspaceSlug: string,
     loader: TNotificationLoader = ENotificationLoader.INIT_LOADER,
-    queryParamType: TNotificationQueryParamType = ENotificationQueryParamType.INIT
+    queryParamType: TNotificationQueryParamType = ENotificationQueryParamType.INIT,
   ): Promise<TNotificationPaginatedInfo | undefined> => {
     this.loader = loader;
     try {
       const queryParams = this.generateNotificationQueryParams(queryParamType);
       await this.getUnreadNotificationsCount(workspaceSlug);
-      const notificationResponse = await workspaceNotificationService.fetchNotifications(workspaceSlug, queryParams);
+      const notificationResponse = await workspaceNotificationService.fetchNotifications(
+        workspaceSlug,
+        queryParams,
+      );
       if (notificationResponse) {
         const { results, ...paginationInfo } = notificationResponse;
         runInAction(() => {
@@ -384,12 +415,12 @@ export class WorkspaceNotificationStore implements IWorkspaceNotificationStore {
           this.currentNotificationTab === ENotificationTab.ALL
             ? "total_unread_notifications_count"
             : "mention_unread_notifications_count",
-          () => 0
+          () => 0,
         );
         Object.values(this.notifications).forEach((notification) =>
           notification.mutateNotification({
             read_at: new Date().toUTCString(),
-          })
+          }),
         );
       });
     } catch (error) {

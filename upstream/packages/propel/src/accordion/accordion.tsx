@@ -37,9 +37,18 @@ export interface AccordionContentProps {
   children: React.ReactNode;
 }
 
-function AccordionRoot({ defaultValue = [], allowMultiple = false, className = "", children }: AccordionRootProps) {
+function AccordionRoot({
+  defaultValue = [],
+  allowMultiple = false,
+  className = "",
+  children,
+}: AccordionRootProps) {
   return (
-    <BaseAccordion.Root defaultValue={defaultValue} openMultiple={allowMultiple} className={`text-14 ${className}`}>
+    <BaseAccordion.Root
+      defaultValue={defaultValue}
+      openMultiple={allowMultiple}
+      className={`text-14 ${className}`}
+    >
       {children}
     </BaseAccordion.Root>
   );
@@ -55,7 +64,12 @@ function AccordionItem({ value, disabled, className = "", children }: AccordionI
 
 function AccordionTrigger({
   className = "",
-  icon = <PlusIcon aria-hidden="true" className="transition-all ease-out group-data-[panel-open]:rotate-45" />,
+  icon = (
+    <PlusIcon
+      aria-hidden="true"
+      className="transition-all ease-out group-data-[panel-open]:rotate-45"
+    />
+  ),
   iconClassName = "",
   children,
   asChild = false,
@@ -63,9 +77,13 @@ function AccordionTrigger({
   return (
     <BaseAccordion.Header>
       {asChild ? (
-        <BaseAccordion.Trigger className={`w-full py-2 ${className}`}>{children}</BaseAccordion.Trigger>
+        <BaseAccordion.Trigger className={`w-full py-2 ${className}`}>
+          {children}
+        </BaseAccordion.Trigger>
       ) : (
-        <BaseAccordion.Trigger className={`flex w-full items-center justify-between gap-2 py-2 ${className}`}>
+        <BaseAccordion.Trigger
+          className={`flex w-full items-center justify-between gap-2 py-2 ${className}`}
+        >
           {children}
           <span aria-hidden="true" className={`flex-shrink-0 ${iconClassName}`}>
             {icon}
@@ -76,7 +94,11 @@ function AccordionTrigger({
   );
 }
 
-function AccordionContent({ className = "", contentWrapperClassName = "", children }: AccordionContentProps) {
+function AccordionContent({
+  className = "",
+  contentWrapperClassName = "",
+  children,
+}: AccordionContentProps) {
   return (
     <BaseAccordion.Panel
       className={`h-[var(--accordion-panel-height)] overflow-hidden transition-[height] ease-out data-[ending-style]:h-0 data-[starting-style]:h-0 ${className}`}

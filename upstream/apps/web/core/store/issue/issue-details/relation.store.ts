@@ -8,7 +8,13 @@ import { uniq, get, set } from "lodash-es";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { computedFn } from "mobx-utils";
 // plane imports
-import type { TIssueRelationIdMap, TIssueRelationMap, TIssueRelation, TIssue, TIssueRelationTypes } from "@plane/types";
+import type {
+  TIssueRelationIdMap,
+  TIssueRelationMap,
+  TIssueRelation,
+  TIssue,
+  TIssueRelationTypes,
+} from "@plane/types";
 // components
 import type { TRelationObject } from "@/components/issues/issue-detail-widgets/relations";
 import { REVERSE_RELATIONS } from "@plane/constants";
@@ -18,13 +24,17 @@ import { IssueRelationService } from "@/services/issue";
 import type { IIssueDetail } from "./root.store";
 export interface IIssueRelationStoreActions {
   // actions
-  fetchRelations: (workspaceSlug: string, projectId: string, issueId: string) => Promise<TIssueRelation>;
+  fetchRelations: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+  ) => Promise<TIssueRelation>;
   createRelation: (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     relationType: TIssueRelationTypes,
-    issues: string[]
+    issues: string[],
   ) => Promise<TIssue[]>;
   removeRelation: (
     workspaceSlug: string,
@@ -32,7 +42,7 @@ export interface IIssueRelationStoreActions {
     issueId: string,
     relationType: TIssueRelationTypes,
     related_issue: string,
-    updateLocally?: boolean
+    updateLocally?: boolean,
   ) => Promise<void>;
 }
 
@@ -45,11 +55,18 @@ export interface IIssueRelationStore extends IIssueRelationStoreActions {
   getRelationsByIssueId: (issueId: string) => TIssueRelationIdMap | undefined;
   getRelationCountByIssueId: (
     issueId: string,
-    ISSUE_RELATION_OPTIONS: { [key in TIssueRelationTypes]?: TRelationObject }
+    ISSUE_RELATION_OPTIONS: { [key in TIssueRelationTypes]?: TRelationObject },
   ) => number;
-  getRelationByIssueIdRelationType: (issueId: string, relationType: TIssueRelationTypes) => string[] | undefined;
+  getRelationByIssueIdRelationType: (
+    issueId: string,
+    relationType: TIssueRelationTypes,
+  ) => string[] | undefined;
   extractRelationsFromIssues: (issues: TIssue[]) => void;
-  createCurrentRelation: (issueId: string, relationType: TIssueRelationTypes, relatedIssueId: string) => Promise<void>;
+  createCurrentRelation: (
+    issueId: string,
+    relationType: TIssueRelationTypes,
+    relatedIssueId: string,
+  ) => Promise<void>;
 }
 
 export class IssueRelationStore implements IIssueRelationStore {
@@ -93,15 +110,21 @@ export class IssueRelationStore implements IIssueRelationStore {
   };
 
   getRelationCountByIssueId = computedFn(
-    (issueId: string, ISSUE_RELATION_OPTIONS: { [key in TIssueRelationTypes]?: TRelationObject }) => {
+    (
+      issueId: string,
+      ISSUE_RELATION_OPTIONS: { [key in TIssueRelationTypes]?: TRelationObject },
+    ) => {
       const issueRelations = this.getRelationsByIssueId(issueId);
 
       const issueRelationKeys = (Object.keys(issueRelations ?? {}) as TIssueRelationTypes[]).filter(
-        (relationKey) => !!ISSUE_RELATION_OPTIONS[relationKey]
+        (relationKey) => !!ISSUE_RELATION_OPTIONS[relationKey],
       );
 
-      return issueRelationKeys.reduce((acc, curr) => acc + (issueRelations?.[curr]?.length ?? 0), 0);
-    }
+      return issueRelationKeys.reduce(
+        (acc, curr) => acc + (issueRelations?.[curr]?.length ?? 0),
+        0,
+      );
+    },
   );
 
   getRelationByIssueIdRelationType = (issueId: string, relationType: TIssueRelationTypes) => {
@@ -111,18 +134,23 @@ export class IssueRelationStore implements IIssueRelationStore {
 
   // actions
   fetchRelations = async (workspaceSlug: string, projectId: string, issueId: string) => {
-    const response = await this.issueRelationService.listIssueRelations(workspaceSlug, projectId, issueId);
+    const response = await this.issueRelationService.listIssueRelations(
+      workspaceSlug,
+      projectId,
+      issueId,
+    );
 
     runInAction(() => {
       Object.keys(response).forEach((key) => {
         const relation_key = key as TIssueRelationTypes;
         const relation_issues = response[relation_key];
         const issues = relation_issues.flat().map((issue) => issue);
-        if (issues && issues.length > 0) this.rootIssueDetailStore.rootIssueStore.issues.addIssue(issues);
+        if (issues && issues.length > 0)
+          this.rootIssueDetailStore.rootIssueStore.issues.addIssue(issues);
         set(
           this.relationMap,
           [issueId, relation_key],
-          issues && issues.length > 0 ? issues.map((issue) => issue.id) : []
+          issues && issues.length > 0 ? issues.map((issue) => issue.id) : [],
         );
       });
     });
@@ -135,12 +163,17 @@ export class IssueRelationStore implements IIssueRelationStore {
     projectId: string,
     issueId: string,
     relationType: TIssueRelationTypes,
-    issues: string[]
+    issues: string[],
   ) => {
-    const response = await this.issueRelationService.createIssueRelations(workspaceSlug, projectId, issueId, {
-      relation_type: relationType,
-      issues,
-    });
+    const response = await this.issueRelationService.createIssueRelations(
+      workspaceSlug,
+      projectId,
+      issueId,
+      {
+        relation_type: relationType,
+        issues,
+      },
+    );
 
     const reverseRelatedType = REVERSE_RELATIONS[relationType];
 
@@ -156,7 +189,11 @@ export class IssueRelationStore implements IIssueRelationStore {
           if (!issuesOfRelated) {
             set(this.relationMap, [issue.id, reverseRelatedType], [issueId]);
           } else {
-            set(this.relationMap, [issue.id, reverseRelatedType], uniq([...issuesOfRelated, issueId]));
+            set(
+              this.relationMap,
+              [issue.id, reverseRelatedType],
+              uniq([...issuesOfRelated, issueId]),
+            );
           }
         });
         set(this.relationMap, [issueId, relationType], uniq(issuesOfRelation));
@@ -174,7 +211,11 @@ export class IssueRelationStore implements IIssueRelationStore {
    * @param relatedIssueId
    * @returns
    */
-  createCurrentRelation = async (issueId: string, relationType: TIssueRelationTypes, relatedIssueId: string) => {
+  createCurrentRelation = async (
+    issueId: string,
+    relationType: TIssueRelationTypes,
+    relatedIssueId: string,
+  ) => {
     const workspaceSlug = this.rootIssueDetailStore.rootIssueStore.workspaceSlug;
     const projectId = this.rootIssueDetailStore.issue.getIssueById(issueId)?.project_id;
 
@@ -191,13 +232,21 @@ export class IssueRelationStore implements IIssueRelationStore {
         if (!issuesOfRelation) {
           set(this.relationMap, [issueId, relationType], [relatedIssueId]);
         } else {
-          set(this.relationMap, [issueId, relationType], uniq([...issuesOfRelation, relatedIssueId]));
+          set(
+            this.relationMap,
+            [issueId, relationType],
+            uniq([...issuesOfRelation, relatedIssueId]),
+          );
         }
 
         if (!issuesOfRelated) {
           set(this.relationMap, [relatedIssueId, reverseRelatedType], [issueId]);
         } else {
-          set(this.relationMap, [relatedIssueId, reverseRelatedType], uniq([...issuesOfRelated, issueId]));
+          set(
+            this.relationMap,
+            [relatedIssueId, reverseRelatedType],
+            uniq([...issuesOfRelated, issueId]),
+          );
         }
       });
 
@@ -228,11 +277,11 @@ export class IssueRelationStore implements IIssueRelationStore {
     issueId: string,
     relationType: TIssueRelationTypes,
     related_issue: string,
-    updateLocally = false
+    updateLocally = false,
   ) => {
     try {
       const relationIndex = this.relationMap[issueId]?.[relationType]?.findIndex(
-        (_issueId) => _issueId === related_issue
+        (_issueId) => _issueId === related_issue,
       );
       if (relationIndex >= 0)
         runInAction(() => {
@@ -249,7 +298,7 @@ export class IssueRelationStore implements IIssueRelationStore {
       // While removing one relation, reverse of the relation should also be removed
       const reverseRelatedType = REVERSE_RELATIONS[relationType];
       const relatedIndex = this.relationMap[related_issue]?.[reverseRelatedType]?.findIndex(
-        (_issueId) => _issueId === related_issue
+        (_issueId) => _issueId === related_issue,
       );
       if (relationIndex >= 0)
         runInAction(() => {

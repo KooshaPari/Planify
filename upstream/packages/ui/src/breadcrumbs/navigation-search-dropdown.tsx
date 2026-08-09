@@ -25,7 +25,9 @@ type TBreadcrumbNavigationSearchDropdownProps = {
   shouldTruncate?: boolean;
 };
 
-export function BreadcrumbNavigationSearchDropdown(props: TBreadcrumbNavigationSearchDropdownProps) {
+export function BreadcrumbNavigationSearchDropdown(
+  props: TBreadcrumbNavigationSearchDropdownProps,
+) {
   const {
     icon,
     title,
@@ -70,7 +72,7 @@ export function BreadcrumbNavigationSearchDropdown(props: TBreadcrumbNavigationS
                 "group flex h-full cursor-pointer items-center gap-2 rounded-sm rounded-r-none px-1.5 py-1 text-13 font-medium text-tertiary",
                 {
                   "hover:bg-layer-1 hover:text-primary": !isLast,
-                }
+                },
               )}
             >
               {shouldTruncate && <div className="flex text-tertiary @4xl:hidden">...</div>}
@@ -104,7 +106,7 @@ export function BreadcrumbNavigationSearchDropdown(props: TBreadcrumbNavigationS
         "group flex h-full cursor-pointer items-center gap-0.5 rounded-sm outline-none hover:bg-surface-2",
         {
           "bg-surface-2": isDropdownOpen,
-        }
+        },
       )}
     />
   );

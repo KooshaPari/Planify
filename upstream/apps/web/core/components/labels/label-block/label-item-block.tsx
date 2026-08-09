@@ -81,7 +81,11 @@ export function LabelItemBlock(props: ILabelItemBlock) {
               : "opacity-0 group-hover:pointer-events-auto group-hover:opacity-100"
           } ${isLabelGroup && "-top-0.5"}`}
         >
-          <CustomMenu ellipsis menuButtonOnClick={() => setIsMenuActive(!isMenuActive)} useCaptureForOutsideClick>
+          <CustomMenu
+            ellipsis
+            menuButtonOnClick={() => setIsMenuActive(!isMenuActive)}
+            useCaptureForOutsideClick
+          >
             {customMenuItems.map(
               ({ isVisible, onClick, CustomIcon, text, key }) =>
                 isVisible && (
@@ -91,7 +95,7 @@ export function LabelItemBlock(props: ILabelItemBlock) {
                       <span>{text}</span>
                     </span>
                   </CustomMenu.MenuItem>
-                )
+                ),
             )}
           </CustomMenu>
           {!isLabelGroup && (

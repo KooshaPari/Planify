@@ -16,7 +16,9 @@ type TStateMarksAsDefault = {
   markStateAsDefaultCallback: TStateOperationsCallbacks["markStateAsDefault"];
 };
 
-export const StateMarksAsDefault = observer(function StateMarksAsDefault(props: TStateMarksAsDefault) {
+export const StateMarksAsDefault = observer(function StateMarksAsDefault(
+  props: TStateMarksAsDefault,
+) {
   const { stateId, isDefault, markStateAsDefaultCallback } = props;
   // states
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +40,7 @@ export const StateMarksAsDefault = observer(function StateMarksAsDefault(props: 
     <button
       className={cn(
         "text-11 whitespace-nowrap transition-colors",
-        isDefault ? "text-tertiary" : "text-secondary hover:text-primary"
+        isDefault ? "text-tertiary" : "text-secondary hover:text-primary",
       )}
       disabled={isDefault || isLoading}
       onClick={handleMarkAsDefault}

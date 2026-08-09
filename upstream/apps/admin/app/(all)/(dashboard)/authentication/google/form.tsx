@@ -13,7 +13,10 @@ import { Monitor } from "lucide-react";
 import { API_BASE_URL } from "@plane/constants";
 import { Button, getButtonStyling } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { IFormattedInstanceConfiguration, TInstanceGoogleAuthenticationConfigurationKeys } from "@plane/types";
+import type {
+  IFormattedInstanceConfiguration,
+  TInstanceGoogleAuthenticationConfigurationKeys,
+} from "@plane/types";
 // components
 import { CodeBlock } from "@/components/common/code-block";
 import { ConfirmDiscardModal } from "@/components/common/confirm-discard-modal";
@@ -52,7 +55,11 @@ export function InstanceGoogleConfigForm(props: Props) {
     },
   });
 
-  const originURL = !isEmpty(API_BASE_URL) ? API_BASE_URL : typeof window !== "undefined" ? window.location.origin : "";
+  const originURL = !isEmpty(API_BASE_URL)
+    ? API_BASE_URL
+    : typeof window !== "undefined"
+      ? window.location.origin
+      : "";
 
   const GOOGLE_FORM_FIELDS: TControllerInputFormField[] = [
     {
@@ -114,7 +121,8 @@ export function InstanceGoogleConfigForm(props: Props) {
       description: (
         <p>
           We will auto-generate this. Paste this into your{" "}
-          <CodeBlock darkerShade>Authorized JavaScript origins</CodeBlock> field. For this OAuth client{" "}
+          <CodeBlock darkerShade>Authorized JavaScript origins</CodeBlock> field. For this OAuth
+          client{" "}
           <a
             href="https://console.cloud.google.com/apis/credentials/oauthclient"
             target="_blank"
@@ -135,8 +143,8 @@ export function InstanceGoogleConfigForm(props: Props) {
       url: `${originURL}/auth/google/callback/`,
       description: (
         <p>
-          We will auto-generate this. Paste this into your <CodeBlock darkerShade>Authorized Redirect URI</CodeBlock>{" "}
-          field. For this OAuth client{" "}
+          We will auto-generate this. Paste this into your{" "}
+          <CodeBlock darkerShade>Authorized Redirect URI</CodeBlock> field. For this OAuth client{" "}
           <a
             href="https://console.cloud.google.com/apis/credentials/oauthclient"
             target="_blank"
@@ -213,7 +221,11 @@ export function InstanceGoogleConfigForm(props: Props) {
                 >
                   {isSubmitting ? "Saving" : "Save changes"}
                 </Button>
-                <Link href="/authentication" className={getButtonStyling("secondary", "lg")} onClick={handleGoBack}>
+                <Link
+                  href="/authentication"
+                  className={getButtonStyling("secondary", "lg")}
+                  onClick={handleGoBack}
+                >
                   Go back
                 </Link>
               </div>
@@ -226,7 +238,12 @@ export function InstanceGoogleConfigForm(props: Props) {
               {/* common service details */}
               <div className="flex flex-col gap-y-4 rounded-lg bg-layer-1 px-6 py-4">
                 {GOOGLE_COMMON_SERVICE_DETAILS.map((field) => (
-                  <CopyField key={field.key} label={field.label} url={field.url} description={field.description} />
+                  <CopyField
+                    key={field.key}
+                    label={field.label}
+                    url={field.url}
+                    description={field.description}
+                  />
                 ))}
               </div>
 
@@ -238,7 +255,12 @@ export function InstanceGoogleConfigForm(props: Props) {
                 </div>
                 <div className="flex flex-col gap-y-4 bg-layer-1 px-6 py-4">
                   {GOOGLE_SERVICE_DETAILS.map((field) => (
-                    <CopyField key={field.key} label={field.label} url={field.url} description={field.description} />
+                    <CopyField
+                      key={field.key}
+                      label={field.label}
+                      url={field.url}
+                      description={field.description}
+                    />
                   ))}
                 </div>
               </div>

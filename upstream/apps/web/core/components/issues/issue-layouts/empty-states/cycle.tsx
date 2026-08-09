@@ -25,7 +25,11 @@ import { useWorkItemFilterInstance } from "@/hooks/store/work-item-filters/use-w
 
 export const CycleEmptyState = observer(function CycleEmptyState() {
   // router
-  const { workspaceSlug: routerWorkspaceSlug, projectId: routerProjectId, cycleId: routerCycleId } = useParams();
+  const {
+    workspaceSlug: routerWorkspaceSlug,
+    projectId: routerProjectId,
+    cycleId: routerCycleId,
+  } = useParams();
   const workspaceSlug = routerWorkspaceSlug ? routerWorkspaceSlug.toString() : undefined;
   const projectId = routerProjectId ? routerProjectId.toString() : undefined;
   const cycleId = routerCycleId ? routerCycleId.toString() : undefined;
@@ -42,10 +46,11 @@ export const CycleEmptyState = observer(function CycleEmptyState() {
   const cycleWorkItemFilter = useWorkItemFilterInstance(EIssuesStoreType.CYCLE, cycleId);
   const cycleDetails = cycleId ? getCycleById(cycleId) : undefined;
   const isCompletedCycleSnapshotAvailable = !isEmpty(cycleDetails?.progress_snapshot ?? {});
-  const isCompletedAndEmpty = isCompletedCycleSnapshotAvailable || cycleDetails?.status?.toLowerCase() === "completed";
+  const isCompletedAndEmpty =
+    isCompletedCycleSnapshotAvailable || cycleDetails?.status?.toLowerCase() === "completed";
   const canPerformEmptyStateActions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   const handleAddIssuesToCycle = async (data: ISearchIssueResponse[]) => {
@@ -60,14 +65,14 @@ export const CycleEmptyState = observer(function CycleEmptyState() {
           type: TOAST_TYPE.SUCCESS,
           title: "Success!",
           message: "Work items added to the cycle successfully.",
-        })
+        }),
       )
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
           title: "Error!",
           message: "Selected work items could not be added to the cycle. Please try again.",
-        })
+        }),
       );
   };
 

@@ -56,7 +56,11 @@ export function WebhookIndividualEventOptions({ control }: Props) {
           render={({ field: { onChange, value } }) => (
             <div>
               <div className="flex items-center gap-2">
-                <Checkbox id={option.key} onChange={() => onChange(!value)} checked={value === true} />
+                <Checkbox
+                  id={option.key}
+                  onChange={() => onChange(!value)}
+                  checked={value === true}
+                />
                 <label className="text-13" htmlFor={option.key}>
                   {option.label}
                 </label>

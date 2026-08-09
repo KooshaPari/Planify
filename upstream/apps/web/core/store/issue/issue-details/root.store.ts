@@ -28,9 +28,16 @@ import type { IIssueRootStore } from "../root.store";
 import { IssueAttachmentStore } from "./attachment.store";
 import type { IIssueAttachmentStore, IIssueAttachmentStoreActions } from "./attachment.store";
 import { IssueCommentStore } from "./comment.store";
-import type { IIssueCommentStore, IIssueCommentStoreActions, TCommentLoader } from "./comment.store";
+import type {
+  IIssueCommentStore,
+  IIssueCommentStoreActions,
+  TCommentLoader,
+} from "./comment.store";
 import { IssueCommentReactionStore } from "./comment_reaction.store";
-import type { IIssueCommentReactionStore, IIssueCommentReactionStoreActions } from "./comment_reaction.store";
+import type {
+  IIssueCommentReactionStore,
+  IIssueCommentReactionStoreActions,
+} from "./comment_reaction.store";
 import { IssueStore } from "./issue.store";
 import type { IIssueStore, IIssueStoreActions } from "./issue.store";
 import { IssueLinkStore } from "./link.store";
@@ -57,7 +64,11 @@ export type TIssueRelationModal = {
   relationType: TIssueRelationTypes | null;
 };
 
-export type TIssueCrudState = { toggle: boolean; parentIssueId: string | undefined; issue: TIssue | undefined };
+export type TIssueCrudState = {
+  toggle: boolean;
+  parentIssueId: string | undefined;
+  issue: TIssue | undefined;
+};
 
 export type TIssueCrudOperationState = {
   create: TIssueCrudState;
@@ -244,7 +255,8 @@ export abstract class IssueDetail implements IIssueDetail {
 
   // actions
   setRelationKey = (relationKey: TIssueRelationTypes | null) => (this.relationKey = relationKey);
-  setIssueCrudOperationState = (state: TIssueCrudOperationState) => (this.issueCrudOperationState = state);
+  setIssueCrudOperationState = (state: TIssueCrudOperationState) =>
+    (this.issueCrudOperationState = state);
   setPeekIssue = (peekIssue: TPeekIssue | undefined) => (this.peekIssue = peekIssue);
   toggleCreateIssueModal = (value: boolean) => (this.isCreateIssueModalOpen = value);
   toggleIssueLinkModal = (value: boolean) => (this.isIssueLinkModalOpen = value);
@@ -254,7 +266,8 @@ export abstract class IssueDetail implements IIssueDetail {
   toggleRelationModal = (issueId: string | null, relationType: TIssueRelationTypes | null) =>
     (this.isRelationModalOpen = { issueId, relationType });
   toggleSubIssuesModal = (issueId: string | null) => (this.isSubIssuesModalOpen = issueId);
-  toggleDeleteAttachmentModal = (attachmentId: string | null) => (this.attachmentDeleteModalId = attachmentId);
+  toggleDeleteAttachmentModal = (attachmentId: string | null) =>
+    (this.attachmentDeleteModalId = attachmentId);
   setOpenWidgets = (state: TWorkItemWidgets[]) => {
     this.openWidgets = state;
     if (this.lastWidgetAction) this.lastWidgetAction = null;
@@ -272,42 +285,77 @@ export abstract class IssueDetail implements IIssueDetail {
   // issue
   fetchIssue = async (workspaceSlug: string, projectId: string, issueId: string) =>
     this.issue.fetchIssue(workspaceSlug, projectId, issueId);
-  fetchIssueWithIdentifier = async (workspaceSlug: string, projectIdentifier: string, sequenceId: string) =>
-    this.issue.fetchIssueWithIdentifier(workspaceSlug, projectIdentifier, sequenceId);
-  updateIssue = async (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) =>
-    this.issue.updateIssue(workspaceSlug, projectId, issueId, data);
+  fetchIssueWithIdentifier = async (
+    workspaceSlug: string,
+    projectIdentifier: string,
+    sequenceId: string,
+  ) => this.issue.fetchIssueWithIdentifier(workspaceSlug, projectIdentifier, sequenceId);
+  updateIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => this.issue.updateIssue(workspaceSlug, projectId, issueId, data);
   removeIssue = async (workspaceSlug: string, projectId: string, issueId: string) =>
     this.issue.removeIssue(workspaceSlug, projectId, issueId);
   archiveIssue = async (workspaceSlug: string, projectId: string, issueId: string) =>
     this.issue.archiveIssue(workspaceSlug, projectId, issueId);
-  addCycleToIssue = async (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) =>
-    this.issue.addCycleToIssue(workspaceSlug, projectId, cycleId, issueId);
-  addIssueToCycle = async (workspaceSlug: string, projectId: string, cycleId: string, issueIds: string[]) =>
-    this.issue.addIssueToCycle(workspaceSlug, projectId, cycleId, issueIds);
-  removeIssueFromCycle = async (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) =>
-    this.issue.removeIssueFromCycle(workspaceSlug, projectId, cycleId, issueId);
+  addCycleToIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => this.issue.addCycleToIssue(workspaceSlug, projectId, cycleId, issueId);
+  addIssueToCycle = async (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueIds: string[],
+  ) => this.issue.addIssueToCycle(workspaceSlug, projectId, cycleId, issueIds);
+  removeIssueFromCycle = async (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => this.issue.removeIssueFromCycle(workspaceSlug, projectId, cycleId, issueId);
   changeModulesInIssue = async (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     addModuleIds: string[],
-    removeModuleIds: string[]
-  ) => this.issue.changeModulesInIssue(workspaceSlug, projectId, issueId, addModuleIds, removeModuleIds);
-  removeIssueFromModule = async (workspaceSlug: string, projectId: string, moduleId: string, issueId: string) =>
-    this.issue.removeIssueFromModule(workspaceSlug, projectId, moduleId, issueId);
+    removeModuleIds: string[],
+  ) =>
+    this.issue.changeModulesInIssue(
+      workspaceSlug,
+      projectId,
+      issueId,
+      addModuleIds,
+      removeModuleIds,
+    );
+  removeIssueFromModule = async (
+    workspaceSlug: string,
+    projectId: string,
+    moduleId: string,
+    issueId: string,
+  ) => this.issue.removeIssueFromModule(workspaceSlug, projectId, moduleId, issueId);
 
   // reactions
-  addReactions = (issueId: string, reactions: TIssueReaction[]) => this.reaction.addReactions(issueId, reactions);
+  addReactions = (issueId: string, reactions: TIssueReaction[]) =>
+    this.reaction.addReactions(issueId, reactions);
   fetchReactions = async (workspaceSlug: string, projectId: string, issueId: string) =>
     this.reaction.fetchReactions(workspaceSlug, projectId, issueId);
-  createReaction = async (workspaceSlug: string, projectId: string, issueId: string, reaction: string) =>
-    this.reaction.createReaction(workspaceSlug, projectId, issueId, reaction);
+  createReaction = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    reaction: string,
+  ) => this.reaction.createReaction(workspaceSlug, projectId, issueId, reaction);
   removeReaction = async (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     reaction: string,
-    userId: string
+    userId: string,
   ) => this.reaction.removeReaction(workspaceSlug, projectId, issueId, reaction, userId);
 
   // attachments
@@ -315,23 +363,35 @@ export abstract class IssueDetail implements IIssueDetail {
     this.attachment.addAttachments(issueId, attachments);
   fetchAttachments = async (workspaceSlug: string, projectId: string, issueId: string) =>
     this.attachment.fetchAttachments(workspaceSlug, projectId, issueId);
-  createAttachment = async (workspaceSlug: string, projectId: string, issueId: string, file: File) =>
-    this.attachment.createAttachment(workspaceSlug, projectId, issueId, file);
-  removeAttachment = async (workspaceSlug: string, projectId: string, issueId: string, attachmentId: string) =>
-    this.attachment.removeAttachment(workspaceSlug, projectId, issueId, attachmentId);
+  createAttachment = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    file: File,
+  ) => this.attachment.createAttachment(workspaceSlug, projectId, issueId, file);
+  removeAttachment = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    attachmentId: string,
+  ) => this.attachment.removeAttachment(workspaceSlug, projectId, issueId, attachmentId);
 
   // link
   addLinks = (issueId: string, links: TIssueLink[]) => this.link.addLinks(issueId, links);
   fetchLinks = async (workspaceSlug: string, projectId: string, issueId: string) =>
     this.link.fetchLinks(workspaceSlug, projectId, issueId);
-  createLink = async (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssueLink>) =>
-    this.link.createLink(workspaceSlug, projectId, issueId, data);
+  createLink = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssueLink>,
+  ) => this.link.createLink(workspaceSlug, projectId, issueId, data);
   updateLink = async (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     linkId: string,
-    data: Partial<TIssueLink>
+    data: Partial<TIssueLink>,
   ) => this.link.updateLink(workspaceSlug, projectId, issueId, linkId, data);
   removeLink = async (workspaceSlug: string, projectId: string, issueId: string, linkId: string) =>
     this.link.removeLink(workspaceSlug, projectId, issueId, linkId);
@@ -339,8 +399,12 @@ export abstract class IssueDetail implements IIssueDetail {
   // sub issues
   fetchSubIssues = async (workspaceSlug: string, projectId: string, issueId: string) =>
     this.subIssues.fetchSubIssues(workspaceSlug, projectId, issueId);
-  createSubIssues = async (workspaceSlug: string, projectId: string, parentIssueId: string, data: string[]) =>
-    this.subIssues.createSubIssues(workspaceSlug, projectId, parentIssueId, data);
+  createSubIssues = async (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    data: string[],
+  ) => this.subIssues.createSubIssues(workspaceSlug, projectId, parentIssueId, data);
   updateSubIssue = async (
     workspaceSlug: string,
     projectId: string,
@@ -348,12 +412,29 @@ export abstract class IssueDetail implements IIssueDetail {
     issueId: string,
     issueData: Partial<TIssue>,
     oldIssue?: Partial<TIssue>,
-    fromModal?: boolean
-  ) => this.subIssues.updateSubIssue(workspaceSlug, projectId, parentIssueId, issueId, issueData, oldIssue, fromModal);
-  removeSubIssue = async (workspaceSlug: string, projectId: string, parentIssueId: string, issueId: string) =>
-    this.subIssues.removeSubIssue(workspaceSlug, projectId, parentIssueId, issueId);
-  deleteSubIssue = async (workspaceSlug: string, projectId: string, parentIssueId: string, issueId: string) =>
-    this.subIssues.deleteSubIssue(workspaceSlug, projectId, parentIssueId, issueId);
+    fromModal?: boolean,
+  ) =>
+    this.subIssues.updateSubIssue(
+      workspaceSlug,
+      projectId,
+      parentIssueId,
+      issueId,
+      issueData,
+      oldIssue,
+      fromModal,
+    );
+  removeSubIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    issueId: string,
+  ) => this.subIssues.removeSubIssue(workspaceSlug, projectId, parentIssueId, issueId);
+  deleteSubIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    parentIssueId: string,
+    issueId: string,
+  ) => this.subIssues.deleteSubIssue(workspaceSlug, projectId, parentIssueId, issueId);
 
   // subscription
   addSubscription = (issueId: string, isSubscribed: boolean | undefined | null) =>
@@ -373,7 +454,7 @@ export abstract class IssueDetail implements IIssueDetail {
     projectId: string,
     issueId: string,
     relationType: TIssueRelationTypes,
-    issues: string[]
+    issues: string[],
   ) => this.relation.createRelation(workspaceSlug, projectId, issueId, relationType, issues);
   removeRelation = async (
     workspaceSlug: string,
@@ -381,40 +462,75 @@ export abstract class IssueDetail implements IIssueDetail {
     issueId: string,
     relationType: TIssueRelationTypes,
     relatedIssue: string,
-    updateLocally?: boolean
-  ) => this.relation.removeRelation(workspaceSlug, projectId, issueId, relationType, relatedIssue, updateLocally);
+    updateLocally?: boolean,
+  ) =>
+    this.relation.removeRelation(
+      workspaceSlug,
+      projectId,
+      issueId,
+      relationType,
+      relatedIssue,
+      updateLocally,
+    );
 
   // activity
-  fetchActivities = async (workspaceSlug: string, projectId: string, issueId: string, loaderType?: TActivityLoader) =>
-    this.activity.fetchActivities(workspaceSlug, projectId, issueId, loaderType);
+  fetchActivities = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    loaderType?: TActivityLoader,
+  ) => this.activity.fetchActivities(workspaceSlug, projectId, issueId, loaderType);
 
   // comment
-  fetchComments = async (workspaceSlug: string, projectId: string, issueId: string, loaderType?: TCommentLoader) =>
-    this.comment.fetchComments(workspaceSlug, projectId, issueId, loaderType);
-  createComment = async (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssueComment>) =>
-    this.comment.createComment(workspaceSlug, projectId, issueId, data);
+  fetchComments = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    loaderType?: TCommentLoader,
+  ) => this.comment.fetchComments(workspaceSlug, projectId, issueId, loaderType);
+  createComment = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssueComment>,
+  ) => this.comment.createComment(workspaceSlug, projectId, issueId, data);
   updateComment = async (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     commentId: string,
-    data: Partial<TIssueComment>
+    data: Partial<TIssueComment>,
   ) => this.comment.updateComment(workspaceSlug, projectId, issueId, commentId, data);
-  removeComment = async (workspaceSlug: string, projectId: string, issueId: string, commentId: string) =>
-    this.comment.removeComment(workspaceSlug, projectId, issueId, commentId);
+  removeComment = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    commentId: string,
+  ) => this.comment.removeComment(workspaceSlug, projectId, issueId, commentId);
 
   // comment reaction
   fetchCommentReactions = async (workspaceSlug: string, projectId: string, commentId: string) =>
     this.commentReaction.fetchCommentReactions(workspaceSlug, projectId, commentId);
   applyCommentReactions = async (commentId: string, commentReactions: TIssueCommentReaction[]) =>
     this.commentReaction.applyCommentReactions(commentId, commentReactions);
-  createCommentReaction = async (workspaceSlug: string, projectId: string, commentId: string, reaction: string) =>
-    this.commentReaction.createCommentReaction(workspaceSlug, projectId, commentId, reaction);
+  createCommentReaction = async (
+    workspaceSlug: string,
+    projectId: string,
+    commentId: string,
+    reaction: string,
+  ) => this.commentReaction.createCommentReaction(workspaceSlug, projectId, commentId, reaction);
   removeCommentReaction = async (
     workspaceSlug: string,
     projectId: string,
     commentId: string,
     reaction: string,
-    userId: string
-  ) => this.commentReaction.removeCommentReaction(workspaceSlug, projectId, commentId, reaction, userId);
+    userId: string,
+  ) =>
+    this.commentReaction.removeCommentReaction(
+      workspaceSlug,
+      projectId,
+      commentId,
+      reaction,
+      userId,
+    );
 }

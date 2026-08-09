@@ -21,9 +21,12 @@ export const WidgetItemDragHandle = observer(function WidgetItemDragHandle(props
 
   return (
     <div
-      className={cn("mr-2 flex cursor-grab items-center justify-center rounded-sm text-placeholder", {
-        "cursor-grabbing": isDragging,
-      })}
+      className={cn(
+        "mr-2 flex cursor-grab items-center justify-center rounded-sm text-placeholder",
+        {
+          "cursor-grabbing": isDragging,
+        },
+      )}
     >
       <DragHandle className="bg-transparent" />
     </div>

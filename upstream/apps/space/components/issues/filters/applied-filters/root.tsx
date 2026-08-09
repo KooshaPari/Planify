@@ -19,7 +19,9 @@ type TIssueAppliedFilters = {
   anchor: string;
 };
 
-export const IssueAppliedFilters = observer(function IssueAppliedFilters(props: TIssueAppliedFilters) {
+export const IssueAppliedFilters = observer(function IssueAppliedFilters(
+  props: TIssueAppliedFilters,
+) {
   const { anchor } = props;
   // router
   const router = useRouter();
@@ -59,7 +61,7 @@ export const IssueAppliedFilters = observer(function IssueAppliedFilters(props: 
       const qs = new URLSearchParams(params).toString();
       router.push(`/issues/${anchor}?${qs}`);
     },
-    [activeLayout, anchor, issueFilters, router]
+    [activeLayout, anchor, issueFilters, router],
   );
 
   const handleFilters = useCallback(
@@ -72,7 +74,7 @@ export const IssueAppliedFilters = observer(function IssueAppliedFilters(props: 
       updateIssueFilters(anchor, "filters", key, newValues);
       updateRouteParams(key, newValues);
     },
-    [anchor, issueFilters, updateIssueFilters, updateRouteParams]
+    [anchor, issueFilters, updateIssueFilters, updateRouteParams],
   );
 
   const handleRemoveAllFilters = () => {
@@ -86,7 +88,7 @@ export const IssueAppliedFilters = observer(function IssueAppliedFilters(props: 
           labels: [],
         },
       },
-      true
+      true,
     );
 
     router.push(`/issues/${anchor}?${`board=${activeLayout || "list"}`}`);

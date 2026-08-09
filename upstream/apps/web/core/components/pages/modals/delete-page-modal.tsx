@@ -83,8 +83,10 @@ export const DeletePageModal = observer(function DeletePageModal(props: TConfirm
       content={
         <>
           Are you sure you want to delete page-{" "}
-          <span className="font-medium break-words break-all text-primary">{getPageName(name)}</span> ? The Page will be
-          deleted permanently. This action cannot be undone.
+          <span className="font-medium break-words break-all text-primary">
+            {getPageName(name)}
+          </span>{" "}
+          ? The Page will be deleted permanently. This action cannot be undone.
         </>
       }
     />

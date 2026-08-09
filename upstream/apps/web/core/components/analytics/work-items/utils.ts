@@ -18,7 +18,7 @@ export const generateBarColor = (
   value: string | null | undefined,
   params: ParamsProps,
   baseColors: string[],
-  workspaceStates?: IState[]
+  workspaceStates?: IState[],
 ): string => {
   if (!value) return baseColors[0];
   let color = baseColors[0];
@@ -43,7 +43,9 @@ export const generateBarColor = (
       if (state) {
         color = state.color;
       } else {
-        const index = Math.abs(value.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0)) % baseColors.length;
+        const index =
+          Math.abs(value.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0)) %
+          baseColors.length;
         color = baseColors[index];
       }
     }

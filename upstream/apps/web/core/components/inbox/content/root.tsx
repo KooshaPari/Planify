@@ -45,7 +45,8 @@ export const InboxContentRoot = observer(function InboxContentRoot(props: TInbox
   const [isSubmitting, setIsSubmitting] = useState<TNameDescriptionLoader>("saved");
   // hooks
   const { data: currentUser } = useUser();
-  const { currentTab, fetchInboxIssueById, getIssueInboxByIssueId, getIsIssueAvailable } = useProjectInbox();
+  const { currentTab, fetchInboxIssueById, getIssueInboxByIssueId, getIsIssueAvailable } =
+    useProjectInbox();
   const inboxIssue = getIssueInboxByIssueId(inboxIssueId);
   const { allowPermissions, getProjectRoleByWorkspaceSlugAndProjectId } = useUserPermissions();
 
@@ -69,14 +70,19 @@ export const InboxContentRoot = observer(function InboxContentRoot(props: TInbox
     {
       revalidateOnFocus: false,
       revalidateIfStale: false,
-    }
+    },
   );
 
   const isEditable =
-    allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT, workspaceSlug, projectId) ||
-    inboxIssue?.issue.created_by === currentUser?.id;
+    allowPermissions(
+      [EUserPermissions.ADMIN],
+      EUserPermissionsLevel.PROJECT,
+      workspaceSlug,
+      projectId,
+    ) || inboxIssue?.issue.created_by === currentUser?.id;
 
-  const isGuest = getProjectRoleByWorkspaceSlugAndProjectId(workspaceSlug, projectId) === EUserPermissions.GUEST;
+  const isGuest =
+    getProjectRoleByWorkspaceSlugAndProjectId(workspaceSlug, projectId) === EUserPermissions.GUEST;
   const isOwner = inboxIssue?.issue.created_by === currentUser?.id;
   const readOnly = !isOwner && isGuest;
 

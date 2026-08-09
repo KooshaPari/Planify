@@ -17,7 +17,12 @@ type Props = {
 
 export function SettingsHeading({ className, control, description, title, variant = "h3" }: Props) {
   return (
-    <div className={cn("flex flex-col items-start justify-between gap-4 md:flex-row md:items-center", className)}>
+    <div
+      className={cn(
+        "flex flex-col items-start justify-between gap-4 md:flex-row md:items-center",
+        className,
+      )}
+    >
       <div className="flex flex-col items-start gap-1">
         {title && (
           <h3

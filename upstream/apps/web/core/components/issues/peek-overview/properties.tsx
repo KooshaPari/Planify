@@ -54,7 +54,9 @@ interface IPeekOverviewProperties {
   issueOperations: TIssueOperations;
 }
 
-export const PeekOverviewProperties = observer(function PeekOverviewProperties(props: IPeekOverviewProperties) {
+export const PeekOverviewProperties = observer(function PeekOverviewProperties(
+  props: IPeekOverviewProperties,
+) {
   const { workspaceSlug, projectId, issueId, issueOperations, disabled } = props;
   const { t } = useTranslation();
   // store hooks
@@ -85,7 +87,9 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
         <SidebarPropertyListItem icon={StatePropertyIcon} label={t("common.state")}>
           <StateDropdown
             value={issue?.state_id}
-            onChange={(val) => issueOperations.update(workspaceSlug, projectId, issueId, { state_id: val })}
+            onChange={(val) =>
+              issueOperations.update(workspaceSlug, projectId, issueId, { state_id: val })
+            }
             projectId={projectId}
             disabled={disabled}
             buttonVariant="transparent-with-text"
@@ -100,12 +104,16 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
         <SidebarPropertyListItem icon={MembersPropertyIcon} label={t("common.assignees")}>
           <MemberDropdown
             value={issue?.assignee_ids ?? undefined}
-            onChange={(val) => issueOperations.update(workspaceSlug, projectId, issueId, { assignee_ids: val })}
+            onChange={(val) =>
+              issueOperations.update(workspaceSlug, projectId, issueId, { assignee_ids: val })
+            }
             disabled={disabled}
             projectId={projectId}
             placeholder={t("issue.add.assignee")}
             multiple
-            buttonVariant={issue?.assignee_ids?.length > 1 ? "transparent-without-text" : "transparent-with-text"}
+            buttonVariant={
+              issue?.assignee_ids?.length > 1 ? "transparent-without-text" : "transparent-with-text"
+            }
             className="group w-full grow"
             buttonContainerClassName="w-full text-left h-7.5"
             buttonClassName={`text-body-xs-medium justify-between ${issue?.assignee_ids?.length > 0 ? "" : "text-placeholder"}`}
@@ -118,7 +126,9 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
         <SidebarPropertyListItem icon={PriorityPropertyIcon} label={t("common.priority")}>
           <PriorityDropdown
             value={issue?.priority}
-            onChange={(val) => issueOperations.update(workspaceSlug, projectId, issueId, { priority: val })}
+            onChange={(val) =>
+              issueOperations.update(workspaceSlug, projectId, issueId, { priority: val })
+            }
             disabled={disabled}
             buttonVariant="transparent-with-text"
             className="h-7.5 w-full grow rounded-sm"
@@ -135,15 +145,22 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
           >
             <ButtonAvatars
               showTooltip
-              userIds={createdByDetails?.display_name.includes("-intake") ? null : createdByDetails?.id}
+              userIds={
+                createdByDetails?.display_name.includes("-intake") ? null : createdByDetails?.id
+              }
             />
             <span className="grow truncate text-body-xs-medium leading-5 text-secondary">
-              {createdByDetails?.display_name.includes("-intake") ? "Plane" : createdByDetails?.display_name}
+              {createdByDetails?.display_name.includes("-intake")
+                ? "Plane"
+                : createdByDetails?.display_name}
             </span>
           </SidebarPropertyListItem>
         )}
 
-        <SidebarPropertyListItem icon={StartDatePropertyIcon} label={t("common.order_by.start_date")}>
+        <SidebarPropertyListItem
+          icon={StartDatePropertyIcon}
+          label={t("common.order_by.start_date")}
+        >
           <DateDropdown
             value={issue.start_date}
             onChange={(val) =>
@@ -180,12 +197,17 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
               buttonContainerClassName="w-full text-left h-7.5"
               buttonClassName={cn("text-body-xs-medium", {
                 "text-placeholder": !issue.target_date,
-                "text-danger-primary": shouldHighlightIssueDueDate(issue.target_date, stateDetails?.group),
+                "text-danger-primary": shouldHighlightIssueDueDate(
+                  issue.target_date,
+                  stateDetails?.group,
+                ),
               })}
               hideIcon
               clearIconClassName="h-3 w-3 hidden group-hover:inline text-primary"
             />
-            {issue.target_date && <DateAlert date={issue.target_date} workItem={issue} projectId={projectId} />}
+            {issue.target_date && (
+              <DateAlert date={issue.target_date} workItem={issue} projectId={projectId} />
+            )}
           </div>
         </SidebarPropertyListItem>
 
@@ -193,7 +215,9 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
           <SidebarPropertyListItem icon={EstimatePropertyIcon} label={t("common.estimate")}>
             <EstimateDropdown
               value={issue.estimate_point ?? undefined}
-              onChange={(val) => issueOperations.update(workspaceSlug, projectId, issueId, { estimate_point: val })}
+              onChange={(val) =>
+                issueOperations.update(workspaceSlug, projectId, issueId, { estimate_point: val })
+              }
               projectId={projectId}
               disabled={disabled}
               buttonVariant="transparent-with-text"
@@ -250,7 +274,12 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
         </SidebarPropertyListItem>
 
         <SidebarPropertyListItem icon={LabelPropertyIcon} label={t("common.labels")}>
-          <IssueLabel workspaceSlug={workspaceSlug} projectId={projectId} issueId={issueId} disabled={disabled} />
+          <IssueLabel
+            workspaceSlug={workspaceSlug}
+            projectId={projectId}
+            issueId={issueId}
+            disabled={disabled}
+          />
         </SidebarPropertyListItem>
 
         <IssueWorklogProperty

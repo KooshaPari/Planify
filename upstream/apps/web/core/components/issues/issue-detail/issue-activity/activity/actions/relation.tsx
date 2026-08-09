@@ -8,14 +8,19 @@ import { observer } from "mobx-react";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // Plane-web
-import { getRelationActivityContent, useTimeLineRelationOptions } from "@/plane-web/components/relations";
+import {
+  getRelationActivityContent,
+  useTimeLineRelationOptions,
+} from "@/plane-web/components/relations";
 import type { TIssueRelationTypes } from "@plane/types";
 //
 import { IssueActivityBlockComponent } from "./";
 
 type TIssueRelationActivity = { activityId: string; ends: "top" | "bottom" | undefined };
 
-export const IssueRelationActivity = observer(function IssueRelationActivity(props: TIssueRelationActivity) {
+export const IssueRelationActivity = observer(function IssueRelationActivity(
+  props: TIssueRelationActivity,
+) {
   const { activityId, ends } = props;
   // hooks
   const {
@@ -29,7 +34,13 @@ export const IssueRelationActivity = observer(function IssueRelationActivity(pro
   if (!activity) return <></>;
   return (
     <IssueActivityBlockComponent
-      icon={activity.field ? ISSUE_RELATION_OPTIONS[activity.field as TIssueRelationTypes]?.icon(14) : <></>}
+      icon={
+        activity.field ? (
+          ISSUE_RELATION_OPTIONS[activity.field as TIssueRelationTypes]?.icon(14)
+        ) : (
+          <></>
+        )
+      }
       activityId={activityId}
       ends={ends}
     >

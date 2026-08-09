@@ -115,7 +115,9 @@ export class WorkspaceStore implements IWorkspaceStore {
     if (!this.paginationInfo || this.paginationInfo.next_page_results === false) return [];
     try {
       this.loader = "pagination";
-      const paginatedWorkspaceData = await this.instanceWorkspaceService.list(this.paginationInfo.next_cursor);
+      const paginatedWorkspaceData = await this.instanceWorkspaceService.list(
+        this.paginationInfo.next_cursor,
+      );
       runInAction(() => {
         const { results, ...paginationInfo } = paginatedWorkspaceData;
         results.forEach((workspace: IWorkspace) => {

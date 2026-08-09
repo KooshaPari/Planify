@@ -43,7 +43,7 @@ export const RelationsCollapsibleTitle = observer(function RelationsCollapsibleT
         <p className="text-14 !leading-3 text-tertiary">{relationsCount}</p>
       </span>
     ),
-    [relationsCount]
+    [relationsCount],
   );
 
   return (
@@ -52,7 +52,13 @@ export const RelationsCollapsibleTitle = observer(function RelationsCollapsibleT
       title={t("common.relations")}
       indicatorElement={indicatorElement}
       actionItemElement={
-        !disabled && <RelationActionButton issueId={issueId} disabled={disabled} issueServiceType={issueServiceType} />
+        !disabled && (
+          <RelationActionButton
+            issueId={issueId}
+            disabled={disabled}
+            issueServiceType={issueServiceType}
+          />
+        )
       }
     />
   );

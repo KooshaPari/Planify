@@ -23,11 +23,21 @@ export const PowerKWorkItemLabelsMenu = observer(function PowerKWorkItemLabelsMe
   // store hooks
   const { getProjectLabelIds, getLabelById } = useLabel();
   // derived values
-  const projectLabelIds = workItemDetails.project_id ? getProjectLabelIds(workItemDetails.project_id) : undefined;
-  const labelsList = projectLabelIds ? projectLabelIds.map((labelId) => getLabelById(labelId)) : undefined;
+  const projectLabelIds = workItemDetails.project_id
+    ? getProjectLabelIds(workItemDetails.project_id)
+    : undefined;
+  const labelsList = projectLabelIds
+    ? projectLabelIds.map((labelId) => getLabelById(labelId))
+    : undefined;
   const filteredLabelsList = labelsList ? labelsList.filter((label) => !!label) : undefined;
 
   if (!filteredLabelsList) return <Spinner />;
 
-  return <PowerKLabelsMenu labels={filteredLabelsList} onSelect={handleSelect} value={workItemDetails.label_ids} />;
+  return (
+    <PowerKLabelsMenu
+      labels={filteredLabelsList}
+      onSelect={handleSelect}
+      value={workItemDetails.label_ids}
+    />
+  );
 });

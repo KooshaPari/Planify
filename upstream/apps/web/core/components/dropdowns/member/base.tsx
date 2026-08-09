@@ -33,7 +33,9 @@ type TMemberDropdownBaseProps = {
   renderByDefault?: boolean;
 } & MemberDropdownProps;
 
-export const MemberDropdownBase = observer(function MemberDropdownBase(props: TMemberDropdownBaseProps) {
+export const MemberDropdownBase = observer(function MemberDropdownBase(
+  props: TMemberDropdownBaseProps,
+) {
   const { t } = useTranslation();
   const {
     button,
@@ -88,7 +90,11 @@ export const MemberDropdownBase = observer(function MemberDropdownBase(props: TM
     if (!multiple) handleClose();
   };
 
-  const getDisplayName = (value: string | string[] | null, showUserDetails: boolean, placeholder: string = "") => {
+  const getDisplayName = (
+    value: string | string[] | null,
+    showUserDetails: boolean,
+    placeholder: string = "",
+  ) => {
     if (Array.isArray(value)) {
       if (value.length > 0) {
         if (value.length === 1) {
@@ -131,7 +137,7 @@ export const MemberDropdownBase = observer(function MemberDropdownBase(props: TM
               "cursor-not-allowed text-secondary": disabled,
               "cursor-pointer": !disabled,
             },
-            buttonContainerClassName
+            buttonContainerClassName,
           )}
           onClick={handleOnClick}
           disabled={disabled}
@@ -142,7 +148,8 @@ export const MemberDropdownBase = observer(function MemberDropdownBase(props: TM
             isActive={isOpen}
             tooltipHeading={placeholder}
             tooltipContent={
-              tooltipContent ?? `${value?.length ?? 0} ${value?.length !== 1 ? t("assignees") : t("assignee")}`
+              tooltipContent ??
+              `${value?.length ?? 0} ${value?.length !== 1 ? t("assignees") : t("assignee")}`
             }
             showTooltip={showTooltip}
             variant={buttonVariant}
@@ -155,7 +162,10 @@ export const MemberDropdownBase = observer(function MemberDropdownBase(props: TM
               </span>
             )}
             {dropdownArrow && (
-              <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
+              <ChevronDownIcon
+                className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)}
+                aria-hidden="true"
+              />
             )}
           </DropdownButton>
         </button>

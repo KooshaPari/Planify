@@ -8,7 +8,14 @@ import { escapeForRegEx } from "@tiptap/core";
 import type { Trigger, SuggestionMatch } from "@tiptap/suggestion";
 
 export function customFindSuggestionMatch(config: Trigger): SuggestionMatch | null {
-  const { char, allowSpaces: allowSpacesOption, allowToIncludeChar, allowedPrefixes, startOfLine, $position } = config;
+  const {
+    char,
+    allowSpaces: allowSpacesOption,
+    allowToIncludeChar,
+    allowedPrefixes,
+    startOfLine,
+    $position,
+  } = config;
 
   const allowSpaces = allowSpacesOption && !allowToIncludeChar;
 

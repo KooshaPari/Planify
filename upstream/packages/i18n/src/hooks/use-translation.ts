@@ -30,7 +30,7 @@ function coerceToString(key: string, value: unknown): string {
     console.warn(
       `[i18n] Translation for key "${key}" is not a string (got ${
         value === null ? "null" : typeof value
-      }). This is likely a missing key or a namespace-node lookup. Returning the key as fallback.`
+      }). This is likely a missing key or a namespace-node lookup. Returning the key as fallback.`,
     );
   }
   return key;
@@ -55,7 +55,7 @@ export function useTranslation(): TTranslationStore {
         }
       })();
     },
-    [i18n]
+    [i18n],
   );
 
   return {

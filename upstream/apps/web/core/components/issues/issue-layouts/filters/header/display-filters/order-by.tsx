@@ -37,15 +37,17 @@ export const FilterOrderBy = observer(function FilterOrderBy(props: Props) {
       />
       {previewEnabled && (
         <div>
-          {ISSUE_ORDER_BY_OPTIONS.filter((option) => orderByOptions.includes(option.key)).map((orderBy) => (
-            <FilterOption
-              key={orderBy?.key}
-              isChecked={activeOrderBy === orderBy?.key ? true : false}
-              onClick={() => handleUpdate(orderBy.key)}
-              title={t(orderBy.titleTranslationKey)}
-              multiple={false}
-            />
-          ))}
+          {ISSUE_ORDER_BY_OPTIONS.filter((option) => orderByOptions.includes(option.key)).map(
+            (orderBy) => (
+              <FilterOption
+                key={orderBy?.key}
+                isChecked={activeOrderBy === orderBy?.key ? true : false}
+                onClick={() => handleUpdate(orderBy.key)}
+                title={t(orderBy.titleTranslationKey)}
+                multiple={false}
+              />
+            ),
+          )}
         </div>
       )}
     </>

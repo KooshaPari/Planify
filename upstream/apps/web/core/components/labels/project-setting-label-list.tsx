@@ -39,12 +39,14 @@ export const ProjectSettingsLabelList = observer(function ProjectSettingsLabelLi
   // plane hooks
   const { t } = useTranslation();
   // store hooks
-  const { projectLabels, updateLabelPosition, projectLabelsTree, createLabel, updateLabel } = useLabel();
+  const { projectLabels, updateLabelPosition, projectLabelsTree, createLabel, updateLabel } =
+    useLabel();
   const { allowPermissions } = useUserPermissions();
   // derived values
   const isEditable = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT);
   const labelOperationsCallbacks: TLabelOperationsCallbacks = {
-    createLabel: (data: Partial<IIssueLabel>) => createLabel(workspaceSlug?.toString(), projectId?.toString(), data),
+    createLabel: (data: Partial<IIssueLabel>) =>
+      createLabel(workspaceSlug?.toString(), projectId?.toString(), data),
     updateLabel: (labelId: string, data: Partial<IIssueLabel>) =>
       updateLabel(workspaceSlug?.toString(), projectId?.toString(), labelId, data),
   };
@@ -58,7 +60,7 @@ export const ProjectSettingsLabelList = observer(function ProjectSettingsLabelLi
     draggingLabelId: string,
     droppedParentId: string | null,
     droppedLabelId: string | undefined,
-    dropAtEndOfList: boolean
+    dropAtEndOfList: boolean,
   ) => {
     if (workspaceSlug && projectId) {
       updateLabelPosition(
@@ -67,7 +69,7 @@ export const ProjectSettingsLabelList = observer(function ProjectSettingsLabelLi
         draggingLabelId,
         droppedParentId,
         droppedLabelId,
-        dropAtEndOfList
+        dropAtEndOfList,
       );
       return;
     }

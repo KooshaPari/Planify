@@ -27,7 +27,7 @@ import { PasswordLoginConfiguration } from "@/components/authentication/password
 
 // Authentication methods
 export const getCoreAuthenticationModesMap: (
-  props: TGetBaseAuthenticationModeProps
+  props: TGetBaseAuthenticationModeProps,
 ) => Record<TCoreInstanceAuthenticationModeKeys, TInstanceAuthenticationModes> = ({
   disabled,
   updateConfig,
@@ -45,7 +45,8 @@ export const getCoreAuthenticationModesMap: (
   "passwords-login": {
     key: "passwords-login",
     name: "Passwords",
-    description: "Allow members to create accounts with passwords and use it with their email addresses to sign in.",
+    description:
+      "Allow members to create accounts with passwords and use it with their email addresses to sign in.",
     icon: <KeyRound className="h-6 w-6 p-0.5 text-tertiary" />,
     config: <PasswordLoginConfiguration disabled={disabled} updateConfig={updateConfig} />,
     enabledConfigKey: "ENABLE_EMAIL_PASSWORD",

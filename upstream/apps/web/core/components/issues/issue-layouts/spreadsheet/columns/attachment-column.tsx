@@ -14,7 +14,9 @@ type Props = {
   issue: TIssue;
 };
 
-export const SpreadsheetAttachmentColumn = observer(function SpreadsheetAttachmentColumn(props: Props) {
+export const SpreadsheetAttachmentColumn = observer(function SpreadsheetAttachmentColumn(
+  props: Props,
+) {
   const { issue } = props;
 
   return (

@@ -12,7 +12,10 @@ import { useForm } from "react-hook-form";
 import { API_BASE_URL } from "@plane/constants";
 import { Button, getButtonStyling } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { IFormattedInstanceConfiguration, TInstanceGiteaAuthenticationConfigurationKeys } from "@plane/types";
+import type {
+  IFormattedInstanceConfiguration,
+  TInstanceGiteaAuthenticationConfigurationKeys,
+} from "@plane/types";
 // components
 import { CodeBlock } from "@/components/common/code-block";
 import { ConfirmDiscardModal } from "@/components/common/confirm-discard-modal";
@@ -52,7 +55,11 @@ export function InstanceGiteaConfigForm(props: Props) {
     },
   });
 
-  const originURL = !isEmpty(API_BASE_URL) ? API_BASE_URL : typeof window !== "undefined" ? window.location.origin : "";
+  const originURL = !isEmpty(API_BASE_URL)
+    ? API_BASE_URL
+    : typeof window !== "undefined"
+      ? window.location.origin
+      : "";
 
   const GITEA_FORM_FIELDS: TControllerInputFormField[] = [
     {
@@ -60,7 +67,10 @@ export function InstanceGiteaConfigForm(props: Props) {
       type: "text",
       label: "Gitea Host",
       description: (
-        <>Use the URL of your Gitea instance. For the official Gitea instance, use &quot;https://gitea.com&quot;.</>
+        <>
+          Use the URL of your Gitea instance. For the official Gitea instance, use
+          &quot;https://gitea.com&quot;.
+        </>
       ),
       placeholder: "https://gitea.com",
       error: Boolean(errors.GITEA_HOST),
@@ -124,8 +134,8 @@ export function InstanceGiteaConfigForm(props: Props) {
       url: `${originURL}/auth/gitea/callback/`,
       description: (
         <>
-          We will auto-generate this. Paste this into your <CodeBlock darkerShade>Authorized Callback URI</CodeBlock>{" "}
-          field{" "}
+          We will auto-generate this. Paste this into your{" "}
+          <CodeBlock darkerShade>Authorized Callback URI</CodeBlock> field{" "}
           <a
             tabIndex={-1}
             href={`${control._formValues.GITEA_HOST || "https://gitea.com"}/user/settings/applications`}
@@ -204,7 +214,11 @@ export function InstanceGiteaConfigForm(props: Props) {
                 >
                   {isSubmitting ? "Saving" : "Save changes"}
                 </Button>
-                <Link href="/authentication" className={getButtonStyling("secondary", "lg")} onClick={handleGoBack}>
+                <Link
+                  href="/authentication"
+                  className={getButtonStyling("secondary", "lg")}
+                  onClick={handleGoBack}
+                >
                   Go back
                 </Link>
               </div>
@@ -214,7 +228,12 @@ export function InstanceGiteaConfigForm(props: Props) {
             <div className="flex flex-col gap-y-4 rounded-lg bg-layer-1 px-6 pt-1.5 pb-4">
               <div className="pt-2 text-18 font-medium">Plane-provided details for Gitea</div>
               {GITEA_SERVICE_FIELD.map((field) => (
-                <CopyField key={field.key} label={field.label} url={field.url} description={field.description} />
+                <CopyField
+                  key={field.key}
+                  label={field.label}
+                  url={field.url}
+                  description={field.description}
+                />
               ))}
             </div>
           </div>

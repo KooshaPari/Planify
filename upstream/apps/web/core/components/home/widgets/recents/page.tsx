@@ -65,7 +65,10 @@ export function RecentPage(props: BlockProps) {
       }
       quickActionElement={
         <div className="flex gap-4">
-          <Avatar src={getFileURL(ownerDetails?.avatar_url ?? "")} name={ownerDetails?.display_name} />
+          <Avatar
+            src={getFileURL(ownerDetails?.avatar_url ?? "")}
+            name={ownerDetails?.display_name}
+          />
         </div>
       }
       parentRef={ref}

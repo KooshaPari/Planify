@@ -19,7 +19,9 @@ export type TChangeWorkItemStateListProps = {
   handleStateChange: (stateId: string) => void;
 };
 
-export const ChangeWorkItemStateList = observer(function ChangeWorkItemStateList(props: TChangeWorkItemStateListProps) {
+export const ChangeWorkItemStateList = observer(function ChangeWorkItemStateList(
+  props: TChangeWorkItemStateListProps,
+) {
   const { projectId, currentStateId, handleStateChange } = props;
   // store hooks
   const { getProjectStates } = useProjectState();
@@ -31,7 +33,11 @@ export const ChangeWorkItemStateList = observer(function ChangeWorkItemStateList
       {projectStates ? (
         projectStates.length > 0 ? (
           projectStates.map((state) => (
-            <Command.Item key={state.id} onSelect={() => handleStateChange(state.id)} className="focus:outline-none">
+            <Command.Item
+              key={state.id}
+              onSelect={() => handleStateChange(state.id)}
+              className="focus:outline-none"
+            >
               <div className="flex items-center space-x-3">
                 <StateGroupIcon
                   stateGroup={state.group}

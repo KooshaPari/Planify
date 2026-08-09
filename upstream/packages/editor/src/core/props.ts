@@ -21,7 +21,7 @@ export const CoreEditorProps = (props: TArgs): EditorProps => {
     attributes: {
       class: cn(
         "prose-brand prose-headings:font-display font-default max-w-full prose focus:outline-none",
-        editorClassName
+        editorClassName,
       ),
     },
     handleDOMEvents: {

@@ -5,7 +5,12 @@
  */
 
 import { useMemo } from "react";
-import { useLocation, useNavigate, useParams as useParamsRR, useSearchParams as useSearchParamsRR } from "react-router";
+import {
+  useLocation,
+  useNavigate,
+  useParams as useParamsRR,
+  useSearchParams as useSearchParamsRR,
+} from "react-router";
 import { ensureTrailingSlash } from "./helper";
 
 export function useRouter() {
@@ -33,7 +38,7 @@ export function useRouter() {
         // no-op in this shim
       },
     }),
-    [navigate]
+    [navigate],
   );
 }
 

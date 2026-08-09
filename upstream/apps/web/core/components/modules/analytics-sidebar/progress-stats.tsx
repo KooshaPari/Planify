@@ -8,7 +8,11 @@ import { observer } from "mobx-react";
 import { Tab } from "@headlessui/react";
 import { useTranslation } from "@plane/i18n";
 import type { TWorkItemFilterCondition } from "@plane/shared-state";
-import type { TModuleDistribution, TModuleEstimateDistribution, TModulePlotType } from "@plane/types";
+import type {
+  TModuleDistribution,
+  TModuleEstimateDistribution,
+  TModulePlotType,
+} from "@plane/types";
 import { cn, toFilterArray } from "@plane/utils";
 // components
 import type { TAssigneeData } from "@/components/core/sidebar/progress-stats/assignee";
@@ -16,7 +20,10 @@ import { AssigneeStatComponent } from "@/components/core/sidebar/progress-stats/
 import type { TLabelData } from "@/components/core/sidebar/progress-stats/label";
 import { LabelStatComponent } from "@/components/core/sidebar/progress-stats/label";
 import type { TSelectedFilterProgressStats } from "@/components/core/sidebar/progress-stats/shared";
-import { createFilterUpdateHandler, PROGRESS_STATS } from "@/components/core/sidebar/progress-stats/shared";
+import {
+  createFilterUpdateHandler,
+  PROGRESS_STATS,
+} from "@/components/core/sidebar/progress-stats/shared";
 import type { TStateGroupData } from "@/components/core/sidebar/progress-stats/state_group";
 import { StateGroupStatComponent } from "@/components/core/sidebar/progress-stats/state_group";
 // hooks
@@ -36,7 +43,9 @@ type TModuleProgressStats = {
   totalIssuesCount: number;
 };
 
-export const ModuleProgressStats = observer(function ModuleProgressStats(props: TModuleProgressStats) {
+export const ModuleProgressStats = observer(function ModuleProgressStats(
+  props: TModuleProgressStats,
+) {
   const {
     distribution,
     groupedIssues,
@@ -55,10 +64,11 @@ export const ModuleProgressStats = observer(function ModuleProgressStats(props: 
   // hooks
   const { storedValue: currentTab, setValue: setModuleTab } = useLocalStorage(
     `module-analytics-tab-${moduleId}`,
-    "stat-assignees"
+    "stat-assignees",
   );
   // derived values
-  const currentTabIndex = (tab: string): number => PROGRESS_STATS.findIndex((stat) => stat.key === tab);
+  const currentTabIndex = (tab: string): number =>
+    PROGRESS_STATS.findIndex((stat) => stat.key === tab);
   const currentDistribution = distribution as TModuleDistribution;
   const currentEstimateDistribution = distribution as TModuleEstimateDistribution;
   const selectedAssigneeIds = toFilterArray(selectedFilters?.assignees?.value || []) as string[];
@@ -108,13 +118,17 @@ export const ModuleProgressStats = observer(function ModuleProgressStats(props: 
   const handleAssigneeFiltersUpdate = createFilterUpdateHandler(
     "assignee_id",
     selectedAssigneeIds,
-    handleFiltersUpdate
+    handleFiltersUpdate,
   );
-  const handleLabelFiltersUpdate = createFilterUpdateHandler("label_id", selectedLabelIds, handleFiltersUpdate);
+  const handleLabelFiltersUpdate = createFilterUpdateHandler(
+    "label_id",
+    selectedLabelIds,
+    handleFiltersUpdate,
+  );
   const handleStateGroupFiltersUpdate = createFilterUpdateHandler(
     "state_group",
     selectedStateGroups,
-    handleFiltersUpdate
+    handleFiltersUpdate,
   );
 
   return (
@@ -126,7 +140,7 @@ export const ModuleProgressStats = observer(function ModuleProgressStats(props: 
             `flex w-full items-center justify-between gap-2 rounded-md p-1`,
             roundedTab ? `rounded-3xl` : `rounded-md`,
             noBackground ? `` : `bg-layer-2`,
-            size === "xs" ? `text-11` : `text-13`
+            size === "xs" ? `text-11` : `text-13`,
           )}
         >
           {PROGRESS_STATS.map((stat) => (
@@ -136,7 +150,7 @@ export const ModuleProgressStats = observer(function ModuleProgressStats(props: 
                 roundedTab ? `rounded-3xl border border-subtle` : `rounded-sm`,
                 stat.key === currentTab
                   ? "bg-layer-transparent-active text-secondary"
-                  : "text-placeholder hover:text-secondary"
+                  : "text-placeholder hover:text-secondary",
               )}
               key={stat.key}
               onClick={() => setModuleTab(stat.key)}

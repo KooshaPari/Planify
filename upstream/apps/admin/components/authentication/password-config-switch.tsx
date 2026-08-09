@@ -18,7 +18,9 @@ type Props = {
   updateConfig: (key: TInstanceAuthenticationMethodKeys, value: string) => void;
 };
 
-export const PasswordLoginConfiguration = observer(function PasswordLoginConfiguration(props: Props) {
+export const PasswordLoginConfiguration = observer(function PasswordLoginConfiguration(
+  props: Props,
+) {
   const { disabled, updateConfig } = props;
   // store
   const { formattedConfig } = useInstance();

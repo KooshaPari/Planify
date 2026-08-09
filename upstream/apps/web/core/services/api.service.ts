@@ -31,7 +31,7 @@ export abstract class APIService {
           window.location.replace(`/${currentPath ? `?next_path=${currentPath}` : ``}`);
         }
         return Promise.reject(error);
-      }
+      },
     );
   }
 

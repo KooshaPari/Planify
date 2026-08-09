@@ -50,7 +50,8 @@ export const DraftIssueBlock = observer(function DraftIssueBlock(props: Props) {
   const issueRef = useRef<HTMLDivElement | null>(null);
   // derived values
   const issue = getIssueById(issueId);
-  const projectIdentifier = (issue && issue.project_id && getProjectIdentifierById(issue.project_id)) || undefined;
+  const projectIdentifier =
+    (issue && issue.project_id && getProjectIdentifierById(issue.project_id)) || undefined;
   if (!issue || !projectIdentifier) return null;
 
   const duplicateIssuePayload = omit(
@@ -59,7 +60,7 @@ export const DraftIssueBlock = observer(function DraftIssueBlock(props: Props) {
       name: `${issue.name} (copy)`,
       is_draft: true,
     },
-    ["id"]
+    ["id"],
   );
 
   const MENU_ITEMS: TContextMenuItem[] = [
@@ -139,7 +140,7 @@ export const DraftIssueBlock = observer(function DraftIssueBlock(props: Props) {
             {
               "md:flex-row md:items-center": isSidebarCollapsed,
               "lg:flex-row lg:items-center": !isSidebarCollapsed,
-            }
+            },
           )}
         >
           <div className="flex w-full truncate">

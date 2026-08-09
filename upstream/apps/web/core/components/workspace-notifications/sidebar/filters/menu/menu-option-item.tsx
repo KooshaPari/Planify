@@ -38,10 +38,13 @@ export const NotificationFilterOptionItem = observer(function NotificationFilter
       onClick={() => handleFilterTypeChange(value, !isSelected)}
     >
       <div
-        className={cn("flex h-3 w-3 flex-shrink-0 items-center justify-center rounded-xs transition-all", {
-          "bg-accent-primary text-on-color": isSelected,
-          "bg-surface-2": !isSelected,
-        })}
+        className={cn(
+          "flex h-3 w-3 flex-shrink-0 items-center justify-center rounded-xs transition-all",
+          {
+            "bg-accent-primary text-on-color": isSelected,
+            "bg-surface-2": !isSelected,
+          },
+        )}
       >
         {isSelected && <CheckIcon className="h-2.5 w-2.5" />}
       </div>

@@ -13,7 +13,8 @@ const HTTP_PROTOCOL = "http://";
 const MAILTO_PROTOCOL = "mailto:";
 const DEFAULT_PROTOCOL = HTTP_PROTOCOL;
 // IPv4 regex - matches 0.0.0.0 to 255.255.255.255
-const IPV4_REGEX = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+const IPV4_REGEX =
+  /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 // IPv6 regex - comprehensive pattern for all IPv6 formats
 const IPV6_REGEX =
   /^(?:(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,7}:|(?:[0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,5}(?::[0-9a-fA-F]{1,4}){1,2}|(?:[0-9a-fA-F]{1,4}:){1,4}(?::[0-9a-fA-F]{1,4}){1,3}|(?:[0-9a-fA-F]{1,4}:){1,3}(?::[0-9a-fA-F]{1,4}){1,4}|(?:[0-9a-fA-F]{1,4}:){1,2}(?::[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:(?::[0-9a-fA-F]{1,4}){1,6}|:(?::[0-9a-fA-F]{1,4}){1,7}|::|fe80:(?::[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(?:ffff(?::0{1,4}){0,1}:){0,1}(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])|(?:[0-9a-fA-F]{1,4}:){1,4}:(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/;
@@ -256,7 +257,12 @@ export function extractURLComponents(url: URL | string): IURLComponents | undefi
     }
 
     // 3. URL without protocol but valid domain or IP address or TLD
-    if (isLocalhost(urlLower) || isValidIPv4(urlLower) || isValidIPv6(urlLower) || extractTLD(urlLower)) {
+    if (
+      isLocalhost(urlLower) ||
+      isValidIPv4(urlLower) ||
+      isValidIPv6(urlLower) ||
+      extractTLD(urlLower)
+    ) {
       return processURL(new URL(`${DEFAULT_PROTOCOL}${urlLower}`));
     }
 

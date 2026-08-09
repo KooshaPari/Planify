@@ -56,7 +56,9 @@ export function IssueLink({ activity }: { activity: IIssueActivity }) {
 
   return (
     <Tooltip
-      tooltipContent={activity?.issue_detail ? activity.issue_detail.name : "This work item has been deleted"}
+      tooltipContent={
+        activity?.issue_detail ? activity.issue_detail.name : "This work item has been deleted"
+      }
       isMobile={isMobile}
     >
       {activity?.issue_detail ? (
@@ -97,7 +99,13 @@ function UserLink({ activity }: { activity: IIssueActivity }) {
   );
 }
 
-const LabelPill = observer(function LabelPill({ labelId, workspaceSlug }: { labelId: string; workspaceSlug: string }) {
+const LabelPill = observer(function LabelPill({
+  labelId,
+  workspaceSlug,
+}: {
+  labelId: string;
+  workspaceSlug: string;
+}) {
   // store hooks
   const { workspaceLabels, fetchWorkspaceLabels } = useLabel();
 
@@ -138,13 +146,21 @@ const inboxActivityMessage = {
 const getInboxUserActivityMessage = (activity: IIssueActivity, showIssue: boolean) => {
   switch (activity.verb) {
     case "-1":
-      return showIssue ? inboxActivityMessage.declined.showIssue : inboxActivityMessage.declined.noIssue;
+      return showIssue
+        ? inboxActivityMessage.declined.showIssue
+        : inboxActivityMessage.declined.noIssue;
     case "0":
-      return showIssue ? inboxActivityMessage.snoozed.showIssue : inboxActivityMessage.snoozed.noIssue;
+      return showIssue
+        ? inboxActivityMessage.snoozed.showIssue
+        : inboxActivityMessage.snoozed.noIssue;
     case "1":
-      return showIssue ? inboxActivityMessage.accepted.showIssue : inboxActivityMessage.accepted.noIssue;
+      return showIssue
+        ? inboxActivityMessage.accepted.showIssue
+        : inboxActivityMessage.accepted.noIssue;
     case "2":
-      return showIssue ? inboxActivityMessage.markedDuplicate.showIssue : inboxActivityMessage.markedDuplicate.noIssue;
+      return showIssue
+        ? inboxActivityMessage.markedDuplicate.showIssue
+        : inboxActivityMessage.markedDuplicate.noIssue;
     default:
       return "updated intake work item status.";
   }
@@ -152,7 +168,11 @@ const getInboxUserActivityMessage = (activity: IIssueActivity, showIssue: boolea
 
 const activityDetails: {
   [key: string]: {
-    message: (activity: IIssueActivity, showIssue: boolean, workspaceSlug: string) => React.ReactNode;
+    message: (
+      activity: IIssueActivity,
+      showIssue: boolean,
+      workspaceSlug: string,
+    ) => React.ReactNode;
     icon: React.ReactNode;
   };
 } = {
@@ -328,7 +348,9 @@ const activityDetails: {
             added a new label{" "}
             <span className="inline-flex items-center gap-2 rounded-full border border-strong px-2 py-0.5 text-11">
               <LabelPill labelId={activity.new_identifier ?? ""} workspaceSlug={workspaceSlug} />
-              <span className="line-clamp-1 flex-shrink font-medium break-all text-primary">{activity.new_value}</span>
+              <span className="line-clamp-1 flex-shrink font-medium break-all text-primary">
+                {activity.new_value}
+              </span>
             </span>
             {showIssue && (
               <span className="">
@@ -344,7 +366,9 @@ const activityDetails: {
             removed the label{" "}
             <span className="inline-flex items-center gap-2 rounded-full border border-strong px-2 py-0.5 text-11">
               <LabelPill labelId={activity.old_identifier ?? ""} workspaceSlug={workspaceSlug} />
-              <span className="line-clamp-1 flex-shrink font-medium break-all text-primary">{activity.old_value}</span>
+              <span className="line-clamp-1 flex-shrink font-medium break-all text-primary">
+                {activity.old_value}
+              </span>
             </span>
             {showIssue && (
               <span>
@@ -538,7 +562,8 @@ const activityDetails: {
       if (!activity.new_value)
         return (
           <>
-            removed the parent <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>
+            removed the parent{" "}
+            <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>
             {showIssue && (
               <>
                 {" "}
@@ -550,7 +575,8 @@ const activityDetails: {
       else
         return (
           <>
-            set the parent to <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>
+            set the parent to{" "}
+            <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>
             {showIssue && (
               <>
                 {" "}
@@ -584,15 +610,18 @@ const activityDetails: {
       if (activity.old_value === "")
         return (
           <>
-            marked that {showIssue ? <IssueLink activity={activity} /> : "this work item"} relates to{" "}
-            <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>.
+            marked that {showIssue ? <IssueLink activity={activity} /> : "this work item"} relates
+            to{" "}
+            <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>
+            .
           </>
         );
       else
         return (
           <>
             removed the relation from{" "}
-            <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>.
+            <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>
+            .
           </>
         );
     },
@@ -603,15 +632,18 @@ const activityDetails: {
       if (activity.old_value === "")
         return (
           <>
-            marked {showIssue ? <IssueLink activity={activity} /> : "this work item"} is blocking work item{" "}
-            <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>.
+            marked {showIssue ? <IssueLink activity={activity} /> : "this work item"} is blocking
+            work item{" "}
+            <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>
+            .
           </>
         );
       else
         return (
           <>
             removed the blocking work item{" "}
-            <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>.
+            <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>
+            .
           </>
         );
     },
@@ -622,15 +654,19 @@ const activityDetails: {
       if (activity.old_value === "")
         return (
           <>
-            marked {showIssue ? <IssueLink activity={activity} /> : "this work item"} is being blocked by{" "}
-            <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>.
+            marked {showIssue ? <IssueLink activity={activity} /> : "this work item"} is being
+            blocked by{" "}
+            <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>
+            .
           </>
         );
       else
         return (
           <>
-            removed {showIssue ? <IssueLink activity={activity} /> : "this work item"} being blocked by work item{" "}
-            <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>.
+            removed {showIssue ? <IssueLink activity={activity} /> : "this work item"} being blocked
+            by work item{" "}
+            <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>
+            .
           </>
         );
     },
@@ -641,15 +677,19 @@ const activityDetails: {
       if (activity.old_value === "")
         return (
           <>
-            marked {showIssue ? <IssueLink activity={activity} /> : "this work item"} as duplicate of{" "}
-            <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>.
+            marked {showIssue ? <IssueLink activity={activity} /> : "this work item"} as duplicate
+            of{" "}
+            <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>
+            .
           </>
         );
       else
         return (
           <>
-            removed {showIssue ? <IssueLink activity={activity} /> : "this work item"} as a duplicate of{" "}
-            <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>.
+            removed {showIssue ? <IssueLink activity={activity} /> : "this work item"} as a
+            duplicate of{" "}
+            <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>
+            .
           </>
         );
     },
@@ -658,7 +698,8 @@ const activityDetails: {
   state: {
     message: (activity, showIssue) => (
       <>
-        set the state to <span className="font-medium break-all text-primary">{activity.new_value}</span>
+        set the state to{" "}
+        <span className="font-medium break-all text-primary">{activity.new_value}</span>
         {showIssue && (
           <>
             {" "}
@@ -768,7 +809,7 @@ export function ActivityMessage({ activity, showIssue = false }: ActivityMessage
       {activityDetails[activityField as keyof typeof activityDetails]?.message(
         activity,
         showIssue,
-        workspaceSlug ? workspaceSlug.toString() : (activity.workspace_detail?.slug ?? "")
+        workspaceSlug ? workspaceSlug.toString() : (activity.workspace_detail?.slug ?? ""),
       )}
     </>
   );

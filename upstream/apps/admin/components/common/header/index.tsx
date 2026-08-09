@@ -78,7 +78,7 @@ export const AdminHeader = observer(function AdminHeader() {
                       key={item.title}
                       component={<BreadcrumbLink href={item.href} label={item.title} />}
                     />
-                  )
+                  ),
               )}
             </Breadcrumbs>
           </div>

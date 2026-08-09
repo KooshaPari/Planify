@@ -189,7 +189,10 @@ export interface IIssueFilters {
   kanbanFilters: TIssueKanbanFilters | undefined;
 }
 
-export type TSupportedFilterForUpdate = IIssueDisplayFilterOptions | IIssueDisplayProperties | TIssueKanbanFilters;
+export type TSupportedFilterForUpdate =
+  | IIssueDisplayFilterOptions
+  | IIssueDisplayProperties
+  | TIssueKanbanFilters;
 
 export interface ISubWorkItemFilters extends Omit<IIssueFilters, "richFilters"> {
   filters: IIssueFilterOptions;

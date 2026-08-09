@@ -30,9 +30,11 @@ function LiteTextEditor(props: ILiteTextEditorProps) {
 
 const LiteTextEditorWithRef = forwardRef(function LiteTextEditorWithRef(
   props: ILiteTextEditorProps,
-  ref: React.ForwardedRef<EditorRefApi>
+  ref: React.ForwardedRef<EditorRefApi>,
 ) {
-  return <LiteTextEditor {...props} forwardedRef={ref as React.MutableRefObject<EditorRefApi | null>} />;
+  return (
+    <LiteTextEditor {...props} forwardedRef={ref as React.MutableRefObject<EditorRefApi | null>} />
+  );
 });
 
 LiteTextEditorWithRef.displayName = "LiteTextEditorWithRef";

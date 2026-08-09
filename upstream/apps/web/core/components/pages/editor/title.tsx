@@ -43,7 +43,7 @@ export const PageEditorTitle = observer(function PageEditorTitle(props: Props) {
             {
               "text-placeholder": !title,
             },
-            "break-words"
+            "break-words",
           )}
         >
           {getPageName(title)}
@@ -51,7 +51,10 @@ export const PageEditorTitle = observer(function PageEditorTitle(props: Props) {
       ) : (
         <div className="relative">
           <TextArea
-            className={cn(titleFontClassName, "block w-full resize-none rounded-none border-none p-0 outline-none")}
+            className={cn(
+              titleFontClassName,
+              "block w-full resize-none rounded-none border-none p-0 outline-none",
+            )}
             placeholder="Untitled"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -71,7 +74,7 @@ export const PageEditorTitle = observer(function PageEditorTitle(props: Props) {
               "pointer-events-none absolute right-1 bottom-1 z-[2] rounded-sm bg-surface-1 p-0.5 text-11 font-regular text-secondary opacity-0 transition-opacity",
               {
                 "opacity-100": isLengthVisible,
-              }
+              },
             )}
           >
             <span

@@ -19,7 +19,9 @@ interface IssueBlocksListProps {
   scrollableContainerRef?: MutableRefObject<HTMLDivElement | null>;
 }
 
-export const KanbanIssueBlocksList = observer(function KanbanIssueBlocksList(props: IssueBlocksListProps) {
+export const KanbanIssueBlocksList = observer(function KanbanIssueBlocksList(
+  props: IssueBlocksListProps,
+) {
   const { subGroupId, groupId, issueIds, displayProperties, scrollableContainerRef } = props;
 
   return (

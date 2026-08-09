@@ -77,7 +77,7 @@ function ComboboxRoot({
     (newValue: string | string[]) => {
       onValueChange?.(newValue);
     },
-    [onValueChange]
+    [onValueChange],
   );
 
   return (
@@ -98,7 +98,7 @@ function ComboboxRoot({
 // Trigger button component
 const ComboboxButton = React.forwardRef(function ComboboxButton(
   { className, children, disabled = false }: ComboboxButtonProps,
-  ref: React.ForwardedRef<HTMLButtonElement>
+  ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
   return (
     <BaseCombobox.Trigger ref={ref} disabled={disabled} className={className}>
@@ -126,7 +126,8 @@ function ComboboxOptions({
   // const [searchQuery, setSearchQuery] = React.useState("");
   const [internalSearchQuery, setInternalSearchQuery] = React.useState("");
 
-  const searchQuery = controlledSearchQuery !== undefined ? controlledSearchQuery : internalSearchQuery;
+  const searchQuery =
+    controlledSearchQuery !== undefined ? controlledSearchQuery : internalSearchQuery;
 
   const setSearchQuery = React.useCallback(
     (query: string) => {
@@ -136,7 +137,7 @@ function ComboboxOptions({
         setInternalSearchQuery(query);
       }
     },
-    [onSearchQueryChange]
+    [onSearchQueryChange],
   );
 
   // Filter children based on search query
@@ -166,7 +167,10 @@ function ComboboxOptions({
       const value = child.props.value || "";
 
       const searchLower = searchQuery.toLowerCase();
-      return textContent.toLowerCase().includes(searchLower) || String(value).toLowerCase().includes(searchLower);
+      return (
+        textContent.toLowerCase().includes(searchLower) ||
+        String(value).toLowerCase().includes(searchLower)
+      );
     });
   }, [children, searchQuery, showSearch]);
 
@@ -189,22 +193,28 @@ function ComboboxOptions({
                   onKeyDown={onSearchQueryKeyDown}
                   className={cn(
                     "w-full rounded-sm border border-subtle bg-surface-2 py-1.5 pr-2 pl-8 text-13 outline-none placeholder:text-placeholder",
-                    inputClassName
+                    inputClassName,
                   )}
                 />
               </div>
             )}
             <BaseCombobox.List
-              className={cn("overflow-auto outline-none", MAX_HEIGHT_CLASSES[maxHeight], optionsContainerClassName)}
+              className={cn(
+                "overflow-auto outline-none",
+                MAX_HEIGHT_CLASSES[maxHeight],
+                optionsContainerClassName,
+              )}
             >
               {filteredChildren}
               {showSearch &&
                 emptyMessage &&
                 React.Children.count(
                   React.Children.toArray(filteredChildren).filter(
-                    (child) => React.isValidElement(child) && child.type === ComboboxOption
-                  )
-                ) === 0 && <div className="px-2 py-1.5 text-13 text-placeholder">{emptyMessage}</div>}
+                    (child) => React.isValidElement(child) && child.type === ComboboxOption,
+                  ),
+                ) === 0 && (
+                  <div className="px-2 py-1.5 text-13 text-placeholder">{emptyMessage}</div>
+                )}
             </BaseCombobox.List>
           </div>
         </BaseCombobox.Popup>
@@ -219,7 +229,10 @@ function ComboboxOption({ value, children, disabled, className }: ComboboxOption
     <BaseCombobox.Item
       value={value}
       disabled={disabled}
-      className={cn("cursor-pointer rounded-sm px-2 py-1.5 text-13 transition-colors outline-none", className)}
+      className={cn(
+        "cursor-pointer rounded-sm px-2 py-1.5 text-13 transition-colors outline-none",
+        className,
+      )}
     >
       {children}
     </BaseCombobox.Item>

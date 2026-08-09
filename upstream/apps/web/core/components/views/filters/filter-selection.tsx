@@ -22,7 +22,10 @@ import { FilterByAccess } from "@/plane-web/components/views/filters/access-filt
 
 type Props = {
   filters: TViewFilters;
-  handleFiltersUpdate: <T extends keyof TViewFilters>(filterKey: T, filterValue: TViewFilters[T]) => void;
+  handleFiltersUpdate: <T extends keyof TViewFilters>(
+    filterKey: T,
+    filterValue: TViewFilters[T],
+  ) => void;
   memberIds?: string[] | undefined;
 };
 
@@ -34,7 +37,10 @@ export const ViewFiltersSelection = observer(function ViewFiltersSelection(props
   const { isMobile } = usePlatformOS();
 
   // handles filter update
-  const handleFilters = (key: keyof TViewFilterProps, value: boolean | string | EViewAccess | string[]) => {
+  const handleFilters = (
+    key: keyof TViewFilterProps,
+    value: boolean | string | EViewAccess | string[],
+  ) => {
     const currValues = (filters.filters?.[key] ?? []) as (string | EViewAccess)[];
 
     if (typeof currValues === "boolean" && typeof value === "boolean") return;
@@ -71,7 +77,11 @@ export const ViewFiltersSelection = observer(function ViewFiltersSelection(props
             autoFocus={!isMobile}
           />
           {filtersSearchQuery !== "" && (
-            <button type="button" className="grid place-items-center" onClick={() => setFiltersSearchQuery("")}>
+            <button
+              type="button"
+              className="grid place-items-center"
+              onClick={() => setFiltersSearchQuery("")}
+            >
               <CloseIcon className="text-tertiary" height={12} width={12} strokeWidth={2} />
             </button>
           )}

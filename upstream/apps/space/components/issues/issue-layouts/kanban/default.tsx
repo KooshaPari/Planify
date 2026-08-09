@@ -40,9 +40,12 @@ export interface IKanBan {
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
-  getPaginationData: (groupId: string | undefined, subGroupId: string | undefined) => TPaginationData | undefined;
+  getPaginationData: (
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ) => TPaginationData | undefined;
   getIssueLoader: (groupId?: string, subGroupId?: string) => TLoader;
   scrollableContainerRef?: MutableRefObject<HTMLDivElement | null>;
   showEmptyGroup?: boolean;
@@ -69,11 +72,20 @@ export const KanBan = observer(function KanBan(props: IKanBan) {
   const modules = useModule();
   const state = useStates();
 
-  const groupList = getGroupByColumns(groupBy as GroupByColumnTypes, cycle, modules, label, state, member);
+  const groupList = getGroupByColumns(
+    groupBy as GroupByColumnTypes,
+    cycle,
+    modules,
+    label,
+    state,
+    member,
+  );
 
   if (!groupList) return null;
 
-  const visibilityGroupBy = (_list: IGroupByColumn): { showGroup: boolean; showIssues: boolean } => {
+  const visibilityGroupBy = (
+    _list: IGroupByColumn,
+  ): { showGroup: boolean; showIssues: boolean } => {
     const groupVisibility = {
       showGroup: true,
       showIssues: true,

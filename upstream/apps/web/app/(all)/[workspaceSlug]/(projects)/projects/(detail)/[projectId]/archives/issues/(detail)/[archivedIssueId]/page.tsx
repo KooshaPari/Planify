@@ -34,14 +34,16 @@ function ArchivedIssueDetailsPage({ params }: Route.ComponentProps) {
 
   const { getProjectById } = useProject();
 
-  const { isLoading } = useSWR(`ARCHIVED_ISSUE_DETAIL_${workspaceSlug}_${projectId}_${archivedIssueId}`, () =>
-    fetchIssue(workspaceSlug, projectId, archivedIssueId)
+  const { isLoading } = useSWR(
+    `ARCHIVED_ISSUE_DETAIL_${workspaceSlug}_${projectId}_${archivedIssueId}`,
+    () => fetchIssue(workspaceSlug, projectId, archivedIssueId),
   );
 
   // derived values
   const issue = getIssueById(archivedIssueId);
   const project = issue ? getProjectById(issue?.project_id ?? "") : undefined;
-  const pageTitle = project && issue ? `${project?.identifier}-${issue?.sequence_id} ${issue?.name}` : undefined;
+  const pageTitle =
+    project && issue ? `${project?.identifier}-${issue?.sequence_id} ${issue?.name}` : undefined;
 
   if (!issue) return <></>;
 
@@ -74,7 +76,9 @@ function ArchivedIssueDetailsPage({ params }: Route.ComponentProps) {
             action={
               <Button
                 variant="secondary"
-                onClick={() => router.push(`/${workspaceSlug}/projects/${projectId}/archives/issues/`)}
+                onClick={() =>
+                  router.push(`/${workspaceSlug}/projects/${projectId}/archives/issues/`)
+                }
               >
                 Go to archives
               </Button>

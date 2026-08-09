@@ -36,7 +36,7 @@ export class UserService extends APIService {
 
   async userIssues(
     workspaceSlug: string,
-    params: any
+    params: any,
   ): Promise<
     | {
         [key: string]: TIssue[];
@@ -137,7 +137,9 @@ export class UserService extends APIService {
       });
   }
 
-  async updateCurrentUserEmailNotificationSettings(data: Partial<IUserEmailNotificationSettings>): Promise<any> {
+  async updateCurrentUserEmailNotificationSettings(
+    data: Partial<IUserEmailNotificationSettings>,
+  ): Promise<any> {
     return this.patch("/api/users/me/notification-preferences/", data)
       .then((response) => response?.data)
       .catch((error) => {
@@ -145,7 +147,10 @@ export class UserService extends APIService {
       });
   }
 
-  async changePassword(token: string, data: { old_password?: string; new_password: string }): Promise<any> {
+  async changePassword(
+    token: string,
+    data: { old_password?: string; new_password: string },
+  ): Promise<any> {
     return this.post(`/auth/change-password/`, data, {
       headers: {
         "X-CSRFTOKEN": token,
@@ -167,7 +172,7 @@ export class UserService extends APIService {
 
   async getUserProfileProjectsSegregation(
     workspaceSlug: string,
-    userId: string
+    userId: string,
   ): Promise<IUserProfileProjectSegregation> {
     return this.get(`/api/workspaces/${workspaceSlug}/user-profile/${userId}/`)
       .then((response) => response?.data)
@@ -182,7 +187,7 @@ export class UserService extends APIService {
     params: {
       per_page: number;
       cursor?: string;
-    }
+    },
   ): Promise<IUserActivityResponse> {
     return this.get(`/api/workspaces/${workspaceSlug}/user-activity/${userId}/`, {
       params,
@@ -198,7 +203,7 @@ export class UserService extends APIService {
     userId: string,
     data: {
       date: string;
-    }
+    },
   ): Promise<any> {
     return this.post(`/api/workspaces/${workspaceSlug}/user-activity/${userId}/export/`, data)
       .then((response) => response?.data)
@@ -211,14 +216,14 @@ export class UserService extends APIService {
     workspaceSlug: string,
     userId: string,
     params: any,
-    config = {}
+    config = {},
   ): Promise<TIssuesResponse> {
     return this.get(
       `/api/workspaces/${workspaceSlug}/user-issues/${userId}/`,
       {
         params,
       },
-      config
+      config,
     )
       .then((response) => response?.data)
       .catch((error) => {
@@ -243,7 +248,9 @@ export class UserService extends APIService {
   }
 
   async joinProject(workspaceSlug: string, project_ids: string[]): Promise<any> {
-    return this.post(`/api/users/me/workspaces/${workspaceSlug}/projects/invitations/`, { project_ids })
+    return this.post(`/api/users/me/workspaces/${workspaceSlug}/projects/invitations/`, {
+      project_ids,
+    })
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -266,7 +273,7 @@ export class UserService extends APIService {
         headers: {
           "X-CSRFTOKEN": token,
         },
-      }
+      },
     )
       .then((response) => response?.data)
       .catch((error) => {

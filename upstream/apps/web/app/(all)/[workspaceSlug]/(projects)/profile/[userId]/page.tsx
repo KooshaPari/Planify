@@ -29,7 +29,7 @@ export default function ProfileOverviewPage({ params }: Route.ComponentProps) {
 
   const { t } = useTranslation();
   const { data: userProfile } = useSWR(USER_PROFILE_DATA(workspaceSlug, userId), () =>
-    userService.getUserProfileData(workspaceSlug, userId)
+    userService.getUserProfileData(workspaceSlug, userId),
   );
 
   const stateDistribution: IUserStateDistribution[] = Object.keys(GROUP_CHOICES).map((key) => {
@@ -47,7 +47,10 @@ export default function ProfileOverviewPage({ params }: Route.ComponentProps) {
         <ProfileWorkload stateDistribution={stateDistribution} />
         <div className="grid grid-cols-1 items-stretch gap-5 xl:grid-cols-2">
           <ProfilePriorityDistribution userProfile={userProfile} />
-          <ProfileStateDistribution stateDistribution={stateDistribution} userProfile={userProfile} />
+          <ProfileStateDistribution
+            stateDistribution={stateDistribution}
+            userProfile={userProfile}
+          />
         </div>
         <ProfileActivity />
       </ContentWrapper>

@@ -44,7 +44,8 @@ export const TableRowDragHandlePlugin = (editor: Editor): Plugin<TableRowDragHan
         const tableMap = TableMap.get(table.node);
 
         // Check if table structure changed (height or position)
-        const tableStructureChanged = prev.tableHeight !== tableMap.height || prev.tableNodePos !== table.pos;
+        const tableStructureChanged =
+          prev.tableHeight !== tableMap.height || prev.tableNodePos !== table.pos;
 
         let isStale = tableStructureChanged;
 
@@ -108,15 +109,20 @@ export const TableRowDragHandlePlugin = (editor: Editor): Plugin<TableRowDragHan
     },
     props: {
       decorations(state) {
-        return (TABLE_ROW_DRAG_HANDLE_PLUGIN_KEY.getState(state) as TableRowDragHandlePluginState | undefined)
-          ?.decorations;
+        return (
+          TABLE_ROW_DRAG_HANDLE_PLUGIN_KEY.getState(state) as
+            | TableRowDragHandlePluginState
+            | undefined
+        )?.decorations;
       },
     },
     destroy() {
       // Clean up all renderers when plugin is destroyed
       const state =
         editor.state &&
-        (TABLE_ROW_DRAG_HANDLE_PLUGIN_KEY.getState(editor.state) as TableRowDragHandlePluginState | undefined);
+        (TABLE_ROW_DRAG_HANDLE_PLUGIN_KEY.getState(editor.state) as
+          | TableRowDragHandlePluginState
+          | undefined);
       state?.renderers?.forEach((renderer: ReactRenderer) => {
         try {
           renderer.destroy();

@@ -10,7 +10,12 @@ import { useParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { Info, SquareUser } from "lucide-react";
 import { Disclosure, Transition } from "@headlessui/react";
-import { MODULE_STATUS, EUserPermissions, EUserPermissionsLevel, EEstimateSystem } from "@plane/constants";
+import {
+  MODULE_STATUS,
+  EUserPermissions,
+  EUserPermissionsLevel,
+  EEstimateSystem,
+} from "@plane/constants";
 // plane types
 import { useTranslation } from "@plane/i18n";
 import {
@@ -31,7 +36,11 @@ import { Loader, CustomSelect, TextArea } from "@plane/ui";
 import { getDate, renderFormattedPayloadDate } from "@plane/utils";
 import { DateRangeDropdown } from "@/components/dropdowns/date-range";
 import { MemberDropdown } from "@/components/dropdowns/member/dropdown";
-import { CreateUpdateModuleLinkModal, ModuleAnalyticsProgress, ModuleLinksList } from "@/components/modules";
+import {
+  CreateUpdateModuleLinkModal,
+  ModuleAnalyticsProgress,
+  ModuleLinksList,
+} from "@/components/modules";
 // hooks
 import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useModule } from "@/hooks/store/use-module";
@@ -64,14 +73,23 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
   const { t } = useTranslation();
   const { allowPermissions } = useUserPermissions();
 
-  const { getModuleById, updateModuleDetails, createModuleLink, updateModuleLink, deleteModuleLink } = useModule();
-  const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } = useProjectEstimates();
+  const {
+    getModuleById,
+    updateModuleDetails,
+    createModuleLink,
+    updateModuleLink,
+    deleteModuleLink,
+  } = useModule();
+  const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } =
+    useProjectEstimates();
 
   // derived values
   const moduleDetails = getModuleById(moduleId);
   const areEstimateEnabled = projectId && areEstimateEnabledByProjectId(projectId.toString());
-  const estimateType = areEstimateEnabled && currentActiveEstimateId && estimateById(currentActiveEstimateId);
-  const isEstimatePointValid = estimateType && estimateType?.type == EEstimateSystem.POINTS ? true : false;
+  const estimateType =
+    areEstimateEnabled && currentActiveEstimateId && estimateById(currentActiveEstimateId);
+  const isEstimatePointValid =
+    estimateType && estimateType?.type == EEstimateSystem.POINTS ? true : false;
 
   const { reset, control } = useForm({
     defaultValues,
@@ -79,25 +97,46 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
 
   const submitChanges = async (data: Partial<IModule>) => {
     if (!workspaceSlug || !projectId || !moduleId) return;
-    await updateModuleDetails(workspaceSlug.toString(), projectId.toString(), moduleId.toString(), data);
+    await updateModuleDetails(
+      workspaceSlug.toString(),
+      projectId.toString(),
+      moduleId.toString(),
+      data,
+    );
   };
 
   const handleCreateLink = async (formData: ModuleLink) => {
     if (!workspaceSlug || !projectId || !moduleId) return;
     const payload = { metadata: {}, ...formData };
-    await createModuleLink(workspaceSlug.toString(), projectId.toString(), moduleId.toString(), payload);
+    await createModuleLink(
+      workspaceSlug.toString(),
+      projectId.toString(),
+      moduleId.toString(),
+      payload,
+    );
   };
 
   const handleUpdateLink = async (formData: ModuleLink, linkId: string) => {
     if (!workspaceSlug || !projectId) return;
     const payload = { metadata: {}, ...formData };
-    await updateModuleLink(workspaceSlug.toString(), projectId.toString(), moduleId.toString(), linkId, payload);
+    await updateModuleLink(
+      workspaceSlug.toString(),
+      projectId.toString(),
+      moduleId.toString(),
+      linkId,
+      payload,
+    );
   };
 
   const handleDeleteLink = async (linkId: string) => {
     if (!workspaceSlug || !projectId) return;
     try {
-      await deleteModuleLink(workspaceSlug.toString(), projectId.toString(), moduleId.toString(), linkId);
+      await deleteModuleLink(
+        workspaceSlug.toString(),
+        projectId.toString(),
+        moduleId.toString(),
+        linkId,
+      );
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: "Success!",
@@ -165,7 +204,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
 
   const isEditingAllowed = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   return (
@@ -183,7 +222,9 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
         updateLink={handleUpdateLink}
       />
       <>
-        <div className={`sticky top-0 z-10 flex items-center justify-between bg-surface-1 pt-5 pb-5`}>
+        <div
+          className={`sticky top-0 z-10 flex items-center justify-between bg-surface-1 pt-5 pb-5`}
+        >
           <div>
             <button
               className="flex h-5 w-5 items-center justify-center rounded-full bg-layer-3"
@@ -211,7 +252,8 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                         backgroundColor: moduleStatus ? `${moduleStatus.color}20` : "#a3a3a220",
                       }}
                     >
-                      {(moduleStatus && t(moduleStatus?.i18n_label)) ?? t("project_modules.status.backlog")}
+                      {(moduleStatus && t(moduleStatus?.i18n_label)) ??
+                        t("project_modules.status.backlog")}
                     </span>
                   }
                   value={value}
@@ -232,7 +274,9 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
               )}
             />
           </div>
-          <h4 className="w-full text-18 font-semibold break-words text-primary">{moduleDetails.name}</h4>
+          <h4 className="w-full text-18 font-semibold break-words text-primary">
+            {moduleDetails.name}
+          </h4>
         </div>
 
         {moduleDetails.description && (
@@ -269,7 +313,9 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                             to: endDate,
                           }}
                           onSelect={(val) => {
-                            onChangeStartDate(val?.from ? renderFormattedPayloadDate(val.from) : null);
+                            onChangeStartDate(
+                              val?.from ? renderFormattedPayloadDate(val.from) : null,
+                            );
                             onChangeEndDate(val?.to ? renderFormattedPayloadDate(val.to) : null);
                             handleDateChange(val?.from, val?.to);
                           }}
@@ -329,7 +375,11 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                     }}
                     multiple
                     projectId={projectId?.toString() ?? ""}
-                    buttonVariant={value && value?.length > 0 ? "transparent-without-text" : "background-with-text"}
+                    buttonVariant={
+                      value && value?.length > 0
+                        ? "transparent-without-text"
+                        : "background-with-text"
+                    }
                     buttonClassName={value && value.length > 0 ? "hover:bg-transparent px-0" : ""}
                     disabled={!isEditingAllowed || isArchived}
                   />
@@ -391,7 +441,9 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                   <Transition show={open}>
                     <Disclosure.Panel>
                       <div className="mt-2 flex min-h-72 w-full flex-col space-y-3 overflow-y-auto">
-                        {isEditingAllowed && moduleDetails.link_module && moduleDetails.link_module.length > 0 ? (
+                        {isEditingAllowed &&
+                        moduleDetails.link_module &&
+                        moduleDetails.link_module.length > 0 ? (
                           <>
                             {isEditingAllowed && !isArchived && (
                               <div className="flex w-full items-center justify-end">
@@ -418,7 +470,9 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                           <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-2">
                               <Info className="h-3.5 w-3.5 stroke-[1.5] text-tertiary" />
-                              <span className="p-0.5 text-11 text-tertiary">{t("common.no_links_added_yet")}</span>
+                              <span className="p-0.5 text-11 text-tertiary">
+                                {t("common.no_links_added_yet")}
+                              </span>
                             </div>
                             {isEditingAllowed && !isArchived && (
                               <button

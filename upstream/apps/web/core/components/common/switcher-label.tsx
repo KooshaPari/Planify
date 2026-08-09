@@ -18,7 +18,13 @@ type TSwitcherIconProps = {
   type?: "lucide" | "material";
 };
 
-export function SwitcherIcon({ logo_props, logo_url, LabelIcon, size = 12, type = "lucide" }: TSwitcherIconProps) {
+export function SwitcherIcon({
+  logo_props,
+  logo_url,
+  LabelIcon,
+  size = 12,
+  type = "lucide",
+}: TSwitcherIconProps) {
   if (logo_props?.in_use) {
     return <Logo logo={logo_props} size={size} type={type} />;
   }

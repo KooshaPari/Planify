@@ -65,15 +65,18 @@ export function AuthForm({
     confirmPassword: initialData.confirmPassword || "",
   });
 
-  const [passwordStrength, setPasswordStrength] = useState<E_PASSWORD_STRENGTH>(E_PASSWORD_STRENGTH.EMPTY);
+  const [passwordStrength, setPasswordStrength] = useState<E_PASSWORD_STRENGTH>(
+    E_PASSWORD_STRENGTH.EMPTY,
+  );
   const [_passwordsMatch, setPasswordsMatch] = useState(false);
 
-  const handleInputChange = (field: keyof AuthFormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: e.target.value,
-    }));
-  };
+  const handleInputChange =
+    (field: keyof AuthFormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: e.target.value,
+      }));
+    };
 
   const handlePasswordChange = (password: string) => {
     setFormData((prev) => ({
@@ -110,7 +113,8 @@ export function AuthForm({
       return hasEmail && hasPassword && !loading && !disabled;
     } else {
       const isPasswordStrong = passwordStrength === E_PASSWORD_STRENGTH.STRENGTH_VALID;
-      const passwordsMatch = formData.password === formData.confirmPassword && formData.password.length > 0;
+      const passwordsMatch =
+        formData.password === formData.confirmPassword && formData.password.length > 0;
       return hasEmail && hasPassword && isPasswordStrong && passwordsMatch && !loading && !disabled;
     }
   }, [mode, formData, passwordStrength, loading, disabled]);
@@ -189,7 +193,14 @@ export function AuthForm({
 
       {/* Submit Button */}
       <div className="space-y-2.5">
-        <Button type="submit" variant="primary" className="w-full" size="lg" disabled={!isFormValid} loading={loading}>
+        <Button
+          type="submit"
+          variant="primary"
+          className="w-full"
+          size="lg"
+          disabled={!isFormValid}
+          loading={loading}
+        >
           {loading ? <Spinner height="20px" width="20px" /> : getSubmitButtonText()}
         </Button>
 

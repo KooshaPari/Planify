@@ -37,7 +37,7 @@ export interface IFilterConfig<P extends TFilterProperty> extends TFilterConfig<
   firstOperator: TSupportedOperators | undefined;
   // computed functions
   getOperatorConfig: (
-    operator: TAllAvailableOperatorsForDisplay
+    operator: TAllAvailableOperatorsForDisplay,
   ) => TOperatorSpecificConfigs[keyof TOperatorSpecificConfigs] | undefined;
   getLabelForOperator: (operator: TAllAvailableOperatorsForDisplay | undefined) => string;
   getDisplayOperatorByValue: <T extends TSupportedOperators>(operator: T, value: TFilterValue) => T;
@@ -110,7 +110,7 @@ export class FilterConfig<P extends TFilterProperty> implements IFilterConfig<P>
    * @returns The operator config.
    */
   getOperatorConfig: IFilterConfig<P>["getOperatorConfig"] = computedFn((operator) =>
-    this.supportedOperatorConfigsMap.get(getOperatorForPayload(operator).operator)
+    this.supportedOperatorConfigsMap.get(getOperatorForPayload(operator).operator),
   );
 
   /**
@@ -127,7 +127,11 @@ export class FilterConfig<P extends TFilterProperty> implements IFilterConfig<P>
       return operatorConfig.operatorLabel;
     }
 
-    if (operatorConfig?.type && isDateFilterType(operatorConfig.type) && isDateFilterOperator(operator)) {
+    if (
+      operatorConfig?.type &&
+      isDateFilterType(operatorConfig.type) &&
+      isDateFilterOperator(operator)
+    ) {
       return getDateOperatorLabel(operator);
     }
 
@@ -139,13 +143,18 @@ export class FilterConfig<P extends TFilterProperty> implements IFilterConfig<P>
    * @param value - The value.
    * @returns The operator for the value.
    */
-  getDisplayOperatorByValue: IFilterConfig<P>["getDisplayOperatorByValue"] = computedFn((operator, value) => {
-    const operatorConfig = this.getOperatorConfig(operator);
-    if (operatorConfig?.type === FILTER_FIELD_TYPE.MULTI_SELECT && (Array.isArray(value) ? value.length : 0) <= 1) {
-      return operatorConfig.singleValueOperator as typeof operator;
-    }
-    return operator;
-  });
+  getDisplayOperatorByValue: IFilterConfig<P>["getDisplayOperatorByValue"] = computedFn(
+    (operator, value) => {
+      const operatorConfig = this.getOperatorConfig(operator);
+      if (
+        operatorConfig?.type === FILTER_FIELD_TYPE.MULTI_SELECT &&
+        (Array.isArray(value) ? value.length : 0) <= 1
+      ) {
+        return operatorConfig.singleValueOperator as typeof operator;
+      }
+      return operator;
+    },
+  );
 
   /**
    * Returns all supported operator options for display in the filter UI.
@@ -155,26 +164,27 @@ export class FilterConfig<P extends TFilterProperty> implements IFilterConfig<P>
    * @param value - The current filter value used to determine the appropriate operator variant
    * @returns Array of operator options with their display labels and values
    */
-  getAllDisplayOperatorOptionsByValue: IFilterConfig<P>["getAllDisplayOperatorOptionsByValue"] = computedFn((value) => {
-    const operatorOptions: TOperatorOptionForDisplay[] = [];
+  getAllDisplayOperatorOptionsByValue: IFilterConfig<P>["getAllDisplayOperatorOptionsByValue"] =
+    computedFn((value) => {
+      const operatorOptions: TOperatorOptionForDisplay[] = [];
 
-    // Process each supported operator to build display options
-    for (const operator of this.allEnabledSupportedOperators) {
-      const displayOperator = this.getDisplayOperatorByValue(operator, value);
-      const displayOperatorLabel = this.getLabelForOperator(displayOperator);
-      operatorOptions.push({
-        value: operator,
-        label: displayOperatorLabel,
-      });
+      // Process each supported operator to build display options
+      for (const operator of this.allEnabledSupportedOperators) {
+        const displayOperator = this.getDisplayOperatorByValue(operator, value);
+        const displayOperatorLabel = this.getLabelForOperator(displayOperator);
+        operatorOptions.push({
+          value: operator,
+          label: displayOperatorLabel,
+        });
 
-      const additionalOperatorOption = this._getAdditionalOperatorOptions(operator, value);
-      if (additionalOperatorOption) {
-        operatorOptions.push(additionalOperatorOption);
+        const additionalOperatorOption = this._getAdditionalOperatorOptions(operator, value);
+        if (additionalOperatorOption) {
+          operatorOptions.push(additionalOperatorOption);
+        }
       }
-    }
 
-    return operatorOptions;
-  });
+      return operatorOptions;
+    });
 
   // ------------ actions ------------
 
@@ -197,6 +207,6 @@ export class FilterConfig<P extends TFilterProperty> implements IFilterConfig<P>
 
   private _getAdditionalOperatorOptions = (
     _operator: TSupportedOperators,
-    _value: TFilterValue
+    _value: TFilterValue,
   ): TOperatorOptionForDisplay | undefined => undefined;
 }

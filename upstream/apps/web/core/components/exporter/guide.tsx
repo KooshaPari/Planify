@@ -29,9 +29,16 @@ export const ExportGuide = observer(function ExportGuide() {
         <ExportForm
           workspaceSlug={workspaceSlug}
           provider={provider}
-          mutateServices={() => mutate(EXPORT_SERVICES_LIST(workspaceSlug, `${cursor}`, `${per_page}`))}
+          mutateServices={() =>
+            mutate(EXPORT_SERVICES_LIST(workspaceSlug, `${cursor}`, `${per_page}`))
+          }
         />
-        <PrevExports workspaceSlug={workspaceSlug} cursor={cursor} per_page={per_page} setCursor={setCursor} />
+        <PrevExports
+          workspaceSlug={workspaceSlug}
+          cursor={cursor}
+          per_page={per_page}
+          setCursor={setCursor}
+        />
       </div>
     </>
   );

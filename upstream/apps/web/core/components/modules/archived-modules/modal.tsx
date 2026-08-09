@@ -56,13 +56,18 @@ export function ArchiveModuleModal(props: Props) {
           type: TOAST_TYPE.ERROR,
           title: "Error!",
           message: "Module could not be archived. Please try again.",
-        })
+        }),
       )
       .finally(() => setIsArchiving(false));
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={onClose} position={EModalPosition.CENTER} width={EModalWidth.LG}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={onClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.LG}
+    >
       <div className="px-5 py-4">
         <h3 className="text-18 font-medium 2xl:text-20">Archive module {moduleName}</h3>
         <p className="mt-3 text-13 text-secondary">
@@ -72,7 +77,13 @@ export function ArchiveModuleModal(props: Props) {
           <Button variant="secondary" size="lg" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="primary" size="lg" tabIndex={1} onClick={handleArchiveModule} loading={isArchiving}>
+          <Button
+            variant="primary"
+            size="lg"
+            tabIndex={1}
+            onClick={handleArchiveModule}
+            loading={isArchiving}
+          >
             {isArchiving ? "Archiving" : "Archive"}
           </Button>
         </div>

@@ -28,7 +28,8 @@ type Props = {
 };
 
 export const ProjectFiltersSelection = observer(function ProjectFiltersSelection(props: Props) {
-  const { displayFilters, filters, handleFiltersUpdate, handleDisplayFiltersUpdate, memberIds } = props;
+  const { displayFilters, filters, handleFiltersUpdate, handleDisplayFiltersUpdate, memberIds } =
+    props;
   // states
   const [filtersSearchQuery, setFiltersSearchQuery] = useState("");
   // store
@@ -48,7 +49,11 @@ export const ProjectFiltersSelection = observer(function ProjectFiltersSelection
             autoFocus={!isMobile}
           />
           {filtersSearchQuery !== "" && (
-            <button type="button" className="grid place-items-center" onClick={() => setFiltersSearchQuery("")}>
+            <button
+              type="button"
+              className="grid place-items-center"
+              onClick={() => setFiltersSearchQuery("")}
+            >
               <CloseIcon className="text-tertiary" height={12} width={12} strokeWidth={2} />
             </button>
           )}

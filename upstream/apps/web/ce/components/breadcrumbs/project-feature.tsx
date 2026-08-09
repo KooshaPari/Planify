@@ -26,7 +26,7 @@ type TProjectFeatureBreadcrumbProps = {
 };
 
 export const ProjectFeatureBreadcrumb = observer(function ProjectFeatureBreadcrumb(
-  props: TProjectFeatureBreadcrumbProps
+  props: TProjectFeatureBreadcrumbProps,
 ) {
   const { workspaceSlug, projectId, featureKey, isLast = false, additionalNavigationItems } = props;
   // store hooks

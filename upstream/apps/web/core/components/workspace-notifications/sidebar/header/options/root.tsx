@@ -24,7 +24,7 @@ type TNotificationSidebarHeaderOptions = {
 };
 
 export const NotificationSidebarHeaderOptions = observer(function NotificationSidebarHeaderOptions(
-  props: TNotificationSidebarHeaderOptions
+  props: TNotificationSidebarHeaderOptions,
 ) {
   const { workspaceSlug } = props;
   // hooks
@@ -35,7 +35,11 @@ export const NotificationSidebarHeaderOptions = observer(function NotificationSi
   const refreshNotifications = async () => {
     if (loader) return;
     try {
-      await getNotifications(workspaceSlug, ENotificationLoader.MUTATION_LOADER, ENotificationQueryParamType.CURRENT);
+      await getNotifications(
+        workspaceSlug,
+        ENotificationLoader.MUTATION_LOADER,
+        ENotificationQueryParamType.CURRENT,
+      );
     } catch (error) {
       console.error(error);
     }
@@ -54,7 +58,11 @@ export const NotificationSidebarHeaderOptions = observer(function NotificationSi
   return (
     <div className="relative flex items-center justify-center gap-2 text-body-xs-medium">
       {/* mark all notifications as read*/}
-      <Tooltip tooltipContent={t("notification.options.mark_all_as_read")} isMobile={isMobile} position="bottom">
+      <Tooltip
+        tooltipContent={t("notification.options.mark_all_as_read")}
+        isMobile={isMobile}
+        position="bottom"
+      >
         <IconButton
           size="base"
           variant="ghost"
@@ -66,7 +74,11 @@ export const NotificationSidebarHeaderOptions = observer(function NotificationSi
       </Tooltip>
 
       {/* refetch current notifications */}
-      <Tooltip tooltipContent={t("notification.options.refresh")} isMobile={isMobile} position="bottom">
+      <Tooltip
+        tooltipContent={t("notification.options.refresh")}
+        isMobile={isMobile}
+        position="bottom"
+      >
         <IconButton
           size="base"
           variant="ghost"

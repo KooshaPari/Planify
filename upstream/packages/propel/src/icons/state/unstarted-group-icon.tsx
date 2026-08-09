@@ -40,7 +40,12 @@ export function UnstartedGroupIcon({
   const dashOffset = circumference * (1 - validPercentage / 100);
 
   return (
-    <svg width={width} height={height} viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`} className={className}>
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
+      className={className}
+    >
       <DashedCircle center={center} radius={radius} color={color} percentage={validPercentage} />
 
       {/* Solid progress circle */}

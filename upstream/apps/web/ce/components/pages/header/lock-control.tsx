@@ -23,7 +23,9 @@ type Props = {
 
 export const PageLockControl = observer(function PageLockControl({ page }: Props) {
   // Initial state: if locked, then "locked", otherwise default to "neutral"
-  const [displayState, setDisplayState] = useState<LockDisplayState>(page.is_locked ? "locked" : "neutral");
+  const [displayState, setDisplayState] = useState<LockDisplayState>(
+    page.is_locked ? "locked" : "neutral",
+  );
   // derived values
   const { canCurrentUserLockPage, is_locked } = page;
   // Ref for the transition timer
@@ -42,7 +44,7 @@ export const PageLockControl = observer(function PageLockControl({ page }: Props
     () => () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     },
-    []
+    [],
   );
 
   // Update display state when isLocked changes

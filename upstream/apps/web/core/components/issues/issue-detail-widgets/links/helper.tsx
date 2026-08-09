@@ -18,7 +18,7 @@ export const useLinkOperations = (
   workspaceSlug: string,
   projectId: string,
   issueId: string,
-  issueServiceType: TIssueServiceType
+  issueServiceType: TIssueServiceType,
 ): TLinkOperations => {
   const { createLink, updateLink, removeLink } = useIssueDetail(issueServiceType);
   // i18n
@@ -80,7 +80,7 @@ export const useLinkOperations = (
         }
       },
     }),
-    [workspaceSlug, projectId, issueId, createLink, updateLink, removeLink, t]
+    [workspaceSlug, projectId, issueId, createLink, updateLink, removeLink, t],
   );
 
   return handleLinkOperations;

@@ -33,7 +33,9 @@ type TSubWorkItemTitleActionsProps = {
   projectId: string;
 };
 
-export const SubWorkItemTitleActions = observer(function SubWorkItemTitleActions(props: TSubWorkItemTitleActionsProps) {
+export const SubWorkItemTitleActions = observer(function SubWorkItemTitleActions(
+  props: TSubWorkItemTitleActionsProps,
+) {
   const { disabled, issueServiceType = EIssueServiceType.ISSUES, parentId, projectId } = props;
 
   // store hooks
@@ -51,20 +53,25 @@ export const SubWorkItemTitleActions = observer(function SubWorkItemTitleActions
   const projectStates = getProjectStates(projectId);
   const projectMemberIds = getProjectMemberIds(projectId, false);
   const subIssueFilters = getSubIssueFilters(parentId);
-  const layoutDisplayFiltersOptions = ISSUE_DISPLAY_FILTERS_BY_PAGE["sub_work_items"].layoutOptions.list;
+  const layoutDisplayFiltersOptions =
+    ISSUE_DISPLAY_FILTERS_BY_PAGE["sub_work_items"].layoutOptions.list;
 
   const handleDisplayFilters = useCallback(
     (updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>) => {
       updateSubWorkItemFilters(EIssueFilterType.DISPLAY_FILTERS, updatedDisplayFilter, parentId);
     },
-    [updateSubWorkItemFilters, parentId]
+    [updateSubWorkItemFilters, parentId],
   );
 
   const handleDisplayPropertiesUpdate = useCallback(
     (updatedDisplayProperties: Partial<IIssueDisplayProperties>) => {
-      updateSubWorkItemFilters(EIssueFilterType.DISPLAY_PROPERTIES, updatedDisplayProperties, parentId);
+      updateSubWorkItemFilters(
+        EIssueFilterType.DISPLAY_PROPERTIES,
+        updatedDisplayProperties,
+        parentId,
+      );
     },
-    [updateSubWorkItemFilters, parentId]
+    [updateSubWorkItemFilters, parentId],
   );
 
   const handleFiltersUpdate = useCallback(
@@ -78,12 +85,13 @@ export const SubWorkItemTitleActions = observer(function SubWorkItemTitleActions
           else newValues.splice(newValues.indexOf(val), 1);
         });
       } else {
-        if (subIssueFilters?.filters?.[key]?.includes(value)) newValues.splice(newValues.indexOf(value), 1);
+        if (subIssueFilters?.filters?.[key]?.includes(value))
+          newValues.splice(newValues.indexOf(value), 1);
         else newValues.push(value);
       }
       updateSubWorkItemFilters(EIssueFilterType.FILTERS, { [key]: newValues }, parentId);
     },
-    [subIssueFilters?.filters, updateSubWorkItemFilters, parentId]
+    [subIssueFilters?.filters, updateSubWorkItemFilters, parentId],
   );
 
   return (
@@ -111,7 +119,11 @@ export const SubWorkItemTitleActions = observer(function SubWorkItemTitleActions
         availableFilters={SUB_WORK_ITEM_AVAILABLE_FILTERS_FOR_WORK_ITEM_PAGE}
       />
       {!disabled && (
-        <SubIssuesActionButton issueId={parentId} disabled={disabled} issueServiceType={issueServiceType} />
+        <SubIssuesActionButton
+          issueId={parentId}
+          disabled={disabled}
+          issueServiceType={issueServiceType}
+        />
       )}
     </div>
   );

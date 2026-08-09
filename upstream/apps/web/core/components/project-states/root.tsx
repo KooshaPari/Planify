@@ -39,14 +39,16 @@ export const ProjectStateRoot = observer(function ProjectStateRoot(props: TProje
     [EUserProjectRoles.ADMIN],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug,
-    projectId
+    projectId,
   );
 
   // Fetching all project states
   useSWR(
     workspaceSlug && projectId ? `PROJECT_STATES_${workspaceSlug}_${projectId}` : null,
-    workspaceSlug && projectId ? () => fetchProjectStates(workspaceSlug.toString(), projectId.toString()) : null,
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    workspaceSlug && projectId
+      ? () => fetchProjectStates(workspaceSlug.toString(), projectId.toString())
+      : null,
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   // State operations callbacks
@@ -58,9 +60,18 @@ export const ProjectStateRoot = observer(function ProjectStateRoot(props: TProje
       deleteState: async (stateId: string) => deleteState(workspaceSlug, projectId, stateId),
       moveStatePosition: async (stateId: string, data: Partial<IState>) =>
         moveStatePosition(workspaceSlug, projectId, stateId, data),
-      markStateAsDefault: async (stateId: string) => markStateAsDefault(workspaceSlug, projectId, stateId),
+      markStateAsDefault: async (stateId: string) =>
+        markStateAsDefault(workspaceSlug, projectId, stateId),
     }),
-    [workspaceSlug, projectId, createState, moveStatePosition, updateState, deleteState, markStateAsDefault]
+    [
+      workspaceSlug,
+      projectId,
+      createState,
+      moveStatePosition,
+      updateState,
+      deleteState,
+      markStateAsDefault,
+    ],
   );
 
   // Loader

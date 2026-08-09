@@ -17,21 +17,50 @@ import type { IIssueDetail } from "./root.store";
 export interface IIssueStoreActions {
   // actions
   fetchIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<TIssue>;
-  updateIssue: (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>;
+  updateIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => Promise<void>;
   removeIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
   archiveIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
-  addCycleToIssue: (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => Promise<void>;
-  addIssueToCycle: (workspaceSlug: string, projectId: string, cycleId: string, issueIds: string[]) => Promise<void>;
-  removeIssueFromCycle: (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => Promise<void>;
+  addCycleToIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => Promise<void>;
+  addIssueToCycle: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueIds: string[],
+  ) => Promise<void>;
+  removeIssueFromCycle: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => Promise<void>;
   changeModulesInIssue: (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     addModuleIds: string[],
-    removeModuleIds: string[]
+    removeModuleIds: string[],
   ) => Promise<void>;
-  removeIssueFromModule: (workspaceSlug: string, projectId: string, moduleId: string, issueId: string) => Promise<void>;
-  fetchIssueWithIdentifier: (workspaceSlug: string, project_identifier: string, sequence_id: string) => Promise<TIssue>;
+  removeIssueFromModule: (
+    workspaceSlug: string,
+    projectId: string,
+    moduleId: string,
+    issueId: string,
+  ) => Promise<void>;
+  fetchIssueWithIdentifier: (
+    workspaceSlug: string,
+    project_identifier: string,
+    sequence_id: string,
+  ) => Promise<TIssue>;
 }
 
 export interface IIssueStore extends IIssueStoreActions {
@@ -80,7 +109,10 @@ export class IssueStore implements IIssueStore {
 
   getIssueIdByIdentifier = computedFn((issueIdentifier: string) => {
     if (!issueIdentifier) return undefined;
-    return this.rootIssueDetailStore.rootIssueStore.issues.getIssueIdByIdentifier(issueIdentifier) ?? undefined;
+    return (
+      this.rootIssueDetailStore.rootIssueStore.issues.getIssueIdByIdentifier(issueIdentifier) ??
+      undefined
+    );
   });
 
   // actions
@@ -101,22 +133,26 @@ export class IssueStore implements IIssueStore {
     // store handlers from issue detail
     // parent
     if (issue && issue?.parent && issue?.parent?.id && issue?.parent?.project_id) {
-      this.issueService.retrieve(workspaceSlug, issue.parent.project_id, issue?.parent?.id).then((res) => {
-        this.rootIssueDetailStore.rootIssueStore.issues.addIssue([res]);
-      });
+      this.issueService
+        .retrieve(workspaceSlug, issue.parent.project_id, issue?.parent?.id)
+        .then((res) => {
+          this.rootIssueDetailStore.rootIssueStore.issues.addIssue([res]);
+        });
     }
     // assignees
     // labels
     // state
 
     // issue reactions
-    if (issue.issue_reactions) this.rootIssueDetailStore.addReactions(issueId, issue.issue_reactions);
+    if (issue.issue_reactions)
+      this.rootIssueDetailStore.addReactions(issueId, issue.issue_reactions);
 
     // fetch issue links
     if (issue.issue_link) this.rootIssueDetailStore.addLinks(issueId, issue.issue_link);
 
     // fetch issue attachments
-    if (issue.issue_attachments) this.rootIssueDetailStore.addAttachments(issueId, issue.issue_attachments);
+    if (issue.issue_attachments)
+      this.rootIssueDetailStore.addAttachments(issueId, issue.issue_attachments);
 
     this.rootIssueDetailStore.addSubscription(issueId, issue.is_subscribed);
 
@@ -134,7 +170,10 @@ export class IssueStore implements IIssueStore {
 
     // fetching states
     // TODO: check if this function is required
-    this.rootIssueDetailStore.rootIssueStore.rootStore.state.fetchProjectStates(workspaceSlug, projectId);
+    this.rootIssueDetailStore.rootIssueStore.rootStore.state.fetchProjectStates(
+      workspaceSlug,
+      projectId,
+    );
 
     return issue;
   };
@@ -178,7 +217,12 @@ export class IssueStore implements IIssueStore {
     return issuePayload;
   };
 
-  updateIssue = async (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => {
+  updateIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => {
     const currentStore =
       this.serviceType === EIssueServiceType.EPICS
         ? this.rootIssueDetailStore.rootIssueStore.projectEpics
@@ -206,34 +250,53 @@ export class IssueStore implements IIssueStore {
     currentStore.archiveIssue(workspaceSlug, projectId, issueId);
   };
 
-  addCycleToIssue = async (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => {
+  addCycleToIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => {
     await this.rootIssueDetailStore.rootIssueStore.cycleIssues.addCycleToIssue(
       workspaceSlug,
       projectId,
       cycleId,
-      issueId
+      issueId,
     );
     await this.rootIssueDetailStore.activity.fetchActivities(workspaceSlug, projectId, issueId);
   };
 
-  addIssueToCycle = async (workspaceSlug: string, projectId: string, cycleId: string, issueIds: string[]) => {
+  addIssueToCycle = async (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueIds: string[],
+  ) => {
     await this.rootIssueDetailStore.rootIssueStore.cycleIssues.addIssueToCycle(
       workspaceSlug,
       projectId,
       cycleId,
       issueIds,
-      false
+      false,
     );
     if (issueIds && issueIds.length > 0)
-      await this.rootIssueDetailStore.activity.fetchActivities(workspaceSlug, projectId, issueIds[0]);
+      await this.rootIssueDetailStore.activity.fetchActivities(
+        workspaceSlug,
+        projectId,
+        issueIds[0],
+      );
   };
 
-  removeIssueFromCycle = async (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => {
+  removeIssueFromCycle = async (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => {
     const cycle = await this.rootIssueDetailStore.rootIssueStore.cycleIssues.removeIssueFromCycle(
       workspaceSlug,
       projectId,
       cycleId,
-      issueId
+      issueId,
     );
     await this.rootIssueDetailStore.activity.fetchActivities(workspaceSlug, projectId, issueId);
     return cycle;
@@ -244,34 +307,49 @@ export class IssueStore implements IIssueStore {
     projectId: string,
     issueId: string,
     addModuleIds: string[],
-    removeModuleIds: string[]
+    removeModuleIds: string[],
   ) => {
     await this.rootIssueDetailStore.rootIssueStore.moduleIssues.changeModulesInIssue(
       workspaceSlug,
       projectId,
       issueId,
       addModuleIds,
-      removeModuleIds
+      removeModuleIds,
     );
     await this.rootIssueDetailStore.activity.fetchActivities(workspaceSlug, projectId, issueId);
   };
 
-  removeIssueFromModule = async (workspaceSlug: string, projectId: string, moduleId: string, issueId: string) => {
-    const currentModule = await this.rootIssueDetailStore.rootIssueStore.moduleIssues.removeIssuesFromModule(
-      workspaceSlug,
-      projectId,
-      moduleId,
-      [issueId]
-    );
+  removeIssueFromModule = async (
+    workspaceSlug: string,
+    projectId: string,
+    moduleId: string,
+    issueId: string,
+  ) => {
+    const currentModule =
+      await this.rootIssueDetailStore.rootIssueStore.moduleIssues.removeIssuesFromModule(
+        workspaceSlug,
+        projectId,
+        moduleId,
+        [issueId],
+      );
     await this.rootIssueDetailStore.activity.fetchActivities(workspaceSlug, projectId, issueId);
     return currentModule;
   };
 
-  fetchIssueWithIdentifier = async (workspaceSlug: string, project_identifier: string, sequence_id: string) => {
+  fetchIssueWithIdentifier = async (
+    workspaceSlug: string,
+    project_identifier: string,
+    sequence_id: string,
+  ) => {
     const query = {
       expand: "issue_reactions,issue_attachments,issue_link,parent",
     };
-    const issue = await this.issueService.retrieveWithIdentifier(workspaceSlug, project_identifier, sequence_id, query);
+    const issue = await this.issueService.retrieveWithIdentifier(
+      workspaceSlug,
+      project_identifier,
+      sequence_id,
+      query,
+    );
     const issueIdentifier = `${project_identifier}-${sequence_id}`;
     const issueId = issue?.id;
     const projectId = issue?.project_id;
@@ -286,18 +364,22 @@ export class IssueStore implements IIssueStore {
 
     // handle parent issue if exists
     if (issue?.parent && issue?.parent?.id && issue?.parent?.project_id) {
-      this.issueService.retrieve(workspaceSlug, issue.parent.project_id, issue.parent.id).then((res) => {
-        this.rootIssueDetailStore.rootIssueStore.issues.addIssue([res]);
-      });
+      this.issueService
+        .retrieve(workspaceSlug, issue.parent.project_id, issue.parent.id)
+        .then((res) => {
+          this.rootIssueDetailStore.rootIssueStore.issues.addIssue([res]);
+        });
     }
 
     // add identifiers to map
     rootWorkItemDetailStore.rootIssueStore.issues.addIssueIdentifier(issueIdentifier, issueId);
 
     // add related data
-    if (issue.issue_reactions) rootWorkItemDetailStore.addReactions(issue.id, issue.issue_reactions);
+    if (issue.issue_reactions)
+      rootWorkItemDetailStore.addReactions(issue.id, issue.issue_reactions);
     if (issue.issue_link) rootWorkItemDetailStore.addLinks(issue.id, issue.issue_link);
-    if (issue.issue_attachments) rootWorkItemDetailStore.addAttachments(issue.id, issue.issue_attachments);
+    if (issue.issue_attachments)
+      rootWorkItemDetailStore.addAttachments(issue.id, issue.issue_attachments);
     rootWorkItemDetailStore.addSubscription(issue.id, issue.is_subscribed);
 
     // fetch related data
@@ -308,7 +390,8 @@ export class IssueStore implements IIssueStore {
     if (issue.issue_link) rootWorkItemDetailStore.addLinks(issueId, issue.issue_link);
 
     // fetch issue attachments
-    if (issue.issue_attachments) rootWorkItemDetailStore.addAttachments(issueId, issue.issue_attachments);
+    if (issue.issue_attachments)
+      rootWorkItemDetailStore.addAttachments(issueId, issue.issue_attachments);
 
     rootWorkItemDetailStore.addSubscription(issueId, issue.is_subscribed);
 
@@ -326,7 +409,10 @@ export class IssueStore implements IIssueStore {
 
     // fetching states
     // TODO: check if this function is required
-    rootWorkItemDetailStore.rootIssueStore.rootStore.state.fetchProjectStates(workspaceSlug, projectId);
+    rootWorkItemDetailStore.rootIssueStore.rootStore.state.fetchProjectStates(
+      workspaceSlug,
+      projectId,
+    );
 
     return issue;
   };

@@ -10,7 +10,13 @@ import type { ISvgIcons } from "./type";
 
 export function OverviewIcon({ className = "text-current", ...rest }: ISvgIcons) {
   return (
-    <svg viewBox="0 0 12 12" className={className} fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
+    <svg
+      viewBox="0 0 12 12"
+      className={className}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...rest}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"

@@ -53,14 +53,18 @@ export const WorkspaceMembersList = observer(function WorkspaceMembersList(props
           await fetchWorkspaceMemberInvitations(workspaceSlug.toString());
           await fetchWorkspaceMembers(workspaceSlug.toString());
         }
-      : null
+      : null,
   );
 
   if (!workspaceMemberIds && !workspaceMemberInvitationIds) return <MembersSettingsLoader />;
 
   // derived values
-  const filteredMemberIds = workspaceSlug ? getFilteredWorkspaceMemberIds(workspaceSlug.toString()) : [];
-  const searchedMemberIds = searchQuery ? getSearchedWorkspaceMemberIds(searchQuery) : filteredMemberIds;
+  const filteredMemberIds = workspaceSlug
+    ? getFilteredWorkspaceMemberIds(workspaceSlug.toString())
+    : [];
+  const searchedMemberIds = searchQuery
+    ? getSearchedWorkspaceMemberIds(searchQuery)
+    : filteredMemberIds;
   const searchedInvitationsIds = getSearchedWorkspaceInvitationIds(searchQuery);
   const memberDetails = searchedMemberIds
     ?.map((memberId) => getWorkspaceMemberDetails(memberId))
@@ -73,9 +77,13 @@ export const WorkspaceMembersList = observer(function WorkspaceMembersList(props
   return (
     <>
       <div className="divide-y-[0.5px] divide-subtle overflow-scroll">
-        {searchedMemberIds?.length !== 0 && <WorkspaceMembersListItem memberDetails={memberDetails ?? []} />}
+        {searchedMemberIds?.length !== 0 && (
+          <WorkspaceMembersListItem memberDetails={memberDetails ?? []} />
+        )}
         {searchedInvitationsIds?.length === 0 && searchedMemberIds?.length === 0 && (
-          <h4 className="mt-16 text-center text-body-xs-regular text-placeholder">{t("no_matching_members")}</h4>
+          <h4 className="mt-16 text-center text-body-xs-regular text-placeholder">
+            {t("no_matching_members")}
+          </h4>
         )}
       </div>
       {isAdmin && searchedInvitationsIds && searchedInvitationsIds.length > 0 && (
@@ -87,12 +95,16 @@ export const WorkspaceMembersList = observer(function WorkspaceMembersList(props
           title={
             <div className="flex w-full items-center justify-between pt-4">
               <div className="flex">
-                <h4 className="pt-2 pb-2 text-h5-medium">{t("workspace_settings.settings.members.pending_invites")}</h4>
+                <h4 className="pt-2 pb-2 text-h5-medium">
+                  {t("workspace_settings.settings.members.pending_invites")}
+                </h4>
                 {searchedInvitationsIds && (
                   <CountChip count={searchedInvitationsIds.length} className="m-auto ml-2 h-5" />
                 )}
               </div>{" "}
-              <ChevronDownIcon className={`h-5 w-5 transition-all ${showPendingInvites ? "rotate-180" : ""}`} />
+              <ChevronDownIcon
+                className={`h-5 w-5 transition-all ${showPendingInvites ? "rotate-180" : ""}`}
+              />
             </div>
           }
         >

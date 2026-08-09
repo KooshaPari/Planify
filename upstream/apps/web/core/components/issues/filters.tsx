@@ -60,22 +60,28 @@ export const HeaderFilters = observer(function HeaderFilters(props: Props) {
   } = useIssues(storeType);
   // derived values
   const activeLayout = issueFilters?.displayFilters?.layout;
-  const layoutDisplayFiltersOptions = ISSUE_STORE_TO_FILTERS_MAP[storeType]?.layoutOptions[activeLayout];
+  const layoutDisplayFiltersOptions =
+    ISSUE_STORE_TO_FILTERS_MAP[storeType]?.layoutOptions[activeLayout];
 
   const handleLayoutChange = useCallback(
     (layout: EIssueLayoutTypes) => {
       if (!workspaceSlug || !projectId) return;
       updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_FILTERS, { layout: layout });
     },
-    [workspaceSlug, projectId, updateFilters]
+    [workspaceSlug, projectId, updateFilters],
   );
 
   const handleDisplayFilters = useCallback(
     (updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>) => {
       if (!workspaceSlug || !projectId) return;
-      updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_FILTERS, updatedDisplayFilter);
+      updateFilters(
+        workspaceSlug,
+        projectId,
+        EIssueFilterType.DISPLAY_FILTERS,
+        updatedDisplayFilter,
+      );
     },
-    [workspaceSlug, projectId, updateFilters]
+    [workspaceSlug, projectId, updateFilters],
   );
 
   const handleDisplayProperties = useCallback(
@@ -83,7 +89,7 @@ export const HeaderFilters = observer(function HeaderFilters(props: Props) {
       if (!workspaceSlug || !projectId) return;
       updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_PROPERTIES, property);
     },
-    [workspaceSlug, projectId, updateFilters]
+    [workspaceSlug, projectId, updateFilters],
   );
 
   return (
@@ -126,7 +132,12 @@ export const HeaderFilters = observer(function HeaderFilters(props: Props) {
         />
       </FiltersDropdown>
       {canUserCreateIssue ? (
-        <Button className="hidden px-2 md:block" onClick={() => setAnalyticsModal(true)} variant="secondary" size="lg">
+        <Button
+          className="hidden px-2 md:block"
+          onClick={() => setAnalyticsModal(true)}
+          variant="secondary"
+          size="lg"
+        >
           <div className="hidden @4xl:flex">{t("common.analytics")}</div>
           <div className="flex @4xl:hidden">
             <ChartNoAxesColumn className="size-3.5" />

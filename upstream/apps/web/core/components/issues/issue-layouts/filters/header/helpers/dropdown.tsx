@@ -37,7 +37,9 @@ export function FiltersDropdown(props: Props) {
     isFiltersApplied = false,
   } = props;
 
-  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | HTMLDivElement | null>(null);
+  const [referenceElement, setReferenceElement] = useState<
+    HTMLButtonElement | HTMLDivElement | null
+  >(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {

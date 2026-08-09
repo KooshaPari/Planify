@@ -16,7 +16,11 @@ import { createFilterFieldConfig } from "./shared";
 /**
  * Options transformation interface for selection filters
  */
-export interface TOptionTransforms<TItem, TValue extends TFilterValue = string, TIconData = undefined> {
+export interface TOptionTransforms<
+  TItem,
+  TValue extends TFilterValue = string,
+  TIconData = undefined,
+> {
   items: TItem[];
   getId: (item: TItem) => string;
   getLabel: (item: TItem) => string;
@@ -45,7 +49,7 @@ export const getSingleSelectConfig = <
 >(
   transforms: TOptionTransforms<TItem, TValue, TIconData>,
   config: TSingleSelectConfig<TValue>,
-  iconConfig?: IFilterIconConfig<TIconData>
+  iconConfig?: IFilterIconConfig<TIconData>,
 ) =>
   createFilterFieldConfig<typeof FILTER_FIELD_TYPE.SINGLE_SELECT, TValue>({
     type: FILTER_FIELD_TYPE.SINGLE_SELECT,
@@ -81,7 +85,7 @@ export const getMultiSelectConfig = <
 >(
   transforms: TOptionTransforms<TItem, TValue, TIconData>,
   config: TMultiSelectConfig<TValue>,
-  iconConfig?: IFilterIconConfig<TIconData>
+  iconConfig?: IFilterIconConfig<TIconData>,
 ) =>
   createFilterFieldConfig<typeof FILTER_FIELD_TYPE.MULTI_SELECT, TValue>({
     type: FILTER_FIELD_TYPE.MULTI_SELECT,

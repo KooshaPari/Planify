@@ -36,7 +36,7 @@ declare module "@tiptap/core" {
             }
           | {
               idToRemove: string;
-            }
+            },
       ) => () => void;
       addActiveDropbarExtension: (extension: TActiveDropbarExtensions) => () => void;
       removeActiveDropbarExtension: (extension: TActiveDropbarExtensions) => () => void;
@@ -55,14 +55,24 @@ export type UtilityExtensionStorage = {
   isTouchDevice: boolean;
 };
 
-type Props = Pick<IEditorProps, "disabledExtensions" | "flaggedExtensions" | "getEditorMetaData"> & {
+type Props = Pick<
+  IEditorProps,
+  "disabledExtensions" | "flaggedExtensions" | "getEditorMetaData"
+> & {
   fileHandler: TFileHandler;
   isEditable: boolean;
   isTouchDevice: boolean;
 };
 
 export const UtilityExtension = (props: Props) => {
-  const { disabledExtensions, flaggedExtensions, fileHandler, getEditorMetaData, isEditable, isTouchDevice } = props;
+  const {
+    disabledExtensions,
+    flaggedExtensions,
+    fileHandler,
+    getEditorMetaData,
+    isEditable,
+    isTouchDevice,
+  } = props;
   const { restore } = fileHandler;
 
   return Extension.create<Record<string, unknown>, UtilityExtensionStorage>({
@@ -96,7 +106,8 @@ export const UtilityExtension = (props: Props) => {
     addStorage() {
       return {
         assetsList: [],
-        assetsUploadStatus: isEditable && "assetsUploadStatus" in fileHandler ? fileHandler.assetsUploadStatus : {},
+        assetsUploadStatus:
+          isEditable && "assetsUploadStatus" in fileHandler ? fileHandler.assetsUploadStatus : {},
         uploadInProgress: false,
         activeDropbarExtensions: [],
         isTouchDevice,
@@ -111,7 +122,9 @@ export const UtilityExtension = (props: Props) => {
         updateAssetsList: (args) => () => {
           const uniqueAssets = new Set(this.storage.assetsList);
           if ("asset" in args) {
-            const alreadyExists = this.storage.assetsList.find((asset) => asset.id === args.asset.id);
+            const alreadyExists = this.storage.assetsList.find(
+              (asset) => asset.id === args.asset.id,
+            );
             if (!alreadyExists) {
               uniqueAssets.add(args.asset);
             }

@@ -66,7 +66,7 @@ export const handleDeleteKeyOnTable: KeyboardShortcutCommand = (props) => {
 const getTableInfo = (editor: Editor): TableInfo | null => {
   const table = findParentNodeClosestToPos(
     editor.state.selection.ranges[0].$from,
-    (node) => node.type.name === CORE_EXTENSIONS.TABLE
+    (node) => node.type.name === CORE_EXTENSIONS.TABLE,
   );
 
   if (!table) return null;
@@ -152,7 +152,7 @@ const deleteMultipleRows = (
   editor: Editor,
   totalRowsInSelection: number,
   minRow: number,
-  initialTableInfo: TableInfo
+  initialTableInfo: TableInfo,
 ): boolean => {
   // Position cursor at the first selected row
   setCursorAtPosition(editor, initialTableInfo, minRow, 0);
@@ -177,7 +177,7 @@ const deleteMultipleColumns = (
   editor: Editor,
   totalColumnsInSelection: number,
   minCol: number,
-  initialTableInfo: TableInfo
+  initialTableInfo: TableInfo,
 ): boolean => {
   // Position cursor at the first selected column
   setCursorAtPosition(editor, initialTableInfo, 0, minCol);
@@ -198,7 +198,12 @@ const deleteMultipleColumns = (
   return true;
 };
 
-const setCursorAtPosition = (editor: Editor, tableInfo: TableInfo, row: number, col: number): void => {
+const setCursorAtPosition = (
+  editor: Editor,
+  tableInfo: TableInfo,
+  row: number,
+  col: number,
+): void => {
   const cellIndex = row * tableInfo.totalColumns + col;
   const cellPos = tableInfo.pos + tableInfo.map.map[cellIndex] + 1;
 

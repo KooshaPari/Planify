@@ -92,7 +92,8 @@ export function GptAssistantPopover(props: Props) {
     const error = err?.data?.error;
     const errorMessage =
       err?.status === 429
-        ? error || "You have reached the maximum number of requests of 50 requests per month per user."
+        ? error ||
+          "You have reached the maximum number of requests of 50 requests per month per user."
         : error || "Some error occurred. Please try again.";
 
     setToast({
@@ -251,8 +252,8 @@ export function GptAssistantPopover(props: Props) {
             )}
             {invalidResponse && (
               <div className="text-13 text-danger-primary">
-                No response could be generated. This may be due to insufficient content or task information. Please try
-                again.
+                No response could be generated. This may be due to insufficient content or task
+                information. Please try again.
               </div>
             )}
           </div>
@@ -268,7 +269,9 @@ export function GptAssistantPopover(props: Props) {
                 onChange={onChange}
                 ref={ref}
                 placeholder={`${
-                  prompt && prompt !== "" ? "Tell AI what action to perform on this content..." : "Ask AI anything..."
+                  prompt && prompt !== ""
+                    ? "Tell AI what action to perform on this content..."
+                    : "Ask AI anything..."
                 }`}
                 className="w-full"
                 autoFocus
@@ -282,7 +285,10 @@ export function GptAssistantPopover(props: Props) {
               <>
                 <div className="flex items-start justify-center gap-2 text-13 text-accent-primary">
                   <AlertCircle className="h-4 w-4" />
-                  <p>By using this feature, you consent to sharing the message with a 3rd party service. </p>
+                  <p>
+                    By using this feature, you consent to sharing the message with a 3rd party
+                    service.{" "}
+                  </p>
                 </div>
               </>
             )}
@@ -290,7 +296,11 @@ export function GptAssistantPopover(props: Props) {
               <Button variant="secondary" onClick={onClose}>
                 Close
               </Button>
-              <Button variant="primary" onClick={handleSubmit(handleAIResponse)} loading={isSubmitting}>
+              <Button
+                variant="primary"
+                onClick={handleSubmit(handleAIResponse)}
+                loading={isSubmitting}
+              >
                 {generateResponseButtonText}
               </Button>
             </div>

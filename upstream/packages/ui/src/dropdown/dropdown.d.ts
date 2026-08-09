@@ -92,7 +92,15 @@ export interface IDropdownOptions {
 
   keyExtractor: (option: TDropdownOption) => string;
   renderItem:
-    | (({ value, selected, disabled }: { value: string; selected: boolean; disabled?: boolean }) => React.ReactNode)
+    | (({
+        value,
+        selected,
+        disabled,
+      }: {
+        value: string;
+        selected: boolean;
+        disabled?: boolean;
+      }) => React.ReactNode)
     | undefined;
   options: TDropdownOption[] | undefined;
   loader?: React.ReactNode;

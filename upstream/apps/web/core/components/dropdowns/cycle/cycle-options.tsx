@@ -77,7 +77,11 @@ export const CycleOptions = observer(function CycleOptions(props: CycleOptionsPr
   const cycleIds = (getProjectCycleIds(projectId) ?? [])?.filter((cycleId) => {
     const cycleDetails = getCycleById(cycleId);
     if (currentCycleId && currentCycleId === cycleId) return false;
-    return cycleDetails?.status ? (cycleDetails?.status.toLowerCase() != "completed" ? true : false) : true;
+    return cycleDetails?.status
+      ? cycleDetails?.status.toLowerCase() != "completed"
+        ? true
+        : false
+      : true;
   });
 
   const onOpen = () => {
@@ -93,7 +97,9 @@ export const CycleOptions = observer(function CycleOptions(props: CycleOptionsPr
 
   const options: DropdownOptions = cycleIds?.map((cycleId) => {
     const cycleDetails = getCycleById(cycleId);
-    const cycleStatus = cycleDetails?.status ? (cycleDetails.status.toLocaleLowerCase() as TCycleGroups) : "draft";
+    const cycleStatus = cycleDetails?.status
+      ? (cycleDetails.status.toLocaleLowerCase() as TCycleGroups)
+      : "draft";
 
     return {
       value: cycleId,
@@ -121,7 +127,9 @@ export const CycleOptions = observer(function CycleOptions(props: CycleOptionsPr
   }
 
   const filteredOptions =
-    query === "" ? options : options?.filter((o) => o.query.toLowerCase().includes(query.toLowerCase()));
+    query === ""
+      ? options
+      : options?.filter((o) => o.query.toLowerCase().includes(query.toLowerCase()));
 
   return (
     <Combobox.Options className="fixed z-10" static>
@@ -166,7 +174,9 @@ export const CycleOptions = observer(function CycleOptions(props: CycleOptionsPr
                 </Combobox.Option>
               ))
             ) : (
-              <p className="px-1.5 py-1 text-placeholder italic">{t("common.search.no_matches_found")}</p>
+              <p className="px-1.5 py-1 text-placeholder italic">
+                {t("common.search.no_matches_found")}
+              </p>
             )
           ) : (
             <p className="px-1.5 py-1 text-placeholder italic">{t("common.loading")}</p>

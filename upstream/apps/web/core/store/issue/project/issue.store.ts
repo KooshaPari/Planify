@@ -29,27 +29,44 @@ export interface IProjectIssues extends IBaseIssuesStore {
     workspaceSlug: string,
     projectId: string,
     loadType: TLoader,
-    option: IssuePaginationOptions
+    option: IssuePaginationOptions,
   ) => Promise<TIssuesResponse | undefined>;
   fetchIssuesWithExistingPagination: (
     workspaceSlug: string,
     projectId: string,
-    loadType: TLoader
+    loadType: TLoader,
   ) => Promise<TIssuesResponse | undefined>;
   fetchNextIssues: (
     workspaceSlug: string,
     projectId: string,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) => Promise<TIssuesResponse | undefined>;
 
   createIssue: (workspaceSlug: string, projectId: string, data: Partial<TIssue>) => Promise<TIssue>;
-  updateIssue: (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>;
+  updateIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => Promise<void>;
   archiveIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
-  quickAddIssue: (workspaceSlug: string, projectId: string, data: TIssue) => Promise<TIssue | undefined>;
+  quickAddIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    data: TIssue,
+  ) => Promise<TIssue | undefined>;
   removeBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  archiveBulkIssues: (workspaceSlug: string, projectId: string, issueIds: string[]) => Promise<void>;
-  bulkUpdateProperties: (workspaceSlug: string, projectId: string, data: TBulkOperationsPayload) => Promise<void>;
+  archiveBulkIssues: (
+    workspaceSlug: string,
+    projectId: string,
+    issueIds: string[],
+  ) => Promise<void>;
+  bulkUpdateProperties: (
+    workspaceSlug: string,
+    projectId: string,
+    data: TBulkOperationsPayload,
+  ) => Promise<void>;
 }
 
 export class ProjectIssues extends BaseIssuesStore implements IProjectIssues {
@@ -83,7 +100,11 @@ export class ProjectIssues extends BaseIssuesStore implements IProjectIssues {
    * @param projectId
    */
   fetchParentStats = async (workspaceSlug: string, projectId?: string) => {
-    projectId && this.rootIssueStore.rootStore.projectRoot.project.fetchProjectDetails(workspaceSlug, projectId);
+    projectId &&
+      this.rootIssueStore.rootStore.projectRoot.project.fetchProjectDetails(
+        workspaceSlug,
+        projectId,
+      );
   };
 
   /** */
@@ -102,7 +123,7 @@ export class ProjectIssues extends BaseIssuesStore implements IProjectIssues {
     projectId: string,
     loadType: TLoader = "init-loader",
     options: IssuePaginationOptions,
-    isExistingPaginationOptions: boolean = false
+    isExistingPaginationOptions: boolean = false,
   ) => {
     try {
       // set loader and clear store
@@ -112,14 +133,27 @@ export class ProjectIssues extends BaseIssuesStore implements IProjectIssues {
       });
 
       // get params from pagination options
-      const params = this.issueFilterStore?.getFilterParams(options, projectId, undefined, undefined, undefined);
+      const params = this.issueFilterStore?.getFilterParams(
+        options,
+        projectId,
+        undefined,
+        undefined,
+        undefined,
+      );
       // call the fetch issues API with the params
       const response = await this.issueService.getIssues(workspaceSlug, projectId, params, {
         signal: this.controller.signal,
       });
 
       // after fetching issues, call the base method to process the response further
-      this.onfetchIssues(response, options, workspaceSlug, projectId, undefined, !isExistingPaginationOptions);
+      this.onfetchIssues(
+        response,
+        options,
+        workspaceSlug,
+        projectId,
+        undefined,
+        !isExistingPaginationOptions,
+      );
       return response;
     } catch (error) {
       // set loader to undefined if errored out
@@ -138,7 +172,12 @@ export class ProjectIssues extends BaseIssuesStore implements IProjectIssues {
    * @param subGroupId
    * @returns
    */
-  fetchNextIssues = async (workspaceSlug: string, projectId: string, groupId?: string, subGroupId?: string) => {
+  fetchNextIssues = async (
+    workspaceSlug: string,
+    projectId: string,
+    groupId?: string,
+    subGroupId?: string,
+  ) => {
     const cursorObject = this.getPaginationData(groupId, subGroupId);
     // if there are no pagination options and the next page results do not exist the return
     if (!this.paginationOptions || (cursorObject && !cursorObject?.nextPageResults)) return;
@@ -152,7 +191,7 @@ export class ProjectIssues extends BaseIssuesStore implements IProjectIssues {
         projectId,
         this.getNextCursor(groupId, subGroupId),
         groupId,
-        subGroupId
+        subGroupId,
       );
       // call the fetch issues API with the params for next page in issues
       const response = await this.issueService.getIssues(workspaceSlug, projectId, params);
@@ -178,7 +217,7 @@ export class ProjectIssues extends BaseIssuesStore implements IProjectIssues {
   fetchIssuesWithExistingPagination = async (
     workspaceSlug: string,
     projectId: string,
-    loadType: TLoader = "mutation"
+    loadType: TLoader = "mutation",
   ) => {
     if (!this.paginationOptions) return;
     return await this.fetchIssues(workspaceSlug, projectId, loadType, this.paginationOptions, true);
@@ -191,8 +230,18 @@ export class ProjectIssues extends BaseIssuesStore implements IProjectIssues {
    * @param data
    * @returns
    */
-  override createIssue = async (workspaceSlug: string, projectId: string, data: Partial<TIssue>) => {
-    const response = await super.createIssue(workspaceSlug, projectId, data, "", projectId === this.router.projectId);
+  override createIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<TIssue>,
+  ) => {
+    const response = await super.createIssue(
+      workspaceSlug,
+      projectId,
+      data,
+      "",
+      projectId === this.router.projectId,
+    );
     return response;
   };
 

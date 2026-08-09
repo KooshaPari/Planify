@@ -29,7 +29,7 @@ export type EmojisListDropdownProps = SuggestionProps<EmojiItem, { name: string 
 
 export const EmojisListDropdown = forwardRef(function EmojisListDropdown(
   props: EmojisListDropdownProps,
-  ref: React.ForwardedRef<EmojiListRef>
+  ref: React.ForwardedRef<EmojiListRef>,
 ) {
   const { items, command, query, onClose, forceOpen = false } = props;
   // states
@@ -45,7 +45,7 @@ export const EmojisListDropdown = forwardRef(function EmojisListDropdown(
         command({ name: item.name });
       }
     },
-    [command, items]
+    [command, items],
   );
 
   const handleKeyDown = useCallback(
@@ -77,7 +77,7 @@ export const EmojisListDropdown = forwardRef(function EmojisListDropdown(
 
       return false;
     },
-    [items.length, query.length, forceOpen, selectItem, selectedIndex]
+    [items.length, query.length, forceOpen, selectItem, selectedIndex],
   );
 
   // Show animation
@@ -111,7 +111,7 @@ export const EmojisListDropdown = forwardRef(function EmojisListDropdown(
     () => ({
       onKeyDown: ({ event }: SuggestionKeyDownProps): boolean => handleKeyDown(event),
     }),
-    [handleKeyDown]
+    [handleKeyDown],
   );
 
   useOutsideClickDetector(dropdownContainerRef, onClose);
@@ -133,7 +133,7 @@ export const EmojisListDropdown = forwardRef(function EmojisListDropdown(
           "invisible relative max-h-80 w-[14rem] space-y-2 overflow-y-auto rounded-md border-[0.5px] border-strong bg-surface-1 px-2 py-2.5 opacity-0 shadow-raised-200 transition-opacity",
           {
             "visible opacity-100": isVisible,
-          }
+          },
         )}
         style={{
           zIndex: 100,
@@ -159,12 +159,14 @@ export const EmojisListDropdown = forwardRef(function EmojisListDropdown(
                   "flex w-full items-center gap-2 truncate rounded-sm px-2 py-1.5 text-left text-13 text-secondary transition-colors duration-150 hover:bg-layer-1-hover",
                   {
                     "bg-layer-1-hover": isSelected,
-                  }
+                  },
                 )}
                 onClick={() => selectItem(index)}
                 onMouseEnter={() => setSelectedIndex(index)}
               >
-                <span className="grid size-5 flex-shrink-0 place-items-center text-14">{item.emoji}</span>
+                <span className="grid size-5 flex-shrink-0 place-items-center text-14">
+                  {item.emoji}
+                </span>
                 <span className="flex-grow truncate">
                   <span className="font-medium">:{item.name}:</span>
                 </span>

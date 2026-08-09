@@ -6,8 +6,14 @@
 
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
-import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { attachClosestEdge, extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+  attachClosestEdge,
+  extractClosestEdge,
+} from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 import { observer } from "mobx-react";
 // Plane
 import type { TDraggableData } from "@plane/constants";
@@ -63,7 +69,7 @@ export const StateItem = observer(function StateItem(props: TStateItem) {
         console.error("error", error);
       }
     },
-    [stateOperationsCallbacks]
+    [stateOperationsCallbacks],
   );
 
   useEffect(() => {
@@ -107,15 +113,27 @@ export const StateItem = observer(function StateItem(props: TStateItem) {
               const payload: Partial<IState> = {
                 id: sourceData.id,
                 group: destinationGroupKey,
-                sequence: getCurrentStateSequence(groupedStates[destinationGroupKey], destinationData, edge),
+                sequence: getCurrentStateSequence(
+                  groupedStates[destinationGroupKey],
+                  destinationData,
+                  edge,
+                ),
               };
               handleStateSequence(payload);
             }
           },
-        })
+        }),
       );
     }
-  }, [draggableElementRef, state, groupKey, isDraggable, groupedStates, handleStateSequence, disabled]);
+  }, [
+    draggableElementRef,
+    state,
+    groupKey,
+    isDraggable,
+    groupedStates,
+    handleStateSequence,
+    disabled,
+  ]);
   // DND ends
 
   if (updateStateModal)
@@ -138,7 +156,7 @@ export const StateItem = observer(function StateItem(props: TStateItem) {
           "group relative rounded-sm border border-subtle bg-surface-1 px-3.5 py-3",
           isDragging ? `opacity-50` : `opacity-100`,
           totalStates === 1 ? `cursor-auto` : `cursor-grab`,
-          stateItemClassName
+          stateItemClassName,
         )}
       >
         {disabled ? (

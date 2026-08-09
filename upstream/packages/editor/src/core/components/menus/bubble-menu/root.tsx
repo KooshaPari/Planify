@@ -102,13 +102,20 @@ export function EditorBubbleMenu(props: Props) {
       right: formattingItems["text-align"].isActive({ alignment: "right" }),
       center: formattingItems["text-align"].isActive({ alignment: "center" }),
       color: COLORS_LIST.find((c) => TextColorItem(editor).isActive({ color: c.key })),
-      backgroundColor: COLORS_LIST.find((c) => BackgroundColorItem(editor).isActive({ color: c.key })),
+      backgroundColor: COLORS_LIST.find((c) =>
+        BackgroundColorItem(editor).isActive({ color: c.key }),
+      ),
     }),
   });
 
   const basicFormattingOptions = editorState.code
     ? [formattingItems.code]
-    : [formattingItems.bold, formattingItems.italic, formattingItems.underline, formattingItems.strikethrough];
+    : [
+        formattingItems.bold,
+        formattingItems.italic,
+        formattingItems.underline,
+        formattingItems.strikethrough,
+      ];
 
   const bubbleMenuProps: EditorBubbleMenuProps = {
     editor,
@@ -219,7 +226,7 @@ export function EditorBubbleMenu(props: Props) {
                   "grid size-7 place-items-center rounded-sm text-tertiary transition-colors hover:bg-layer-1 active:bg-layer-1",
                   {
                     "bg-layer-1 text-primary": editorState[item.key],
-                  }
+                  },
                 )}
               >
                 <item.icon className="size-4" />

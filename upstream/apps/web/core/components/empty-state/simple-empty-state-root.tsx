@@ -47,7 +47,9 @@ export const SimpleEmptyState = observer(function SimpleEmptyState(props: Props)
 
       <h3 className={getTitleClassName(!!description)}>{title}</h3>
 
-      {description && <p className="text-14 font-medium whitespace-pre-line text-placeholder">{description}</p>}
+      {description && (
+        <p className="text-14 font-medium whitespace-pre-line text-placeholder">{description}</p>
+      )}
     </div>
   );
 });

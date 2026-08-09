@@ -12,7 +12,10 @@ import { PdfTimeoutError } from "@/schema/pdf-export";
  * Preserves the environment type R for proper dependency injection.
  */
 export const withTimeoutAndRetry =
-  (operation: string, { timeoutMs = 5000, maxRetries = 2 }: { timeoutMs?: number; maxRetries?: number } = {}) =>
+  (
+    operation: string,
+    { timeoutMs = 5000, maxRetries = 2 }: { timeoutMs?: number; maxRetries?: number } = {},
+  ) =>
   <A, E, R>(effect: Effect.Effect<A, E, R>): Effect.Effect<A, E | PdfTimeoutError, R> =>
     effect.pipe(
       Effect.timeoutFail({
@@ -28,10 +31,10 @@ export const withTimeoutAndRetry =
           Schedule.exponential(Duration.millis(200)),
           Schedule.compose(Schedule.recurs(maxRetries)),
           Schedule.tapInput((error: E | PdfTimeoutError) =>
-            Effect.logWarning("PDF_EXPORT: Retrying operation", { operation, error })
-          )
-        )
-      )
+            Effect.logWarning("PDF_EXPORT: Retrying operation", { operation, error }),
+          ),
+        ),
+      ),
     );
 
 /**
@@ -42,14 +45,19 @@ export const recoverWithDefault =
   <A>(fallback: A) =>
   <E, R>(effect: Effect.Effect<A, E, R>): Effect.Effect<A, never, R> =>
     effect.pipe(
-      Effect.tapError((error) => Effect.logWarning("PDF_EXPORT: Operation failed, using fallback", { error })),
-      Effect.catchAll(() => Effect.succeed(fallback))
+      Effect.tapError((error) =>
+        Effect.logWarning("PDF_EXPORT: Operation failed, using fallback", { error }),
+      ),
+      Effect.catchAll(() => Effect.succeed(fallback)),
     );
 
 /**
  * Wraps a promise-returning function with proper Effect error handling
  */
-export const tryAsync = <A, E>(fn: () => Promise<A>, onError: (cause: unknown) => E): Effect.Effect<A, E> =>
+export const tryAsync = <A, E>(
+  fn: () => Promise<A>,
+  onError: (cause: unknown) => E,
+): Effect.Effect<A, E> =>
   Effect.tryPromise({
     try: fn,
     catch: onError,

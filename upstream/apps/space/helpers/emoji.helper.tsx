@@ -10,7 +10,7 @@ export const renderEmoji = (
     | {
         name: string;
         color: string;
-      }
+      },
 ) => {
   if (!emoji) return;
 
@@ -32,7 +32,7 @@ export const groupReactions = <T extends { reaction: string }>(reactions: T[], k
       acc[reaction[key]].push(reaction);
       return acc;
     },
-    {} as { [key: string]: T[] }
+    {} as { [key: string]: T[] },
   );
 
   return groupedReactions;

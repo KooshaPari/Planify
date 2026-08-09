@@ -23,11 +23,14 @@ import { useInstance, useWorkspace } from "@/hooks/store";
 // types
 import type { Route } from "./+types/page";
 
-const WorkspaceManagementPage = observer(function WorkspaceManagementPage(_props: Route.ComponentProps) {
+const WorkspaceManagementPage = observer(function WorkspaceManagementPage(
+  _props: Route.ComponentProps,
+) {
   // states
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   // store
-  const { formattedConfig, fetchInstanceConfigurations, updateInstanceConfigurations } = useInstance();
+  const { formattedConfig, fetchInstanceConfigurations, updateInstanceConfigurations } =
+    useInstance();
   const {
     workspaceIds,
     loader: workspaceLoader,
@@ -37,7 +40,8 @@ const WorkspaceManagementPage = observer(function WorkspaceManagementPage(_props
   } = useWorkspace();
   // derived values
   const disableWorkspaceCreation = formattedConfig?.DISABLE_WORKSPACE_CREATION ?? "";
-  const hasNextPage = paginationInfo?.next_page_results && paginationInfo?.next_cursor !== undefined;
+  const hasNextPage =
+    paginationInfo?.next_page_results && paginationInfo?.next_cursor !== undefined;
 
   // fetch data
   useSWR("INSTANCE_CONFIGURATIONS", () => fetchInstanceConfigurations());
@@ -86,9 +90,12 @@ const WorkspaceManagementPage = observer(function WorkspaceManagementPage(_props
           <div className={cn("flex w-full items-center gap-14 rounded-sm")}>
             <div className="flex grow items-center gap-4">
               <div className="grow">
-                <div className="pb-1 text-16 font-medium">Prevent anyone else from creating a workspace.</div>
+                <div className="pb-1 text-16 font-medium">
+                  Prevent anyone else from creating a workspace.
+                </div>
                 <div className={cn("text-11 leading-5 font-regular text-tertiary")}>
-                  Toggling this on will let only you create workspaces. You will have to invite users to new workspaces.
+                  Toggling this on will let only you create workspaces. You will have to invite
+                  users to new workspaces.
                 </div>
               </div>
             </div>
@@ -119,14 +126,15 @@ const WorkspaceManagementPage = observer(function WorkspaceManagementPage(_props
             <div className="flex items-center justify-between gap-2 pt-6">
               <div className="flex flex-col items-start gap-x-2">
                 <div className="flex items-center gap-2 text-16 font-medium">
-                  All workspaces on this instance <span className="text-tertiary">• {workspaceIds.length}</span>
+                  All workspaces on this instance{" "}
+                  <span className="text-tertiary">• {workspaceIds.length}</span>
                   {workspaceLoader && ["mutation", "pagination"].includes(workspaceLoader) && (
                     <LoaderIcon className="h-4 w-4 animate-spin" />
                   )}
                 </div>
                 <div className={cn("text-11 leading-5 font-regular text-tertiary")}>
-                  You can&apos;t yet delete workspaces and you can only go to the workspace if you are an Admin or a
-                  Member.
+                  You can&apos;t yet delete workspaces and you can only go to the workspace if you
+                  are an Admin or a Member.
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -149,7 +157,9 @@ const WorkspaceManagementPage = observer(function WorkspaceManagementPage(_props
                   disabled={workspaceLoader === "pagination"}
                 >
                   Load more
-                  {workspaceLoader === "pagination" && <LoaderIcon className="h-3 w-3 animate-spin" />}
+                  {workspaceLoader === "pagination" && (
+                    <LoaderIcon className="h-3 w-3 animate-spin" />
+                  )}
                 </Button>
               </div>
             )}

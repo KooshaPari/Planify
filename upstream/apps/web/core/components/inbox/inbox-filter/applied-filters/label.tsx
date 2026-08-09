@@ -24,7 +24,9 @@ export const InboxIssueAppliedFiltersLabel = observer(function InboxIssueApplied
   const currentOptionDetail = (labelId: string) => getLabelById(labelId) || undefined;
 
   const handleFilterValue = (value: string): string[] =>
-    filteredValues?.includes(value) ? filteredValues.filter((v) => v !== value) : [...filteredValues, value];
+    filteredValues?.includes(value)
+      ? filteredValues.filter((v) => v !== value)
+      : [...filteredValues, value];
 
   const clearFilter = () => handleInboxIssueFilters("labels", undefined);
 
@@ -36,7 +38,10 @@ export const InboxIssueAppliedFiltersLabel = observer(function InboxIssueApplied
         const optionDetail = currentOptionDetail(value);
         if (!optionDetail) return <></>;
         return (
-          <div key={value} className="relative flex items-center gap-1 rounded-sm bg-layer-1 p-1 text-11">
+          <div
+            key={value}
+            className="relative flex items-center gap-1 rounded-sm bg-layer-1 p-1 text-11"
+          >
             <div className="relative flex h-3 w-3 flex-shrink-0 items-center justify-center overflow-hidden">
               <LabelIcons color={optionDetail.color} />
             </div>

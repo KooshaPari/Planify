@@ -47,7 +47,9 @@ type TModuleDropdownBaseProps = TDropdownProps & {
       }
   );
 
-export const ModuleDropdownBase = observer(function ModuleDropdownBase(props: TModuleDropdownBaseProps) {
+export const ModuleDropdownBase = observer(function ModuleDropdownBase(
+  props: TModuleDropdownBaseProps,
+) {
   const {
     button,
     buttonClassName,
@@ -117,7 +119,10 @@ export const ModuleDropdownBase = observer(function ModuleDropdownBase(props: TM
         <button
           ref={setReferenceElement}
           type="button"
-          className={cn("clickable block h-full w-full outline-none hover:bg-layer-1", buttonContainerClassName)}
+          className={cn(
+            "clickable block h-full w-full outline-none hover:bg-layer-1",
+            buttonContainerClassName,
+          )}
           onClick={handleOnClick}
           disabled={disabled}
           tabIndex={tabIndex}
@@ -134,7 +139,7 @@ export const ModuleDropdownBase = observer(function ModuleDropdownBase(props: TM
               "cursor-not-allowed text-secondary": disabled,
               "cursor-pointer": !disabled,
             },
-            buttonContainerClassName
+            buttonContainerClassName,
           )}
           onClick={handleOnClick}
           disabled={disabled}

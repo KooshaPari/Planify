@@ -12,7 +12,12 @@ import type {
   TPowerKSearchResultsKeysExtended,
 } from "@/plane-web/components/command-palette/power-k/types";
 
-export type TPowerKContextType = "work-item" | "page" | "cycle" | "module" | TPowerKContextTypeExtended;
+export type TPowerKContextType =
+  | "work-item"
+  | "page"
+  | "cycle"
+  | "module"
+  | TPowerKContextTypeExtended;
 
 export type TPowerKContext = {
   // Route information

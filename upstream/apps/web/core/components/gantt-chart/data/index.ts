@@ -9,10 +9,9 @@ import type { WeekMonthDataType, ChartDataType, TGanttViews } from "@plane/types
 import { EStartOfTheWeek } from "@plane/types";
 
 // constants
-export const generateWeeks = (startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY): WeekMonthDataType[] => [
-  ...weeks.slice(startOfWeek),
-  ...weeks.slice(0, startOfWeek),
-];
+export const generateWeeks = (
+  startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY,
+): WeekMonthDataType[] => [...weeks.slice(startOfWeek), ...weeks.slice(0, startOfWeek)];
 
 export const weeks: WeekMonthDataType[] = [
   { key: 0, shortTitle: "sun", title: "sunday", abbreviation: "Su" },
@@ -46,7 +45,8 @@ export const quarters: WeekMonthDataType[] = [
   { key: 3, shortTitle: "Q4", title: "Oct - Dec", abbreviation: "Q4" },
 ];
 
-export const charCapitalize = (word: string) => `${word.charAt(0).toUpperCase()}${word.substring(1)}`;
+export const charCapitalize = (word: string) =>
+  `${word.charAt(0).toUpperCase()}${word.substring(1)}`;
 
 export const bindZero = (value: number) => (value > 9 ? `${value}` : `0${value}`);
 

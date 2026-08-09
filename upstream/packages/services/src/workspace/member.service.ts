@@ -59,7 +59,11 @@ export class WorkspaceMemberService extends APIService {
    * @returns {Promise<IWorkspaceMember>} Promise resolving to the updated member information
    * @throws {Error} If the API request fails
    */
-  async update(workspaceSlug: string, memberId: string, data: Partial<IWorkspaceMember>): Promise<IWorkspaceMember> {
+  async update(
+    workspaceSlug: string,
+    memberId: string,
+    data: Partial<IWorkspaceMember>,
+  ): Promise<IWorkspaceMember> {
     return this.patch(`/api/workspaces/${workspaceSlug}/members/${memberId}/`, data)
       .then((response) => response?.data)
       .catch((error) => {

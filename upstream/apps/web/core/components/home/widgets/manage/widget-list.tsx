@@ -17,15 +17,25 @@ import { WidgetItem } from "./widget-item";
 import type { TargetData } from "./widget.helpers";
 import { getInstructionFromPayload } from "./widget.helpers";
 
-export const WidgetList = observer(function WidgetList({ workspaceSlug }: { workspaceSlug: string }) {
+export const WidgetList = observer(function WidgetList({
+  workspaceSlug,
+}: {
+  workspaceSlug: string;
+}) {
   const { orderedWidgets, reorderWidget, toggleWidget } = useHome();
   const { t } = useTranslation();
 
-  const handleDrop = (self: DropTargetRecord, source: ElementDragPayload, location: DragLocationHistory) => {
+  const handleDrop = (
+    self: DropTargetRecord,
+    source: ElementDragPayload,
+    location: DragLocationHistory,
+  ) => {
     const dropTargets = location?.current?.dropTargets ?? [];
     if (!dropTargets || dropTargets.length <= 0) return;
     const dropTarget =
-      dropTargets.length > 1 ? dropTargets.find((target: DropTargetRecord) => target?.data?.isChild) : dropTargets[0];
+      dropTargets.length > 1
+        ? dropTargets.find((target: DropTargetRecord) => target?.data?.isChild)
+        : dropTargets[0];
 
     const dropTargetData = dropTarget?.data as TargetData;
 

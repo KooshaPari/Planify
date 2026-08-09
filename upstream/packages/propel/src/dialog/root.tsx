@@ -42,7 +42,8 @@ export interface DialogTitleProps extends React.ComponentProps<typeof BaseDialog
 
 // Constants
 const OVERLAY_CLASSNAME = cn("fixed inset-0 z-90 bg-backdrop");
-const BASE_CLASSNAME = "relative text-left bg-surface-1 rounded-lg shadow-md w-full z-100 border border-subtle";
+const BASE_CLASSNAME =
+  "relative text-left bg-surface-1 rounded-lg shadow-md w-full z-100 border border-subtle";
 
 // Utility functions
 const getPositionClassNames = (position: DialogPosition) =>
@@ -67,7 +68,13 @@ const DialogOverlay = memo(function DialogOverlay({
   className,
   ...props
 }: React.ComponentProps<typeof BaseDialog.Backdrop>) {
-  return <BaseDialog.Backdrop data-slot="dialog-overlay" className={cn(OVERLAY_CLASSNAME, className)} {...props} />;
+  return (
+    <BaseDialog.Backdrop
+      data-slot="dialog-overlay"
+      className={cn(OVERLAY_CLASSNAME, className)}
+      {...props}
+    />
+  );
 });
 DialogOverlay.displayName = "DialogOverlay";
 
@@ -93,8 +100,14 @@ const DialogTrigger = memo(function DialogTrigger({
 DialogTrigger.displayName = "DialogTrigger";
 
 const DialogPanel = forwardRef(function DialogPanel(
-  { className, width = EDialogWidth.XXL, children, position = "center", ...props }: DialogPanelProps,
-  ref: React.ForwardedRef<React.ElementRef<typeof BaseDialog.Popup>>
+  {
+    className,
+    width = EDialogWidth.XXL,
+    children,
+    position = "center",
+    ...props
+  }: DialogPanelProps,
+  ref: React.ForwardedRef<React.ElementRef<typeof BaseDialog.Popup>>,
 ) {
   const positionClassNames = useMemo(() => getPositionClassNames(position), [position]);
   return (

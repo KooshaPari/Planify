@@ -19,7 +19,12 @@ export function CyclesListMap(props: Props) {
   return (
     <>
       {cycleIds.map((cycleId) => (
-        <CyclesListItem key={cycleId} cycleId={cycleId} workspaceSlug={workspaceSlug} projectId={projectId} />
+        <CyclesListItem
+          key={cycleId}
+          cycleId={cycleId}
+          workspaceSlug={workspaceSlug}
+          projectId={projectId}
+        />
       ))}
     </>
   );

@@ -64,7 +64,7 @@ export const useMultipleSelect = (props: Props) => {
     true,
     () => {
       clearSelection();
-    }
+    },
   );
 
   const groups = useMemo(() => Object.keys(entities), [entities]);
@@ -76,10 +76,10 @@ export const useMultipleSelect = (props: Props) => {
           entities?.[groupID]?.map((entityID) => ({
             entityID,
             groupID,
-          }))
+          })),
         )
         .flat(1),
-    [entities, groups]
+    [entities, groups],
   );
 
   const getPreviousAndNextEntities = useCallback(
@@ -110,7 +110,7 @@ export const useMultipleSelect = (props: Props) => {
         nextEntity,
       };
     },
-    [entitiesList]
+    [entitiesList],
   );
 
   const handleActiveEntityChange = useCallback(
@@ -128,7 +128,7 @@ export const useMultipleSelect = (props: Props) => {
 
       // scroll to get the active element in view
       const activeElement = document.querySelector(
-        `[data-entity-id="${entityDetails.entityID}"][data-entity-group-id="${entityDetails.groupID}"]`
+        `[data-entity-id="${entityDetails.entityID}"][data-entity-group-id="${entityDetails.groupID}"]`,
       );
       if (activeElement && containerRef.current && shouldScroll) {
         const SCROLL_OFFSET = 200;
@@ -146,9 +146,8 @@ export const useMultipleSelect = (props: Props) => {
         }
       }
 
-      const { previousEntity: previousActiveEntity, nextEntity: nextActiveEntity } = getPreviousAndNextEntities(
-        entityDetails.entityID
-      );
+      const { previousEntity: previousActiveEntity, nextEntity: nextActiveEntity } =
+        getPreviousAndNextEntities(entityDetails.entityID);
       updatePreviousActiveEntity(previousActiveEntity);
       updateNextActiveEntity(nextActiveEntity);
     },
@@ -159,19 +158,22 @@ export const useMultipleSelect = (props: Props) => {
       updateActiveEntityDetails,
       updateNextActiveEntity,
       updatePreviousActiveEntity,
-    ]
+    ],
   );
 
   const handleEntitySelection = useCallback(
     (
       entityDetails: TEntityDetails | TEntityDetails[],
       shouldScroll: boolean = true,
-      forceAction: "force-add" | "force-remove" | null = null
+      forceAction: "force-add" | "force-remove" | null = null,
     ) => {
       if (disabled) return;
 
       if (Array.isArray(entityDetails)) {
-        bulkUpdateSelectedEntityDetails(entityDetails, forceAction === "force-add" ? "add" : "remove");
+        bulkUpdateSelectedEntityDetails(
+          entityDetails,
+          forceAction === "force-add" ? "add" : "remove",
+        );
         if (forceAction === "force-add" && entityDetails.length > 0) {
           handleActiveEntityChange(entityDetails[entityDetails.length - 1], shouldScroll);
         }
@@ -205,7 +207,7 @@ export const useMultipleSelect = (props: Props) => {
       getIsEntitySelected,
       handleActiveEntityChange,
       updateSelectedEntityDetails,
-    ]
+    ],
   );
 
   /**
@@ -219,10 +221,12 @@ export const useMultipleSelect = (props: Props) => {
       if (disabled) return;
       const lastSelectedEntityDetails = getLastSelectedEntityDetails();
       if (e.shiftKey && lastSelectedEntityDetails) {
-        const currentEntityIndex = entitiesList.findIndex((entity) => entity?.entityID === entityID);
+        const currentEntityIndex = entitiesList.findIndex(
+          (entity) => entity?.entityID === entityID,
+        );
 
         const lastEntityIndex = entitiesList.findIndex(
-          (entity) => entity?.entityID === lastSelectedEntityDetails.entityID
+          (entity) => entity?.entityID === lastSelectedEntityDetails.entityID,
         );
         if (lastEntityIndex < currentEntityIndex) {
           for (let i = lastEntityIndex + 1; i <= currentEntityIndex; i++) {
@@ -253,7 +257,7 @@ export const useMultipleSelect = (props: Props) => {
 
       handleEntitySelection({ entityID, groupID }, false);
     },
-    [disabled, entitiesList, handleEntitySelection, getLastSelectedEntityDetails]
+    [disabled, entitiesList, handleEntitySelection, getLastSelectedEntityDetails],
   );
 
   /**
@@ -264,12 +268,14 @@ export const useMultipleSelect = (props: Props) => {
   const isGroupSelected = useCallback(
     (groupID: string) => {
       const groupEntities = entitiesList.filter((entity) => entity.groupID === groupID);
-      const totalSelected = groupEntities.filter((entity) => getIsEntitySelected(entity?.entityID ?? "")).length;
+      const totalSelected = groupEntities.filter((entity) =>
+        getIsEntitySelected(entity?.entityID ?? ""),
+      ).length;
       if (totalSelected === 0) return "empty";
       if (totalSelected === groupEntities.length) return "complete";
       return "partial";
     },
-    [entitiesList, getIsEntitySelected]
+    [entitiesList, getIsEntitySelected],
   );
 
   /**
@@ -282,9 +288,13 @@ export const useMultipleSelect = (props: Props) => {
 
       const groupEntities = entitiesList.filter((entity) => entity.groupID === groupID);
       const groupSelectionStatus = isGroupSelected(groupID);
-      handleEntitySelection(groupEntities, false, groupSelectionStatus === "empty" ? "force-add" : "force-remove");
+      handleEntitySelection(
+        groupEntities,
+        false,
+        groupSelectionStatus === "empty" ? "force-add" : "force-remove",
+      );
     },
-    [disabled, entitiesList, handleEntitySelection, isGroupSelected]
+    [disabled, entitiesList, handleEntitySelection, isGroupSelected],
   );
 
   // select entities on shift + arrow up/down key press
@@ -336,7 +346,9 @@ export const useMultipleSelect = (props: Props) => {
 
       if (e.key === "ArrowDown" && activeEntityDetails) {
         if (!activeEntityDetails) return;
-        const { nextEntity: nextActiveEntity } = getPreviousAndNextEntities(activeEntityDetails.entityID);
+        const { nextEntity: nextActiveEntity } = getPreviousAndNextEntities(
+          activeEntityDetails.entityID,
+        );
         if (nextActiveEntity) {
           handleActiveEntityChange(nextActiveEntity);
         }
@@ -344,7 +356,9 @@ export const useMultipleSelect = (props: Props) => {
 
       if (e.key === "ArrowUp" && activeEntityDetails) {
         if (!activeEntityDetails) return;
-        const { previousEntity: previousActiveEntity } = getPreviousAndNextEntities(activeEntityDetails.entityID);
+        const { previousEntity: previousActiveEntity } = getPreviousAndNextEntities(
+          activeEntityDetails.entityID,
+        );
         if (previousActiveEntity) {
           handleActiveEntityChange(previousActiveEntity);
         }
@@ -356,7 +370,14 @@ export const useMultipleSelect = (props: Props) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [disabled, getActiveEntityDetails, entitiesList, groups, getPreviousAndNextEntities, handleActiveEntityChange]);
+  }, [
+    disabled,
+    getActiveEntityDetails,
+    entitiesList,
+    groups,
+    getPreviousAndNextEntities,
+    handleActiveEntityChange,
+  ]);
 
   // clear selection on route change
   // useEffect(() => {
@@ -381,7 +402,13 @@ export const useMultipleSelect = (props: Props) => {
         }
       }
     });
-  }, [disabled, entitiesList, getEntityDetailsFromEntityID, handleEntitySelection, selectedEntityIds]);
+  }, [
+    disabled,
+    entitiesList,
+    getEntityDetailsFromEntityID,
+    handleEntitySelection,
+    selectedEntityIds,
+  ]);
 
   /**
    * @description helper functions for selection
@@ -404,7 +431,7 @@ export const useMultipleSelect = (props: Props) => {
       handleEntityClick,
       handleGroupClick,
       isGroupSelected,
-    ]
+    ],
   );
 
   return helpers;

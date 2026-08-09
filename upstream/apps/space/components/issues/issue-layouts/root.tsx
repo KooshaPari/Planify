@@ -41,9 +41,14 @@ export const IssuesLayoutsRoot = observer(function IssuesLayoutsRoot(props: Prop
   const { error } = useSWR(
     anchor ? `PUBLIC_ISSUES_${anchor}` : null,
     anchor
-      ? () => fetchPublicIssues(anchor, "init-loader", { groupedBy: "state", canGroup: true, perPageCount: 50 })
+      ? () =>
+          fetchPublicIssues(anchor, "init-loader", {
+            groupedBy: "state",
+            canGroup: true,
+            perPageCount: 50,
+          })
       : null,
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   useEffect(() => {

@@ -24,7 +24,7 @@ import { CustomXAxisTick, CustomYAxisTick } from "../components/tick";
 import { CustomTooltip } from "../components/tooltip";
 
 export const ScatterChart = React.memo(function ScatterChart<K extends string, T extends string>(
-  props: TScatterChartProps<K, T>
+  props: TScatterChartProps<K, T>,
 ) {
   const {
     data,
@@ -73,7 +73,7 @@ export const ScatterChart = React.memo(function ScatterChart<K extends string, T
           onMouseLeave={() => setActivePoint(null)}
         />
       )),
-    [activeLegend, scatterPoints]
+    [activeLegend, scatterPoints],
   );
 
   return (

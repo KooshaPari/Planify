@@ -8,7 +8,11 @@
 import type { IProject, TOperatorConfigMap, TSupportedOperators } from "@plane/types";
 import { COMPARISON_OPERATOR, EQUALITY_OPERATOR } from "@plane/types";
 // local imports
-import type { IFilterIconConfig, TCreateDateFilterParams, TCreateFilterConfigParams } from "../../../rich-filters";
+import type {
+  IFilterIconConfig,
+  TCreateDateFilterParams,
+  TCreateFilterConfigParams,
+} from "../../../rich-filters";
 import {
   createOperatorConfigEntry,
   getDatePickerConfig,
@@ -20,9 +24,11 @@ import {
 
 export const getSupportedDateOperators = (params: TCreateDateFilterParams): TOperatorConfigMap =>
   new Map([
-    createOperatorConfigEntry(EQUALITY_OPERATOR.EXACT, params, (updatedParams) => getDatePickerConfig(updatedParams)),
+    createOperatorConfigEntry(EQUALITY_OPERATOR.EXACT, params, (updatedParams) =>
+      getDatePickerConfig(updatedParams),
+    ),
     createOperatorConfigEntry(COMPARISON_OPERATOR.RANGE, params, (updatedParams) =>
-      getDateRangePickerConfig(updatedParams)
+      getDateRangePickerConfig(updatedParams),
     ),
   ]);
 
@@ -43,7 +49,7 @@ export type TCreateProjectFilterParams = TCreateFilterConfigParams &
  */
 export const getProjectMultiSelectConfig = (
   params: TCreateProjectFilterParams,
-  singleValueOperator: TSupportedOperators
+  singleValueOperator: TSupportedOperators,
 ) =>
   getMultiSelectConfig<IProject, string, IProject>(
     {
@@ -59,5 +65,5 @@ export const getProjectMultiSelectConfig = (
     },
     {
       ...params,
-    }
+    },
   );

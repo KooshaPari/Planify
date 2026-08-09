@@ -38,7 +38,7 @@ export const ModuleGanttBlock = observer(function ModuleGanttBlock(props: Props)
 
   const { message, blockStyle } = getBlockViewDetails(
     moduleDetails,
-    MODULE_STATUS.find((s) => s.value === moduleDetails?.status)?.color ?? ""
+    MODULE_STATUS.find((s) => s.value === moduleDetails?.status)?.color ?? "",
   );
 
   return (
@@ -57,7 +57,7 @@ export const ModuleGanttBlock = observer(function ModuleGanttBlock(props: Props)
         style={blockStyle}
         onClick={() =>
           router.push(
-            `/${workspaceSlug?.toString()}/projects/${moduleDetails?.project_id}/modules/${moduleDetails?.id}`
+            `/${workspaceSlug?.toString()}/projects/${moduleDetails?.project_id}/modules/${moduleDetails?.id}`,
           )
         }
       >

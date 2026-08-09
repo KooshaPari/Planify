@@ -110,11 +110,13 @@ export type CoreEditorRefApi = {
   clearEditor: (emitUpdate?: boolean) => void;
   createSelectionAtCursorPosition: () => void;
   emitRealTimeUpdate: (action: TDocumentEventsServer) => void;
-  executeMenuItemCommand: <T extends TEditorCommands>(props: TCommandWithPropsWithItemKey<T>) => void;
+  executeMenuItemCommand: <T extends TEditorCommands>(
+    props: TCommandWithPropsWithItemKey<T>,
+  ) => void;
   focus: (args: Parameters<RawCommands["focus"]>[0]) => void;
   getAttributesWithExtendedMark: (
     mark: string | MarkType,
-    attribute: string | NodeType | MarkType
+    attribute: string | NodeType | MarkType,
   ) => Record<string, any> | undefined;
   getCoordsFromPos: (pos?: number) => ReturnType<EditorView["coordsAtPos"]> | undefined;
   getCurrentCursorPosition: () => number | undefined;
@@ -139,7 +141,13 @@ export type CoreEditorRefApi = {
   redo: () => void;
   scrollSummary: (marking: IMarking) => void;
 
-  scrollToNodeViaDOMCoordinates: ({ pos, behavior }: { pos?: number; behavior?: ScrollBehavior }) => void;
+  scrollToNodeViaDOMCoordinates: ({
+    pos,
+    behavior,
+  }: {
+    pos?: number;
+    behavior?: ScrollBehavior;
+  }) => void;
   setEditorValue: (content: string, emitUpdate?: boolean) => void;
   setEditorValueAtCursorPosition: (content: string) => void;
   setFocusAtPosition: (position: number) => void;
@@ -173,7 +181,11 @@ export type IEditorProps = {
   mentionHandler: TMentionHandler;
   onAssetChange?: (assets: TEditorAsset[]) => void;
   onEditorFocus?: () => void;
-  onChange?: (json: object, html: string, { isMigrationUpdate }?: { isMigrationUpdate?: boolean }) => void;
+  onChange?: (
+    json: object,
+    html: string,
+    { isMigrationUpdate }?: { isMigrationUpdate?: boolean },
+  ) => void;
   onEnterKeyPress?: (e?: any) => void;
   onTransaction?: () => void;
   placeholder?: string | ((isFocused: boolean, value: string) => string);
@@ -190,7 +202,10 @@ export type IRichTextEditorProps = IEditorProps & {
   dragDropEnabled?: boolean;
 };
 
-export type ICollaborativeDocumentEditorProps = Omit<IEditorProps, "initialValue" | "onEnterKeyPress" | "value"> & {
+export type ICollaborativeDocumentEditorProps = Omit<
+  IEditorProps,
+  "initialValue" | "onEnterKeyPress" | "value"
+> & {
   aiHandler?: TAIHandler;
   documentLoaderClassName?: string;
   dragDropEnabled?: boolean;
@@ -203,14 +218,17 @@ export type ICollaborativeDocumentEditorProps = Omit<IEditorProps, "initialValue
     pageIds: string | string[],
     actionType: T,
     data: EventToPayloadMap[T],
-    performAction?: boolean
+    performAction?: boolean,
   ) => void;
   pageRestorationInProgress?: boolean;
   titleRef?: React.MutableRefObject<EditorTitleRefApi | null>;
   isFetchingFallbackBinary?: boolean;
 };
 
-export type IDocumentEditorProps = Omit<IEditorProps, "initialValue" | "onEnterKeyPress" | "value"> & {
+export type IDocumentEditorProps = Omit<
+  IEditorProps,
+  "initialValue" | "onEnterKeyPress" | "value"
+> & {
   aiHandler?: TAIHandler;
   user?: TUserDetails;
   value: Content;

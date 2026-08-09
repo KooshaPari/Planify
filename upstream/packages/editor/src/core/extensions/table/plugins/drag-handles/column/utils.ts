@@ -11,7 +11,12 @@ import { TableMap } from "@tiptap/pm/tables";
 import { getSelectedRect, isCellSelection } from "@/extensions/table/table/utilities/helpers";
 import type { TableNodeLocation } from "@/extensions/table/table/utilities/helpers";
 // local imports
-import { cloneTableCell, constructDragPreviewTable, getSelectedCellPositions, hideCellContent } from "../utils";
+import {
+  cloneTableCell,
+  constructDragPreviewTable,
+  getSelectedCellPositions,
+  hideCellContent,
+} from "../utils";
 
 type TableColumn = {
   left: number;
@@ -25,7 +30,11 @@ type TableColumn = {
  * @param {number} left - The left position of the dragged column.
  * @returns {number} The index where the dragged column should be dropped.
  */
-export const calculateColumnDropIndex = (col: number, columns: TableColumn[], left: number): number => {
+export const calculateColumnDropIndex = (
+  col: number,
+  columns: TableColumn[],
+  left: number,
+): number => {
   const currentColumnLeft = columns[col].left;
   const currentColumnRight = currentColumnLeft + columns[col].width;
 
@@ -61,7 +70,10 @@ export const calculateColumnDropIndex = (col: number, columns: TableColumn[], le
       const nextColumn = columns[index + 1] as TableColumn | undefined;
       const nextColumnCenter = nextColumn ? nextColumn.width / 2 : 0;
 
-      return draggedColumnRight >= currentColumnCenter && draggedColumnRight < currentColumnEdge + nextColumnCenter;
+      return (
+        draggedColumnRight >= currentColumnCenter &&
+        draggedColumnRight < currentColumnEdge + nextColumnCenter
+      );
     });
     if (findHoveredColumn) {
       dropColumnIndex = columns.indexOf(findHoveredColumn);
@@ -76,7 +88,10 @@ export const calculateColumnDropIndex = (col: number, columns: TableColumn[], le
       const prevColumnLeft = prevColumn ? prevColumn.left : 0;
       const prevColumnCenter = prevColumn ? prevColumn.width / 2 : 0;
 
-      return draggedColumnLeft <= currentColumnCenter && draggedColumnLeft > prevColumnLeft + prevColumnCenter;
+      return (
+        draggedColumnLeft <= currentColumnCenter &&
+        draggedColumnLeft > prevColumnLeft + prevColumnCenter
+      );
     });
     if (findHoveredColumn) {
       dropColumnIndex = columns.indexOf(findHoveredColumn);
@@ -92,7 +107,10 @@ export const calculateColumnDropIndex = (col: number, columns: TableColumn[], le
  * @param {Editor} editor - The editor instance.
  * @returns {TableColumn[]} The information of the columns in the table.
  */
-export const getTableColumnNodesInfo = (table: TableNodeLocation, editor: Editor): TableColumn[] => {
+export const getTableColumnNodesInfo = (
+  table: TableNodeLocation,
+  editor: Editor,
+): TableColumn[] => {
   const result: TableColumn[] = [];
   let leftPx = 0;
 
@@ -129,7 +147,7 @@ export const getTableColumnNodesInfo = (table: TableNodeLocation, editor: Editor
 export const constructColumnDragPreview = (
   editor: Editor,
   selection: Selection,
-  table: TableNodeLocation
+  table: TableNodeLocation,
 ): HTMLElement | undefined => {
   if (!isCellSelection(selection)) return;
 

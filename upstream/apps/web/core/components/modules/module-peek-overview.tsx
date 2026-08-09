@@ -44,7 +44,14 @@ export const ModulePeekOverview = observer(function ModulePeekOverview({
     if (!peekModule) return;
     if (isArchived) fetchArchivedModuleDetails(workspaceSlug, projectId, peekModule.toString());
     else fetchModuleDetails(workspaceSlug, projectId, peekModule.toString());
-  }, [fetchArchivedModuleDetails, fetchModuleDetails, isArchived, peekModule, projectId, workspaceSlug]);
+  }, [
+    fetchArchivedModuleDetails,
+    fetchModuleDetails,
+    isArchived,
+    peekModule,
+    projectId,
+    workspaceSlug,
+  ]);
 
   return (
     <>

@@ -92,7 +92,13 @@ export function LabelDropdown(props: ILabelDropdownProps) {
   const { allowPermissions } = useUserPermissions();
 
   const canCreateLabel =
-    projectId && allowPermissions([EUserProjectRoles.ADMIN], EUserPermissionsLevel.PROJECT, workspaceSlug, projectId);
+    projectId &&
+    allowPermissions(
+      [EUserProjectRoles.ADMIN],
+      EUserPermissionsLevel.PROJECT,
+      workspaceSlug,
+      projectId,
+    );
 
   let projectLabels: IIssueLabel[] = defaultOptions;
   if (storeLabels && storeLabels.length > 0) projectLabels = storeLabels;
@@ -114,16 +120,18 @@ export function LabelDropdown(props: ILabelDropdownProps) {
           </div>
         ),
       })),
-    [projectLabels]
+    [projectLabels],
   );
 
   const filteredOptions = useMemo(
     () =>
       sortBySelectedFirst(
-        query === "" ? options : options?.filter((option) => option.query.toLowerCase().includes(query.toLowerCase())),
-        value
+        query === ""
+          ? options
+          : options?.filter((option) => option.query.toLowerCase().includes(query.toLowerCase())),
+        value,
       ),
-    [options, query, value]
+    [options, query, value],
   );
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
@@ -163,7 +171,10 @@ export function LabelDropdown(props: ILabelDropdownProps) {
   const handleAddLabel = async (labelName: string) => {
     if (!projectId) return;
     setSubmitting(true);
-    const label = await createLabel(workspaceSlug, projectId, { name: labelName, color: getRandomLabelColor() });
+    const label = await createLabel(workspaceSlug, projectId, {
+      name: labelName,
+      color: getRandomLabelColor(),
+    });
     onChange([...value, label.id]);
     setQuery("");
     setSubmitting(false);
@@ -189,7 +200,7 @@ export function LabelDropdown(props: ILabelDropdownProps) {
       e.preventDefault();
       toggleDropdown();
     },
-    [toggleDropdown]
+    [toggleDropdown],
   );
 
   useEffect(() => {
@@ -216,7 +227,9 @@ export function LabelDropdown(props: ILabelDropdownProps) {
         disabled={disabled}
       >
         {label}
-        {!hideDropdownArrow && !disabled && <ChevronDownIcon className="h-3 w-3" aria-hidden="true" />}
+        {!hideDropdownArrow && !disabled && (
+          <ChevronDownIcon className="h-3 w-3" aria-hidden="true" />
+        )}
       </button>
     ),
     [
@@ -229,7 +242,7 @@ export function LabelDropdown(props: ILabelDropdownProps) {
       maxRender,
       value.length,
       setReferenceElement,
-    ]
+    ],
   );
 
   const preventPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -323,7 +336,9 @@ export function LabelDropdown(props: ILabelDropdownProps) {
                     )}
                   </p>
                 ) : (
-                  <p className="text-left text-secondary">{t("common.search.no_matching_results")}</p>
+                  <p className="text-left text-secondary">
+                    {t("common.search.no_matching_results")}
+                  </p>
                 )}
               </div>
             </div>

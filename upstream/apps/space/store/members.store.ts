@@ -43,7 +43,8 @@ export class MemberStore implements IIssueMemberStore {
     return Object.values(this.memberMap);
   }
 
-  getMemberById = (memberId: string | undefined) => (memberId ? this.memberMap[memberId] : undefined);
+  getMemberById = (memberId: string | undefined) =>
+    memberId ? this.memberMap[memberId] : undefined;
 
   getMembersByIds = (memberIds: string[]) => {
     const currMembers = [];

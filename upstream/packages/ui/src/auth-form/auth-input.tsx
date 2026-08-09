@@ -41,7 +41,11 @@ export function AuthInput({
           {label}
         </label>
       )}
-      <div className={cn("relative flex items-center rounded-md border border-strong px-3 py-2 transition-all")}>
+      <div
+        className={cn(
+          "relative flex items-center rounded-md border border-strong px-3 py-2 transition-all",
+        )}
+      >
         <Input
           {...props}
           type={inputType}
@@ -51,7 +55,7 @@ export function AuthInput({
             {
               "border-danger-strong": error,
             },
-            className
+            className,
           )}
         />
         {showPasswordToggle && isPasswordType && (

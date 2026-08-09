@@ -37,7 +37,9 @@ export function AuthConfirmPasswordInput({
   const confirmPassword = value as string;
   const passwordsMatch = password === confirmPassword && password.length > 0;
   const showMatchError =
-    confirmPassword.length > 0 && !passwordsMatch && (!isFocused || confirmPassword.length >= password.length);
+    confirmPassword.length > 0 &&
+    !passwordsMatch &&
+    (!isFocused || confirmPassword.length >= password.length);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newConfirmPassword = e.target.value;
@@ -75,7 +77,9 @@ export function AuthConfirmPasswordInput({
         onBlur={handleBlur}
         autoComplete="off"
       />
-      {confirmPassword && passwordsMatch && <p className="text-13 text-success-primary">Passwords match</p>}
+      {confirmPassword && passwordsMatch && (
+        <p className="text-13 text-success-primary">Passwords match</p>
+      )}
     </div>
   );
 }

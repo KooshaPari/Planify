@@ -27,9 +27,16 @@ function ProjectSettingsPage({ params }: Route.ComponentProps) {
   const { currentProjectDetails } = useProject();
   const { allowPermissions } = useUserPermissions();
   // derived values
-  const isAdmin = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT, workspaceSlug, projectId);
+  const isAdmin = allowPermissions(
+    [EUserPermissions.ADMIN],
+    EUserPermissionsLevel.PROJECT,
+    workspaceSlug,
+    projectId,
+  );
 
-  const pageTitle = currentProjectDetails?.name ? `${currentProjectDetails?.name} - General Settings` : undefined;
+  const pageTitle = currentProjectDetails?.name
+    ? `${currentProjectDetails?.name} - General Settings`
+    : undefined;
 
   return (
     <SettingsContentWrapper header={<GeneralProjectSettingsHeader />}>

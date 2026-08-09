@@ -25,7 +25,8 @@ export function ApiTokenEmptyState(props: Props) {
         <img src={emptyApiTokens} className="w-52 object-contain sm:w-60" alt="empty" />
         <h6 className="mt-6 mb-3 text-18 font-semibold sm:mt-8">No API tokens</h6>
         <p className="mb-7 text-tertiary sm:mb-8">
-          Create API tokens for safe and easy data sharing with external apps, maintaining control and security.
+          Create API tokens for safe and easy data sharing with external apps, maintaining control
+          and security.
         </p>
         <Button className="flex items-center gap-1.5" onClick={onClick}>
           Add token

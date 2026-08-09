@@ -28,26 +28,51 @@ import { IssueMainContent } from "./main-content";
 import { IssueDetailsSidebar } from "./sidebar";
 
 export type TIssueOperations = {
-  fetch: (workspaceSlug: string, projectId: string, issueId: string, loader?: boolean) => Promise<void>;
-  update: (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>;
+  fetch: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    loader?: boolean,
+  ) => Promise<void>;
+  update: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    data: Partial<TIssue>,
+  ) => Promise<void>;
   remove: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
   archive?: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
   restore?: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
-  addCycleToIssue?: (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => Promise<void>;
-  addIssueToCycle?: (workspaceSlug: string, projectId: string, cycleId: string, issueIds: string[]) => Promise<void>;
-  removeIssueFromCycle?: (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => Promise<void>;
+  addCycleToIssue?: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => Promise<void>;
+  addIssueToCycle?: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueIds: string[],
+  ) => Promise<void>;
+  removeIssueFromCycle?: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => Promise<void>;
   removeIssueFromModule?: (
     workspaceSlug: string,
     projectId: string,
     moduleId: string,
-    issueId: string
+    issueId: string,
   ) => Promise<void>;
   changeModulesInIssue?: (
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     addModuleIds: string[],
-    removeModuleIds: string[]
+    removeModuleIds: string[],
   ) => Promise<void>;
 };
 
@@ -91,7 +116,12 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
           console.error("Error fetching the parent issue:", error);
         }
       },
-      update: async (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => {
+      update: async (
+        workspaceSlug: string,
+        projectId: string,
+        issueId: string,
+        data: Partial<TIssue>,
+      ) => {
         try {
           await updateIssue(workspaceSlug, projectId, issueId, data);
         } catch (error) {
@@ -128,7 +158,12 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
           console.log("Error in archiving issue:", error);
         }
       },
-      addCycleToIssue: async (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => {
+      addCycleToIssue: async (
+        workspaceSlug: string,
+        projectId: string,
+        cycleId: string,
+        issueId: string,
+      ) => {
         try {
           await addCycleToIssue(workspaceSlug, projectId, cycleId, issueId);
         } catch (_error) {
@@ -139,7 +174,12 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
           });
         }
       },
-      addIssueToCycle: async (workspaceSlug: string, projectId: string, cycleId: string, issueIds: string[]) => {
+      addIssueToCycle: async (
+        workspaceSlug: string,
+        projectId: string,
+        cycleId: string,
+        issueIds: string[],
+      ) => {
         try {
           await addIssueToCycle(workspaceSlug, projectId, cycleId, issueIds);
         } catch (_error) {
@@ -150,9 +190,19 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
           });
         }
       },
-      removeIssueFromCycle: async (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => {
+      removeIssueFromCycle: async (
+        workspaceSlug: string,
+        projectId: string,
+        cycleId: string,
+        issueId: string,
+      ) => {
         try {
-          const removeFromCyclePromise = removeIssueFromCycle(workspaceSlug, projectId, cycleId, issueId);
+          const removeFromCyclePromise = removeIssueFromCycle(
+            workspaceSlug,
+            projectId,
+            cycleId,
+            issueId,
+          );
           setPromiseToast(removeFromCyclePromise, {
             loading: t("issue.remove.cycle.loading"),
             success: {
@@ -169,9 +219,19 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
           console.log("Error in removing issue from cycle:", error);
         }
       },
-      removeIssueFromModule: async (workspaceSlug: string, projectId: string, moduleId: string, issueId: string) => {
+      removeIssueFromModule: async (
+        workspaceSlug: string,
+        projectId: string,
+        moduleId: string,
+        issueId: string,
+      ) => {
         try {
-          const removeFromModulePromise = removeIssueFromModule(workspaceSlug, projectId, moduleId, issueId);
+          const removeFromModulePromise = removeIssueFromModule(
+            workspaceSlug,
+            projectId,
+            moduleId,
+            issueId,
+          );
           setPromiseToast(removeFromModulePromise, {
             loading: t("issue.remove.module.loading"),
             success: {
@@ -193,9 +253,15 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
         projectId: string,
         issueId: string,
         addModuleIds: string[],
-        removeModuleIds: string[]
+        removeModuleIds: string[],
       ) => {
-        const promise = await changeModulesInIssue(workspaceSlug, projectId, issueId, addModuleIds, removeModuleIds);
+        const promise = await changeModulesInIssue(
+          workspaceSlug,
+          projectId,
+          issueId,
+          addModuleIds,
+          removeModuleIds,
+        );
         return promise;
       },
     }),
@@ -212,7 +278,7 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
       changeModulesInIssue,
       removeIssueFromModule,
       t,
-    ]
+    ],
   );
 
   // issue details
@@ -222,7 +288,7 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug,
-    projectId
+    projectId,
   );
 
   return (

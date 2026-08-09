@@ -20,8 +20,8 @@ export function MaintenanceMessage() {
           &#x1F6A7; Looks like Plane didn&apos;t start up correctly!
         </h1>
         <span className="text-left text-14 font-medium text-secondary">
-          Some services might have failed to start. Please check your container logs to identify and resolve the issue.
-          If you&apos;re stuck, reach out to our support team for more help.
+          Some services might have failed to start. Please check your container logs to identify and
+          resolve the issue. If you&apos;re stuck, reach out to our support team for more help.
         </span>
       </div>
       <div className="mt-1 flex items-center justify-start gap-6">

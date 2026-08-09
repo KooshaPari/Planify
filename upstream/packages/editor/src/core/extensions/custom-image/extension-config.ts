@@ -48,7 +48,10 @@ export const CustomImageExtensionConfig: CustomImageExtensionType = BaseImageExt
           };
           return acc;
         },
-        {} as Record<ECustomImageAttributeNames, { default: TCustomImageAttributes[ECustomImageAttributeNames] }>
+        {} as Record<
+          ECustomImageAttributeNames,
+          { default: TCustomImageAttributes[ECustomImageAttributeNames] }
+        >,
       ),
     };
 

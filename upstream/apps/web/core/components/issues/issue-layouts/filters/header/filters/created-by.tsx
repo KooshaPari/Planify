@@ -35,7 +35,7 @@ export const FilterCreatedBy = observer(function FilterCreatedBy(props: Props) {
 
   const sortedOptions = useMemo(() => {
     const filteredOptions = (memberIds || []).filter((memberId) =>
-      getUserDetails(memberId)?.display_name.toLowerCase().includes(searchQuery.toLowerCase())
+      getUserDetails(memberId)?.display_name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
     return sortBy(filteredOptions, [
@@ -76,7 +76,13 @@ export const FilterCreatedBy = observer(function FilterCreatedBy(props: Props) {
                       key={`created-by-${member.id}`}
                       isChecked={appliedFilters?.includes(member.id) ? true : false}
                       onClick={() => handleUpdate(member.id)}
-                      icon={<Avatar name={member.display_name} src={getFileURL(member.avatar_url)} size="md" />}
+                      icon={
+                        <Avatar
+                          name={member.display_name}
+                          src={getFileURL(member.avatar_url)}
+                          size="md"
+                        />
+                      }
                       title={currentUser?.id === member.id ? "You" : member?.display_name}
                     />
                   );

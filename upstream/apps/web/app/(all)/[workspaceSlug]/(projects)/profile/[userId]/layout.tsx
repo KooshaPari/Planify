@@ -9,7 +9,12 @@ import { usePathname } from "next/navigation";
 import { Outlet } from "react-router";
 import useSWR from "swr";
 // components
-import { PROFILE_VIEWER_TAB, PROFILE_ADMINS_TAB, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import {
+  PROFILE_VIEWER_TAB,
+  PROFILE_ADMINS_TAB,
+  EUserPermissions,
+  EUserPermissionsLevel,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { AppHeader } from "@/components/core/app-header";
 import { ContentWrapper } from "@/components/core/content-wrapper";
@@ -38,22 +43,32 @@ function UseProfileLayout({ params }: Route.ComponentProps) {
   // derived values
   const isAuthorized = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   const windowSize = useSize();
   const isSmallerScreen = windowSize[0] >= 768;
 
-  const { data: userProjectsData } = useSWR(USER_PROFILE_PROJECT_SEGREGATION(workspaceSlug, userId), () =>
-    userService.getUserProfileProjectsSegregation(workspaceSlug, userId)
+  const { data: userProjectsData } = useSWR(
+    USER_PROFILE_PROJECT_SEGREGATION(workspaceSlug, userId),
+    () => userService.getUserProfileProjectsSegregation(workspaceSlug, userId),
   );
   // derived values
   const isAuthorizedPath =
-    pathname.includes("assigned") || pathname.includes("created") || pathname.includes("subscribed");
-  const isIssuesTab = pathname.includes("assigned") || pathname.includes("created") || pathname.includes("subscribed");
+    pathname.includes("assigned") ||
+    pathname.includes("created") ||
+    pathname.includes("subscribed");
+  const isIssuesTab =
+    pathname.includes("assigned") ||
+    pathname.includes("created") ||
+    pathname.includes("subscribed");
 
-  const tabsList = isAuthorized ? [...PROFILE_VIEWER_TAB, ...PROFILE_ADMINS_TAB] : PROFILE_VIEWER_TAB;
-  const currentTab = tabsList.find((tab) => pathname === `/${workspaceSlug}/profile/${userId}${tab.selected}`);
+  const tabsList = isAuthorized
+    ? [...PROFILE_VIEWER_TAB, ...PROFILE_ADMINS_TAB]
+    : PROFILE_VIEWER_TAB;
+  const currentTab = tabsList.find(
+    (tab) => pathname === `/${workspaceSlug}/profile/${userId}${tab.selected}`,
+  );
 
   return (
     <>

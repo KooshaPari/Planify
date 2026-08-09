@@ -24,7 +24,9 @@ export type TTreeTransformResult<P extends TFilterProperty> = {
 /**
  * Transform function type for tree processing
  */
-export type TTreeTransformFn<P extends TFilterProperty> = (expression: TFilterExpression<P>) => TTreeTransformResult<P>;
+export type TTreeTransformFn<P extends TFilterProperty> = (
+  expression: TFilterExpression<P>,
+) => TTreeTransformResult<P>;
 
 /**
  * Generic recursive tree transformer that handles common tree manipulation logic.
@@ -41,7 +43,7 @@ export type TTreeTransformFn<P extends TFilterProperty> = (expression: TFilterEx
  */
 const createGroupTransformResult = <P extends TFilterProperty>(
   groupExpression: TFilterGroupNode<P> | null,
-  shouldNotify: boolean
+  shouldNotify: boolean,
 ): TTreeTransformResult<P> => ({
   expression: groupExpression ? unwrapGroupIfNeeded(groupExpression, true) : null,
   shouldNotify,
@@ -53,7 +55,7 @@ const createGroupTransformResult = <P extends TFilterProperty>(
  */
 export const transformGroupWithChildren = <P extends TFilterProperty>(
   group: TFilterGroupNode<P>,
-  transformFn: TTreeTransformFn<P>
+  transformFn: TTreeTransformFn<P>,
 ): TTreeTransformResult<P> => {
   const children = getGroupChildren(group);
   const transformedChildren: TFilterExpression<P>[] = [];
@@ -97,7 +99,7 @@ export const transformGroupWithChildren = <P extends TFilterProperty>(
  */
 export const transformExpressionTree = <P extends TFilterProperty>(
   expression: TFilterExpression<P> | null,
-  transformFn: TTreeTransformFn<P>
+  transformFn: TTreeTransformFn<P>,
 ): TTreeTransformResult<P> => {
   // Handle null expressions early
   if (!expression) {
@@ -133,7 +135,7 @@ export const transformExpressionTree = <P extends TFilterProperty>(
  */
 export const removeNodeFromExpression = <P extends TFilterProperty>(
   expression: TFilterExpression<P>,
-  targetId: string
+  targetId: string,
 ): { expression: TFilterExpression<P> | null; shouldNotify: boolean } => {
   const result = transformExpressionTree(expression, (node) => {
     // If this node matches the target ID, remove it
@@ -166,7 +168,7 @@ export const removeNodeFromExpression = <P extends TFilterProperty>(
  * @returns The sanitized expression or null if no valid conditions remain
  */
 export const sanitizeAndStabilizeExpression = <P extends TFilterProperty>(
-  expression: TFilterExpression<P> | null
+  expression: TFilterExpression<P> | null,
 ): TFilterExpression<P> | null => {
   const result = transformExpressionTree(expression, (node) => {
     // Only transform condition nodes - check if they have valid values

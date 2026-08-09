@@ -7,7 +7,10 @@
 import type { MutableRefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
-import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { pointerOutsideOfPreview } from "@atlaskit/pragmatic-drag-and-drop/element/pointer-outside-of-preview";
 import { setCustomNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview";
 import { attachInstruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
@@ -47,13 +50,13 @@ type Props = {
   children: (
     isDragging: boolean,
     isDroppingInLabel: boolean,
-    dragHandleRef: MutableRefObject<HTMLButtonElement | null>
+    dragHandleRef: MutableRefObject<HTMLButtonElement | null>,
   ) => React.ReactNode;
   onDrop: (
     draggingLabelId: string,
     droppedParentId: string | null,
     droppedLabelId: string | undefined,
-    dropAtEndOfList: boolean
+    dropAtEndOfList: boolean,
   ) => void;
 };
 
@@ -136,7 +139,9 @@ export const LabelDndHOC = observer(function LabelDndHOC(props: Props) {
 
           // if the label is dropped on both a child and it's parent at the same time then get only the child's drop target
           const dropTarget =
-            dropTargets.length > 1 ? dropTargets.find((target) => target?.data?.isChild) : dropTargets[0];
+            dropTargets.length > 1
+              ? dropTargets.find((target) => target?.data?.isChild)
+              : dropTargets[0];
 
           let parentId: string | null = null,
             dropAtEndOfList = false;
@@ -158,7 +163,7 @@ export const LabelDndHOC = observer(function LabelDndHOC(props: Props) {
           const sourceData = source.data as TargetData;
           if (sourceData.id) onDrop(sourceData.id, parentId, droppedLabelId, dropAtEndOfList);
         },
-      })
+      }),
     );
   }, [labelRef?.current, dragHandleRef?.current, label, isChild, isGroup, isLastChild, onDrop]);
 
@@ -168,7 +173,9 @@ export const LabelDndHOC = observer(function LabelDndHOC(props: Props) {
     <div ref={labelRef}>
       <DropIndicator classNames="my-1" isVisible={instruction === "reorder-above"} />
       {children(isDragging, isMakeChild, dragHandleRef)}
-      {isLastChild && <DropIndicator classNames="my-1" isVisible={instruction === "reorder-below"} />}
+      {isLastChild && (
+        <DropIndicator classNames="my-1" isVisible={instruction === "reorder-below"} />
+      )}
     </div>
   );
 });

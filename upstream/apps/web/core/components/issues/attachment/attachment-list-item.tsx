@@ -13,7 +13,13 @@ import type { TIssueServiceType } from "@plane/types";
 import { EIssueServiceType } from "@plane/types";
 // ui
 import { CustomMenu } from "@plane/ui";
-import { convertBytesToSize, getFileExtension, getFileName, getFileURL, renderFormattedDate } from "@plane/utils";
+import {
+  convertBytesToSize,
+  getFileExtension,
+  getFileName,
+  getFileURL,
+  renderFormattedDate,
+} from "@plane/utils";
 // components
 //
 import { ButtonAvatars } from "@/components/dropdowns/member/avatar";
@@ -30,7 +36,9 @@ type TIssueAttachmentsListItem = {
   issueServiceType?: TIssueServiceType;
 };
 
-export const IssueAttachmentsListItem = observer(function IssueAttachmentsListItem(props: TIssueAttachmentsListItem) {
+export const IssueAttachmentsListItem = observer(function IssueAttachmentsListItem(
+  props: TIssueAttachmentsListItem,
+) {
   const { t } = useTranslation();
   // props
   const { attachmentId, disabled, issueServiceType = EIssueServiceType.ISSUES } = props;
@@ -67,7 +75,9 @@ export const IssueAttachmentsListItem = observer(function IssueAttachmentsListIt
               <p className="truncate font-medium text-secondary">{`${fileName}.${fileExtension}`}</p>
             </Tooltip>
             <span className="flex size-1.5 rounded-full bg-layer-1" />
-            <span className="flex-shrink-0 text-placeholder">{convertBytesToSize(attachment.attributes.size)}</span>
+            <span className="flex-shrink-0 text-placeholder">
+              {convertBytesToSize(attachment.attributes.size)}
+            </span>
           </div>
 
           <div className="flex items-center gap-3">

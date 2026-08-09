@@ -20,7 +20,7 @@ type TNotificationItemReadOption = {
 };
 
 export const NotificationItemReadOption = observer(function NotificationItemReadOption(
-  props: TNotificationItemReadOption
+  props: TNotificationItemReadOption,
 ) {
   const { workspaceSlug, notification } = props;
   // hooks
@@ -42,7 +42,9 @@ export const NotificationItemReadOption = observer(function NotificationItemRead
 
   return (
     <NotificationItemOptionButton
-      tooltipContent={data.read_at ? t("notification.options.mark_unread") : t("notification.options.mark_read")}
+      tooltipContent={
+        data.read_at ? t("notification.options.mark_unread") : t("notification.options.mark_read")
+      }
       callBack={handleNotificationUpdate}
     >
       <MessageSquare className="h-3 w-3 text-tertiary" />

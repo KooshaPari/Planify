@@ -24,7 +24,12 @@ interface EmptyStateProps {
   isSearching: boolean;
 }
 
-export function IssueSearchModalEmptyState({ issues, searchTerm, debouncedSearchTerm, isSearching }: EmptyStateProps) {
+export function IssueSearchModalEmptyState({
+  issues,
+  searchTerm,
+  debouncedSearchTerm,
+  isSearching,
+}: EmptyStateProps) {
   // theme hook
   const { resolvedTheme } = useTheme();
   // plane hooks
@@ -34,19 +39,29 @@ export function IssueSearchModalEmptyState({ issues, searchTerm, debouncedSearch
   const issuesResolvedPath = resolvedTheme === "light" ? lightIssuesAsset : darkIssuesAsset;
 
   function EmptyStateContainer({ children }: { children: React.ReactNode }) {
-    return <div className="flex flex-col items-center justify-center px-3 py-8 text-center">{children}</div>;
+    return (
+      <div className="flex flex-col items-center justify-center px-3 py-8 text-center">
+        {children}
+      </div>
+    );
   }
 
   if (issues.length === 0 && searchTerm !== "" && debouncedSearchTerm !== "" && !isSearching) {
     return (
       <EmptyStateContainer>
-        <SimpleEmptyState title={t("issue_relation.empty_state.no_issues.title")} assetPath={issuesResolvedPath} />
+        <SimpleEmptyState
+          title={t("issue_relation.empty_state.no_issues.title")}
+          assetPath={issuesResolvedPath}
+        />
       </EmptyStateContainer>
     );
   } else if (issues.length === 0) {
     return (
       <EmptyStateContainer>
-        <SimpleEmptyState title={t("issue_relation.empty_state.search.title")} assetPath={searchResolvedPath} />
+        <SimpleEmptyState
+          title={t("issue_relation.empty_state.search.title")}
+          assetPath={searchResolvedPath}
+        />
       </EmptyStateContainer>
     );
   }

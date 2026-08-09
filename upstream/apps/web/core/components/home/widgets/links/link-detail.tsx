@@ -42,7 +42,7 @@ export const ProjectLinkDetail = observer(function ProjectLinkDetail(props: TPro
       toggleLinkModal(modalToggle);
       setLinkData(linkDetail);
     },
-    [linkDetail, setLinkData, toggleLinkModal]
+    [linkDetail, setLinkData, toggleLinkModal],
   );
 
   const handleCopyText = useCallback(() => {
@@ -92,7 +92,7 @@ export const ProjectLinkDetail = observer(function ProjectLinkDetail(props: TPro
         icon: TrashIcon,
       },
     ],
-    [handleEdit, handleOpenInNewTab, handleCopyText, handleDelete, t]
+    [handleEdit, handleOpenInNewTab, handleCopyText, handleDelete, t],
   );
 
   if (!linkDetail) return null;

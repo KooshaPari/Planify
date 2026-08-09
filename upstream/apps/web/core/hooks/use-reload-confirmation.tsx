@@ -7,10 +7,16 @@
 import { useCallback, useEffect, useState } from "react";
 
 //TODO: remove temp flag isActive later and use showAlert as the source of truth
-const useReloadConfirmations = (isActive = true, message?: string, defaultShowAlert = false, onLeave?: () => void) => {
+const useReloadConfirmations = (
+  isActive = true,
+  message?: string,
+  defaultShowAlert = false,
+  onLeave?: () => void,
+) => {
   const [showAlert, setShowAlert] = useState(defaultShowAlert);
 
-  const alertMessage = message ?? "Are you sure you want to leave? Changes you made may not be saved.";
+  const alertMessage =
+    message ?? "Are you sure you want to leave? Changes you made may not be saved.";
 
   const handleBeforeUnload = useCallback(
     (event: BeforeUnloadEvent) => {
@@ -18,7 +24,7 @@ const useReloadConfirmations = (isActive = true, message?: string, defaultShowAl
       event.preventDefault();
       event.returnValue = "";
     },
-    [isActive, showAlert]
+    [isActive, showAlert],
   );
 
   const handleAnchorClick = useCallback(
@@ -44,7 +50,7 @@ const useReloadConfirmations = (isActive = true, message?: string, defaultShowAl
         event.stopPropagation();
       }
     },
-    [isActive, showAlert]
+    [isActive, showAlert],
   );
 
   useEffect(() => {

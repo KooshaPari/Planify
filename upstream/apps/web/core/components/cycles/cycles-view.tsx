@@ -25,14 +25,15 @@ export interface ICyclesView {
 export const CyclesView = observer(function CyclesView(props: ICyclesView) {
   const { workspaceSlug, projectId } = props;
   // store hooks
-  const { getFilteredCycleIds, getFilteredCompletedCycleIds, loader, currentProjectActiveCycleId } = useCycle();
+  const { getFilteredCycleIds, getFilteredCompletedCycleIds, loader, currentProjectActiveCycleId } =
+    useCycle();
   const { searchQuery } = useCycleFilter();
   const { t } = useTranslation();
   // derived values
   const filteredCycleIds = getFilteredCycleIds(projectId, false);
   const filteredCompletedCycleIds = getFilteredCompletedCycleIds(projectId);
   const filteredUpcomingCycleIds = (filteredCycleIds ?? []).filter(
-    (cycleId) => cycleId !== currentProjectActiveCycleId
+    (cycleId) => cycleId !== currentProjectActiveCycleId,
   );
 
   if (loader || !filteredCycleIds) return <CycleModuleListLayoutLoader />;
@@ -46,7 +47,9 @@ export const CyclesView = observer(function CyclesView(props: ICyclesView) {
             className="mx-auto h-36 w-36 object-contain sm:h-48 sm:w-48"
             alt="No matching cycles"
           />
-          <h5 className="mt-7 mb-1 text-18 font-medium">{t("project_cycles.no_matching_cycles")}</h5>
+          <h5 className="mt-7 mb-1 text-18 font-medium">
+            {t("project_cycles.no_matching_cycles")}
+          </h5>
           <p className="text-14 text-placeholder">
             {searchQuery.trim() === ""
               ? t("project_cycles.remove_filters_to_see_all_cycles")

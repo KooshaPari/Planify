@@ -4,7 +4,19 @@
  * See the LICENSE file for details.
  */
 
-import { isEqual, concat, get, indexOf, isEmpty, orderBy, pull, set, uniq, update, clone } from "lodash-es";
+import {
+  isEqual,
+  concat,
+  get,
+  indexOf,
+  isEmpty,
+  orderBy,
+  pull,
+  set,
+  uniq,
+  update,
+  clone,
+} from "lodash-es";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { computedFn } from "mobx-utils";
 // plane constants
@@ -68,12 +80,15 @@ export interface IBaseIssuesStore {
   // helper methods
   getIssueIds: (groupId?: string, subGroupId?: string) => string[] | undefined;
   issuesSortWithOrderBy(issueIds: string[], key: Partial<TIssueOrderByOptions>): string[];
-  getPaginationData(groupId: string | undefined, subGroupId: string | undefined): TPaginationData | undefined;
+  getPaginationData(
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ): TPaginationData | undefined;
   getIssueLoader(groupId?: string, subGroupId?: string): TLoader;
   getGroupIssueCount: (
     groupId: string | undefined,
     subGroupId: string | undefined,
-    isSubGroupCumulative: boolean
+    isSubGroupCumulative: boolean,
   ) => number | undefined;
 
   addIssueToCycle: (
@@ -81,11 +96,25 @@ export interface IBaseIssuesStore {
     projectId: string,
     cycleId: string,
     issueIds: string[],
-    fetchAddedIssues?: boolean
+    fetchAddedIssues?: boolean,
   ) => Promise<void>;
-  removeIssueFromCycle: (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => Promise<void>;
-  addCycleToIssue: (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => Promise<void>;
-  removeCycleFromIssue: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
+  removeIssueFromCycle: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => Promise<void>;
+  addCycleToIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => Promise<void>;
+  removeCycleFromIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+  ) => Promise<void>;
 
   addIssueToList: (issueId: string) => void;
   removeIssueFromList: (issueId: string) => void;
@@ -94,22 +123,26 @@ export interface IBaseIssuesStore {
     projectId: string,
     moduleId: string,
     issueIds: string[],
-    fetchAddedIssues?: boolean
+    fetchAddedIssues?: boolean,
   ) => Promise<void>;
   removeIssuesFromModule: (
     workspaceSlug: string,
     projectId: string,
     moduleId: string,
-    issueIds: string[]
+    issueIds: string[],
   ) => Promise<void>;
   changeModulesInIssue(
     workspaceSlug: string,
     projectId: string,
     issueId: string,
     addModuleIds: string[],
-    removeModuleIds: string[]
+    removeModuleIds: string[],
   ): Promise<void>;
-  updateIssueDates(workspaceSlug: string, updates: IBlockUpdateDependencyData[], projectId?: string): Promise<void>;
+  updateIssueDates(
+    workspaceSlug: string,
+    updates: IBlockUpdateDependencyData[],
+    projectId?: string,
+  ): Promise<void>;
 }
 
 // This constant maps the group by keys to the respective issue property that the key relies on
@@ -200,7 +233,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     _rootStore: IIssueRootStore,
     issueFilterStore: IBaseIssueFilterStore,
     isArchived = false,
-    serviceType = EIssueServiceType.ISSUES
+    serviceType = EIssueServiceType.ISSUES,
   ) {
     makeObservable(this, {
       // observable
@@ -264,7 +297,11 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
   // Abstract class to be implemented to fetch parent stats such as project, module or cycle details
   abstract fetchParentStats: (workspaceSlug: string, projectId?: string, id?: string) => void;
 
-  abstract updateParentStats: (prevIssueState?: TIssue, nextIssueState?: TIssue, id?: string) => void;
+  abstract updateParentStats: (
+    prevIssueState?: TIssue,
+    nextIssueState?: TIssue,
+    id?: string,
+  ) => void;
 
   // current Module Id from url
   get moduleId() {
@@ -316,7 +353,12 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
       return allIssues;
     }
 
-    if (this.groupBy && groupId && groupedIssueIds?.[groupId] && Array.isArray(groupedIssueIds[groupId])) {
+    if (
+      this.groupBy &&
+      groupId &&
+      groupedIssueIds?.[groupId] &&
+      Array.isArray(groupedIssueIds[groupId])
+    ) {
       return groupedIssueIds[groupId] ?? [];
     }
 
@@ -366,7 +408,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     nextCursor: string,
     nextPageResults: boolean,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) {
     const cursorObject = {
       prevCursor,
@@ -392,14 +434,15 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
   /**
    * gets the Loader value of particular group/subgroup/ALL_ISSUES
    */
-  getIssueLoader = (groupId?: string, subGroupId?: string) => get(this.loader, getGroupKey(groupId, subGroupId));
+  getIssueLoader = (groupId?: string, subGroupId?: string) =>
+    get(this.loader, getGroupKey(groupId, subGroupId));
 
   /**
    * gets the pagination data of particular group/subgroup/ALL_ISSUES
    */
   getPaginationData = computedFn(
     (groupId: string | undefined, subGroupId: string | undefined): TPaginationData | undefined =>
-      get(this.issuePaginationData, [getGroupKey(groupId, subGroupId)])
+      get(this.issuePaginationData, [getGroupKey(groupId, subGroupId)]),
   );
 
   /**
@@ -411,21 +454,22 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     (
       groupId: string | undefined,
       subGroupId: string | undefined,
-      isSubGroupCumulative: boolean
+      isSubGroupCumulative: boolean,
     ): number | undefined => {
       if (isSubGroupCumulative && subGroupId) {
         const groupIssuesKeys = Object.keys(this.groupedIssueCount);
         let subGroupCumulativeCount = 0;
 
         for (const groupKey of groupIssuesKeys) {
-          if (groupKey.includes(`_${subGroupId}`)) subGroupCumulativeCount += this.groupedIssueCount[groupKey];
+          if (groupKey.includes(`_${subGroupId}`))
+            subGroupCumulativeCount += this.groupedIssueCount[groupKey];
         }
 
         return subGroupCumulativeCount;
       }
 
       return get(this.groupedIssueCount, [getGroupKey(groupId, subGroupId)]);
-    }
+    },
   );
 
   /**
@@ -434,7 +478,10 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    * @param subGroupId subgroupId for cursor
    * @returns next page cursor or undefined
    */
-  getNextCursor = (groupId: string | undefined, subGroupId: string | undefined): string | undefined => {
+  getNextCursor = (
+    groupId: string | undefined,
+    subGroupId: string | undefined,
+  ): string | undefined => {
     const groupedIssues = this.getIssueIds(groupId, subGroupId) ?? [];
     const currentIssueCount = groupedIssues.length;
 
@@ -463,10 +510,11 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     workspaceSlug: string,
     projectId?: string,
     id?: string,
-    shouldClearPaginationOptions = true
+    shouldClearPaginationOptions = true,
   ) {
     // Process the Issue Response to get the following data from it
-    const { issueList, groupedIssues, groupedIssueCount } = this.processIssueResponse(issuesResponse);
+    const { issueList, groupedIssues, groupedIssueCount } =
+      this.processIssueResponse(issuesResponse);
 
     // The Issue list is added to the main Issue Map
     this.rootIssueStore.issues.addIssue(issueList);
@@ -497,7 +545,8 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    */
   onfetchNexIssues(issuesResponse: TIssuesResponse, groupId?: string, subGroupId?: string) {
     // Process the Issue Response to get the following data from it
-    const { issueList, groupedIssues, groupedIssueCount } = this.processIssueResponse(issuesResponse);
+    const { issueList, groupedIssues, groupedIssueCount } =
+      this.processIssueResponse(issuesResponse);
 
     // The Issue list is added to the main Issue Map
     this.rootIssueStore.issues.addIssue(issueList);
@@ -528,7 +577,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     projectId: string,
     data: Partial<TIssue>,
     id?: string,
-    shouldUpdateList = true
+    shouldUpdateList = true,
   ) {
     // perform an API call
     const response = await this.issueService.createIssue(workspaceSlug, projectId, data);
@@ -556,7 +605,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     projectId: string,
     issueId: string,
     data: Partial<TIssue>,
-    shouldSync = true
+    shouldSync = true,
   ) {
     // Store Before state of the issue
     const issueBeforeUpdate = clone(this.rootIssueStore.issues.getIssueById(issueId));
@@ -651,15 +700,22 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
       this.removeIssueFromList(data.id);
       this.rootIssueStore.issues.removeIssue(data.id);
     });
-    const currentCycleId = data.cycle_id !== "" && data.cycle_id === "None" ? undefined : data.cycle_id;
+    const currentCycleId =
+      data.cycle_id !== "" && data.cycle_id === "None" ? undefined : data.cycle_id;
     const currentModuleIds =
-      data.module_ids && data.module_ids.length > 0 ? data.module_ids.filter((moduleId) => moduleId != "None") : [];
+      data.module_ids && data.module_ids.length > 0
+        ? data.module_ids.filter((moduleId) => moduleId != "None")
+        : [];
     const promiseRequests = [];
     if (currentCycleId) {
-      promiseRequests.push(this.addCycleToIssue(workspaceSlug, projectId, currentCycleId, response.id));
+      promiseRequests.push(
+        this.addCycleToIssue(workspaceSlug, projectId, currentCycleId, response.id),
+      );
     }
     if (currentModuleIds.length > 0) {
-      promiseRequests.push(this.changeModulesInIssue(workspaceSlug, projectId, response.id, currentModuleIds, []));
+      promiseRequests.push(
+        this.changeModulesInIssue(workspaceSlug, projectId, response.id, currentModuleIds, []),
+      );
     }
     if (promiseRequests && promiseRequests.length > 0) {
       await Promise.all(promiseRequests);
@@ -676,7 +732,9 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    */
   async removeBulkIssues(workspaceSlug: string, projectId: string, issueIds: string[]) {
     // Make API call to bulk delete issues
-    const response = await this.issueService.bulkDeleteIssues(workspaceSlug, projectId, { issue_ids: issueIds });
+    const response = await this.issueService.bulkDeleteIssues(workspaceSlug, projectId, {
+      issue_ids: issueIds,
+    });
     // call fetch parent stats
     this.fetchParentStats(workspaceSlug, projectId);
     // Remove issues from the store
@@ -696,7 +754,9 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    * @param issueIds
    */
   bulkArchiveIssues = async (workspaceSlug: string, projectId: string, issueIds: string[]) => {
-    const response = await this.issueService.bulkArchiveIssues(workspaceSlug, projectId, { issue_ids: issueIds });
+    const response = await this.issueService.bulkArchiveIssues(workspaceSlug, projectId, {
+      issue_ids: issueIds,
+    });
 
     runInAction(() => {
       issueIds.forEach((issueId) => {
@@ -707,7 +767,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
           {
             archived_at: response.archived_at,
           },
-          false
+          false,
         );
         this.removeIssueFromList(issueId);
       });
@@ -718,7 +778,11 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    * @description bulk update properties of selected issues
    * @param {TBulkOperationsPayload} data
    */
-  bulkUpdateProperties = async (workspaceSlug: string, projectId: string, data: TBulkOperationsPayload) => {
+  bulkUpdateProperties = async (
+    workspaceSlug: string,
+    projectId: string,
+    data: TBulkOperationsPayload,
+  ) => {
     const issueIds = data.issue_ids;
     // make request to update issue properties
     await this.issueService.bulkOperations(workspaceSlug, projectId, data);
@@ -755,7 +819,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
   async updateIssueDates(
     workspaceSlug: string,
     updates: { id: string; start_date?: string; target_date?: string }[],
-    projectId?: string
+    projectId?: string,
   ) {
     if (!projectId) return;
     const issueDatesBeforeChange: { id: string; start_date?: string; target_date?: string }[] = [];
@@ -810,7 +874,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     projectId: string,
     cycleId: string,
     issueIds: string[],
-    fetchAddedIssues = true
+    fetchAddedIssues = true,
   ) {
     // Perform an APi call to add issue to cycle
     await this.issueService.addIssueToCycle(workspaceSlug, projectId, cycleId, {
@@ -821,7 +885,8 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     if (this.cycleId === cycleId) this.fetchParentStats(workspaceSlug, projectId);
 
     // if true, fetch the issue data for all the issueIds
-    if (fetchAddedIssues) await this.rootIssueStore.issues.getIssues(workspaceSlug, projectId, issueIds);
+    if (fetchAddedIssues)
+      await this.rootIssueStore.issues.getIssues(workspaceSlug, projectId, issueIds);
 
     // Update issueIds from current store
     runInAction(() => {
@@ -844,7 +909,12 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    * @param cycleId
    * @param issueId
    */
-  async removeIssueFromCycle(workspaceSlug: string, projectId: string, cycleId: string, issueId: string) {
+  async removeIssueFromCycle(
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) {
     const issueBeforeRemoval = clone(this.rootIssueStore.issues.getIssueById(issueId));
 
     // update parent stats optimistically
@@ -873,7 +943,12 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    * @param issueId
    * @returns
    */
-  addCycleToIssue = async (workspaceSlug: string, projectId: string, cycleId: string, issueId: string) => {
+  addCycleToIssue = async (
+    workspaceSlug: string,
+    projectId: string,
+    cycleId: string,
+    issueId: string,
+  ) => {
     const issueCycleId = this.rootIssueStore.issues.getIssueById(issueId)?.cycle_id;
 
     if (issueCycleId === cycleId) return;
@@ -939,13 +1014,15 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
       });
 
       // update parent stats optimistically
-      if (this.cycleId === issueCycleId) this.updateParentStats(issueBeforeRemoval, undefined, issueCycleId);
+      if (this.cycleId === issueCycleId)
+        this.updateParentStats(issueBeforeRemoval, undefined, issueCycleId);
 
       // make API call
       await this.issueService.removeIssueFromCycle(workspaceSlug, projectId, issueCycleId, issueId);
 
       // if cycle Id is the current Cycle Id then call fetch parent stats
-      if (this.cycleId === issueCycleId) this.fetchParentStats(workspaceSlug, projectId, issueCycleId);
+      if (this.cycleId === issueCycleId)
+        this.fetchParentStats(workspaceSlug, projectId, issueCycleId);
     } catch (error) {
       // revert back changes if fails
       // Update issueIds from current store
@@ -973,7 +1050,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     projectId: string,
     moduleId: string,
     issueIds: string[],
-    fetchAddedIssues = true
+    fetchAddedIssues = true,
   ) {
     // Perform an APi call to add issue to module
     await this.moduleService.addIssuesToModule(workspaceSlug, projectId, moduleId, {
@@ -981,7 +1058,8 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     });
 
     // if true, fetch the issue data for all the issueIds
-    if (fetchAddedIssues) await this.rootIssueStore.issues.getIssues(workspaceSlug, projectId, issueIds);
+    if (fetchAddedIssues)
+      await this.rootIssueStore.issues.getIssues(workspaceSlug, projectId, issueIds);
 
     // if module Id is the current Module Id then call fetch parent stats
     if (this.moduleId === moduleId) this.fetchParentStats(workspaceSlug, projectId);
@@ -993,9 +1071,16 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
 
     // For Each issue update module Ids by calling current store's update Issue, without making an API call
     issueIds.forEach((issueId) => {
-      const issueModuleIds = get(this.rootIssueStore.issues.issuesMap, [issueId, "module_ids"]) ?? [];
+      const issueModuleIds =
+        get(this.rootIssueStore.issues.issuesMap, [issueId, "module_ids"]) ?? [];
       const updatedIssueModuleIds = uniq(concat(issueModuleIds, [moduleId]));
-      this.issueUpdate(workspaceSlug, projectId, issueId, { module_ids: updatedIssueModuleIds }, false);
+      this.issueUpdate(
+        workspaceSlug,
+        projectId,
+        issueId,
+        { module_ids: updatedIssueModuleIds },
+        false,
+      );
     });
   }
 
@@ -1007,24 +1092,42 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    * @param issueIds
    * @returns
    */
-  async removeIssuesFromModule(workspaceSlug: string, projectId: string, moduleId: string, issueIds: string[]) {
+  async removeIssuesFromModule(
+    workspaceSlug: string,
+    projectId: string,
+    moduleId: string,
+    issueIds: string[],
+  ) {
     // Perform an APi call to remove issue to module
-    const response = await this.moduleService.removeIssuesFromModuleBulk(workspaceSlug, projectId, moduleId, issueIds);
+    const response = await this.moduleService.removeIssuesFromModuleBulk(
+      workspaceSlug,
+      projectId,
+      moduleId,
+      issueIds,
+    );
 
     // if module Id is the current Module Id then call fetch parent stats
     if (this.moduleId === moduleId) this.fetchParentStats(workspaceSlug, projectId);
 
     runInAction(() => {
       // if module Id is the current Module Id, then remove issue from list of issueIds
-      this.moduleId === moduleId && issueIds.forEach((issueId) => this.removeIssueFromList(issueId));
+      this.moduleId === moduleId &&
+        issueIds.forEach((issueId) => this.removeIssueFromList(issueId));
     });
 
     // For Each issue update module Ids by calling current store's update Issue, without making an API call
     runInAction(() => {
       issueIds.forEach((issueId) => {
-        const issueModuleIds = get(this.rootIssueStore.issues.issuesMap, [issueId, "module_ids"]) ?? [];
+        const issueModuleIds =
+          get(this.rootIssueStore.issues.issuesMap, [issueId, "module_ids"]) ?? [];
         const updatedIssueModuleIds = pull(issueModuleIds, moduleId);
-        this.issueUpdate(workspaceSlug, projectId, issueId, { module_ids: updatedIssueModuleIds }, false);
+        this.issueUpdate(
+          workspaceSlug,
+          projectId,
+          issueId,
+          { module_ids: updatedIssueModuleIds },
+          false,
+        );
       });
     });
 
@@ -1038,9 +1141,15 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    * @param issueId
    * @param moduleIds array of modules to be added
    */
-  async addModulesToIssue(workspaceSlug: string, projectId: string, issueId: string, moduleIds: string[]) {
+  async addModulesToIssue(
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    moduleIds: string[],
+  ) {
     // keep a copy of the original module ids
-    const originalModuleIds = get(this.rootIssueStore.issues.issuesMap, [issueId, "module_ids"]) ?? [];
+    const originalModuleIds =
+      get(this.rootIssueStore.issues.issuesMap, [issueId, "module_ids"]) ?? [];
     //Perform API call
     await this.moduleService.addModulesToIssue(workspaceSlug, projectId, issueId, {
       modules: moduleIds,
@@ -1077,11 +1186,12 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     projectId: string,
     issueId: string,
     addModuleIds: string[],
-    removeModuleIds: string[]
+    removeModuleIds: string[],
   ) {
     // keep a copy of the original module ids
     const issueBeforeChanges = clone(this.rootIssueStore.issues.getIssueById(issueId));
-    const originalModuleIds = get(this.rootIssueStore.issues.issuesMap, [issueId, "module_ids"]) ?? [];
+    const originalModuleIds =
+      get(this.rootIssueStore.issues.issuesMap, [issueId, "module_ids"]) ?? [];
     try {
       runInAction(() => {
         // get current Module Ids of the issue
@@ -1098,13 +1208,22 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
         currentModuleIds = uniq(concat([...currentModuleIds], addModuleIds));
 
         // For current Issue, update module Ids by calling current store's update Issue, without making an API call
-        this.issueUpdate(workspaceSlug, projectId, issueId, { module_ids: currentModuleIds }, false);
+        this.issueUpdate(
+          workspaceSlug,
+          projectId,
+          issueId,
+          { module_ids: currentModuleIds },
+          false,
+        );
       });
 
       const issueAfterChanges = clone(this.rootIssueStore.issues.getIssueById(issueId));
 
       // update parent stats optimistically
-      if (addModuleIds.includes(this.moduleId || "") || removeModuleIds.includes(this.moduleId || "")) {
+      if (
+        addModuleIds.includes(this.moduleId || "") ||
+        removeModuleIds.includes(this.moduleId || "")
+      ) {
         this.updateParentStats(issueBeforeChanges, issueAfterChanges, this.moduleId);
       }
 
@@ -1114,7 +1233,10 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
         removed_modules: removeModuleIds,
       });
 
-      if (addModuleIds.includes(this.moduleId || "") || removeModuleIds.includes(this.moduleId || "")) {
+      if (
+        addModuleIds.includes(this.moduleId || "") ||
+        removeModuleIds.includes(this.moduleId || "")
+      ) {
         this.fetchParentStats(workspaceSlug, projectId);
       }
     } catch (error) {
@@ -1126,7 +1248,13 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
         if (removeModuleIds.includes(this.moduleId ?? "")) this.addIssueToList(issueId);
 
         // For current Issue, update module Ids by calling current store's update Issue, without making an API call
-        this.issueUpdate(workspaceSlug, projectId, issueId, { module_ids: originalModuleIds }, false);
+        this.issueUpdate(
+          workspaceSlug,
+          projectId,
+          issueId,
+          { module_ids: originalModuleIds },
+          false,
+        );
       });
 
       throw error;
@@ -1196,7 +1324,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
   updateIssueList(
     issue?: TIssue,
     issueBeforeUpdate?: TIssue,
-    action?: EIssueGroupedAction.ADD | EIssueGroupedAction.DELETE
+    action?: EIssueGroupedAction.ADD | EIssueGroupedAction.DELETE,
   ) {
     if (!issue && !issueBeforeUpdate) return;
 
@@ -1205,7 +1333,8 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     if (!issueId) return;
 
     // Get display filters to check if 'Show sub Work items' is enabled - Donot add Work item to main list if disabled.
-    const isShowWorkItemsEnabled = this.issueFilterStore.issueFilters?.displayFilters?.sub_issue ?? false;
+    const isShowWorkItemsEnabled =
+      this.issueFilterStore.issueFilters?.displayFilters?.sub_issue ?? false;
 
     // get issueUpdates from another method by passing down the three arguments
     // issueUpdates is nothing but an array of objects that contain the path of the issueId list that need updating and also the action that needs to be performed at the path
@@ -1220,24 +1349,30 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
           if (isSubIssue && !isShowWorkItemsEnabled) continue;
           // add issue Id at the path
           update(this, ["groupedIssueIds", ...issueUpdate.path], (issueIds: string[] = []) =>
-            this.issuesSortWithOrderBy(uniq(concat(issueIds, issueId)), this.orderBy)
+            this.issuesSortWithOrderBy(uniq(concat(issueIds, issueId)), this.orderBy),
           );
         }
 
         //if update is delete, remove it at a particular path
         if (issueUpdate.action === EIssueGroupedAction.DELETE) {
           // remove issue Id from the path
-          update(this, ["groupedIssueIds", ...issueUpdate.path], (issueIds: string[] = []) => pull(issueIds, issueId));
+          update(this, ["groupedIssueIds", ...issueUpdate.path], (issueIds: string[] = []) =>
+            pull(issueIds, issueId),
+          );
         }
 
         // accumulate the updates so that we don't end up updating the count twice for the same issue
-        this.accumulateIssueUpdates(accumulatedUpdatesForCount, issueUpdate.path, issueUpdate.action);
+        this.accumulateIssueUpdates(
+          accumulatedUpdatesForCount,
+          issueUpdate.path,
+          issueUpdate.action,
+        );
 
         //if update is reorder, reorder it at a particular path
         if (issueUpdate.action === EIssueGroupedAction.REORDER) {
           // re-order/re-sort the issue Ids at the path
           update(this, ["groupedIssueIds", ...issueUpdate.path], (issueIds: string[] = []) =>
-            this.issuesSortWithOrderBy(issueIds, this.orderBy)
+            this.issuesSortWithOrderBy(issueIds, this.orderBy),
           );
         }
       }
@@ -1308,7 +1443,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
         set(
           groupedIssues,
           [groupId],
-          groupIssueResult.map((issue) => issue.id)
+          groupIssueResult.map((issue) => issue.id),
         );
         continue;
       }
@@ -1322,7 +1457,11 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
         if (!subGroupIssueResult) continue;
 
         // set sub grouped Issue count of the current groupId
-        set(groupedIssueCount, [getGroupKey(groupId, subGroupId)], subGroupIssuesObject.total_results);
+        set(
+          groupedIssueCount,
+          [getGroupKey(groupId, subGroupId)],
+          subGroupIssuesObject.total_results,
+        );
 
         if (Array.isArray(subGroupIssueResult)) {
           // add the result to issueList
@@ -1331,7 +1470,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
           set(
             groupedIssues,
             [groupId, subGroupId],
-            subGroupIssueResult.map((issue) => issue.id)
+            subGroupIssueResult.map((issue) => issue.id),
           );
 
           continue;
@@ -1354,7 +1493,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     groupedIssues: TIssues,
     groupedIssueCount: TGroupedIssueCount,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) {
     // if groupId exists and groupedIssues has ALL_ISSUES as a group,
     // then it's an individual group/subgroup pagination
@@ -1416,7 +1555,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     // if groupedIssueIds is an array, update the `groupedIssueIds` store at the issuePath
     if (groupedIssueIds && Array.isArray(groupedIssueIds)) {
       update(this, ["groupedIssueIds", ...issuePath], (issueIds: string[] = []) =>
-        this.issuesSortWithOrderBy(uniq(concat(issueIds, groupedIssueIds)), this.orderBy)
+        this.issuesSortWithOrderBy(uniq(concat(issueIds, groupedIssueIds)), this.orderBy),
       );
       // return true to indicate the store has been updated
       return true;
@@ -1436,7 +1575,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
   accumulateIssueUpdates(
     accumulator: { [key: string]: EIssueGroupedAction },
     path: string[],
-    action: EIssueGroupedAction
+    action: EIssueGroupedAction,
   ) {
     const [groupId, subGroupId] = path;
 
@@ -1470,7 +1609,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
   updateUpdateAccumulator(
     accumulator: { [key: string]: EIssueGroupedAction },
     key: string,
-    action: EIssueGroupedAction
+    action: EIssueGroupedAction,
   ) {
     // if the key for accumulator is undefined, they update it with the action
     if (!accumulator[key]) {
@@ -1515,20 +1654,25 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
   getUpdateDetails = (
     issue?: Partial<TIssue>,
     issueBeforeUpdate?: Partial<TIssue>,
-    action?: EIssueGroupedAction.ADD | EIssueGroupedAction.DELETE
+    action?: EIssueGroupedAction.ADD | EIssueGroupedAction.DELETE,
   ): { path: string[]; action: EIssueGroupedAction }[] => {
     // check the before and after states to return if there needs to be a re-sorting of issueId list if the issue property that orderBy  depends on has changed
     const orderByUpdates = this.getOrderByUpdateDetails(issue, issueBeforeUpdate);
     // if unGrouped, then return the path as ALL_ISSUES along with orderByUpdates
-    if (!this.issueGroupKey) return action ? [{ path: [ALL_ISSUES], action }, ...orderByUpdates] : orderByUpdates;
+    if (!this.issueGroupKey)
+      return action ? [{ path: [ALL_ISSUES], action }, ...orderByUpdates] : orderByUpdates;
 
     const issueGroupKeyValue = issue?.[this.issueGroupKey] as string | string[] | null | undefined;
-    const issueBeforeUpdateGroupKey = issueBeforeUpdate?.[this.issueGroupKey] as string | string[] | null | undefined;
+    const issueBeforeUpdateGroupKey = issueBeforeUpdate?.[this.issueGroupKey] as
+      | string
+      | string[]
+      | null
+      | undefined;
     // if grouped, the get the Difference between the two issue properties (this.issueGroupKey) on which groupBy is performed
     const groupActionsArray = getDifference(
       this.getArrayStringArray(issue, issueGroupKeyValue, this.groupBy),
       this.getArrayStringArray(issueBeforeUpdate, issueBeforeUpdateGroupKey, this.groupBy),
-      action
+      action,
     );
 
     // if not subGrouped, then use the differences to construct an updateDetails Array
@@ -1536,7 +1680,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
       return [
         ...getGroupIssueKeyActions(
           groupActionsArray[EIssueGroupedAction.ADD],
-          groupActionsArray[EIssueGroupedAction.DELETE]
+          groupActionsArray[EIssueGroupedAction.DELETE],
         ),
         ...orderByUpdates,
       ];
@@ -1551,7 +1695,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     const subGroupActionsArray = getDifference(
       this.getArrayStringArray(issue, issueSubGroupKey, this.subGroupBy),
       this.getArrayStringArray(issueBeforeUpdate, issueBeforeUpdateSubGroupKey, this.subGroupBy),
-      action
+      action,
     );
 
     // Use the differences to construct an updateDetails Array
@@ -1562,7 +1706,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
         this.getArrayStringArray(issueBeforeUpdate, issueBeforeUpdateGroupKey, this.groupBy),
         this.getArrayStringArray(issue, issueGroupKeyValue, this.groupBy),
         this.getArrayStringArray(issueBeforeUpdate, issueBeforeUpdateSubGroupKey, this.subGroupBy),
-        this.getArrayStringArray(issue, issueSubGroupKey, this.subGroupBy)
+        this.getArrayStringArray(issue, issueSubGroupKey, this.subGroupBy),
       ),
       ...orderByUpdates,
     ];
@@ -1576,7 +1720,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    */
   getOrderByUpdateDetails(
     issue: Partial<TIssue> | undefined,
-    issueBeforeUpdate: Partial<TIssue> | undefined
+    issueBeforeUpdate: Partial<TIssue> | undefined,
   ): { path: string[]; action: EIssueGroupedAction.REORDER }[] {
     // if before and after states of the issue prop on which orderBy depends on then return and empty Array
     if (
@@ -1611,7 +1755,10 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     // if issues are subGrouped then, provide path from subGroupByValues
     for (const groupKey of groupByValues) {
       for (const subGroupKey of subGroupByValues) {
-        issueKeyActions.push({ path: [groupKey, subGroupKey], action: EIssueGroupedAction.REORDER });
+        issueKeyActions.push({
+          path: [groupKey, subGroupKey],
+          action: EIssueGroupedAction.REORDER,
+        });
       }
     }
 
@@ -1628,7 +1775,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
   getArrayStringArray = (
     issueObject: Partial<TIssue> | undefined,
     value: string | string[] | undefined | null,
-    groupByKey?: TIssueGroupByOptions
+    groupByKey?: TIssueGroupByOptions,
   ): string[] => {
     // if issue object is undefined return empty array
     if (!issueObject) return [];
@@ -1649,11 +1796,13 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
   private getDefaultGroupValue = (
     issueObject: Partial<TIssue>,
     value: string,
-    groupByKey?: TIssueGroupByOptions
+    groupByKey?: TIssueGroupByOptions,
   ): string[] => {
     // Handle special case for state group
     if (groupByKey === "state_detail.group") {
-      return [this.rootIssueStore.rootStore.state.stateMap?.[value]?.group ?? issueObject.state__group];
+      return [
+        this.rootIssueStore.rootStore.state.stateMap?.[value]?.group ?? issueObject.state__group,
+      ];
     }
 
     return [value];
@@ -1667,10 +1816,16 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
    * @returns string | string[] of sortable fields to be used for sorting
    */
   populateIssueDataForSorting(
-    dataType: "state_id" | "label_ids" | "assignee_ids" | "module_ids" | "cycle_id" | "estimate_point",
+    dataType:
+      | "state_id"
+      | "label_ids"
+      | "assignee_ids"
+      | "module_ids"
+      | "cycle_id"
+      | "estimate_point",
     dataIds: string | string[] | null | undefined,
     projectId: string | undefined | null,
-    order?: "asc" | "desc"
+    order?: "asc" | "desc",
   ) {
     if (!dataIds) return;
 
@@ -1711,7 +1866,8 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
         if (!moduleMap) break;
         for (const dataId of dataIdsArray) {
           const currentModule = moduleMap[dataId];
-          if (currentModule && currentModule.name) dataValues.push(currentModule.name.toLocaleLowerCase());
+          if (currentModule && currentModule.name)
+            dataValues.push(currentModule.name.toLocaleLowerCase());
         }
         break;
       }
@@ -1729,11 +1885,14 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
         if (!projectId) break;
         // get the estimate ID for the current Project
         const currentProjectEstimateId =
-          this.rootIssueStore.rootStore.projectEstimate.currentActiveEstimateIdByProjectId(projectId);
+          this.rootIssueStore.rootStore.projectEstimate.currentActiveEstimateIdByProjectId(
+            projectId,
+          );
         // return if current Estimate Id for the project is not available
         if (!currentProjectEstimateId) break;
         // get Estimate based on Id
-        const estimate = this.rootIssueStore.rootStore.projectEstimate.estimateById(currentProjectEstimateId);
+        const estimate =
+          this.rootIssueStore.rootStore.projectEstimate.estimateById(currentProjectEstimateId);
         // If Estimate is not available, then return
         if (!estimate) break;
         // Get Estimate Value
@@ -1746,11 +1905,18 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
       }
     }
 
-    return isDataIdsArray ? (order ? orderBy(dataValues, undefined, [order]) : dataValues) : dataValues;
+    return isDataIdsArray
+      ? order
+        ? orderBy(dataValues, undefined, [order])
+        : dataValues
+      : dataValues;
   }
 
   issuesSortWithOrderBy = (issueIds: string[], key: TIssueOrderByOptions | undefined): string[] => {
-    const issues = this.rootIssueStore.issues.getIssuesByIds(issueIds, this.isArchived ? "archived" : "un-archived");
+    const issues = this.rootIssueStore.issues.getIssuesByIds(
+      issueIds,
+      this.isArchived ? "archived" : "un-archived",
+    );
     const array = orderBy(issues, (issue) => convertToISODateString(issue["created_at"]), ["desc"]);
 
     switch (key) {
@@ -1759,57 +1925,81 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
       case "state__name":
         return getIssueIds(
           orderBy(array, (issue) =>
-            this.populateIssueDataForSorting("state_id", issue?.["state_id"], issue?.["project_id"])
-          )
+            this.populateIssueDataForSorting(
+              "state_id",
+              issue?.["state_id"],
+              issue?.["project_id"],
+            ),
+          ),
         );
       case "-state__name":
         return getIssueIds(
           orderBy(
             array,
-            (issue) => this.populateIssueDataForSorting("state_id", issue?.["state_id"], issue?.["project_id"]),
-            ["desc"]
-          )
+            (issue) =>
+              this.populateIssueDataForSorting(
+                "state_id",
+                issue?.["state_id"],
+                issue?.["project_id"],
+              ),
+            ["desc"],
+          ),
         );
       // dates
       case "created_at":
         return getIssueIds(orderBy(array, (issue) => convertToISODateString(issue["created_at"])));
       case "-created_at":
-        return getIssueIds(orderBy(array, (issue) => convertToISODateString(issue["created_at"]), ["desc"]));
+        return getIssueIds(
+          orderBy(array, (issue) => convertToISODateString(issue["created_at"]), ["desc"]),
+        );
       case "updated_at":
         return getIssueIds(orderBy(array, (issue) => convertToISODateString(issue["updated_at"])));
       case "-updated_at":
-        return getIssueIds(orderBy(array, (issue) => convertToISODateString(issue["updated_at"]), ["desc"]));
+        return getIssueIds(
+          orderBy(array, (issue) => convertToISODateString(issue["updated_at"]), ["desc"]),
+        );
       case "start_date":
-        return getIssueIds(orderBy(array, [getSortOrderToFilterEmptyValues.bind(null, "start_date"), "start_date"])); //preferring sorting based on empty values to always keep the empty values below
+        return getIssueIds(
+          orderBy(array, [getSortOrderToFilterEmptyValues.bind(null, "start_date"), "start_date"]),
+        ); //preferring sorting based on empty values to always keep the empty values below
       case "-start_date":
         return getIssueIds(
           orderBy(
             array,
             [getSortOrderToFilterEmptyValues.bind(null, "start_date"), "start_date"], //preferring sorting based on empty values to always keep the empty values below
-            ["asc", "desc"]
-          )
+            ["asc", "desc"],
+          ),
         );
 
       case "target_date":
-        return getIssueIds(orderBy(array, [getSortOrderToFilterEmptyValues.bind(null, "target_date"), "target_date"])); //preferring sorting based on empty values to always keep the empty values below
+        return getIssueIds(
+          orderBy(array, [
+            getSortOrderToFilterEmptyValues.bind(null, "target_date"),
+            "target_date",
+          ]),
+        ); //preferring sorting based on empty values to always keep the empty values below
       case "-target_date":
         return getIssueIds(
           orderBy(
             array,
             [getSortOrderToFilterEmptyValues.bind(null, "target_date"), "target_date"], //preferring sorting based on empty values to always keep the empty values below
-            ["asc", "desc"]
-          )
+            ["asc", "desc"],
+          ),
         );
 
       // custom
       case "-priority": {
         const sortArray = ISSUE_PRIORITIES.map((i) => i.key);
-        return getIssueIds(orderBy(array, (currentIssue: TIssue) => indexOf(sortArray, currentIssue?.priority)));
+        return getIssueIds(
+          orderBy(array, (currentIssue: TIssue) => indexOf(sortArray, currentIssue?.priority)),
+        );
       }
       case "priority": {
         const sortArray = ISSUE_PRIORITIES.map((i) => i.key);
         return getIssueIds(
-          orderBy(array, (currentIssue: TIssue) => indexOf(sortArray, currentIssue?.priority), ["desc"])
+          orderBy(array, (currentIssue: TIssue) => indexOf(sortArray, currentIssue?.priority), [
+            "desc",
+          ]),
         );
       }
 
@@ -1824,8 +2014,12 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
           orderBy(array, [
             getSortOrderToFilterEmptyValues.bind(null, "estimate_point"),
             (issue) =>
-              this.populateIssueDataForSorting("estimate_point", issue?.["estimate_point"], issue?.["project_id"]),
-          ])
+              this.populateIssueDataForSorting(
+                "estimate_point",
+                issue?.["estimate_point"],
+                issue?.["project_id"],
+              ),
+          ]),
         ); //preferring sorting based on empty values to always keep the empty values below
       case "-estimate_point__key":
         return getIssueIds(
@@ -1834,10 +2028,14 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
             [
               getSortOrderToFilterEmptyValues.bind(null, "estimate_point"),
               (issue) =>
-                this.populateIssueDataForSorting("estimate_point", issue?.["estimate_point"], issue?.["project_id"]),
+                this.populateIssueDataForSorting(
+                  "estimate_point",
+                  issue?.["estimate_point"],
+                  issue?.["project_id"],
+                ),
             ], //preferring sorting based on empty values to always keep the empty values below
-            ["asc", "desc"]
-          )
+            ["asc", "desc"],
+          ),
         );
 
       case "link_count":
@@ -1856,8 +2054,13 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
           orderBy(array, [
             getSortOrderToFilterEmptyValues.bind(null, "label_ids"), //preferring sorting based on empty values to always keep the empty values below
             (issue) =>
-              this.populateIssueDataForSorting("label_ids", issue?.["label_ids"], issue?.["project_id"], "asc"),
-          ])
+              this.populateIssueDataForSorting(
+                "label_ids",
+                issue?.["label_ids"],
+                issue?.["project_id"],
+                "asc",
+              ),
+          ]),
         );
       case "-labels__name":
         return getIssueIds(
@@ -1866,10 +2069,15 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
             [
               getSortOrderToFilterEmptyValues.bind(null, "label_ids"), //preferring sorting based on empty values to always keep the empty values below
               (issue) =>
-                this.populateIssueDataForSorting("label_ids", issue?.["label_ids"], issue?.["project_id"], "asc"),
+                this.populateIssueDataForSorting(
+                  "label_ids",
+                  issue?.["label_ids"],
+                  issue?.["project_id"],
+                  "asc",
+                ),
             ],
-            ["asc", "desc"]
-          )
+            ["asc", "desc"],
+          ),
         );
 
       case "issue_module__module__name":
@@ -1877,8 +2085,13 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
           orderBy(array, [
             getSortOrderToFilterEmptyValues.bind(null, "module_ids"), //preferring sorting based on empty values to always keep the empty values below
             (issue) =>
-              this.populateIssueDataForSorting("module_ids", issue?.["module_ids"], issue?.["project_id"], "asc"),
-          ])
+              this.populateIssueDataForSorting(
+                "module_ids",
+                issue?.["module_ids"],
+                issue?.["project_id"],
+                "asc",
+              ),
+          ]),
         );
       case "-issue_module__module__name":
         return getIssueIds(
@@ -1887,18 +2100,29 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
             [
               getSortOrderToFilterEmptyValues.bind(null, "module_ids"), //preferring sorting based on empty values to always keep the empty values below
               (issue) =>
-                this.populateIssueDataForSorting("module_ids", issue?.["module_ids"], issue?.["project_id"], "asc"),
+                this.populateIssueDataForSorting(
+                  "module_ids",
+                  issue?.["module_ids"],
+                  issue?.["project_id"],
+                  "asc",
+                ),
             ],
-            ["asc", "desc"]
-          )
+            ["asc", "desc"],
+          ),
         );
 
       case "issue_cycle__cycle__name":
         return getIssueIds(
           orderBy(array, [
             getSortOrderToFilterEmptyValues.bind(null, "cycle_id"), //preferring sorting based on empty values to always keep the empty values below
-            (issue) => this.populateIssueDataForSorting("cycle_id", issue?.["cycle_id"], issue?.["project_id"], "asc"),
-          ])
+            (issue) =>
+              this.populateIssueDataForSorting(
+                "cycle_id",
+                issue?.["cycle_id"],
+                issue?.["project_id"],
+                "asc",
+              ),
+          ]),
         );
       case "-issue_cycle__cycle__name":
         return getIssueIds(
@@ -1907,10 +2131,15 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
             [
               getSortOrderToFilterEmptyValues.bind(null, "cycle_id"), //preferring sorting based on empty values to always keep the empty values below
               (issue) =>
-                this.populateIssueDataForSorting("cycle_id", issue?.["cycle_id"], issue?.["project_id"], "asc"),
+                this.populateIssueDataForSorting(
+                  "cycle_id",
+                  issue?.["cycle_id"],
+                  issue?.["project_id"],
+                  "asc",
+                ),
             ],
-            ["asc", "desc"]
-          )
+            ["asc", "desc"],
+          ),
         );
 
       case "assignees__first_name":
@@ -1918,8 +2147,13 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
           orderBy(array, [
             getSortOrderToFilterEmptyValues.bind(null, "assignee_ids"), //preferring sorting based on empty values to always keep the empty values below
             (issue) =>
-              this.populateIssueDataForSorting("assignee_ids", issue?.["assignee_ids"], issue?.["project_id"], "asc"),
-          ])
+              this.populateIssueDataForSorting(
+                "assignee_ids",
+                issue?.["assignee_ids"],
+                issue?.["project_id"],
+                "asc",
+              ),
+          ]),
         );
       case "-assignees__first_name":
         return getIssueIds(
@@ -1928,10 +2162,15 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
             [
               getSortOrderToFilterEmptyValues.bind(null, "assignee_ids"), //preferring sorting based on empty values to always keep the empty values below
               (issue) =>
-                this.populateIssueDataForSorting("assignee_ids", issue?.["assignee_ids"], issue?.["project_id"], "asc"),
+                this.populateIssueDataForSorting(
+                  "assignee_ids",
+                  issue?.["assignee_ids"],
+                  issue?.["project_id"],
+                  "asc",
+                ),
             ],
-            ["asc", "desc"]
-          )
+            ["asc", "desc"],
+          ),
         );
 
       default:
@@ -1950,7 +2189,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     issuesResponse: TIssuesResponse,
     options?: IssuePaginationOptions,
     groupId?: string,
-    subGroupId?: string
+    subGroupId?: string,
   ) => {
     if (options) this.paginationOptions = options;
 
@@ -1959,7 +2198,7 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
       issuesResponse.next_cursor,
       issuesResponse.next_page_results,
       groupId,
-      subGroupId
+      subGroupId,
     );
   };
 }

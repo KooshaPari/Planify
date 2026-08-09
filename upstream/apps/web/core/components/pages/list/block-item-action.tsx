@@ -44,7 +44,10 @@ export const BlockItemAction = observer(function BlockItemAction(props: Props) {
       {/* page details */}
       <div className="cursor-default">
         <Tooltip tooltipHeading="Owned by" tooltipContent={ownerDetails?.display_name}>
-          <Avatar src={getFileURL(ownerDetails?.avatar_url ?? "")} name={ownerDetails?.display_name} />
+          <Avatar
+            src={getFileURL(ownerDetails?.avatar_url ?? "")}
+            name={ownerDetails?.display_name}
+          />
         </Tooltip>
       </div>
       <div className="cursor-default text-tertiary">

@@ -24,7 +24,7 @@ export const useProjectIssueProperties = () => {
   // fetching project states
   const fetchStates = async (
     workspaceSlug: string | string[] | undefined,
-    projectId: string | string[] | undefined
+    projectId: string | string[] | undefined,
   ) => {
     if (workspaceSlug && projectId) {
       await fetchProjectStates(workspaceSlug.toString(), projectId.toString());
@@ -33,7 +33,7 @@ export const useProjectIssueProperties = () => {
   // fetching project members
   const fetchMembers = async (
     workspaceSlug: string | string[] | undefined,
-    projectId: string | string[] | undefined
+    projectId: string | string[] | undefined,
   ) => {
     if (workspaceSlug && projectId) {
       await fetchProjectMembers(workspaceSlug.toString(), projectId.toString());
@@ -43,7 +43,7 @@ export const useProjectIssueProperties = () => {
   // fetching project labels
   const fetchLabels = async (
     workspaceSlug: string | string[] | undefined,
-    projectId: string | string[] | undefined
+    projectId: string | string[] | undefined,
   ) => {
     if (workspaceSlug && projectId) {
       await fetchProjectLabels(workspaceSlug.toString(), projectId.toString());
@@ -52,7 +52,7 @@ export const useProjectIssueProperties = () => {
   // fetching project cycles
   const fetchCycles = async (
     workspaceSlug: string | string[] | undefined,
-    projectId: string | string[] | undefined
+    projectId: string | string[] | undefined,
   ) => {
     if (workspaceSlug && projectId) {
       await fetchProjectAllCycles(workspaceSlug.toString(), projectId.toString());
@@ -61,7 +61,7 @@ export const useProjectIssueProperties = () => {
   // fetching project modules
   const fetchModules = async (
     workspaceSlug: string | string[] | undefined,
-    projectId: string | string[] | undefined
+    projectId: string | string[] | undefined,
   ) => {
     if (workspaceSlug && projectId) {
       await fetchProjectAllModules(workspaceSlug.toString(), projectId.toString());
@@ -70,14 +70,17 @@ export const useProjectIssueProperties = () => {
   // fetching project estimates
   const fetchEstimates = async (
     workspaceSlug: string | string[] | undefined,
-    projectId: string | string[] | undefined
+    projectId: string | string[] | undefined,
   ) => {
     if (workspaceSlug && projectId) {
       await getProjectEstimates(workspaceSlug.toString(), projectId.toString());
     }
   };
 
-  const fetchAll = async (workspaceSlug: string | string[] | undefined, projectId: string | string[] | undefined) => {
+  const fetchAll = async (
+    workspaceSlug: string | string[] | undefined,
+    projectId: string | string[] | undefined,
+  ) => {
     if (workspaceSlug && projectId) {
       await fetchStates(workspaceSlug, projectId);
       await fetchMembers(workspaceSlug, projectId);

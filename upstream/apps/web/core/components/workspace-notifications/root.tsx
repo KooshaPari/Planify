@@ -26,7 +26,9 @@ type NotificationsRootProps = {
   workspaceSlug?: string;
 };
 
-export const NotificationsRoot = observer(function NotificationsRoot({ workspaceSlug }: NotificationsRootProps) {
+export const NotificationsRoot = observer(function NotificationsRoot({
+  workspaceSlug,
+}: NotificationsRootProps) {
   // hooks
   const { currentWorkspace } = useWorkspace();
   const {
@@ -39,8 +41,9 @@ export const NotificationsRoot = observer(function NotificationsRoot({ workspace
   const { fetchUserProjectInfo } = useUserPermissions();
   const { isWorkItem, PeekOverviewComponent, setPeekWorkItem } = useNotificationPreview();
   // derived values
-  const { workspace_slug, project_id, issue_id, is_inbox_issue } =
-    notificationLiteByNotificationId(currentSelectedNotificationId);
+  const { workspace_slug, project_id, issue_id, is_inbox_issue } = notificationLiteByNotificationId(
+    currentSelectedNotificationId,
+  );
 
   // fetching workspace work item properties
   useWorkspaceIssueProperties(workspaceSlug);
@@ -58,7 +61,7 @@ export const NotificationsRoot = observer(function NotificationsRoot({ workspace
     currentWorkspace?.slug ? `WORKSPACE_NOTIFICATION_${currentWorkspace?.slug}` : null,
     currentWorkspace?.slug
       ? () => getNotifications(currentWorkspace?.slug, notificationMutation, notificationLoader)
-      : null
+      : null,
   );
 
   // fetching user project member info
@@ -66,12 +69,14 @@ export const NotificationsRoot = observer(function NotificationsRoot({ workspace
     workspace_slug && project_id && is_inbox_issue
       ? `PROJECT_MEMBER_PERMISSION_INFO_${workspace_slug}_${project_id}`
       : null,
-    workspace_slug && project_id && is_inbox_issue ? () => fetchUserProjectInfo(workspace_slug, project_id) : null
+    workspace_slug && project_id && is_inbox_issue
+      ? () => fetchUserProjectInfo(workspace_slug, project_id)
+      : null,
   );
 
   const embedRemoveCurrentNotification = useCallback(
     () => setCurrentSelectedNotificationId(undefined),
-    [setCurrentSelectedNotificationId]
+    [setCurrentSelectedNotificationId],
   );
 
   // clearing up the selected notifications when unmounting the page
@@ -79,7 +84,7 @@ export const NotificationsRoot = observer(function NotificationsRoot({ workspace
     () => () => {
       setPeekWorkItem(undefined);
     },
-    [setCurrentSelectedNotificationId, setPeekWorkItem]
+    [setCurrentSelectedNotificationId, setPeekWorkItem],
   );
 
   return (
@@ -109,7 +114,10 @@ export const NotificationsRoot = observer(function NotificationsRoot({ workspace
               )}
             </>
           ) : (
-            <PeekOverviewComponent embedIssue embedRemoveCurrentNotification={embedRemoveCurrentNotification} />
+            <PeekOverviewComponent
+              embedIssue
+              embedRemoveCurrentNotification={embedRemoveCurrentNotification}
+            />
           )}
         </>
       )}

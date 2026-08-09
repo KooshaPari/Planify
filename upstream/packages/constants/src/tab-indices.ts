@@ -59,7 +59,14 @@ export const PROJECT_CREATE_TAB_INDICES = [
   "logo_props",
 ];
 
-export const PROJECT_CYCLE_TAB_INDICES = ["name", "description", "date_range", "cancel", "submit", "project_id"];
+export const PROJECT_CYCLE_TAB_INDICES = [
+  "name",
+  "description",
+  "date_range",
+  "cancel",
+  "submit",
+  "project_id",
+];
 
 export const PROJECT_MODULE_TAB_INDICES = [
   "name",

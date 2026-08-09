@@ -8,7 +8,11 @@ import { observer } from "mobx-react";
 // plane imports
 import { TALK_TO_SALES_URL } from "@plane/constants";
 import type { EProductSubscriptionEnum, IPaymentProduct, TSubscriptionPrice } from "@plane/types";
-import { calculateYearlyDiscount, getSubscriptionName, getSubscriptionPriceDetails } from "@plane/utils";
+import {
+  calculateYearlyDiscount,
+  getSubscriptionName,
+  getSubscriptionPriceDetails,
+} from "@plane/utils";
 // components
 import { BasePaidPlanCard, TalkToSalesCard } from "@/components/license";
 // local components
@@ -24,7 +28,10 @@ export type PlanUpgradeCardProps = {
   upgradeLoaderType?: Omit<EProductSubscriptionEnum, "FREE"> | undefined;
   verticalFeatureList?: boolean;
   extraFeatures?: string | React.ReactNode;
-  renderTrialButton?: (props: { productId: string | undefined; priceId: string | undefined }) => React.ReactNode;
+  renderTrialButton?: (props: {
+    productId: string | undefined;
+    priceId: string | undefined;
+  }) => React.ReactNode;
   handleCheckout: (params: TCheckoutParams) => void;
   isSelfHosted: boolean;
   isTrialAllowed: boolean;
@@ -48,7 +55,10 @@ export const PlanUpgradeCard = observer(function PlanUpgradeCard(props: PlanUpgr
   // price details
   const planeName = getSubscriptionName(planVariant);
   const { monthlyPriceDetails, yearlyPriceDetails } = getSubscriptionPriceDetails(product);
-  const yearlyDiscount = calculateYearlyDiscount(monthlyPriceDetails.price, yearlyPriceDetails.price);
+  const yearlyDiscount = calculateYearlyDiscount(
+    monthlyPriceDetails.price,
+    yearlyPriceDetails.price,
+  );
   const prices = [monthlyPriceDetails, yearlyPriceDetails];
 
   if (!product?.is_active) {

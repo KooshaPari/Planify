@@ -61,7 +61,7 @@ export function RadioInput({
             className={cn(
               "flex items-center gap-2 text-14",
               disabled ? `cursor-not-allowed border-subtle bg-layer-1` : ``,
-              inputFieldClassName
+              inputFieldClassName,
             )}
           >
             <input
@@ -71,7 +71,7 @@ export function RadioInput({
                 `group flex size-5 flex-shrink-0 cursor-pointer items-center justify-center rounded-full border border-strong-1 bg-layer-2`,
                 selected === value ? `border-accent-strong bg-accent-primary/80` : ``,
                 disabled ? `cursor-not-allowed border-subtle bg-layer-1` : ``,
-                inputButtonClassName
+                inputButtonClassName,
               )}
               type="radio"
               value={value}

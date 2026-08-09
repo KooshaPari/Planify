@@ -45,9 +45,16 @@ const defaultValues: Partial<IIssueLabel> = {
 export const CreateUpdateLabelInline = observer(
   forwardRef(function CreateUpdateLabelInline(
     props: TCreateUpdateLabelInlineProps,
-    ref: React.ForwardedRef<HTMLDivElement>
+    ref: React.ForwardedRef<HTMLDivElement>,
   ) {
-    const { labelForm, setLabelForm, isUpdating, labelOperationsCallbacks, labelToUpdate, onClose } = props;
+    const {
+      labelForm,
+      setLabelForm,
+      isUpdating,
+      labelOperationsCallbacks,
+      labelToUpdate,
+      onClose,
+    } = props;
     // form info
     const {
       handleSubmit,
@@ -145,12 +152,18 @@ export const CreateUpdateLabelInline = observer(
       if (!labelToUpdate) return;
 
       setValue("name", labelToUpdate.name);
-      setValue("color", labelToUpdate.color && labelToUpdate.color !== "" ? labelToUpdate.color : "#000");
+      setValue(
+        "color",
+        labelToUpdate.color && labelToUpdate.color !== "" ? labelToUpdate.color : "#000",
+      );
     }, [labelToUpdate, setValue]);
 
     useEffect(() => {
       if (labelToUpdate) {
-        setValue("color", labelToUpdate.color && labelToUpdate.color !== "" ? labelToUpdate.color : "#000");
+        setValue(
+          "color",
+          labelToUpdate.color && labelToUpdate.color !== "" ? labelToUpdate.color : "#000",
+        );
         return;
       }
 
@@ -245,11 +258,19 @@ export const CreateUpdateLabelInline = observer(
             }}
             loading={isSubmitting}
           >
-            {isUpdating ? (isSubmitting ? t("updating") : t("update")) : isSubmitting ? t("adding") : t("add")}
+            {isUpdating
+              ? isSubmitting
+                ? t("updating")
+                : t("update")
+              : isSubmitting
+                ? t("adding")
+                : t("add")}
           </Button>
         </div>
-        {errors.name?.message && <p className="p-0.5 pl-8 text-13 text-danger-primary">{errors.name?.message}</p>}
+        {errors.name?.message && (
+          <p className="p-0.5 pl-8 text-13 text-danger-primary">{errors.name?.message}</p>
+        )}
       </>
     );
-  })
+  }),
 );

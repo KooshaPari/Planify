@@ -21,7 +21,7 @@ import { FILTER_FIELD_TYPE, FILTER_NODE_TYPE, LOGICAL_OPERATOR } from "@plane/ty
  * @returns True if the node is a condition node
  */
 export const isConditionNode = <P extends TFilterProperty, V extends TFilterValue>(
-  node: TFilterExpression<P>
+  node: TFilterExpression<P>,
 ): node is TFilterConditionNode<P, V> => node.type === FILTER_NODE_TYPE.CONDITION;
 
 /**
@@ -29,8 +29,9 @@ export const isConditionNode = <P extends TFilterProperty, V extends TFilterValu
  * @param node - The node to check
  * @returns True if the node is a group node
  */
-export const isGroupNode = <P extends TFilterProperty>(node: TFilterExpression<P>): node is TFilterGroupNode<P> =>
-  node.type === FILTER_NODE_TYPE.GROUP;
+export const isGroupNode = <P extends TFilterProperty>(
+  node: TFilterExpression<P>,
+): node is TFilterGroupNode<P> => node.type === FILTER_NODE_TYPE.GROUP;
 
 /**
  * Type guard to check if a group node is an AND group.
@@ -38,7 +39,7 @@ export const isGroupNode = <P extends TFilterProperty>(node: TFilterExpression<P
  * @returns True if the group is an AND group
  */
 export const isAndGroupNode = <P extends TFilterProperty>(
-  group: TFilterGroupNode<P>
+  group: TFilterGroupNode<P>,
 ): group is TFilterAndGroupNode<P> => group.logicalOperator === LOGICAL_OPERATOR.AND;
 
 /**
@@ -47,7 +48,7 @@ export const isAndGroupNode = <P extends TFilterProperty>(
  * @returns True if the group has children property
  */
 export const hasChildrenProperty = <P extends TFilterProperty>(
-  group: TFilterGroupNode<P>
+  group: TFilterGroupNode<P>,
 ): group is TFilterAndGroupNode<P> => {
   const groupWithChildren = group as { children?: unknown };
   return "children" in group && Array.isArray(groupWithChildren.children);
@@ -58,8 +59,9 @@ export const hasChildrenProperty = <P extends TFilterProperty>(
  * @param group - The AND group node
  * @returns The children array
  */
-export const getAndGroupChildren = <P extends TFilterProperty>(group: TFilterAndGroupNode<P>): TFilterExpression<P>[] =>
-  group.children;
+export const getAndGroupChildren = <P extends TFilterProperty>(
+  group: TFilterAndGroupNode<P>,
+): TFilterExpression<P>[] => group.children;
 
 /**
  * Type guard to check if a filter type is a date filter type.
@@ -67,6 +69,6 @@ export const getAndGroupChildren = <P extends TFilterProperty>(group: TFilterAnd
  * @returns True if the filter type is a date filter type
  */
 export const isDateFilterType = (
-  type: TFilterFieldType
+  type: TFilterFieldType,
 ): type is typeof FILTER_FIELD_TYPE.DATE | typeof FILTER_FIELD_TYPE.DATE_RANGE =>
   type === FILTER_FIELD_TYPE.DATE || type === FILTER_FIELD_TYPE.DATE_RANGE;

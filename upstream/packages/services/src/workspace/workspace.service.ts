@@ -5,7 +5,11 @@
  */
 
 import { API_BASE_URL } from "@plane/constants";
-import type { IWorkspace, ILastActiveWorkspaceDetails, IWorkspaceSearchResults } from "@plane/types";
+import type {
+  IWorkspace,
+  ILastActiveWorkspaceDetails,
+  IWorkspaceSearchResults,
+} from "@plane/types";
 import { APIService } from "../api.service";
 
 /**
@@ -134,7 +138,7 @@ export class WorkspaceService extends APIService {
       project_id?: string;
       search: string;
       workspace_search: boolean;
-    }
+    },
   ): Promise<IWorkspaceSearchResults> {
     return this.get(`/api/workspaces/${workspaceSlug}/search/`, {
       params,

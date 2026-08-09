@@ -25,7 +25,9 @@ type Props = {
   preLoadedData?: Partial<IWorkspaceView>;
 };
 
-export const CreateUpdateWorkspaceViewModal = observer(function CreateUpdateWorkspaceViewModal(props: Props) {
+export const CreateUpdateWorkspaceViewModal = observer(function CreateUpdateWorkspaceViewModal(
+  props: Props,
+) {
   const { isOpen, onClose, data, preLoadedData } = props;
   // router
   const router = useAppRouter();
@@ -104,7 +106,12 @@ export const CreateUpdateWorkspaceViewModal = observer(function CreateUpdateWork
 
   if (!workspaceSlug) return null;
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.TOP} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.TOP}
+      width={EModalWidth.XXL}
+    >
       <WorkspaceViewForm
         handleFormSubmit={handleFormSubmit}
         handleClose={handleClose}

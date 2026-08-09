@@ -18,7 +18,9 @@ type Props = {
   version: TDescriptionVersion;
 };
 
-export const DescriptionVersionsDropdownItem = observer(function DescriptionVersionsDropdownItem(props: Props) {
+export const DescriptionVersionsDropdownItem = observer(function DescriptionVersionsDropdownItem(
+  props: Props,
+) {
   const { onClick, version } = props;
   // store hooks
   const { getUserDetails } = useMember();
@@ -28,7 +30,11 @@ export const DescriptionVersionsDropdownItem = observer(function DescriptionVers
   const { t } = useTranslation();
 
   return (
-    <CustomMenu.MenuItem key={version.id} className="flex items-center gap-1" onClick={() => onClick(version.id)}>
+    <CustomMenu.MenuItem
+      key={version.id}
+      className="flex items-center gap-1"
+      onClick={() => onClick(version.id)}
+    >
       <span className="flex-shrink-0">
         <Avatar
           name={versionCreator?.display_name ?? t("common.deactivated_user")}
@@ -37,7 +43,9 @@ export const DescriptionVersionsDropdownItem = observer(function DescriptionVers
         />
       </span>
       <p className="flex items-center gap-1.5 text-11 text-secondary">
-        <span className="font-medium">{versionCreator?.display_name ?? t("common.deactivated_user")}</span>
+        <span className="font-medium">
+          {versionCreator?.display_name ?? t("common.deactivated_user")}
+        </span>
         <span>{calculateTimeAgo(version.last_saved_at)}</span>
       </p>
     </CustomMenu.MenuItem>

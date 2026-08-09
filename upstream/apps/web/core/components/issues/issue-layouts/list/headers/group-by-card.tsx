@@ -65,10 +65,13 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
   const storeType = useIssueStoreType();
   // derived values
   const renderExistingIssueModal = moduleId || cycleId;
-  const existingIssuesListModalPayload = moduleId ? { module: moduleId.toString() } : { cycle: true };
+  const existingIssuesListModalPayload = moduleId
+    ? { module: moduleId.toString() }
+    : { cycle: true };
   const isGroupSelectionEmpty = selectionHelpers.isGroupSelected(groupID) === "empty";
   // auth
-  const canSelectIssues = canEditProperties(projectId?.toString()) && !selectionHelpers.isSelectionDisabled;
+  const canSelectIssues =
+    canEditProperties(projectId?.toString()) && !selectionHelpers.isSelectionDisabled;
 
   const handleAddIssuesToView = async (data: ISearchIssueResponse[]) => {
     if (!workspaceSlug || !projectId) return;
@@ -102,7 +105,7 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
                 "pointer-events-none size-3.5 opacity-0 !outline-none group-hover/list-header:pointer-events-auto group-hover/list-header:opacity-100",
                 {
                   "pointer-events-auto opacity-100": !isGroupSelectionEmpty,
-                }
+                },
               )}
               groupID={groupID}
               selectionHelpers={selectionHelpers}
@@ -146,7 +149,9 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
                   setOpenExistingIssueListModal(true);
                 }}
               >
-                <span className="flex items-center justify-start gap-2">Add an existing work item</span>
+                <span className="flex items-center justify-start gap-2">
+                  Add an existing work item
+                </span>
               </CustomMenu.MenuItem>
             </CustomMenu>
           ) : (
@@ -161,7 +166,11 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
           ))}
 
         {isEpic ? (
-          <CreateUpdateEpicModal isOpen={isOpen} onClose={() => setIsOpen(false)} data={issuePayload} />
+          <CreateUpdateEpicModal
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            data={issuePayload}
+          />
         ) : (
           <CreateUpdateIssueModal
             isOpen={isOpen}

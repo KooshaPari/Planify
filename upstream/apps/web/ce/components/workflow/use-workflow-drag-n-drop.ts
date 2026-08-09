@@ -9,7 +9,7 @@ import type { TIssueGroupByOptions } from "@plane/types";
 
 export const useWorkFlowFDragNDrop = (
   groupBy: TIssueGroupByOptions | undefined,
-  subGroupBy?: TIssueGroupByOptions
+  subGroupBy?: TIssueGroupByOptions,
 ) => ({
   workflowDisabledSource: undefined,
   isWorkflowDropDisabled: false,
@@ -18,6 +18,6 @@ export const useWorkFlowFDragNDrop = (
     sourceGroupId: string,
     destinationGroupId: string,
     sourceSubGroupId?: string,
-    destinationSubGroupId?: string
+    destinationSubGroupId?: string,
   ) => {},
 });

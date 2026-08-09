@@ -19,7 +19,9 @@ const getAdditionalFavoriteItemDetails = (_workspaceSlug: string, favorite: IFav
   switch (favoriteItemEntityType) {
     default:
       itemTitle = favoriteItemName;
-      itemIcon = <FavoriteItemIcon type={favoriteItemEntityType} logo={favorite.entity_data?.logo_props} />;
+      itemIcon = (
+        <FavoriteItemIcon type={favoriteItemEntityType} logo={favorite.entity_data?.logo_props} />
+      );
       break;
   }
   return { itemIcon, itemTitle };

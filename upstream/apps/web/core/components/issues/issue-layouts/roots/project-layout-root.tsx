@@ -60,7 +60,7 @@ export const ProjectLayoutRoot = observer(function ProjectLayoutRoot() {
         await issuesFilter?.fetchFilters(workspaceSlug, projectId);
       }
     },
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   if (!workspaceSlug || !projectId || !workItemFilters) return <></>;
@@ -72,7 +72,11 @@ export const ProjectLayoutRoot = observer(function ProjectLayoutRoot() {
         entityId={projectId}
         filtersToShowByLayout={ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.filters}
         initialWorkItemFilters={workItemFilters}
-        updateFilters={issuesFilter?.updateFilterExpression.bind(issuesFilter, workspaceSlug, projectId)}
+        updateFilters={issuesFilter?.updateFilterExpression.bind(
+          issuesFilter,
+          workspaceSlug,
+          projectId,
+        )}
         projectId={projectId}
         workspaceSlug={workspaceSlug}
       >

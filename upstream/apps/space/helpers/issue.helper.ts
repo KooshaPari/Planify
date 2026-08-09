@@ -19,7 +19,7 @@ import { getDate } from "@/helpers/date-time.helper";
  */
 export const shouldHighlightIssueDueDate = (
   date: string | Date | null,
-  stateGroup: TStateGroups | undefined
+  stateGroup: TStateGroups | undefined,
 ): boolean => {
   if (!date || !stateGroup) return false;
   // if the issue is completed or cancelled, don't highlight the due date

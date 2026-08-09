@@ -33,7 +33,13 @@ function ProjectCreateButtons(props: Props) {
       <Button variant="secondary" size="lg" onClick={handleClose} tabIndex={getIndex("cancel")}>
         {t("common.cancel")}
       </Button>
-      <Button variant="primary" size="lg" type="submit" loading={isSubmitting} tabIndex={getIndex("submit")}>
+      <Button
+        variant="primary"
+        size="lg"
+        type="submit"
+        loading={isSubmitting}
+        tabIndex={getIndex("submit")}
+      >
         {isSubmitting ? t("creating") : t("create_project")}
       </Button>
     </div>

@@ -26,7 +26,12 @@ export function SettingsContentWrapper(props: Props) {
           <AppHeader header={header} />
         </div>
       )}
-      <ScrollArea scrollType="hover" orientation="vertical" size="sm" className="size-full grow overflow-y-scroll">
+      <ScrollArea
+        scrollType="hover"
+        orientation="vertical"
+        size="sm"
+        className="size-full grow overflow-y-scroll"
+      >
         <div
           className={cn("py-9", {
             "w-full px-page-x lg:px-12": hugging,

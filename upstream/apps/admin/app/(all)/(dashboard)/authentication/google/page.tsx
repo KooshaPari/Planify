@@ -22,10 +22,11 @@ import type { Route } from "./+types/page";
 import { InstanceGoogleConfigForm } from "./form";
 
 const InstanceGoogleAuthenticationPage = observer(function InstanceGoogleAuthenticationPage(
-  _props: Route.ComponentProps
+  _props: Route.ComponentProps,
 ) {
   // store
-  const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } = useInstance();
+  const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } =
+    useInstance();
   // state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   // config

@@ -22,8 +22,16 @@ interface IInputSearch {
 }
 
 export function InputSearch(props: IInputSearch) {
-  const { isOpen, query, updateQuery, inputIcon, inputContainerClassName, inputClassName, inputPlaceholder, isMobile } =
-    props;
+  const {
+    isOpen,
+    query,
+    updateQuery,
+    inputIcon,
+    inputContainerClassName,
+    inputClassName,
+    inputPlaceholder,
+    isMobile,
+  } = props;
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -45,16 +53,20 @@ export function InputSearch(props: IInputSearch) {
     <div
       className={cn(
         "flex items-center gap-1.5 rounded-sm border border-subtle bg-surface-2 px-2",
-        inputContainerClassName
+        inputContainerClassName,
       )}
     >
-      {inputIcon ? <>{inputIcon}</> : <SearchIcon className="h-4 w-4 text-tertiary" aria-hidden="true" />}
+      {inputIcon ? (
+        <>{inputIcon}</>
+      ) : (
+        <SearchIcon className="h-4 w-4 text-tertiary" aria-hidden="true" />
+      )}
       <Combobox.Input
         as="input"
         ref={inputRef}
         className={cn(
           "w-full bg-transparent py-1 text-11 text-secondary placeholder:text-placeholder focus:outline-none",
-          inputClassName
+          inputClassName,
         )}
         value={query}
         onChange={(e) => updateQuery(e.target.value)}

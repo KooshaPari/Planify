@@ -109,7 +109,7 @@ export const MultipleReactions: Story = {
             };
           }
           return r;
-        })
+        }),
       );
     };
 
@@ -168,7 +168,7 @@ export const ReactionGroup: Story = {
             };
           }
           return r;
-        })
+        }),
       );
     };
 
@@ -208,7 +208,7 @@ export const InMessageContext: Story = {
             };
           }
           return r;
-        })
+        }),
       );
     };
 
@@ -221,7 +221,8 @@ export const InMessageContext: Story = {
           <div className="flex-1">
             <div className="text-13 font-medium">Alice Brown</div>
             <div className="mt-1 text-13 text-tertiary">
-              Hey everyone! Just wanted to share some exciting news about our project launch next week!
+              Hey everyone! Just wanted to share some exciting news about our project launch next
+              week!
             </div>
           </div>
         </div>
@@ -236,6 +237,19 @@ export const ManyUsers: Story = {
     emoji: "🎉",
     count: 47,
     reacted: true,
-    users: ["Alice", "Bob", "Charlie", "David", "Emma", "Frank", "Grace", "Henry", "Ivy", "Jack", "Kate", "Liam"],
+    users: [
+      "Alice",
+      "Bob",
+      "Charlie",
+      "David",
+      "Emma",
+      "Frank",
+      "Grace",
+      "Henry",
+      "Ivy",
+      "Jack",
+      "Kate",
+      "Liam",
+    ],
   },
 };

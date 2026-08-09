@@ -10,7 +10,7 @@ import { useEffect, useCallback } from "react";
 const useExtendedSidebarOutsideClickDetector = (
   ref: React.RefObject<HTMLElement>,
   callback: () => void,
-  targetId: string
+  targetId: string,
 ) => {
   const handleClick = useCallback(
     (event: MouseEvent) => {
@@ -43,7 +43,7 @@ const useExtendedSidebarOutsideClickDetector = (
         callback();
       }
     },
-    [ref, callback, targetId]
+    [ref, callback, targetId],
   );
 
   useEffect(() => {

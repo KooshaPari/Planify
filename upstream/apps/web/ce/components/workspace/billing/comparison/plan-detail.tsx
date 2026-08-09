@@ -37,7 +37,8 @@ export const PlanDetail = observer(function PlanDetail(props: TPlanDetailProps) 
   const subscriptionName = getSubscriptionName(subscriptionType);
   const isSubscriptionActive = planDetail.isActive;
   // pricing details
-  const displayPrice = billingFrequency === "month" ? planDetail.monthlyPrice : planDetail.yearlyPrice;
+  const displayPrice =
+    billingFrequency === "month" ? planDetail.monthlyPrice : planDetail.yearlyPrice;
   const pricingDescription = isSubscriptionActive ? "a user per month" : "Quote on request";
   const pricingSecondaryDescription =
     billingFrequency === "month"
@@ -47,7 +48,8 @@ export const PlanDetail = observer(function PlanDetail(props: TPlanDetailProps) 
   const handleRedirection = () => {
     const frequency = billingFrequency ?? "year";
     // Get the redirection URL based on the subscription type and billing frequency
-    const redirectUrl = SUBSCRIPTION_REDIRECTION_URLS[subscriptionType][frequency] ?? TALK_TO_SALES_URL;
+    const redirectUrl =
+      SUBSCRIPTION_REDIRECTION_URLS[subscriptionType][frequency] ?? TALK_TO_SALES_URL;
     // Open the URL in a new tab
     window.open(redirectUrl, "_blank");
   };
@@ -101,7 +103,9 @@ export const PlanDetail = observer(function PlanDetail(props: TPlanDetailProps) 
       {/* Subscription button */}
       <div className="flex flex-col items-start gap-1 py-3">
         <Button variant="primary" size="lg" onClick={handleRedirection} className="w-full">
-          {isSubscriptionActive ? `Upgrade to ${subscriptionName}` : t("common.upgrade_cta.talk_to_sales")}
+          {isSubscriptionActive
+            ? `Upgrade to ${subscriptionName}`
+            : t("common.upgrade_cta.talk_to_sales")}
         </Button>
       </div>
     </div>

@@ -9,7 +9,12 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { SquareUser } from "lucide-react";
 // Plane imports
-import { MODULE_STATUS, EUserPermissions, EUserPermissionsLevel, IS_FAVORITE_MENU_OPEN } from "@plane/constants";
+import {
+  MODULE_STATUS,
+  EUserPermissions,
+  EUserPermissionsLevel,
+  IS_FAVORITE_MENU_OPEN,
+} from "@plane/constants";
 import { useLocalStorage } from "@plane/hooks";
 import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setPromiseToast, setToast } from "@plane/propel/toast";
@@ -45,13 +50,16 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
   const { t } = useTranslation();
 
   // local storage
-  const { setValue: toggleFavoriteMenu, storedValue } = useLocalStorage<boolean>(IS_FAVORITE_MENU_OPEN, false);
+  const { setValue: toggleFavoriteMenu, storedValue } = useLocalStorage<boolean>(
+    IS_FAVORITE_MENU_OPEN,
+    false,
+  );
   // derived values
 
   const moduleStatus = MODULE_STATUS.find((status) => status.value === moduleDetails.status);
   const isEditingAllowed = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
   const isDisabled = !isEditingAllowed || !!moduleDetails?.archived_at;
   const renderIcon = Boolean(moduleDetails.start_date) || Boolean(moduleDetails.target_date);
@@ -62,12 +70,14 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
     e.preventDefault();
     if (!workspaceSlug || !projectId) return;
 
-    const addToFavoritePromise = addModuleToFavorites(workspaceSlug.toString(), projectId.toString(), moduleId).then(
-      () => {
-        // open favorites menu if closed
-        if (!storedValue) toggleFavoriteMenu(true);
-      }
-    );
+    const addToFavoritePromise = addModuleToFavorites(
+      workspaceSlug.toString(),
+      projectId.toString(),
+      moduleId,
+    ).then(() => {
+      // open favorites menu if closed
+      if (!storedValue) toggleFavoriteMenu(true);
+    });
 
     setPromiseToast(addToFavoritePromise, {
       loading: "Adding module to favorites...",
@@ -90,7 +100,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
     const removeFromFavoritePromise = removeModuleFromFavorites(
       workspaceSlug.toString(),
       projectId.toString(),
-      moduleId
+      moduleId,
     );
 
     setPromiseToast(removeFromFavoritePromise, {
@@ -126,7 +136,9 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
       });
   };
 
-  const moduleLeadDetails = moduleDetails.lead_id ? getUserDetails(moduleDetails.lead_id) : undefined;
+  const moduleLeadDetails = moduleDetails.lead_id
+    ? getUserDetails(moduleDetails.lead_id)
+    : undefined;
 
   return (
     <>

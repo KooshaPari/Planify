@@ -36,7 +36,8 @@ export const NotificationHeaderMenuOption = observer(function NotificationHeader
   const handleFilterChange = (filterType: keyof TNotificationFilter, filterValue: boolean) =>
     updateFilters(filterType, filterValue);
 
-  const handleBulkFilterChange = (filter: Partial<TNotificationFilter>) => updateBulkFilters(filter);
+  const handleBulkFilterChange = (filter: Partial<TNotificationFilter>) =>
+    updateBulkFilters(filter);
 
   const popoverMenuOptions: TPopoverMenuOptions[] = [
     {

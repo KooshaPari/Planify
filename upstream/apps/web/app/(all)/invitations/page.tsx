@@ -49,18 +49,25 @@ function UserInvitationsPage() {
 
   const { fetchWorkspaces } = useWorkspace();
 
-  const { data: invitations } = useSWR("USER_WORKSPACE_INVITATIONS", () => workspaceService.userWorkspaceInvitations());
+  const { data: invitations } = useSWR("USER_WORKSPACE_INVITATIONS", () =>
+    workspaceService.userWorkspaceInvitations(),
+  );
 
   const redirectWorkspaceSlug =
     // currentUserSettings?.workspace?.last_workspace_slug ||
     // currentUserSettings?.workspace?.fallback_workspace_slug ||
     "";
 
-  const handleInvitation = (workspace_invitation: IWorkspaceMemberInvitation, action: "accepted" | "withdraw") => {
+  const handleInvitation = (
+    workspace_invitation: IWorkspaceMemberInvitation,
+    action: "accepted" | "withdraw",
+  ) => {
     if (action === "accepted") {
       setInvitationsRespond((prevData) => [...prevData, workspace_invitation.id]);
     } else if (action === "withdraw") {
-      setInvitationsRespond((prevData) => prevData.filter((item: string) => item !== workspace_invitation.id));
+      setInvitationsRespond((prevData) =>
+        prevData.filter((item: string) => item !== workspace_invitation.id),
+      );
     }
   };
 
@@ -127,7 +134,9 @@ function UserInvitationsPage() {
           invitations.length > 0 ? (
             <div className="relative flex h-full justify-center px-8 pb-8 sm:w-10/12 sm:items-center sm:justify-start sm:p-0 sm:pr-[8.33%] md:w-9/12 lg:w-4/5">
               <div className="w-full space-y-10">
-                <h5 className="text-16">{t("we_see_that_someone_has_invited_you_to_join_a_workspace")}</h5>
+                <h5 className="text-16">
+                  {t("we_see_that_someone_has_invited_you_to_join_a_workspace")}
+                </h5>
                 <h4 className="text-20 font-semibold">{t("join_a_workspace")}</h4>
                 <div className="max-h-[37vh] space-y-4 overflow-y-auto md:w-3/5">
                   {invitations.map((invitation) => {
@@ -139,7 +148,9 @@ function UserInvitationsPage() {
                         className={`flex cursor-pointer items-center gap-2 rounded-sm border px-3.5 py-5 ${
                           isSelected ? "border-accent-strong" : "border-subtle hover:bg-layer-1"
                         }`}
-                        onClick={() => handleInvitation(invitation, isSelected ? "withdraw" : "accepted")}
+                        onClick={() =>
+                          handleInvitation(invitation, isSelected ? "withdraw" : "accepted")
+                        }
                       >
                         <div className="flex-shrink-0">
                           <WorkspaceLogo
@@ -149,10 +160,14 @@ function UserInvitationsPage() {
                           />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="text-13 font-medium">{truncateText(invitation.workspace.name, 30)}</div>
+                          <div className="text-13 font-medium">
+                            {truncateText(invitation.workspace.name, 30)}
+                          </div>
                           <p className="text-11 text-secondary">{ROLE[invitation.role]}</p>
                         </div>
-                        <span className={`flex-shrink-0 ${isSelected ? "text-accent-primary" : "text-secondary"}`}>
+                        <span
+                          className={`flex-shrink-0 ${isSelected ? "text-accent-primary" : "text-secondary"}`}
+                        >
                           <CheckCircle2 className="h-5 w-5" />
                         </span>
                       </div>

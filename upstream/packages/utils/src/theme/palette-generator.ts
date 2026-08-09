@@ -111,7 +111,7 @@ function isValidShadeStop(value: number): value is ShadeStop {
 export function generateColorPalette(
   baseColor: string,
   mode: "light" | "dark",
-  options: PaletteOptions = {}
+  options: PaletteOptions = {},
 ): ColorPalette {
   // Validate and normalize input
   if (!validateHexColor(baseColor)) {
@@ -124,8 +124,10 @@ export function generateColorPalette(
   const inputOKLCH = hexToOKLCH(normalizedHex);
   const { l: inputL, c: inputC, h: inputH } = inputOKLCH;
 
-  const DEFAULT_LIGHTNESS_MIN = mode === "light" ? DEFAULT_LIGHT_MODE_LIGHTNESS_MIN : DEFAULT_DARK_MODE_LIGHTNESS_MIN;
-  const DEFAULT_LIGHTNESS_MAX = mode === "light" ? DEFAULT_LIGHT_MODE_LIGHTNESS_MAX : DEFAULT_DARK_MODE_LIGHTNESS_MAX;
+  const DEFAULT_LIGHTNESS_MIN =
+    mode === "light" ? DEFAULT_LIGHT_MODE_LIGHTNESS_MIN : DEFAULT_DARK_MODE_LIGHTNESS_MIN;
+  const DEFAULT_LIGHTNESS_MAX =
+    mode === "light" ? DEFAULT_LIGHT_MODE_LIGHTNESS_MAX : DEFAULT_DARK_MODE_LIGHTNESS_MAX;
 
   // Extract options with defaults
   const {
@@ -175,7 +177,8 @@ export function generateColorPalette(
       const range = rightAnchor.stop - leftAnchor.stop;
       const position = stop - leftAnchor.stop;
       const ratio = position / range;
-      targetLightness = leftAnchor.lightness + (rightAnchor.lightness - leftAnchor.lightness) * ratio;
+      targetLightness =
+        leftAnchor.lightness + (rightAnchor.lightness - leftAnchor.lightness) * ratio;
     }
 
     // Create OKLCH color with constant C and H, only varying L
@@ -205,7 +208,7 @@ export function generateColorPalette(
 export function generateThemePalettes(
   brandColor: string,
   neutralColor: string,
-  mode: "light" | "dark"
+  mode: "light" | "dark",
 ): {
   brandPalette: ColorPalette;
   neutralPalette: ColorPalette;

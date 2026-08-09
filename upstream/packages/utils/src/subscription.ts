@@ -15,7 +15,10 @@ import { EProductSubscriptionEnum } from "@plane/types";
  * @param yearlyPricePerMonth - The monthly equivalent price when billed yearly
  * @returns The discount percentage as a whole number (floored)
  */
-export const calculateYearlyDiscount = (monthlyPrice: number, yearlyPricePerMonth: number): number => {
+export const calculateYearlyDiscount = (
+  monthlyPrice: number,
+  yearlyPricePerMonth: number,
+): number => {
   const monthlyCost = monthlyPrice * 12;
   const yearlyCost = yearlyPricePerMonth * 12;
   const amountSaved = monthlyCost - yearlyCost;
@@ -75,14 +78,16 @@ export type TSubscriptionPriceDetail = {
  * @param product - The payment product to get price details for
  * @returns Array of price details for monthly and yearly plans
  */
-export const getSubscriptionPriceDetails = (product: IPaymentProduct | undefined): TSubscriptionPriceDetail => {
+export const getSubscriptionPriceDetails = (
+  product: IPaymentProduct | undefined,
+): TSubscriptionPriceDetail => {
   const productPrices = product?.prices || [];
   const monthlyPriceDetails = orderBy(productPrices, ["recurring"], ["desc"])?.find(
-    (price) => price.recurring === "month"
+    (price) => price.recurring === "month",
   );
   const monthlyPriceAmount = Number(((monthlyPriceDetails?.unit_amount || 0) / 100).toFixed(2));
   const yearlyPriceDetails = orderBy(productPrices, ["recurring"], ["desc"])?.find(
-    (price) => price.recurring === "year"
+    (price) => price.recurring === "year",
   );
   const yearlyPriceAmount = Number(((yearlyPriceDetails?.unit_amount || 0) / 1200).toFixed(2));
 

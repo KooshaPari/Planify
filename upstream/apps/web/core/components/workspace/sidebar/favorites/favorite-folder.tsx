@@ -11,7 +11,10 @@ import type {
   ElementDragPayload,
   DropTargetRecord,
 } from "@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types";
-import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { pointerOutsideOfPreview } from "@atlaskit/pragmatic-drag-and-drop/element/pointer-outside-of-preview";
 import { setCustomNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview";
 import { attachInstruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
@@ -43,7 +46,11 @@ type Props = {
   favorite: IFavorite;
   handleRemoveFromFavorites: (favorite: IFavorite) => void;
   handleRemoveFromFavoritesFolder: (favoriteId: string) => void;
-  handleDrop: (self: DropTargetRecord, source: ElementDragPayload, location: DragLocationHistory) => void;
+  handleDrop: (
+    self: DropTargetRecord,
+    source: ElementDragPayload,
+    location: DragLocationHistory,
+  ) => void;
 };
 
 export function FavoriteFolder(props: Props) {
@@ -91,7 +98,7 @@ export function FavoriteFolder(props: Props) {
                     <FavoriteFolderIcon />
                   </div>
                   <p className="truncate text-13 font-medium text-secondary">{favorite.name}</p>
-                </div>
+                </div>,
               );
               return () => root.unmount();
             },
@@ -131,7 +138,7 @@ export function FavoriteFolder(props: Props) {
           setInstruction(undefined);
           handleDrop(self, source, location);
         },
-      })
+      }),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDragging, favorite.id, isLastChild, favorite.id]);
@@ -163,7 +170,7 @@ export function FavoriteFolder(props: Props) {
                 "group/project-item relative flex w-full items-center rounded-md px-2 py-1.5 text-primary hover:bg-layer-1-hover",
                 {
                   "bg-surface-2": isMenuActive,
-                }
+                },
               )}
             >
               {/* draggable indicator */}
@@ -173,7 +180,12 @@ export function FavoriteFolder(props: Props) {
               </div>
 
               <>
-                <Tooltip tooltipContent={`${favorite.name}`} position="right" className="ml-8" isMobile={isMobile}>
+                <Tooltip
+                  tooltipContent={`${favorite.name}`}
+                  position="right"
+                  className="ml-8"
+                  isMobile={isMobile}
+                >
                   <div className="flex flex-grow truncate">
                     <Disclosure.Button
                       as="button"
@@ -183,7 +195,9 @@ export function FavoriteFolder(props: Props) {
                       <Tooltip
                         isMobile={isMobile}
                         tooltipContent={
-                          favorite.sort_order === null ? "Join the project to rearrange" : "Drag to rearrange"
+                          favorite.sort_order === null
+                            ? "Join the project to rearrange"
+                            : "Drag to rearrange"
                         }
                         position="top-end"
                         disabled={isDragging}
@@ -195,7 +209,7 @@ export function FavoriteFolder(props: Props) {
                             {
                               "cursor-not-allowed opacity-60": favorite.sort_order === null,
                               "cursor-grabbing": isDragging,
-                            }
+                            },
                           )}
                         >
                           <DragHandle className="bg-transparent" />
@@ -222,7 +236,7 @@ export function FavoriteFolder(props: Props) {
                     "pointer-events-none flex-shrink-0 opacity-0 group-hover/project-item:pointer-events-auto group-hover/project-item:opacity-100",
                     {
                       "pointer-events-auto opacity-100": isMenuActive,
-                    }
+                    },
                   )}
                   customButtonClassName="grid place-items-center"
                   placement="bottom-start"
@@ -244,11 +258,16 @@ export function FavoriteFolder(props: Props) {
                 <Disclosure.Button
                   as="button"
                   type="button"
-                  className={cn("hidden rounded-sm p-0.5 group-hover/project-item:inline-block hover:bg-layer-1", {
-                    "inline-block": isMenuActive,
-                  })}
+                  className={cn(
+                    "hidden rounded-sm p-0.5 group-hover/project-item:inline-block hover:bg-layer-1",
+                    {
+                      "inline-block": isMenuActive,
+                    },
+                  )}
                   aria-label={t(
-                    open ? "aria_labels.projects_sidebar.close_folder" : "aria_labels.projects_sidebar.open_folder"
+                    open
+                      ? "aria_labels.projects_sidebar.close_folder"
+                      : "aria_labels.projects_sidebar.open_folder",
                   )}
                 >
                   <ChevronRightIcon

@@ -19,7 +19,10 @@ type Props = {
   handleStepChange: (step: EOnboardingSteps, skipInvites?: boolean) => void;
 };
 
-export const WorkspaceSetupStep = observer(function WorkspaceSetupStep({ invitations, handleStepChange }: Props) {
+export const WorkspaceSetupStep = observer(function WorkspaceSetupStep({
+  invitations,
+  handleStepChange,
+}: Props) {
   // states
   const [currentView, setCurrentView] = useState<ECreateOrJoinWorkspaceViews | null>(null);
   // store hooks
@@ -41,12 +44,16 @@ export const WorkspaceSetupStep = observer(function WorkspaceSetupStep({ invitat
           handleNextStep={async () => {
             handleStepChange(EOnboardingSteps.WORKSPACE_CREATE_OR_JOIN, true);
           }}
-          handleCurrentViewChange={() => setCurrentView(ECreateOrJoinWorkspaceViews.WORKSPACE_CREATE)}
+          handleCurrentViewChange={() =>
+            setCurrentView(ECreateOrJoinWorkspaceViews.WORKSPACE_CREATE)
+          }
         />
       ) : (
         <WorkspaceCreateStep
           user={user}
-          onComplete={(skipInvites) => handleStepChange(EOnboardingSteps.WORKSPACE_CREATE_OR_JOIN, skipInvites)}
+          onComplete={(skipInvites) =>
+            handleStepChange(EOnboardingSteps.WORKSPACE_CREATE_OR_JOIN, skipInvites)
+          }
           handleCurrentViewChange={() => setCurrentView(ECreateOrJoinWorkspaceViews.WORKSPACE_JOIN)}
           hasInvitations={invitations.length > 0}
         />

@@ -33,7 +33,7 @@ export function OnboardingStepIndicator({ currentStep, totalSteps }: OnboardingS
             "rounded-r-full": isLastStep || isActive,
             "z-10": isActive,
           })}
-        />
+        />,
       );
     }
 
@@ -45,7 +45,9 @@ export function OnboardingStepIndicator({ currentStep, totalSteps }: OnboardingS
       <div className="text-13 font-medium text-tertiary">
         {currentStep} of {totalSteps} steps
       </div>
-      <div className="mx-1 my-0.5 flex w-40 items-center justify-center lg:w-52">{renderIndicators()}</div>
+      <div className="mx-1 my-0.5 flex w-40 items-center justify-center lg:w-52">
+        {renderIndicators()}
+      </div>
     </div>
   );
 }

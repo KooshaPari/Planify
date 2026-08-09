@@ -31,7 +31,10 @@ export const ProjectViewsHeader = observer(function ProjectViewsHeader() {
       <Header>
         <Header.LeftItem>
           <Breadcrumbs isLoading={loader === "init-loader"}>
-            <CommonProjectBreadcrumbs workspaceSlug={workspaceSlug?.toString()} projectId={projectId?.toString()} />
+            <CommonProjectBreadcrumbs
+              workspaceSlug={workspaceSlug?.toString()}
+              projectId={projectId?.toString()}
+            />
             <Breadcrumbs.Item
               component={
                 <BreadcrumbLink

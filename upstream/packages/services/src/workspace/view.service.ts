@@ -25,7 +25,11 @@ export class WorkspaceViewService extends APIService {
       });
   }
 
-  async update(workspaceSlug: string, viewId: string, data: Partial<IWorkspaceView>): Promise<IWorkspaceView> {
+  async update(
+    workspaceSlug: string,
+    viewId: string,
+    data: Partial<IWorkspaceView>,
+  ): Promise<IWorkspaceView> {
     return this.patch(`/api/workspaces/${workspaceSlug}/views/${viewId}/`, data)
       .then((response) => response?.data)
       .catch((error) => {
@@ -63,7 +67,7 @@ export class WorkspaceViewService extends APIService {
       {
         params,
       },
-      config
+      config,
     )
       .then((response) => response?.data)
       .catch((error) => {

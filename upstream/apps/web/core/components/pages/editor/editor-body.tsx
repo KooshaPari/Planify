@@ -20,7 +20,11 @@ import type {
   TServerHandler,
 } from "@plane/editor";
 import { useTranslation } from "@plane/i18n";
-import type { TSearchEntityRequestPayload, TSearchResponse, TWebhookConnectionQueryParams } from "@plane/types";
+import type {
+  TSearchEntityRequestPayload,
+  TSearchResponse,
+  TWebhookConnectionQueryParams,
+} from "@plane/types";
 import { ERowVariant, Row } from "@plane/ui";
 import { cn, generateRandomColor, hslToHex } from "@plane/utils";
 // components
@@ -132,7 +136,7 @@ export const PageEditorBody = observer(function PageEditorBody(props: Props) {
       fontStyle,
       wideLayout: isFullWidth,
     }),
-    [fontSize, fontStyle, isFullWidth]
+    [fontSize, fontStyle, isFullWidth],
   );
 
   // Use the new hook to handle page events
@@ -163,7 +167,7 @@ export const PageEditorBody = observer(function PageEditorBody(props: Props) {
         workspaceSlug={workspaceSlug}
       />
     ),
-    [editorRef, workspaceId, workspaceSlug]
+    [editorRef, workspaceId, workspaceSlug],
   );
 
   const serverHandler: TServerHandler = useMemo(
@@ -184,7 +188,7 @@ export const PageEditorBody = observer(function PageEditorBody(props: Props) {
         }
       },
     }),
-    [setSyncingStatus, onCollaborationStateChange]
+    [setSyncingStatus, onCollaborationStateChange],
   );
 
   const realtimeConfig: TRealtimeConfig | undefined = useMemo(() => {
@@ -219,14 +223,14 @@ export const PageEditorBody = observer(function PageEditorBody(props: Props) {
       name: currentUser?.display_name ?? "",
       color: hslToHex(generateRandomColor(currentUser?.id ?? "")),
     }),
-    [currentUser?.display_name, currentUser?.id]
+    [currentUser?.display_name, currentUser?.id],
   );
 
   const blockWidthClassName = cn(
     "mx-auto block w-full max-w-[720px] bg-transparent transition-all duration-200 ease-in-out",
     {
       "max-w-[1152px]": isFullWidth,
-    }
+    },
   );
 
   const isPageLoading = pageId === undefined || !realtimeConfig;
@@ -250,7 +254,11 @@ export const PageEditorBody = observer(function PageEditorBody(props: Props) {
                   aria-label={t("page_navigation_pane.outline_floating_button")}
                   onClick={handleOpenNavigationPane}
                 >
-                  <PageContentBrowser className="overflow-y-auto" editorRef={editorRef} showOutline />
+                  <PageContentBrowser
+                    className="overflow-y-auto"
+                    editorRef={editorRef}
+                    showOutline
+                  />
                 </div>
                 <div className="vertical-scrollbar pointer-events-none absolute top-0 right-0 scrollbar-sm max-h-[70vh] w-52 translate-x-1/2 overflow-y-scroll rounded-sm bg-surface-2 p-4 whitespace-nowrap opacity-0 transition-all duration-300 group-hover/page-toc:pointer-events-auto group-hover/page-toc:-translate-x-1/4 group-hover/page-toc:opacity-100">
                   <PageContentBrowser className="overflow-y-auto" editorRef={editorRef} />
@@ -282,7 +290,9 @@ export const PageEditorBody = observer(function PageEditorBody(props: Props) {
                 return res;
               },
               renderComponent: (props) => <EditorMentionsRoot {...props} />,
-              getMentionedEntityDetails: (id: string) => ({ display_name: getUserDetails(id)?.display_name ?? "" }),
+              getMentionedEntityDetails: (id: string) => ({
+                display_name: getUserDetails(id)?.display_name ?? "",
+              }),
             }}
             updatePageProperties={updatePageProperties}
             realtimeConfig={realtimeConfig}

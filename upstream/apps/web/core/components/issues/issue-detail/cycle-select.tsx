@@ -27,7 +27,14 @@ type TIssueCycleSelect = {
 };
 
 export const IssueCycleSelect = observer(function IssueCycleSelect(props: TIssueCycleSelect) {
-  const { className = "", workspaceSlug, projectId, issueId, issueOperations, disabled = false } = props;
+  const {
+    className = "",
+    workspaceSlug,
+    projectId,
+    issueId,
+    issueOperations,
+    disabled = false,
+  } = props;
   const { t } = useTranslation();
   // states
   const [isUpdating, setIsUpdating] = useState(false);
@@ -42,8 +49,15 @@ export const IssueCycleSelect = observer(function IssueCycleSelect(props: TIssue
   const handleIssueCycleChange = async (cycleId: string | null) => {
     if (!issue || issue.cycle_id === cycleId) return;
     setIsUpdating(true);
-    if (cycleId) await issueOperations.addCycleToIssue?.(workspaceSlug, projectId, cycleId, issueId);
-    else await issueOperations.removeIssueFromCycle?.(workspaceSlug, projectId, issue.cycle_id ?? "", issueId);
+    if (cycleId)
+      await issueOperations.addCycleToIssue?.(workspaceSlug, projectId, cycleId, issueId);
+    else
+      await issueOperations.removeIssueFromCycle?.(
+        workspaceSlug,
+        projectId,
+        issue.cycle_id ?? "",
+        issueId,
+      );
     setIsUpdating(false);
   };
 

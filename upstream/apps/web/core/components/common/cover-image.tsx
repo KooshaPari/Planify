@@ -46,5 +46,7 @@ export function CoverImage(props: TCoverImageProps) {
 
   const displayUrl = getCoverImageDisplayURL(src, fallbackUrl);
 
-  return <img src={displayUrl} alt={alt} className={cn("object-cover", className)} {...restProps} />;
+  return (
+    <img src={displayUrl} alt={alt} className={cn("object-cover", className)} {...restProps} />
+  );
 }

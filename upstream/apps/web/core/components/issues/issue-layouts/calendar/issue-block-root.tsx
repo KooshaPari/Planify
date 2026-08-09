@@ -55,7 +55,7 @@ export const CalendarIssueBlockRoot = observer(function CalendarIssueBlockRoot(p
         onDrop: () => {
           setIsDragging(false);
         },
-      })
+      }),
     );
   }, [issueRef?.current, issue, canDrag]);
 

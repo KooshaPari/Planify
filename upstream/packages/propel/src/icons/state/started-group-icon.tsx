@@ -39,7 +39,12 @@ export function StartedGroupIcon({
   const dashOffsetSmall = circumference * (1 - 100 / 100);
 
   return (
-    <svg width={width} height={height} viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`} className={className}>
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
+      className={className}
+    >
       {/* Dashed background circle with segments that disappear with progress */}
       <DashedCircle center={center} radius={radius} color={color} percentage={validPercentage} />
 

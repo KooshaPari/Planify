@@ -32,10 +32,8 @@ import { SidebarItem } from "@/plane-web/components/workspace/sidebar/sidebar-it
 
 export const SidebarMenuItems = observer(function SidebarMenuItems() {
   // routers
-  const { setValue: toggleWorkspaceMenu, storedValue: isWorkspaceMenuOpen } = useLocalStorage<boolean>(
-    "is_workspace_menu_open",
-    true
-  );
+  const { setValue: toggleWorkspaceMenu, storedValue: isWorkspaceMenuOpen } =
+    useLocalStorage<boolean>("is_workspace_menu_open", true);
 
   // store hooks
   const { isExtendedSidebarOpened, toggleExtendedSidebar } = useAppTheme();
@@ -62,13 +60,19 @@ export const SidebarMenuItems = observer(function SidebarMenuItems() {
         sort_order: personalPreferences.items.stickies.sort_order,
       });
     }
-    if (personalPreferences.items.your_work?.enabled && WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS["your-work"]) {
+    if (
+      personalPreferences.items.your_work?.enabled &&
+      WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS["your-work"]
+    ) {
       personalItems.push({
         ...WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS["your-work"],
         sort_order: personalPreferences.items.your_work.sort_order,
       });
     }
-    if (personalPreferences.items.drafts?.enabled && WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS["drafts"]) {
+    if (
+      personalPreferences.items.drafts?.enabled &&
+      WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS["drafts"]
+    ) {
       personalItems.push({
         ...WORKSPACE_SIDEBAR_STATIC_NAVIGATION_ITEMS["drafts"],
         sort_order: personalPreferences.items.drafts.sort_order,
@@ -91,7 +95,7 @@ export const SidebarMenuItems = observer(function SidebarMenuItems() {
           sort_order: preference ? preference.sort_order : 0,
         };
       }).sort((a, b) => a.sort_order - b.sort_order),
-    [workspacePreferences]
+    [workspacePreferences],
   );
 
   return (
@@ -111,7 +115,7 @@ export const SidebarMenuItems = observer(function SidebarMenuItems() {
             aria-label={t(
               isWorkspaceMenuOpen
                 ? "aria_labels.app_sidebar.close_workspace_menu"
-                : "aria_labels.app_sidebar.open_workspace_menu"
+                : "aria_labels.app_sidebar.open_workspace_menu",
             )}
           >
             <span className="text-13 font-semibold">{t("common.workspace")}</span>
@@ -125,7 +129,7 @@ export const SidebarMenuItems = observer(function SidebarMenuItems() {
               aria-label={t(
                 isWorkspaceMenuOpen
                   ? "aria_labels.app_sidebar.close_workspace_menu"
-                  : "aria_labels.app_sidebar.open_workspace_menu"
+                  : "aria_labels.app_sidebar.open_workspace_menu",
               )}
             >
               <ChevronRightIcon
@@ -163,7 +167,7 @@ export const SidebarMenuItems = observer(function SidebarMenuItems() {
                     aria-label={t(
                       isExtendedSidebarOpened
                         ? "aria_labels.app_sidebar.close_extended_sidebar"
-                        : "aria_labels.app_sidebar.open_extended_sidebar"
+                        : "aria_labels.app_sidebar.open_extended_sidebar",
                     )}
                   >
                     <Ellipsis className="size-4 flex-shrink-0" />

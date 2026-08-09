@@ -42,7 +42,9 @@ export const UserAvatar = observer(function UserAvatar() {
 
   useEffect(() => {
     if (csrfToken === undefined)
-      authService.requestCSRFToken().then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
+      authService
+        .requestCSRFToken()
+        .then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
   }, [csrfToken]);
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
@@ -66,7 +68,10 @@ export const UserAvatar = observer(function UserAvatar() {
         <div>
           <Popover as="div">
             <Popover.Button as={Fragment}>
-              <button ref={setReferenceElement} className="flex items-center gap-2 rounded-sm border border-subtle p-2">
+              <button
+                ref={setReferenceElement}
+                className="flex items-center gap-2 rounded-sm border border-subtle p-2"
+              >
                 <Avatar
                   name={currentUser?.display_name}
                   src={getFileURL(currentUser?.avatar_url)}
@@ -99,7 +104,11 @@ export const UserAvatar = observer(function UserAvatar() {
                   {...attributes.popper}
                 >
                   {csrfToken && (
-                    <form method="POST" action={`${API_BASE_URL}/auth/spaces/sign-out/`} onSubmit={signOut}>
+                    <form
+                      method="POST"
+                      action={`${API_BASE_URL}/auth/spaces/sign-out/`}
+                      onSubmit={signOut}
+                    >
                       <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
                       <input type="hidden" name="next_path" value={`${pathName}?${queryParam}`} />
                       <button

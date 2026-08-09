@@ -23,7 +23,10 @@ type TDiscountInfoProps = {
 
 const PLANS_WITH_DISCOUNT = [EProductSubscriptionEnum.PRO];
 
-const getActualPrice = (frequency: TBillingFrequency, subscriptionType: EProductSubscriptionEnum): number | null => {
+const getActualPrice = (
+  frequency: TBillingFrequency,
+  subscriptionType: EProductSubscriptionEnum,
+): number | null => {
   switch (subscriptionType) {
     case EProductSubscriptionEnum.PRO:
       return frequency === "month" ? 10 : 8;
@@ -32,7 +35,13 @@ const getActualPrice = (frequency: TBillingFrequency, subscriptionType: EProduct
   }
 };
 
-export function DiscountInfo({ className, currency, frequency, price, subscriptionType }: TDiscountInfoProps) {
+export function DiscountInfo({
+  className,
+  currency,
+  frequency,
+  price,
+  subscriptionType,
+}: TDiscountInfoProps) {
   const { resolvedTheme } = useTheme();
   // derived values
   const actualPrice = getActualPrice(frequency, subscriptionType);

@@ -17,7 +17,7 @@ export const useGanttResizable = (
   block: IGanttBlock,
   resizableRef: React.RefObject<HTMLDivElement>,
   ganttContainerRef: React.RefObject<HTMLDivElement>,
-  updateBlockDates?: (updates: IBlockUpdateDependencyData[]) => Promise<void>
+  updateBlockDates?: (updates: IBlockUpdateDependencyData[]) => Promise<void>,
 ) => {
   // refs
   const initialPositionRef = useRef<{ marginLeft: number; width: number; offsetX: number }>({
@@ -28,16 +28,18 @@ export const useGanttResizable = (
   const ganttContainerDimensions = useRef<DOMRect | undefined>();
   const currMouseEvent = useRef<MouseEvent | undefined>();
   // states
-  const { currentViewData, updateBlockPosition, setIsDragging, getUpdatedPositionAfterDrag } = useTimeLineChartStore();
+  const { currentViewData, updateBlockPosition, setIsDragging, getUpdatedPositionAfterDrag } =
+    useTimeLineChartStore();
   const [isMoving, setIsMoving] = useState<"left" | "right" | "move" | undefined>();
 
   // handle block resize from the left end
   const handleBlockDrag = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    dragDirection: "left" | "right" | "move"
+    dragDirection: "left" | "right" | "move",
   ) => {
     const ganttContainerElement = ganttContainerRef.current;
-    if (!currentViewData || !resizableRef.current || !block.position || !ganttContainerElement) return;
+    if (!currentViewData || !resizableRef.current || !block.position || !ganttContainerElement)
+      return;
 
     if (e.button !== 0) return;
 
@@ -46,7 +48,11 @@ export const useGanttResizable = (
     ganttContainerDimensions.current = ganttContainerElement.getBoundingClientRect();
 
     const dayWidth = currentViewData.data.dayWidth;
-    const mouseX = e.clientX - ganttContainerDimensions.current.left - SIDEBAR_WIDTH + ganttContainerElement.scrollLeft;
+    const mouseX =
+      e.clientX -
+      ganttContainerDimensions.current.left -
+      SIDEBAR_WIDTH +
+      ganttContainerElement.scrollLeft;
 
     // record position on drag start
     initialPositionRef.current = {
@@ -96,7 +102,8 @@ export const useGanttResizable = (
         }
       } else if (dragDirection === "move") {
         // calculate new marginLeft and update the initial marginLeft using -=
-        marginLeft = Math.round((mouseX - initialPositionRef.current.offsetX) / dayWidth) * dayWidth;
+        marginLeft =
+          Math.round((mouseX - initialPositionRef.current.offsetX) / dayWidth) * dayWidth;
       }
 
       // block needs to be at least 1 dayWidth Wide
@@ -105,7 +112,8 @@ export const useGanttResizable = (
       resizableDiv.style.width = `${width}px`;
       resizableDiv.style.marginLeft = `${marginLeft}px`;
 
-      const deltaLeft = Math.round((marginLeft - (block.position?.marginLeft ?? 0)) / dayWidth) * dayWidth;
+      const deltaLeft =
+        Math.round((marginLeft - (block.position?.marginLeft ?? 0)) / dayWidth) * dayWidth;
       const deltaWidth = Math.round((width - (block.position?.width ?? 0)) / dayWidth) * dayWidth;
 
       // call update blockPosition
@@ -122,7 +130,8 @@ export const useGanttResizable = (
 
       // update half blocks only when the missing side of the block is directly dragged
       const shouldUpdateHalfBlock =
-        (dragDirection === "left" && !block.start_date) || (dragDirection === "right" && !block.target_date);
+        (dragDirection === "left" && !block.start_date) ||
+        (dragDirection === "right" && !block.target_date);
 
       try {
         const blockUpdates = getUpdatedPositionAfterDrag(block.id, shouldUpdateHalfBlock);

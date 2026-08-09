@@ -25,7 +25,8 @@ export const InboxIssueOrderByDropdown = observer(function InboxIssueOrderByDrop
   const windowSize = useSize();
   const { inboxSorting, handleInboxIssueSorting } = useProjectInbox();
   const orderByDetails =
-    INBOX_ISSUE_ORDER_BY_OPTIONS.find((option) => inboxSorting?.order_by?.includes(option.key)) || undefined;
+    INBOX_ISSUE_ORDER_BY_OPTIONS.find((option) => inboxSorting?.order_by?.includes(option.key)) ||
+    undefined;
   const smallButton =
     inboxSorting?.sort_by === "asc" ? (
       <ArrowUpWideNarrow className="size-3" />
@@ -54,7 +55,9 @@ export const InboxIssueOrderByDropdown = observer(function InboxIssueOrderByDrop
         <CustomMenu.MenuItem
           key={option.key}
           className="flex items-center justify-between gap-2"
-          onClick={() => handleInboxIssueSorting("order_by", option.key as TInboxIssueSortingOrderByKeys)}
+          onClick={() =>
+            handleInboxIssueSorting("order_by", option.key as TInboxIssueSortingOrderByKeys)
+          }
         >
           {t(option.i18n_label)}
           {inboxSorting?.order_by?.includes(option.key) && <CheckIcon className="size-3" />}
@@ -65,7 +68,9 @@ export const InboxIssueOrderByDropdown = observer(function InboxIssueOrderByDrop
         <CustomMenu.MenuItem
           key={option.key}
           className="flex items-center justify-between gap-2"
-          onClick={() => handleInboxIssueSorting("sort_by", option.key as TInboxIssueSortingSortByKeys)}
+          onClick={() =>
+            handleInboxIssueSorting("sort_by", option.key as TInboxIssueSortingSortByKeys)
+          }
         >
           {t(option.i18n_label)}
           {inboxSorting?.sort_by?.includes(option.key) && <CheckIcon className="size-3" />}

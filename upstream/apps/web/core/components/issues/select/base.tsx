@@ -39,7 +39,9 @@ export type TWorkItemLabelSelectBaseProps = {
   value: string[];
 };
 
-export const WorkItemLabelSelectBase = observer(function WorkItemLabelSelectBase(props: TWorkItemLabelSelectBaseProps) {
+export const WorkItemLabelSelectBase = observer(function WorkItemLabelSelectBase(
+  props: TWorkItemLabelSelectBaseProps,
+) {
   const {
     buttonClassName,
     buttonContainerClassName,
@@ -75,7 +77,9 @@ export const WorkItemLabelSelectBase = observer(function WorkItemLabelSelectBase
   // derived values
   const labelsList = labelIds.map((labelId) => getLabelById(labelId)).filter((label) => !!label);
   const filteredOptions =
-    query === "" ? labelsList : labelsList?.filter((l) => l.name.toLowerCase().includes(query.toLowerCase()));
+    query === ""
+      ? labelsList
+      : labelsList?.filter((l) => l.name.toLowerCase().includes(query.toLowerCase()));
 
   const onOpen = () => {
     if (referenceElement) referenceElement.focus();
@@ -140,7 +144,9 @@ export const WorkItemLabelSelectBase = observer(function WorkItemLabelSelectBase
     setSubmitting(true);
     try {
       const existing = labelsList.find((l) => l.name.toLowerCase() === name.toLowerCase());
-      const idToAdd = existing ? existing.id : (await createLabel({ name, color: getRandomLabelColor() })).id;
+      const idToAdd = existing
+        ? existing.id
+        : (await createLabel({ name, color: getRandomLabelColor() })).id;
       onChange(Array.from(new Set([...value, idToAdd])));
       setQuery("");
     } catch (e) {
@@ -165,13 +171,18 @@ export const WorkItemLabelSelectBase = observer(function WorkItemLabelSelectBase
       <button
         type="button"
         ref={setReferenceElement}
-        className={cn("flex h-full cursor-pointer items-center gap-2 text-11", buttonContainerClassName)}
+        className={cn(
+          "flex h-full cursor-pointer items-center gap-2 text-11",
+          buttonContainerClassName,
+        )}
         onClick={handleOnClick}
       >
         {label ? (
           label
         ) : value && value.length > 0 ? (
-          <span className={cn("flex h-full items-center justify-center gap-2 text-11", buttonClassName)}>
+          <span
+            className={cn("flex h-full items-center justify-center gap-2 text-11", buttonClassName)}
+          >
             <IssueLabelsList
               labels={value.map((v) => labelsList?.find((l) => l.id === v)) ?? []}
               length={3}
@@ -182,7 +193,7 @@ export const WorkItemLabelSelectBase = observer(function WorkItemLabelSelectBase
           <div
             className={cn(
               "flex h-full items-center justify-center gap-1 rounded-sm border-[0.5px] border-strong px-2 py-1 text-11 hover:bg-layer-1",
-              buttonClassName
+              buttonClassName,
             )}
           >
             <LabelPropertyIcon className="h-3 w-3 flex-shrink-0" />
@@ -241,7 +252,9 @@ export const WorkItemLabelSelectBase = observer(function WorkItemLabelSelectBase
                                   <span className="truncate">{label.name}</span>
                                 </div>
                                 <div className="flex shrink-0 items-center justify-center rounded-sm p-1">
-                                  <CheckIcon className={`h-3 w-3 ${selected ? "opacity-100" : "opacity-0"}`} />
+                                  <CheckIcon
+                                    className={`h-3 w-3 ${selected ? "opacity-100" : "opacity-0"}`}
+                                  />
                                 </div>
                               </div>
                             )}
@@ -276,7 +289,9 @@ export const WorkItemLabelSelectBase = observer(function WorkItemLabelSelectBase
                                       <span>{child.name}</span>
                                     </div>
                                     <div className="flex items-center justify-center rounded-sm p-1">
-                                      <CheckIcon className={`h-3 w-3 ${selected ? "opacity-100" : "opacity-0"}`} />
+                                      <CheckIcon
+                                        className={`h-3 w-3 ${selected ? "opacity-100" : "opacity-0"}`}
+                                      />
                                     </div>
                                   </div>
                                 )}

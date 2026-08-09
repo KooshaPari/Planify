@@ -29,7 +29,14 @@ type Props = {
 };
 
 export const BlockRow = observer(function BlockRow(props: Props) {
-  const { blockId, showAllBlocks, blockUpdateHandler, handleScrollToBlock, enableAddBlock, selectionHelpers } = props;
+  const {
+    blockId,
+    showAllBlocks,
+    blockUpdateHandler,
+    handleScrollToBlock,
+    enableAddBlock,
+    selectionHelpers,
+  } = props;
   // states
   const [isHidden, setIsHidden] = useState(false);
   const [isBlockHiddenOnLeft, setIsBlockHiddenOnLeft] = useState(false);
@@ -47,7 +54,7 @@ export const BlockRow = observer(function BlockRow(props: Props) {
     setIsBlockHiddenOnLeft(
       !!block.position?.marginLeft &&
         !!block.position?.width &&
-        intersectionRoot.scrollLeft > block.position.marginLeft + block.position.width
+        intersectionRoot.scrollLeft > block.position.marginLeft + block.position.width,
     );
 
     // Observe if the block is visible on the chart
@@ -61,7 +68,7 @@ export const BlockRow = observer(function BlockRow(props: Props) {
       {
         root: intersectionRoot,
         rootMargin: `0px 0px 0px -${SIDEBAR_WIDTH}px`,
-      }
+      },
     );
 
     observer.observe(timelineBlock);
@@ -72,7 +79,8 @@ export const BlockRow = observer(function BlockRow(props: Props) {
   }, [block]);
 
   // hide the block if it doesn't have start and target dates and showAllBlocks is false
-  if (!block || !block.data || (!showAllBlocks && !(block.start_date && block.target_date))) return null;
+  if (!block || !block.data || (!showAllBlocks && !(block.start_date && block.target_date)))
+    return null;
 
   const isBlockVisibleOnChart = block.start_date || block.target_date;
   const isBlockSelected = selectionHelpers.getIsEntitySelected(block.id);
@@ -114,7 +122,9 @@ export const BlockRow = observer(function BlockRow(props: Props) {
                 />
               </button>
             )
-          : enableAddBlock && <ChartAddBlock block={block} blockUpdateHandler={blockUpdateHandler} />}
+          : enableAddBlock && (
+              <ChartAddBlock block={block} blockUpdateHandler={blockUpdateHandler} />
+            )}
       </div>
     </div>
   );

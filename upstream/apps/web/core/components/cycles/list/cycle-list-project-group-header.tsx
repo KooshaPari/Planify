@@ -21,7 +21,9 @@ type Props = {
   isExpanded?: boolean;
 };
 
-export const CycleListProjectGroupHeader = observer(function CycleListProjectGroupHeader(props: Props) {
+export const CycleListProjectGroupHeader = observer(function CycleListProjectGroupHeader(
+  props: Props,
+) {
   const { projectId, count, showCount = false, isExpanded = false } = props;
   // store hooks
   const { getProjectById } = useProject();
@@ -41,8 +43,12 @@ export const CycleListProjectGroupHeader = observer(function CycleListProjectGro
         <Logo logo={project.logo_props} size={16} />
       </div>
       <div className="relative flex w-full flex-row items-center gap-1 overflow-hidden">
-        <div className="line-clamp-1 inline-block truncate font-medium text-primary">{project.name}</div>
-        {showCount && <div className="pl-2 text-13 font-medium text-tertiary">{`${count ?? "0"}`}</div>}
+        <div className="line-clamp-1 inline-block truncate font-medium text-primary">
+          {project.name}
+        </div>
+        {showCount && (
+          <div className="pl-2 text-13 font-medium text-tertiary">{`${count ?? "0"}`}</div>
+        )}
       </div>
     </Row>
   );

@@ -32,15 +32,22 @@ export const usePowerKCycleContextBasedActions = (): TPowerKCommandConfig[] => {
   const isFavorite = !!cycleDetails?.is_favorite;
   // permission
   const isEditingAllowed =
-    allowPermissions([EUserPermissions.ADMIN, EUserPermissions.MEMBER], EUserPermissionsLevel.PROJECT) &&
-    !cycleDetails?.archived_at;
+    allowPermissions(
+      [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+      EUserPermissionsLevel.PROJECT,
+    ) && !cycleDetails?.archived_at;
   // translation
   const { t } = useTranslation();
 
   const toggleFavorite = useCallback(() => {
     if (!workspaceSlug || !cycleDetails || !cycleDetails.project_id) return;
     try {
-      if (isFavorite) removeCycleFromFavorites(workspaceSlug.toString(), cycleDetails.project_id, cycleDetails.id);
+      if (isFavorite)
+        removeCycleFromFavorites(
+          workspaceSlug.toString(),
+          cycleDetails.project_id,
+          cycleDetails.id,
+        );
       else addCycleToFavorites(workspaceSlug.toString(), cycleDetails.project_id, cycleDetails.id);
     } catch {
       setToast({

@@ -29,7 +29,13 @@ type Props = {
 };
 
 function ProjectCommonAttributes(props: Props) {
-  const { setValue, isMobile, shouldAutoSyncIdentifier, setShouldAutoSyncIdentifier, handleFormOnChange } = props;
+  const {
+    setValue,
+    isMobile,
+    shouldAutoSyncIdentifier,
+    setShouldAutoSyncIdentifier,
+    handleFormOnChange,
+  } = props;
   const {
     formState: { errors },
     control,
@@ -39,7 +45,8 @@ function ProjectCommonAttributes(props: Props) {
   const { t } = useTranslation();
 
   const handleNameChange =
-    (onChange: (event: ChangeEvent<HTMLInputElement>) => void) => (e: ChangeEvent<HTMLInputElement>) => {
+    (onChange: (event: ChangeEvent<HTMLInputElement>) => void) =>
+    (e: ChangeEvent<HTMLInputElement>) => {
       if (!shouldAutoSyncIdentifier) {
         onChange(e);
         return;
@@ -50,13 +57,14 @@ function ProjectCommonAttributes(props: Props) {
       handleFormOnChange?.();
     };
 
-  const handleIdentifierChange = (onChange: (value: string) => void) => (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    const alphanumericValue = projectIdentifierSanitizer(value);
-    setShouldAutoSyncIdentifier(false);
-    onChange(alphanumericValue);
-    handleFormOnChange?.();
-  };
+  const handleIdentifierChange =
+    (onChange: (value: string) => void) => (e: ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+      const alphanumericValue = projectIdentifierSanitizer(value);
+      setShouldAutoSyncIdentifier(false);
+      onChange(alphanumericValue);
+      handleFormOnChange?.();
+    };
   return (
     <div className="grid grid-cols-1 gap-x-2 gap-y-3 md:grid-cols-4">
       <div className="md:col-span-3">
@@ -94,7 +102,8 @@ function ProjectCommonAttributes(props: Props) {
             required: t("project_id_is_required"),
             // allow only alphanumeric & non-latin characters
             validate: (value) =>
-              /^[ÇŞĞIİÖÜA-Z0-9]+$/.test(value.toUpperCase()) || t("only_alphanumeric_non_latin_characters_allowed"),
+              /^[ÇŞĞIİÖÜA-Z0-9]+$/.test(value.toUpperCase()) ||
+              t("only_alphanumeric_non_latin_characters_allowed"),
             minLength: {
               value: 1,
               message: t("project_id_min_char"),

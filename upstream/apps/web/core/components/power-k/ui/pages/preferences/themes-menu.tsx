@@ -17,7 +17,9 @@ type Props = {
   onSelect: (theme: string) => void;
 };
 
-export const PowerKPreferencesThemesMenu = observer(function PowerKPreferencesThemesMenu(props: Props) {
+export const PowerKPreferencesThemesMenu = observer(function PowerKPreferencesThemesMenu(
+  props: Props,
+) {
   const { onSelect } = props;
   // hooks
   const { t } = useTranslation();
@@ -34,7 +36,11 @@ export const PowerKPreferencesThemesMenu = observer(function PowerKPreferencesTh
   return (
     <Command.Group>
       {THEME_OPTIONS.map((theme) => (
-        <PowerKModalCommandItem key={theme.value} onSelect={() => onSelect(theme.value)} label={t(theme.i18n_label)} />
+        <PowerKModalCommandItem
+          key={theme.value}
+          onSelect={() => onSelect(theme.value)}
+          label={t(theme.i18n_label)}
+        />
       ))}
     </Command.Group>
   );

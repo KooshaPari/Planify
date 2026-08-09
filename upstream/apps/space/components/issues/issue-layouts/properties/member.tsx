@@ -37,7 +37,13 @@ export const ButtonAvatars = observer(function ButtonAvatars(props: AvatarProps)
         <AvatarGroup size="md" showTooltip={!showTooltip}>
           {members.map((member) => {
             if (!member) return;
-            return <Avatar key={member.id} src={member.member__avatar} name={member.member__display_name} />;
+            return (
+              <Avatar
+                key={member.id}
+                src={member.member__avatar}
+                name={member.member__display_name}
+              />
+            );
           })}
         </AvatarGroup>
       );
@@ -60,7 +66,10 @@ export const ButtonAvatars = observer(function ButtonAvatars(props: AvatarProps)
   );
 });
 
-export const IssueBlockMembers = observer(function IssueBlockMembers({ memberIds, shouldShowBorder = true }: Props) {
+export const IssueBlockMembers = observer(function IssueBlockMembers({
+  memberIds,
+  shouldShowBorder = true,
+}: Props) {
   const { getMembersByIds } = useMember();
 
   const members = getMembersByIds(memberIds);

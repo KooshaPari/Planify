@@ -19,13 +19,21 @@ import {
 import { Button } from "@plane/propel/button";
 import { LockIcon, ViewsIcon } from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
-import type { ICustomSearchSelectOption, IIssueDisplayFilterOptions, IIssueDisplayProperties } from "@plane/types";
+import type {
+  ICustomSearchSelectOption,
+  IIssueDisplayFilterOptions,
+  IIssueDisplayProperties,
+} from "@plane/types";
 import { EIssuesStoreType, EViewAccess, EIssueLayoutTypes } from "@plane/types";
 import { Breadcrumbs, Header, BreadcrumbNavigationSearchDropdown } from "@plane/ui";
 // components
 import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
 import { SwitcherIcon, SwitcherLabel } from "@/components/common/switcher-label";
-import { DisplayFiltersSelection, FiltersDropdown, LayoutSelection } from "@/components/issues/issue-layouts/filters";
+import {
+  DisplayFiltersSelection,
+  FiltersDropdown,
+  LayoutSelection,
+} from "@/components/issues/issue-layouts/filters";
 import { ViewQuickActions } from "@/components/views/quick-actions";
 import { WorkItemFiltersToggle } from "@/components/work-item-filters/filters-toggle";
 // hooks
@@ -65,10 +73,10 @@ export const ProjectViewIssuesHeader = observer(function ProjectViewIssuesHeader
         projectId.toString(),
         EIssueFilterType.DISPLAY_FILTERS,
         { layout: layout },
-        viewId.toString()
+        viewId.toString(),
       );
     },
-    [workspaceSlug, projectId, viewId, updateFilters]
+    [workspaceSlug, projectId, viewId, updateFilters],
   );
 
   const handleDisplayFilters = useCallback(
@@ -79,10 +87,10 @@ export const ProjectViewIssuesHeader = observer(function ProjectViewIssuesHeader
         projectId.toString(),
         EIssueFilterType.DISPLAY_FILTERS,
         updatedDisplayFilter,
-        viewId.toString()
+        viewId.toString(),
       );
     },
-    [workspaceSlug, projectId, viewId, updateFilters]
+    [workspaceSlug, projectId, viewId, updateFilters],
   );
 
   const handleDisplayProperties = useCallback(
@@ -93,17 +101,17 @@ export const ProjectViewIssuesHeader = observer(function ProjectViewIssuesHeader
         projectId.toString(),
         EIssueFilterType.DISPLAY_PROPERTIES,
         property,
-        viewId.toString()
+        viewId.toString(),
       );
     },
-    [workspaceSlug, projectId, viewId, updateFilters]
+    [workspaceSlug, projectId, viewId, updateFilters],
   );
 
   const viewDetails = viewId ? getViewById(viewId.toString()) : null;
 
   const canUserCreateIssue = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
+    EUserPermissionsLevel.PROJECT,
   );
 
   if (!viewDetails) return;
@@ -115,7 +123,9 @@ export const ProjectViewIssuesHeader = observer(function ProjectViewIssuesHeader
       return {
         value: _view.id,
         query: _view.name,
-        content: <SwitcherLabel logo_props={_view.logo_props} name={_view.name} LabelIcon={ViewsIcon} />,
+        content: (
+          <SwitcherLabel logo_props={_view.logo_props} name={_view.name} LabelIcon={ViewsIcon} />
+        ),
       };
     })
     .filter((option) => option !== undefined) as ICustomSearchSelectOption[];
@@ -124,7 +134,10 @@ export const ProjectViewIssuesHeader = observer(function ProjectViewIssuesHeader
     <Header>
       <Header.LeftItem>
         <Breadcrumbs isLoading={loader === "init-loader"}>
-          <CommonProjectBreadcrumbs workspaceSlug={workspaceSlug?.toString()} projectId={projectId?.toString()} />
+          <CommonProjectBreadcrumbs
+            workspaceSlug={workspaceSlug?.toString()}
+            projectId={projectId?.toString()}
+          />
           <Breadcrumbs.Item
             component={
               <BreadcrumbLink
@@ -145,7 +158,11 @@ export const ProjectViewIssuesHeader = observer(function ProjectViewIssuesHeader
                 title={viewDetails?.name}
                 icon={
                   <Breadcrumbs.Icon>
-                    <SwitcherIcon logo_props={viewDetails.logo_props} LabelIcon={ViewsIcon} size={16} />
+                    <SwitcherIcon
+                      logo_props={viewDetails.logo_props}
+                      LabelIcon={ViewsIcon}
+                      size={16}
+                    />
                   </Breadcrumbs.Icon>
                 }
                 isLast
@@ -179,12 +196,16 @@ export const ProjectViewIssuesHeader = observer(function ProjectViewIssuesHeader
               selectedLayout={activeLayout}
             />
           )}
-          {viewId && <WorkItemFiltersToggle entityType={EIssuesStoreType.PROJECT_VIEW} entityId={viewId} />}
+          {viewId && (
+            <WorkItemFiltersToggle entityType={EIssuesStoreType.PROJECT_VIEW} entityId={viewId} />
+          )}
           {!viewDetails.is_locked && (
             <FiltersDropdown title="Display" placement="bottom-end">
               <DisplayFiltersSelection
                 layoutDisplayFiltersOptions={
-                  activeLayout ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout] : undefined
+                  activeLayout
+                    ? ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.layoutOptions[activeLayout]
+                    : undefined
                 }
                 displayFilters={issueFilters?.displayFilters ?? {}}
                 handleDisplayFiltersUpdate={handleDisplayFilters}

@@ -29,7 +29,9 @@ type TWorkspaceDraftIssuesRoot = {
   workspaceSlug: string;
 };
 
-export const WorkspaceDraftIssuesRoot = observer(function WorkspaceDraftIssuesRoot(props: TWorkspaceDraftIssuesRoot) {
+export const WorkspaceDraftIssuesRoot = observer(function WorkspaceDraftIssuesRoot(
+  props: TWorkspaceDraftIssuesRoot,
+) {
   const { workspaceSlug } = props;
   // plane hooks
   const { t } = useTranslation();
@@ -41,7 +43,7 @@ export const WorkspaceDraftIssuesRoot = observer(function WorkspaceDraftIssuesRo
   // derived values
   const hasMemberLevelPermission = allowPermissions(
     [EUserWorkspaceRoles.ADMIN, EUserWorkspaceRoles.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   //swr hook for fetching issue properties
@@ -51,7 +53,7 @@ export const WorkspaceDraftIssuesRoot = observer(function WorkspaceDraftIssuesRo
   const { isLoading } = useSWR(
     workspaceSlug ? `WORKSPACE_DRAFT_ISSUES_${workspaceSlug}` : null,
     workspaceSlug ? async () => await fetchIssues(workspaceSlug, "init-loader") : null,
-    { revalidateOnFocus: false, revalidateIfStale: false }
+    { revalidateOnFocus: false, revalidateIfStale: false },
   );
 
   // handle nest issues
@@ -100,10 +102,13 @@ export const WorkspaceDraftIssuesRoot = observer(function WorkspaceDraftIssuesRo
             <WorkspaceDraftIssuesLoader items={1} />
           ) : (
             <div
-              className={cn("h-11 border-b border-subtle bg-surface-1 p-3 pl-6 text-13 font-medium transition-all", {
-                "cursor-pointer text-accent-primary underline-offset-2 hover:text-accent-secondary hover:underline":
-                  paginationInfo?.next_page_results,
-              })}
+              className={cn(
+                "h-11 border-b border-subtle bg-surface-1 p-3 pl-6 text-13 font-medium transition-all",
+                {
+                  "cursor-pointer text-accent-primary underline-offset-2 hover:text-accent-secondary hover:underline":
+                    paginationInfo?.next_page_results,
+                },
+              )}
               onClick={handleNextIssues}
             >
               Load More &darr;

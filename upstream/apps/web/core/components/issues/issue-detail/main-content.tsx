@@ -76,7 +76,7 @@ export const IssueMainContent = observer(function IssueMainContent(props: Props)
       name: issue?.name,
       description_html: getTextContent(issue?.description_html),
       issueId: issue?.id,
-    }
+    },
   );
 
   useEffect(() => {
@@ -179,9 +179,16 @@ export const IssueMainContent = observer(function IssueMainContent(props: Props)
                 listDescriptionVersions: (issueId) =>
                   workItemVersionService.listDescriptionVersions(workspaceSlug, projectId, issueId),
                 retrieveDescriptionVersion: (issueId, versionId) =>
-                  workItemVersionService.retrieveDescriptionVersion(workspaceSlug, projectId, issueId, versionId),
+                  workItemVersionService.retrieveDescriptionVersion(
+                    workspaceSlug,
+                    projectId,
+                    issueId,
+                    versionId,
+                  ),
               }}
-              handleRestore={(descriptionHTML) => editorRef.current?.setEditorValue(descriptionHTML, true)}
+              handleRestore={(descriptionHTML) =>
+                editorRef.current?.setEditorValue(descriptionHTML, true)
+              }
               projectId={projectId}
               workspaceSlug={workspaceSlug}
             />
@@ -208,7 +215,12 @@ export const IssueMainContent = observer(function IssueMainContent(props: Props)
         />
       )}
 
-      <IssueActivity workspaceSlug={workspaceSlug} projectId={projectId} issueId={issueId} disabled={isArchived} />
+      <IssueActivity
+        workspaceSlug={workspaceSlug}
+        projectId={projectId}
+        issueId={issueId}
+        disabled={isArchived}
+      />
     </>
   );
 });

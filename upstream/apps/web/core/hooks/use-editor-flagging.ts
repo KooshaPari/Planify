@@ -32,7 +32,9 @@ export type TEditorFlaggingHookProps = {
 /**
  * @description extensions disabled in various editors
  */
-export const useEditorFlagging = (_props: TEditorFlaggingHookProps): TEditorFlaggingHookReturnType => ({
+export const useEditorFlagging = (
+  _props: TEditorFlaggingHookProps,
+): TEditorFlaggingHookReturnType => ({
   document: {
     disabled: ["ai", "collaboration-cursor"],
     flagged: [],

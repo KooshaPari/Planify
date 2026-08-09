@@ -35,22 +35,22 @@ export const Default: Story = {
         <Accordion.Item value="item-1">
           <Accordion.Trigger>What is Plane?</Accordion.Trigger>
           <Accordion.Content>
-            Plane is an open-source project management tool designed for developers and teams to plan, track, and manage
-            their work efficiently.
+            Plane is an open-source project management tool designed for developers and teams to
+            plan, track, and manage their work efficiently.
           </Accordion.Content>
         </Accordion.Item>
         <Accordion.Item value="item-2">
           <Accordion.Trigger>How do I get started?</Accordion.Trigger>
           <Accordion.Content>
-            You can get started by signing up for an account, creating your first workspace, and inviting your team
-            members to collaborate.
+            You can get started by signing up for an account, creating your first workspace, and
+            inviting your team members to collaborate.
           </Accordion.Content>
         </Accordion.Item>
         <Accordion.Item value="item-3">
           <Accordion.Trigger>Is it free to use?</Accordion.Trigger>
           <Accordion.Content>
-            Plane offers both free and paid plans. The free plan includes essential features for small teams, while paid
-            plans unlock advanced functionality.
+            Plane offers both free and paid plans. The free plan includes essential features for
+            small teams, while paid plans unlock advanced functionality.
           </Accordion.Content>
         </Accordion.Item>
       </Accordion.Root>
@@ -64,7 +64,9 @@ export const SingleOpen: Story = {
       <Accordion.Root defaultValue={["item-1"]} className="w-96">
         <Accordion.Item value="item-1">
           <Accordion.Trigger>Section 1</Accordion.Trigger>
-          <Accordion.Content>Content for section 1. Only one section can be open at a time.</Accordion.Content>
+          <Accordion.Content>
+            Content for section 1. Only one section can be open at a time.
+          </Accordion.Content>
         </Accordion.Item>
         <Accordion.Item value="item-2">
           <Accordion.Trigger>Section 2</Accordion.Trigger>
@@ -93,7 +95,9 @@ export const AllowMultiple: Story = {
         </Accordion.Item>
         <Accordion.Item value="item-3">
           <Accordion.Trigger>Third Section</Accordion.Trigger>
-          <Accordion.Content>You can open this section while keeping the others open.</Accordion.Content>
+          <Accordion.Content>
+            You can open this section while keeping the others open.
+          </Accordion.Content>
         </Accordion.Item>
       </Accordion.Root>
     );
@@ -187,7 +191,8 @@ export const AsChildTrigger: Story = {
             </button>
           </Accordion.Trigger>
           <Accordion.Content>
-            When using asChild, you can completely customize the trigger element without the default icon wrapper.
+            When using asChild, you can completely customize the trigger element without the default
+            icon wrapper.
           </Accordion.Content>
         </Accordion.Item>
         <Accordion.Item value="item-2">
@@ -196,7 +201,9 @@ export const AsChildTrigger: Story = {
               Another Custom Trigger
             </button>
           </Accordion.Trigger>
-          <Accordion.Content>This gives you full control over the trigger styling and behavior.</Accordion.Content>
+          <Accordion.Content>
+            This gives you full control over the trigger styling and behavior.
+          </Accordion.Content>
         </Accordion.Item>
       </Accordion.Root>
     );

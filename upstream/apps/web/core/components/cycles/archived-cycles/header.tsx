@@ -29,8 +29,12 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
   // refs
   const inputRef = useRef<HTMLInputElement>(null);
   // hooks
-  const { currentProjectArchivedFilters, archivedCyclesSearchQuery, updateFilters, updateArchivedCyclesSearchQuery } =
-    useCycleFilter();
+  const {
+    currentProjectArchivedFilters,
+    archivedCyclesSearchQuery,
+    updateFilters,
+    updateArchivedCyclesSearchQuery,
+  } = useCycleFilter();
   // states
   const [isSearchOpen, setIsSearchOpen] = useState(archivedCyclesSearchQuery !== "" ? true : false);
   // outside click detector hook
@@ -49,18 +53,20 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
           else newValues.splice(newValues.indexOf(val), 1);
         });
       else {
-        if (currentProjectArchivedFilters?.[key]?.includes(value)) newValues.splice(newValues.indexOf(value), 1);
+        if (currentProjectArchivedFilters?.[key]?.includes(value))
+          newValues.splice(newValues.indexOf(value), 1);
         else newValues.push(value);
       }
 
       updateFilters(projectId.toString(), { [key]: newValues }, "archived");
     },
-    [currentProjectArchivedFilters, projectId, updateFilters]
+    [currentProjectArchivedFilters, projectId, updateFilters],
   );
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
-      if (archivedCyclesSearchQuery && archivedCyclesSearchQuery.trim() !== "") updateArchivedCyclesSearchQuery("");
+      if (archivedCyclesSearchQuery && archivedCyclesSearchQuery.trim() !== "")
+        updateArchivedCyclesSearchQuery("");
       else {
         setIsSearchOpen(false);
         inputRef.current?.blur();
@@ -94,7 +100,7 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
             "ml-auto flex w-0 items-center justify-start gap-1 overflow-hidden rounded-md border border-transparent bg-surface-1 text-placeholder opacity-0 transition-[width] ease-linear",
             {
               "w-64 border-subtle px-2.5 py-1.5 opacity-100": isSearchOpen,
-            }
+            },
           )}
         >
           <SearchIcon className="h-3.5 w-3.5" />

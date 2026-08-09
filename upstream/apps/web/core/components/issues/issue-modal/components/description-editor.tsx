@@ -54,7 +54,9 @@ type TIssueDescriptionEditorProps = {
   onClose: () => void;
 };
 
-export const IssueDescriptionEditor = observer(function IssueDescriptionEditor(props: TIssueDescriptionEditorProps) {
+export const IssueDescriptionEditor = observer(function IssueDescriptionEditor(
+  props: TIssueDescriptionEditorProps,
+) {
   const {
     control,
     isDraft,
@@ -141,7 +143,9 @@ export const IssueDescriptionEditor = observer(function IssueDescriptionEditor(p
           setToast({
             type: TOAST_TYPE.ERROR,
             title: "Error!",
-            message: error || "You have reached the maximum number of requests of 50 requests per month per user.",
+            message:
+              error ||
+              "You have reached the maximum number of requests of 50 requests per month per user.",
           });
         else
           setToast({
@@ -196,7 +200,9 @@ export const IssueDescriptionEditor = observer(function IssueDescriptionEditor(p
                 onEnterKeyPress={() => submitBtnRef?.current?.click()}
                 ref={editorRef}
                 tabIndex={getIndex("description_html")}
-                placeholder={(isFocused, description) => t(getDescriptionPlaceholderI18n(isFocused, description))}
+                placeholder={(isFocused, description) =>
+                  t(getDescriptionPlaceholderI18n(isFocused, description))
+                }
                 searchMentionCallback={async (payload) =>
                   await workspaceService.searchEntity(workspaceSlug?.toString() ?? "", {
                     ...payload,
@@ -230,7 +236,9 @@ export const IssueDescriptionEditor = observer(function IssueDescriptionEditor(p
                     const { asset_id } = await duplicateEditorAsset({
                       assetId,
                       entityId: issueId,
-                      entityType: isDraft ? EFileAssetType.DRAFT_ISSUE_DESCRIPTION : EFileAssetType.ISSUE_DESCRIPTION,
+                      entityType: isDraft
+                        ? EFileAssetType.DRAFT_ISSUE_DESCRIPTION
+                        : EFileAssetType.ISSUE_DESCRIPTION,
                       projectId,
                       workspaceSlug,
                     });

@@ -19,7 +19,9 @@ export type TOperatorForPayload = {
  * @param displayOperator - The operator from the UI
  * @returns Object with supported operator and negation flag
  */
-export const getOperatorForPayload = (displayOperator: TAllAvailableOperatorsForDisplay): TOperatorForPayload => {
+export const getOperatorForPayload = (
+  displayOperator: TAllAvailableOperatorsForDisplay,
+): TOperatorForPayload => {
   const isNegation = false;
   const operator = displayOperator;
 

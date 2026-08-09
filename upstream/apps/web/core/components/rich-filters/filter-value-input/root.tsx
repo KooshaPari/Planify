@@ -28,9 +28,10 @@ import { SingleDateFilterValueInput } from "./date/single";
 import { MultiSelectFilterValueInput } from "./select/multi";
 import { SingleSelectFilterValueInput } from "./select/single";
 
-export const FilterValueInput = observer(function FilterValueInput<P extends TFilterProperty, V extends TFilterValue>(
-  props: TFilterValueInputProps<P, V>
-) {
+export const FilterValueInput = observer(function FilterValueInput<
+  P extends TFilterProperty,
+  V extends TFilterValue,
+>(props: TFilterValueInputProps<P, V>) {
   const { condition, filterFieldConfig, isDisabled = false, onChange } = props;
 
   // Single select input

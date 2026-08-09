@@ -24,7 +24,10 @@ import { EIssuesStoreType } from "@plane/types";
 // ui
 import { CustomMenu } from "@plane/ui";
 // components
-import { DisplayFiltersSelection, FiltersDropdown } from "@/components/issues/issue-layouts/filters";
+import {
+  DisplayFiltersSelection,
+  FiltersDropdown,
+} from "@/components/issues/issue-layouts/filters";
 import { IssueLayoutIcon } from "@/components/issues/issue-layouts/layout-icon";
 // hooks
 import { useIssues } from "@/hooks/store/use-issues";
@@ -49,10 +52,10 @@ export const ProfileIssuesMobileHeader = observer(function ProfileIssuesMobileHe
         undefined,
         EIssueFilterType.DISPLAY_FILTERS,
         { layout: layout as EIssueLayoutTypes | undefined },
-        userId.toString()
+        userId.toString(),
       );
     },
-    [workspaceSlug, updateFilters, userId]
+    [workspaceSlug, updateFilters, userId],
   );
 
   const handleDisplayFilters = useCallback(
@@ -63,10 +66,10 @@ export const ProfileIssuesMobileHeader = observer(function ProfileIssuesMobileHe
         undefined,
         EIssueFilterType.DISPLAY_FILTERS,
         updatedDisplayFilter,
-        userId.toString()
+        userId.toString(),
       );
     },
-    [workspaceSlug, updateFilters, userId]
+    [workspaceSlug, updateFilters, userId],
   );
 
   const handleDisplayProperties = useCallback(
@@ -77,10 +80,10 @@ export const ProfileIssuesMobileHeader = observer(function ProfileIssuesMobileHe
         undefined,
         EIssueFilterType.DISPLAY_PROPERTIES,
         property,
-        userId.toString()
+        userId.toString(),
       );
     },
-    [workspaceSlug, updateFilters, userId]
+    [workspaceSlug, updateFilters, userId],
   );
 
   return (
@@ -99,7 +102,12 @@ export const ProfileIssuesMobileHeader = observer(function ProfileIssuesMobileHe
         closeOnSelect
       >
         {ISSUE_LAYOUTS.map((layout, index) => {
-          if (layout.key === "spreadsheet" || layout.key === "gantt_chart" || layout.key === "calendar") return;
+          if (
+            layout.key === "spreadsheet" ||
+            layout.key === "gantt_chart" ||
+            layout.key === "calendar"
+          )
+            return;
           return (
             <CustomMenu.MenuItem
               key={index}
@@ -127,7 +135,9 @@ export const ProfileIssuesMobileHeader = observer(function ProfileIssuesMobileHe
         >
           <DisplayFiltersSelection
             layoutDisplayFiltersOptions={
-              activeLayout ? ISSUE_DISPLAY_FILTERS_BY_PAGE.profile_issues.layoutOptions[activeLayout] : undefined
+              activeLayout
+                ? ISSUE_DISPLAY_FILTERS_BY_PAGE.profile_issues.layoutOptions[activeLayout]
+                : undefined
             }
             displayFilters={issueFilters?.displayFilters ?? {}}
             handleDisplayFiltersUpdate={handleDisplayFilters}

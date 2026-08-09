@@ -32,7 +32,9 @@ export function FilterLabels(props: Props) {
 
   const appliedFiltersCount = appliedFilters?.length ?? 0;
 
-  const filteredOptions = labels?.filter((label) => label.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredOptions = labels?.filter((label) =>
+    label.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   const handleViewToggle = () => {
     if (!filteredOptions) return;

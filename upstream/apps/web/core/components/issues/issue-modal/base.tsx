@@ -33,7 +33,9 @@ import { IssueFormRoot } from "./form";
 import type { IssueFormProps } from "./form";
 import type { IssuesModalProps } from "./modal";
 
-export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueModalBase(props: IssuesModalProps) {
+export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueModalBase(
+  props: IssuesModalProps,
+) {
   const {
     data,
     isOpen,
@@ -75,7 +77,8 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
   const { issues: projectIssues } = useIssues(EIssuesStoreType.PROJECT);
   const { issues: draftIssues } = useIssues(EIssuesStoreType.WORKSPACE_DRAFT);
   const { fetchIssue } = useIssueDetail();
-  const { allowedProjectIds, handleCreateUpdatePropertyValues, handleCreateSubWorkItem } = useIssueModal();
+  const { allowedProjectIds, handleCreateUpdatePropertyValues, handleCreateSubWorkItem } =
+    useIssueModal();
   const { getProjectByIdentifier } = useProject();
   // current store details
   const { createIssue, updateIssue } = useIssuesActions(storeType);
@@ -135,9 +138,17 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
     if (!workspaceSlug || !issue.project_id) return;
 
     await Promise.all([
-      issues.changeModulesInIssue(workspaceSlug.toString(), issue.project_id, issue.id, moduleIds, []),
+      issues.changeModulesInIssue(
+        workspaceSlug.toString(),
+        issue.project_id,
+        issue.id,
+        moduleIds,
+        [],
+      ),
       ...moduleIds.map(
-        (moduleId) => issue.project_id && fetchModuleDetails(workspaceSlug.toString(), issue.project_id, moduleId)
+        (moduleId) =>
+          issue.project_id &&
+          fetchModuleDetails(workspaceSlug.toString(), issue.project_id, moduleId),
       ),
     ]);
   };
@@ -159,7 +170,7 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
 
   const handleCreateIssue = async (
     payload: Partial<TIssue>,
-    is_draft_issue: boolean = false
+    is_draft_issue: boolean = false,
   ): Promise<TIssue | undefined> => {
     if (!workspaceSlug || !payload.project_id) return;
 
@@ -174,9 +185,14 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
       // use the project issue store to create issues
       else if (
         (payload.cycle_id !== cycleId && storeType === EIssuesStoreType.CYCLE) ||
-        (!payload.module_ids?.includes(moduleId?.toString()) && storeType === EIssuesStoreType.MODULE)
+        (!payload.module_ids?.includes(moduleId?.toString()) &&
+          storeType === EIssuesStoreType.MODULE)
       ) {
-        response = await projectIssues.createIssue(workspaceSlug.toString(), payload.project_id, payload);
+        response = await projectIssues.createIssue(
+          workspaceSlug.toString(),
+          payload.project_id,
+          payload,
+        );
       } // else just use the existing store type's create method
       else if (createIssue) {
         response = await createIssue(payload.project_id, payload);
@@ -190,7 +206,7 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
           response?.id ?? "",
           {
             asset_ids: uploadedAssetIds,
-          }
+          },
         );
         setUploadedAssetIds([]);
       }
@@ -209,7 +225,8 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
         if (
           payload.module_ids &&
           payload.module_ids.length > 0 &&
-          (!payload.module_ids.includes(moduleId?.toString()) || storeType !== EIssuesStoreType.MODULE)
+          (!payload.module_ids.includes(moduleId?.toString()) ||
+            storeType !== EIssuesStoreType.MODULE)
         ) {
           await addIssueToModule(response, payload.module_ids);
         }
@@ -254,7 +271,8 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("error"),
-        message: error?.error ?? t(is_draft_issue ? "draft_creation_failed" : "issue_creation_failed"),
+        message:
+          error?.error ?? t(is_draft_issue ? "draft_creation_failed" : "issue_creation_failed"),
       });
       throw error;
     }
@@ -280,7 +298,11 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
 
     // Adding the cycle
     const newCycleId = payload.cycle_id;
-    if (newCycleId && newCycleId !== "" && (payload.cycle_id !== cycleId || storeType !== EIssuesStoreType.CYCLE)) {
+    if (
+      newCycleId &&
+      newCycleId !== "" &&
+      (payload.cycle_id !== cycleId || storeType !== EIssuesStoreType.CYCLE)
+    ) {
       await addIssueToCycle(data as TBaseIssue, newCycleId);
     }
   };
@@ -316,7 +338,7 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
         data.project_id,
         data.id,
         modulesToAdd,
-        modulesToRemove
+        modulesToRemove,
       );
     }
   };
@@ -382,7 +404,8 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
 
   const handleFormChange = (formData: Partial<TIssue> | null) => setChangesMade(formData);
 
-  const handleUpdateUploadedAssetIds = (assetId: string) => setUploadedAssetIds((prev) => [...prev, assetId]);
+  const handleUpdateUploadedAssetIds = (assetId: string) =>
+    setUploadedAssetIds((prev) => [...prev, assetId]);
 
   const handleDuplicateIssueModal = (value: boolean) => setIsDuplicateModalOpen(value);
 
@@ -420,7 +443,11 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
       className="rounded-lg !bg-transparent shadow-none transition-[width] ease-linear"
     >
       {withDraftIssueWrapper ? (
-        <DraftIssueLayout {...commonIssueModalProps} changesMade={changesMade} onChange={handleFormChange} />
+        <DraftIssueLayout
+          {...commonIssueModalProps}
+          changesMade={changesMade}
+          onChange={handleFormChange}
+        />
       ) : (
         <IssueFormRoot {...commonIssueModalProps} />
       )}

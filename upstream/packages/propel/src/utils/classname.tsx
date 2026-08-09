@@ -50,7 +50,8 @@ const twMerge = extendTailwindMerge<"custom-typography" | "custom-text-color">({
       "font-size": [
         {
           text: [
-            (value: string) => isCustomFontSize(value) || (!isCustomTypography(value) && !isCustomTextColor(value)),
+            (value: string) =>
+              isCustomFontSize(value) || (!isCustomTypography(value) && !isCustomTextColor(value)),
           ],
         },
       ],

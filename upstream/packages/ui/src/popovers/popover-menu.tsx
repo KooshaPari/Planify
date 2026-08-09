@@ -36,7 +36,7 @@ export function PopoverMenu<T>(props: TPopoverMenu<T>) {
       disabled={disabled}
       panelClassName={cn(
         "my-1 w-48 rounded-sm border-[0.5px] border-strong bg-surface-1 px-2 py-2 text-11 shadow-raised-200 focus:outline-none",
-        panelClassName
+        panelClassName,
       )}
       popoverClassName={popoverClassName}
       popoverButtonRef={popoverButtonRef}

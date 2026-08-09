@@ -56,7 +56,7 @@ export function BubbleMenuLinkSelector(props: Props) {
           {
             "bg-layer-1": context.open,
             "text-primary": editor.isActive(CORE_EXTENSIONS.CUSTOM_LINK),
-          }
+          },
         ),
       }}
       getFloatingProps={getFloatingProps}

@@ -63,7 +63,12 @@ const OTHER_MATCHERS: IconMatcher[] = [
 export const getIconForLink = (url: string) => {
   const lowerUrl = url.toLowerCase();
 
-  const allMatchers = [...SOCIAL_MEDIA_MATCHERS, ...PRODUCTIVITY_MATCHERS, ...FILE_TYPE_MATCHERS, ...OTHER_MATCHERS];
+  const allMatchers = [
+    ...SOCIAL_MEDIA_MATCHERS,
+    ...PRODUCTIVITY_MATCHERS,
+    ...FILE_TYPE_MATCHERS,
+    ...OTHER_MATCHERS,
+  ];
 
   const matchedIcon = allMatchers.find(({ pattern }) => pattern.test(lowerUrl));
   return matchedIcon?.icon ?? Link2;

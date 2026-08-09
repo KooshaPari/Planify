@@ -20,18 +20,31 @@ type Props = {
   issueServiceType?: TIssueServiceType;
 };
 
-export const IssueAttachmentsCollapsibleContent = observer(function IssueAttachmentsCollapsibleContent(props: Props) {
-  const { workspaceSlug, projectId, issueId, disabled, issueServiceType = EIssueServiceType.ISSUES } = props;
-  // helper
-  const attachmentHelpers = useAttachmentOperations(workspaceSlug, projectId, issueId, issueServiceType);
-  return (
-    <IssueAttachmentItemList
-      workspaceSlug={workspaceSlug}
-      projectId={projectId}
-      issueId={issueId}
-      disabled={disabled}
-      attachmentHelpers={attachmentHelpers}
-      issueServiceType={issueServiceType}
-    />
-  );
-});
+export const IssueAttachmentsCollapsibleContent = observer(
+  function IssueAttachmentsCollapsibleContent(props: Props) {
+    const {
+      workspaceSlug,
+      projectId,
+      issueId,
+      disabled,
+      issueServiceType = EIssueServiceType.ISSUES,
+    } = props;
+    // helper
+    const attachmentHelpers = useAttachmentOperations(
+      workspaceSlug,
+      projectId,
+      issueId,
+      issueServiceType,
+    );
+    return (
+      <IssueAttachmentItemList
+        workspaceSlug={workspaceSlug}
+        projectId={projectId}
+        issueId={issueId}
+        disabled={disabled}
+        attachmentHelpers={attachmentHelpers}
+        issueServiceType={issueServiceType}
+      />
+    );
+  },
+);

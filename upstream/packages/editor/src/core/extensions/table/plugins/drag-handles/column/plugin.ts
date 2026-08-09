@@ -30,7 +30,9 @@ type TableColumnDragHandlePluginState = {
 
 const TABLE_COLUMN_DRAG_HANDLE_PLUGIN_KEY = new PluginKey("tableColumnHandlerDecorationPlugin");
 
-export const TableColumnDragHandlePlugin = (editor: Editor): Plugin<TableColumnDragHandlePluginState> =>
+export const TableColumnDragHandlePlugin = (
+  editor: Editor,
+): Plugin<TableColumnDragHandlePluginState> =>
   new Plugin<TableColumnDragHandlePluginState>({
     key: TABLE_COLUMN_DRAG_HANDLE_PLUGIN_KEY,
     state: {
@@ -44,7 +46,8 @@ export const TableColumnDragHandlePlugin = (editor: Editor): Plugin<TableColumnD
         const tableMap = TableMap.get(table.node);
 
         // Check if table structure changed (width or position)
-        const tableStructureChanged = prev.tableWidth !== tableMap.width || prev.tableNodePos !== table.pos;
+        const tableStructureChanged =
+          prev.tableWidth !== tableMap.width || prev.tableNodePos !== table.pos;
 
         let isStale = tableStructureChanged;
 
@@ -108,15 +111,20 @@ export const TableColumnDragHandlePlugin = (editor: Editor): Plugin<TableColumnD
     },
     props: {
       decorations(state) {
-        return (TABLE_COLUMN_DRAG_HANDLE_PLUGIN_KEY.getState(state) as TableColumnDragHandlePluginState | undefined)
-          ?.decorations;
+        return (
+          TABLE_COLUMN_DRAG_HANDLE_PLUGIN_KEY.getState(state) as
+            | TableColumnDragHandlePluginState
+            | undefined
+        )?.decorations;
       },
     },
     destroy() {
       // Clean up all renderers when plugin is destroyed
       const state =
         editor.state &&
-        (TABLE_COLUMN_DRAG_HANDLE_PLUGIN_KEY.getState(editor.state) as TableColumnDragHandlePluginState | undefined);
+        (TABLE_COLUMN_DRAG_HANDLE_PLUGIN_KEY.getState(editor.state) as
+          | TableColumnDragHandlePluginState
+          | undefined);
       state?.renderers?.forEach((renderer: ReactRenderer) => {
         try {
           renderer.destroy();

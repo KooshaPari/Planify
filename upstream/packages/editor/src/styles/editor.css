@@ -294,13 +294,16 @@ span:focus .fake-cursor {
 /* numbered, bulleted and to-do lists spacing */
 .prose ol:where(.prose > :first-child):not(:where([class~="not-prose"], [class~="not-prose"] *)),
 .prose
-  ul:not([data-type="taskList"]):where(.prose > :first-child):not(:where([class~="not-prose"], [class~="not-prose"] *)),
+  ul:not([data-type="taskList"]):where(.prose > :first-child):not(
+    :where([class~="not-prose"], [class~="not-prose"] *)
+  ),
 .prose ul[data-type="taskList"]:where(.prose > :first-child) {
   margin-top: 0.25rem !important;
   margin-bottom: 1px !important;
 }
 
-.prose ol:not(:where(.prose > :first-child):not(:where([class~="not-prose"], [class~="not-prose"] *))),
+.prose
+  ol:not(:where(.prose > :first-child):not(:where([class~="not-prose"], [class~="not-prose"] *))),
 .prose
   ul:not([data-type="taskList"]):not(
     :where(.prose > :first-child):not(:where([class~="not-prose"], [class~="not-prose"] *))
@@ -426,8 +429,14 @@ p.editor-paragraph-block + p.editor-paragraph-block {
   padding-top: var(--paragraph-padding-between) !important;
 }
 
-.prose :where(ol):not(:where([class~="not-prose"], [class~="not-prose"] *)) li p.editor-paragraph-block,
-.prose :where(ul):not(:where([class~="not-prose"], [class~="not-prose"] *)) li p.editor-paragraph-block {
+.prose
+  :where(ol):not(:where([class~="not-prose"], [class~="not-prose"] *))
+  li
+  p.editor-paragraph-block,
+.prose
+  :where(ul):not(:where([class~="not-prose"], [class~="not-prose"] *))
+  li
+  p.editor-paragraph-block {
   font-size: var(--font-size-list);
   line-height: var(--line-height-list);
 }

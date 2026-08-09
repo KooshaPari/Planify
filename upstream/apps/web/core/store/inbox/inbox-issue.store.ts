@@ -61,7 +61,7 @@ export class InboxIssueStore implements IInboxIssueStore {
     workspaceSlug: string,
     projectId: string,
     data: TInboxIssue,
-    private store: CoreRootStore
+    private store: CoreRootStore,
   ) {
     this.id = data.id;
     this.status = data.status;
@@ -105,30 +105,48 @@ export class InboxIssueStore implements IInboxIssueStore {
     try {
       if (!this.issue.id) return;
 
-      const inboxIssue = await this.inboxIssueService.update(this.workspaceSlug, this.projectId, this.issue.id, {
-        status: status,
-      });
+      const inboxIssue = await this.inboxIssueService.update(
+        this.workspaceSlug,
+        this.projectId,
+        this.issue.id,
+        {
+          status: status,
+        },
+      );
       runInAction(() => {
         set(this, "status", inboxIssue?.status);
 
         // Handle intake_count transitions
-        if (previousStatus === EInboxIssueStatus.PENDING && inboxIssue.status !== EInboxIssueStatus.PENDING) {
+        if (
+          previousStatus === EInboxIssueStatus.PENDING &&
+          inboxIssue.status !== EInboxIssueStatus.PENDING
+        ) {
           // Changed from PENDING to something else: decrement
-          const currentCount = this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
+          const currentCount =
+            this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
           set(
             this.store.projectRoot.project.projectMap,
             [this.projectId, "intake_count"],
-            Math.max(0, currentCount - 1)
+            Math.max(0, currentCount - 1),
           );
-        } else if (previousStatus !== EInboxIssueStatus.PENDING && inboxIssue.status === EInboxIssueStatus.PENDING) {
+        } else if (
+          previousStatus !== EInboxIssueStatus.PENDING &&
+          inboxIssue.status === EInboxIssueStatus.PENDING
+        ) {
           // Changed from something else to PENDING: increment
-          const currentCount = this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
-          set(this.store.projectRoot.project.projectMap, [this.projectId, "intake_count"], currentCount + 1);
+          const currentCount =
+            this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
+          set(
+            this.store.projectRoot.project.projectMap,
+            [this.projectId, "intake_count"],
+            currentCount + 1,
+          );
         }
       });
 
       // Update counts
-      const currentTotalResults = this.store.projectInbox.inboxIssuePaginationInfo?.total_results ?? 0;
+      const currentTotalResults =
+        this.store.projectInbox.inboxIssuePaginationInfo?.total_results ?? 0;
       const updatedCount = currentTotalResults > 0 ? currentTotalResults - 1 : currentTotalResults;
       set(this.store.projectInbox, ["inboxIssuePaginationInfo", "total_results"], updatedCount);
 
@@ -152,21 +170,27 @@ export class InboxIssueStore implements IInboxIssueStore {
     const wasPending = this.status === EInboxIssueStatus.PENDING;
     try {
       if (!this.issue.id) return;
-      const inboxIssue = await this.inboxIssueService.update(this.workspaceSlug, this.projectId, this.issue.id, {
-        status: inboxStatus,
-        duplicate_to: issueId,
-      });
+      const inboxIssue = await this.inboxIssueService.update(
+        this.workspaceSlug,
+        this.projectId,
+        this.issue.id,
+        {
+          status: inboxStatus,
+          duplicate_to: issueId,
+        },
+      );
       runInAction(() => {
         set(this, "status", inboxIssue?.status);
         set(this, "duplicate_to", inboxIssue?.duplicate_to);
         set(this, "duplicate_issue_detail", inboxIssue?.duplicate_issue_detail);
         // Decrement intake_count if the issue was PENDING
         if (wasPending) {
-          const currentCount = this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
+          const currentCount =
+            this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
           set(
             this.store.projectRoot.project.projectMap,
             [this.projectId, "intake_count"],
-            Math.max(0, currentCount - 1)
+            Math.max(0, currentCount - 1),
           );
         }
       });
@@ -188,24 +212,41 @@ export class InboxIssueStore implements IInboxIssueStore {
     const previousStatus = this.status;
     try {
       if (!this.issue.id) return;
-      const inboxIssue = await this.inboxIssueService.update(this.workspaceSlug, this.projectId, this.issue.id, {
-        status: inboxStatus,
-        snoozed_till: date ? new Date(date) : null,
-      });
+      const inboxIssue = await this.inboxIssueService.update(
+        this.workspaceSlug,
+        this.projectId,
+        this.issue.id,
+        {
+          status: inboxStatus,
+          snoozed_till: date ? new Date(date) : null,
+        },
+      );
       runInAction(() => {
         set(this, "status", inboxIssue?.status);
         set(this, "snoozed_till", inboxIssue?.snoozed_till);
         // Handle intake_count transitions
-        if (previousStatus === EInboxIssueStatus.PENDING && inboxIssue.status === EInboxIssueStatus.SNOOZED) {
-          const currentCount = this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
+        if (
+          previousStatus === EInboxIssueStatus.PENDING &&
+          inboxIssue.status === EInboxIssueStatus.SNOOZED
+        ) {
+          const currentCount =
+            this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
           set(
             this.store.projectRoot.project.projectMap,
             [this.projectId, "intake_count"],
-            Math.max(0, currentCount - 1)
+            Math.max(0, currentCount - 1),
           );
-        } else if (previousStatus !== EInboxIssueStatus.PENDING && inboxIssue.status === EInboxIssueStatus.PENDING) {
-          const currentCount = this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
-          set(this.store.projectRoot.project.projectMap, [this.projectId, "intake_count"], currentCount + 1);
+        } else if (
+          previousStatus !== EInboxIssueStatus.PENDING &&
+          inboxIssue.status === EInboxIssueStatus.PENDING
+        ) {
+          const currentCount =
+            this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
+          set(
+            this.store.projectRoot.project.projectMap,
+            [this.projectId, "intake_count"],
+            currentCount + 1,
+          );
         }
       });
     } catch {
@@ -224,7 +265,12 @@ export class InboxIssueStore implements IInboxIssueStore {
         const issueKey = key as keyof TIssue;
         set(this.issue, issueKey, issue[issueKey]);
       });
-      await this.inboxIssueService.updateIssue(this.workspaceSlug, this.projectId, this.issue.id, issue);
+      await this.inboxIssueService.updateIssue(
+        this.workspaceSlug,
+        this.projectId,
+        this.issue.id,
+        issue,
+      );
       // fetching activity
       this.fetchIssueActivity();
     } catch {
@@ -245,9 +291,12 @@ export class InboxIssueStore implements IInboxIssueStore {
       });
       await this.issueService.patchIssue(this.workspaceSlug, this.projectId, this.issue.id, issue);
       if (issue.cycle_id) {
-        await this.store.issue.issueDetail.addIssueToCycle(this.workspaceSlug, this.projectId, issue.cycle_id, [
-          this.issue.id,
-        ]);
+        await this.store.issue.issueDetail.addIssueToCycle(
+          this.workspaceSlug,
+          this.projectId,
+          issue.cycle_id,
+          [this.issue.id],
+        );
       }
       if (issue.module_ids) {
         await this.store.issue.issueDetail.changeModulesInIssue(
@@ -255,7 +304,7 @@ export class InboxIssueStore implements IInboxIssueStore {
           this.projectId,
           this.issue.id,
           issue.module_ids,
-          []
+          [],
         );
       }
 
@@ -272,7 +321,11 @@ export class InboxIssueStore implements IInboxIssueStore {
   fetchIssueActivity = async () => {
     try {
       if (!this.issue.id) return;
-      await this.store.issue.issueDetail.fetchActivities(this.workspaceSlug, this.projectId, this.issue.id);
+      await this.store.issue.issueDetail.fetchActivities(
+        this.workspaceSlug,
+        this.projectId,
+        this.issue.id,
+      );
     } catch {
       console.error("Failed to fetch issue activity");
     }

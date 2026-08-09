@@ -35,13 +35,15 @@ export const ArchivedCycleLayoutRoot = observer(function ArchivedCycleLayoutRoot
   const totalArchivedCycles = currentProjectArchivedCycleIds?.length ?? 0;
 
   useSWR(
-    workspaceSlug && projectId ? `ARCHIVED_CYCLES_${workspaceSlug.toString()}_${projectId.toString()}` : null,
+    workspaceSlug && projectId
+      ? `ARCHIVED_CYCLES_${workspaceSlug.toString()}_${projectId.toString()}`
+      : null,
     async () => {
       if (workspaceSlug && projectId) {
         await fetchArchivedCycles(workspaceSlug.toString(), projectId.toString());
       }
     },
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   const handleRemoveFilter = (key: keyof TCycleFilters, value: string | null) => {
@@ -81,7 +83,10 @@ export const ArchivedCycleLayoutRoot = observer(function ArchivedCycleLayoutRoot
         </div>
       ) : (
         <div className="relative h-full w-full overflow-auto">
-          <ArchivedCyclesView workspaceSlug={workspaceSlug.toString()} projectId={projectId.toString()} />
+          <ArchivedCyclesView
+            workspaceSlug={workspaceSlug.toString()}
+            projectId={projectId.toString()}
+          />
         </div>
       )}
     </>

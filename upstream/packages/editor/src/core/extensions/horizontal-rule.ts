@@ -73,7 +73,7 @@ export const CustomHorizontalRule = Node.create<HorizontalRuleOptions>({
               },
               {
                 type: this.name,
-              }
+              },
             );
           } else if (isNodeSelection(selection)) {
             currentChain.insertContentAt($originTo.pos, {

@@ -91,7 +91,8 @@ export const ForgotPasswordForm = observer(function ForgotPasswordForm() {
             name="email"
             rules={{
               required: t("auth.common.email.errors.required"),
-              validate: (value) => checkEmailValidity(value) || t("auth.common.email.errors.invalid"),
+              validate: (value) =>
+                checkEmailValidity(value) || t("auth.common.email.errors.invalid"),
             }}
             render={({ field: { value, onChange, ref } }) => (
               <Input

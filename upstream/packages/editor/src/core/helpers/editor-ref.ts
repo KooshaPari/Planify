@@ -33,7 +33,11 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
   return {
     blur: () => editor?.commands.blur(),
     clearEditor: (emitUpdate = false) => {
-      editor?.chain().setMeta(CORE_EDITOR_META.SKIP_FILE_DELETION, true).clearContent(emitUpdate).run();
+      editor
+        ?.chain()
+        .setMeta(CORE_EDITOR_META.SKIP_FILE_DELETION, true)
+        .clearContent(emitUpdate)
+        .run();
     },
     createSelectionAtCursorPosition: () => {
       if (!editor) return;
@@ -140,7 +144,8 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
       const { itemKey } = props;
       const editorItems = getEditorMenuItems(editor);
 
-      const getEditorMenuItem = (itemKey: TEditorCommands) => editorItems.find((item) => item.key === itemKey);
+      const getEditorMenuItem = (itemKey: TEditorCommands) =>
+        editorItems.find((item) => item.key === itemKey);
 
       const item = getEditorMenuItem(itemKey);
       if (item) {
@@ -184,7 +189,13 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
       if (empty) return;
       if (insertOnNextLine) {
         // move cursor to the end of the selection and insert a new line
-        editor.chain().focus().setTextSelection(to).insertContent("<br />").insertContent(contentHTML).run();
+        editor
+          .chain()
+          .focus()
+          .setTextSelection(to)
+          .insertContent("<br />")
+          .insertContent(contentHTML)
+          .run();
       } else {
         // replace selected text with the content provided
         editor.chain().focus().deleteRange({ from, to }).insertContent(contentHTML).run();
@@ -195,13 +206,15 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
       const { itemKey } = props;
       const editorItems = getEditorMenuItems(editor);
 
-      const getEditorMenuItem = (itemKey: TEditorCommands) => editorItems.find((item) => item.key === itemKey);
+      const getEditorMenuItem = (itemKey: TEditorCommands) =>
+        editorItems.find((item) => item.key === itemKey);
       const item = getEditorMenuItem(itemKey);
       if (!item) return false;
 
       return item.isActive(props);
     },
-    listenToRealTimeUpdate: () => provider && { on: provider.on.bind(provider), off: provider.off.bind(provider) },
+    listenToRealTimeUpdate: () =>
+      provider && { on: provider.on.bind(provider), off: provider.off.bind(provider) },
     onDocumentInfoChange: (callback) => {
       const handleDocumentInfoChange = () => {
         if (!editor?.storage) return;

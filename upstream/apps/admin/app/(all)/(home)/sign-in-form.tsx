@@ -67,7 +67,9 @@ export function InstanceSignInForm() {
 
   useEffect(() => {
     if (csrfToken === undefined)
-      authService.requestCSRFToken().then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
+      authService
+        .requestCSRFToken()
+        .then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
   }, [csrfToken]);
 
   useEffect(() => {
@@ -96,7 +98,7 @@ export function InstanceSignInForm() {
 
   const isButtonDisabled = useMemo(
     () => (!isSubmitting && formData.email && formData.password ? false : true),
-    [formData.email, formData.password, isSubmitting]
+    [formData.email, formData.password, isSubmitting],
   );
 
   useEffect(() => {
@@ -128,7 +130,12 @@ export function InstanceSignInForm() {
               <Banner type="error" message={errorData?.message} />
             ) : (
               <>
-                {errorInfo && <AuthBanner bannerData={errorInfo} handleBannerData={(value) => setErrorInfo(value)} />}
+                {errorInfo && (
+                  <AuthBanner
+                    bannerData={errorInfo}
+                    handleBannerData={(value) => setErrorInfo(value)}
+                  />
+                )}
               </>
             )}
             <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />

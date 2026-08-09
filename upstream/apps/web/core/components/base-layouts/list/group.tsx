@@ -13,7 +13,7 @@ import { GroupHeader } from "./group-header";
 import { BaseListItem } from "./item";
 
 export const BaseListGroup = observer(function BaseListGroup<T extends IBaseLayoutsListItem>(
-  props: IBaseLayoutsListGroupProps<T>
+  props: IBaseLayoutsListGroupProps<T>,
 ) {
   const {
     group,

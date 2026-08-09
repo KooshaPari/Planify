@@ -41,28 +41,28 @@ export function ScrollArea(props: TScrollAreaProps) {
       <RadixScrollArea.Scrollbar
         className={cn(
           "group/track flex touch-none bg-transparent transition-colors duration-150 ease-out select-none",
-          sizeStyles[size]
+          sizeStyles[size],
         )}
         orientation="vertical"
       >
         <RadixScrollArea.Thumb
           className={cn(
             "relative flex-1 rounded-[10px] bg-scrollbar-thumb group-hover:bg-scrollbar-thumb-surface-hover group-hover/track:bg-scrollbar-thumb-hover group-active/track:bg-scrollbar-thumb-active",
-            thumbSizeStyles[size]
+            thumbSizeStyles[size],
           )}
         />
       </RadixScrollArea.Scrollbar>
       <RadixScrollArea.Scrollbar
         className={cn(
           "group/track flex touch-none bg-transparent transition-colors duration-150 ease-out select-none",
-          sizeStyles[size]
+          sizeStyles[size],
         )}
         orientation="horizontal"
       >
         <RadixScrollArea.Thumb
           className={cn(
             "relative flex-1 rounded-[10px] bg-scrollbar-thumb group-hover:bg-scrollbar-thumb-surface-hover group-hover/track:bg-scrollbar-thumb-hover group-active/track:bg-scrollbar-thumb-active",
-            thumbSizeStyles[size]
+            thumbSizeStyles[size],
           )}
         />
       </RadixScrollArea.Scrollbar>

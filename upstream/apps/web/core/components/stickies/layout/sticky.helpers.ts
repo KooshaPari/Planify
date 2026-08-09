@@ -24,7 +24,7 @@ export type TargetData = {
 export const getInstructionFromPayload = (
   dropTarget: TDropTarget,
   source: TDropTarget,
-  location: IPragmaticPayloadLocation
+  location: IPragmaticPayloadLocation,
 ): InstructionType | undefined => {
   const dropTargetData = dropTarget?.data as TargetData;
   const sourceData = source?.data as TargetData;

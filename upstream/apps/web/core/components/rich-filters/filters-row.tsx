@@ -30,9 +30,10 @@ export type TFiltersRowProps<K extends TFilterProperty, E extends TExternalFilte
   };
 };
 
-export const FiltersRow = observer(function FiltersRow<K extends TFilterProperty, E extends TExternalFilter>(
-  props: TFiltersRowProps<K, E>
-) {
+export const FiltersRow = observer(function FiltersRow<
+  K extends TFilterProperty,
+  E extends TExternalFilter,
+>(props: TFiltersRowProps<K, E>) {
   const {
     buttonConfig,
     disabledAllOperations: disabledAllOperationsProp = false,
@@ -46,7 +47,8 @@ export const FiltersRow = observer(function FiltersRow<K extends TFilterProperty
   const disabledAllOperations = disabledAllOperationsProp || !filter.configManager.areConfigsReady;
   const hasAnyConditions = filter.allConditionsForDisplay.length > 0;
   const hasAvailableOperations =
-    !disabledAllOperations && (filter.canClearFilters || filter.canSaveView || filter.canUpdateView);
+    !disabledAllOperations &&
+    (filter.canClearFilters || filter.canSaveView || filter.canUpdateView);
 
   const headerButtonConfig: Partial<TAddFilterButtonProps<K, E>["buttonConfig"]> = {
     label: null,
@@ -68,7 +70,12 @@ export const FiltersRow = observer(function FiltersRow<K extends TFilterProperty
   const leftContent = (
     <>
       {filter.allConditionsForDisplay.map((condition) => (
-        <FilterItem key={condition.id} filter={filter} condition={condition} isDisabled={disabledAllOperations} />
+        <FilterItem
+          key={condition.id}
+          filter={filter}
+          condition={condition}
+          isDisabled={disabledAllOperations}
+        />
       ))}
       <AddFilterButton
         filter={filter}
@@ -138,7 +145,9 @@ export const FiltersRow = observer(function FiltersRow<K extends TFilterProperty
   );
 
   const ModalVariant = (
-    <div className="flex min-h-11 w-full flex-wrap items-center gap-2 rounded-lg bg-layer-1 p-2">{mainContent}</div>
+    <div className="flex min-h-11 w-full flex-wrap items-center gap-2 rounded-lg bg-layer-1 p-2">
+      {mainContent}
+    </div>
   );
 
   const HeaderVariant = (
@@ -151,13 +160,21 @@ export const FiltersRow = observer(function FiltersRow<K extends TFilterProperty
     return (
       <RowTransition show={filter.isVisible}>
         <Loader>
-          <Loader.Item height="44px" width="100%" className={cn({ "rounded-none": variant === "header" })} />
+          <Loader.Item
+            height="44px"
+            width="100%"
+            className={cn({ "rounded-none": variant === "header" })}
+          />
         </Loader>
       </RowTransition>
     );
   }
 
-  return <RowTransition show={filter.isVisible}>{variant === "modal" ? ModalVariant : HeaderVariant}</RowTransition>;
+  return (
+    <RowTransition show={filter.isVisible}>
+      {variant === "modal" ? ModalVariant : HeaderVariant}
+    </RowTransition>
+  );
 });
 
 const COMMON_OPERATION_BUTTON_CLASSNAME = "py-1";

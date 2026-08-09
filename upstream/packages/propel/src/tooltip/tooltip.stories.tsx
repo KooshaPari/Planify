@@ -82,7 +82,11 @@ export const Disabled: Story = {
   args: {
     tooltipContent: "This tooltip is disabled",
     disabled: true,
-    children: <button className="bg-gray-400 rounded-sm px-4 py-2 text-on-color">Hover me (disabled)</button>,
+    children: (
+      <button className="bg-gray-400 rounded-sm px-4 py-2 text-on-color">
+        Hover me (disabled)
+      </button>
+    ),
   },
 };
 
@@ -91,7 +95,9 @@ export const LongContent: Story = {
     tooltipHeading: "Important Information",
     tooltipContent:
       "This is a longer tooltip with more detailed information that wraps to multiple lines. It provides comprehensive details about the element.",
-    children: <button className="bg-blue-500 rounded-sm px-4 py-2 text-on-color">Long content</button>,
+    children: (
+      <button className="bg-blue-500 rounded-sm px-4 py-2 text-on-color">Long content</button>
+    ),
   },
 };
 
@@ -99,7 +105,9 @@ export const CustomDelay: Story = {
   args: {
     tooltipContent: "This tooltip has a custom delay",
     openDelay: 1000,
-    children: <button className="bg-blue-500 rounded-sm px-4 py-2 text-on-color">Custom delay (1s)</button>,
+    children: (
+      <button className="bg-blue-500 rounded-sm px-4 py-2 text-on-color">Custom delay (1s)</button>
+    ),
   },
 };
 
@@ -107,7 +115,9 @@ export const CustomOffset: Story = {
   args: {
     tooltipContent: "Custom offset tooltip",
     sideOffset: 20,
-    children: <button className="bg-blue-500 rounded-sm px-4 py-2 text-on-color">Custom offset</button>,
+    children: (
+      <button className="bg-blue-500 rounded-sm px-4 py-2 text-on-color">Custom offset</button>
+    ),
   },
 };
 
@@ -126,7 +136,9 @@ export const AllPositions: Story = {
             <button className="bg-blue-500 rounded-sm px-4 py-2 text-13 text-on-color">Left</button>
           </Tooltip>
           <Tooltip tooltipContent="Right position" position="right">
-            <button className="bg-blue-500 rounded-sm px-4 py-2 text-13 text-on-color">Right</button>
+            <button className="bg-blue-500 rounded-sm px-4 py-2 text-13 text-on-color">
+              Right
+            </button>
           </Tooltip>
         </div>
         <Tooltip tooltipContent="Bottom position" position="bottom">
@@ -146,7 +158,9 @@ export const OnText: Story = {
       <p className="text-gray-700 text-13">
         This is some text with a{" "}
         <Tooltip tooltipContent="Additional information about this word" position="top">
-          <span className="border-blue-500 text-blue-500 cursor-help border-b border-dashed">tooltip</span>
+          <span className="border-blue-500 text-blue-500 cursor-help border-b border-dashed">
+            tooltip
+          </span>
         </Tooltip>{" "}
         in it.
       </p>
@@ -161,7 +175,10 @@ export const OnDisabledButton: Story = {
   render() {
     return (
       <Tooltip tooltipContent="This feature is currently unavailable" position="top">
-        <button className="bg-gray-300 text-gray-500 cursor-not-allowed rounded-sm px-4 py-2" disabled>
+        <button
+          className="bg-gray-300 text-gray-500 cursor-not-allowed rounded-sm px-4 py-2"
+          disabled
+        >
           Disabled Button
         </button>
       </Tooltip>
@@ -187,7 +204,9 @@ export const WithCustomStyling: Story = {
   args: {
     tooltipContent: "Custom styled tooltip",
     className: "bg-purple-500 text-on-color",
-    children: <button className="bg-purple-500 rounded-sm px-4 py-2 text-on-color">Custom style</button>,
+    children: (
+      <button className="bg-purple-500 rounded-sm px-4 py-2 text-on-color">Custom style</button>
+    ),
   },
 };
 
@@ -208,7 +227,9 @@ export const MultipleTooltips: Story = {
           <button className="bg-blue-500 rounded-sm px-4 py-2 text-13 text-on-color">Export</button>
         </Tooltip>
         <Tooltip tooltipContent="Share with team" position="top">
-          <button className="bg-purple-500 rounded-sm px-4 py-2 text-13 text-on-color">Share</button>
+          <button className="bg-purple-500 rounded-sm px-4 py-2 text-13 text-on-color">
+            Share
+          </button>
         </Tooltip>
       </div>
     );

@@ -22,19 +22,26 @@ export interface IProjectPublishStore {
   // helpers
   getPublishSettingsByProjectID: (projectID: string) => TProjectPublishSettings | undefined;
   // actions
-  fetchPublishSettings: (workspaceSlug: string, projectID: string) => Promise<TProjectPublishSettings>;
+  fetchPublishSettings: (
+    workspaceSlug: string,
+    projectID: string,
+  ) => Promise<TProjectPublishSettings>;
   updatePublishSettings: (
     workspaceSlug: string,
     projectID: string,
     projectPublishId: string,
-    data: Partial<TProjectPublishSettings>
+    data: Partial<TProjectPublishSettings>,
   ) => Promise<TProjectPublishSettings>;
   publishProject: (
     workspaceSlug: string,
     projectID: string,
-    data: Partial<TProjectPublishSettings>
+    data: Partial<TProjectPublishSettings>,
   ) => Promise<TProjectPublishSettings>;
-  unPublishProject: (workspaceSlug: string, projectID: string, projectPublishId: string) => Promise<void>;
+  unPublishProject: (
+    workspaceSlug: string,
+    projectID: string,
+    projectPublishId: string,
+  ) => Promise<void>;
 }
 
 export class ProjectPublishStore implements IProjectPublishStore {
@@ -86,7 +93,10 @@ export class ProjectPublishStore implements IProjectPublishStore {
       runInAction(() => {
         this.fetchSettingsLoader = true;
       });
-      const response = await this.projectPublishService.fetchPublishSettings(workspaceSlug, projectID);
+      const response = await this.projectPublishService.fetchPublishSettings(
+        workspaceSlug,
+        projectID,
+      );
 
       runInAction(() => {
         set(this.publishSettingsMap, [projectID], response);
@@ -108,12 +118,20 @@ export class ProjectPublishStore implements IProjectPublishStore {
    * @param data
    * @returns
    */
-  publishProject = async (workspaceSlug: string, projectID: string, data: Partial<TProjectPublishSettings>) => {
+  publishProject = async (
+    workspaceSlug: string,
+    projectID: string,
+    data: Partial<TProjectPublishSettings>,
+  ) => {
     try {
       runInAction(() => {
         this.generalLoader = true;
       });
-      const response = await this.projectPublishService.publishProject(workspaceSlug, projectID, data);
+      const response = await this.projectPublishService.publishProject(
+        workspaceSlug,
+        projectID,
+        data,
+      );
       runInAction(() => {
         set(this.publishSettingsMap, [projectID], response);
         set(this.projectRootStore.project.projectMap, [projectID, "anchor"], response.anchor);
@@ -140,7 +158,7 @@ export class ProjectPublishStore implements IProjectPublishStore {
     workspaceSlug: string,
     projectID: string,
     projectPublishId: string,
-    data: Partial<TProjectPublishSettings>
+    data: Partial<TProjectPublishSettings>,
   ) => {
     try {
       runInAction(() => {
@@ -150,7 +168,7 @@ export class ProjectPublishStore implements IProjectPublishStore {
         workspaceSlug,
         projectID,
         projectPublishId,
-        data
+        data,
       );
       runInAction(() => {
         set(this.publishSettingsMap, [projectID], response);
@@ -177,7 +195,11 @@ export class ProjectPublishStore implements IProjectPublishStore {
       runInAction(() => {
         this.generalLoader = true;
       });
-      const response = await this.projectPublishService.unpublishProject(workspaceSlug, projectID, projectPublishId);
+      const response = await this.projectPublishService.unpublishProject(
+        workspaceSlug,
+        projectID,
+        projectPublishId,
+      );
       runInAction(() => {
         unset(this.publishSettingsMap, [projectID]);
         set(this.projectRootStore.project.projectMap, [projectID, "anchor"], null);

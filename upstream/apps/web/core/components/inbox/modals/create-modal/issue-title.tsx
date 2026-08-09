@@ -17,7 +17,10 @@ import { usePlatformOS } from "@/hooks/use-platform-os";
 
 type TInboxIssueTitle = {
   data: Partial<TIssue>;
-  handleData: (issueKey: keyof Partial<TIssue>, issueValue: Partial<TIssue>[keyof Partial<TIssue>]) => void;
+  handleData: (
+    issueKey: keyof Partial<TIssue>,
+    issueValue: Partial<TIssue>[keyof Partial<TIssue>],
+  ) => void;
   isTitleLengthMoreThan255Character?: boolean;
 };
 
@@ -42,7 +45,9 @@ export const InboxIssueTitle = observer(function InboxIssueTitle(props: TInboxIs
         required
       />
       {isTitleLengthMoreThan255Character && (
-        <span className="text-11 text-danger-primary">{t("title_should_be_less_than_255_characters")}</span>
+        <span className="text-11 text-danger-primary">
+          {t("title_should_be_less_than_255_characters")}
+        </span>
       )}
     </div>
   );

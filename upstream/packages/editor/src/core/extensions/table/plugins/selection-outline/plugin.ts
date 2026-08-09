@@ -19,14 +19,18 @@ type TableCellSelectionOutlinePluginState = {
 
 const TABLE_SELECTION_OUTLINE_PLUGIN_KEY = new PluginKey("table-cell-selection-outline");
 
-export const TableCellSelectionOutlinePlugin = (editor: Editor): Plugin<TableCellSelectionOutlinePluginState> =>
+export const TableCellSelectionOutlinePlugin = (
+  editor: Editor,
+): Plugin<TableCellSelectionOutlinePluginState> =>
   new Plugin<TableCellSelectionOutlinePluginState>({
     key: TABLE_SELECTION_OUTLINE_PLUGIN_KEY,
     state: {
       init: () => ({}),
       apply(tr, prev, oldState, newState) {
         if (!editor.isEditable) return {};
-        const table = findParentNode((node) => node.type.spec.tableRole === "table")(newState.selection);
+        const table = findParentNode((node) => node.type.spec.tableRole === "table")(
+          newState.selection,
+        );
         const hasDocChanged = tr.docChanged || !newState.selection.eq(oldState.selection);
         if (!table || !hasDocChanged) {
           return table === undefined ? {} : prev;

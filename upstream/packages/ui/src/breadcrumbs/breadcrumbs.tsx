@@ -72,7 +72,10 @@ function Breadcrumbs({ className, children, onBack, isLoading = false }: Breadcr
                 ...
               </span>
             )}
-            <ChevronRightIcon className="h-3.5 w-3.5 flex-shrink-0 text-placeholder" aria-hidden="true" />
+            <ChevronRightIcon
+              className="h-3.5 w-3.5 flex-shrink-0 text-placeholder"
+              aria-hidden="true"
+            />
           </div>
           <div className="flex items-center gap-2.5 p-1">
             {isLoading ? (
@@ -117,7 +120,11 @@ type BreadcrumbIconProps = {
 
 function BreadcrumbIcon(props: BreadcrumbIconProps) {
   const { children, className } = props;
-  return <div className={cn("flex size-4 items-center justify-start overflow-hidden", className)}>{children}</div>;
+  return (
+    <div className={cn("flex size-4 items-center justify-start overflow-hidden", className)}>
+      {children}
+    </div>
+  );
 }
 
 // breadcrumb label
@@ -129,7 +136,12 @@ type BreadcrumbLabelProps = {
 function BreadcrumbLabel(props: BreadcrumbLabelProps) {
   const { children, className } = props;
   return (
-    <div className={cn("relative line-clamp-1 block max-w-[150px] truncate overflow-hidden", className)}>
+    <div
+      className={cn(
+        "relative line-clamp-1 block max-w-[150px] truncate overflow-hidden",
+        className,
+      )}
+    >
       {children}
     </div>
   );
@@ -151,7 +163,7 @@ function BreadcrumbSeparator(props: BreadcrumbSeparatorProps) {
       <div
         className={cn(
           "flex flex-shrink-0 items-center justify-center rounded-sm text-placeholder transition-all",
-          containerClassName
+          containerClassName,
         )}
       >
         <ChevronRightIcon className={cn("h-3.5 w-3.5 flex-shrink-0", iconClassName)} />
@@ -171,18 +183,30 @@ type BreadcrumbItemWrapperProps = {
 };
 
 function BreadcrumbItemWrapper(props: BreadcrumbItemWrapperProps) {
-  const { label, disableTooltip = false, children, className, type = "link", isLast = false } = props;
+  const {
+    label,
+    disableTooltip = false,
+    children,
+    className,
+    type = "link",
+    isLast = false,
+  } = props;
   return (
-    <Tooltip tooltipContent={label} position="bottom" disabled={!label || label === "" || disableTooltip}>
+    <Tooltip
+      tooltipContent={label}
+      position="bottom"
+      disabled={!label || label === "" || disableTooltip}
+    >
       <div
         className={cn(
           "group flex h-full cursor-default items-center gap-2 rounded-sm px-1.5 py-1 text-13 font-medium",
           {
             "text-primary": isLast,
             "text-tertiary": !isLast,
-            "cursor-pointer hover:bg-layer-transparent-hover hover:text-primary": type === "link" && !isLast,
+            "cursor-pointer hover:bg-layer-transparent-hover hover:text-primary":
+              type === "link" && !isLast,
           },
-          className
+          className,
         )}
       >
         {children}
@@ -197,4 +221,11 @@ Breadcrumbs.Label = BreadcrumbLabel;
 Breadcrumbs.Separator = BreadcrumbSeparator;
 Breadcrumbs.ItemWrapper = BreadcrumbItemWrapper;
 
-export { Breadcrumbs, BreadcrumbItem, BreadcrumbIcon, BreadcrumbLabel, BreadcrumbSeparator, BreadcrumbItemWrapper };
+export {
+  Breadcrumbs,
+  BreadcrumbItem,
+  BreadcrumbIcon,
+  BreadcrumbLabel,
+  BreadcrumbSeparator,
+  BreadcrumbItemWrapper,
+};

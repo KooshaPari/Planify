@@ -8,8 +8,16 @@
 import type { IIssueLabel, TFilterProperty, TSupportedOperators } from "@plane/types";
 import { EQUALITY_OPERATOR, COLLECTION_OPERATOR } from "@plane/types";
 // local imports
-import type { TCreateFilterConfigParams, IFilterIconConfig, TCreateFilterConfig } from "../../../rich-filters";
-import { createFilterConfig, getMultiSelectConfig, createOperatorConfigEntry } from "../../../rich-filters";
+import type {
+  TCreateFilterConfigParams,
+  IFilterIconConfig,
+  TCreateFilterConfig,
+} from "../../../rich-filters";
+import {
+  createFilterConfig,
+  getMultiSelectConfig,
+  createOperatorConfigEntry,
+} from "../../../rich-filters";
 
 /**
  * Label filter specific params
@@ -24,7 +32,10 @@ export type TCreateLabelFilterParams = TCreateFilterConfigParams &
  * @param params - The filter params
  * @returns The label multi select config
  */
-export const getLabelMultiSelectConfig = (params: TCreateLabelFilterParams, singleValueOperator: TSupportedOperators) =>
+export const getLabelMultiSelectConfig = (
+  params: TCreateLabelFilterParams,
+  singleValueOperator: TSupportedOperators,
+) =>
   getMultiSelectConfig<IIssueLabel, string, string>(
     {
       items: params.labels,
@@ -39,7 +50,7 @@ export const getLabelMultiSelectConfig = (params: TCreateLabelFilterParams, sing
     },
     {
       getOptionIcon: params.getOptionIcon,
-    }
+    },
   );
 
 /**
@@ -58,7 +69,7 @@ export const getLabelFilterConfig =
       icon: params.filterIcon,
       supportedOperatorConfigsMap: new Map([
         createOperatorConfigEntry(COLLECTION_OPERATOR.IN, params, (updatedParams) =>
-          getLabelMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT)
+          getLabelMultiSelectConfig(updatedParams, EQUALITY_OPERATOR.EXACT),
         ),
       ]),
     });

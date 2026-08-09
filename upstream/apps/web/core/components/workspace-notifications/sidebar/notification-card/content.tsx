@@ -36,7 +36,9 @@ export type TNotificationContentDetails = {
   showConnector?: boolean;
 };
 
-export type TNotificationContentHandler = (data: TNotificationFieldData) => TNotificationContentDetails | null;
+export type TNotificationContentHandler = (
+  data: TNotificationFieldData,
+) => TNotificationContentDetails | null;
 
 export type TNotificationContentMap = {
   [key: string]: TNotificationContentHandler;
@@ -119,7 +121,7 @@ export const BASE_NOTIFICATION_CONTENT_MAP: TNotificationContentMap = {
 // Helper to get content details from maps
 const getNotificationContentDetails = (
   fieldData: TNotificationFieldData,
-  renderCommentBox?: boolean
+  renderCommentBox?: boolean,
 ): TNotificationContentDetails | null => {
   const { field } = fieldData;
   if (!field) return null;
@@ -129,10 +131,12 @@ const getNotificationContentDetails = (
   if (baseHandler) {
     // Special case for comment field that needs renderCommentBox
     if (field === "comment") {
-      return (baseHandler as (data: TNotificationFieldData, renderCommentBox?: boolean) => TNotificationContentDetails)(
-        fieldData,
-        renderCommentBox
-      );
+      return (
+        baseHandler as (
+          data: TNotificationFieldData,
+          renderCommentBox?: boolean,
+        ) => TNotificationContentDetails
+      )(fieldData, renderCommentBox);
     }
     return baseHandler(fieldData);
   }
@@ -201,7 +205,9 @@ export function NotificationContent({
 
   // Determine if connector should be shown - prefer map value, fallback to function
   const showConnector =
-    contentDetails?.showConnector !== undefined ? contentDetails.showConnector : shouldShowConnector(notificationField);
+    contentDetails?.showConnector !== undefined
+      ? contentDetails.showConnector
+      : shouldShowConnector(notificationField);
 
   return (
     <>

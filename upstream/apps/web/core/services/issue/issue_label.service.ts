@@ -31,7 +31,11 @@ export class IssueLabelService extends APIService {
       });
   }
 
-  async createIssueLabel(workspaceSlug: string, projectId: string, data: any): Promise<IIssueLabel> {
+  async createIssueLabel(
+    workspaceSlug: string,
+    projectId: string,
+    data: any,
+  ): Promise<IIssueLabel> {
     return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/issue-labels/`, data)
       .then((response) => response?.data)
       .catch((error) => {
@@ -39,8 +43,16 @@ export class IssueLabelService extends APIService {
       });
   }
 
-  async patchIssueLabel(workspaceSlug: string, projectId: string, labelId: string, data: any): Promise<any> {
-    return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/issue-labels/${labelId}/`, data)
+  async patchIssueLabel(
+    workspaceSlug: string,
+    projectId: string,
+    labelId: string,
+    data: any,
+  ): Promise<any> {
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/issue-labels/${labelId}/`,
+      data,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
@@ -48,7 +60,9 @@ export class IssueLabelService extends APIService {
   }
 
   async deleteIssueLabel(workspaceSlug: string, projectId: string, labelId: string): Promise<any> {
-    return this.delete(`/api/workspaces/${workspaceSlug}/projects/${projectId}/issue-labels/${labelId}/`)
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/issue-labels/${labelId}/`,
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

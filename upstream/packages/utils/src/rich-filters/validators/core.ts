@@ -37,7 +37,7 @@ export const hasValidValue = (value: SingleOrArray<TFilterValue>): boolean => {
  * @returns True if we should notify, false otherwise
  */
 export const shouldNotifyChangeForExpression = <P extends TFilterProperty>(
-  expression: TFilterExpression<P> | null
+  expression: TFilterExpression<P> | null,
 ): boolean => {
   if (!expression) {
     return false;

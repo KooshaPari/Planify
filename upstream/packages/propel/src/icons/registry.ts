@@ -26,7 +26,13 @@ import {
   UpgradeIcon,
 } from "./actions";
 // Arrow icons
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon, ReplyIcon } from "./arrows";
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  ReplyIcon,
+} from "./arrows";
 // Default icon
 import { DefaultIcon } from "./default-icon";
 // Layout icons
@@ -42,7 +48,15 @@ import {
 // Misc icons
 import { InfoIcon } from "./misc";
 // Project icons
-import { CycleIcon, EpicIcon, IntakeIcon, ModuleIcon, PageIcon, ViewsIcon, WorkItemsIcon } from "./project";
+import {
+  CycleIcon,
+  EpicIcon,
+  IntakeIcon,
+  ModuleIcon,
+  PageIcon,
+  ViewsIcon,
+  WorkItemsIcon,
+} from "./project";
 // Property icons
 import {
   BooleanPropertyIcon,

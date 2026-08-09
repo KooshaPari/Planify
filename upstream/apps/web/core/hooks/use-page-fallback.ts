@@ -7,7 +7,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { EditorRefApi, CollaborationState } from "@plane/editor";
 // plane editor
-import { convertBinaryDataToBase64String, getBinaryDataFromDocumentEditorHTMLString } from "@plane/editor";
+import {
+  convertBinaryDataToBase64String,
+  getBinaryDataFromDocumentEditorHTMLString,
+} from "@plane/editor";
 // plane types
 import type { TDocumentPayload } from "@plane/types";
 // hooks
@@ -38,7 +41,9 @@ export const usePageFallback = (args: TArgs) => {
 
     // Show toast notification when fallback mechanism kicks in (only once)
     if (!hasShownFallbackToast.current) {
-      console.warn("Websocket Connection lost, your changes are being saved using backup mechanism.");
+      console.warn(
+        "Websocket Connection lost, your changes are being saved using backup mechanism.",
+      );
       hasShownFallbackToast.current = true;
     }
 
@@ -53,7 +58,7 @@ export const usePageFallback = (args: TArgs) => {
         const pageDescriptionHtml = page.description_html;
         latestDecodedDescription = getBinaryDataFromDocumentEditorHTMLString(
           pageDescriptionHtml ?? "<p></p>",
-          page.name
+          page.name,
         );
       }
 
@@ -72,7 +77,14 @@ export const usePageFallback = (args: TArgs) => {
     } finally {
       setIsFetchingFallbackBinary(false);
     }
-  }, [editorRef, fetchPageDescription, hasConnectionFailed, updatePageDescription, page.description_html, page.name]);
+  }, [
+    editorRef,
+    fetchPageDescription,
+    hasConnectionFailed,
+    updatePageDescription,
+    page.description_html,
+    page.name,
+  ]);
 
   useEffect(() => {
     if (hasConnectionFailed) {

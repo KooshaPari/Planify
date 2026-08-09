@@ -29,7 +29,11 @@ export interface IIssueLabelSelect {
   issueId: string;
   values: string[];
   onSelect: (_labelIds: string[]) => void;
-  onAddLabel: (workspaceSlug: string, projectId: string, data: Partial<IIssueLabel>) => Promise<any>;
+  onAddLabel: (
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<IIssueLabel>,
+  ) => Promise<any>;
 }
 
 export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssueLabelSelect) {
@@ -47,7 +51,13 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssue
   const [submitting, setSubmitting] = useState<boolean>(false);
 
   const canCreateLabel =
-    projectId && allowPermissions([EUserProjectRoles.ADMIN], EUserPermissionsLevel.PROJECT, workspaceSlug, projectId);
+    projectId &&
+    allowPermissions(
+      [EUserProjectRoles.ADMIN],
+      EUserPermissionsLevel.PROJECT,
+      workspaceSlug,
+      projectId,
+    );
 
   const projectLabels = getProjectLabels(projectId);
 
@@ -76,7 +86,9 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssue
   }));
 
   const filteredOptions =
-    query === "" ? options : options?.filter((option) => option.query.toLowerCase().includes(query.toLowerCase()));
+    query === ""
+      ? options
+      : options?.filter((option) => option.query.toLowerCase().includes(query.toLowerCase()));
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: "bottom-start",
@@ -109,7 +121,10 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssue
 
   const handleAddLabel = async (labelName: string) => {
     setSubmitting(true);
-    const label = await onAddLabel(workspaceSlug, projectId, { name: labelName, color: getRandomLabelColor() });
+    const label = await onAddLabel(workspaceSlug, projectId, {
+      name: labelName,
+      color: getRandomLabelColor(),
+    });
     onSelect([...values, label.id]);
     setQuery("");
     setSubmitting(false);
@@ -160,7 +175,9 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssue
                 />
               </div>
             </div>
-            <div className={`vertical-scrollbar mt-2 scrollbar-sm max-h-48 space-y-1 overflow-y-scroll px-2 pr-0`}>
+            <div
+              className={`vertical-scrollbar mt-2 scrollbar-sm max-h-48 space-y-1 overflow-y-scroll px-2 pr-0`}
+            >
               {isLoading ? (
                 <p className="text-center text-secondary">{t("common.loading")}</p>
               ) : filteredOptions.length > 0 ? (
@@ -201,8 +218,8 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssue
                 >
                   {query.length ? (
                     <>
-                      {/* TODO: Translate here */}+ Add <span className="text-primary">&quot;{query}&quot;</span> to
-                      labels
+                      {/* TODO: Translate here */}+ Add{" "}
+                      <span className="text-primary">&quot;{query}&quot;</span> to labels
                     </>
                   ) : (
                     t("label.create.type")

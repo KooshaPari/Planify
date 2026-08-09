@@ -31,7 +31,7 @@ export const usePagesPaneExtensions = (_params: TPageExtensionHookParams) => {
 
   // Generic navigation pane logic - hook manages feature-specific routing
   const navigationPaneQueryParam = searchParams.get(
-    PAGE_NAVIGATION_PANE_TABS_QUERY_PARAM
+    PAGE_NAVIGATION_PANE_TABS_QUERY_PARAM,
   ) as TPageNavigationPaneTab | null;
 
   const isNavigationPaneOpen =
@@ -53,7 +53,10 @@ export const usePagesPaneExtensions = (_params: TPageExtensionHookParams) => {
 
   const handleCloseNavigationPane = useCallback(() => {
     const updatedRoute = updateQueryParams({
-      paramsToRemove: [PAGE_NAVIGATION_PANE_TABS_QUERY_PARAM, PAGE_NAVIGATION_PANE_VERSION_QUERY_PARAM],
+      paramsToRemove: [
+        PAGE_NAVIGATION_PANE_TABS_QUERY_PARAM,
+        PAGE_NAVIGATION_PANE_VERSION_QUERY_PARAM,
+      ],
     });
     router.push(updatedRoute);
   }, [router, updateQueryParams]);

@@ -20,7 +20,9 @@ type Props = {
   handleSelection: (data: unknown) => void;
 };
 
-export const PowerKModuleContextBasedPages = observer(function PowerKModuleContextBasedPages(props: Props) {
+export const PowerKModuleContextBasedPages = observer(function PowerKModuleContextBasedPages(
+  props: Props,
+) {
   const { activePage, handleSelection } = props;
   // navigation
   const { moduleId } = useParams();
@@ -31,7 +33,9 @@ export const PowerKModuleContextBasedPages = observer(function PowerKModuleConte
   } = useMember();
   // derived values
   const moduleDetails = moduleId ? getModuleById(moduleId.toString()) : null;
-  const projectMemberIds = moduleDetails?.project_id ? getProjectMemberIds(moduleDetails.project_id, false) : [];
+  const projectMemberIds = moduleDetails?.project_id
+    ? getProjectMemberIds(moduleDetails.project_id, false)
+    : [];
 
   if (!moduleDetails) return null;
 

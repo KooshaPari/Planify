@@ -109,7 +109,9 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       [
         "code",
         {
-          class: node.attrs.language ? this.options.languageClassPrefix + node.attrs.language : null,
+          class: node.attrs.language
+            ? this.options.languageClassPrefix + node.attrs.language
+            : null,
         },
         0,
       ],

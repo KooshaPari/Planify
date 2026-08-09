@@ -30,7 +30,9 @@ export const orderCycles = (cycles: ICycle[], sortByManual: boolean): ICycle[] =
     draft: 3,
   };
 
-  let filteredCycles = cycles.filter((c) => acceptedStatuses.includes(c.status?.toLowerCase() ?? ""));
+  let filteredCycles = cycles.filter((c) =>
+    acceptedStatuses.includes(c.status?.toLowerCase() ?? ""),
+  );
   if (sortByManual) filteredCycles = sortBy(filteredCycles, [(c) => c.sort_order]);
   else
     filteredCycles = sortBy(filteredCycles, [
@@ -56,7 +58,8 @@ export const shouldFilterCycle = (cycle: ICycle, filter: TCycleFilters): boolean
     if (filterKey === "start_date" && filter.start_date && filter.start_date.length > 0) {
       const startDate = getDate(cycle.start_date);
       filter.start_date.forEach((dateFilter) => {
-        fallsInFilters = fallsInFilters && !!startDate && satisfiesDateFilter(startDate, dateFilter);
+        fallsInFilters =
+          fallsInFilters && !!startDate && satisfiesDateFilter(startDate, dateFilter);
       });
     }
     if (filterKey === "end_date" && filter.end_date && filter.end_date.length > 0) {
@@ -76,7 +79,8 @@ export const shouldFilterCycle = (cycle: ICycle, filter: TCycleFilters): boolean
  * @param {boolean} isTypeIssue - Whether the type is an issue
  * @returns {number} Calculated scope
  */
-const scope = (p: any, isTypeIssue: boolean) => (isTypeIssue ? p.total_issues : p.total_estimate_points);
+const scope = (p: any, isTypeIssue: boolean) =>
+  isTypeIssue ? p.total_issues : p.total_estimate_points;
 
 /**
  * Calculates the ideal progress value
@@ -89,7 +93,7 @@ const ideal = (date: string, scope: number, cycle: ICycle) =>
   Math.floor(
     ((findTotalDaysInRange(date, cycle.end_date) || 0) /
       (findTotalDaysInRange(cycle.start_date, cycle.end_date) || 0)) *
-      scope
+      scope,
   );
 
 /**
@@ -100,7 +104,12 @@ const ideal = (date: string, scope: number, cycle: ICycle) =>
  * @param {Date|string} endDate - End date
  * @returns {TProgressChartData} Formatted progress data
  */
-const formatV1Data = (isTypeIssue: boolean, cycle: ICycle, isBurnDown: boolean, endDate: Date | string) => {
+const formatV1Data = (
+  isTypeIssue: boolean,
+  cycle: ICycle,
+  isBurnDown: boolean,
+  endDate: Date | string,
+) => {
   const today = format(startOfToday(), "yyyy-MM-dd");
   const data = isTypeIssue ? cycle.distribution : cycle.estimate_distribution;
   const extendedArray = generateDateArray(endDate, endDate).map((d) => d.date);
@@ -116,11 +125,23 @@ const formatV1Data = (isTypeIssue: boolean, cycle: ICycle, isBurnDown: boolean, 
       scope: p < today ? scope(cycle, isTypeIssue) : null,
       completed,
       backlog: isTypeIssue ? cycle.backlog_issues : cycle.backlog_estimate_points,
-      started: p === today ? cycle[isTypeIssue ? "started_issues" : "started_estimate_points"] : undefined,
-      unstarted: p === today ? cycle[isTypeIssue ? "unstarted_issues" : "unstarted_estimate_points"] : undefined,
-      cancelled: p === today ? cycle[isTypeIssue ? "cancelled_issues" : "cancelled_estimate_points"] : undefined,
+      started:
+        p === today ? cycle[isTypeIssue ? "started_issues" : "started_estimate_points"] : undefined,
+      unstarted:
+        p === today
+          ? cycle[isTypeIssue ? "unstarted_issues" : "unstarted_estimate_points"]
+          : undefined,
+      cancelled:
+        p === today
+          ? cycle[isTypeIssue ? "cancelled_issues" : "cancelled_estimate_points"]
+          : undefined,
       pending: Math.abs(pending || 0),
-      ideal: p < today ? ideal(p, total || 0, cycle) : p <= cycle.end_date! ? ideal(today, total || 0, cycle) : null,
+      ideal:
+        p < today
+          ? ideal(p, total || 0, cycle)
+          : p <= cycle.end_date!
+            ? ideal(today, total || 0, cycle)
+            : null,
       actual: p <= today ? (isBurnDown ? Math.abs(pending) : completed) : undefined,
     };
   });
@@ -136,7 +157,12 @@ const formatV1Data = (isTypeIssue: boolean, cycle: ICycle, isBurnDown: boolean, 
  * @param {Date|string} endDate - End date
  * @returns {TProgressChartData} Formatted progress data
  */
-const formatV2Data = (isTypeIssue: boolean, cycle: ICycle, isBurnDown: boolean, endDate: Date | string) => {
+const formatV2Data = (
+  isTypeIssue: boolean,
+  cycle: ICycle,
+  isBurnDown: boolean,
+  endDate: Date | string,
+) => {
   if (!cycle.progress) return [];
   let today: Date | string = startOfToday();
 
@@ -156,7 +182,12 @@ const formatV2Data = (isTypeIssue: boolean, cycle: ICycle, isBurnDown: boolean, 
 
     return {
       date: dataDate,
-      scope: dataDate! < today ? scope(p, isTypeIssue) : dataDate! <= cycle.end_date! ? scopeToday : null,
+      scope:
+        dataDate! < today
+          ? scope(p, isTypeIssue)
+          : dataDate! <= cycle.end_date!
+            ? scopeToday
+            : null,
       completed,
       backlog: isTypeIssue ? p.backlog_issues : p.backlog_estimate_points,
       started: isTypeIssue ? p.started_issues : p.started_estimate_points,
@@ -202,7 +233,7 @@ export const formatActiveCycle = (args: {
 export const calculateCycleProgress = (
   cycle: ICycle | undefined,
   estimateType: "issues" | "points" = "issues",
-  includeInProgress: boolean = false
+  includeInProgress: boolean = false,
 ): number => {
   if (!cycle) return 0;
 

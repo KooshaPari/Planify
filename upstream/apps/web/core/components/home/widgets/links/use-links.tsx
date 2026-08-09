@@ -94,12 +94,20 @@ export const useLinks = (workspaceSlug: string) => {
         }
       },
     }),
-    [workspaceSlug]
+    [workspaceSlug],
   );
 
   const handleOnClose = () => {
     toggleLinkModal(false);
   };
 
-  return { linkOperations, handleOnClose, isLinkModalOpen, toggleLinkModal, linkData, setLinkData, fetchLinks };
+  return {
+    linkOperations,
+    handleOnClose,
+    isLinkModalOpen,
+    toggleLinkModal,
+    linkData,
+    setLinkData,
+    fetchLinks,
+  };
 };

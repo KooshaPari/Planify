@@ -16,7 +16,7 @@ export class ProjectArchiveService extends APIService {
 
   async archiveProject(
     workspaceSlug: string,
-    projectId: string
+    projectId: string,
   ): Promise<{
     archived_at: string;
   }> {

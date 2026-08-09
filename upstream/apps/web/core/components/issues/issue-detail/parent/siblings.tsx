@@ -19,7 +19,9 @@ export type TIssueParentSiblings = {
   parentIssue: TIssue;
 };
 
-export const IssueParentSiblings = observer(function IssueParentSiblings(props: TIssueParentSiblings) {
+export const IssueParentSiblings = observer(function IssueParentSiblings(
+  props: TIssueParentSiblings,
+) {
   const { workspaceSlug, currentIssue, parentIssue } = props;
   // hooks
   const {
@@ -33,7 +35,7 @@ export const IssueParentSiblings = observer(function IssueParentSiblings(props: 
       : null,
     parentIssue && parentIssue.project_id
       ? () => fetchSubIssues(workspaceSlug, parentIssue.project_id!, parentIssue.id)
-      : null
+      : null,
   );
 
   const subIssueIds = (parentIssue && subIssuesByIssueId(parentIssue.id)) || undefined;
@@ -48,8 +50,12 @@ export const IssueParentSiblings = observer(function IssueParentSiblings(props: 
         subIssueIds.map(
           (issueId) =>
             currentIssue.id != issueId && (
-              <IssueParentSiblingItem key={issueId} workspaceSlug={workspaceSlug} issueId={issueId} />
-            )
+              <IssueParentSiblingItem
+                key={issueId}
+                workspaceSlug={workspaceSlug}
+                issueId={issueId}
+              />
+            ),
         )
       ) : (
         <div className="flex items-center gap-2 px-1 py-1 text-left text-11 whitespace-nowrap text-secondary">

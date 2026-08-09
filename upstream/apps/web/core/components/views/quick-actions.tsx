@@ -43,11 +43,16 @@ export const ViewQuickActions = observer(function ViewQuickActions(props: Props)
   const { allowPermissions } = useUserPermissions();
   // auth
   const isOwner = view?.owned_by === data?.id;
-  const isAdmin = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT, workspaceSlug, projectId);
+  const isAdmin = allowPermissions(
+    [EUserPermissions.ADMIN],
+    EUserPermissionsLevel.PROJECT,
+    workspaceSlug,
+    projectId,
+  );
 
   const { isPublishModalOpen, setPublishModalOpen, publishContextMenu } = useViewPublish(
     !!view.anchor,
-    isAdmin || isOwner
+    isAdmin || isOwner,
   );
 
   const viewLink = `${workspaceSlug}/projects/${projectId}/views/${view.id}`;
@@ -97,8 +102,16 @@ export const ViewQuickActions = observer(function ViewQuickActions(props: Props)
         projectId={projectId}
         data={view}
       />
-      <DeleteProjectViewModal data={view} isOpen={deleteViewModal} onClose={() => setDeleteViewModal(false)} />
-      <PublishViewModal isOpen={isPublishModalOpen} onClose={() => setPublishModalOpen(false)} view={view} />
+      <DeleteProjectViewModal
+        data={view}
+        isOpen={deleteViewModal}
+        onClose={() => setDeleteViewModal(false)}
+      />
+      <PublishViewModal
+        isOpen={isPublishModalOpen}
+        onClose={() => setPublishModalOpen(false)}
+        view={view}
+      />
       {additionalModals}
       <ContextMenu parentRef={parentRef} items={CONTEXT_MENU_ITEMS} />
       <CustomMenu
@@ -120,7 +133,7 @@ export const ViewQuickActions = observer(function ViewQuickActions(props: Props)
                 {
                   "text-placeholder": item.disabled,
                 },
-                item.className
+                item.className,
               )}
               disabled={item.disabled}
             >

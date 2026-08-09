@@ -30,7 +30,9 @@ type Props<T extends IBaseLayoutsBaseItem> = {
   renderItem: (item: T) => React.ReactNode;
 };
 
-export const BaseGanttSidebar = observer(function BaseGanttSidebar<T extends IBaseLayoutsBaseItem>(props: Props<T>) {
+export const BaseGanttSidebar = observer(function BaseGanttSidebar<T extends IBaseLayoutsBaseItem>(
+  props: Props<T>,
+) {
   const {
     blockUpdateHandler,
     blockIds,
@@ -43,7 +45,8 @@ export const BaseGanttSidebar = observer(function BaseGanttSidebar<T extends IBa
     renderItem,
   } = props;
 
-  const { getBlockById, updateActiveBlockId, isBlockActive, getNumberOfDaysFromPosition } = useTimeLineChartStore();
+  const { getBlockById, updateActiveBlockId, isBlockActive, getNumberOfDaysFromPosition } =
+    useTimeLineChartStore();
 
   const [intersectionElement, setIntersectionElement] = useState<HTMLDivElement | null>(null);
 
@@ -53,15 +56,22 @@ export const BaseGanttSidebar = observer(function BaseGanttSidebar<T extends IBa
     ganttContainerRef,
     isPaginating ? null : intersectionElement,
     loadMoreItems ? () => loadMoreItems("") : undefined,
-    "100% 0% 100% 0%"
+    "100% 0% 100% 0%",
   );
 
   const handleOnDrop = (
     draggingBlockId: string | undefined,
     droppedBlockId: string | undefined,
-    dropAtEndOfList: boolean
+    dropAtEndOfList: boolean,
   ) => {
-    handleOrderChange(draggingBlockId, droppedBlockId, dropAtEndOfList, blockIds, getBlockById, blockUpdateHandler);
+    handleOrderChange(
+      draggingBlockId,
+      droppedBlockId,
+      dropAtEndOfList,
+      blockIds,
+      getBlockById,
+      blockUpdateHandler,
+    );
   };
 
   return (
@@ -96,7 +106,9 @@ export const BaseGanttSidebar = observer(function BaseGanttSidebar<T extends IBa
                   {(isDragging: boolean) => {
                     const block = getBlockById(blockId);
                     const isBlockComplete = !!block?.start_date && !!block?.target_date;
-                    const duration = isBlockComplete ? getNumberOfDaysFromPosition(block?.position?.width) : undefined;
+                    const duration = isBlockComplete
+                      ? getNumberOfDaysFromPosition(block?.position?.width)
+                      : undefined;
                     const isBlockHoveredOn = isBlockActive(blockId);
 
                     return (
@@ -112,7 +124,7 @@ export const BaseGanttSidebar = observer(function BaseGanttSidebar<T extends IBa
                             "group flex w-full items-center gap-2 bg-layer-transparent pr-4 hover:bg-layer-transparent-hover",
                             {
                               "bg-layer-transparent-hover": isBlockHoveredOn,
-                            }
+                            },
                           )}
                           style={{
                             height: `${BLOCK_HEIGHT}px`,

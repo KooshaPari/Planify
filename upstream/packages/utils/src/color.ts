@@ -175,7 +175,10 @@ export const getLuminance = ({ r, g, b }: TRgb) => {
  * @param {Object} rgb2 - Second RGB color object
  * @returns {number} Contrast ratio between the colors
  */
-export function getContrastRatio(rgb1: { r: number; g: number; b: number }, rgb2: { r: number; g: number; b: number }) {
+export function getContrastRatio(
+  rgb1: { r: number; g: number; b: number },
+  rgb2: { r: number; g: number; b: number },
+) {
   const luminance1 = getLuminance(rgb1);
   const luminance2 = getLuminance(rgb2);
 
@@ -240,7 +243,9 @@ export function generateIconColors(color: string) {
       let darkenAmount = 0.1;
       while (darkenAmount <= 0.9) {
         adjustedForeground = darkenColor(foregroundColor, darkenAmount);
-        if (getContrastRatio(adjustedForeground, { r: 255, g: 255, b: 255 }) >= MIN_CONTRAST_RATIO) {
+        if (
+          getContrastRatio(adjustedForeground, { r: 255, g: 255, b: 255 }) >= MIN_CONTRAST_RATIO
+        ) {
           break;
         }
         darkenAmount += 0.1;

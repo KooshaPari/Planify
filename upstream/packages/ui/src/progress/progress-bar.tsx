@@ -45,7 +45,8 @@ export function ProgressBar({
     const DIRECTION = -1;
     // Rotation Calc
     const primaryRotationAngle = (maxValue - 1) * (360 / maxValue);
-    const rotationAngle = -1 * DIRECTION * primaryRotationAngle + i * DIRECTION * primaryRotationAngle;
+    const rotationAngle =
+      -1 * DIRECTION * primaryRotationAngle + i * DIRECTION * primaryRotationAngle;
     const rotationTransformation = `rotate(${rotationAngle}, ${radius}, ${radius})`;
     const pieValue = calculatePieValue(maxValue);
     const dValue = generatePie(pieValue);

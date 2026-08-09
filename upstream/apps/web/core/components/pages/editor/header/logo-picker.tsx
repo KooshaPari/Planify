@@ -17,7 +17,9 @@ type Props = {
   page: TPageInstance;
 };
 
-export const PageEditorHeaderLogoPicker = observer(function PageEditorHeaderLogoPicker(props: Props) {
+export const PageEditorHeaderLogoPicker = observer(function PageEditorHeaderLogoPicker(
+  props: Props,
+) {
   const { className, page } = props;
   // states
   const [isLogoPickerOpen, setIsLogoPickerOpen] = useState(false);
@@ -27,9 +29,13 @@ export const PageEditorHeaderLogoPicker = observer(function PageEditorHeaderLogo
 
   return (
     <div
-      className={cn(className, "pointer-events-none max-h-0 transition-all duration-300 ease-linear", {
-        "pointer-events-auto max-h-[56px]": isLogoSelected,
-      })}
+      className={cn(
+        className,
+        "pointer-events-none max-h-0 transition-all duration-300 ease-linear",
+        {
+          "pointer-events-auto max-h-[56px]": isLogoSelected,
+        },
+      )}
     >
       <EmojiPicker
         isOpen={isLogoPickerOpen}
@@ -38,17 +44,24 @@ export const PageEditorHeaderLogoPicker = observer(function PageEditorHeaderLogo
         buttonClassName="flex items-center justify-center"
         label={
           <div
-            className={cn("-ml-[8px] grid size-[56px] place-items-center rounded-sm transition-colors", {
-              "hover:bg-layer-1": isContentEditable,
-            })}
+            className={cn(
+              "-ml-[8px] grid size-[56px] place-items-center rounded-sm transition-colors",
+              {
+                "hover:bg-layer-1": isContentEditable,
+              },
+            )}
           >
             {isLogoSelected && <Logo logo={logo_props} size={48} type="lucide" />}
           </div>
         }
         onChange={updatePageLogo}
-        defaultIconColor={logo_props?.in_use && logo_props.in_use === "icon" ? logo_props?.icon?.color : undefined}
+        defaultIconColor={
+          logo_props?.in_use && logo_props.in_use === "icon" ? logo_props?.icon?.color : undefined
+        }
         defaultOpen={
-          logo_props?.in_use && logo_props?.in_use === "emoji" ? EmojiIconPickerTypes.EMOJI : EmojiIconPickerTypes.ICON
+          logo_props?.in_use && logo_props?.in_use === "emoji"
+            ? EmojiIconPickerTypes.EMOJI
+            : EmojiIconPickerTypes.ICON
         }
         disabled={!isContentEditable}
       />

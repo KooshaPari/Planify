@@ -19,7 +19,9 @@ export function PowerKOpenEntityPages(props: TPowerKOpenEntityActionsProps) {
 
   return (
     <>
-      {activePage === "open-workspace" && <PowerKOpenWorkspaceMenu handleSelect={handleSelection} />}
+      {activePage === "open-workspace" && (
+        <PowerKOpenWorkspaceMenu handleSelect={handleSelection} />
+      )}
       {activePage === "open-project" && <PowerKOpenProjectMenu handleSelect={handleSelection} />}
       {activePage === "open-workspace-setting" && (
         <PowerKOpenWorkspaceSettingsMenu context={context} handleSelect={handleSelection} />

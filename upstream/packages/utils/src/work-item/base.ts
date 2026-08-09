@@ -9,7 +9,11 @@ import { isEmpty } from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 // plane imports
 import type { TIssueFilterPriorityObject, TIssuePriorities } from "@plane/constants";
-import { ISSUE_DISPLAY_FILTERS_BY_PAGE, ISSUE_PRIORITY_FILTERS, STATE_GROUPS } from "@plane/constants";
+import {
+  ISSUE_DISPLAY_FILTERS_BY_PAGE,
+  ISSUE_PRIORITY_FILTERS,
+  STATE_GROUPS,
+} from "@plane/constants";
 import type {
   IGanttBlock,
   IIssueDisplayFilterOptions,
@@ -39,7 +43,7 @@ type THandleIssuesMutation = (
     | {
         [key: string]: TIssue[];
       }
-    | TIssue[]
+    | TIssue[],
 ) =>
   | {
       [key: string]: TIssue[];
@@ -53,7 +57,7 @@ export const handleIssuesMutation: THandleIssuesMutation = (
   selectedGroupBy,
   issueIndex,
   orderBy,
-  prevData
+  prevData,
 ) => {
   if (!prevData) return prevData;
 
@@ -84,17 +88,18 @@ export const handleIssuesMutation: THandleIssuesMutation = (
         ...prevData,
         [oldGroupTitle ?? ""]: orderArrayBy(
           oldGroup.map((i) => (i.id === updatedIssue.id ? updatedIssue : i)),
-          orderBy
+          orderBy,
         ),
       };
 
-    const groupThatIsUpdated = selectedGroupBy === "priority" ? formData.priority : formData.state_id;
+    const groupThatIsUpdated =
+      selectedGroupBy === "priority" ? formData.priority : formData.state_id;
 
     return {
       ...prevData,
       [oldGroupTitle ?? ""]: orderArrayBy(
         oldGroup.filter((i) => i.id !== updatedIssue.id),
-        orderBy
+        orderBy,
       ),
       [groupThatIsUpdated ?? ""]: orderArrayBy([...newGroup, updatedIssue], orderBy),
     };
@@ -110,7 +115,7 @@ export const handleIssueQueryParamsByLayout = (
     | "archived_issues"
     | "draft_issues"
     | "team_issues"
-    | "team_project_work_items"
+    | "team_project_work_items",
 ): TIssueParams[] | null => {
   const queryParams: TIssueParams[] = ["filters"];
 
@@ -143,7 +148,7 @@ export const handleIssueQueryParamsByLayout = (
  */
 export const createIssuePayload: (projectId: string, formData: Partial<TIssue>) => TIssue = (
   projectId: string,
-  formData: Partial<TIssue>
+  formData: Partial<TIssue>,
 ) => {
   const payload: TIssue = {
     id: uuidv4(),
@@ -171,7 +176,7 @@ export const createIssuePayload: (projectId: string, formData: Partial<TIssue>) 
  */
 export const shouldHighlightIssueDueDate = (
   date: string | Date | null,
-  stateGroup: TStateGroups | undefined
+  stateGroup: TStateGroups | undefined,
 ): boolean => {
   if (!date || !stateGroup) return false;
   // if the issue is completed or cancelled, don't highlight the due date
@@ -216,7 +221,10 @@ export const formatTextList = (TextArray: string[]): string => {
   }
 };
 
-export const getDescriptionPlaceholderI18n = (isFocused: boolean, description: string | undefined): string => {
+export const getDescriptionPlaceholderI18n = (
+  isFocused: boolean,
+  description: string | undefined,
+): string => {
   const isDescriptionEmpty = isEditorEmpty(description);
   if (!isDescriptionEmpty || isFocused) return "common.press_for_commands";
   else return "common.click_to_add_description";
@@ -226,7 +234,7 @@ export const issueCountBasedOnFilters = (
   issueIds: TGroupedIssues | TUnGroupedIssues | TSubGroupedIssues,
   layout: EIssueLayoutTypes,
   groupBy: string | undefined,
-  subGroupBy: string | undefined
+  subGroupBy: string | undefined,
 ): number => {
   let issuesCount = 0;
   if (!layout) return issuesCount;
@@ -269,7 +277,7 @@ export const issueCountBasedOnFilters = (
  */
 export const getComputedDisplayFilters = (
   displayFilters: IIssueDisplayFilterOptions = {},
-  defaultValues?: IIssueDisplayFilterOptions
+  defaultValues?: IIssueDisplayFilterOptions,
 ): IIssueDisplayFilterOptions => {
   const filters = !isEmpty(displayFilters) ? displayFilters : defaultValues;
   return {
@@ -292,7 +300,7 @@ export const getComputedDisplayFilters = (
  * @returns {IIssueDisplayProperties}
  */
 export const getComputedDisplayProperties = (
-  displayProperties: IIssueDisplayProperties = {}
+  displayProperties: IIssueDisplayProperties = {},
 ): IIssueDisplayProperties => ({
   assignee: displayProperties?.assignee ?? true,
   start_date: displayProperties?.start_date ?? true,
@@ -336,7 +344,9 @@ export const generateWorkItemLink = ({
   return isArchived ? archiveIssueLink : isEpic ? epicLink : workItemLink;
 };
 
-export const getIssuePriorityFilters = (priorityKey: TIssuePriorities): TIssueFilterPriorityObject | undefined => {
+export const getIssuePriorityFilters = (
+  priorityKey: TIssuePriorities,
+): TIssueFilterPriorityObject | undefined => {
   const currentIssuePriority: TIssueFilterPriorityObject | undefined =
     ISSUE_PRIORITY_FILTERS && ISSUE_PRIORITY_FILTERS.length > 0
       ? ISSUE_PRIORITY_FILTERS.find((_priority) => _priority.key === priorityKey)

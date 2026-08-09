@@ -21,7 +21,9 @@ type Props = {
   uploadStatus: TAttachmentUploadStatus;
 };
 
-export const IssueAttachmentsUploadDetails = observer(function IssueAttachmentsUploadDetails(props: Props) {
+export const IssueAttachmentsUploadDetails = observer(function IssueAttachmentsUploadDetails(
+  props: Props,
+) {
   // props
   const { uploadStatus } = props;
   // derived values

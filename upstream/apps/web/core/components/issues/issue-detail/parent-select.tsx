@@ -33,7 +33,7 @@ type TIssueParentSelect = {
     workspaceSlug: string,
     projectId: string,
     parentIssueId: string,
-    issueId: string
+    issueId: string,
   ) => Promise<void>;
   workItemLink: string;
 };
@@ -84,7 +84,7 @@ export const IssueParentSelect = observer(function IssueParentSelect(props: TIss
             "hover:bg-layer-transparent-hover": !disabled,
             "bg-layer-transparent-selected": isParentIssueModalOpen,
           },
-          className
+          className,
         )}
         onClick={() => toggleParentIssueModal(issue.id)}
         disabled={disabled}
@@ -92,7 +92,12 @@ export const IssueParentSelect = observer(function IssueParentSelect(props: TIss
         {issue.parent_id && parentIssue ? (
           <div className="flex items-center gap-1.5">
             <Tooltip tooltipHeading="Title" tooltipContent={parentIssue.name} isMobile={isMobile}>
-              <Link href={workItemLink} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+              <Link
+                href={workItemLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
                 {parentIssue?.project_id && parentIssueProjectDetails && (
                   <IssueIdentifier
                     projectId={parentIssue.project_id}

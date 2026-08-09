@@ -31,7 +31,7 @@ export interface IEstimatePoint extends IEstimatePointType {
   updateEstimatePoint: (
     workspaceSlug: string,
     projectId: string,
-    payload: Partial<IEstimatePointType>
+    payload: Partial<IEstimatePointType>,
   ) => Promise<IEstimatePointType | undefined>;
 }
 
@@ -54,7 +54,7 @@ export class EstimatePoint implements IEstimatePoint {
   constructor(
     private store: CoreRootStore,
     private projectEstimate: IEstimate,
-    private data: IEstimatePointType
+    private data: IEstimatePointType,
   ) {
     makeObservable(this, {
       // data model observables
@@ -128,7 +128,7 @@ export class EstimatePoint implements IEstimatePoint {
   updateEstimatePoint = async (
     workspaceSlug: string,
     projectId: string,
-    payload: Partial<IEstimatePointType>
+    payload: Partial<IEstimatePointType>,
   ): Promise<IEstimatePointType | undefined> => {
     try {
       if (!this.projectEstimate?.id || !this.id || !payload) return undefined;
@@ -138,7 +138,7 @@ export class EstimatePoint implements IEstimatePoint {
         projectId,
         this.projectEstimate?.id,
         this.id,
-        payload
+        payload,
       );
       if (estimatePoint) {
         runInAction(() => {

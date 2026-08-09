@@ -39,7 +39,10 @@ export const CycleAppliedFiltersList = observer(function CycleAppliedFiltersList
 
   const isEditingAllowed =
     alwaysAllowEditing ||
-    allowPermissions([EUserPermissions.ADMIN, EUserPermissions.MEMBER], EUserPermissionsLevel.PROJECT);
+    allowPermissions(
+      [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+      EUserPermissionsLevel.PROJECT,
+    );
 
   return (
     <div className="flex flex-wrap items-stretch gap-2 bg-surface-1">

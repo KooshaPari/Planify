@@ -17,7 +17,8 @@ const WorkspaceCreatePage = observer(function WorkspaceCreatePage(_props: Route.
     <PageWrapper
       header={{
         title: "Create a new workspace on this instance.",
-        description: "You will need to invite users from Workspace Settings after you create this workspace.",
+        description:
+          "You will need to invite users from Workspace Settings after you create this workspace.",
       }}
     >
       <WorkspaceCreateForm />

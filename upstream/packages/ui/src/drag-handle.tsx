@@ -16,7 +16,7 @@ interface IDragHandle {
 
 export const DragHandle = forwardRef(function DragHandle(
   props: IDragHandle,
-  ref: React.ForwardedRef<HTMLButtonElement | null>
+  ref: React.ForwardedRef<HTMLButtonElement | null>,
 ) {
   const { className, disabled = false } = props;
 
@@ -27,7 +27,10 @@ export const DragHandle = forwardRef(function DragHandle(
   return (
     <button
       type="button"
-      className={cn("flex flex-shrink-0 cursor-grab rounded-sm bg-surface-2 p-0.5 text-secondary", className)}
+      className={cn(
+        "flex flex-shrink-0 cursor-grab rounded-sm bg-surface-2 p-0.5 text-secondary",
+        className,
+      )}
       onContextMenu={(e) => {
         e.preventDefault();
         e.stopPropagation();

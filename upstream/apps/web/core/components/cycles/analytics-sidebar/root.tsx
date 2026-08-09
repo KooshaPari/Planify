@@ -61,7 +61,11 @@ export const CycleDetailsSidebar = observer(function CycleDetailsSidebar(props: 
       </div>
 
       {workspaceSlug && projectId && cycleDetails?.id && (
-        <CycleAnalyticsProgress workspaceSlug={workspaceSlug} projectId={projectId} cycleId={cycleDetails?.id} />
+        <CycleAnalyticsProgress
+          workspaceSlug={workspaceSlug}
+          projectId={projectId}
+          cycleId={cycleDetails?.id}
+        />
       )}
     </div>
   );

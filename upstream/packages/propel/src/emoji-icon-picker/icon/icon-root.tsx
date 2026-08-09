@@ -42,10 +42,13 @@ export function IconRoot(props: IconRootProps) {
         {!searchDisabled && (
           <div className="flex w-full items-center px-2 py-[15px]">
             <div
-              className={cn("relative flex h-10 w-full items-center gap-2 rounded-lg border bg-surface-2 px-[30px]", {
-                "border-accent-strong": isInputFocused,
-                "border-transparent": !isInputFocused,
-              })}
+              className={cn(
+                "relative flex h-10 w-full items-center gap-2 rounded-lg border bg-surface-2 px-[30px]",
+                {
+                  "border-accent-strong": isInputFocused,
+                  "border-transparent": !isInputFocused,
+                },
+              )}
               onFocus={() => setIsInputFocused(true)}
               onBlur={() => setIsInputFocused(false)}
             >
@@ -77,7 +80,8 @@ export function IconRoot(props: IconRootProps) {
                 onChange={(e) => {
                   const value = e.target.value;
                   setHexValue(value);
-                  if (/^[0-9A-Fa-f]{6}$/.test(value)) setActiveColor(adjustColorForContrast(`#${value}`));
+                  if (/^[0-9A-Fa-f]{6}$/.test(value))
+                    setActiveColor(adjustColorForContrast(`#${value}`));
                 }}
                 className="block flex-grow rounded-sm border-[0.5px] border-none border-subtle bg-transparent px-3 py-2 pl-0 text-11 text-secondary placeholder-(--text-color-placeholder) ring-0 focus:outline-none"
                 autoFocus
@@ -94,15 +98,21 @@ export function IconRoot(props: IconRootProps) {
                   setHexValue(curCol.slice(1, 7));
                 }}
               >
-                <span className="h-4 w-4 cursor-pointer rounded-full" style={{ backgroundColor: curCol }} />
+                <span
+                  className="h-4 w-4 cursor-pointer rounded-full"
+                  style={{ backgroundColor: curCol }}
+                />
               </button>
             ))
           )}
           <button
             type="button"
-            className={cn("grid h-4 w-4 place-items-center rounded-full border border-transparent", {
-              "border-strong-1": !showHexInput,
-            })}
+            className={cn(
+              "grid h-4 w-4 place-items-center rounded-full border border-transparent",
+              {
+                "border-strong-1": !showHexInput,
+              },
+            )}
             onClick={() => {
               setShowHexInput((prevData) => !prevData);
               setHexValue(activeColor.slice(1, 7));

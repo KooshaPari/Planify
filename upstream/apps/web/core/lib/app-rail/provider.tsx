@@ -29,7 +29,7 @@ export const AppRailVisibilityProvider = observer(function AppRailVisibilityProv
   // User preference from localStorage
   const { storedValue: isCollapsed, setValue: setIsCollapsed } = useLocalStorage<boolean>(
     `APP_RAIL_${workspaceSlug}`,
-    false // Default: not collapsed (app rail visible)
+    false, // Default: not collapsed (app rail visible)
   );
 
   const toggleAppRail = useCallback(() => {
@@ -46,8 +46,10 @@ export const AppRailVisibilityProvider = observer(function AppRailVisibilityProv
       shouldRenderAppRail,
       toggleAppRail,
     }),
-    [isEnabled, isCollapsed, shouldRenderAppRail, toggleAppRail]
+    [isEnabled, isCollapsed, shouldRenderAppRail, toggleAppRail],
   );
 
-  return <AppRailVisibilityContext.Provider value={value}>{children}</AppRailVisibilityContext.Provider>;
+  return (
+    <AppRailVisibilityContext.Provider value={value}>{children}</AppRailVisibilityContext.Provider>
+  );
 });

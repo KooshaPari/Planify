@@ -44,7 +44,9 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
     setPeekId(issueId);
   };
 
-  const { queryParam } = queryParamGenerator(board ? { board, peekId: issueId } : { peekId: issueId });
+  const { queryParam } = queryParamGenerator(
+    board ? { board, peekId: issueId } : { peekId: issueId },
+  );
 
   const issue = getIssueById(issueId);
 
@@ -60,7 +62,7 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
         {
           "border-accent-strong!": getIsIssuePeeked(issue.id),
           "last:border-b-transparent": !getIsIssuePeeked(issue.id),
-        }
+        },
       )}
     >
       <div className="flex w-full truncate">

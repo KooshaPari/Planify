@@ -24,8 +24,11 @@ interface IHeaderSubGroupByCard {
   handleCollapsedGroups: (toggle: "group_by" | "sub_group_by", value: string) => void;
 }
 
-export const HeaderSubGroupByCard = observer(function HeaderSubGroupByCard(props: IHeaderSubGroupByCard) {
-  const { icon, title, count, column_id, collapsedGroups, sub_group_by, handleCollapsedGroups } = props;
+export const HeaderSubGroupByCard = observer(function HeaderSubGroupByCard(
+  props: IHeaderSubGroupByCard,
+) {
+  const { icon, title, count, column_id, collapsedGroups, sub_group_by, handleCollapsedGroups } =
+    props;
   return (
     <div
       className={`relative flex w-full flex-shrink-0 cursor-pointer flex-row items-center gap-1 rounded-xs py-1.5`}

@@ -63,10 +63,13 @@ const InstanceEmailPage = observer(function InstanceEmailPage(_props: Route.Comp
         title: "Secure emails from your own instance",
         description: (
           <>
-            Plane can send useful emails to you and your users from your own instance without talking to the Internet.
+            Plane can send useful emails to you and your users from your own instance without
+            talking to the Internet.
             <div className="text-13 font-regular text-tertiary">
               Set it up below and please test your settings before you save them.&nbsp;
-              <span className="text-danger-primary">Misconfigs can lead to email bounces and errors.</span>
+              <span className="text-danger-primary">
+                Misconfigs can lead to email bounces and errors.
+              </span>
             </div>
           </>
         ),
@@ -75,7 +78,12 @@ const InstanceEmailPage = observer(function InstanceEmailPage(_props: Route.Comp
             <Loader.Item width="24px" height="16px" className="rounded-full" />
           </Loader>
         ) : (
-          <ToggleSwitch value={isSMTPEnabled} onChange={handleToggle} size="sm" disabled={isSubmitting} />
+          <ToggleSwitch
+            value={isSMTPEnabled}
+            onChange={handleToggle}
+            size="sm"
+            disabled={isSubmitting}
+          />
         ),
       }}
     >

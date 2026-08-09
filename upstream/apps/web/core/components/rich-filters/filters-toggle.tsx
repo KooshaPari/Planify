@@ -21,9 +21,10 @@ type TFiltersToggleProps<P extends TFilterProperty, E extends TExternalFilter> =
 const COMMON_CLASSNAME =
   "grid place-items-center h-7 w-full py-0.5 px-2 rounded-md border border-subtle-1 transition-all duration-200 cursor-pointer";
 
-export const FiltersToggle = observer(function FiltersToggle<P extends TFilterProperty, E extends TExternalFilter>(
-  props: TFiltersToggleProps<P, E>
-) {
+export const FiltersToggle = observer(function FiltersToggle<
+  P extends TFilterProperty,
+  E extends TExternalFilter,
+>(props: TFiltersToggleProps<P, E>) {
   const { filter } = props;
   // derived values
   const hasAnyConditions = (filter?.allConditionsForDisplay.length ?? 0) > 0;
@@ -45,7 +46,8 @@ export const FiltersToggle = observer(function FiltersToggle<P extends TFilterPr
     "text-accent-primary border border-accent-subtle-1 hover:border-accent-subtle-1 active:border-accent-subtle-1 focus:border-accent-subtle-1";
 
   // State classes that prevent hover/active/focus color changes
-  const noHoverStateClasses = "hover:text-accent-primary active:text-accent-primary focus:text-accent-primary";
+  const noHoverStateClasses =
+    "hover:text-accent-primary active:text-accent-primary focus:text-accent-primary";
 
   // Background classes based on toggle state (darker when open, lighter when closed)
   const backgroundClasses = isFilterRowVisible

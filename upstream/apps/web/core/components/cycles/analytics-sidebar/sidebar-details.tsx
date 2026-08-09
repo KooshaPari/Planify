@@ -31,7 +31,8 @@ export const CycleSidebarDetails = observer(function CycleSidebarDetails(props: 
   const { projectId, cycleDetails } = props;
   // hooks
   const { getUserDetails } = useMember();
-  const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } = useProjectEstimates();
+  const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } =
+    useProjectEstimates();
   const { t } = useTranslation();
 
   const areEstimateEnabled = projectId && areEstimateEnabledByProjectId(projectId.toString());
@@ -46,7 +47,8 @@ export const CycleSidebarDetails = observer(function CycleSidebarDetails(props: 
       : cycleDetails?.total_issues === 0
         ? `0 ${t("common.work_item")}`
         : `${cycleDetails?.completed_issues}/${cycleDetails?.total_issues}`;
-  const estimateType = areEstimateEnabled && currentActiveEstimateId && estimateById(currentActiveEstimateId);
+  const estimateType =
+    areEstimateEnabled && currentActiveEstimateId && estimateById(currentActiveEstimateId);
   const cycleOwnerDetails = cycleDetails ? getUserDetails(cycleDetails.owned_by_id) : undefined;
 
   const isEstimatePointValid = isEmpty(cycleDetails?.progress_snapshot || {})
@@ -83,7 +85,10 @@ export const CycleSidebarDetails = observer(function CycleSidebarDetails(props: 
           </div>
           <div className="flex w-3/5 items-center rounded-xs">
             <div className="flex items-center gap-2.5">
-              <Avatar name={cycleOwnerDetails?.display_name} src={getFileURL(cycleOwnerDetails?.avatar_url ?? "")} />
+              <Avatar
+                name={cycleOwnerDetails?.display_name}
+                src={getFileURL(cycleOwnerDetails?.avatar_url ?? "")}
+              />
               <span className="text-13 text-secondary">{cycleOwnerDetails?.display_name}</span>
             </div>
           </div>

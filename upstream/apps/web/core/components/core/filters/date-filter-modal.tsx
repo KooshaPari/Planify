@@ -39,7 +39,10 @@ export function DateFilterModal({ title, handleClose, isOpen, onSelect }: Props)
     const { filterType, date1, date2 } = formData;
 
     if (filterType === "range")
-      onSelect([`${renderFormattedPayloadDate(date1)};after`, `${renderFormattedPayloadDate(date2)};before`]);
+      onSelect([
+        `${renderFormattedPayloadDate(date1)};after`,
+        `${renderFormattedPayloadDate(date2)};before`,
+      ]);
     else onSelect([`${renderFormattedPayloadDate(date1)};${filterType}`]);
 
     handleClose();
@@ -51,7 +54,12 @@ export function DateFilterModal({ title, handleClose, isOpen, onSelect }: Props)
   const isInvalid = watch("filterType") === "range" && date1 && date2 ? date1 > date2 : false;
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XXL}
+    >
       <form className="space-y-4 px-5 py-8 sm:p-6">
         <div className="flex w-full justify-between">
           <Controller

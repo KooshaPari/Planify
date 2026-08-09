@@ -37,7 +37,7 @@ export const buttonVariants = cva(
       variant: "primary",
       size: "base",
     },
-  }
+  },
 );
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &

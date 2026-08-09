@@ -59,7 +59,7 @@ export const DeleteIssueModal = observer(function DeleteIssueModal(props: Props)
     [EUserPermissions.ADMIN],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug?.toString(),
-    projectDetails?.id
+    projectDetails?.id,
   );
 
   const authorized = isIssueCreator || canPerformProjectAdminActions;
@@ -77,7 +77,8 @@ export const DeleteIssueModal = observer(function DeleteIssueModal(props: Props)
         title: t(PROJECT_ERROR_MESSAGES.permissionError.i18n_title),
         type: TOAST_TYPE.ERROR,
         message:
-          PROJECT_ERROR_MESSAGES.permissionError.i18n_message && t(PROJECT_ERROR_MESSAGES.permissionError.i18n_message),
+          PROJECT_ERROR_MESSAGES.permissionError.i18n_message &&
+          t(PROJECT_ERROR_MESSAGES.permissionError.i18n_message),
       });
       onClose();
       return;
@@ -89,7 +90,11 @@ export const DeleteIssueModal = observer(function DeleteIssueModal(props: Props)
             type: TOAST_TYPE.SUCCESS,
             title: t("common.success"),
             message: t("entity.delete.success", {
-              entity: isSubIssue ? t("common.sub_work_item") : isEpic ? t("common.epic") : t("common.work_item"),
+              entity: isSubIssue
+                ? t("common.sub_work_item")
+                : isEpic
+                  ? t("common.epic")
+                  : t("common.work_item"),
             }),
           });
           onClose();
@@ -116,7 +121,9 @@ export const DeleteIssueModal = observer(function DeleteIssueModal(props: Props)
       handleSubmit={handleIssueDelete}
       isSubmitting={isDeleting}
       isOpen={isOpen}
-      title={t("entity.delete.label", { entity: isEpic ? t("common.epic") : t("common.work_item") })}
+      title={t("entity.delete.label", {
+        entity: isEpic ? t("common.epic") : t("common.work_item"),
+      })}
       content={
         <>
           {/* TODO: Translate here */}

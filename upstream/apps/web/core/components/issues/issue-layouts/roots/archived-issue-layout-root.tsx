@@ -32,13 +32,15 @@ export const ArchivedIssueLayoutRoot = observer(function ArchivedIssueLayoutRoot
   const workItemFilters = projectId ? issuesFilter?.getIssueFilters(projectId) : undefined;
 
   useSWR(
-    workspaceSlug && projectId ? `ARCHIVED_ISSUES_${workspaceSlug.toString()}_${projectId.toString()}` : null,
+    workspaceSlug && projectId
+      ? `ARCHIVED_ISSUES_${workspaceSlug.toString()}_${projectId.toString()}`
+      : null,
     async () => {
       if (workspaceSlug && projectId) {
         await issuesFilter?.fetchFilters(workspaceSlug.toString(), projectId.toString());
       }
     },
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   if (!workspaceSlug || !projectId || !workItemFilters) return <></>;
@@ -49,7 +51,11 @@ export const ArchivedIssueLayoutRoot = observer(function ArchivedIssueLayoutRoot
         entityId={projectId?.toString()}
         filtersToShowByLayout={ISSUE_DISPLAY_FILTERS_BY_PAGE.archived_issues.filters}
         initialWorkItemFilters={workItemFilters}
-        updateFilters={issuesFilter?.updateFilterExpression.bind(issuesFilter, workspaceSlug, projectId)}
+        updateFilters={issuesFilter?.updateFilterExpression.bind(
+          issuesFilter,
+          workspaceSlug,
+          projectId,
+        )}
         projectId={projectId}
         workspaceSlug={workspaceSlug}
       >

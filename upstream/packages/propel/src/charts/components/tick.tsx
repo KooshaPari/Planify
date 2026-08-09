@@ -10,7 +10,12 @@ import React from "react";
 // Common classnames
 const AXIS_TICK_CLASSNAME = "fill-tertiary text-13";
 
-export const CustomXAxisTick = React.memo(function CustomXAxisTick({ x, y, payload, getLabel }: any) {
+export const CustomXAxisTick = React.memo(function CustomXAxisTick({
+  x,
+  y,
+  payload,
+  getLabel,
+}: any) {
   return (
     <g transform={`translate(${x},${y})`}>
       <text y={0} dy={16} textAnchor="middle" className={AXIS_TICK_CLASSNAME}>

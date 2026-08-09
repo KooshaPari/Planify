@@ -47,7 +47,11 @@ export function ImageUploadStatus(props: Props) {
       };
       animationFrameRef.current = requestAnimationFrame((time) => animation(time));
     };
-    animateToValue(displayStatus, uploadStatus == undefined ? 100 : uploadStatus, performance.now());
+    animateToValue(
+      displayStatus,
+      uploadStatus == undefined ? 100 : uploadStatus,
+      performance.now(),
+    );
 
     return () => {
       if (animationFrameRef.current) {

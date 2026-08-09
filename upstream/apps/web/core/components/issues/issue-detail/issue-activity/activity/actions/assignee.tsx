@@ -12,9 +12,15 @@ import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // components
 import { IssueActivityBlockComponent, IssueLink } from "./";
 
-type TIssueAssigneeActivity = { activityId: string; showIssue?: boolean; ends: "top" | "bottom" | undefined };
+type TIssueAssigneeActivity = {
+  activityId: string;
+  showIssue?: boolean;
+  ends: "top" | "bottom" | undefined;
+};
 
-export const IssueAssigneeActivity = observer(function IssueAssigneeActivity(props: TIssueAssigneeActivity) {
+export const IssueAssigneeActivity = observer(function IssueAssigneeActivity(
+  props: TIssueAssigneeActivity,
+) {
   const { activityId, ends, showIssue = true } = props;
   // hooks
   const {
@@ -38,7 +44,9 @@ export const IssueAssigneeActivity = observer(function IssueAssigneeActivity(pro
           rel="noopener noreferrer"
           className="inline-flex items-center font-medium text-primary capitalize hover:underline"
         >
-          {activity.new_value && activity.new_value !== "" ? activity.new_value : activity.old_value}
+          {activity.new_value && activity.new_value !== ""
+            ? activity.new_value
+            : activity.old_value}
         </a>
         {showIssue && (activity.old_value === "" ? ` to ` : ` from `)}
         {showIssue && <IssueLink activityId={activityId} />}.

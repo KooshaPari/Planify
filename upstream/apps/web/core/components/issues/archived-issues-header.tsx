@@ -14,7 +14,10 @@ import { EIssuesStoreType } from "@plane/types";
 import { EHeaderVariant, Header } from "@plane/ui";
 // components
 import { ArchiveTabsList } from "@/components/archives";
-import { DisplayFiltersSelection, FiltersDropdown } from "@/components/issues/issue-layouts/filters";
+import {
+  DisplayFiltersSelection,
+  FiltersDropdown,
+} from "@/components/issues/issue-layouts/filters";
 import { WorkItemFiltersToggle } from "@/components/work-item-filters/filters-toggle";
 // hooks
 import { useIssues } from "@/hooks/store/use-issues";
@@ -35,7 +38,9 @@ export const ArchivedIssuesHeader = observer(function ArchivedIssuesHeader() {
   // for archived issues list layout is the only option
   const activeLayout = "list";
 
-  const handleDisplayFiltersUpdate = (updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>) => {
+  const handleDisplayFiltersUpdate = (
+    updatedDisplayFilter: Partial<IIssueDisplayFilterOptions>,
+  ) => {
     if (!workspaceSlug || !projectId) return;
 
     updateFilters(workspaceSlug, projectId, EIssueFilterType.DISPLAY_FILTERS, {
@@ -65,7 +70,9 @@ export const ArchivedIssuesHeader = observer(function ArchivedIssuesHeader() {
             handleDisplayFiltersUpdate={handleDisplayFiltersUpdate}
             handleDisplayPropertiesUpdate={handleDisplayPropertiesUpdate}
             layoutDisplayFiltersOptions={
-              activeLayout ? ISSUE_DISPLAY_FILTERS_BY_PAGE.archived_issues.layoutOptions[activeLayout] : undefined
+              activeLayout
+                ? ISSUE_DISPLAY_FILTERS_BY_PAGE.archived_issues.layoutOptions[activeLayout]
+                : undefined
             }
             cycleViewDisabled={!currentProjectDetails?.cycle_view}
             moduleViewDisabled={!currentProjectDetails?.module_view}

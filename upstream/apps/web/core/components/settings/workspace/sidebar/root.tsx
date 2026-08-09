@@ -25,7 +25,7 @@ export function WorkspaceSettingsSidebarRoot(props: Props) {
       size="sm"
       rootClassName={cn(
         "h-full w-[250px] shrink-0 animate-fade-in overflow-y-scroll border-r border-r-subtle bg-surface-1",
-        className
+        className,
       )}
     >
       <WorkspaceSettingsSidebarHeader />

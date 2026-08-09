@@ -83,7 +83,11 @@ export function CustomImageNodeView(props: CustomImageNodeViewProps) {
 
   useEffect(() => {
     const handleDuplication = async () => {
-      if (status !== ECustomImageStatus.DUPLICATING || !extension.options.duplicateImage || !imgNodeSrc) {
+      if (
+        status !== ECustomImageStatus.DUPLICATING ||
+        !extension.options.duplicateImage ||
+        !imgNodeSrc
+      ) {
         return;
       }
 
@@ -154,7 +158,10 @@ export function CustomImageNodeView(props: CustomImageNodeViewProps) {
             failedToLoadImage={failedToLoadImage}
             hasDuplicationFailed={hasDuplicationFailed}
             loadImageFromFileSystem={setImageFromFileSystem}
-            maxFileSize={(editor.storage.imageComponent as { maxFileSize?: number } | undefined)?.maxFileSize ?? 0}
+            maxFileSize={
+              (editor.storage.imageComponent as { maxFileSize?: number } | undefined)
+                ?.maxFileSize ?? 0
+            }
             setIsUploaded={setIsUploaded}
             {...props}
           />

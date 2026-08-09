@@ -13,7 +13,7 @@ import { GroupHeader } from "./group-header";
 import { BaseKanbanItem } from "./item";
 
 export const BaseKanbanGroup = observer(function BaseKanbanGroup<T extends IBaseLayoutsKanbanItem>(
-  props: IBaseLayoutsKanbanGroupProps<T>
+  props: IBaseLayoutsKanbanGroupProps<T>,
 ) {
   const {
     group,
@@ -45,7 +45,7 @@ export const BaseKanbanGroup = observer(function BaseKanbanGroup<T extends IBase
         {
           "bg-layer-1": isDraggingOver,
         },
-        groupClassName
+        groupClassName,
       )}
     >
       {/* Group Header */}

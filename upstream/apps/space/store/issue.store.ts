@@ -20,7 +20,7 @@ export interface IIssueStore extends IBaseIssuesStore {
     anchor: string,
     loadType: TLoader,
     options: IssuePaginationOptions,
-    isExistingPaginationOptions?: boolean
+    isExistingPaginationOptions?: boolean,
   ) => Promise<void>;
   fetchNextPublicIssues: (anchor: string, groupId?: string, subGroupId?: string) => Promise<void>;
   fetchPublicIssuesWithExistingPagination: (anchor: string, loadType?: TLoader) => Promise<void>;
@@ -54,7 +54,7 @@ export class IssueStore extends BaseIssuesStore implements IIssueStore {
     anchor: string,
     loadType: TLoader = "init-loader",
     options: IssuePaginationOptions,
-    isExistingPaginationOptions: boolean = false
+    isExistingPaginationOptions: boolean = false,
   ) => {
     try {
       // set loader and clear store
@@ -63,7 +63,13 @@ export class IssueStore extends BaseIssuesStore implements IIssueStore {
       });
       this.clear(!isExistingPaginationOptions);
 
-      const params = this.rootStore.issueFilter.getFilterParams(options, anchor, undefined, undefined, undefined);
+      const params = this.rootStore.issueFilter.getFilterParams(
+        options,
+        anchor,
+        undefined,
+        undefined,
+        undefined,
+      );
 
       const response = await this.issueService.list(anchor, params);
 
@@ -89,7 +95,7 @@ export class IssueStore extends BaseIssuesStore implements IIssueStore {
         anchor,
         cursorObject?.nextCursor,
         groupId,
-        subGroupId
+        subGroupId,
       );
       // call the fetch issues API with the params for next page in issues
       const response = await this.issueService.list(anchor, params);
@@ -111,7 +117,10 @@ export class IssueStore extends BaseIssuesStore implements IIssueStore {
    * @param loadType
    * @returns
    */
-  fetchPublicIssuesWithExistingPagination = async (anchor: string, loadType: TLoader = "mutation") => {
+  fetchPublicIssuesWithExistingPagination = async (
+    anchor: string,
+    loadType: TLoader = "mutation",
+  ) => {
     if (!this.paginationOptions) return;
     return await this.fetchPublicIssues(anchor, loadType, this.paginationOptions, true);
   };

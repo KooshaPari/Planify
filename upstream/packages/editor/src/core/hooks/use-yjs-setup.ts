@@ -42,7 +42,10 @@ export const useYjsSetup = ({ docId, serverUrl, authToken, onStateChange }: UseY
   const [isCacheReady, setIsCacheReady] = useState(false);
 
   // Provider and Y.Doc in state (nullable until effect runs)
-  const [yjsSession, setYjsSession] = useState<{ provider: HocuspocusProvider; ydoc: Y.Doc } | null>(null);
+  const [yjsSession, setYjsSession] = useState<{
+    provider: HocuspocusProvider;
+    ydoc: Y.Doc;
+  } | null>(null);
 
   // Use refs for values that need to be mutated from callbacks
   const retryCountRef = useRef(0);
@@ -86,7 +89,11 @@ export const useYjsSetup = ({ docId, serverUrl, authToken, onStateChange }: UseY
         if (providerStatus === "connecting") {
           // Derive whether this is initial connect or reconnection from retry count
           const isReconnecting = retryCountRef.current > 0;
-          setStage(isReconnecting ? { kind: "reconnecting", attempt: retryCountRef.current } : { kind: "connecting" });
+          setStage(
+            isReconnecting
+              ? { kind: "reconnecting", attempt: retryCountRef.current }
+              : { kind: "connecting" },
+          );
         } else if (providerStatus === "disconnected") {
           // Do not transition here; let handleClose decide the final stage
         } else if (providerStatus === "connected") {
@@ -144,7 +151,8 @@ export const useYjsSetup = ({ docId, serverUrl, authToken, onStateChange }: UseY
       const closeCode = closeEvent.event?.code;
       const wsProvider = provider.configuration.websocketProvider;
       const shouldConnect = wsProvider.shouldConnect;
-      const isForcedClose = isForcedCloseCode(closeCode) || forcedCloseSignalRef.current || shouldConnect === false;
+      const isForcedClose =
+        isForcedCloseCode(closeCode) || forcedCloseSignalRef.current || shouldConnect === false;
 
       if (isForcedClose) {
         // Determine if this is a manual disconnect or a permanent error

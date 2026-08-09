@@ -21,10 +21,13 @@ export const InboxIssueAppliedFiltersStatus = observer(function InboxIssueApplie
   const { t } = useTranslation();
   // derived values
   const filteredValues = inboxFilters?.status || [];
-  const currentOptionDetail = (status: TInboxIssueStatus) => INBOX_STATUS.find((s) => s.status === status) || undefined;
+  const currentOptionDetail = (status: TInboxIssueStatus) =>
+    INBOX_STATUS.find((s) => s.status === status) || undefined;
 
   const handleFilterValue = (value: TInboxIssueStatus): TInboxIssueStatus[] =>
-    filteredValues?.includes(value) ? filteredValues.filter((v) => v !== value) : [...filteredValues, value];
+    filteredValues?.includes(value)
+      ? filteredValues.filter((v) => v !== value)
+      : [...filteredValues, value];
 
   if (filteredValues.length === 0) return <></>;
   return (
@@ -34,7 +37,10 @@ export const InboxIssueAppliedFiltersStatus = observer(function InboxIssueApplie
         const optionDetail = currentOptionDetail(value);
         if (!optionDetail) return <></>;
         return (
-          <div key={value} className="relative flex items-center gap-1 rounded-sm bg-layer-1 p-1 text-11">
+          <div
+            key={value}
+            className="relative flex items-center gap-1 rounded-sm bg-layer-1 p-1 text-11"
+          >
             <div className="relative flex h-3 w-3 flex-shrink-0 items-center justify-center overflow-hidden">
               <InboxStatusIcon type={optionDetail?.status} />
             </div>
@@ -42,7 +48,9 @@ export const InboxIssueAppliedFiltersStatus = observer(function InboxIssueApplie
             {handleFilterValue(optionDetail?.status).length >= 1 && (
               <div
                 className="relative flex h-3 w-3 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden text-tertiary transition-all hover:text-secondary"
-                onClick={() => handleInboxIssueFilters("status", handleFilterValue(optionDetail?.status))}
+                onClick={() =>
+                  handleInboxIssueFilters("status", handleFilterValue(optionDetail?.status))
+                }
               >
                 <CloseIcon className={`h-3 w-3`} />
               </div>

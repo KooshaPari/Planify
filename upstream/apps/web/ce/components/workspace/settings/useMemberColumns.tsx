@@ -68,7 +68,9 @@ export const useMemberColumns = () => {
       key: "Display name",
       content: t("workspace_settings.settings.members.details.display_name"),
       tdRender: (rowData: RowData) => (
-        <div className={`w-32 ${isSuspended(rowData) ? "text-placeholder" : ""}`}>{rowData.member.display_name}</div>
+        <div className={`w-32 ${isSuspended(rowData) ? "text-placeholder" : ""}`}>
+          {rowData.member.display_name}
+        </div>
       ),
       thRender: () => (
         <MemberHeaderColumn
@@ -83,7 +85,9 @@ export const useMemberColumns = () => {
       key: "Email address",
       content: t("workspace_settings.settings.members.details.email_address"),
       tdRender: (rowData: RowData) => (
-        <div className={`w-48 truncate ${isSuspended(rowData) ? "text-placeholder" : ""}`}>{rowData.member.email}</div>
+        <div className={`w-48 truncate ${isSuspended(rowData) ? "text-placeholder" : ""}`}>
+          {rowData.member.email}
+        </div>
       ),
       thRender: () => (
         <MemberHeaderColumn
@@ -104,7 +108,9 @@ export const useMemberColumns = () => {
           handleDisplayFilterUpdate={handleDisplayFilterUpdate}
         />
       ),
-      tdRender: (rowData: RowData) => <AccountTypeColumn rowData={rowData} workspaceSlug={workspaceSlug} />,
+      tdRender: (rowData: RowData) => (
+        <AccountTypeColumn rowData={rowData} workspaceSlug={workspaceSlug} />
+      ),
     },
 
     {
@@ -122,7 +128,9 @@ export const useMemberColumns = () => {
       key: "Joining date",
       content: t("workspace_settings.settings.members.details.joining_date"),
       tdRender: (rowData: RowData) =>
-        isSuspended(rowData) ? null : <div>{renderFormattedDate(rowData?.member?.joining_date)}</div>,
+        isSuspended(rowData) ? null : (
+          <div>{renderFormattedDate(rowData?.member?.joining_date)}</div>
+        ),
       thRender: () => (
         <MemberHeaderColumn
           property="joining_date"

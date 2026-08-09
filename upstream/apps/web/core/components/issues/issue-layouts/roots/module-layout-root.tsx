@@ -25,7 +25,10 @@ import { ModuleKanBanLayout } from "../kanban/roots/module-root";
 import { ModuleListLayout } from "../list/roots/module-root";
 import { ModuleSpreadsheetLayout } from "../spreadsheet/roots/module-root";
 
-function ModuleIssueLayout(props: { activeLayout: EIssueLayoutTypes | undefined; moduleId: string }) {
+function ModuleIssueLayout(props: {
+  activeLayout: EIssueLayoutTypes | undefined;
+  moduleId: string;
+}) {
   switch (props.activeLayout) {
     case EIssueLayoutTypes.LIST:
       return <ModuleListLayout />;
@@ -44,7 +47,11 @@ function ModuleIssueLayout(props: { activeLayout: EIssueLayoutTypes | undefined;
 
 export const ModuleLayoutRoot = observer(function ModuleLayoutRoot() {
   // router
-  const { workspaceSlug: routerWorkspaceSlug, projectId: routerProjectId, moduleId: routerModuleId } = useParams();
+  const {
+    workspaceSlug: routerWorkspaceSlug,
+    projectId: routerProjectId,
+    moduleId: routerModuleId,
+  } = useParams();
   const workspaceSlug = routerWorkspaceSlug ? routerWorkspaceSlug.toString() : undefined;
   const projectId = routerProjectId ? routerProjectId.toString() : undefined;
   const moduleId = routerModuleId ? routerModuleId.toString() : undefined;
@@ -60,10 +67,14 @@ export const ModuleLayoutRoot = observer(function ModuleLayoutRoot() {
       : null,
     async () => {
       if (workspaceSlug && projectId && moduleId) {
-        await issuesFilter?.fetchFilters(workspaceSlug.toString(), projectId.toString(), moduleId.toString());
+        await issuesFilter?.fetchFilters(
+          workspaceSlug.toString(),
+          projectId.toString(),
+          moduleId.toString(),
+        );
       }
     },
-    { revalidateIfStale: false, revalidateOnFocus: false }
+    { revalidateIfStale: false, revalidateOnFocus: false },
   );
 
   if (!workspaceSlug || !projectId || !moduleId || !workItemFilters) return <></>;
@@ -75,7 +86,12 @@ export const ModuleLayoutRoot = observer(function ModuleLayoutRoot() {
         entityId={moduleId}
         filtersToShowByLayout={ISSUE_DISPLAY_FILTERS_BY_PAGE.issues.filters}
         initialWorkItemFilters={workItemFilters}
-        updateFilters={issuesFilter?.updateFilterExpression.bind(issuesFilter, workspaceSlug, projectId, moduleId)}
+        updateFilters={issuesFilter?.updateFilterExpression.bind(
+          issuesFilter,
+          workspaceSlug,
+          projectId,
+          moduleId,
+        )}
         projectId={projectId}
         workspaceSlug={workspaceSlug}
       >

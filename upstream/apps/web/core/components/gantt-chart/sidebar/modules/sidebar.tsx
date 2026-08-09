@@ -32,9 +32,16 @@ export const ModuleGanttSidebar = observer(function ModuleGanttSidebar(props: Pr
   const handleOnDrop = (
     draggingBlockId: string | undefined,
     droppedBlockId: string | undefined,
-    dropAtEndOfList: boolean
+    dropAtEndOfList: boolean,
   ) => {
-    handleOrderChange(draggingBlockId, droppedBlockId, dropAtEndOfList, blockIds, getBlockById, blockUpdateHandler);
+    handleOrderChange(
+      draggingBlockId,
+      droppedBlockId,
+      dropAtEndOfList,
+      blockIds,
+      getBlockById,
+      blockUpdateHandler,
+    );
   };
 
   return (
@@ -48,7 +55,9 @@ export const ModuleGanttSidebar = observer(function ModuleGanttSidebar(props: Pr
             isDragEnabled={enableReorder}
             onDrop={handleOnDrop}
           >
-            {(isDragging: boolean) => <ModulesSidebarBlock blockId={blockId} isDragging={isDragging} />}
+            {(isDragging: boolean) => (
+              <ModulesSidebarBlock blockId={blockId} isDragging={isDragging} />
+            )}
           </GanttDnDHOC>
         ))
       ) : (

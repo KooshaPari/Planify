@@ -6,10 +6,16 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
-import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { pointerOutsideOfPreview } from "@atlaskit/pragmatic-drag-and-drop/element/pointer-outside-of-preview";
 import { setCustomNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview";
-import { attachInstruction, extractInstruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
+import {
+  attachInstruction,
+  extractInstruction,
+} from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
 import { observer } from "mobx-react";
 import { useParams, useRouter } from "next/navigation";
 import { createRoot } from "react-dom/client";
@@ -50,7 +56,7 @@ type Props = {
   handleOnProjectDrop?: (
     sourceId: string | undefined,
     destinationId: string | undefined,
-    shouldDropAtEnd: boolean
+    shouldDropAtEnd: boolean,
   ) => void;
   projectListType: "JOINED" | "FAVORITES";
   disableDrag?: boolean;
@@ -77,7 +83,8 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
   const { allowPermissions } = useUserPermissions();
   const { getIsProjectListOpen, toggleProjectListOpen } = useCommandPalette();
   const { preferences: projectPreferences } = useProjectNavigationPreferences();
-  const { isExtendedProjectSidebarOpened, toggleExtendedProjectSidebar, toggleAnySidebarDropdown } = useAppTheme();
+  const { isExtendedProjectSidebarOpened, toggleExtendedProjectSidebar, toggleAnySidebarDropdown } =
+    useAppTheme();
 
   // states
   const [leaveProjectModalOpen, setLeaveProjectModal] = useState(false);
@@ -109,26 +116,30 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
   const { tabPreferences } = useTabPreferences(workspaceSlug.toString(), projectId);
   const defaultTabKey = tabPreferences.defaultTab;
   // Validate that the default tab is available
-  const validatedDefaultTabKey = availableTabKeys.includes(defaultTabKey) ? defaultTabKey : DEFAULT_TAB_KEY;
-  const defaultTabUrl = project ? getTabUrl(workspaceSlug.toString(), project.id, validatedDefaultTabKey) : "";
+  const validatedDefaultTabKey = availableTabKeys.includes(defaultTabKey)
+    ? defaultTabKey
+    : DEFAULT_TAB_KEY;
+  const defaultTabUrl = project
+    ? getTabUrl(workspaceSlug.toString(), project.id, validatedDefaultTabKey)
+    : "";
 
   // toggle project list open
   const setIsProjectListOpen = useCallback(
     (value: boolean) => toggleProjectListOpen(projectId, value),
-    [projectId, toggleProjectListOpen]
+    [projectId, toggleProjectListOpen],
   );
   // auth
   const isAdmin = allowPermissions(
     [EUserPermissions.ADMIN],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug.toString(),
-    project?.id
+    project?.id,
   );
   const isAuthorized = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
     workspaceSlug.toString(),
-    project?.id
+    project?.id,
   );
 
   const handleLeaveProject = () => {
@@ -165,7 +176,7 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
                     {project && <Logo logo={project?.logo_props} />}
                   </div>
                   <p className="truncate text-secondary">{project?.name}</p>
-                </div>
+                </div>,
               );
               return () => root.unmount();
             },
@@ -176,7 +187,9 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
       dropTargetForElements({
         element,
         canDrop: ({ source }) =>
-          !disableDrop && source?.data?.id !== projectId && source?.data?.dragInstanceId === "PROJECTS",
+          !disableDrop &&
+          source?.data?.id !== projectId &&
+          source?.data?.dragInstanceId === "PROJECTS",
         getData: ({ input, element }) => {
           const data = { id: projectId };
 
@@ -197,7 +210,7 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
               ? extractedInstruction === "reorder-below" && isLastChild
                 ? "DRAG_BELOW"
                 : "DRAG_OVER"
-              : undefined
+              : undefined,
           );
         },
         onDragLeave: () => {
@@ -220,7 +233,7 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
 
           highlightIssueOnDrop(`sidebar-${sourceId}-${projectListType}`);
         },
-      })
+      }),
     );
   }, [projectId, isLastChild, projectListType, handleOnProjectDrop]);
 
@@ -230,7 +243,9 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
   }, [isMenuActive, toggleAnySidebarDropdown]);
 
   useOutsideClickDetector(actionSectionRef, () => setIsMenuActive(false));
-  useOutsideClickDetector(projectRef, () => projectRef?.current?.classList?.remove(HIGHLIGHT_CLASS));
+  useOutsideClickDetector(projectRef, () =>
+    projectRef?.current?.classList?.remove(HIGHLIGHT_CLASS),
+  );
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
@@ -274,12 +289,21 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
     }
   };
 
-  const shouldHighlightProject = URLProjectId === project?.id && projectPreferences.navigationMode !== "ACCORDION";
+  const shouldHighlightProject =
+    URLProjectId === project?.id && projectPreferences.navigationMode !== "ACCORDION";
 
   return (
     <>
-      <PublishProjectModal isOpen={publishModalOpen} projectId={projectId} onClose={() => setPublishModal(false)} />
-      <LeaveProjectModal project={project} isOpen={leaveProjectModalOpen} onClose={() => setLeaveProjectModal(false)} />
+      <PublishProjectModal
+        isOpen={publishModalOpen}
+        projectId={projectId}
+        onClose={() => setPublishModal(false)}
+      />
+      <LeaveProjectModal
+        project={project}
+        isOpen={leaveProjectModalOpen}
+        onClose={() => setLeaveProjectModal(false)}
+      />
       <Disclosure key={`${project.id}_${URLProjectId}`} defaultOpen={isProjectListOpen} as="div">
         <div
           id={`sidebar-${projectId}-${projectListType}`}
@@ -295,7 +319,7 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
               {
                 "bg-surface-2": isMenuActive,
                 "bg-layer-transparent-active": shouldHighlightProject,
-              }
+              },
             )}
             id={`${project?.id}`}
           >
@@ -303,7 +327,9 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
               <Tooltip
                 isMobile={isMobile}
                 tooltipContent={
-                  project.sort_order === null ? t("join_the_project_to_rearrange") : t("drag_to_rearrange")
+                  project.sort_order === null
+                    ? t("join_the_project_to_rearrange")
+                    : t("drag_to_rearrange")
                 }
                 position="top-end"
                 disabled={isDragging}
@@ -316,7 +342,7 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
                       "cursor-not-allowed opacity-60": project.sort_order === null,
                       "cursor-grabbing": isDragging,
                       flex: isMenuActive || renderInExtendedSidebar,
-                    }
+                    },
                   )}
                   ref={dragHandleRef}
                 >
@@ -325,12 +351,19 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
               </Tooltip>
             )}
             <>
-              <ControlLink href={defaultTabUrl} className="flex flex-grow truncate" onClick={handleItemClick}>
+              <ControlLink
+                href={defaultTabUrl}
+                className="flex flex-grow truncate"
+                onClick={handleItemClick}
+              >
                 {isAccordionMode ? (
                   <Disclosure.Button
                     as="button"
                     type="button"
-                    className={cn("flex w-full flex-grow items-center gap-1.5 text-left select-none", {})}
+                    className={cn(
+                      "flex w-full flex-grow items-center gap-1.5 text-left select-none",
+                      {},
+                    )}
                     aria-label={
                       isProjectListOpen
                         ? t("aria_labels.projects_sidebar.close_project_menu")
@@ -367,7 +400,7 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
                     "pointer-events-none flex-shrink-0 opacity-0 group-hover/project-item:pointer-events-auto group-hover/project-item:opacity-100",
                     {
                       "pointer-events-auto opacity-100": isMenuActive,
-                    }
+                    },
                   )}
                   customButtonClassName="grid place-items-center"
                   placement="bottom-start"
@@ -459,7 +492,7 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
                     aria-label={t(
                       isProjectListOpen
                         ? "aria_labels.projects_sidebar.close_project_menu"
-                        : "aria_labels.projects_sidebar.open_project_menu"
+                        : "aria_labels.projects_sidebar.open_project_menu",
                     )}
                   />
                 )}
@@ -477,9 +510,15 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
               leaveTo="transform scale-95 opacity-0"
             >
               {isProjectListOpen && (
-                <Disclosure.Panel as="div" className="relative mt-1 mb-1.5 flex flex-col gap-0.5 pl-6">
+                <Disclosure.Panel
+                  as="div"
+                  className="relative mt-1 mb-1.5 flex flex-col gap-0.5 pl-6"
+                >
                   <div className="absolute top-0 bottom-1 left-[15px] w-[1px] bg-layer-3" />
-                  <ProjectNavigationRoot workspaceSlug={workspaceSlug.toString()} projectId={projectId.toString()} />
+                  <ProjectNavigationRoot
+                    workspaceSlug={workspaceSlug.toString()}
+                    projectId={projectId.toString()}
+                  />
                 </Disclosure.Panel>
               )}
             </Transition>

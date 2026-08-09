@@ -57,12 +57,13 @@ export const ProjectMemberListItem = observer(function ProjectMemberListItem(pro
           });
         });
     } else
-      await removeMemberFromProject(workspaceSlug.toString(), projectId.toString(), memberId).catch((err) =>
-        setToast({
-          type: TOAST_TYPE.ERROR,
-          title: "You can't remove the member from this project yet.",
-          message: err?.error || "Something went wrong. Please try again.",
-        })
+      await removeMemberFromProject(workspaceSlug.toString(), projectId.toString(), memberId).catch(
+        (err) =>
+          setToast({
+            type: TOAST_TYPE.ERROR,
+            title: "You can't remove the member from this project yet.",
+            message: err?.error || "Something went wrong. Please try again.",
+          }),
       );
   };
 
@@ -73,13 +74,19 @@ export const ProjectMemberListItem = observer(function ProjectMemberListItem(pro
         <ConfirmProjectMemberRemove
           isOpen={removeMemberModal !== null}
           onClose={() => setRemoveMemberModal(null)}
-          data={{ id: removeMemberModal.member.id, display_name: removeMemberModal.member.display_name || "" }}
+          data={{
+            id: removeMemberModal.member.id,
+            display_name: removeMemberModal.member.display_name || "",
+          }}
           onSubmit={() => handleRemove(removeMemberModal.member.id)}
         />
       )}
       <Table
         columns={columns}
-        data={(memberDetails?.filter((member): member is IProjectMemberDetails => member !== null) ?? []) as any}
+        data={
+          (memberDetails?.filter((member): member is IProjectMemberDetails => member !== null) ??
+            []) as any
+        }
         keyExtractor={(rowData) => rowData?.member.id ?? ""}
         tHeadClassName="border-b border-subtle"
         thClassName="text-left font-medium divide-x-0 text-placeholder"

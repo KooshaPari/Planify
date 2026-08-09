@@ -27,19 +27,24 @@ export const GithubConfiguration = observer(function GithubConfiguration(props: 
   const { formattedConfig } = useInstance();
   // derived values
   const enableGithubConfig = formattedConfig?.IS_GITHUB_ENABLED ?? "";
-  const isGithubConfigured = !!formattedConfig?.GITHUB_CLIENT_ID && !!formattedConfig?.GITHUB_CLIENT_SECRET;
+  const isGithubConfigured =
+    !!formattedConfig?.GITHUB_CLIENT_ID && !!formattedConfig?.GITHUB_CLIENT_SECRET;
 
   return (
     <>
       {isGithubConfigured ? (
         <div className="flex items-center gap-4">
-          <Link href="/authentication/github" className={cn(getButtonStyling("link", "base"), "font-medium")}>
+          <Link
+            href="/authentication/github"
+            className={cn(getButtonStyling("link", "base"), "font-medium")}
+          >
             Edit
           </Link>
           <ToggleSwitch
             value={Boolean(parseInt(enableGithubConfig))}
             onChange={() => {
-              const newEnableGithubConfig = Boolean(parseInt(enableGithubConfig)) === true ? "0" : "1";
+              const newEnableGithubConfig =
+                Boolean(parseInt(enableGithubConfig)) === true ? "0" : "1";
               updateConfig("IS_GITHUB_ENABLED", newEnableGithubConfig);
             }}
             size="sm"
@@ -47,7 +52,10 @@ export const GithubConfiguration = observer(function GithubConfiguration(props: 
           />
         </div>
       ) : (
-        <Link href="/authentication/github" className={cn(getButtonStyling("secondary", "base"), "text-tertiary")}>
+        <Link
+          href="/authentication/github"
+          className={cn(getButtonStyling("secondary", "base"), "text-tertiary")}
+        >
           <Settings2 className="h-4 w-4 p-0.5 text-tertiary" />
           Configure
         </Link>

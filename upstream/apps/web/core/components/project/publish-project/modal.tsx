@@ -97,16 +97,18 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
   const handleUpdatePublishSettings = async (payload: Partial<TProjectPublishSettings>) => {
     if (!workspaceSlug || !payload.id) return;
 
-    await updatePublishSettings(workspaceSlug.toString(), projectId, payload.id, payload).then((res) => {
-      setToast({
-        type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
-        message: "Publish settings updated successfully!",
-      });
+    await updatePublishSettings(workspaceSlug.toString(), projectId, payload.id, payload).then(
+      (res) => {
+        setToast({
+          type: TOAST_TYPE.SUCCESS,
+          title: "Success!",
+          message: "Publish settings updated successfully!",
+        });
 
-      handleClose();
-      return res;
-    });
+        handleClose();
+        return res;
+      },
+    );
   };
 
   const handleUnPublishProject = async (publishId: string) => {
@@ -120,7 +122,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
           type: TOAST_TYPE.ERROR,
           title: "Error!",
           message: "Something went wrong while unpublishing the project.",
-        })
+        }),
       )
       .finally(() => setIsUnPublishing(false));
   };
@@ -164,7 +166,8 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
     });
   }, [projectPublishSettings, reset]);
 
-  const SPACE_APP_URL = (SPACE_BASE_URL.trim() === "" ? window.location.origin : SPACE_BASE_URL) + SPACE_BASE_PATH;
+  const SPACE_APP_URL =
+    (SPACE_BASE_URL.trim() === "" ? window.location.origin : SPACE_BASE_URL) + SPACE_BASE_PATH;
   const publishLink = `${SPACE_APP_URL}/issues/${projectPublishSettings?.anchor}`;
 
   const handleCopyLink = () =>
@@ -173,7 +176,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
         type: TOAST_TYPE.SUCCESS,
         title: "",
         message: "Published page link copied successfully.",
-      })
+      }),
     );
 
   return (
@@ -270,7 +273,9 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                           className="flex items-center justify-between gap-2"
                         >
                           {option.label}
-                          {selectedLayouts.includes(option.key) && <CheckIcon className="size-3.5 flex-shrink-0" />}
+                          {selectedLayouts.includes(option.key) && (
+                            <CheckIcon className="size-3.5 flex-shrink-0" />
+                          )}
                         </CustomSelect.Option>
                       ))}
                     </CustomSelect>

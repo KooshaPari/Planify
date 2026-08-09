@@ -35,7 +35,7 @@ function ToggleSwitch(props: IToggleSwitchProps) {
           "cursor-not-allowed bg-accent-primary opacity-50": value && disabled,
           "cursor-not-allowed bg-(--text-color-icon-placeholder) opacity-50": !value && disabled,
         },
-        className
+        className,
       )}
     >
       <span className="sr-only">{label}</span>
@@ -50,7 +50,7 @@ function ToggleSwitch(props: IToggleSwitchProps) {
             "h-4 w-4 translate-x-0.5": size === "md" && !value,
             "translate-x-4": size === "lg" && value,
             "translate-x-0.5": size === "lg" && !value,
-          }
+          },
         )}
       />
     </Switch>

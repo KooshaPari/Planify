@@ -18,7 +18,8 @@ import { CORE_EXTENSIONS } from "@/constants/extension";
  * @param {Selection} selection - The selection to check
  * @returns {boolean} True if the selection is a cell selection, false otherwise
  */
-export const isCellSelection = (selection: Selection): selection is CellSelection => selection instanceof CellSelection;
+export const isCellSelection = (selection: Selection): selection is CellSelection =>
+  selection instanceof CellSelection;
 
 /**
  * @description Check if a cell is empty
@@ -73,9 +74,11 @@ export const haveTableRelatedChanges = (
   table: TableNodeLocation | undefined,
   oldState: EditorState,
   newState: EditorState,
-  tr: Transaction
+  tr: Transaction,
 ): table is TableNodeLocation =>
-  editor.isEditable && table !== undefined && (tr.docChanged || !newState.selection.eq(oldState.selection));
+  editor.isEditable &&
+  table !== undefined &&
+  (tr.docChanged || !newState.selection.eq(oldState.selection));
 
 /**
  * @description Get the selected rect from the cell selection.
@@ -97,7 +100,9 @@ export const getSelectedRect = (selection: CellSelection, map: TableMap): Rect =
 export const getSelectedColumns = (selection: Selection, map: TableMap): number[] => {
   if (isCellSelection(selection) && selection.isColSelection()) {
     const selectedRect = getSelectedRect(selection, map);
-    return [...Array(selectedRect.right - selectedRect.left).keys()].map((idx) => idx + selectedRect.left);
+    return [...Array(selectedRect.right - selectedRect.left).keys()].map(
+      (idx) => idx + selectedRect.left,
+    );
   }
 
   return [];
@@ -112,7 +117,9 @@ export const getSelectedColumns = (selection: Selection, map: TableMap): number[
 export const getSelectedRows = (selection: Selection, map: TableMap): number[] => {
   if (isCellSelection(selection) && selection.isRowSelection()) {
     const selectedRect = getSelectedRect(selection, map);
-    return [...Array(selectedRect.bottom - selectedRect.top).keys()].map((idx) => idx + selectedRect.top);
+    return [...Array(selectedRect.bottom - selectedRect.top).keys()].map(
+      (idx) => idx + selectedRect.top,
+    );
   }
 
   return [];
@@ -169,7 +176,11 @@ export const isRowSelected = (rowIndex: number, selection: Selection): boolean =
  * @param {Transaction} tr - The transaction.
  * @returns {Transaction} The updated transaction.
  */
-export const selectColumn = (table: TableNodeLocation, index: number, tr: Transaction): Transaction => {
+export const selectColumn = (
+  table: TableNodeLocation,
+  index: number,
+  tr: Transaction,
+): Transaction => {
   const { map } = TableMap.get(table.node);
 
   const anchorCell = table.start + map[index];
@@ -185,7 +196,11 @@ export const selectColumn = (table: TableNodeLocation, index: number, tr: Transa
  * @param {Transaction} tr - The transaction.
  * @returns {Transaction} The updated transaction.
  */
-export const selectRow = (table: TableNodeLocation, index: number, tr: Transaction): Transaction => {
+export const selectRow = (
+  table: TableNodeLocation,
+  index: number,
+  tr: Transaction,
+): Transaction => {
   const { map, width } = TableMap.get(table.node);
 
   const anchorCell = table.start + map[index * width];
@@ -201,8 +216,11 @@ export const selectRow = (table: TableNodeLocation, index: number, tr: Transacti
  * @param {number} index - The index.
  * @returns {number} The position of the cell widget decoration.
  */
-export const getTableCellWidgetDecorationPos = (table: TableNodeLocation, map: TableMap, index: number): number =>
-  table.start + map.map[index] + 1;
+export const getTableCellWidgetDecorationPos = (
+  table: TableNodeLocation,
+  map: TableMap,
+  index: number,
+): number => table.start + map.map[index] + 1;
 
 /**
  * @description Get the height of the table in pixels.

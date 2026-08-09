@@ -15,7 +15,8 @@ import { getSupportedDateOperators } from "./shared";
 /**
  * Date property filter specific params
  */
-export type TCreateDatePropertyFilterParams = TCustomPropertyFilterParams<Date> & TCreateDateFilterParams;
+export type TCreateDatePropertyFilterParams = TCustomPropertyFilterParams<Date> &
+  TCreateDateFilterParams;
 
 /**
  * Get the date property filter config

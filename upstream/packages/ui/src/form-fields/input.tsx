@@ -15,7 +15,10 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   className?: string;
 }
 
-const Input = React.forwardRef(function Input(props: InputProps, ref: React.ForwardedRef<HTMLInputElement>) {
+const Input = React.forwardRef(function Input(
+  props: InputProps,
+  ref: React.ForwardedRef<HTMLInputElement>,
+) {
   const {
     id,
     type,
@@ -46,7 +49,7 @@ const Input = React.forwardRef(function Input(props: InputProps, ref: React.Forw
           "px-3 py-2": inputSize === "sm",
           "p-3": inputSize === "md",
         },
-        className
+        className,
       )}
       autoComplete={autoComplete}
       {...rest}

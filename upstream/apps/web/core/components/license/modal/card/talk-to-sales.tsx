@@ -26,7 +26,10 @@ export type TalkToSalesCardProps = {
   extraFeatures?: string | React.ReactNode;
   isSelfHosted: boolean;
   isTrialAllowed: boolean;
-  renderTrialButton?: (props: { productId: string | undefined; priceId: string | undefined }) => React.ReactNode;
+  renderTrialButton?: (props: {
+    productId: string | undefined;
+    priceId: string | undefined;
+  }) => React.ReactNode;
 };
 
 export const TalkToSalesCard = observer(function TalkToSalesCard(props: TalkToSalesCardProps) {
@@ -72,7 +75,12 @@ export const TalkToSalesCard = observer(function TalkToSalesCard(props: TalkToSa
         </Loader>
       ) : (
         <div className="flex w-full flex-col items-center justify-center">
-          <a href={href} target="_blank" className={cn(getButtonStyling("primary", "lg"), "w-56")} rel="noreferrer">
+          <a
+            href={href}
+            target="_blank"
+            className={cn(getButtonStyling("primary", "lg"), "w-56")}
+            rel="noreferrer"
+          >
             Talk to Sales
           </a>
           {isTrialAllowed && !isSelfHosted && (

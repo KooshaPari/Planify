@@ -13,7 +13,10 @@ interface TreeMapTooltipProps {
   payload: any[] | undefined;
 }
 
-export const TreeMapTooltip = React.memo(function TreeMapTooltip({ active, payload }: TreeMapTooltipProps) {
+export const TreeMapTooltip = React.memo(function TreeMapTooltip({
+  active,
+  payload,
+}: TreeMapTooltipProps) {
   if (!active || !payload || !payload[0]?.payload) return null;
 
   const data = payload[0].payload;

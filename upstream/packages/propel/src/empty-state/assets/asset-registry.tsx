@@ -59,7 +59,10 @@ import {
 } from "./vertical-stack";
 
 // Horizontal Stack Asset Registry
-export const HORIZONTAL_STACK_ASSETS: Record<HorizontalStackAssetType, React.ComponentType<{ className?: string }>> = {
+export const HORIZONTAL_STACK_ASSETS: Record<
+  HorizontalStackAssetType,
+  React.ComponentType<{ className?: string }>
+> = {
   customer: CustomerHorizontalStackIllustration,
   epic: EpicHorizontalStackIllustration,
   estimate: EstimateHorizontalStackIllustration,
@@ -83,7 +86,10 @@ export const HORIZONTAL_STACK_ASSETS: Record<HorizontalStackAssetType, React.Com
 };
 
 // Vertical Stack Asset Registry
-export const VERTICAL_STACK_ASSETS: Record<VerticalStackAssetType, React.ComponentType<{ className?: string }>> = {
+export const VERTICAL_STACK_ASSETS: Record<
+  VerticalStackAssetType,
+  React.ComponentType<{ className?: string }>
+> = {
   "archived-cycle": ArchivedCycleVerticalStackIllustration,
   "archived-module": ArchivedModuleVerticalStackIllustration,
   "archived-work-item": ArchivedWorkItemVerticalStackIllustration,
@@ -107,16 +113,23 @@ export const VERTICAL_STACK_ASSETS: Record<VerticalStackAssetType, React.Compone
 };
 
 // Illustration Asset Registry
-export const ILLUSTRATION_ASSETS: Record<IllustrationAssetType, React.ComponentType<{ className?: string }>> = {
+export const ILLUSTRATION_ASSETS: Record<
+  IllustrationAssetType,
+  React.ComponentType<{ className?: string }>
+> = {
   inbox: InboxIllustration,
   search: SearchIllustration,
 };
 
 // Helper functions to get assets
-export const getCompactAsset = (assetKey: CompactAssetType, className?: string): React.ReactNode => {
+export const getCompactAsset = (
+  assetKey: CompactAssetType,
+  className?: string,
+): React.ReactNode => {
   const AssetComponent =
-    (HORIZONTAL_STACK_ASSETS[assetKey as HorizontalStackAssetType] as React.ComponentType<{ className?: string }>) ||
-    ILLUSTRATION_ASSETS[assetKey as IllustrationAssetType];
+    (HORIZONTAL_STACK_ASSETS[assetKey as HorizontalStackAssetType] as React.ComponentType<{
+      className?: string;
+    }>) || ILLUSTRATION_ASSETS[assetKey as IllustrationAssetType];
 
   if (!AssetComponent) {
     console.warn(`Asset "${assetKey}" not found in compact asset registry`);
@@ -126,10 +139,14 @@ export const getCompactAsset = (assetKey: CompactAssetType, className?: string):
   return <AssetComponent className={className} />;
 };
 
-export const getDetailedAsset = (assetKey: DetailedAssetType, className?: string): React.ReactNode => {
+export const getDetailedAsset = (
+  assetKey: DetailedAssetType,
+  className?: string,
+): React.ReactNode => {
   const AssetComponent =
-    (VERTICAL_STACK_ASSETS[assetKey as VerticalStackAssetType] as React.ComponentType<{ className?: string }>) ||
-    ILLUSTRATION_ASSETS[assetKey as IllustrationAssetType];
+    (VERTICAL_STACK_ASSETS[assetKey as VerticalStackAssetType] as React.ComponentType<{
+      className?: string;
+    }>) || ILLUSTRATION_ASSETS[assetKey as IllustrationAssetType];
 
   if (!AssetComponent) {
     console.warn(`Asset "${assetKey}" not found in detailed asset registry`);

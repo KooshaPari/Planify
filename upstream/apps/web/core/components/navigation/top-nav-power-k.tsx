@@ -61,9 +61,12 @@ export const TopNavPowerK = observer(() => {
     issue: { getIssueById, getIssueIdByIdentifier },
   } = useIssueDetail();
 
-  const workItemId = workItemIdentifier ? getIssueIdByIdentifier(workItemIdentifier.toString()) : undefined;
+  const workItemId = workItemIdentifier
+    ? getIssueIdByIdentifier(workItemIdentifier.toString())
+    : undefined;
   const workItemDetails = workItemId ? getIssueById(workItemId) : undefined;
-  const projectId: string | string[] | undefined | null = routerProjectId ?? workItemDetails?.project_id;
+  const projectId: string | string[] | undefined | null =
+    routerProjectId ?? workItemDetails?.project_id;
 
   // Build command context
   const context: TPowerKContext = useMemo(
@@ -92,7 +95,7 @@ export const TopNavPowerK = observer(() => {
       router,
       setActivePage,
       closePanel,
-    ]
+    ],
   );
 
   // Register input ref with PowerK store for keyboard shortcut access
@@ -121,7 +124,7 @@ export const TopNavPowerK = observer(() => {
         setSearchTerm("");
       }
     },
-    [context, setActivePage]
+    [context, setActivePage],
   );
 
   // Handle selection page item selection
@@ -133,7 +136,7 @@ export const TopNavPowerK = observer(() => {
       // Always close on page data selection
       context.closePalette();
     },
-    [context]
+    [context],
   );
 
   const handleKeyDown = useCallback(
@@ -182,7 +185,9 @@ export const TopNavPowerK = observer(() => {
 
           // Also try to focus the first/selected item
           if (e.key === "ArrowDown") {
-            const firstItem = commandList.querySelector('[cmdk-item]:not([aria-disabled="true"])') as HTMLElement;
+            const firstItem = commandList.querySelector(
+              '[cmdk-item]:not([aria-disabled="true"])',
+            ) as HTMLElement;
             if (firstItem) {
               firstItem.focus();
             }
@@ -195,7 +200,9 @@ export const TopNavPowerK = observer(() => {
       if (e.key === "Enter" && isOpen) {
         e.preventDefault();
         // Find the currently selected/focused item
-        const selectedItem = containerRef.current?.querySelector('[cmdk-item][aria-selected="true"]') as HTMLElement;
+        const selectedItem = containerRef.current?.querySelector(
+          '[cmdk-item][aria-selected="true"]',
+        ) as HTMLElement;
         if (selectedItem) {
           // Trigger click on the selected item
           selectedItem.click();
@@ -203,22 +210,25 @@ export const TopNavPowerK = observer(() => {
         return;
       }
     },
-    [searchTerm, activePage, context, shouldShowContextBasedActions, setActivePage, closePanel]
+    [searchTerm, activePage, context, shouldShowContextBasedActions, setActivePage, closePanel],
   );
 
   return (
     <div ref={containerRef} className="relative">
       <div
-        className={cn("relative z-30 flex w-[364px] items-center transition-all duration-300 ease-in-out", {
-          "w-[554px]": isOpen,
-        })}
+        className={cn(
+          "relative z-30 flex w-[364px] items-center transition-all duration-300 ease-in-out",
+          {
+            "w-[554px]": isOpen,
+          },
+        )}
       >
         <div
           className={cn(
             "flex h-7 w-full items-center rounded-lg border border-subtle-1 bg-layer-2 p-2 transition-colors duration-200",
             {
               "bg-layer-1": isOpen,
-            }
+            },
           )}
           onClick={() => inputRef.current?.focus()}
           role="button"
@@ -251,7 +261,7 @@ export const TopNavPowerK = observer(() => {
           {
             "max-h-[80vh] w-[574px] opacity-100": isOpen,
             "h-0 w-0 opacity-0": !isOpen,
-          }
+          },
         )}
       >
         {isOpen && (

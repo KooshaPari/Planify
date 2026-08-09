@@ -30,7 +30,7 @@ export const LayoutDropDown = observer(function LayoutDropDown(props: TLayoutDro
   // derived values
   const availableLayouts = useMemo(
     () => Object.values(ISSUE_LAYOUT_MAP).filter((layout) => !disabledLayouts.includes(layout.key)),
-    [disabledLayouts]
+    [disabledLayouts],
   );
 
   const options = useMemo(
@@ -39,18 +39,25 @@ export const LayoutDropDown = observer(function LayoutDropDown(props: TLayoutDro
         data: issueLayout.key,
         value: issueLayout.key,
       })),
-    [availableLayouts]
+    [availableLayouts],
   );
 
-  const buttonContent = useCallback((isOpen: boolean, buttonValue: string | string[] | undefined) => {
-    const dropdownValue = ISSUE_LAYOUT_MAP[buttonValue as EIssueLayoutTypes];
-    return (
-      <div className="flex items-center gap-2 text-secondary">
-        <IssueLayoutIcon layout={dropdownValue.key} strokeWidth={2} className={`size-3.5 text-secondary`} />
-        <span className="text-11 font-medium">{t(dropdownValue.i18n_label)}</span>
-      </div>
-    );
-  }, []);
+  const buttonContent = useCallback(
+    (isOpen: boolean, buttonValue: string | string[] | undefined) => {
+      const dropdownValue = ISSUE_LAYOUT_MAP[buttonValue as EIssueLayoutTypes];
+      return (
+        <div className="flex items-center gap-2 text-secondary">
+          <IssueLayoutIcon
+            layout={dropdownValue.key}
+            strokeWidth={2}
+            className={`size-3.5 text-secondary`}
+          />
+          <span className="text-11 font-medium">{t(dropdownValue.i18n_label)}</span>
+        </div>
+      );
+    },
+    [],
+  );
 
   const itemContent = useCallback((props: { value: string; selected: boolean }) => {
     const dropdownValue = ISSUE_LAYOUT_MAP[props.value as EIssueLayoutTypes];
@@ -58,7 +65,11 @@ export const LayoutDropDown = observer(function LayoutDropDown(props: TLayoutDro
     return (
       <div className={cn("flex w-full items-center justify-between gap-2 text-secondary")}>
         <div className="flex items-center gap-2">
-          <IssueLayoutIcon layout={dropdownValue.key} strokeWidth={2} className={`size-3 text-secondary`} />
+          <IssueLayoutIcon
+            layout={dropdownValue.key}
+            strokeWidth={2}
+            className={`size-3 text-secondary`}
+          />
           <span className="text-11 font-medium">{t(dropdownValue.i18n_label)}</span>
         </div>
         {props.selected && <CheckIcon className="h-3.5 w-3.5 flex-shrink-0" />}

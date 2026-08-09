@@ -30,13 +30,15 @@ export function SettingsSidebarItem(props: Props) {
     {
       "bg-layer-transparent-selected text-primary": isActive,
       "hover:bg-layer-transparent-hover": !isActive,
-    }
+    },
   );
   // common content
   const content = (
     <>
       {"icon" in props ? (
-        <span className="grid size-4 shrink-0 place-items-center">{<props.icon className="size-3.5" />}</span>
+        <span className="grid size-4 shrink-0 place-items-center">
+          {<props.icon className="size-3.5" />}
+        </span>
       ) : (
         props.iconNode
       )}

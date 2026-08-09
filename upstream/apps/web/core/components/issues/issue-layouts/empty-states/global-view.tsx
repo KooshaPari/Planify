@@ -25,7 +25,7 @@ export const GlobalViewEmptyState = observer(function GlobalViewEmptyState() {
   // derived values
   const hasMemberLevelPermission = allowPermissions(
     [EUserWorkspaceRoles.ADMIN, EUserWorkspaceRoles.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   if (workspaceProjectIds?.length === 0) {

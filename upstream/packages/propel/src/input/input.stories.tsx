@@ -49,7 +49,7 @@ const createStory = (args: Partial<React.ComponentProps<typeof Input>>): Story =
 
 const createShowcaseStory = (
   title: string,
-  sections: Array<{ label: string; props: Partial<React.ComponentProps<typeof Input>> }>
+  sections: Array<{ label: string; props: Partial<React.ComponentProps<typeof Input>> }>,
 ): Story => ({
   render: () => (
     <div className="w-[400px] space-y-4">
@@ -142,7 +142,10 @@ export const Search = createStory({
 export const AllModes = createShowcaseStory("Input Modes", [
   { label: "Primary", props: { mode: "primary", placeholder: "Primary input" } },
   { label: "Transparent", props: { mode: "transparent", placeholder: "Transparent input" } },
-  { label: "True Transparent", props: { mode: "true-transparent", placeholder: "True transparent input" } },
+  {
+    label: "True Transparent",
+    props: { mode: "true-transparent", placeholder: "True transparent input" },
+  },
 ]);
 
 export const AllSizes = createShowcaseStory("Input Sizes", [
@@ -155,5 +158,8 @@ export const AllStates = createShowcaseStory("Input States", [
   { label: "Normal", props: { placeholder: "Normal input" } },
   { label: "With Error", props: { hasError: true, placeholder: "Input with error" } },
   { label: "Disabled", props: { disabled: true, placeholder: "Disabled input" } },
-  { label: "With Value", props: { defaultValue: "Pre-filled value", placeholder: "Input with value" } },
+  {
+    label: "With Value",
+    props: { defaultValue: "Pre-filled value", placeholder: "Input with value" },
+  },
 ]);

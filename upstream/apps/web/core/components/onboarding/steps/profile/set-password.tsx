@@ -20,7 +20,11 @@ interface SetPasswordRootProps {
   disabled?: boolean;
 }
 
-export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, disabled = false }: SetPasswordRootProps) {
+export function SetPasswordRoot({
+  onPasswordChange,
+  onConfirmPasswordChange,
+  disabled = false,
+}: SetPasswordRootProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [passwordState, setPasswordState] = useState<PasswordState>({
     password: "",
@@ -48,7 +52,7 @@ export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, dis
         return newState;
       });
     },
-    [onPasswordChange, onConfirmPasswordChange]
+    [onPasswordChange, onConfirmPasswordChange],
   );
 
   const isPasswordValid = useMemo(() => {
@@ -64,7 +68,7 @@ export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, dis
   const chevronIconClasses = useMemo(
     () =>
       `w-4 h-4 text-placeholder transition-transform duration-300 ease-in-out ${isExpanded ? "rotate-180" : "rotate-0"}`,
-    [isExpanded]
+    [isExpanded],
   );
 
   const expandedContentClasses = useMemo(
@@ -72,16 +76,18 @@ export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, dis
       `flex flex-col gap-4 transition-all duration-300 ease-in-out overflow-hidden px-3 ${
         isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
       }`,
-    [isExpanded]
+    [isExpanded],
   );
 
   return (
-    <div className={`flex flex-col overflow-hidden rounded-lg bg-surface-2 transition-all duration-300 ease-in-out`}>
+    <div
+      className={`flex flex-col overflow-hidden rounded-lg bg-surface-2 transition-all duration-300 ease-in-out`}
+    >
       <div
         className={cn(
           "flex items-center justify-between px-3 py-2 text-13 transition-colors duration-200",
           disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
-          isExpanded && "pb-1"
+          isExpanded && "pb-1",
         )}
         onClick={handleToggleExpand}
       >
@@ -105,7 +111,9 @@ export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, dis
             placeholder="Set a password"
             className="transition-all duration-200"
           />
-          {passwordState.password.length > 0 && <PasswordStrengthIndicator password={passwordState.password} />}
+          {passwordState.password.length > 0 && (
+            <PasswordStrengthIndicator password={passwordState.password} />
+          )}
         </div>
 
         <div className="flex flex-col gap-2 pb-2">
@@ -123,8 +131,12 @@ export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, dis
               placeholder="Confirm password"
               className="transition-all duration-200"
             />
-            {hasPasswordMismatch && <p className="mt-1 text-11 text-danger-primary">Passwords do not match</p>}
-            {isPasswordValid && <p className="mt-1 text-11 text-success-primary">✓ Passwords match</p>}
+            {hasPasswordMismatch && (
+              <p className="mt-1 text-11 text-danger-primary">Passwords do not match</p>
+            )}
+            {isPasswordValid && (
+              <p className="mt-1 text-11 text-success-primary">✓ Passwords match</p>
+            )}
           </div>
         </div>
       </div>

@@ -81,7 +81,7 @@ export function AlertModalCore(props: Props) {
           <span
             className={cn(
               "grid size-12 flex-shrink-0 place-items-center rounded-full sm:size-10",
-              VARIANT_CLASSES[variant]
+              VARIANT_CLASSES[variant],
             )}
           >
             {customIcon ? <>{customIcon}</> : <Icon className="size-5" aria-hidden="true" />}
@@ -96,7 +96,12 @@ export function AlertModalCore(props: Props) {
         <Button variant="secondary" onClick={handleClose}>
           {secondaryButtonText}
         </Button>
-        <Button variant={BUTTON_VARIANTS[variant]} tabIndex={1} onClick={handleSubmit} loading={isSubmitting}>
+        <Button
+          variant={BUTTON_VARIANTS[variant]}
+          tabIndex={1}
+          onClick={handleSubmit}
+          loading={isSubmitting}
+        >
           {isSubmitting ? primaryButtonText.loading : primaryButtonText.default}
         </Button>
       </div>

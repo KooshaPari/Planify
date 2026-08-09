@@ -7,7 +7,10 @@
 import type { MutableRefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
-import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // plane helpers
@@ -48,7 +51,9 @@ interface IssueBlockProps {
   draggableId: string;
   canDropOverIssue: boolean;
   canDragIssuesInCurrentGrouping: boolean;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   quickActions: TRenderQuickActions;
   canEditProperties: (projectId: string | undefined) => boolean;
   scrollableContainerRef?: MutableRefObject<HTMLDivElement | null>;
@@ -60,14 +65,26 @@ interface IssueDetailsBlockProps {
   cardRef: React.RefObject<HTMLElement>;
   issue: TIssue;
   displayProperties: IIssueDisplayProperties | undefined;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   quickActions: TRenderQuickActions;
   isReadOnly: boolean;
   isEpic?: boolean;
 }
 
-const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props: IssueDetailsBlockProps) {
-  const { cardRef, issue, updateIssue, quickActions, isReadOnly, displayProperties, isEpic = false } = props;
+const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(
+  props: IssueDetailsBlockProps,
+) {
+  const {
+    cardRef,
+    issue,
+    updateIssue,
+    quickActions,
+    isReadOnly,
+    displayProperties,
+    isEpic = false,
+  } = props;
   // refs
   const menuActionRef = useRef<HTMLDivElement | null>(null);
   // states
@@ -176,12 +193,15 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
   const workspaceSlug = routerWorkspaceSlug?.toString();
   // hooks
   const { getProjectIdentifierById } = useProject();
-  const { getIsIssuePeeked } = useIssueDetail(isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES);
+  const { getIsIssuePeeked } = useIssueDetail(
+    isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES,
+  );
   const { handleRedirection } = useIssuePeekOverviewRedirection(isEpic);
   const { isMobile } = usePlatformOS();
 
   // handlers
-  const handleIssuePeekOverview = (issue: TIssue) => handleRedirection(workspaceSlug, issue, isMobile);
+  const handleIssuePeekOverview = (issue: TIssue) =>
+    handleRedirection(workspaceSlug, issue, isMobile);
 
   const issue = issuesMap[issueId];
 
@@ -244,9 +264,16 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
         onDrop: () => {
           setIsDraggingOverBlock(false);
         },
-      })
+      }),
     );
-  }, [cardRef?.current, issue?.id, isDragAllowed, canDropOverIssue, setIsCurrentBlockDragging, setIsDraggingOverBlock]);
+  }, [
+    cardRef?.current,
+    issue?.id,
+    isDragAllowed,
+    canDropOverIssue,
+    setIsCurrentBlockDragging,
+    setIsDraggingOverBlock,
+  ]);
 
   if (!issue) return null;
 
@@ -277,8 +304,10 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
           className={cn(
             "block w-full rounded-lg border border-subtle bg-layer-2 p-3 text-13 shadow-raised-100 outline-[0.5px] outline-transparent transition-all hover:border-strong hover:shadow-raised-200",
             { "hover:cursor-pointer": isDragAllowed },
-            { "border border-accent-strong hover:border-accent-strong": getIsIssuePeeked(issue.id) },
-            { "z-[100] bg-layer-1": isCurrentBlockDragging }
+            {
+              "border border-accent-strong hover:border-accent-strong": getIsIssuePeeked(issue.id),
+            },
+            { "z-[100] bg-layer-1": isCurrentBlockDragging },
           )}
           onClick={() => handleIssuePeekOverview(issue)}
           disabled={!!issue?.tempId}

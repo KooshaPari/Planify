@@ -4,7 +4,11 @@
  * See the LICENSE file for details.
  */
 
-import type { TEstimatePointsObject, TEstimateSystemKeys, TEstimateTypeErrorObject } from "@plane/types";
+import type {
+  TEstimatePointsObject,
+  TEstimateSystemKeys,
+  TEstimateTypeErrorObject,
+} from "@plane/types";
 
 export type TEstimatePointDelete = {
   workspaceSlug: string;
@@ -14,7 +18,11 @@ export type TEstimatePointDelete = {
   estimatePoints: TEstimatePointsObject[];
   callback: () => void;
   estimatePointError?: TEstimateTypeErrorObject | undefined;
-  handleEstimatePointError?: (newValue: string, message: string | undefined, mode?: "add" | "delete") => void;
+  handleEstimatePointError?: (
+    newValue: string,
+    message: string | undefined,
+    mode?: "add" | "delete",
+  ) => void;
   estimateSystem: TEstimateSystemKeys;
 };
 

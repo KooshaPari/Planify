@@ -4,7 +4,15 @@
  * See the LICENSE file for details.
  */
 
-import { autoUpdate, flip, hide, shift, useDismiss, useFloating, useInteractions } from "@floating-ui/react";
+import {
+  autoUpdate,
+  flip,
+  hide,
+  shift,
+  useDismiss,
+  useFloating,
+  useInteractions,
+} from "@floating-ui/react";
 import type { Editor } from "@tiptap/react";
 import { useEditorState } from "@tiptap/react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -103,7 +111,11 @@ export function LinkViewContainer({ editor, containerRef }: Props) {
         clearHoverTimeout();
 
         // Only update if not already open or if hovering over a different link
-        if (!isOpen || (linkViewProps && (linkViewProps.from !== pos || linkViewProps.to !== pos + node.nodeSize))) {
+        if (
+          !isOpen ||
+          (linkViewProps &&
+            (linkViewProps.from !== pos || linkViewProps.to !== pos + node.nodeSize))
+        ) {
           setLinkViewProps({
             view: "LinkPreview", // Always start with preview for new links
             url: linkMark.attrs.href,
@@ -122,7 +134,14 @@ export function LinkViewContainer({ editor, containerRef }: Props) {
         console.error("Error handling link hover:", error);
       }
     },
-    [editor, editorState.linkExtensionStorage, getReferenceProps, isOpen, linkViewProps, clearHoverTimeout]
+    [
+      editor,
+      editorState.linkExtensionStorage,
+      getReferenceProps,
+      isOpen,
+      linkViewProps,
+      clearHoverTimeout,
+    ],
   );
 
   // Handle mouse enter on floating element (cancel close timeout)
@@ -161,7 +180,7 @@ export function LinkViewContainer({ editor, containerRef }: Props) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [editor, isOpen, setCloseTimeout, refs.floating]
+    [editor, isOpen, setCloseTimeout, refs.floating],
   );
 
   // Set up event listeners

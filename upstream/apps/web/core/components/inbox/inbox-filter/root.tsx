@@ -32,7 +32,11 @@ export function FiltersRoot() {
   return (
     <div className="relative flex items-center gap-2">
       <div>
-        <FiltersDropdown menuButton={windowSize[0] > 1280 ? largeButton : smallButton} title="" placement="bottom-end">
+        <FiltersDropdown
+          menuButton={windowSize[0] > 1280 ? largeButton : smallButton}
+          title=""
+          placement="bottom-end"
+        >
           <InboxIssueFilterSelection />
         </FiltersDropdown>
       </div>

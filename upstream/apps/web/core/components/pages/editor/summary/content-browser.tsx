@@ -39,7 +39,7 @@ export function PageContentBrowser(props: Props) {
       editorRef?.scrollSummary(marking);
       setSidePeekVisible?.(false);
     },
-    [editorRef, setSidePeekVisible]
+    [editorRef, setSidePeekVisible],
   );
 
   const HeadingComponent: {
@@ -59,7 +59,7 @@ export function PageContentBrowser(props: Props) {
         {
           "gap-y-2": showOutline,
         },
-        className
+        className,
       )}
     >
       {headings.map((marking) => {

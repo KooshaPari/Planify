@@ -37,7 +37,7 @@ export const FilterCreatedBy = observer(function FilterCreatedBy(props: Props) {
 
   const sortedOptions = useMemo(() => {
     const filteredOptions = (memberIds || []).filter((memberId) =>
-      getUserDetails(memberId)?.display_name.toLowerCase().includes(searchQuery.toLowerCase())
+      getUserDetails(memberId)?.display_name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
     return sortBy(filteredOptions, [

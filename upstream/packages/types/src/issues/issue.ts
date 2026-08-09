@@ -157,7 +157,10 @@ export type TBulkOperationsPayload = {
 
 export type TWorkItemWidgets = "sub-work-items" | "relations" | "links" | "attachments";
 
-export type TIssueServiceType = EIssueServiceType.ISSUES | EIssueServiceType.EPICS | EIssueServiceType.WORK_ITEMS;
+export type TIssueServiceType =
+  | EIssueServiceType.ISSUES
+  | EIssueServiceType.EPICS
+  | EIssueServiceType.WORK_ITEMS;
 
 export interface IPublicIssue extends Pick<
   TIssue,

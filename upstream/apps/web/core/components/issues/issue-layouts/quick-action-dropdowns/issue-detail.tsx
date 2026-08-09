@@ -40,7 +40,7 @@ type TWorkItemDetailQuickActionProps = IQuickActionProps & {
 };
 
 export const WorkItemDetailQuickActions = observer(function WorkItemDetailQuickActions(
-  props: TWorkItemDetailQuickActionProps
+  props: TWorkItemDetailQuickActionProps,
 ) {
   const {
     issue,
@@ -81,11 +81,12 @@ export const WorkItemDetailQuickActions = observer(function WorkItemDetailQuickA
       [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
       EUserPermissionsLevel.PROJECT,
       workspaceSlug?.toString(),
-      issue.project_id ?? undefined
+      issue.project_id ?? undefined,
     ) && !readOnly;
 
   const isArchivingAllowed = !issue.archived_at && isEditingAllowed;
-  const isInArchivableGroup = !!stateDetails && ARCHIVABLE_STATE_GROUPS.includes(stateDetails?.group);
+  const isInArchivableGroup =
+    !!stateDetails && ARCHIVABLE_STATE_GROUPS.includes(stateDetails?.group);
   const isRestoringAllowed = !!issue.archived_at && isEditingAllowed;
 
   const isDeletingAllowed = isEditingAllowed;
@@ -96,7 +97,7 @@ export const WorkItemDetailQuickActions = observer(function WorkItemDetailQuickA
       name: `${issue.name} (copy)`,
       sourceIssueId: issue.id,
     },
-    ["id"]
+    ["id"],
   );
 
   const customEditAction = () => {
@@ -276,7 +277,7 @@ export const WorkItemDetailQuickActions = observer(function WorkItemDetailQuickA
                   {
                     "text-placeholder": item.disabled,
                   },
-                  item.className
+                  item.className,
                 )}
               >
                 {item.nestedMenuItems.map((nestedItem) => (
@@ -290,11 +291,13 @@ export const WorkItemDetailQuickActions = observer(function WorkItemDetailQuickA
                       {
                         "text-placeholder": nestedItem.disabled,
                       },
-                      nestedItem.className
+                      nestedItem.className,
                     )}
                     disabled={nestedItem.disabled}
                   >
-                    {nestedItem.icon && <nestedItem.icon className={cn("h-3 w-3", nestedItem.iconClassName)} />}
+                    {nestedItem.icon && (
+                      <nestedItem.icon className={cn("h-3 w-3", nestedItem.iconClassName)} />
+                    )}
                     <div>
                       <h5>{nestedItem.title}</h5>
                       {nestedItem.description && (
@@ -325,7 +328,7 @@ export const WorkItemDetailQuickActions = observer(function WorkItemDetailQuickA
                 {
                   "text-placeholder": item.disabled,
                 },
-                item.className
+                item.className,
               )}
               disabled={item.disabled}
             >

@@ -24,7 +24,9 @@ type Props = {
   };
 };
 
-export const DefaultWorkspaceViewQuickActions = observer(function DefaultWorkspaceViewQuickActions(props: Props) {
+export const DefaultWorkspaceViewQuickActions = observer(function DefaultWorkspaceViewQuickActions(
+  props: Props,
+) {
   const { workspaceSlug, view } = props;
 
   const { t } = useTranslation();
@@ -76,7 +78,7 @@ export const DefaultWorkspaceViewQuickActions = observer(function DefaultWorkspa
                 {
                   "text-placeholder": item.disabled,
                 },
-                item.className
+                item.className,
               )}
               disabled={item.disabled}
             >

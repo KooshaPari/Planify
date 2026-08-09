@@ -7,7 +7,12 @@
 import { isNil, orderBy } from "lodash-es";
 // plane imports
 import { SPACE_BASE_PATH, SPACE_BASE_URL } from "@plane/constants";
-import type { IProjectView, TViewFilterProps, TViewFiltersSortBy, TViewFiltersSortKey } from "@plane/types";
+import type {
+  IProjectView,
+  TViewFilterProps,
+  TViewFiltersSortBy,
+  TViewFiltersSortKey,
+} from "@plane/types";
 // local imports
 import { getDate } from "./datetime";
 import { satisfiesDateFilter } from "./filter";
@@ -22,7 +27,7 @@ import { satisfiesDateFilter } from "./filter";
 export const orderViews = (
   views: IProjectView[],
   sortByKey: TViewFiltersSortKey | undefined,
-  sortByOrder: TViewFiltersSortBy
+  sortByOrder: TViewFiltersSortBy,
 ): IProjectView[] => {
   if (views.length === 0 || !sortByKey) return [];
 
@@ -48,7 +53,10 @@ export const orderViews = (
  * @param filters
  * @returns
  */
-export const shouldFilterView = (view: IProjectView, filters: TViewFilterProps | undefined): boolean => {
+export const shouldFilterView = (
+  view: IProjectView,
+  filters: TViewFilterProps | undefined,
+): boolean => {
   let fallsInFilters = true;
   Object.keys(filters ?? {}).forEach((key) => {
     const filterKey = key as keyof TViewFilterProps;
@@ -59,7 +67,8 @@ export const shouldFilterView = (view: IProjectView, filters: TViewFilterProps |
     if (filterKey === "created_at" && filters?.created_at && filters.created_at.length > 0) {
       const createdDate = getDate(view.created_at);
       filters?.created_at.forEach((dateFilter) => {
-        fallsInFilters = fallsInFilters && !!createdDate && satisfiesDateFilter(createdDate, dateFilter);
+        fallsInFilters =
+          fallsInFilters && !!createdDate && satisfiesDateFilter(createdDate, dateFilter);
       });
     }
 
@@ -90,7 +99,11 @@ export const getViewName = (name: string | undefined) => {
  * @returns
  */
 export const getValidatedViewFilters = (data: Partial<IProjectView>) => {
-  if (data?.display_filters && data?.display_filters?.layout === "kanban" && isNil(data.display_filters.group_by)) {
+  if (
+    data?.display_filters &&
+    data?.display_filters?.layout === "kanban" &&
+    isNil(data.display_filters.group_by)
+  ) {
     data.display_filters.group_by = "state";
   }
 
@@ -105,6 +118,7 @@ export const getValidatedViewFilters = (data: Partial<IProjectView>) => {
 export const getPublishViewLink = (anchor: string | undefined) => {
   if (!anchor) return;
 
-  const SPACE_APP_URL = (SPACE_BASE_URL.trim() === "" ? window.location.origin : SPACE_BASE_URL) + SPACE_BASE_PATH;
+  const SPACE_APP_URL =
+    (SPACE_BASE_URL.trim() === "" ? window.location.origin : SPACE_BASE_URL) + SPACE_BASE_PATH;
   return `${SPACE_APP_URL}/views/${anchor}`;
 };

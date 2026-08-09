@@ -27,7 +27,9 @@ export function ImageAlignmentAction(props: Props) {
   // refs
   const dropdownRef = useRef<HTMLDivElement>(null);
   // derived values
-  const activeAlignmentDetails = IMAGE_ALIGNMENT_OPTIONS.find((option) => option.value === activeAlignment);
+  const activeAlignmentDetails = IMAGE_ALIGNMENT_OPTIONS.find(
+    (option) => option.value === activeAlignment,
+  );
 
   useOutsideClickDetector(dropdownRef, () => setIsDropdownOpen(false));
 
@@ -43,7 +45,9 @@ export function ImageAlignmentAction(props: Props) {
           className="flex h-full items-center gap-1 text-white/60 transition-colors hover:text-white"
           onClick={() => setIsDropdownOpen((prev) => !prev)}
         >
-          {activeAlignmentDetails && <activeAlignmentDetails.icon className="size-3 flex-shrink-0" />}
+          {activeAlignmentDetails && (
+            <activeAlignmentDetails.icon className="size-3 flex-shrink-0" />
+          )}
           <ChevronDownIcon className="size-2 flex-shrink-0" />
         </button>
       </Tooltip>

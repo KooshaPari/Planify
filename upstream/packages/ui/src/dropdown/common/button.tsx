@@ -32,11 +32,15 @@ export function DropdownButton(props: IMultiSelectDropdownButton | ISingleSelect
             "cursor-not-allowed text-secondary": disabled,
             "cursor-pointer": !disabled,
           },
-          buttonContainerClassName
+          buttonContainerClassName,
         )}
         onClick={handleOnClick}
       >
-        {buttonContent ? <>{buttonContent(isOpen, value)}</> : <span className={cn("", buttonClassName)}>{value}</span>}
+        {buttonContent ? (
+          <>{buttonContent(isOpen, value)}</>
+        ) : (
+          <span className={cn("", buttonClassName)}>{value}</span>
+        )}
       </button>
     </Combobox.Button>
   );

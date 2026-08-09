@@ -77,7 +77,8 @@ export const CommentCardEditForm = observer(function CommentCardEditForm(props: 
     <form className="flex flex-col gap-2">
       <div
         onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.metaKey && !isEmpty) handleSubmit(onEnter)(e);
+          if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.metaKey && !isEmpty)
+            handleSubmit(onEnter)(e);
         }}
       >
         <LiteTextEditor
@@ -96,11 +97,18 @@ export const CommentCardEditForm = observer(function CommentCardEditForm(props: 
           }}
           showSubmitButton={false}
           uploadFile={async (blockId, file) => {
-            const { asset_id } = await activityOperations.uploadCommentAsset(blockId, file, comment.id);
+            const { asset_id } = await activityOperations.uploadCommentAsset(
+              blockId,
+              file,
+              comment.id,
+            );
             return asset_id;
           }}
           duplicateFile={async (assetId: string) => {
-            const { asset_id } = await activityOperations.duplicateCommentAsset(assetId, comment.id);
+            const { asset_id } = await activityOperations.duplicateCommentAsset(
+              assetId,
+              comment.id,
+            );
             return asset_id;
           }}
           projectId={projectId}
@@ -118,7 +126,7 @@ export const CommentCardEditForm = observer(function CommentCardEditForm(props: 
             disabled={isDisabled}
             className={cn(
               "group grid size-7 place-items-center rounded-lg border border-success-subtle bg-success-subtle shadow-raised-100 duration-300",
-              isDisabled ? "" : "hover:bg-success-subtle-1"
+              isDisabled ? "" : "hover:bg-success-subtle-1",
             )}
           >
             <CheckIcon className="size-4 text-success-primary" />
@@ -129,7 +137,7 @@ export const CommentCardEditForm = observer(function CommentCardEditForm(props: 
           disabled={isSubmitting}
           className={cn(
             "group grid size-7 place-items-center rounded-lg border border-danger-subtle bg-danger-subtle shadow-raised-100 duration-300",
-            isSubmitting ? "" : "hover:bg-danger-subtle-hover"
+            isSubmitting ? "" : "hover:bg-danger-subtle-hover",
           )}
           onClick={() => {
             setIsEditing(false);

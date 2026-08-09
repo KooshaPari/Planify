@@ -37,7 +37,9 @@ const moduleBurnDownChartOptions = [
   { value: "points", i18n_label: "points" },
 ];
 
-export const ModuleAnalyticsProgress = observer(function ModuleAnalyticsProgress(props: TModuleAnalyticsProgress) {
+export const ModuleAnalyticsProgress = observer(function ModuleAnalyticsProgress(
+  props: TModuleAnalyticsProgress,
+) {
   // props
   const { workspaceSlug, projectId, moduleId } = props;
   // router
@@ -46,23 +48,39 @@ export const ModuleAnalyticsProgress = observer(function ModuleAnalyticsProgress
   // plane hooks
   const { t } = useTranslation();
   // hooks
-  const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } = useProjectEstimates();
-  const { getPlotTypeByModuleId, setPlotType, getModuleById, fetchModuleDetails, fetchArchivedModuleDetails } =
-    useModule();
+  const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } =
+    useProjectEstimates();
+  const {
+    getPlotTypeByModuleId,
+    setPlotType,
+    getModuleById,
+    fetchModuleDetails,
+    fetchArchivedModuleDetails,
+  } = useModule();
   const { getFilter, updateFilterValueFromSidebar } = useWorkItemFilters();
   // state
   const [loader, setLoader] = useState(false);
   // derived values
   const moduleFilter = getFilter(EIssuesStoreType.MODULE, moduleId);
-  const selectedAssignees = moduleFilter?.findFirstConditionByPropertyAndOperator("assignee_id", "in");
+  const selectedAssignees = moduleFilter?.findFirstConditionByPropertyAndOperator(
+    "assignee_id",
+    "in",
+  );
   const selectedLabels = moduleFilter?.findFirstConditionByPropertyAndOperator("label_id", "in");
-  const selectedStateGroups = moduleFilter?.findFirstConditionByPropertyAndOperator("state_group", "in");
+  const selectedStateGroups = moduleFilter?.findFirstConditionByPropertyAndOperator(
+    "state_group",
+    "in",
+  );
   const moduleDetails = getModuleById(moduleId);
   const plotType: TModulePlotType = getPlotTypeByModuleId(moduleId);
-  const isCurrentProjectEstimateEnabled = projectId && areEstimateEnabledByProjectId(projectId) ? true : false;
+  const isCurrentProjectEstimateEnabled =
+    projectId && areEstimateEnabledByProjectId(projectId) ? true : false;
   const estimateDetails =
-    isCurrentProjectEstimateEnabled && currentActiveEstimateId && estimateById(currentActiveEstimateId);
-  const isCurrentEstimateTypeIsPoints = estimateDetails && estimateDetails?.type === EEstimateSystem.POINTS;
+    isCurrentProjectEstimateEnabled &&
+    currentActiveEstimateId &&
+    estimateById(currentActiveEstimateId);
+  const isCurrentEstimateTypeIsPoints =
+    estimateDetails && estimateDetails?.type === EEstimateSystem.POINTS;
   const completedIssues = moduleDetails?.completed_issues || 0;
   const totalIssues = moduleDetails?.total_issues || 0;
   const completedEstimatePoints = moduleDetails?.completed_estimate_points || 0;
@@ -77,20 +95,34 @@ export const ModuleAnalyticsProgress = observer(function ModuleAnalyticsProgress
         : 0
     : 0;
   const chartDistributionData =
-    plotType === "points" ? moduleDetails?.estimate_distribution : moduleDetails?.distribution || undefined;
+    plotType === "points"
+      ? moduleDetails?.estimate_distribution
+      : moduleDetails?.distribution || undefined;
   const completionChartDistributionData = chartDistributionData?.completion_chart || undefined;
   const groupedIssues = useMemo(
     () => ({
-      backlog: plotType === "points" ? moduleDetails?.backlog_estimate_points || 0 : moduleDetails?.backlog_issues || 0,
+      backlog:
+        plotType === "points"
+          ? moduleDetails?.backlog_estimate_points || 0
+          : moduleDetails?.backlog_issues || 0,
       unstarted:
-        plotType === "points" ? moduleDetails?.unstarted_estimate_points || 0 : moduleDetails?.unstarted_issues || 0,
-      started: plotType === "points" ? moduleDetails?.started_estimate_points || 0 : moduleDetails?.started_issues || 0,
+        plotType === "points"
+          ? moduleDetails?.unstarted_estimate_points || 0
+          : moduleDetails?.unstarted_issues || 0,
+      started:
+        plotType === "points"
+          ? moduleDetails?.started_estimate_points || 0
+          : moduleDetails?.started_issues || 0,
       completed:
-        plotType === "points" ? moduleDetails?.completed_estimate_points || 0 : moduleDetails?.completed_issues || 0,
+        plotType === "points"
+          ? moduleDetails?.completed_estimate_points || 0
+          : moduleDetails?.completed_issues || 0,
       cancelled:
-        plotType === "points" ? moduleDetails?.cancelled_estimate_points || 0 : moduleDetails?.cancelled_issues || 0,
+        plotType === "points"
+          ? moduleDetails?.cancelled_estimate_points || 0
+          : moduleDetails?.cancelled_issues || 0,
     }),
-    [plotType, moduleDetails]
+    [plotType, moduleDetails],
   );
   const moduleStartDate = getDate(moduleDetails?.start_date);
   const moduleEndDate = getDate(moduleDetails?.target_date);
@@ -139,7 +171,10 @@ export const ModuleAnalyticsProgress = observer(function ModuleAnalyticsProgress
                         value={plotType}
                         label={
                           <span>
-                            {t(moduleBurnDownChartOptions.find((v) => v.value === plotType)?.i18n_label || "none")}
+                            {t(
+                              moduleBurnDownChartOptions.find((v) => v.value === plotType)
+                                ?.i18n_label || "none",
+                            )}
                           </span>
                         }
                         onChange={onChange}
@@ -209,7 +244,7 @@ export const ModuleAnalyticsProgress = observer(function ModuleAnalyticsProgress
                       handleFiltersUpdate={updateFilterValueFromSidebar.bind(
                         updateFilterValueFromSidebar,
                         EIssuesStoreType.MODULE,
-                        moduleId
+                        moduleId,
                       )}
                       isEditable={Boolean(!peekModule) && moduleFilter !== undefined}
                       moduleId={moduleId}
@@ -222,7 +257,9 @@ export const ModuleAnalyticsProgress = observer(function ModuleAnalyticsProgress
                         stateGroups: selectedStateGroups,
                       }}
                       size="xs"
-                      totalIssuesCount={plotType === "points" ? totalEstimatePoints || 0 : totalIssues || 0}
+                      totalIssuesCount={
+                        plotType === "points" ? totalEstimatePoints || 0 : totalIssues || 0
+                      }
                     />
                   </div>
                 )}

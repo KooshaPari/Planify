@@ -24,7 +24,7 @@ export const ProfileIssuesKanBanLayout = observer(function ProfileIssuesKanBanLa
       [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
       EUserPermissionsLevel.PROJECT,
       workspaceSlug.toString(),
-      projectId
+      projectId,
     );
 
   return (

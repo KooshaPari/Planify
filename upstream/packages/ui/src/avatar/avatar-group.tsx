@@ -77,7 +77,7 @@ export function AvatarGroup(props: Props) {
               "grid place-items-center rounded-full border border-subtle-1 bg-accent-subtle text-9 text-accent-primary",
               {
                 [sizeInfo.avatarSize]: !isAValidNumber(size),
-              }
+              },
             )}
             style={
               isAValidNumber(size)

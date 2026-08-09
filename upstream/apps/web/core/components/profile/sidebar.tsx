@@ -88,7 +88,7 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
     <div
       className={cn(
         `vertical-scrollbar fixed z-5 scrollbar-md h-full w-full shrink-0 overflow-hidden overflow-y-auto border-l border-subtle bg-surface-1 shadow-raised-200 transition-all md:relative md:w-[300px]`,
-        className
+        className,
       )}
       style={profileSidebarCollapsed ? { marginLeft: `${window?.innerWidth || 0}px` } : {}}
     >
@@ -149,7 +149,10 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
                 const projectDetails = getProjectById(project.id);
 
                 const totalIssues =
-                  project.created_issues + project.assigned_issues + project.pending_issues + project.completed_issues;
+                  project.created_issues +
+                  project.assigned_issues +
+                  project.pending_issues +
+                  project.completed_issues;
 
                 const completedIssuePercentage =
                   project.assigned_issues === 0
@@ -159,7 +162,11 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
                 if (!projectDetails) return null;
 
                 return (
-                  <Disclosure key={project.id} as="div" className={`${index === 0 ? "pb-3" : "py-3"}`}>
+                  <Disclosure
+                    key={project.id}
+                    as="div"
+                    className={`${index === 0 ? "pb-3" : "py-3"}`}
+                  >
                     {({ open }) => (
                       <div className="w-full">
                         <Disclosure.Button className="flex w-full items-center justify-between gap-2">
@@ -167,11 +174,17 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
                             <span className="grid h-7 w-7 flex-shrink-0 place-items-center">
                               <Logo logo={projectDetails.logo_props} />
                             </span>
-                            <div className="truncate text-13 font-medium break-words">{projectDetails.name}</div>
+                            <div className="truncate text-13 font-medium break-words">
+                              {projectDetails.name}
+                            </div>
                           </div>
                           <div className="flex flex-shrink-0 items-center gap-2">
                             {project.assigned_issues > 0 && (
-                              <Tooltip tooltipContent="Completion percentage" position="left" isMobile={isMobile}>
+                              <Tooltip
+                                tooltipContent="Completion percentage"
+                                position="left"
+                                isMobile={isMobile}
+                              >
                                 <div
                                   className={`rounded-sm px-1 py-0.5 text-11 font-medium ${
                                     completedIssuePercentage <= 35

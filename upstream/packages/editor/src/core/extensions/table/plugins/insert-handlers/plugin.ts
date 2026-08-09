@@ -7,7 +7,11 @@
 import type { Editor } from "@tiptap/core";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 // local imports
-import { COL_DRAG_MARKER_CLASS, DROP_MARKER_CLASS, ROW_DRAG_MARKER_CLASS } from "../drag-handles/marker-utils";
+import {
+  COL_DRAG_MARKER_CLASS,
+  DROP_MARKER_CLASS,
+  ROW_DRAG_MARKER_CLASS,
+} from "../drag-handles/marker-utils";
 import type { TableInfo } from "./utils";
 import { createColumnInsertButton, createRowInsertButton, findAllTables } from "./utils";
 

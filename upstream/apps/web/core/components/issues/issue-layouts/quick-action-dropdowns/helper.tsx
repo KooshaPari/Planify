@@ -8,7 +8,14 @@ import { useMemo } from "react";
 import { XCircle, ArchiveRestoreIcon } from "lucide-react";
 // plane imports
 import { useTranslation } from "@plane/i18n";
-import { LinkIcon, CopyIcon, NewTabIcon, EditIcon, ArchiveIcon, TrashIcon } from "@plane/propel/icons";
+import {
+  LinkIcon,
+  CopyIcon,
+  NewTabIcon,
+  EditIcon,
+  ArchiveIcon,
+  TrashIcon,
+} from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { EIssuesStoreType, TIssue } from "@plane/types";
 import type { TContextMenuItem } from "@plane/ui";
@@ -20,21 +27,26 @@ import { createCopyMenuWithDuplication } from "@/plane-web/components/issues/iss
 // Overload for functions without parameters
 export function handleOptionalAction(
   optionalFn: (() => void) | (() => Promise<void>) | undefined,
-  actionName: string
+  actionName: string,
 ): void;
 
 // Overload for functions with one parameter
 export function handleOptionalAction<T>(
   optionalFn: ((param: T) => void) | ((param: T) => Promise<void>) | undefined,
   actionName: string,
-  param: T
+  param: T,
 ): void;
 
 // Implementation
 export function handleOptionalAction<T>(
-  optionalFn: (() => void) | (() => Promise<void>) | ((param: T) => void) | ((param: T) => Promise<void>) | undefined,
+  optionalFn:
+    | (() => void)
+    | (() => Promise<void>)
+    | ((param: T) => void)
+    | ((param: T) => Promise<void>)
+    | undefined,
   actionName: string,
-  param?: T
+  param?: T,
 ): void {
   if (optionalFn) {
     if (param !== undefined) {
@@ -93,7 +105,7 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
         projectIdentifier,
         sequenceId: issue?.sequence_id,
       }),
-    [workspaceSlug, projectIdentifier, issue]
+    [workspaceSlug, projectIdentifier, issue],
   );
 
   const handleCopyIssueLink = () =>
@@ -102,7 +114,7 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
         type: TOAST_TYPE.SUCCESS,
         title: "Link copied",
         message: "Work item link copied to clipboard",
-      })
+      }),
     );
 
   const handleOpenInNewTab = () => window.open(workItemLink, "_blank");
@@ -278,7 +290,7 @@ export const useProjectIssueMenuItems = (props: MenuItemFactoryProps): TContextM
       factory.createArchiveMenuItem(),
       factory.createDeleteMenuItem(),
     ],
-    [factory]
+    [factory],
   );
 };
 
@@ -293,7 +305,7 @@ export const useWorkItemDetailMenuItems = (props: MenuItemFactoryProps): TContex
       factory.createRestoreMenuItem(),
       factory.createDeleteMenuItem(),
     ],
-    [factory]
+    [factory],
   );
 };
 
@@ -309,7 +321,7 @@ export const useAllIssueMenuItems = (props: MenuItemFactoryProps): TContextMenuI
       factory.createArchiveMenuItem(),
       factory.createDeleteMenuItem(),
     ],
-    [factory]
+    [factory],
   );
 };
 
@@ -334,7 +346,7 @@ export const useCycleIssueMenuItems = (props: MenuItemFactoryProps): TContextMen
       factory.createArchiveMenuItem(),
       factory.createDeleteMenuItem(),
     ],
-    [factory, props.cycleId]
+    [factory, props.cycleId],
   );
 };
 
@@ -359,7 +371,7 @@ export const useModuleIssueMenuItems = (props: MenuItemFactoryProps): TContextMe
       factory.createArchiveMenuItem(),
       factory.createDeleteMenuItem(),
     ],
-    [factory, props.moduleId]
+    [factory, props.moduleId],
   );
 };
 
@@ -373,6 +385,6 @@ export const useArchivedIssueMenuItems = (props: MenuItemFactoryProps): TContext
       factory.createCopyLinkMenuItem(),
       factory.createDeleteMenuItem(),
     ],
-    [factory]
+    [factory],
   );
 };

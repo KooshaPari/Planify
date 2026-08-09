@@ -6,7 +6,9 @@
 
 import { GROUPED_WORKSPACE_SETTINGS, PROJECT_SETTINGS_FLAT_MAP } from "@plane/constants";
 
-const hrefToLabelMap = (options: Record<string, Array<{ href: string; i18n_label: string; [key: string]: any }>>) =>
+const hrefToLabelMap = (
+  options: Record<string, Array<{ href: string; i18n_label: string; [key: string]: any }>>,
+) =>
   Object.values(options)
     .flat()
     .reduce(
@@ -14,7 +16,7 @@ const hrefToLabelMap = (options: Record<string, Array<{ href: string; i18n_label
         acc[setting.href] = setting.i18n_label;
         return acc;
       },
-      {} as Record<string, string>
+      {} as Record<string, string>,
     );
 
 const workspaceHrefToLabelMap = hrefToLabelMap(GROUPED_WORKSPACE_SETTINGS);
@@ -24,7 +26,7 @@ const projectHrefToLabelMap = PROJECT_SETTINGS_FLAT_MAP.reduce(
     acc[setting.href] = setting.i18n_label;
     return acc;
   },
-  {} as Record<string, string>
+  {} as Record<string, string>,
 );
 
 export const pathnameToAccessKey = (pathname: string) => {

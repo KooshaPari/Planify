@@ -88,9 +88,20 @@ export type TWorkItemFiltersConfig = {
   members: IUserLite[];
 };
 
-export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps): TWorkItemFiltersConfig => {
-  const { allowedFilters, cycleIds, labelIds, memberIds, moduleIds, projectId, projectIds, stateIds, workspaceSlug } =
-    props;
+export const useWorkItemFiltersConfig = (
+  props: TUseWorkItemFiltersConfigProps,
+): TWorkItemFiltersConfig => {
+  const {
+    allowedFilters,
+    cycleIds,
+    labelIds,
+    memberIds,
+    moduleIds,
+    projectId,
+    projectIds,
+    stateIds,
+    workspaceSlug,
+  } = props;
   // store hooks
   const { loader: projectLoader, getProjectById } = useProject();
   const { getCycleById } = useCycle();
@@ -105,37 +116,52 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
   const members: IUserLite[] | undefined = useMemo(
     () =>
       memberIds
-        ? (memberIds.map((memberId) => getUserDetails(memberId)).filter((member) => member) as IUserLite[])
+        ? (memberIds
+            .map((memberId) => getUserDetails(memberId))
+            .filter((member) => member) as IUserLite[])
         : undefined,
-    [memberIds, getUserDetails]
+    [memberIds, getUserDetails],
   );
   const workItemStates: IState[] | undefined = useMemo(
     () =>
-      stateIds ? (stateIds.map((stateId) => getStateById(stateId)).filter((state) => state) as IState[]) : undefined,
-    [stateIds, getStateById]
+      stateIds
+        ? (stateIds.map((stateId) => getStateById(stateId)).filter((state) => state) as IState[])
+        : undefined,
+    [stateIds, getStateById],
   );
   const workItemLabels: IIssueLabel[] | undefined = useMemo(
     () =>
       labelIds
-        ? (labelIds.map((labelId) => getLabelById(labelId)).filter((label) => label) as IIssueLabel[])
+        ? (labelIds
+            .map((labelId) => getLabelById(labelId))
+            .filter((label) => label) as IIssueLabel[])
         : undefined,
-    [labelIds, getLabelById]
+    [labelIds, getLabelById],
   );
   const cycles = useMemo(
-    () => (cycleIds ? (cycleIds.map((cycleId) => getCycleById(cycleId)).filter((cycle) => cycle) as ICycle[]) : []),
-    [cycleIds, getCycleById]
+    () =>
+      cycleIds
+        ? (cycleIds.map((cycleId) => getCycleById(cycleId)).filter((cycle) => cycle) as ICycle[])
+        : [],
+    [cycleIds, getCycleById],
   );
   const modules = useMemo(
     () =>
-      moduleIds ? (moduleIds.map((moduleId) => getModuleById(moduleId)).filter((module) => module) as IModule[]) : [],
-    [moduleIds, getModuleById]
+      moduleIds
+        ? (moduleIds
+            .map((moduleId) => getModuleById(moduleId))
+            .filter((module) => module) as IModule[])
+        : [],
+    [moduleIds, getModuleById],
   );
   const projects = useMemo(
     () =>
       projectIds
-        ? (projectIds.map((projectId) => getProjectById(projectId)).filter((project) => project) as IProject[])
+        ? (projectIds
+            .map((projectId) => getProjectById(projectId))
+            .filter((project) => project) as IProject[])
         : [],
-    [projectIds, getProjectById]
+    [projectIds, getProjectById],
   );
   const areAllConfigsInitialized = useMemo(() => isLoaderReady(projectLoader), [projectLoader]);
 
@@ -145,7 +171,10 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
    * @param level - The level of the filter.
    * @returns True if the filter is enabled, false otherwise.
    */
-  const isFilterEnabled = useCallback((key: TWorkItemFilterProperty) => filtersToShow.has(key), [filtersToShow]);
+  const isFilterEnabled = useCallback(
+    (key: TWorkItemFilterProperty) => filtersToShow.has(key),
+    [filtersToShow],
+  );
 
   // state group filter config
   const stateGroupFilterConfig = useMemo(
@@ -156,7 +185,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         getOptionIcon: (stateGroupKey) => <StateGroupIcon stateGroup={stateGroupKey} />,
         ...operatorConfigs,
       }),
-    [isFilterEnabled, operatorConfigs]
+    [isFilterEnabled, operatorConfigs],
   );
 
   // state filter config
@@ -169,7 +198,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         states: workItemStates ?? [],
         ...operatorConfigs,
       }),
-    [isFilterEnabled, workItemStates, operatorConfigs]
+    [isFilterEnabled, workItemStates, operatorConfigs],
   );
 
   // label filter config
@@ -180,37 +209,44 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         filterIcon: LabelPropertyIcon,
         labels: workItemLabels ?? [],
         getOptionIcon: (color) => (
-          <span className="flex size-2.5 flex-shrink-0 rounded-full" style={{ backgroundColor: color }} />
+          <span
+            className="flex size-2.5 flex-shrink-0 rounded-full"
+            style={{ backgroundColor: color }}
+          />
         ),
         ...operatorConfigs,
       }),
-    [isFilterEnabled, workItemLabels, operatorConfigs]
+    [isFilterEnabled, workItemLabels, operatorConfigs],
   );
 
   // cycle filter config
   const cycleFilterConfig = useMemo(
     () =>
       getCycleFilterConfig<TWorkItemFilterProperty>("cycle_id")({
-        isEnabled: isFilterEnabled("cycle_id") && project?.cycle_view === true && cycles !== undefined,
+        isEnabled:
+          isFilterEnabled("cycle_id") && project?.cycle_view === true && cycles !== undefined,
         filterIcon: CycleIcon,
-        getOptionIcon: (cycleGroup) => <CycleGroupIcon cycleGroup={cycleGroup} className="h-3.5 w-3.5 flex-shrink-0" />,
+        getOptionIcon: (cycleGroup) => (
+          <CycleGroupIcon cycleGroup={cycleGroup} className="h-3.5 w-3.5 flex-shrink-0" />
+        ),
         cycles: cycles ?? [],
         ...operatorConfigs,
       }),
-    [isFilterEnabled, project?.cycle_view, cycles, operatorConfigs]
+    [isFilterEnabled, project?.cycle_view, cycles, operatorConfigs],
   );
 
   // module filter config
   const moduleFilterConfig = useMemo(
     () =>
       getModuleFilterConfig<TWorkItemFilterProperty>("module_id")({
-        isEnabled: isFilterEnabled("module_id") && project?.module_view === true && modules !== undefined,
+        isEnabled:
+          isFilterEnabled("module_id") && project?.module_view === true && modules !== undefined,
         filterIcon: ModuleIcon,
         getOptionIcon: () => <ModuleIcon className="h-3 w-3 flex-shrink-0" />,
         modules: modules ?? [],
         ...operatorConfigs,
       }),
-    [isFilterEnabled, project?.module_view, modules, operatorConfigs]
+    [isFilterEnabled, project?.module_view, modules, operatorConfigs],
   );
 
   // assignee filter config
@@ -230,7 +266,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         ),
         ...operatorConfigs,
       }),
-    [isFilterEnabled, members, operatorConfigs]
+    [isFilterEnabled, members, operatorConfigs],
   );
 
   // mention filter config
@@ -250,7 +286,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         ),
         ...operatorConfigs,
       }),
-    [isFilterEnabled, members, operatorConfigs]
+    [isFilterEnabled, members, operatorConfigs],
   );
 
   // created by filter config
@@ -270,7 +306,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         ),
         ...operatorConfigs,
       }),
-    [isFilterEnabled, members, operatorConfigs]
+    [isFilterEnabled, members, operatorConfigs],
   );
 
   // subscriber filter config
@@ -290,7 +326,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         ),
         ...operatorConfigs,
       }),
-    [isFilterEnabled, members, operatorConfigs]
+    [isFilterEnabled, members, operatorConfigs],
   );
 
   // priority filter config
@@ -302,7 +338,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         getOptionIcon: (priority) => <PriorityIcon priority={priority} />,
         ...operatorConfigs,
       }),
-    [isFilterEnabled, operatorConfigs]
+    [isFilterEnabled, operatorConfigs],
   );
 
   // start date filter config
@@ -313,7 +349,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         filterIcon: StartDatePropertyIcon,
         ...operatorConfigs,
       }),
-    [operatorConfigs]
+    [operatorConfigs],
   );
 
   // target date filter config
@@ -324,7 +360,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         filterIcon: DueDatePropertyIcon,
         ...operatorConfigs,
       }),
-    [operatorConfigs]
+    [operatorConfigs],
   );
 
   // created at filter config
@@ -335,7 +371,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         filterIcon: CalendarLayoutIcon,
         ...operatorConfigs,
       }),
-    [operatorConfigs]
+    [operatorConfigs],
   );
 
   // updated at filter config
@@ -346,7 +382,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         filterIcon: CalendarLayoutIcon,
         ...operatorConfigs,
       }),
-    [operatorConfigs]
+    [operatorConfigs],
   );
 
   // project filter config
@@ -359,7 +395,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         getOptionIcon: (project) => <Logo logo={project.logo_props} size={12} />,
         ...operatorConfigs,
       }),
-    [isFilterEnabled, projects, operatorConfigs]
+    [isFilterEnabled, projects, operatorConfigs],
   );
 
   return {

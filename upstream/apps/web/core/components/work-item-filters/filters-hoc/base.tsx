@@ -26,7 +26,9 @@ type TAdditionalWorkItemFiltersProps = {
 
 type TWorkItemFiltersHOCProps = TSharedWorkItemFiltersHOCProps & TAdditionalWorkItemFiltersProps;
 
-export const WorkItemFiltersHOC = observer(function WorkItemFiltersHOC(props: TWorkItemFiltersHOCProps) {
+export const WorkItemFiltersHOC = observer(function WorkItemFiltersHOC(
+  props: TWorkItemFiltersHOCProps,
+) {
   const { children, initialWorkItemFilters } = props;
 
   // Only initialize filter instance when initial work item filters are defined
@@ -65,10 +67,13 @@ const WorkItemFilterRoot = observer(function WorkItemFilterRoot(props: TWorkItem
   // derived values
   const workItemEntityID = useMemo(
     () => (isTemporary ? `TEMP-${entityId ?? uuidv4()}` : entityId),
-    [isTemporary, entityId]
+    [isTemporary, entityId],
   );
   // memoize initial values to prevent re-computations when reference changes
-  const initialUserFilters = useMemo(() => initialWorkItemFilters.richFilters, [initialWorkItemFilters]);
+  const initialUserFilters = useMemo(
+    () => initialWorkItemFilters.richFilters,
+    [initialWorkItemFilters],
+  );
   const workItemFiltersConfig = useWorkItemFiltersConfig({
     allowedFilters: filtersToShowByLayout ? filtersToShowByLayout : [],
     ...entityConfigProps,
@@ -88,7 +93,7 @@ const WorkItemFilterRoot = observer(function WorkItemFilterRoot(props: TWorkItem
         showOnMount,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [entityType, workItemEntityID, saveViewOptions, updateViewOptions, updateFilters]
+    [entityType, workItemEntityID, saveViewOptions, updateViewOptions, updateFilters],
   );
 
   // delete filter instance when component unmounts
@@ -96,11 +101,13 @@ const WorkItemFilterRoot = observer(function WorkItemFilterRoot(props: TWorkItem
     () => () => {
       deleteFilter(entityType, workItemEntityID);
     },
-    [deleteFilter, entityType, workItemEntityID]
+    [deleteFilter, entityType, workItemEntityID],
   );
 
   useEffect(() => {
-    workItemLayoutFilter.configManager.setAreConfigsReady(workItemFiltersConfig.areAllConfigsInitialized);
+    workItemLayoutFilter.configManager.setAreConfigsReady(
+      workItemFiltersConfig.areAllConfigsInitialized,
+    );
     workItemLayoutFilter.configManager.registerAll(workItemFiltersConfig.configs);
   }, [
     workItemFiltersConfig.areAllConfigsInitialized,
@@ -108,5 +115,7 @@ const WorkItemFilterRoot = observer(function WorkItemFilterRoot(props: TWorkItem
     workItemLayoutFilter.configManager,
   ]);
 
-  return <>{typeof children === "function" ? children({ filter: workItemLayoutFilter }) : children}</>;
+  return (
+    <>{typeof children === "function" ? children({ filter: workItemLayoutFilter }) : children}</>
+  );
 });

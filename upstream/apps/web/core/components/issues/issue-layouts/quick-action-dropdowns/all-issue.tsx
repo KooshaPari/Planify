@@ -27,7 +27,9 @@ import type { IQuickActionProps } from "../list/list-view-types";
 import type { MenuItemFactoryProps } from "./helper";
 import { useAllIssueMenuItems } from "./helper";
 
-export const AllIssueQuickActions = observer(function AllIssueQuickActions(props: IQuickActionProps) {
+export const AllIssueQuickActions = observer(function AllIssueQuickActions(
+  props: IQuickActionProps,
+) {
   const {
     issue,
     handleDelete,
@@ -55,7 +57,8 @@ export const AllIssueQuickActions = observer(function AllIssueQuickActions(props
   const projectIdentifier = getProjectIdentifierById(issue?.project_id);
   // auth
   const isArchivingAllowed = handleArchive && isEditingAllowed;
-  const isInArchivableGroup = !!stateDetails && ARCHIVABLE_STATE_GROUPS.includes(stateDetails?.group);
+  const isInArchivableGroup =
+    !!stateDetails && ARCHIVABLE_STATE_GROUPS.includes(stateDetails?.group);
 
   const duplicateIssuePayload = omit(
     {
@@ -63,7 +66,7 @@ export const AllIssueQuickActions = observer(function AllIssueQuickActions(props
       name: `${issue.name} (copy)`,
       sourceIssueId: issue.id,
     },
-    ["id"]
+    ["id"],
   );
 
   // Menu items and modals using helper
@@ -175,7 +178,7 @@ export const AllIssueQuickActions = observer(function AllIssueQuickActions(props
                   {
                     "text-placeholder": item.disabled,
                   },
-                  item.className
+                  item.className,
                 )}
               >
                 {item.nestedMenuItems.map((nestedItem) => (
@@ -189,11 +192,13 @@ export const AllIssueQuickActions = observer(function AllIssueQuickActions(props
                       {
                         "text-placeholder": nestedItem.disabled,
                       },
-                      nestedItem.className
+                      nestedItem.className,
                     )}
                     disabled={nestedItem.disabled}
                   >
-                    {nestedItem.icon && <nestedItem.icon className={cn("h-3 w-3", nestedItem.iconClassName)} />}
+                    {nestedItem.icon && (
+                      <nestedItem.icon className={cn("h-3 w-3", nestedItem.iconClassName)} />
+                    )}
                     <div>
                       <h5>{nestedItem.title}</h5>
                       {nestedItem.description && (
@@ -224,7 +229,7 @@ export const AllIssueQuickActions = observer(function AllIssueQuickActions(props
                 {
                   "text-placeholder": item.disabled,
                 },
-                item.className
+                item.className,
               )}
               disabled={item.disabled}
             >

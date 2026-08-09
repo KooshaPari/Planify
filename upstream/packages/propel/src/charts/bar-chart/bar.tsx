@@ -43,13 +43,20 @@ interface TBarProps extends TShapeProps {
 const calculatePercentage = <K extends string, T extends string>(
   data: TChartData<K, T>,
   stackKeys: T[],
-  currentKey: T
+  currentKey: T,
 ): number => {
   const total = stackKeys.reduce((sum, key) => sum + data[key], 0);
   return total === 0 ? 0 : Math.round((data[currentKey] / total) * 100);
 };
 
-const getBarPath = (x: number, y: number, width: number, height: number, topRadius: number, bottomRadius: number) => `
+const getBarPath = (
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  topRadius: number,
+  bottomRadius: number,
+) => `
   M${x},${y + topRadius}
   Q${x},${y} ${x + topRadius},${y}
   L${x + width - topRadius},${y}
@@ -73,7 +80,13 @@ function PercentageText({
   className?: string;
 }) {
   return (
-    <text x={x} y={y} textAnchor="middle" className={cn("text-xs font-medium", className)} fill="currentColor">
+    <text
+      x={x}
+      y={y}
+      textAnchor="middle"
+      className={cn("text-xs font-medium", className)}
+      fill="currentColor"
+    >
       {percentage}%
     </text>
   );
@@ -124,14 +137,31 @@ const CustomBar = React.memo(function CustomBar(props: TBarProps) {
         }}
       />
       {showText && (
-        <PercentageText x={x + width / 2} y={textY} percentage={currentBarPercentage} className={textClassName} />
+        <PercentageText
+          x={x + width / 2}
+          y={textY}
+          percentage={currentBarPercentage}
+          className={textClassName}
+        />
       )}
     </g>
   );
 });
 
 const CustomBarLollipop = React.memo(function CustomBarLollipop(props: TBarProps) {
-  const { fill, x, y, width, height, dataKey, stackKeys, payload, textClassName, showPercentage, dotted } = props;
+  const {
+    fill,
+    x,
+    y,
+    width,
+    height,
+    dataKey,
+    stackKeys,
+    payload,
+    textClassName,
+    showPercentage,
+    dotted,
+  } = props;
 
   const currentBarPercentage = calculatePercentage(payload, stackKeys, dataKey);
 
@@ -147,9 +177,20 @@ const CustomBarLollipop = React.memo(function CustomBarLollipop(props: TBarProps
         strokeLinecap="round"
         strokeDasharray={dotted ? "4 4" : "0"}
       />
-      <circle cx={x + width / 2} cy={y} r={DEFAULT_LOLLIPOP_CIRCLE_RADIUS} fill={fill} stroke="none" />
+      <circle
+        cx={x + width / 2}
+        cy={y}
+        r={DEFAULT_LOLLIPOP_CIRCLE_RADIUS}
+        fill={fill}
+        stroke="none"
+      />
       {showPercentage && (
-        <PercentageText x={x + width / 2} y={y} percentage={currentBarPercentage} className={textClassName} />
+        <PercentageText
+          x={x + width / 2}
+          y={y}
+          percentage={currentBarPercentage}
+          className={textClassName}
+        />
       )}
     </g>
   );
@@ -166,7 +207,10 @@ const createShapeVariant =
   (Component: React.ComponentType<TBarProps>, factoryProps?: Partial<TBarProps>) =>
   (shapeProps: TShapeProps, bar: TBarItem<string>, stackKeys: string[]): React.ReactNode => {
     const showTopBorderRadius = bar.showTopBorderRadius?.(shapeProps.dataKey, shapeProps.payload);
-    const showBottomBorderRadius = bar.showBottomBorderRadius?.(shapeProps.dataKey, shapeProps.payload);
+    const showBottomBorderRadius = bar.showBottomBorderRadius?.(
+      shapeProps.dataKey,
+      shapeProps.payload,
+    );
 
     return (
       <Component

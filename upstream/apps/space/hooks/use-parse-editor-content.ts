@@ -66,7 +66,7 @@ export const useParseEditorContent = (args: TArgs) => {
         user_mentions: userMentions,
       };
     },
-    [anchor, getMemberById]
+    [anchor, getMemberById],
   );
 
   return {

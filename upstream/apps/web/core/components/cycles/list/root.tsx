@@ -27,7 +27,14 @@ export interface ICyclesList {
 }
 
 export const CyclesList = observer(function CyclesList(props: ICyclesList) {
-  const { completedCycleIds, upcomingCycleIds, cycleIds, workspaceSlug, projectId, isArchived = false } = props;
+  const {
+    completedCycleIds,
+    upcomingCycleIds,
+    cycleIds,
+    workspaceSlug,
+    projectId,
+    isArchived = false,
+  } = props;
   const { t } = useTranslation();
 
   return (
@@ -35,7 +42,11 @@ export const CyclesList = observer(function CyclesList(props: ICyclesList) {
       <ListLayout>
         {isArchived ? (
           <>
-            <CyclesListMap cycleIds={cycleIds} projectId={projectId} workspaceSlug={workspaceSlug} />
+            <CyclesListMap
+              cycleIds={cycleIds}
+              projectId={projectId}
+              workspaceSlug={workspaceSlug}
+            />
           </>
         ) : (
           <>
@@ -55,7 +66,11 @@ export const CyclesList = observer(function CyclesList(props: ICyclesList) {
                       />
                     </Disclosure.Button>
                     <Disclosure.Panel>
-                      <CyclesListMap cycleIds={upcomingCycleIds} projectId={projectId} workspaceSlug={workspaceSlug} />
+                      <CyclesListMap
+                        cycleIds={upcomingCycleIds}
+                        projectId={projectId}
+                        workspaceSlug={workspaceSlug}
+                      />
                     </Disclosure.Panel>
                   </>
                 )}
@@ -74,7 +89,11 @@ export const CyclesList = observer(function CyclesList(props: ICyclesList) {
                     />
                   </Disclosure.Button>
                   <Disclosure.Panel>
-                    <CyclesListMap cycleIds={completedCycleIds} projectId={projectId} workspaceSlug={workspaceSlug} />
+                    <CyclesListMap
+                      cycleIds={completedCycleIds}
+                      projectId={projectId}
+                      workspaceSlug={workspaceSlug}
+                    />
                   </Disclosure.Panel>
                 </>
               )}
@@ -82,7 +101,11 @@ export const CyclesList = observer(function CyclesList(props: ICyclesList) {
           </>
         )}
       </ListLayout>
-      <CyclePeekOverview projectId={projectId} workspaceSlug={workspaceSlug} isArchived={isArchived} />
+      <CyclePeekOverview
+        projectId={projectId}
+        workspaceSlug={workspaceSlug}
+        isArchived={isArchived}
+      />
     </ContentWrapper>
   );
 });

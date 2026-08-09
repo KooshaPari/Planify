@@ -46,7 +46,7 @@ function AnalyticsPage({ params }: Route.ComponentProps) {
   // permissions
   const canPerformEmptyStateActions = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.WORKSPACE
+    EUserPermissionsLevel.WORKSPACE,
   );
 
   const workspaceSlug = params.workspaceSlug;
@@ -77,7 +77,7 @@ function AnalyticsPage({ params }: Route.ComponentProps) {
                 <div className={"flex h-full w-full flex-col"}>
                   <div
                     className={cn(
-                      "flex w-full items-center justify-between gap-4 overflow-hidden border-b border-subtle bg-surface-1 px-6 py-2"
+                      "flex w-full items-center justify-between gap-4 overflow-hidden border-b border-subtle bg-surface-1 px-6 py-2",
                     )}
                   >
                     <Tabs.List className={"flex h-7 w-fit overflow-x-auto"}>

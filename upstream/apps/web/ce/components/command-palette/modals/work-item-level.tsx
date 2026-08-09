@@ -24,7 +24,9 @@ export type TWorkItemLevelModalsProps = {
   workItemIdentifier: string | undefined;
 };
 
-export const WorkItemLevelModals = observer(function WorkItemLevelModals(props: TWorkItemLevelModalsProps) {
+export const WorkItemLevelModals = observer(function WorkItemLevelModals(
+  props: TWorkItemLevelModalsProps,
+) {
   const { workItemIdentifier } = props;
   // router
   const { workspaceSlug, cycleId, moduleId } = useParams();
@@ -68,7 +70,13 @@ export const WorkItemLevelModals = observer(function WorkItemLevelModals(props: 
   };
 
   const handleCreateIssueSubmit = async (newIssue: TIssue) => {
-    if (!workspaceSlug || !newIssue.project_id || !newIssue.id || newIssue.parent_id !== workItemDetails?.id) return;
+    if (
+      !workspaceSlug ||
+      !newIssue.project_id ||
+      !newIssue.id ||
+      newIssue.parent_id !== workItemDetails?.id
+    )
+      return;
 
     const fetchAction = workItemDetails?.is_epic ? fetchEpicSubWorkItems : fetchSubWorkItems;
     await fetchAction(workspaceSlug?.toString(), newIssue.project_id, workItemDetails.id);
@@ -95,7 +103,11 @@ export const WorkItemLevelModals = observer(function WorkItemLevelModals(props: 
           isOpen={isDeleteIssueModalOpen}
           data={workItemDetails}
           onSubmit={() =>
-            handleDeleteIssue(workspaceSlug.toString(), workItemDetails.project_id!, workItemId?.toString())
+            handleDeleteIssue(
+              workspaceSlug.toString(),
+              workItemDetails.project_id!,
+              workItemId?.toString(),
+            )
           }
           isEpic={workItemDetails?.is_epic}
         />

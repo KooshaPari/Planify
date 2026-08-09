@@ -31,7 +31,7 @@ export const useAttachmentOperations = (
   workspaceSlug: string,
   projectId: string,
   issueId: string,
-  issueServiceType: TIssueServiceType = EIssueServiceType.ISSUES
+  issueServiceType: TIssueServiceType = EIssueServiceType.ISSUES,
 ): TAttachmentHelpers => {
   const {
     attachment: { createAttachment, removeAttachment, getAttachmentsUploadStatusByIssueId },
@@ -74,7 +74,7 @@ export const useAttachmentOperations = (
         }
       },
     }),
-    [workspaceSlug, projectId, issueId, createAttachment, removeAttachment]
+    [workspaceSlug, projectId, issueId, createAttachment, removeAttachment],
   );
   const attachmentsUploadStatus = getAttachmentsUploadStatusByIssueId(issueId);
 

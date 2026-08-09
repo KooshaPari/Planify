@@ -36,12 +36,35 @@ export interface IIssueDetailStore {
   fetchIssueDetails: (anchor: string, issueID: string) => void;
   // comment actions
   addIssueComment: (anchor: string, issueID: string, data: any) => Promise<TIssuePublicComment>;
-  updateIssueComment: (anchor: string, issueID: string, commentID: string, data: any) => Promise<any>;
+  updateIssueComment: (
+    anchor: string,
+    issueID: string,
+    commentID: string,
+    data: any,
+  ) => Promise<any>;
   deleteIssueComment: (anchor: string, issueID: string, commentID: string) => void;
-  uploadCommentAsset: (file: File, anchor: string, commentID?: string) => Promise<TFileSignedURLResponse>;
-  uploadIssueAsset: (file: File, anchor: string, commentID?: string) => Promise<TFileSignedURLResponse>;
-  addCommentReaction: (anchor: string, issueID: string, commentID: string, reactionHex: string) => void;
-  removeCommentReaction: (anchor: string, issueID: string, commentID: string, reactionHex: string) => void;
+  uploadCommentAsset: (
+    file: File,
+    anchor: string,
+    commentID?: string,
+  ) => Promise<TFileSignedURLResponse>;
+  uploadIssueAsset: (
+    file: File,
+    anchor: string,
+    commentID?: string,
+  ) => Promise<TFileSignedURLResponse>;
+  addCommentReaction: (
+    anchor: string,
+    issueID: string,
+    commentID: string,
+    reactionHex: string,
+  ) => void;
+  removeCommentReaction: (
+    anchor: string,
+    issueID: string,
+    commentID: string,
+    reactionHex: string,
+  ) => void;
   // reaction actions
   addIssueReaction: (anchor: string, issueID: string, reactionHex: string) => void;
   removeIssueReaction: (anchor: string, issueID: string, reactionHex: string) => void;
@@ -174,7 +197,11 @@ export class IssueDetailStore implements IIssueDetailStore {
       const issueCommentResponse = await this.issueService.addComment(anchor, issueID, data);
       if (issueDetails) {
         runInAction(() => {
-          set(this.details, [issueID, "comments"], [...(issueDetails?.comments ?? []), issueCommentResponse]);
+          set(
+            this.details,
+            [issueID, "comments"],
+            [...(issueDetails?.comments ?? []), issueCommentResponse],
+          );
         });
       }
       return issueCommentResponse;
@@ -241,7 +268,7 @@ export class IssueDetailStore implements IIssueDetailStore {
           entity_identifier: commentID ?? "",
           entity_type: EFileAssetType.COMMENT_DESCRIPTION,
         },
-        file
+        file,
       );
       return res;
     } catch (error) {
@@ -258,7 +285,7 @@ export class IssueDetailStore implements IIssueDetailStore {
           entity_identifier: commentID ?? "",
           entity_type: EFileAssetType.ISSUE_DESCRIPTION,
         },
-        file
+        file,
       );
       return res;
     } catch (error) {
@@ -267,7 +294,12 @@ export class IssueDetailStore implements IIssueDetailStore {
     }
   };
 
-  addCommentReaction = async (anchor: string, issueID: string, commentID: string, reactionHex: string) => {
+  addCommentReaction = async (
+    anchor: string,
+    issueID: string,
+    commentID: string,
+    reactionHex: string,
+  ) => {
     const newReaction = {
       id: uuidv4(),
       comment: commentID,
@@ -277,7 +309,9 @@ export class IssueDetailStore implements IIssueDetailStore {
     const newComments = this.details[issueID].comments.map((comment) => ({
       ...comment,
       comment_reactions:
-        comment.id === commentID ? [...comment.comment_reactions, newReaction] : comment.comment_reactions,
+        comment.id === commentID
+          ? [...comment.comment_reactions, newReaction]
+          : comment.comment_reactions,
     }));
 
     try {
@@ -309,10 +343,16 @@ export class IssueDetailStore implements IIssueDetailStore {
     }
   };
 
-  removeCommentReaction = async (anchor: string, issueID: string, commentID: string, reactionHex: string) => {
+  removeCommentReaction = async (
+    anchor: string,
+    issueID: string,
+    commentID: string,
+    reactionHex: string,
+  ) => {
     try {
       const comment = this.details[issueID].comments.find((c) => c.id === commentID);
-      const newCommentReactions = comment?.comment_reactions.filter((r) => r.reaction !== reactionHex) ?? [];
+      const newCommentReactions =
+        comment?.comment_reactions.filter((r) => r.reaction !== reactionHex) ?? [];
 
       runInAction(() => {
         this.details = {
@@ -355,7 +395,7 @@ export class IssueDetailStore implements IIssueDetailStore {
               reaction: reactionHex,
               actor_details: this.rootStore.user.currentActor,
             },
-          ]
+          ],
         );
       });
 
@@ -374,7 +414,8 @@ export class IssueDetailStore implements IIssueDetailStore {
   removeIssueReaction = async (anchor: string, issueID: string, reactionHex: string) => {
     try {
       const newReactions = this.details[issueID].reaction_items.filter(
-        (_r) => !(_r.reaction === reactionHex && _r.actor_details.id === this.rootStore.user.data?.id)
+        (_r) =>
+          !(_r.reaction === reactionHex && _r.actor_details.id === this.rootStore.user.data?.id),
       );
 
       runInAction(() => {
@@ -403,7 +444,7 @@ export class IssueDetailStore implements IIssueDetailStore {
     };
 
     const filteredVotes = this.details[issueID].vote_items.filter(
-      (v) => v.actor_details?.id !== this.rootStore.user.data?.id
+      (v) => v.actor_details?.id !== this.rootStore.user.data?.id,
     );
 
     try {
@@ -426,7 +467,7 @@ export class IssueDetailStore implements IIssueDetailStore {
 
   removeIssueVote = async (anchor: string, issueID: string) => {
     const newVotes = this.details[issueID].vote_items.filter(
-      (v) => v.actor_details?.id !== this.rootStore.user.data?.id
+      (v) => v.actor_details?.id !== this.rootStore.user.data?.id,
     );
 
     try {

@@ -25,7 +25,11 @@ export function PasswordStrengthIndicator({
   const criteria = getPasswordCriteria(password);
   const strengthInfo = getStrengthInfo(strength);
 
-  const isPasswordMeterVisible = isFocused ? true : strength === E_PASSWORD_STRENGTH.STRENGTH_VALID ? false : true;
+  const isPasswordMeterVisible = isFocused
+    ? true
+    : strength === E_PASSWORD_STRENGTH.STRENGTH_VALID
+      ? false
+      : true;
 
   if ((!password && !showCriteria) || !isPasswordMeterVisible) {
     return null;
@@ -41,14 +45,18 @@ export function PasswordStrengthIndicator({
               key={fragmentIndex}
               className={cn(
                 "h-1 flex-1 rounded-xs transition-all duration-300 ease-in-out",
-                getFragmentColor(fragmentIndex, strengthInfo.activeFragments)
+                getFragmentColor(fragmentIndex, strengthInfo.activeFragments),
               )}
             />
           ))}
         </div>
 
         {/* Strength Message */}
-        {password && <p className={cn("!text-13 font-medium", strengthInfo.textColor)}>{strengthInfo.message}</p>}
+        {password && (
+          <p className={cn("!text-13 font-medium", strengthInfo.textColor)}>
+            {strengthInfo.message}
+          </p>
+        )}
       </div>
 
       {/* Criteria list */}

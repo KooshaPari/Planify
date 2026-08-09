@@ -32,14 +32,23 @@ export function ViewOrderByDropdown(props: Props) {
     : getButtonStyling("secondary", "lg");
 
   const icon = (
-    <>{!isDescending ? <ArrowUpWideNarrow className="size-3" /> : <ArrowDownWideNarrow className="size-3" />}</>
+    <>
+      {!isDescending ? (
+        <ArrowUpWideNarrow className="size-3" />
+      ) : (
+        <ArrowDownWideNarrow className="size-3" />
+      )}
+    </>
   );
   return (
     <CustomMenu
       customButton={
         <span className={buttonClassName}>
           {!isMobile && icon}
-          <span className="shrink-0"> {orderByDetails?.i18n_label && t(orderByDetails?.i18n_label)}</span>
+          <span className="shrink-0">
+            {" "}
+            {orderByDetails?.i18n_label && t(orderByDetails?.i18n_label)}
+          </span>
         </span>
       }
       placement="bottom-end"
@@ -63,7 +72,8 @@ export function ViewOrderByDropdown(props: Props) {
       ))}
       <hr className="my-2 border-subtle" />
       {VIEW_SORT_BY_OPTIONS.map((option) => {
-        const isSelected = (option.key === "asc" && !isDescending) || (option.key === "desc" && isDescending);
+        const isSelected =
+          (option.key === "asc" && !isDescending) || (option.key === "desc" && isDescending);
         return (
           <CustomMenu.MenuItem
             key={option.key}

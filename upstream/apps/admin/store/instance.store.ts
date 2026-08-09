@@ -38,7 +38,9 @@ export interface IInstanceStore {
   updateInstanceInfo: (data: Partial<IInstance>) => Promise<IInstance | undefined>;
   fetchInstanceAdmins: () => Promise<IInstanceAdmin[] | undefined>;
   fetchInstanceConfigurations: () => Promise<IInstanceConfiguration[] | undefined>;
-  updateInstanceConfigurations: (data: Partial<IFormattedInstanceConfiguration>) => Promise<IInstanceConfiguration[]>;
+  updateInstanceConfigurations: (
+    data: Partial<IFormattedInstanceConfiguration>,
+  ) => Promise<IInstanceConfiguration[]>;
   disableEmail: () => Promise<void>;
 }
 
@@ -89,10 +91,13 @@ export class InstanceStore implements IInstanceStore {
    */
   get formattedConfig() {
     if (!this.instanceConfigurations) return undefined;
-    return this.instanceConfigurations?.reduce((formData: IFormattedInstanceConfiguration, config) => {
-      formData[config.key] = config.value;
-      return formData;
-    }, {} as IFormattedInstanceConfiguration);
+    return this.instanceConfigurations?.reduce(
+      (formData: IFormattedInstanceConfiguration, config) => {
+        formData[config.key] = config.value;
+        return formData;
+      },
+      {} as IFormattedInstanceConfiguration,
+    );
   }
 
   /**
@@ -167,7 +172,8 @@ export class InstanceStore implements IInstanceStore {
   fetchInstanceConfigurations = async () => {
     try {
       const instanceConfigurations = await this.instanceService.configurations();
-      if (instanceConfigurations) runInAction(() => (this.instanceConfigurations = instanceConfigurations));
+      if (instanceConfigurations)
+        runInAction(() => (this.instanceConfigurations = instanceConfigurations));
       return instanceConfigurations;
     } catch (error) {
       console.error("Error fetching the instance configurations");

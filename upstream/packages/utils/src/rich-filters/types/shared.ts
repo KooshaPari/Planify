@@ -5,7 +5,12 @@
  */
 
 // plane imports
-import type { TFilterAndGroupNode, TFilterExpression, TFilterGroupNode, TFilterProperty } from "@plane/types";
+import type {
+  TFilterAndGroupNode,
+  TFilterExpression,
+  TFilterGroupNode,
+  TFilterProperty,
+} from "@plane/types";
 // local imports
 import { getAndGroupChildren, isAndGroupNode } from "./core";
 
@@ -21,7 +26,7 @@ type TProcessGroupNodeHandlers<P extends TFilterProperty, T> = {
  */
 export const processGroupNode = <P extends TFilterProperty, T>(
   group: TFilterGroupNode<P>,
-  handlers: TProcessGroupNodeHandlers<P, T>
+  handlers: TProcessGroupNodeHandlers<P, T>,
 ): T => {
   if (isAndGroupNode(group)) {
     return handlers.onAndGroup(group);
@@ -35,7 +40,9 @@ export const processGroupNode = <P extends TFilterProperty, T>(
  * @param group - The group node to get children from
  * @returns Array of child expressions
  */
-export const getGroupChildren = <P extends TFilterProperty>(group: TFilterGroupNode<P>): TFilterExpression<P>[] =>
+export const getGroupChildren = <P extends TFilterProperty>(
+  group: TFilterGroupNode<P>,
+): TFilterExpression<P>[] =>
   processGroupNode(group, {
     onAndGroup: (andGroup) => getAndGroupChildren(andGroup),
   });

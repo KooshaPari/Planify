@@ -25,7 +25,9 @@ export type ActiveCycleProgressProps = {
   handleFiltersUpdate: (conditions: TWorkItemFilterCondition[]) => void;
 };
 
-export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: ActiveCycleProgressProps) {
+export const ActiveCycleProgress = observer(function ActiveCycleProgress(
+  props: ActiveCycleProgressProps,
+) {
   const { handleFiltersUpdate, cycle } = props;
   // theme hook
   const { resolvedTheme } = useTheme();
@@ -52,7 +54,9 @@ export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: 
     <div className="flex min-h-[17rem] flex-col gap-5 rounded-lg border border-subtle bg-surface-1 px-3.5 py-4">
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-4">
-          <h3 className="text-14 font-semibold text-tertiary">{t("project_cycles.active_cycle.progress")}</h3>
+          <h3 className="text-14 font-semibold text-tertiary">
+            {t("project_cycles.active_cycle.progress")}
+          </h3>
           {cycle.total_issues > 0 && (
             <span className="flex gap-1 rounded-xs px-3 py-1 text-13 font-medium whitespace-nowrap text-placeholder">
               {`${cycle.completed_issues + cycle.cancelled_issues}/${cycle.total_issues - cycle.cancelled_issues} ${
@@ -61,7 +65,9 @@ export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: 
             </span>
           )}
         </div>
-        {cycle.total_issues > 0 && <LinearProgressIndicator size="lg" data={progressIndicatorData} />}
+        {cycle.total_issues > 0 && (
+          <LinearProgressIndicator size="lg" data={progressIndicatorData} />
+        )}
       </div>
 
       {cycle.total_issues > 0 ? (
@@ -73,7 +79,9 @@ export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: 
                   <div
                     className="flex cursor-pointer items-center justify-between gap-2 text-13"
                     onClick={() => {
-                      handleFiltersUpdate([{ property: "state_group", operator: "in", value: [group] }]);
+                      handleFiltersUpdate([
+                        { property: "state_group", operator: "in", value: [group] },
+                      ]);
                     }}
                   >
                     <div className="flex items-center gap-1.5">
@@ -105,7 +113,10 @@ export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: 
         </div>
       ) : (
         <div className="flex h-full w-full items-center justify-center">
-          <SimpleEmptyState title={t("active_cycle.empty_state.progress.title")} assetPath={resolvedPath} />
+          <SimpleEmptyState
+            title={t("active_cycle.empty_state.progress.title")}
+            assetPath={resolvedPath}
+          />
         </div>
       )}
     </div>

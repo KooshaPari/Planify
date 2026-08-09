@@ -22,7 +22,11 @@ export function FilterHeader({ title, isPreviewEnabled, handleIsPreviewEnabled }
         className="grid h-5 w-5 flex-shrink-0 place-items-center rounded-sm hover:bg-layer-transparent-hover"
         onClick={handleIsPreviewEnabled}
       >
-        {isPreviewEnabled ? <ChevronUpIcon height={14} width={14} /> : <ChevronDownIcon height={14} width={14} />}
+        {isPreviewEnabled ? (
+          <ChevronUpIcon height={14} width={14} />
+        ) : (
+          <ChevronDownIcon height={14} width={14} />
+        )}
       </button>
     </div>
   );

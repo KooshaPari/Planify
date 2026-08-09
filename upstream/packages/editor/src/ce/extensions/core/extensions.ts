@@ -13,7 +13,9 @@ export type TCoreAdditionalExtensionsProps = Pick<
   "disabledExtensions" | "flaggedExtensions" | "fileHandler" | "extendedEditorProps"
 >;
 
-export const CoreEditorAdditionalExtensions = (props: TCoreAdditionalExtensionsProps): Extensions => {
+export const CoreEditorAdditionalExtensions = (
+  props: TCoreAdditionalExtensionsProps,
+): Extensions => {
   const {} = props;
   return [];
 };

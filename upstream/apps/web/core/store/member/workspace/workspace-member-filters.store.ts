@@ -28,7 +28,7 @@ export interface IWorkspaceMemberFiltersStore {
   getFilteredMemberIds: (
     members: IWorkspaceMembership[],
     memberDetailsMap: Record<string, IUserLite>,
-    getMemberKey: (member: IWorkspaceMembership) => string
+    getMemberKey: (member: IWorkspaceMembership) => string,
   ) => string[];
   // actions
   updateFilters: (filters: Partial<IMemberFilters>) => void;
@@ -57,15 +57,20 @@ export class WorkspaceMemberFiltersStore implements IWorkspaceMemberFiltersStore
     (
       members: IWorkspaceMembership[],
       memberDetailsMap: Record<string, IUserLite>,
-      getMemberKey: (member: IWorkspaceMembership) => string
+      getMemberKey: (member: IWorkspaceMembership) => string,
     ): string[] => {
       if (!members || members.length === 0) return [];
 
       // Apply filters and sorting
-      const sortedMembers = sortWorkspaceMembers(members, memberDetailsMap, getMemberKey, this.filters);
+      const sortedMembers = sortWorkspaceMembers(
+        members,
+        memberDetailsMap,
+        getMemberKey,
+        this.filters,
+      );
 
       return sortedMembers.map(getMemberKey);
-    }
+    },
   );
 
   /**

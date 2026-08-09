@@ -38,11 +38,16 @@ export function Invitations(props: Props) {
   const { fetchWorkspaces } = useWorkspace();
   const { fetchCurrentUserSettings } = useUserSettings();
 
-  const handleInvitation = (workspace_invitation: IWorkspaceMemberInvitation, action: "accepted" | "withdraw") => {
+  const handleInvitation = (
+    workspace_invitation: IWorkspaceMemberInvitation,
+    action: "accepted" | "withdraw",
+  ) => {
     if (action === "accepted") {
       setInvitationsRespond((prevData) => [...prevData, workspace_invitation.id]);
     } else if (action === "withdraw") {
-      setInvitationsRespond((prevData) => prevData.filter((item: string) => item !== workspace_invitation.id));
+      setInvitationsRespond((prevData) =>
+        prevData.filter((item: string) => item !== workspace_invitation.id),
+      );
     }
   };
 
@@ -65,7 +70,9 @@ export function Invitations(props: Props) {
     <div className="space-y-4">
       <div className="mx-auto space-y-1 py-4 text-center">
         <h3 className="text-24 font-bold text-primary">You are invited!</h3>
-        <p className="font-medium text-placeholder">Accept the invites to collaborate with your team.</p>
+        <p className="font-medium text-placeholder">
+          Accept the invites to collaborate with your team.
+        </p>
       </div>
       <div>
         {invitations &&
@@ -87,7 +94,9 @@ export function Invitations(props: Props) {
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-13 font-medium">{truncateText(invitedWorkspace?.name, 30)}</div>
+                  <div className="text-13 font-medium">
+                    {truncateText(invitedWorkspace?.name, 30)}
+                  </div>
                   <p className="text-11 text-secondary">{ROLE[invitation.role]}</p>
                 </div>
                 <span className={`flex-shrink-0`}>

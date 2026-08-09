@@ -8,7 +8,10 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 import { useDropzone } from "react-dropzone";
 // plane imports
-import { ACCEPTED_AVATAR_IMAGE_MIME_TYPES_FOR_REACT_DROPZONE, MAX_FILE_SIZE } from "@plane/constants";
+import {
+  ACCEPTED_AVATAR_IMAGE_MIME_TYPES_FOR_REACT_DROPZONE,
+  MAX_FILE_SIZE,
+} from "@plane/constants";
 import { Button } from "@plane/propel/button";
 import { UserCirclePropertyIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -59,7 +62,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
           entity_identifier: "",
           entity_type: EFileAssetType.USER_AVATAR,
         },
-        image
+        image,
       );
       onSuccess(asset_url);
       setImage(null);
@@ -94,7 +97,12 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
   };
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={handleClose}
+      position={EModalPosition.CENTER}
+      width={EModalWidth.XL}
+    >
       <div className="space-y-5 px-5 py-8 sm:p-6">
         <h3 className="text-16 leading-6 font-medium text-primary">Upload Image</h3>
         <div className="space-y-3">
@@ -141,7 +149,9 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
             </p>
           )}
         </div>
-        <p className="my-4 text-13 text-secondary">File formats supported- .jpeg, .jpg, .png, .webp</p>
+        <p className="my-4 text-13 text-secondary">
+          File formats supported- .jpeg, .jpg, .png, .webp
+        </p>
         <div className="flex items-center justify-between">
           <Button variant="error-fill" size="lg" onClick={handleImageRemove} disabled={!value}>
             {isRemoving ? "Removing" : "Remove"}
@@ -150,7 +160,13 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
             <Button variant="secondary" size="lg" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="primary" size="lg" onClick={handleSubmit} disabled={!image} loading={isImageUploading}>
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={handleSubmit}
+              disabled={!image}
+              loading={isImageUploading}
+            >
               {isImageUploading ? "Uploading" : "Upload & Save"}
             </Button>
           </div>

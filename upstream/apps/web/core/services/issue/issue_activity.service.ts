@@ -27,14 +27,17 @@ export class IssueActivityService extends APIService {
       | {
           created_at__gt: string;
         }
-      | object = {}
+      | object = {},
   ): Promise<TIssueActivity[]> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/history/`, {
-      params: {
-        activity_type: `${this.serviceType === EIssueServiceType.EPICS ? "epic-property" : "issue-property"}`,
-        ...params,
+    return this.get(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/history/`,
+      {
+        params: {
+          activity_type: `${this.serviceType === EIssueServiceType.EPICS ? "epic-property" : "issue-property"}`,
+          ...params,
+        },
       },
-    })
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

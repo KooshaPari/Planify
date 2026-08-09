@@ -41,7 +41,9 @@ interface IssueBlockProps {
   issueId: string;
   issuesMap: TIssueMap;
   groupId: string;
-  updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
+  updateIssue:
+    | ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>)
+    | undefined;
   quickActions: TRenderQuickActions;
   displayProperties: IIssueDisplayProperties | undefined;
   canEditProperties: (projectId: string | undefined) => boolean;
@@ -129,7 +131,7 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
         onDrop: () => {
           setIsCurrentBlockDragging(false);
         },
-      })
+      }),
     );
   }, [isDraggingAllowed, issueId, groupId, setIsCurrentBlockDragging]);
 
@@ -186,14 +188,15 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
         className={cn(
           "group/list-block relative flex min-h-11 flex-col gap-3 bg-layer-transparent py-3 text-13 transition-colors hover:bg-layer-transparent-hover",
           {
-            "border-accent-strong": getIsIssuePeeked(issue.id) && peekIssue?.nestingLevel === nestingLevel,
+            "border-accent-strong":
+              getIsIssuePeeked(issue.id) && peekIssue?.nestingLevel === nestingLevel,
             "border-strong-1": isIssueActive,
             "last:border-b-transparent": !getIsIssuePeeked(issue.id) && !isIssueActive,
             "bg-accent-primary/5 hover:bg-accent-primary/10": isIssueSelected,
             "bg-layer-1": isCurrentBlockDragging,
             "md:flex-row md:items-center": isSidebarCollapsed,
             "lg:flex-row lg:items-center": !isSidebarCollapsed,
-          }
+          },
         )}
         onDragStart={() => {
           if (!isDraggingAllowed) {
@@ -228,7 +231,7 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
                         "pointer-events-none opacity-0 transition-opacity group-hover/list-block:pointer-events-auto group-hover/list-block:opacity-100",
                         {
                           "pointer-events-auto opacity-100": isIssueSelected,
-                        }
+                        },
                       )}
                       groupId={groupId}
                       id={issue.id}
@@ -282,7 +285,9 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
               disabled={isCurrentBlockDragging}
               renderByDefault={false}
             >
-              <p className="cursor-pointer truncate text-body-xs-medium text-primary">{issue.name}</p>
+              <p className="cursor-pointer truncate text-body-xs-medium text-primary">
+                {issue.name}
+              </p>
             </Tooltip>
             {isEpic && displayProperties && (
               <WithDisplayPropertiesHOC

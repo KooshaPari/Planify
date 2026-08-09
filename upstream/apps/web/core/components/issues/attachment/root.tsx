@@ -18,7 +18,9 @@ export type TIssueAttachmentRoot = {
   disabled?: boolean;
 };
 
-export const IssueAttachmentRoot = observer(function IssueAttachmentRoot(props: TIssueAttachmentRoot) {
+export const IssueAttachmentRoot = observer(function IssueAttachmentRoot(
+  props: TIssueAttachmentRoot,
+) {
   // props
   const { workspaceSlug, projectId, issueId, disabled = false } = props;
   // hooks
@@ -33,7 +35,11 @@ export const IssueAttachmentRoot = observer(function IssueAttachmentRoot(props: 
           disabled={disabled}
           attachmentOperations={attachmentHelpers.operations}
         />
-        <IssueAttachmentsList issueId={issueId} disabled={disabled} attachmentHelpers={attachmentHelpers} />
+        <IssueAttachmentsList
+          issueId={issueId}
+          disabled={disabled}
+          attachmentHelpers={attachmentHelpers}
+        />
       </div>
     </div>
   );

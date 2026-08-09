@@ -28,31 +28,37 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
   const {
     permission: { allowPermissions },
   } = useUser();
-  const { getModuleById, addModuleToFavorites, removeModuleFromFavorites, updateModuleDetails } = useModule();
+  const { getModuleById, addModuleToFavorites, removeModuleFromFavorites, updateModuleDetails } =
+    useModule();
   // derived values
   const moduleDetails = moduleId ? getModuleById(moduleId.toString()) : null;
   const isFavorite = !!moduleDetails?.is_favorite;
   // permission
   const isEditingAllowed =
-    allowPermissions([EUserPermissions.ADMIN, EUserPermissions.MEMBER], EUserPermissionsLevel.PROJECT) &&
-    !moduleDetails?.archived_at;
+    allowPermissions(
+      [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+      EUserPermissionsLevel.PROJECT,
+    ) && !moduleDetails?.archived_at;
   // translation
   const { t } = useTranslation();
 
   const handleUpdateModule = useCallback(
     async (formData: Partial<IModule>) => {
       if (!workspaceSlug || !projectId || !moduleDetails) return;
-      await updateModuleDetails(workspaceSlug.toString(), projectId.toString(), moduleDetails.id, formData).catch(
-        () => {
-          setToast({
-            type: TOAST_TYPE.ERROR,
-            title: "Error!",
-            message: "Module could not be updated. Please try again.",
-          });
-        }
-      );
+      await updateModuleDetails(
+        workspaceSlug.toString(),
+        projectId.toString(),
+        moduleDetails.id,
+        formData,
+      ).catch(() => {
+        setToast({
+          type: TOAST_TYPE.ERROR,
+          title: "Error!",
+          message: "Module could not be updated. Please try again.",
+        });
+      });
     },
-    [moduleDetails, projectId, updateModuleDetails, workspaceSlug]
+    [moduleDetails, projectId, updateModuleDetails, workspaceSlug],
   );
 
   const handleUpdateMember = useCallback(
@@ -60,19 +66,26 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
       if (!moduleDetails) return;
 
       const updatedMembers = moduleDetails.member_ids ?? [];
-      if (updatedMembers.includes(memberId)) updatedMembers.splice(updatedMembers.indexOf(memberId), 1);
+      if (updatedMembers.includes(memberId))
+        updatedMembers.splice(updatedMembers.indexOf(memberId), 1);
       else updatedMembers.push(memberId);
 
       handleUpdateModule({ member_ids: updatedMembers });
     },
-    [handleUpdateModule, moduleDetails]
+    [handleUpdateModule, moduleDetails],
   );
 
   const toggleFavorite = useCallback(() => {
     if (!workspaceSlug || !moduleDetails || !moduleDetails.project_id) return;
     try {
-      if (isFavorite) removeModuleFromFavorites(workspaceSlug.toString(), moduleDetails.project_id, moduleDetails.id);
-      else addModuleToFavorites(workspaceSlug.toString(), moduleDetails.project_id, moduleDetails.id);
+      if (isFavorite)
+        removeModuleFromFavorites(
+          workspaceSlug.toString(),
+          moduleDetails.project_id,
+          moduleDetails.id,
+        );
+      else
+        addModuleToFavorites(workspaceSlug.toString(), moduleDetails.project_id, moduleDetails.id);
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,

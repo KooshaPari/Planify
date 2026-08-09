@@ -21,7 +21,9 @@ export const getEditorAssetSrc = (args: TEditorSrcArgs): string | undefined => {
   const { assetId, projectId, workspaceSlug } = args;
   let url: string | undefined = "";
   if (projectId) {
-    url = getFileURL(`/api/assets/v2/workspaces/${workspaceSlug}/projects/${projectId}/${assetId}/`);
+    url = getFileURL(
+      `/api/assets/v2/workspaces/${workspaceSlug}/projects/${projectId}/${assetId}/`,
+    );
   } else {
     url = getFileURL(`/api/assets/v2/workspaces/${workspaceSlug}/${assetId}/`);
   }
@@ -36,7 +38,9 @@ export const getEditorAssetDownloadSrc = (args: TEditorSrcArgs): string | undefi
   const { assetId, projectId, workspaceSlug } = args;
   let url: string | undefined = "";
   if (projectId) {
-    url = getFileURL(`/api/assets/v2/workspaces/${workspaceSlug}/projects/${projectId}/download/${assetId}/`);
+    url = getFileURL(
+      `/api/assets/v2/workspaces/${workspaceSlug}/projects/${projectId}/download/${assetId}/`,
+    );
   } else {
     url = getFileURL(`/api/assets/v2/workspaces/${workspaceSlug}/download/${assetId}/`);
   }

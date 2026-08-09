@@ -24,19 +24,25 @@ const moveItem = <T,>(
   data: TEnhancedData<T>[],
   source: TEnhancedData<T>,
   destination: TEnhancedData<T> & Record<symbol, string>,
-  keyExtractor: (item: T, index: number) => string
+  keyExtractor: (item: T, index: number) => string,
 ): {
   newData: T[];
   movedItem: T | undefined;
 } => {
-  const sourceIndex = data.findIndex((item, index) => keyExtractor(item, index) === keyExtractor(source, 0));
+  const sourceIndex = data.findIndex(
+    (item, index) => keyExtractor(item, index) === keyExtractor(source, 0),
+  );
   if (sourceIndex === -1) return { newData: data, movedItem: undefined };
 
-  const destinationIndex = data.findIndex((item, index) => keyExtractor(item, index) === keyExtractor(destination, 0));
+  const destinationIndex = data.findIndex(
+    (item, index) => keyExtractor(item, index) === keyExtractor(destination, 0),
+  );
 
   if (destinationIndex === -1) return { newData: data, movedItem: undefined };
 
-  const symbolKey = Reflect.ownKeys(destination).find((key) => key.toString() === "Symbol(closestEdge)");
+  const symbolKey = Reflect.ownKeys(destination).find(
+    (key) => key.toString() === "Symbol(closestEdge)",
+  );
   const position = symbolKey ? destination[symbolKey as symbol] : "bottom"; // Add 'as symbol' to cast symbolKey to symbol
 
   // Calculate final position before removing source item
@@ -62,7 +68,14 @@ const moveItem = <T,>(
   };
 };
 
-export function Sortable<T>({ data, render, onChange, keyExtractor, containerClassName, id }: Props<T>) {
+export function Sortable<T>({
+  data,
+  render,
+  onChange,
+  keyExtractor,
+  containerClassName,
+  id,
+}: Props<T>) {
   useEffect(() => {
     const unsubscribe = monitorForElements({
       // @ts-expect-error Due to live server dependencies
@@ -73,7 +86,7 @@ export function Sortable<T>({ data, render, onChange, keyExtractor, containerCla
           data,
           source.data as TEnhancedData<T>,
           destination.data as TEnhancedData<T> & { closestEdge: string },
-          keyExtractor
+          keyExtractor,
         );
         onChange(newData, movedItem);
       },

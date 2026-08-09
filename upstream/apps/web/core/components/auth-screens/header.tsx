@@ -46,7 +46,9 @@ export const AuthHeader = observer(function AuthHeader({ type }: AuthHeaderProps
       additionalAction={
         enableSignUpConfig && (
           <div className="flex flex-col items-end text-center text-13 font-medium text-tertiary sm:flex-row sm:items-center sm:gap-2">
-            <span className="text-body-sm-regular text-tertiary">{t(authContentMap[type].text)}</span>
+            <span className="text-body-sm-regular text-tertiary">
+              {t(authContentMap[type].text)}
+            </span>
             <Link
               data-ph-element={AUTH_TRACKER_ELEMENTS.NAVIGATE_TO_SIGN_UP}
               href={authContentMap[type].linkHref}

@@ -24,14 +24,21 @@ export const CycleCalendarLayout = observer(function CycleCalendarLayout() {
   } = useIssues(EIssuesStoreType.CYCLE);
 
   const isCompletedCycle =
-    cycleId && currentProjectCompletedCycleIds ? currentProjectCompletedCycleIds.includes(cycleId.toString()) : false;
+    cycleId && currentProjectCompletedCycleIds
+      ? currentProjectCompletedCycleIds.includes(cycleId.toString())
+      : false;
 
   const addIssuesToView = useCallback(
     (issueIds: string[]) => {
       if (!workspaceSlug || !projectId || !cycleId) throw new Error();
-      return addIssueToCycle(workspaceSlug.toString(), projectId.toString(), cycleId.toString(), issueIds);
+      return addIssueToCycle(
+        workspaceSlug.toString(),
+        projectId.toString(),
+        cycleId.toString(),
+        issueIds,
+      );
     },
-    [addIssueToCycle, workspaceSlug, projectId, cycleId]
+    [addIssueToCycle, workspaceSlug, projectId, cycleId],
   );
 
   if (!cycleId) return null;
