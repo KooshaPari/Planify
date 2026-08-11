@@ -62,7 +62,9 @@ done
 # Generate SECRET_KEY for Django
 if [ -f "./apps/api/.env" ]; then
     echo -e "\n${YELLOW}Generating Django SECRET_KEY...${NC}"
-    SECRET_KEY=$(tr -dc 'a-z0-9' < /dev/urandom | head -c50)
+    # Use cryptographically secure random source. /dev/urandom + tr excludes
+    # special chars that Django recommends; prefer Python's secrets module.
+    SECRET_KEY=$(python3 -c "import secrets; print(secrets.token_urlsafe(50))" 2>/dev/null || openssl rand -base64 50 | tr -d '=+/' | head -c50)
 
     if [ -z "$SECRET_KEY" ]; then
         echo -e "${RED}Error: Failed to generate SECRET_KEY.${NC}"
