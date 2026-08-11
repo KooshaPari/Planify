@@ -36,8 +36,4 @@ dist/
 # Logs
 *.log
 
-# OS / editor (extended)
-.DS_Store
-*.swp
-.vscode/
-.idea/
+# OS / editor (extended) — consolidated with the block above
