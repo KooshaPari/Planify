@@ -14,8 +14,7 @@ privately before disclosing it publicly.
 ### How to report
 
 - **Email**: `security@phenotype.space`
-- **GPG key fingerprint**: `0000 0000 0000 0000 0000  0000 0000 0000 0000 0000`
-  (placeholder — we will publish a real key after first disclosure)
+- **GPG key fingerprint**: TBD (real key will be published here before any external disclosure; do not publish a placeholder fingerprint in the interim)
 
 ### What to include
 
