@@ -37,3 +37,17 @@ dist/
 *.log
 
 # OS / editor (extended) — consolidated with the block above
+
+# Stray build artifacts (no Cargo.toml in this repo — R41 audit bead 5aed7115)
+target/
+target-debug/
+target-release/
+
+# Wave-38 staging dirs (also covered by /target-w*/ pattern below)
+/target-w*/
+
+# Proc / scratch
+.proc/
+.scratch/
+*.tmp
+*.bak
